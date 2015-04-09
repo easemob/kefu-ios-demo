@@ -1,2 +1,2 @@
-# helpdeskdemo-ios
-demo app for easemob help desk cloud
+# EMCustomerSystem
+用环信SDK写的客服demo

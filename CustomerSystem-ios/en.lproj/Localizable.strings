@@ -1,0 +1,165 @@
+/* 
+  Localizable.strings
+  ChatDemo-UI2.0
+
+  Created by dhcdht on 15-1-20.
+  Copyright (c) 2015年 dhcdht. All rights reserved.
+*/
+//general
+"register" = "Register";
+"login" = "Login";
+"logout" = "Logout";
+"password" = "Password";
+"username" = "Username";
+
+"sure" = "OK";
+"yes" = "YES";
+"cancel" = "Cancel";
+"no" = "NO";
+
+"search" = "Search";
+"error" = "Error";
+"delete" = "Delete";
+"copy" = "Copy";
+"save" = "Save";
+"prompt" = "Prompt";
+"add" = "Add";
+"send" = "Send";
+"open" = "Open";
+"down" = "Down";
+"choose" = "Choose";
+"accept" = "Accept";
+"reject" = "Reject";
+"retry" = "Retry";
+"edit" = "Edit";
+
+"sendingApply" = "sending apply...";
+"acceptFail" = "accept failure";
+"rejectFail" = "reject failure";
+"refreshData" = "Refresh data...";
+"loadData" = "Load data...";
+"saySomething" = "Say somthing";
+"searchResults" = "The search results";
+"doneWithCount" = "Done(%i)";
+"sureToDelete" = "please make sure to delete";
+"receiveCmd" = "receive cmd message";
+"receiveMessage" = "you have a new message";
+"loginAtOtherDevice" = "your login account has been in other places";
+"loginUserRemoveFromServer" = "your account has been removed from the server side";
+
+"saveSetting" = "save setting...";
+"commonProblems" = "CommonProblems";
+"receiveCmdMessage" = "Cmd Message";
+"customerChat" = "Customer";
+"appkeyError" = "appkey error";
+
+//app
+"AppName" = "CustomerSystemDemo";
+
+//error des
+"error.connectServerFail" = "Connect to the server failed!";
+"error.connectServerTimeout" = "Connect to the server timed out!";
+
+//login
+"login.beginAutoLogin" = "Start automatic login...";
+"login.endAutoLogin" = "End automatic login...";
+"login.errorAutoLogin" = "Automatic logon failure.";
+"login.nameNotSupportZh" = "Name does not support Chinese";
+"login.ongoing" = "Is Login...";
+"login.fail" = "Logon failure";
+"login.inputNameAndPswd" = "Please enter username and password";
+"login.inputApnsNickname" = "Please enter nickname for apns";
+
+//register
+"register.ongoing" = "Is to register...";
+"register.fail" = "Registration failed";
+"register.success" = "Registered successfully, please log in";
+"register.repeat" = "You registered user already exists!";
+
+//apns
+"apns.failToRegisterApns" = "Fail to register apns";
+"apns.failToBindDeviceToken" = "Fail to bind device token";
+
+//title
+"title.customer" = "Customer";
+"title.mall" = "Mall";
+"title.setting" = "Setting";
+
+//message
+"message.camera" = "Camera";
+"message.image" = "Image";
+"message.location" = "Location";
+"message.voice" = "audio";
+"message.vidio" = "vidio";
+"message.image1" = "[image]";
+"message.location1" = "[location]";
+"message.voice1" = "[audio]";
+"message.vidio1" = "[vidio]";
+"message.beginReceiveOffine" = "begin to receive offline messages";
+"message.endReceiveOffine" = "end to receive offline messages";
+"message.toolBar.inputPlaceHolder" = "input a new message";
+"message.toolBar.record.upCancel" = " Fingers up slide, cancel sending ";
+"message.toolBar.record.loosenCancel" = " loosen the fingers, to cancel sending ";
+"message.toolBar.record.touch" = "hold down to talk";
+"message.toolBar.record.send" = "loosen to send";
+"DXMessageToolBarDelegate.record" = "hold down to talk";
+"DXMessageToolBarDelegate.send" = "loosen to send";
+
+"message.downloadingAudio" = "downloading voice, click later";
+"message.downloadingVideo" = "downloading video...";
+"message.videoFail" = "video for failure!";
+"message.downloadingImage" = "downloading a image...";
+"message.imageFail" = "image for failure!";
+"message.thumImageFail" = "thumbnail for failure!";
+"message.simulatorNotSupportCamera" = "simulator does not support taking picture";
+"message.simulatorNotSupportVideo" = "simulator does not support vidio";
+"message.startRecordFail" = "failure to start recording";
+"message.noMessage" = "no messages";
+
+//network
+"network.disconnection" = "Network disconnection";
+
+//reconnection
+"reconnection.retry" = "Fail to log in your account, is try again... \nclick 'logout' button to jump to the login page \nclick 'continue to wait for' button for reconnection successful";
+"reconnection.ongoing" = "reconnecting...";
+"reconnection.fail" = "reconnection failure, later will continue to reconnection";
+"reconnection.success" = "reconnection successful！";
+"reconnection.wait" = "continue to wait";
+
+//location
+"location.messageType" = "location message";
+"location.fail" = "locate failure";
+"location.ongoning" = "locating...";
+
+//setting
+"setting.autoLogin" = "automatic login";
+"setting.loginUser" = "log out(%@)";
+"setting.logoutOngoing" = "loging out...";
+
+"setting.notDisturb" = "No disturbing";
+"setting.showDetail" = "notify the display messages";
+"setting.open" = "open";
+"setting.nightOpen" = "only open at night (22:00 - 7:00)";
+"setting.close" = "close";
+"setting.sureNotDisturb" = "this setting will cause all day in the don't disturb mode, will no longer receive push messages. Whether or not to continue?";
+
+"setting.uploadLog" = "upload run log";
+"setting.sdkVersion" = "SDK version";
+"setting.uploading" = "uploading...";
+"setting.uploadSuccess" = "uploaded successfully";
+
+//NSDateCategory
+"NSDateCategory.text1" = "one minute";
+"NSDateCategory.text2" = "%.f minutes ago";
+"NSDateCategory.text3" = "%.f hours ago";
+"NSDateCategory.text4" = "%.f days ago";
+"NSDateCategory.text5" = "M-d";
+"NSDateCategory.text6" = "%.f years ago";
+"NSDateCategory.text7" = "M-d %@";
+"NSDateCategory.text8" = "M-d HH:mm";
+"NSDateCategory.text9" = "aa hh:mm";
+"NSDateCategory.text10" = "aa hh:mm";
+"NSDateCategory.text11" = "aa hh:mm";
+"NSDateCategory.text12" = "aa hh:mm";
+"NSDateCategory.text13" = "M-d HH:mm";
+"NSDateCategory.text14" = "today %@";
