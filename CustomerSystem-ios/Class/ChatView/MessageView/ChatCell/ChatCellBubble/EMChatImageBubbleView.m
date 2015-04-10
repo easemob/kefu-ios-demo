@@ -12,6 +12,7 @@
 
 #import "UIImageView+EMWebCache.h"
 #import "EMChatImageBubbleView.h"
+#import "UIImage+Utils.h"
 
 NSString *const kRouterEventImageBubbleTapEventName = @"kRouterEventImageBubbleTapEventName";
 
@@ -24,6 +25,7 @@ NSString *const kRouterEventImageBubbleTapEventName = @"kRouterEventImageBubbleT
 - (id)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
+        self.backImageView = nil;
         _imageView = [[UIImageView alloc] init];
         [self addSubview:_imageView];
     }
@@ -48,7 +50,7 @@ NSString *const kRouterEventImageBubbleTapEventName = @"kRouterEventImageBubbleT
         retSize.height = MAX_SIZE;
     }
     
-    return CGSizeMake(retSize.width + BUBBLE_VIEW_PADDING * 2 + BUBBLE_ARROW_WIDTH, 2 * BUBBLE_VIEW_PADDING + retSize.height);
+    return CGSizeMake(retSize.width + BUBBLE_ARROW_WIDTH,retSize.height);
 }
 
 -(void)layoutSubviews
@@ -57,14 +59,13 @@ NSString *const kRouterEventImageBubbleTapEventName = @"kRouterEventImageBubbleT
     
     CGRect frame = self.bounds;
     frame.size.width -= BUBBLE_ARROW_WIDTH;
-    frame = CGRectInset(frame, BUBBLE_VIEW_PADDING, BUBBLE_VIEW_PADDING);
     if (self.model.isSender) {
-        frame.origin.x = BUBBLE_VIEW_PADDING;
+        frame.origin.x = 0;
     }else{
-        frame.origin.x = BUBBLE_VIEW_PADDING + BUBBLE_ARROW_WIDTH;
+        frame.origin.x = BUBBLE_ARROW_WIDTH;
     }
     
-    frame.origin.y = BUBBLE_VIEW_PADDING;
+    frame.origin.y = 0;
     [self.imageView setFrame:frame];
 }
 
@@ -81,7 +82,11 @@ NSString *const kRouterEventImageBubbleTapEventName = @"kRouterEventImageBubbleT
             image = [UIImage imageNamed:@"imageDownloadFail.png"];
         }
     }
-    self.imageView.image = image;
+    
+    NSString *imageName = model.isSender ? BUBBLE_RIGHT_IMAGE_NAME : BUBBLE_LEFT_IMAGE_NAME;
+    UIImage *coloredImage = [[UIImage imageNamed:imageName] stretchableImageWithLeftCapWidth:10 topCapHeight:30];
+    const UIImage *maskImageDrawnToSize = [coloredImage renderAtSize:image.size];
+    self.imageView.image = [image maskWithImage: maskImageDrawnToSize];
 }
 
 #pragma mark - public
@@ -108,7 +113,7 @@ NSString *const kRouterEventImageBubbleTapEventName = @"kRouterEventImageBubbleT
         retSize.width = width;
         retSize.height = MAX_SIZE;
     }
-    return 2 * BUBBLE_VIEW_PADDING + retSize.height;
+    return retSize.height;
 }
 
 @end

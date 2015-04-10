@@ -9,10 +9,12 @@
 #import "HomeViewController.h"
 
 #import "EaseMob.h"
+#import "EMIMHelper.h"
 #import "MallViewController.h"
 #import "SettingViewController.h"
 #import "ChatViewController.h"
 #import "UIViewController+HUD.h"
+#import "ChatSendHelper.h"
 #import "LocalDefine.h"
 
 //两次提示的默认间隔
@@ -22,7 +24,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     MallViewController *_mallController;
     SettingViewController *_settingController;
-    ChatViewController *_chatController;
     
     UIBarButtonItem *_chatItem;
 }
@@ -49,6 +50,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    self.tabBarController.hidesBottomBarWhenPushed = YES;
     self.title = NSLocalizedString(@"title.mall", @"Mall");
     
 #warning 把self注册为SDK的delegate
@@ -57,9 +59,14 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [self setupSubviews];
     self.selectedIndex = 0;
     
-    _chatItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"customerChat", @"Customer") style:UIBarButtonItemStylePlain target:self action:@selector(chatAction)];
-    _chatItem.tintColor = [UIColor whiteColor];
+    UIButton *chatButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 90, 44)];
+    [chatButton setTitle:NSLocalizedString(@"customerChat", @"Customer") forState:UIControlStateNormal];
+    [chatButton addTarget:self action:@selector(chatItemAction) forControlEvents:UIControlEventTouchUpInside];
+    [chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _chatItem = [[UIBarButtonItem alloc] initWithCustomView:chatButton];
     self.navigationItem.rightBarButtonItem = _chatItem;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,30 +77,26 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)dealloc
 {
     [self unregisterNotifications];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - private action
 
-- (void)chatAction
+- (void)chatItemAction
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *cuname = [userDefaults objectForKey:kCustomerName];
-    if ([cuname length] == 0) {
-        cuname = kDefaultCustomerName;
-        [userDefaults setObject:cuname forKey:kCustomerName];
+    [self chatAction:nil];
+}
+
+- (void)chatAction:(NSNotification *)notification
+{
+    [[EMIMHelper defaultHelper] loginEasemobSDK];
+    NSString *cname = [[EMIMHelper defaultHelper] cname];
+    ChatViewController *chatController = [[ChatViewController alloc] initWithChatter:cname isGroup:NO];
+    chatController.title = cname;
+    if (notification.object) {
+        chatController.commodityInfo = (NSDictionary *)notification.object;
     }
-    
-    if (_chatController == nil) {
-        _chatController = [[ChatViewController alloc] initWithChatter:cuname isGroup:NO];
-    }
-    else{
-        if (![_chatController.chatter isEqualToString:cuname]) {
-            _chatController = nil;
-            _chatController = [[ChatViewController alloc] initWithChatter:cuname isGroup:NO];
-        }
-    }
-    
-    [self.navigationController pushViewController:_chatController animated:YES];
+    [self.navigationController pushViewController:chatController animated:YES];
 }
 
 #pragma mark - UITabBarDelegate
@@ -102,9 +105,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     if (item.tag == 0) {
         self.title = NSLocalizedString(@"title.mall", @"Mall");
+        self.navigationItem.rightBarButtonItem = _chatItem;
     }
     else if (item.tag == 1){
         self.title = NSLocalizedString(@"title.setting", @"Setting");
+        self.navigationItem.rightBarButtonItem = nil;
     }
 }
 
@@ -124,6 +129,14 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)setupSubviews
 {
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 7)
+    {
+        self.tabBar.tintColor = RGBACOLOR(242, 83, 131, 1);
+    }
+    else{
+        self.tabBar.tintColor = [UIColor colorWithWhite:1.0 alpha:0.8];
+    }
+    
     _mallController = [[MallViewController alloc] initWithNibName:nil bundle:nil];
     _mallController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.mall", @"Mall") image:nil tag:0];
     [_mallController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_mallHL"] withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_mall"]];
@@ -153,7 +166,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                         [UIFont systemFontOfSize:14],
-                                        UITextAttributeFont,[UIColor colorWithRed:104 / 255 green:144 / 255 blue:1.0 alpha:1.000],UITextAttributeTextColor,
+                                        UITextAttributeFont,RGBACOLOR(242, 83, 131, 1),UITextAttributeTextColor,
                                         nil] forState:UIControlStateSelected];
 }
 
@@ -184,6 +197,62 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [[EaseMob sharedInstance].deviceManager asyncPlayVibration];
 }
 
+- (void)_showNotificationWithMessage:(EMMessage *)message
+{
+    EMPushNotificationOptions *options = [[EaseMob sharedInstance].chatManager pushNotificationOptions];
+    //发送本地推送
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    notification.fireDate = [NSDate date]; //触发通知的时间
+    
+    if (options.displayStyle == ePushNotificationDisplayStyle_messageSummary) {
+        id<IEMMessageBody> messageBody = [message.messageBodies firstObject];
+        NSString *messageStr = nil;
+        switch (messageBody.messageBodyType) {
+            case eMessageBodyType_Text:
+            {
+                messageStr = ((EMTextMessageBody *)messageBody).text;
+            }
+                break;
+            case eMessageBodyType_Image:
+            {
+                messageStr = NSLocalizedString(@"message.image", @"Image");
+            }
+                break;
+            case eMessageBodyType_Location:
+            {
+                messageStr = NSLocalizedString(@"message.location", @"Location");
+            }
+                break;
+            case eMessageBodyType_Voice:
+            {
+                messageStr = NSLocalizedString(@"message.voice", @"Voice");
+            }
+                break;
+            case eMessageBodyType_Video:{
+                messageStr = NSLocalizedString(@"message.vidio", @"Vidio");
+            }
+                break;
+            default:
+                break;
+        }
+        
+        NSString *title = message.from;
+        notification.alertBody = [NSString stringWithFormat:@"%@:%@", title, messageStr];
+    }
+    else{
+        notification.alertBody = NSLocalizedString(@"receiveMessage", @"you have a new message");
+    }
+    
+#warning 去掉注释会显示[本地]开头, 方便在开发中区分是否为本地推送
+    //notification.alertBody = [[NSString alloc] initWithFormat:@"[本地]%@", notification.alertBody];
+    
+    notification.alertAction = NSLocalizedString(@"open", @"Open");
+    notification.timeZone = [NSTimeZone defaultTimeZone];
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    //发送通知
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+}
+
 #pragma mark - IChatManagerDelegate 消息变化
 
 - (void)didUpdateConversationList:(NSArray *)conversationList
@@ -210,7 +279,14 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 // 收到消息回调
 -(void)didReceiveMessage:(EMMessage *)message
 {
-    [self _playSoundAndVibration];
+#if !TARGET_IPHONE_SIMULATOR
+    BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
+    if (!isAppActivity) {
+        [self _showNotificationWithMessage:message];
+    }else {
+        [self _playSoundAndVibration];
+    }
+#endif
 }
 
 -(void)didReceiveCmdMessage:(EMMessage *)message
@@ -256,17 +332,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         [self showHint:NSLocalizedString(@"reconnection.fail", @"reconnection failure, later will continue to reconnection")];
     }else{
         [self showHint:NSLocalizedString(@"reconnection.success", @"reconnection successful！")];
-    }
-}
-
-#pragma mark - public
-
-- (void)jumpToChatList
-{
-    if(_chatController)
-    {
-        [self.navigationController popToViewController:self animated:NO];
-        [self setSelectedViewController:_chatController];
     }
 }
 

@@ -8,6 +8,7 @@
 
 #import "AppDelegate+EaseMob.h"
 
+#import "EMIMHelper.h"
 #import "LocalDefine.h"
 
 /**
@@ -16,17 +17,18 @@
 
 @implementation AppDelegate (EaseMob)
 
-- (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+#warning SDK注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
+    NSString *apnsCertName = nil;
+#if DEBUG
+    apnsCertName = @"chatdemoui_dev";
+#else
+    apnsCertName = @"chatdemoui";
+#endif
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *appKey = [userDefaults objectForKey:kAppKey];
-    if ([appKey length] == 0) {
-        appKey = kDefaultAppKey;
-        [userDefaults setObject:appKey forKey:kAppKey];
-    }
-
-    [[EaseMob sharedInstance] registerSDKWithAppKey:appKey
-                                       apnsCertName:nil];
+    [[EaseMob sharedInstance] registerSDKWithAppKey:[[EMIMHelper defaultHelper] appkey]
+                                       apnsCertName:apnsCertName];
     // 登录成功后，自动去取好友列表
     // SDK获取结束后，会回调
     // - (void)didFetchedBuddyList:(NSArray *)buddyList error:(EMError *)error方法。
@@ -37,7 +39,7 @@
     [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
     [self setupNotifiers];
-    [self loginEasemobSDK];
+    [[EMIMHelper defaultHelper] loginEasemobSDK];
 }
 
 
@@ -168,97 +170,26 @@
 
 #pragma mark - login
 
-- (void)loginEasemobSDK
-{
-    EaseMob *easemob = [EaseMob sharedInstance];
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *username = [userDefaults objectForKey:@"username"];
-    NSString *password = [userDefaults objectForKey:@"password"];
-    if (![easemob.chatManager isLoggedIn] || ([username length] == 0 || [password length] == 0)) {
-        if ([username length] == 0 || [password length] == 0) {
-            UIDevice *device = [UIDevice currentDevice];//创建设备对象
-            NSString *deviceUID = [[NSString alloc] initWithString:[[device identifierForVendor] UUIDString]];
-            if ([deviceUID length] == 0) {
-                CFUUIDRef uuid = CFUUIDCreate(NULL);
-                if (uuid)
-                {
-                    deviceUID = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, uuid);
-                    CFRelease(uuid);
-                }
-            }
-            username = [deviceUID stringByReplacingOccurrencesOfString:@"-" withString:@""];
-            password = @"123456";
-            [easemob.chatManager asyncRegisterNewAccount:username password:password withCompletion:^(NSString *username, NSString *password, EMError *error) {
-                if (!error || error.errorCode == EMErrorServerDuplicatedAccount) {
-                    [userDefaults setObject:@"username" forKey:username];
-                    [userDefaults setObject:@"password" forKey:password];
-                    [easemob.chatManager asyncLoginWithUsername:username password:password];
-                }
-            } onQueue:nil];
-        }
-        else{
-            [easemob.chatManager asyncLoginWithUsername:username password:password];
-        }
-    }
-}
 
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [self loginEasemobSDK];
-}
-
-#pragma mark - IChatManagerDelegate
-
-#pragma mark - IChatManagerDelegate 登陆回调（主要用于监听自动登录是否成功）
-// 开始自动登录回调
--(void)willAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
-{
-    UIAlertView *alertView = nil;
-    if (error) {
-        alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"login.errorAutoLogin", @"Automatic logon failure") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    }
-    else{
-        alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"login.beginAutoLogin", @"Start automatic login...") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    }
-    
-    [alertView show];
-}
-
-// 结束自动登录回调
--(void)didAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
-{
-    UIAlertView *alertView = nil;
-    if (error) {
-        alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"login.errorAutoLogin", @"Automatic logon failure") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    }
-    else{
-        alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"login.endAutoLogin", @"End automatic login...") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    }
-    
-    [alertView show];
-}
-
-- (void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
-{
-    if (error) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt")
-                                                            message:NSLocalizedString(@"login.fail", @"Logon failure")
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"retry", @"Retry")
-                                                  otherButtonTitles:nil, nil];
-        [alertView show];
-    }
-}
-
-#pragma mark - other
-
-// 网络状态变化回调
-- (void)didConnectionStateChanged:(EMConnectionState)connectionState
-{
-//    _connectionState = connectionState;
-}
+//#pragma mark - UIAlertViewDelegate
+//
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    [self loginEasemobSDK];
+//}
+//
+//#pragma mark - IChatManagerDelegate
+//
+//- (void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
+//{
+//    if (error) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt")
+//                                                            message:NSLocalizedString(@"login.fail", @"Logon failure")
+//                                                           delegate:self
+//                                                  cancelButtonTitle:NSLocalizedString(@"retry", @"Retry")
+//                                                  otherButtonTitles:nil, nil];
+//        [alertView show];
+//    }
+//}
 
 @end

@@ -28,6 +28,7 @@ NSString *const kRouterEventChatCellBubbleTapEventName = @"kRouterEventChatCellB
         _backImageView.userInteractionEnabled = YES;
         _backImageView.multipleTouchEnabled = YES;
         _backImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        _backImageView.clipsToBounds = YES;
         [self addSubview:_backImageView];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bubbleViewPressed:)];

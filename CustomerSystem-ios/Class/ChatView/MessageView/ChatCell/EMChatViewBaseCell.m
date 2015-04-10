@@ -118,7 +118,12 @@ NSString *const kRouterEventChatHeadImageTapEventName = @"kRouterEventChatHeadIm
             break;
         case eMessageBodyType_Image:
         {
-            identifier = [identifier stringByAppendingString:@"Image"];
+            if ([[model.message.ext objectForKey:@"type"] length] > 0) {
+                identifier = [identifier stringByAppendingString:@"Custom"];
+            }
+            else{
+                identifier = [identifier stringByAppendingString:@"Image"];
+            }
         }
             break;
         case eMessageBodyType_Voice:

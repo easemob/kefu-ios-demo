@@ -10,8 +10,6 @@
 	<string>CustomerSystem-ios</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>6E75AC393B22F04AA1970321F44CECFB728FB685</key>
-		<string>https://github.com/xieyajie/EMCustomerSystem</string>
 		<key>AE518DC8BDBD2412E1EBBDA5D930C2F19BCB0709</key>
 		<string>https://github.com/xieyajie/emclient-ios.git</string>
 		<key>C8305A3C5F853A71D50FE70653A7885CF785EF72</key>
@@ -23,8 +21,6 @@
 	<string>CustomerSystem-ios.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>6E75AC393B22F04AA1970321F44CECFB728FB685</key>
-		<string>../../../EMCustomerSystem</string>
 		<key>AE518DC8BDBD2412E1EBBDA5D930C2F19BCB0709</key>
 		<string>../../../easemobProject/emclient-ios</string>
 		<key>C8305A3C5F853A71D50FE70653A7885CF785EF72</key>
@@ -55,14 +51,6 @@
 			<string>AE518DC8BDBD2412E1EBBDA5D930C2F19BCB0709</string>
 			<key>IDESourceControlWCCName</key>
 			<string>emclient-ios</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>6E75AC393B22F04AA1970321F44CECFB728FB685</string>
-			<key>IDESourceControlWCCName</key>
-			<string>EMCustomerSystem</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>

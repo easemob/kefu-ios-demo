@@ -10,6 +10,9 @@
 
 #import "EaseMob.h"
 
+static NSString *g_appkey = nil;
+static NSString *g_cname = nil;
+
 @interface HomeViewController : UITabBarController
 {
     EMConnectionState _connectionState;

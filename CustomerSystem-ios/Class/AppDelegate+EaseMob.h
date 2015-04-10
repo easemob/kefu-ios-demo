@@ -13,6 +13,4 @@
 - (void)easemobApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 
-- (void)loginEasemobSDK;
-
 @end

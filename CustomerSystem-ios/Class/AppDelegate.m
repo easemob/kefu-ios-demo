@@ -37,7 +37,7 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.homeController];
     
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
-        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(163, 215, 203, 1)];
+        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(242, 83, 131, 1)];
         [[UINavigationBar appearance] setTitleTextAttributes:
          [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:21.0], NSFontAttributeName, nil]];
     }

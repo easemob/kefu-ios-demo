@@ -5,24 +5,15 @@
   Created by dhcdht on 15-1-20.
   Copyright (c) 2015年 dhcdht. All rights reserved.
 */
-//general
-"register" = "Register";
-"login" = "Login";
-"logout" = "Logout";
-"password" = "Password";
-"username" = "Username";
 
-"sure" = "OK";
-"yes" = "YES";
-"cancel" = "Cancel";
-"no" = "NO";
 
+//other
 "search" = "Search";
 "error" = "Error";
 "delete" = "Delete";
 "copy" = "Copy";
 "save" = "Save";
-"prompt" = "Prompt";
+
 "add" = "Add";
 "send" = "Send";
 "open" = "Open";
@@ -46,44 +37,41 @@
 "receiveMessage" = "you have a new message";
 "loginAtOtherDevice" = "your login account has been in other places";
 "loginUserRemoveFromServer" = "your account has been removed from the server side";
-
-"saveSetting" = "save setting...";
-"commonProblems" = "CommonProblems";
-"receiveCmdMessage" = "Cmd Message";
-"customerChat" = "Customer";
 "appkeyError" = "appkey error";
+
+//general
+"prompt" = "Prompt";
+"sure" = "OK";
+"cancel" = "Cancel";
+
+"receiveCmdMessage" = "Cmd Message";
+
+"customerChat" = "Customer";
+"customerUser" = "Customer";
+"commonProblems" = "CommonProblems";
+"restart" = "Restart";
+"restartInfo" = "Configuration information need to reboot to take effect";
 
 //app
 "AppName" = "CustomerSystemDemo";
-
-//error des
-"error.connectServerFail" = "Connect to the server failed!";
-"error.connectServerTimeout" = "Connect to the server timed out!";
-
-//login
-"login.beginAutoLogin" = "Start automatic login...";
-"login.endAutoLogin" = "End automatic login...";
-"login.errorAutoLogin" = "Automatic logon failure.";
-"login.nameNotSupportZh" = "Name does not support Chinese";
-"login.ongoing" = "Is Login...";
-"login.fail" = "Logon failure";
-"login.inputNameAndPswd" = "Please enter username and password";
-"login.inputApnsNickname" = "Please enter nickname for apns";
-
-//register
-"register.ongoing" = "Is to register...";
-"register.fail" = "Registration failed";
-"register.success" = "Registered successfully, please log in";
-"register.repeat" = "You registered user already exists!";
 
 //apns
 "apns.failToRegisterApns" = "Fail to register apns";
 "apns.failToBindDeviceToken" = "Fail to bind device token";
 
+//login
+"login.beginAutoLogin" = "Start automatic login...";
+"login.endAutoLogin" = "End automatic login...";
+"login.errorAutoLogin" = "Automatic logon failure.";
+
+//setting
+"setting.feedback" = "Feedback";
+
 //title
 "title.customer" = "Customer";
 "title.mall" = "Mall";
 "title.setting" = "Setting";
+"title.commodity" = "Commodity Info";
 
 //message
 "message.camera" = "Camera";
@@ -116,37 +104,15 @@
 "message.startRecordFail" = "failure to start recording";
 "message.noMessage" = "no messages";
 
-//network
-"network.disconnection" = "Network disconnection";
-
 //reconnection
-"reconnection.retry" = "Fail to log in your account, is try again... \nclick 'logout' button to jump to the login page \nclick 'continue to wait for' button for reconnection successful";
 "reconnection.ongoing" = "reconnecting...";
 "reconnection.fail" = "reconnection failure, later will continue to reconnection";
 "reconnection.success" = "reconnection successful！";
-"reconnection.wait" = "continue to wait";
 
 //location
 "location.messageType" = "location message";
 "location.fail" = "locate failure";
 "location.ongoning" = "locating...";
-
-//setting
-"setting.autoLogin" = "automatic login";
-"setting.loginUser" = "log out(%@)";
-"setting.logoutOngoing" = "loging out...";
-
-"setting.notDisturb" = "No disturbing";
-"setting.showDetail" = "notify the display messages";
-"setting.open" = "open";
-"setting.nightOpen" = "only open at night (22:00 - 7:00)";
-"setting.close" = "close";
-"setting.sureNotDisturb" = "this setting will cause all day in the don't disturb mode, will no longer receive push messages. Whether or not to continue?";
-
-"setting.uploadLog" = "upload run log";
-"setting.sdkVersion" = "SDK version";
-"setting.uploading" = "uploading...";
-"setting.uploadSuccess" = "uploaded successfully";
 
 //NSDateCategory
 "NSDateCategory.text1" = "one minute";

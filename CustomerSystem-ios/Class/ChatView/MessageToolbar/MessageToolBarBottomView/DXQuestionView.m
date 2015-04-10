@@ -53,6 +53,7 @@
         }
 
         UIButton *button1 = [[UIButton alloc] initWithFrame:CGRectMake(x, y, width, height)];
+        button1.titleLabel.numberOfLines = 0;
         [button1 setTitle:[_titleArray objectAtIndex:i] forState:UIControlStateNormal];
         button1.tag = i;
         [button1 addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -61,7 +62,6 @@
         button1.layer.cornerRadius = 5;
         button1.layer.borderColor = [UIColor colorWithRed:0 green:194 / 255.0 blue:170 / 255.0 alpha:1].CGColor;
         button1.titleLabel.font = [UIFont systemFontOfSize:14.0];
-        button1.titleLabel.numberOfLines = 0;
         [self addSubview:button1];
     }
 }

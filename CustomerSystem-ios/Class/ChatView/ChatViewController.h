@@ -15,9 +15,13 @@
 @interface ChatViewController : UIViewController
 
 @property (nonatomic, strong) NSString *chatter;
+@property (nonatomic, strong) NSDictionary *commodityInfo;
 
-- (instancetype)initWithChatter:(NSString *)chatter isGroup:(BOOL)isGroup;
+- (instancetype)initWithChatter:(NSString *)chatter
+                        isGroup:(BOOL)isGroup;
 
 - (void)reloadData;
+
+- (void)sendCommodityMessageWithImage:(UIImage *)image ext:(NSDictionary *)ext;
 
 @end

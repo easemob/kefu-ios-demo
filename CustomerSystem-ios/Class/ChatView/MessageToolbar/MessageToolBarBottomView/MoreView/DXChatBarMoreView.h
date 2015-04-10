@@ -26,7 +26,7 @@ typedef enum{
 @property (nonatomic, strong) UIButton *takePicButton;
 @property (nonatomic, strong) UIButton *locationButton;
 
-- (instancetype)initWithFrame:(CGRect)frame typw:(ChatMoreType)type;
+- (instancetype)initWithFrame:(CGRect)frame type:(ChatMoreType)type;
 
 - (void)setupSubviewsForType:(ChatMoreType)type;
 

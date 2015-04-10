@@ -12,6 +12,8 @@
 
 #import "EMChatLocationBubbleView.h"
 
+#import "UIImage+Utils.h"
+
 NSString *const kRouterEventLocationBubbleTapEventName = @"kRouterEventLocationBubbleTapEventName";
 
 @interface EMChatLocationBubbleView ()
@@ -27,6 +29,7 @@ NSString *const kRouterEventLocationBubbleTapEventName = @"kRouterEventLocationB
 {
     if (self = [super initWithFrame:frame]) {
         
+        self.backImageView = nil;
         _locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, LOCATION_IMAGEVIEW_SIZE, LOCATION_IMAGEVIEW_SIZE)];
         [self addSubview:_locationImageView];
         
@@ -73,7 +76,11 @@ NSString *const kRouterEventLocationBubbleTapEventName = @"kRouterEventLocationB
 {
     [super setModel:model];
     
-    _locationImageView.image = [[UIImage imageNamed:LOCATION_IMAGE] stretchableImageWithLeftCapWidth:10 topCapHeight:10]; // 设置地图图片
+    NSString *imageName = model.isSender ? BUBBLE_RIGHT_IMAGE_NAME : BUBBLE_LEFT_IMAGE_NAME;
+    UIImage *coloredImage = [[UIImage imageNamed:imageName] stretchableImageWithLeftCapWidth:10 topCapHeight:30];
+    const UIImage *maskImageDrawnToSize = [coloredImage renderAtSize:CGSizeMake(LOCATION_IMAGEVIEW_SIZE, LOCATION_IMAGEVIEW_SIZE)];
+    _locationImageView.image = [[UIImage imageNamed:LOCATION_IMAGE] maskWithImage: maskImageDrawnToSize];
+    
     _addressLabel.text = model.address;
 }
 

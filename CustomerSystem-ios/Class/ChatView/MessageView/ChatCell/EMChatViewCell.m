@@ -157,7 +157,12 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
             break;
         case eMessageBodyType_Image:
         {
-            return [[EMChatImageBubbleView alloc] init];
+            if ([messageModel.message.ext objectForKey:@"type"]) {
+                return [[EMChatCustomBubbleView alloc] init];
+            }
+            else{
+                return [[EMChatImageBubbleView alloc] init];
+            }
         }
             break;
         case eMessageBodyType_Voice:
@@ -192,7 +197,14 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
             break;
         case eMessageBodyType_Image:
         {
-            return [EMChatImageBubbleView heightForBubbleWithObject:messageModel];
+            if ([messageModel.message.ext objectForKey:@"type"])
+            {
+                return [EMChatCustomBubbleView heightForBubbleWithObject:messageModel];
+            }
+            else
+            {
+                return [EMChatImageBubbleView heightForBubbleWithObject:messageModel];
+            }
         }
             break;
         case eMessageBodyType_Voice:

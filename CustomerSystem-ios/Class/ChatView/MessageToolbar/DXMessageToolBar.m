@@ -332,28 +332,28 @@
     _inputTextView.placeHolder = NSLocalizedString(@"message.toolBar.inputPlaceHolder", @"input a new message");
     _inputTextView.delegate = self;
     _inputTextView.backgroundColor = [UIColor clearColor];
-    _inputTextView.layer.borderColor = [UIColor colorWithRed:163 / 255.0 green:215 / 255.0 blue:203 / 255.0 alpha:1].CGColor;
+    _inputTextView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _inputTextView.layer.borderWidth = 0.65f;
     _inputTextView.layer.cornerRadius = 6.0f;
     _previousTextViewContentHeight = [self getTextViewContentH:_inputTextView];
     
     if (!self.moreView) {
-        self.moreView = [[DXChatBarMoreView alloc] initWithFrame:CGRectMake(0, (kVerticalPadding * 2 + kInputTextViewMinHeight), self.frame.size.width, 80) typw:ChatMoreTypeGroupChat];
-        self.moreView.backgroundColor = [UIColor lightGrayColor];
+        self.moreView = [[DXChatBarMoreView alloc] initWithFrame:CGRectMake(0, (kVerticalPadding * 2 + kInputTextViewMinHeight), self.frame.size.width, 80) type:ChatMoreTypeGroupChat];
+        self.moreView.backgroundColor = [UIColor colorWithRed:220 / 255.0 green:221 / 255.0 blue:221 / 255.0 alpha:1.0];
         self.moreView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
     
     if (!self.faceView) {
         self.faceView = [[DXFaceView alloc] initWithFrame:CGRectMake(0, (kVerticalPadding * 2 + kInputTextViewMinHeight), self.frame.size.width, 200)];
         [(DXFaceView *)self.faceView setDelegate:self];
-        self.faceView.backgroundColor = [UIColor lightGrayColor];
+        self.faceView.backgroundColor = [UIColor colorWithRed:220 / 255.0 green:221 / 255.0 blue:221 / 255.0 alpha:1.0];
         self.faceView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
     
     if (!self.questionView) {
         self.questionView = [[DXQuestionView alloc] initWithFrame:CGRectMake(0, (kVerticalPadding * 2 + kInputTextViewMinHeight), self.frame.size.width, 240)];
         [(DXQuestionView *)self.questionView setDelegate:self];
-        self.questionView.backgroundColor = [UIColor lightGrayColor];
+        self.questionView.backgroundColor = [UIColor colorWithRed:220 / 255.0 green:221 / 255.0 blue:221 / 255.0 alpha:1.0];
         self.questionView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
     

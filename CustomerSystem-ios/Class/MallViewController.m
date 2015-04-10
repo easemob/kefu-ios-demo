@@ -8,9 +8,12 @@
 
 #import "MallViewController.h"
 
+#import "CommodityViewController.h"
+
 @interface MallViewController ()
 {
-    UIWebView *_webView;
+    UIScrollView *_scrollView;
+    NSArray *_infoArray;
 }
 
 @end
@@ -24,13 +27,28 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
-    // Do any additional setup after loading the view.
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:_webView];
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:_scrollView];
+    _scrollView.backgroundColor = [UIColor clearColor];
+    _scrollView.scrollEnabled = YES;
+    _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height);
     
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.gome.com.cn"]];
-    [_webView loadRequest:request];
+    CGFloat margin = 10;
+    CGFloat width = (_scrollView.frame.size.width - 3 * margin) / 2;
+    CGFloat height = (_scrollView.frame.size.height - 3 * margin) / 2;
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(margin + i * (margin + width), margin + j * (margin + height), width, height)];
+            button.tag = i * 2 + j;
+            NSString *imageName = [NSString stringWithFormat:@"mallImage%i", button.tag];
+            [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(mallImageAction:) forControlEvents:UIControlEventTouchUpInside];
+            [_scrollView addSubview:button];
+        }
+    }
+    
+    _infoArray = [NSArray arrayWithObjects:@{@"image":[UIImage imageNamed:@"mallImage0.png"], @"title":@"2015早春新款高腰复古牛仔裤", @"price":@"￥128"}, @{@"image":[UIImage imageNamed:@"mallImage1.png"], @"title":@"露肩名媛范套装", @"price":@"￥518"}, @{@"image":[UIImage imageNamed:@"mallImage2.png"], @"title":@"假两件衬衣+V领毛衣上衣", @"price":@"￥235"}, @{@"image":[UIImage imageNamed:@"mallImage3.png"], @"title":@"插肩棒球衫外套", @"price":@"￥162"}, nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,14 +56,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - action
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)mallImageAction:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    CommodityViewController *commodityController = [[CommodityViewController alloc] init];
+    commodityController.commodityInfo = [_infoArray objectAtIndex:button.tag];
+    [self.navigationController pushViewController:commodityController animated:YES];
 }
-*/
 
 @end
