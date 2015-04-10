@@ -14,6 +14,8 @@
 		<string>https://github.com/xieyajie/EMCustomerSystem</string>
 		<key>AE518DC8BDBD2412E1EBBDA5D930C2F19BCB0709</key>
 		<string>https://github.com/xieyajie/emclient-ios.git</string>
+		<key>C8305A3C5F853A71D50FE70653A7885CF785EF72</key>
+		<string>https://github.com/easemob/helpdeskdemo-ios</string>
 		<key>F061625A01AA991D35F6BB7971BFAB8E4FFE9480</key>
 		<string>https://git.oschina.net/xieyajie/CustomerSystem-ios.git</string>
 	</dict>
@@ -22,18 +24,20 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>6E75AC393B22F04AA1970321F44CECFB728FB685</key>
-		<string>../..</string>
+		<string>../../../EMCustomerSystem</string>
 		<key>AE518DC8BDBD2412E1EBBDA5D930C2F19BCB0709</key>
 		<string>../../../easemobProject/emclient-ios</string>
+		<key>C8305A3C5F853A71D50FE70653A7885CF785EF72</key>
+		<string>../..</string>
 		<key>F061625A01AA991D35F6BB7971BFAB8E4FFE9480</key>
 		<string>../../../CustomerSystem-ios</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/xieyajie/EMCustomerSystem</string>
+	<string>https://github.com/easemob/helpdeskdemo-ios</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>6E75AC393B22F04AA1970321F44CECFB728FB685</string>
+	<string>C8305A3C5F853A71D50FE70653A7885CF785EF72</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -59,6 +63,14 @@
 			<string>6E75AC393B22F04AA1970321F44CECFB728FB685</string>
 			<key>IDESourceControlWCCName</key>
 			<string>EMCustomerSystem</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C8305A3C5F853A71D50FE70653A7885CF785EF72</string>
+			<key>IDESourceControlWCCName</key>
+			<string>helpdeskdemo-ios</string>
 		</dict>
 	</array>
 </dict>

@@ -17,5 +17,7 @@
 @property (nonatomic, strong) NSString *chatter;
 
 - (instancetype)initWithChatter:(NSString *)chatter isGroup:(BOOL)isGroup;
+
 - (void)reloadData;
+
 @end
