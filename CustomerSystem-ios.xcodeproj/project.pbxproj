@@ -218,9 +218,7 @@
 		EB62E30D1A8DDA4800705655 /* SRSlimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E28E1A8DDA4800705655 /* SRSlimeView.m */; };
 		EB62E30E1A8DDA4800705655 /* THProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E2911A8DDA4800705655 /* THProgressView.m */; };
 		EB62E30F1A8DDA4800705655 /* TTGlobalUICommon.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E2941A8DDA4800705655 /* TTGlobalUICommon.m */; };
-		EB62E3101A8DDA4800705655 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E2961A8DDA4800705655 /* libMobClickLibrary.a */; };
 		EB62E3111A8DDA4800705655 /* AppDelegate+EaseMob.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */; };
-		EB62E3121A8DDA4800705655 /* AppDelegate+UMeng.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E29C1A8DDA4800705655 /* AppDelegate+UMeng.m */; };
 		EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E29E1A8DDA4800705655 /* AppDelegate.m */; };
 		EB62E32E1A8DDA4800705655 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E2DE1A8DDA4800705655 /* HomeViewController.m */; };
 		EB62E3B91A8E08EB00705655 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB62E3B71A8E08EA00705655 /* Localizable.strings */; };
@@ -570,8 +568,6 @@
 		EB62E2971A8DDA4800705655 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		EB62E2991A8DDA4800705655 /* AppDelegate+EaseMob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+EaseMob.h"; sourceTree = "<group>"; };
 		EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+EaseMob.m"; sourceTree = "<group>"; };
-		EB62E29B1A8DDA4800705655 /* AppDelegate+UMeng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+UMeng.h"; sourceTree = "<group>"; };
-		EB62E29C1A8DDA4800705655 /* AppDelegate+UMeng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+UMeng.m"; sourceTree = "<group>"; };
 		EB62E29D1A8DDA4800705655 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EB62E29E1A8DDA4800705655 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		EB62E2DD1A8DDA4800705655 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
@@ -666,7 +662,6 @@
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
 				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
-				EB62E3101A8DDA4800705655 /* libMobClickLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1280,8 +1275,6 @@
 				EB62E3BF1A8E0C9400705655 /* ChatView */,
 				EB62E2991A8DDA4800705655 /* AppDelegate+EaseMob.h */,
 				EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */,
-				EB62E29B1A8DDA4800705655 /* AppDelegate+UMeng.h */,
-				EB62E29C1A8DDA4800705655 /* AppDelegate+UMeng.m */,
 				EB62E29D1A8DDA4800705655 /* AppDelegate.h */,
 				EB62E29E1A8DDA4800705655 /* AppDelegate.m */,
 				EB62E2DD1A8DDA4800705655 /* HomeViewController.h */,
@@ -1689,7 +1682,6 @@
 				EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */,
 				EB62E3071A8DDA4800705655 /* PSTGridLayoutRow.m in Sources */,
 				EB395B981A8EF2F10083B659 /* DXQuestionView.m in Sources */,
-				EB62E3121A8DDA4800705655 /* AppDelegate+UMeng.m in Sources */,
 				EB3959831A8EE54D0083B659 /* BaseViewController.m in Sources */,
 				EB62E2EE1A8DDA4800705655 /* EMSDWebImageDecoder.m in Sources */,
 				EB3959641A8EE4160083B659 /* NSDate+Category.m in Sources */,
@@ -1879,10 +1871,7 @@
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/CustomerSystem-ios/3rdparty/UMeng",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "927563e9-75cb-4044-96de-d2bb6d83dbab";
@@ -1898,10 +1887,7 @@
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/CustomerSystem-ios/3rdparty/UMeng",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "927563e9-75cb-4044-96de-d2bb6d83dbab";

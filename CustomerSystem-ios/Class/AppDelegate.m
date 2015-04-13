@@ -12,7 +12,6 @@
 #import "LocalDefine.h"
 #import "HomeViewController.h"
 #import "AppDelegate+EaseMob.h"
-#import "AppDelegate+UMeng.h"
 
 @interface AppDelegate ()
 
@@ -25,9 +24,6 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    
-    // 环信UIdemo中有用到友盟统计crash，您的项目中不需要添加，可忽略此处。
-    [self setupUMeng];
     
     // 初始化环信SDK，详细内容在AppDelegate+EaseMob.m 文件中
     [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];

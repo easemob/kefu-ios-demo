@@ -235,6 +235,7 @@
 - (void)questionViewSeletedTitle:(NSString *)title
 {
     if ([title length] > 0) {
+        [self.inputTextView becomeFirstResponder];
         self.inputTextView.text = title;
         [self textViewDidChange:self.inputTextView];
     }

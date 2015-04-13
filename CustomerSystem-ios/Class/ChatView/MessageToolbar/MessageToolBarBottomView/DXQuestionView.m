@@ -69,7 +69,7 @@
 - (void)buttonAction:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    int tag = button.tag;
+    NSInteger tag = button.tag;
     if (tag < [_titleArray count]) {
         NSString *string = [_titleArray objectAtIndex:tag];
         if (_delegate && [_delegate respondsToSelector:@selector(questionViewSeletedTitle:)]) {
