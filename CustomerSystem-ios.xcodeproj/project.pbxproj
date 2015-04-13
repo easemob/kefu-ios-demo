@@ -1882,7 +1882,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CustomerSystem-ios/3rdparty/UMeng",
-					"/Users/dhc/Desktop/iOSSDK-20150408/EaseMobSDK/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1902,7 +1901,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CustomerSystem-ios/3rdparty/UMeng",
-					"/Users/dhc/Desktop/iOSSDK-20150408/EaseMobSDK/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
