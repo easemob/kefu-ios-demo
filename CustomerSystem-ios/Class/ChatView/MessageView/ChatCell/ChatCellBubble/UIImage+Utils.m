@@ -26,7 +26,7 @@
     return renderedImage;
 }
 
-- (UIImage *) maskWithImage:(const UIImage *) maskImage
+- (UIImage *)maskWithImage:(const UIImage *) maskImage
 {
     const CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
@@ -72,7 +72,7 @@
  maskWithColor
  takes a (grayscale) image and 'tints' it with the supplied color.
  */
-- (UIImage *) maskWithColor:(UIColor *) color
+- (UIImage *)maskWithColor:(UIColor *) color
 {
     CGFloat width = self.size.width;
     CGFloat height = self.size.height;
