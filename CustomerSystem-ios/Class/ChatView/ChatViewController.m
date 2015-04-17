@@ -159,7 +159,6 @@
     // 设置当前conversation的所有message为已读
     [_conversation markAllMessagesAsRead:YES];
     [[EaseMob sharedInstance].deviceManager disableProximitySensor];
-    
 }
 
 - (void)dealloc
@@ -634,7 +633,19 @@
 
 -(void)didSendMessage:(EMMessage *)message error:(EMError *)error;
 {
-    [self reloadTableViewDataWithMessage:message];
+    [self.dataSource enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+     {
+         if ([obj isKindOfClass:[MessageModel class]])
+         {
+             MessageModel *model = (MessageModel*)obj;
+             if ([model.messageId isEqualToString:message.messageId])
+             {
+                 model.message.deliveryState = message.deliveryState;
+                 *stop = YES;
+             }
+         }
+     }];
+    [self.tableView reloadData];
 }
 
 - (void)reloadTableViewDataWithMessage:(EMMessage *)message
