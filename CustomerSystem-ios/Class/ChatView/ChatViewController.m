@@ -120,18 +120,13 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyBoardHidden)];
     [self.view addGestureRecognizer:tap];
     
-    if ([_commodityInfo count] > 0) {
-        UIImage *image = [_commodityInfo objectForKey:@"image"];
-        NSString *title = [_commodityInfo objectForKey:@"title"];
-        NSString *price = [_commodityInfo objectForKey:@"price"];
-        if (image && [title length] > 0 && [price length] > 0) {
-            [self sendCommodityMessageWithImage:image ext:@{@"type":@"custom", @"title":title, @"price":price}];
-        }
-        _commodityInfo = nil;
-    }
-    
     //通过会话管理者获取已收发消息
     [self loadMoreMessages];
+    
+    if ([_commodityInfo count] > 0) {
+        [self sendCommodityMessageWithInfo:_commodityInfo];
+        _commodityInfo = nil;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -998,19 +993,13 @@
 {
     [_messages addObject:message];
     NSArray *messages = [self formatMessage:message];
-    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < messages.count; i++) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.dataSource.count+i inSection:0];
-        [indexPaths addObject:indexPath];
-    }
-    
-    [self.tableView beginUpdates];
-    [self.dataSource addObjectsFromArray:messages];
-    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView endUpdates];
-    
-    [self.tableView scrollToRowAtIndexPath:[indexPaths lastObject] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    __weak ChatViewController *weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.dataSource addObjectsFromArray:messages];
+        [weakSelf.tableView reloadData];
+        [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[weakSelf.dataSource count] - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    });
 }
 
 - (void)scrollViewToBottom:(BOOL)animated
@@ -1032,6 +1021,7 @@
     [self showHint:@"deleting..."];
     [self.conversation removeAllMessages];
     [self.dataSource removeAllObjects];
+    [_messages removeAllObjects];
     [self.tableView reloadData];
     [self hideHud];
 }
@@ -1093,12 +1083,43 @@
     [self addMessage:tempMessage];
 }
 
-- (void)sendCommodityMessageWithImage:(UIImage *)image ext:(NSDictionary *)ext
+- (void)sendCommodityMessageWithInfo:(NSDictionary *)info
 {
-    if(image){
-        EMMessage *tempMessage = [ChatSendHelper sendImageMessageWithImage:image toUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO ext:ext];
-        [self addMessage:tempMessage];
+    NSString *type = [info objectForKey:@"type"];
+    NSString *title = [info objectForKey:@"title"];
+    NSString *desc = [info objectForKey:@"desc"];
+    NSString *price = [info objectForKey:@"price"];
+    NSString *imageUrl = [info objectForKey:@"img_url"];
+    NSString *itemUrl = [info objectForKey:@"item_url"];
+    
+    NSMutableDictionary *itemDic = [NSMutableDictionary dictionary];
+    if (title) {
+        [itemDic setObject:title forKey:@"title"];
     }
+    if (desc) {
+        [itemDic setObject:desc forKey:@"desc"];
+    }
+    if (price) {
+        [itemDic setObject:price forKey:@"price"];
+    }
+    if (imageUrl) {
+        [itemDic setObject:imageUrl forKey:@"img_url"];
+    }
+    if (itemUrl) {
+        [itemDic setObject:itemUrl forKey:@"item_url"];
+    }
+    
+    if ([type isEqualToString:@"order"]) {
+        NSString *orderTitle = [info objectForKey:@"order_title"];
+        if (orderTitle) {
+            [itemDic setObject:orderTitle forKey:@"order_title"];
+        }
+    }
+    
+    NSString *imageName = [info objectForKey:@"imageName"];
+    NSDictionary *extDic = @{@"msgtype":@{type:itemDic}, @"imageName":imageName, @"type":@"custom"};
+    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:@"客服图文混排消息" toUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO ext:extDic];
+    [self addMessage:tempMessage];
 }
 
 @end

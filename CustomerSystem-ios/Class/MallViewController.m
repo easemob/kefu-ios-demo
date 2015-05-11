@@ -48,7 +48,7 @@
         }
     }
     
-    _infoArray = [NSArray arrayWithObjects:@{@"image":[UIImage imageNamed:@"mallImage0.png"], @"title":@"2015早春新款高腰复古牛仔裤", @"price":@"￥128"}, @{@"image":[UIImage imageNamed:@"mallImage1.png"], @"title":@"露肩名媛范套装", @"price":@"￥518"}, @{@"image":[UIImage imageNamed:@"mallImage2.png"], @"title":@"假两件衬衣+V领毛衣上衣", @"price":@"￥235"}, @{@"image":[UIImage imageNamed:@"mallImage3.png"], @"title":@"插肩棒球衫外套", @"price":@"￥162"}, nil];
+    _infoArray = [NSArray arrayWithObjects:@{@"type":@"track", @"title":@"测试track1", @"imageName":@"mallImage0.png", @"desc":@"2015早春新款高腰复古牛仔裤", @"price":@"￥128", @"img_url":@"http://www.lagou.com/upload/indexPromotionImage/ff8080814cffb587014d09b2d7810206.png"}, @{@"type":@"order", @"title":@"测试order1", @"order_title":@"订单号：123456", @"imageName":@"mallImage1.png", @"desc":@"露肩名媛范套装", @"price":@"￥518", @"img_url":@"http://www.lagou.com/upload/indexPromotionImage/ff8080814cffb587014d09af023a0204.jpg", @"item_url":@"http://www.lagou.com/"}, @{@"type":@"track", @"title":@"测试track2", @"imageName":@"mallImage2.png", @"desc":@"假两件衬衣+V领毛衣上衣", @"price":@"￥235", @"img_url":@"https://www.baidu.com/img/bdlogo.png", @"item_url":@"http://www.baidu.com"}, @{@"type":@"order", @"title":@"测试order2", @"order_title":@"订单号：7890", @"imageName":@"mallImage3.png", @"desc":@"插肩棒球衫外套", @"price":@"￥162", @"img_url":@"https://www.baidu.com/img/bdlogo.png", @"item_url":@"http://www.baidu.com"}, nil];
 }
 
 - (void)didReceiveMemoryWarning {

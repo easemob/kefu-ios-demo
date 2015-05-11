@@ -11,6 +11,7 @@
 @interface EMChatCustomBubbleView : EMChatBaseBubbleView
 {
     UILabel *_topLabel;
+    UILabel *_titleLabel;
     UILabel *_nameLabel;
     UIImageView *_cimageView;
     UILabel *_priceLabel;

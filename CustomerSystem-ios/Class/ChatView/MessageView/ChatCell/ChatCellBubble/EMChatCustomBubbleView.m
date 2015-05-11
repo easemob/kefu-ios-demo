@@ -10,6 +10,7 @@
 
 #define kImageWidth 40
 #define kImageHeight 70
+#define kTitleHeight 20
 
 @implementation EMChatCustomBubbleView
 
@@ -27,10 +28,15 @@
         _topLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:_topLabel];
         
-        _cimageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_topLabel.frame) + 5, kImageWidth, kImageHeight)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 25, 100, 0)];
+        _titleLabel.font = [UIFont systemFontOfSize:12.0];
+        _titleLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:_titleLabel];
+        
+        _cimageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_titleLabel.frame) + 5, kImageWidth, kImageHeight)];
         [self addSubview:_cimageView];
         
-        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_cimageView.frame) + 5, CGRectGetMaxY(_topLabel.frame) + 5, 120, 35)];
+        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_cimageView.frame) + 5, CGRectGetMaxY(_titleLabel.frame) + 5, 120, 35)];
         _nameLabel.numberOfLines = 2;
         _nameLabel.font = [UIFont systemFontOfSize:13.0];
         _nameLabel.backgroundColor = [UIColor clearColor];
@@ -50,6 +56,11 @@
     CGFloat width = 3 * BUBBLE_VIEW_PADDING + kImageWidth + 120 + 30;
     CGFloat height = 2 * BUBBLE_VIEW_PADDING + kImageHeight + 20;
     
+    NSDictionary *dic = [_model.message.ext objectForKey:@"msgtype"];
+    if ([dic objectForKey:@"order"]) {
+        height += kTitleHeight;
+    }
+    
     return CGSizeMake(width, height);
 }
 
@@ -57,21 +68,16 @@
 {
     [super layoutSubviews];
     
-    _nameLabel.frame = CGRectMake(CGRectGetMaxX(_cimageView.frame) + 5, CGRectGetMaxY(_topLabel.frame) + 5, 150, 35);
+    NSDictionary *dic = [_model.message.ext objectForKey:@"msgtype"];
+    if ([dic objectForKey:@"order"]) {
+        _titleLabel.frame = CGRectMake(10, 25, self.frame.size.width - 20, kTitleHeight);
+    }
+    else{
+        _titleLabel.frame = CGRectMake(10, 25, self.frame.size.width - 20, 0);
+    }
+     _cimageView.frame = CGRectMake(10, CGRectGetMaxY(_titleLabel.frame) + 5, kImageWidth, kImageHeight);
+    _nameLabel.frame = CGRectMake(CGRectGetMaxX(_cimageView.frame) + 5, CGRectGetMaxY(_titleLabel.frame) + 5, 150, 35);
     _priceLabel.frame = CGRectMake(CGRectGetMaxX(_cimageView.frame) + 5, CGRectGetMaxY(_nameLabel.frame) + 5, 150, 15);
-    
-//    CGRect frame = self.bounds;
-//    frame.size.width -= BUBBLE_ARROW_WIDTH;
-//    frame = CGRectInset(frame, BUBBLE_VIEW_PADDING, BUBBLE_VIEW_PADDING);
-//    if (self.model.isSender) {
-//        frame.origin.x = BUBBLE_VIEW_PADDING;
-//    }else{
-//        frame.origin.x = BUBBLE_VIEW_PADDING + BUBBLE_ARROW_WIDTH;
-//    }
-//    
-//    frame.origin.y = BUBBLE_VIEW_PADDING;
-//    
-//    [_topLabel setFrame:frame];
 }
 
 #pragma mark - setter
@@ -80,17 +86,20 @@
 {
     [super setModel:model];
     
-    _nameLabel.text = [model.message.ext objectForKey:@"title"];
-    _priceLabel.text = [model.message.ext objectForKey:@"price"];
+    NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
+    NSDictionary *itemDic = [dic objectForKey:@"order"] ? [dic objectForKey:@"order"] : [dic objectForKey:@"track"];
+    _topLabel.text = [itemDic objectForKey:@"title"];
+    _titleLabel.text = [itemDic objectForKey:@"order_title"];
+    _nameLabel.text = [itemDic objectForKey:@"desc"];
+    _priceLabel.text = [itemDic objectForKey:@"price"];
     
-    UIImage *image = _model.isSender ? _model.image : _model.thumbnailImage;
-    if (!image) {
-        image = _model.image;
-        if (!image) {
-            image = [UIImage imageNamed:@"imageDownloadFail.png"];
-        }
+    NSString *imageName = [model.message.ext objectForKey:@"imageName"];
+    if ([imageName length] > 0) {
+        _cimageView.image = [UIImage imageNamed:imageName];
     }
-    _cimageView.image = image;
+    else{
+        _cimageView.image = [UIImage imageNamed:@"imageDownloadFail.png"];
+    }
 }
 
 #pragma mark - public
@@ -103,7 +112,12 @@
 
 +(CGFloat)heightForBubbleWithObject:(MessageModel *)object
 {
-    return 2 * BUBBLE_VIEW_PADDING + kImageHeight + 20;
+    NSDictionary *dic = [object.message.ext objectForKey:@"msgtype"];
+    if ([dic objectForKey:@"order"]){
+       return 2 * BUBBLE_VIEW_PADDING + kImageHeight + kTitleHeight + 20;
+    }else{
+        return 2 * BUBBLE_VIEW_PADDING + kImageHeight + 20;
+    }
 }
 
 
