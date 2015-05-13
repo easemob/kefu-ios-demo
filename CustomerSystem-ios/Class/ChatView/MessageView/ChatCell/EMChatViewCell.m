@@ -152,7 +152,7 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
     switch (messageModel.type) {
         case eMessageBodyType_Text:
         {
-            if ([messageModel.message.ext objectForKey:@"type"]) {
+            if ([messageModel.message.ext objectForKey:@"msgtype"]) {
                 return [[EMChatCustomBubbleView alloc] init];
             }
             else{
@@ -192,7 +192,7 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
     switch (messageModel.type) {
         case eMessageBodyType_Text:
         {
-            if ([messageModel.message.ext objectForKey:@"type"])
+            if ([messageModel.message.ext objectForKey:@"msgtype"])
             {
                 return [EMChatCustomBubbleView heightForBubbleWithObject:messageModel];
             }
