@@ -46,7 +46,7 @@
 "receiveCmdMessage" = "透传消息";
 
 "customerChat" = "联系客服";
-"customerUser" = "客服账号";
+"customerUser" = "IM服务号";
 "commonProblems" = "常见问题";
 "restart" = "重新启动";
 "restartInfo" = "配置信息需要重新启动才能生效";

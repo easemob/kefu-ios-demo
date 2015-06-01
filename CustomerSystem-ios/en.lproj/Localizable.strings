@@ -47,7 +47,7 @@
 "receiveCmdMessage" = "Cmd Message";
 
 "customerChat" = "Customer";
-"customerUser" = "Customer";
+"customerUser" = "IM Customer";
 "commonProblems" = "CommonProblems";
 "restart" = "Restart";
 "restartInfo" = "Configuration information need to reboot to take effect";
