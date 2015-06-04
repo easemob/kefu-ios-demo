@@ -92,7 +92,7 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
     [super setMessageModel:model];
     
     if (model.isChatGroup) {
-        _nameLabel.text = model.username;
+        _nameLabel.text = @"演示客户";
         _nameLabel.hidden = model.isSender;
     }
     

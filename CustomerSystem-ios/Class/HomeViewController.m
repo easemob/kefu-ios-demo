@@ -15,6 +15,7 @@
 #import "ChatViewController.h"
 #import "UIViewController+HUD.h"
 #import "ChatSendHelper.h"
+#import "EMCDDeviceManager.h"
 #import "LocalDefine.h"
 
 //两次提示的默认间隔
@@ -92,7 +93,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [[EMIMHelper defaultHelper] loginEasemobSDK];
     NSString *cname = [[EMIMHelper defaultHelper] cname];
     ChatViewController *chatController = [[ChatViewController alloc] initWithChatter:cname isGroup:NO];
-    chatController.title = cname;
+    chatController.title = @"演示客服";
     if (notification.object) {
         chatController.commodityInfo = (NSDictionary *)notification.object;
     }
@@ -192,9 +193,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     self.lastPlaySoundDate = [NSDate date];
     
     // 收到消息时，播放音频
-    [[EaseMob sharedInstance].deviceManager asyncPlayNewMessageSound];
+    [[EMCDDeviceManager sharedInstance] playNewMessageSound];
     // 收到消息时，震动
-    [[EaseMob sharedInstance].deviceManager asyncPlayVibration];
+    [[EMCDDeviceManager sharedInstance] playVibration];
 }
 
 - (void)_showNotificationWithMessage:(EMMessage *)message

@@ -11,10 +11,11 @@
   */
 
 #import "ChatViewController.h"
-
+#import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
+#import "EMCDDeviceManager.h"
 #import "SRRefreshView.h"
 #import "DXChatBarMoreView.h"
 #import "DXFaceView.h"
@@ -97,7 +98,7 @@
     }
     
     #warning 以下三行代码必须写，注册为SDK的ChatManager的delegate
-    [[[EaseMob sharedInstance] deviceManager] addDelegate:self onQueue:nil];
+    [EMCDDeviceManager sharedInstance].delegate = self;
     [[EaseMob sharedInstance].chatManager removeDelegate:self];
     //注册为SDK的ChatManager的delegate
     [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
@@ -153,7 +154,7 @@
     
     // 设置当前conversation的所有message为已读
     [_conversation markAllMessagesAsRead:YES];
-    [[EaseMob sharedInstance].deviceManager disableProximitySensor];
+    [[EMCDDeviceManager sharedInstance] disableProximitySensor];
 }
 
 - (void)dealloc
@@ -168,12 +169,12 @@
     _chatToolBar.delegate = nil;
     _chatToolBar = nil;
     
-    [[EaseMob sharedInstance].chatManager stopPlayingAudio];
+    [[EMCDDeviceManager sharedInstance] stopPlaying];
+    [EMCDDeviceManager sharedInstance].delegate = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 #warning 以下第一行代码必须写，将self从ChatManager的代理中移除
     [[EaseMob sharedInstance].chatManager removeDelegate:self];
-    [[[EaseMob sharedInstance] deviceManager] removeDelegate:self];
 }
 
 #pragma mark - 
@@ -204,6 +205,7 @@
 }
 
 #pragma mark - helper
+
 - (NSURL *)convert2Mp4:(NSURL *)movUrl {
     NSURL *mp4Url = nil;
     AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:movUrl options:nil];
@@ -523,17 +525,15 @@
         if (isPrepare) {
             _isPlayingAudio = YES;
             __weak ChatViewController *weakSelf = self;
-            [[[EaseMob sharedInstance] deviceManager] enableProximitySensor];
-            [[EaseMob sharedInstance].chatManager asyncPlayAudio:model.chatVoice completion:^(EMError *error) {
+            [[EMCDDeviceManager sharedInstance] enableProximitySensor];
+            [[EMCDDeviceManager sharedInstance] asyncPlayingWithPath:model.chatVoice.localPath completion:^(NSError *error) {
                 [weakSelf.messageReadManager stopMessageAudioModel];
-                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakSelf.tableView reloadData];
-                    
                     weakSelf.isPlayingAudio = NO;
-                    [[[EaseMob sharedInstance] deviceManager] disableProximitySensor];
+                    [[EMCDDeviceManager sharedInstance] disableProximitySensor];
                 });
-            } onQueue:nil];
+            }];
         }
         else{
             _isPlayingAudio = NO;
