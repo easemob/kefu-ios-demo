@@ -8,10 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define EMErrorAttachmentNotFound -100
-#define EMErrorInitFailure -101
-#define EMErrorFailure -102
-
 @interface EMAudioPlayerUtil : NSObject
 // 当前是否正在播放
 + (BOOL)isPlaying;

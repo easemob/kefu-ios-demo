@@ -315,6 +315,7 @@
 		EB30A5481B2063C200FD223F /* dec_if.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dec_if.h; sourceTree = "<group>"; };
 		EB30A5491B2063C200FD223F /* if_rom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = if_rom.h; sourceTree = "<group>"; };
 		EB30A54A1B2063C200FD223F /* libopencore-amrwb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrwb.a"; sourceTree = "<group>"; };
+		EB30A62C1B20741F00FD223F /* DemoErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoErrorCode.h; sourceTree = "<group>"; };
 		EB3959581A8EE4160083B659 /* NSDate+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Category.h"; sourceTree = "<group>"; };
 		EB3959591A8EE4160083B659 /* NSDate+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Category.m"; sourceTree = "<group>"; };
 		EB39595A1A8EE4160083B659 /* NSDateFormatter+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+Category.h"; sourceTree = "<group>"; };
@@ -739,6 +740,7 @@
 		EB30A5241B20637100FD223F /* internal */ = {
 			isa = PBXGroup;
 			children = (
+				EB30A62C1B20741F00FD223F /* DemoErrorCode.h */,
 				EB30A5251B20637100FD223F /* EMAudioPlayerUtil.h */,
 				EB30A5261B20637100FD223F /* EMAudioPlayerUtil.m */,
 				EB30A5271B20637100FD223F /* EMAudioRecorderUtil.h */,

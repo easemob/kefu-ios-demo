@@ -10,6 +10,8 @@
 #import "EMAudioPlayerUtil.h"
 #import "EMAudioRecorderUtil.h"
 #import "EMVoiceConverter.h"
+#import "EMErrorDefs.h"
+#import "DemoErrorCode.h"
 
 typedef NS_ENUM(NSInteger, EMAudioSession){
     EM_DEFAULT = 0,

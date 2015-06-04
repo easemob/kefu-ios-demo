@@ -8,6 +8,8 @@
 
 #import "EMAudioPlayerUtil.h"
 #import <AVFoundation/AVFoundation.h>
+#import "EMErrorDefs.h"
+
 static EMAudioPlayerUtil *audioPlayerUtil = nil;
 
 @interface EMAudioPlayerUtil () <AVAudioPlayerDelegate> {
