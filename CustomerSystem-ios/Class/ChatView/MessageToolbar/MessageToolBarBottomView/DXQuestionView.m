@@ -25,12 +25,16 @@
 
 - (void)setupSubviews
 {
+    
+    UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:self.bounds];
+    [self addSubview:scrollView];
+    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, self.frame.size.width - 40, 15)];
     titleLabel.text = NSLocalizedString(@"commonProblems", @"Common Problems");
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textColor = [UIColor grayColor];
     titleLabel.font = [UIFont systemFontOfSize:14.0];
-    [self addSubview:titleLabel];
+    [scrollView addSubview:titleLabel];
     
     int col = 3;
     CGFloat margin = 10;
@@ -41,17 +45,19 @@
     CGFloat x = margin;
     for(int i = 0; i < [_titleArray count]; i++)
     {
-        if (i % col == 0) {
-            x = margin;
-        }
-        else{
-            x += (margin + width);
-        }
+//        if (i % col == 0) {
+//            x = margin;
+//        }
+//        else{
+//            x += (margin + width);
+//        }
+//        
+//        if (i >= col) {
+//            y += (i / col) * (margin + height);
+//        }
+        x = margin + (i % col) * (margin + width);
+        y = margin + CGRectGetMaxY(titleLabel.frame) + (i / col) * (margin + height);
         
-        if (i >= col) {
-            y += (i / col) * (margin + height);
-        }
-
         UIButton *button1 = [[UIButton alloc] initWithFrame:CGRectMake(x, y, width, height)];
         button1.titleLabel.numberOfLines = 0;
         [button1 setTitle:[_titleArray objectAtIndex:i] forState:UIControlStateNormal];
@@ -62,8 +68,10 @@
         button1.layer.cornerRadius = 5;
         button1.layer.borderColor = [UIColor colorWithRed:0 green:194 / 255.0 blue:170 / 255.0 alpha:1].CGColor;
         button1.titleLabel.font = [UIFont systemFontOfSize:14.0];
-        [self addSubview:button1];
+        [scrollView addSubview:button1];
     }
+    CGFloat scrollHeight = y + margin + height;
+    scrollView.contentSize = CGSizeMake(self.frame.size.width, scrollHeight);
 }
 
 - (void)buttonAction:(id)sender
