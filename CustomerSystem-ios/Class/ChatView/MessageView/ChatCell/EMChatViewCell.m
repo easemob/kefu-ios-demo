@@ -112,8 +112,15 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
 // 重发按钮事件
 -(void)retryButtonPressed:(UIButton *)sender
 {
-    [self routerEventWithName:kResendButtonTapEventName
-                     userInfo:@{kShouldResendCell:self}];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示:" message:@"确认重发该消息?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        [self routerEventWithName:kResendButtonTapEventName
+                         userInfo:@{kShouldResendCell:self}];
+    }
 }
 
 #pragma mark - private

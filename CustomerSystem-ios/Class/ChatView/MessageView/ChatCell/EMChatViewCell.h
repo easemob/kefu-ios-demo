@@ -25,7 +25,7 @@
 extern NSString *const kResendButtonTapEventName;
 extern NSString *const kShouldResendCell;
 
-@interface EMChatViewCell : EMChatViewBaseCell
+@interface EMChatViewCell : EMChatViewBaseCell<UIAlertViewDelegate>
 
 //sender
 @property (nonatomic, strong) UIActivityIndicatorView *activtiy;
