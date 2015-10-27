@@ -46,8 +46,9 @@
 
 "receiveCmdMessage" = "Cmd Message";
 
+"setNickname" = "Nickname";
 "customerChat" = "Customer";
-"customerUser" = "Customer";
+"customerUser" = "IM Customer";
 "commonProblems" = "CommonProblems";
 "restart" = "Restart";
 "restartInfo" = "Configuration information need to reboot to take effect";
@@ -72,6 +73,18 @@
 "title.mall" = "Mall";
 "title.setting" = "Setting";
 "title.commodity" = "Commodity Info";
+"title.nickname" = "Nickname";
+"title.satisfaction" = "Satisfaction Evaluation";
+
+//choice
+"choice.preSale" = "Pre Sale";
+"choice.afterSale" = "After Sales";
+
+//satisfaction
+"satisfaction.message" ="please evaluate my service";
+"satisfaction.evaluate" = "Evaluate";
+"satisfaction.evaluated" = "Evaluated";
+"satisfaction.nickname" = "nickname";
 
 //message
 "message.camera" = "Camera";

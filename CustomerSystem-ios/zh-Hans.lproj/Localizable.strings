@@ -45,8 +45,9 @@
 
 "receiveCmdMessage" = "透传消息";
 
+"setNickname" = "设置昵称";
 "customerChat" = "联系客服";
-"customerUser" = "客服账号";
+"customerUser" = "IM服务号";
 "commonProblems" = "常见问题";
 "restart" = "重新启动";
 "restartInfo" = "配置信息需要重新启动才能生效";
@@ -71,6 +72,18 @@
 "title.mall" = "商城";
 "title.setting" = "设置";
 "title.commodity" = "商品详情";
+"title.nickname" = "昵称";
+"title.satisfaction" = "满意度评价";
+
+//choice
+"choice.preSale" = "售前客服";
+"choice.afterSale" = "售后客服";
+
+//satisfaction
+"satisfaction.message" = "请对我的服务做出评价";
+"satisfaction.evaluate" = "立即评价";
+"satisfaction.evaluated" = "已评价";
+"satisfaction.nickname" = "客服昵称";
 
 //message
 "message.camera" = "相机";

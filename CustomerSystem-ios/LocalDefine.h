@@ -24,9 +24,12 @@
 #define CHATVIEWBACKGROUNDCOLOR [UIColor colorWithRed:0.936 green:0.932 blue:0.907 alpha:1]
 
 #define kDefaultAppKey @"sipsoft#sandbox"
-//#define kDefaultAppKey @"easemob-demo#chatdemoui"
 #define kDefaultCustomerName @"customer0"
+//#define kDefaultCustomerName @"130121"
+//#define kDefaultAppKey @"culiukeji#99baoyou"
+//#define kDefaultCustomerName @"culiutest3"
 #define kAppKey @"CSEM_appkey"
 #define kCustomerName @"CSEM_name"
+#define kCustomerNickname @"CSEM_nickname"
 
 #endif

@@ -11,10 +11,11 @@
   */
 
 #import "ChatViewController.h"
-
+#import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
+#import "EMCDDeviceManager.h"
 #import "SRRefreshView.h"
 #import "DXChatBarMoreView.h"
 #import "DXFaceView.h"
@@ -29,10 +30,15 @@
 #import "UIViewController+HUD.h"
 #import "NSDate+Category.h"
 #import "ChatViewController+Category.h"
+#import "EMIMHelper.h"
+#import "SatisfactionViewController.h"
+#import "ConvertToCommonEmoticonsHelper.h"
 
 #define KPageCount 20
+#define kafterSale @"shouhou"
+#define kpreSale @"shouqian"
 
-@interface ChatViewController ()<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, SRRefreshDelegate, IChatManagerDelegate, DXChatBarMoreViewDelegate, DXMessageToolBarDelegate, LocationViewDelegate, IDeviceManagerDelegate>
+@interface ChatViewController ()<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, SRRefreshDelegate, IChatManagerDelegate, DXChatBarMoreViewDelegate, DXMessageToolBarDelegate, LocationViewDelegate, IDeviceManagerDelegate,SatisfactionDelegate>
 {
     UIMenuController *_menuController;
     UIMenuItem *_copyMenuItem;
@@ -61,6 +67,8 @@
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (nonatomic) BOOL isScrollToBottom;
 @property (nonatomic) BOOL isPlayingAudio;
+@property (nonatomic) EMDemoSaleType saleType;
+
 
 @end
 
@@ -85,6 +93,24 @@
     return self;
 }
 
+- (instancetype)initWithChatter:(NSString *)chatter type:(EMDemoSaleType)type
+{
+    self = [super initWithNibName:nil bundle:nil];
+    if (self) {
+        _isPlayingAudio = NO;
+        _chatter = chatter;
+        _isChatGroup = NO;
+        _messages = [NSMutableArray array];
+        _saleType = type;
+        
+        //根据接收者的username获取当前会话的管理者
+        _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:chatter isGroup:_isChatGroup];
+        [_conversation markAllMessagesAsRead:YES];
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -97,7 +123,7 @@
     }
     
     #warning 以下三行代码必须写，注册为SDK的ChatManager的delegate
-    [[[EaseMob sharedInstance] deviceManager] addDelegate:self onQueue:nil];
+    [EMCDDeviceManager sharedInstance].delegate = self;
     [[EaseMob sharedInstance].chatManager removeDelegate:self];
     //注册为SDK的ChatManager的delegate
     [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
@@ -120,18 +146,13 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyBoardHidden)];
     [self.view addGestureRecognizer:tap];
     
-    if ([_commodityInfo count] > 0) {
-        UIImage *image = [_commodityInfo objectForKey:@"image"];
-        NSString *title = [_commodityInfo objectForKey:@"title"];
-        NSString *price = [_commodityInfo objectForKey:@"price"];
-        if (image && [title length] > 0 && [price length] > 0) {
-            [self sendCommodityMessageWithImage:image ext:@{@"type":@"custom", @"title":title, @"price":price}];
-        }
-        _commodityInfo = nil;
-    }
-    
     //通过会话管理者获取已收发消息
     [self loadMoreMessages];
+    
+    if ([_commodityInfo count] > 0) {
+        [self sendCommodityMessageWithInfo:_commodityInfo];
+        _commodityInfo = nil;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -158,7 +179,7 @@
     
     // 设置当前conversation的所有message为已读
     [_conversation markAllMessagesAsRead:YES];
-    [[EaseMob sharedInstance].deviceManager disableProximitySensor];
+    [[EMCDDeviceManager sharedInstance] disableProximitySensor];
 }
 
 - (void)dealloc
@@ -173,12 +194,12 @@
     _chatToolBar.delegate = nil;
     _chatToolBar = nil;
     
-    [[EaseMob sharedInstance].chatManager stopPlayingAudio];
+    [[EMCDDeviceManager sharedInstance] stopPlaying];
+    [EMCDDeviceManager sharedInstance].delegate = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 #warning 以下第一行代码必须写，将self从ChatManager的代理中移除
     [[EaseMob sharedInstance].chatManager removeDelegate:self];
-    [[[EaseMob sharedInstance] deviceManager] removeDelegate:self];
 }
 
 #pragma mark - 
@@ -209,6 +230,7 @@
 }
 
 #pragma mark - helper
+
 - (NSURL *)convert2Mp4:(NSURL *)movUrl {
     NSURL *mp4Url = nil;
     AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:movUrl options:nil];
@@ -488,6 +510,13 @@
         [chatManager asyncResendMessage:messageModel.message progress:nil];
     }else if([eventName isEqualToString:kRouterEventChatCellVideoTapEventName]){
         [self chatVideoCellPressed:model];
+    }else if ([eventName isEqualToString:kRouterEventMenuTapEventName]) {
+        [self sendTextMessage:[userInfo objectForKey:@"text"]];
+    } else if ([eventName isEqualToString:kRouterEventSatisfactionBubbleTapEventName]) {
+        SatisfactionViewController *view = [[SatisfactionViewController alloc] init];
+        view.messageModel = model;
+        view.delegate = self;
+        [self.navigationController pushViewController:view animated:YES];
     }
 }
 
@@ -528,17 +557,15 @@
         if (isPrepare) {
             _isPlayingAudio = YES;
             __weak ChatViewController *weakSelf = self;
-            [[[EaseMob sharedInstance] deviceManager] enableProximitySensor];
-            [[EaseMob sharedInstance].chatManager asyncPlayAudio:model.chatVoice completion:^(EMError *error) {
+            [[EMCDDeviceManager sharedInstance] enableProximitySensor];
+            [[EMCDDeviceManager sharedInstance] asyncPlayingWithPath:model.chatVoice.localPath completion:^(NSError *error) {
                 [weakSelf.messageReadManager stopMessageAudioModel];
-                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakSelf.tableView reloadData];
-                    
                     weakSelf.isPlayingAudio = NO;
-                    [[[EaseMob sharedInstance] deviceManager] disableProximitySensor];
+                    [[EMCDDeviceManager sharedInstance] disableProximitySensor];
                 });
-            } onQueue:nil];
+            }];
         }
         else{
             _isPlayingAudio = NO;
@@ -998,19 +1025,13 @@
 {
     [_messages addObject:message];
     NSArray *messages = [self formatMessage:message];
-    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < messages.count; i++) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.dataSource.count+i inSection:0];
-        [indexPaths addObject:indexPath];
-    }
-    
-    [self.tableView beginUpdates];
-    [self.dataSource addObjectsFromArray:messages];
-    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView endUpdates];
-    
-    [self.tableView scrollToRowAtIndexPath:[indexPaths lastObject] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    __weak ChatViewController *weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.dataSource addObjectsFromArray:messages];
+        [weakSelf.tableView reloadData];
+        [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[weakSelf.dataSource count] - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    });
 }
 
 - (void)scrollViewToBottom:(BOOL)animated
@@ -1032,6 +1053,7 @@
     [self showHint:@"deleting..."];
     [self.conversation removeAllMessages];
     [self.dataSource removeAllObjects];
+    [_messages removeAllObjects];
     [self.tableView reloadData];
     [self hideHud];
 }
@@ -1071,34 +1093,129 @@
 
 -(void)sendTextMessage:(NSString *)textMessage
 {
-    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:textMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:nil];
+    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:textMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getCmdUpdateVisitorInfoSrc]];
     [self addMessage:tempMessage];
 }
 
 -(void)sendImageMessage:(UIImage *)imageMessage
 {
-    EMMessage *tempMessage = [ChatSendHelper sendImageMessageWithImage:imageMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:nil];
+    EMMessage *tempMessage = [ChatSendHelper sendImageMessageWithImage:imageMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getCmdUpdateVisitorInfoSrc]];
     [self addMessage:tempMessage];
 }
 
 -(void)sendAudioMessage:(EMChatVoice *)voice
 {
-    EMMessage *tempMessage = [ChatSendHelper sendVoice:voice toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:nil];
+    EMMessage *tempMessage = [ChatSendHelper sendVoice:voice toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getCmdUpdateVisitorInfoSrc]];
     [self addMessage:tempMessage];
 }
 
 -(void)sendVideoMessage:(EMChatVideo *)video
 {
-    EMMessage *tempMessage = [ChatSendHelper sendVideo:video toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:nil];
+    EMMessage *tempMessage = [ChatSendHelper sendVideo:video toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getCmdUpdateVisitorInfoSrc]];
     [self addMessage:tempMessage];
 }
 
-- (void)sendCommodityMessageWithImage:(UIImage *)image ext:(NSDictionary *)ext
+- (void)sendCommodityMessageWithInfo:(NSDictionary *)info
 {
-    if(image){
-        EMMessage *tempMessage = [ChatSendHelper sendImageMessageWithImage:image toUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO ext:ext];
-        [self addMessage:tempMessage];
+    NSString *type = [info objectForKey:@"type"];
+    NSString *title = [info objectForKey:@"title"];
+    NSString *desc = [info objectForKey:@"desc"];
+    NSString *price = [info objectForKey:@"price"];
+    NSString *imageUrl = [info objectForKey:@"img_url"];
+    NSString *itemUrl = [info objectForKey:@"item_url"];
+    
+    NSMutableDictionary *itemDic = [NSMutableDictionary dictionary];
+    if (title) {
+        [itemDic setObject:title forKey:@"title"];
     }
+    if (desc) {
+        [itemDic setObject:desc forKey:@"desc"];
+    }
+    if (price) {
+        [itemDic setObject:price forKey:@"price"];
+    }
+    if (imageUrl) {
+        [itemDic setObject:imageUrl forKey:@"img_url"];
+    }
+    if (itemUrl) {
+        [itemDic setObject:itemUrl forKey:@"item_url"];
+    }
+    
+    if ([type isEqualToString:@"order"]) {
+        NSString *orderTitle = [info objectForKey:@"order_title"];
+        if (orderTitle) {
+            [itemDic setObject:orderTitle forKey:@"order_title"];
+        }
+    }
+    
+    NSString *imageName = [info objectForKey:@"imageName"];
+    NSMutableDictionary *extDic = [NSMutableDictionary dictionaryWithDictionary:[self getCmdUpdateVisitorInfoSrc]];
+    [extDic setObject:@{type:itemDic} forKey:@"msgtype"];
+    [extDic setObject:imageName forKey:@"imageName"];
+    [extDic setObject:@"custom" forKey:@"type"];
+    
+    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:@"客服图文混排消息" toUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO ext:extDic];
+    [self addMessage:tempMessage];
+}
+
+- (NSDictionary*)getUserInfoAttribute
+{
+    NSDictionary *ext = nil;
+    NSMutableDictionary *visitor = [NSMutableDictionary dictionary];
+    [visitor setObject:@"李明" forKey:@"trueName"];
+    [visitor setObject:@"10000" forKey:@"qq"];
+    [visitor setObject:@"13512345678" forKey:@"phone"];
+    [visitor setObject:@"环信" forKey:@"companyName"];
+    [visitor setObject:[[EMIMHelper defaultHelper] nickname] forKey:@"userNickname"];
+    [visitor setObject:@"abc@123.com" forKey:@"email"];
+    switch (_saleType) {
+        case ePreSaleType:
+            ext = @{@"visitor":visitor,@"queueName":kpreSale};
+            break;
+        case eAfterSaleType:
+            ext = @{@"visitor":visitor,@"queueName":kafterSale};
+            break;
+        case eSaleTypeNone:
+            ext = @{@"visitor":visitor};
+            break;
+        default:
+            break;
+    }
+    return ext;
+}
+
+- (NSDictionary*)getCmdUpdateVisitorInfoSrc
+{
+    NSDictionary *ext = nil;
+    NSMutableDictionary *visitor = [NSMutableDictionary dictionary];
+    [visitor setObject:[NSString stringWithFormat:@"name-test from hxid:%@",[EMIMHelper defaultHelper].username] forKey:@"name"];
+    NSDictionary* weichat = [self getUserInfoAttribute];
+//    ext = @{@"cmd":@{@"updateVisitorInfoSrc":@{@"params":visitor}},kMesssageExtWeChat:weichat};
+    ext = @{kMesssageExtWeChat:weichat};
+    return ext;
+}
+
+#pragma mark 
+- (void)commitSatisfactionWithExt:(NSDictionary*)ext messageModel:(MessageModel*)model
+{
+    NSString *willSendText = [ConvertToCommonEmoticonsHelper convertToCommonEmoticons:@""];
+    EMChatText *text = [[EMChatText alloc] initWithText:willSendText];
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithChatObject:text];
+    
+    EMMessage *retureMsg = [[EMMessage alloc] initWithReceiver:_conversation.chatter bodies:[NSArray arrayWithObject:body]];
+    retureMsg.requireEncryption = NO;
+    retureMsg.ext = @{kMesssageExtWeChat:ext};
+    [[EaseMob sharedInstance].chatManager asyncSendMessage:retureMsg progress:nil prepare:^(EMMessage *message, EMError *error) {} onQueue:dispatch_get_main_queue() completion:^(EMMessage *message, EMError *error) {
+        if (!error) {
+            NSMutableDictionary *messageExt = [NSMutableDictionary dictionaryWithDictionary:model.message.ext];
+            [[messageExt objectForKey:@"weichat"] setObject:[NSNumber numberWithBool:YES] forKey:@"enable"];
+            model.message.ext = messageExt;
+            [model.message updateMessageExtToDB];
+            [self.tableView reloadData];
+        }
+        [_conversation removeMessage:retureMsg];
+    } onQueue:dispatch_get_main_queue()];
+    
 }
 
 @end

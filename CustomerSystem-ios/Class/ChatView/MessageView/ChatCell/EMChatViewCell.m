@@ -92,7 +92,7 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
     [super setMessageModel:model];
     
     if (model.isChatGroup) {
-        _nameLabel.text = model.username;
+        _nameLabel.text = @"演示客户";
         _nameLabel.hidden = model.isSender;
     }
     
@@ -152,17 +152,20 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
     switch (messageModel.type) {
         case eMessageBodyType_Text:
         {
-            return [[EMChatTextBubbleView alloc] init];
+            if ([EMChatTextMenuBubbleView isMenuMessage:messageModel.message]) {
+                return [[EMChatTextMenuBubbleView alloc] init];
+            } else if ([messageModel.message.ext objectForKey:@"msgtype"]) {
+                return [[EMChatCustomBubbleView alloc] init];
+            } else if ([EMChatSatisfactionBubbleView isSatisfactionMessage:messageModel.message]) {
+                return [[EMChatSatisfactionBubbleView alloc] init];
+            } else{
+                return [[EMChatTextBubbleView alloc] init];
+            }
         }
             break;
         case eMessageBodyType_Image:
         {
-            if ([messageModel.message.ext objectForKey:@"type"]) {
-                return [[EMChatCustomBubbleView alloc] init];
-            }
-            else{
-                return [[EMChatImageBubbleView alloc] init];
-            }
+            return [[EMChatImageBubbleView alloc] init];
         }
             break;
         case eMessageBodyType_Voice:
@@ -192,19 +195,19 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
     switch (messageModel.type) {
         case eMessageBodyType_Text:
         {
-            return [EMChatTextBubbleView heightForBubbleWithObject:messageModel];
+            if ([messageModel.message.ext objectForKey:@"msgtype"])
+            {
+                return [EMChatCustomBubbleView heightForBubbleWithObject:messageModel];
+            } else if ([EMChatSatisfactionBubbleView isSatisfactionMessage:messageModel.message]) {
+                return [EMChatSatisfactionBubbleView heightForBubbleWithObject:messageModel];
+            } else{
+                return [EMChatTextBubbleView heightForBubbleWithObject:messageModel];
+            }
         }
             break;
         case eMessageBodyType_Image:
         {
-            if ([messageModel.message.ext objectForKey:@"type"])
-            {
-                return [EMChatCustomBubbleView heightForBubbleWithObject:messageModel];
-            }
-            else
-            {
-                return [EMChatImageBubbleView heightForBubbleWithObject:messageModel];
-            }
+            return [EMChatImageBubbleView heightForBubbleWithObject:messageModel];
         }
             break;
         case eMessageBodyType_Voice:
