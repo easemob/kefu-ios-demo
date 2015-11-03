@@ -84,6 +84,8 @@
 "satisfaction.evaluate" = "立即评价";
 "satisfaction.evaluated" = "已评价";
 "satisfaction.nickname" = "客服昵称";
+"satisfaction.commit" = "提交";
+"satisfaction.alert" = "请先选择评星";
 
 //message
 "message.camera" = "相机";

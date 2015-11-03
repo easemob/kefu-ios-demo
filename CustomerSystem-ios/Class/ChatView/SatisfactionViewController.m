@@ -126,7 +126,7 @@
 {
     if (_commitBtn == nil) {
         _commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_commitBtn setTitle:@"提交" forState:UIControlStateNormal];
+        [_commitBtn setTitle:NSLocalizedString(@"satisfaction.commit", @"commit") forState:UIControlStateNormal];
         [_commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _commitBtn.frame = CGRectMake(20, CGRectGetMaxY(_textView.frame) + kViewSpace, kScreenWidth - 40, 40);
         _commitBtn.layer.cornerRadius = 5.f;
@@ -149,6 +149,11 @@
 
 - (void)commit
 {
+    if (!_starRateView.isTap) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"satisfaction.alert", @"please evaluate first") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"Ok"), nil];
+        [alert show];
+        return;
+    }
     if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithExt:messageModel:)]) {
         if ([self.messageModel.message.ext objectForKey:kMesssageExtWeChat]) {
             NSDictionary *weichat = [self.messageModel.message.ext objectForKey:kMesssageExtWeChat];

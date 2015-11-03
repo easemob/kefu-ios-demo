@@ -1093,25 +1093,25 @@
 
 -(void)sendTextMessage:(NSString *)textMessage
 {
-    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:textMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getCmdUpdateVisitorInfoSrc]];
+    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:textMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getWeiChat]];
     [self addMessage:tempMessage];
 }
 
 -(void)sendImageMessage:(UIImage *)imageMessage
 {
-    EMMessage *tempMessage = [ChatSendHelper sendImageMessageWithImage:imageMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getCmdUpdateVisitorInfoSrc]];
+    EMMessage *tempMessage = [ChatSendHelper sendImageMessageWithImage:imageMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getWeiChat]];
     [self addMessage:tempMessage];
 }
 
 -(void)sendAudioMessage:(EMChatVoice *)voice
 {
-    EMMessage *tempMessage = [ChatSendHelper sendVoice:voice toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getCmdUpdateVisitorInfoSrc]];
+    EMMessage *tempMessage = [ChatSendHelper sendVoice:voice toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getWeiChat]];
     [self addMessage:tempMessage];
 }
 
 -(void)sendVideoMessage:(EMChatVideo *)video
 {
-    EMMessage *tempMessage = [ChatSendHelper sendVideo:video toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getCmdUpdateVisitorInfoSrc]];
+    EMMessage *tempMessage = [ChatSendHelper sendVideo:video toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getWeiChat]];
     [self addMessage:tempMessage];
 }
 
@@ -1149,7 +1149,7 @@
     }
     
     NSString *imageName = [info objectForKey:@"imageName"];
-    NSMutableDictionary *extDic = [NSMutableDictionary dictionaryWithDictionary:[self getCmdUpdateVisitorInfoSrc]];
+    NSMutableDictionary *extDic = [NSMutableDictionary dictionaryWithDictionary:[self getWeiChat]];
     [extDic setObject:@{type:itemDic} forKey:@"msgtype"];
     [extDic setObject:imageName forKey:@"imageName"];
     [extDic setObject:@"custom" forKey:@"type"];
@@ -1166,7 +1166,8 @@
     [visitor setObject:@"10000" forKey:@"qq"];
     [visitor setObject:@"13512345678" forKey:@"phone"];
     [visitor setObject:@"环信" forKey:@"companyName"];
-    [visitor setObject:[[EMIMHelper defaultHelper] nickname] forKey:@"userNickname"];
+    NSString *nickname = [[EMIMHelper defaultHelper] nickname];
+    [visitor setObject:nickname.length==0?@"李明":nickname forKey:@"userNickname"];
     [visitor setObject:@"abc@123.com" forKey:@"email"];
     switch (_saleType) {
         case ePreSaleType:
@@ -1184,14 +1185,21 @@
     return ext;
 }
 
+- (NSDictionary*)getWeiChat
+{
+    NSDictionary *ext = nil;
+    NSDictionary* weichat = [self getUserInfoAttribute];
+    ext = @{kMesssageExtWeChat:weichat};
+    return ext;
+}
+
 - (NSDictionary*)getCmdUpdateVisitorInfoSrc
 {
     NSDictionary *ext = nil;
     NSMutableDictionary *visitor = [NSMutableDictionary dictionary];
     [visitor setObject:[NSString stringWithFormat:@"name-test from hxid:%@",[EMIMHelper defaultHelper].username] forKey:@"name"];
     NSDictionary* weichat = [self getUserInfoAttribute];
-//    ext = @{@"cmd":@{@"updateVisitorInfoSrc":@{@"params":visitor}},kMesssageExtWeChat:weichat};
-    ext = @{kMesssageExtWeChat:weichat};
+    ext = @{@"cmd":@{@"updateVisitorInfoSrc":@{@"params":visitor}},kMesssageExtWeChat:weichat};
     return ext;
 }
 
@@ -1207,10 +1215,10 @@
     retureMsg.ext = @{kMesssageExtWeChat:ext};
     [[EaseMob sharedInstance].chatManager asyncSendMessage:retureMsg progress:nil prepare:^(EMMessage *message, EMError *error) {} onQueue:dispatch_get_main_queue() completion:^(EMMessage *message, EMError *error) {
         if (!error) {
-            NSMutableDictionary *messageExt = [NSMutableDictionary dictionaryWithDictionary:model.message.ext];
-            [[messageExt objectForKey:@"weichat"] setObject:[NSNumber numberWithBool:YES] forKey:@"enable"];
-            model.message.ext = messageExt;
-            [model.message updateMessageExtToDB];
+//            NSMutableDictionary *messageExt = [NSMutableDictionary dictionaryWithDictionary:model.message.ext];
+//            [[messageExt objectForKey:@"weichat"] setObject:[NSNumber numberWithBool:YES] forKey:@"enable"];
+//            model.message.ext = messageExt;
+//            [model.message updateMessageExtToDB];
             [self.tableView reloadData];
         }
         [_conversation removeMessage:retureMsg];

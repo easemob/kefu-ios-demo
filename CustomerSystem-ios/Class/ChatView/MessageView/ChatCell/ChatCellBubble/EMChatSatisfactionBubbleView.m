@@ -48,7 +48,7 @@ NSString *const kRouterEventSatisfactionBubbleTapEventName = @"kRouterEventSatis
     [self.textLabel setFrame:frame];
     
     frame.size.height = 50.f;
-    frame.origin.x = (CGRectGetWidth([UIScreen mainScreen].bounds) - CGRectGetWidth(frame))/2 - 45;
+    frame.origin.x = CGRectGetMaxX(self.textLabel.frame) - CGRectGetWidth(frame);
     frame.origin.y = CGRectGetMaxY(self.textLabel.frame) + 20;
     [self.satisfactionBtn setFrame:frame];
     
