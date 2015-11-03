@@ -1223,7 +1223,6 @@
         }
         [_conversation removeMessage:retureMsg];
     } onQueue:dispatch_get_main_queue()];
-    
 }
 
 @end
