@@ -30,5 +30,6 @@
 //#define kDefaultCustomerName @"culiutest3"
 #define kAppKey @"CSEM_appkey"
 #define kCustomerName @"CSEM_name"
+#define kCustomerNickname @"CSEM_nickname"
 
 #endif

@@ -17,6 +17,7 @@ static EMIMHelper *helper = nil;
 
 @synthesize appkey = _appkey;
 @synthesize cname = _cname;
+@synthesize nickname = _nickname;
 
 @synthesize username = _username;
 @synthesize password = _password;
@@ -36,6 +37,12 @@ static EMIMHelper *helper = nil;
         if ([_cname length] == 0) {
             _cname = kDefaultCustomerName;
             [userDefaults setObject:_cname forKey:kCustomerName];
+        }
+        
+        _nickname = [userDefaults objectForKey:kCustomerNickname];
+        if ([_nickname length] == 0) {
+            _nickname = @"";
+            [userDefaults setObject:_nickname forKey:kCustomerNickname];
         }
         
         _username = [userDefaults objectForKey:@"username"];
@@ -91,6 +98,15 @@ static EMIMHelper *helper = nil;
 
 #pragma mark - info
 
+- (void)setNickname:(NSString *)nickname
+{
+    if ([nickname length] > 0 && ![nickname isEqualToString:_nickname]) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:nickname forKey:kCustomerNickname];
+        _nickname = nickname;
+    }
+}
+
 - (void)setCname:(NSString *)cname
 {
     if ([cname length] > 0 && ![cname isEqualToString:_cname]) {
@@ -113,6 +129,12 @@ static EMIMHelper *helper = nil;
     if ([_cname length] == 0) {
         _cname = kDefaultCustomerName;
         [userDefaults setObject:_cname forKey:kCustomerName];
+    }
+    
+    _nickname = [userDefaults objectForKey:kCustomerNickname];
+    if ([_nickname length] == 0) {
+        _nickname = @"";
+        [userDefaults setObject:_nickname forKey:kCustomerNickname];
     }
     
     [userDefaults removeObjectForKey:@"username"];

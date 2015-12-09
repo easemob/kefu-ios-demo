@@ -14,6 +14,8 @@
 
 @property (strong, nonatomic) NSString *cname;
 
+@property (strong, nonatomic) NSString *nickname;
+
 @property (strong, nonatomic) NSString *username;
 
 @property (strong, nonatomic) NSString *password;

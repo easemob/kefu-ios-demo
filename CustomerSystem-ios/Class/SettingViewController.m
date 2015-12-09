@@ -18,6 +18,7 @@
 {
     NSString *_appkey;
     NSString *_cname;
+    NSString *_nickname;
 }
 
 @end
@@ -42,6 +43,7 @@
     
     _appkey = [[EMIMHelper defaultHelper] appkey];
     _cname = [[EMIMHelper defaultHelper] cname];
+    _nickname = [[EMIMHelper defaultHelper] nickname];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingChange:) name:KNOTIFICATION_SETTINGCHANGE object:nil];
 }
@@ -60,7 +62,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -99,8 +101,13 @@
             tempLabel.text = _cname;
         }
             break;
-            
         case 2:
+        {
+            cell.textLabel.text = NSLocalizedString(@"setNickname", @"Nickname");
+            tempLabel.text = _nickname;
+        }
+            break;
+        case 3:
         {
             cell.textLabel.text = NSLocalizedString(@"setting.feedback", @"Feedback");
             tempLabel.text = @"";
@@ -154,8 +161,14 @@
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
-            
         case 2:
+        {
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"nickname" content:_nickname];
+            editController.title = NSLocalizedString(@"title.nickname", @"Nickname");
+            [self.navigationController pushViewController:editController animated:YES];
+        }
+            break;
+        case 3:
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:nil];
         }
@@ -216,6 +229,9 @@
         else if ([type isEqualToString:@"cname"]){
             _cname = content;
             [[EMIMHelper defaultHelper] setCname:content];
+        } else if ([type isEqualToString:@"nickname"]) {
+            _nickname = content;
+            [[EMIMHelper defaultHelper] setNickname:content];
         }
         
         [self.tableView reloadData];

@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D270852B1BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D27085271BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a */; };
+		D270852C1BDDE85F0086DDE7 /* EaseMob.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D27085291BDDE85F0086DDE7 /* EaseMob.bundle */; };
+		D270852F1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D270852E1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m */; };
+		D27085321BDE14350086DDE7 /* SatisfactionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D27085311BDE14350086DDE7 /* SatisfactionViewController.m */; };
+		D27085361BDE2B740086DDE7 /* CWStarRateView.m in Sources */ = {isa = PBXBuildFile; fileRef = D27085351BDE2B740086DDE7 /* CWStarRateView.m */; };
+		D2769D231B9041DA003D9E3D /* MoreChoiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2769D221B9041DA003D9E3D /* MoreChoiceView.m */; };
+		D2769D271B9052D7003D9E3D /* button_demo_department@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2769D251B9052D7003D9E3D /* button_demo_department@2x.png */; };
+		D2769D281B9052D7003D9E3D /* button_demo_department_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2769D261B9052D7003D9E3D /* button_demo_department_select@2x.png */; };
+		D27967A01BDE53D200842C28 /* bg_rl_satisfaction.png in Resources */ = {isa = PBXBuildFile; fileRef = D279679F1BDE53D200842C28 /* bg_rl_satisfaction.png */; };
+		D27967A31BDF30B700842C28 /* icon_star_select.png in Resources */ = {isa = PBXBuildFile; fileRef = D27967A11BDF30B700842C28 /* icon_star_select.png */; };
+		D27967A41BDF30B700842C28 /* icon_star.png in Resources */ = {isa = PBXBuildFile; fileRef = D27967A21BDF30B700842C28 /* icon_star.png */; };
+		D2BFC2911BB2416300FFD771 /* EMChatTextMenuBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BFC2901BB2416300FFD771 /* EMChatTextMenuBubbleView.m */; };
 		EB30A5341B20637100FD223F /* EMAudioPlayerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EB30A5261B20637100FD223F /* EMAudioPlayerUtil.m */; };
 		EB30A5351B20637100FD223F /* EMAudioRecorderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EB30A5281B20637100FD223F /* EMAudioRecorderUtil.m */; };
 		EB30A5361B20637100FD223F /* EMCDDeviceManager+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = EB30A52A1B20637100FD223F /* EMCDDeviceManager+Media.m */; };
@@ -286,6 +298,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D27085271BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseMobClientSDKLite.a; sourceTree = "<group>"; };
+		D27085291BDDE85F0086DDE7 /* EaseMob.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseMob.bundle; sourceTree = "<group>"; };
+		D270852D1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatSatisfactionBubbleView.h; sourceTree = "<group>"; };
+		D270852E1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMChatSatisfactionBubbleView.m; sourceTree = "<group>"; };
+		D27085301BDE14350086DDE7 /* SatisfactionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SatisfactionViewController.h; sourceTree = "<group>"; };
+		D27085311BDE14350086DDE7 /* SatisfactionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SatisfactionViewController.m; sourceTree = "<group>"; };
+		D27085341BDE2B740086DDE7 /* CWStarRateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWStarRateView.h; sourceTree = "<group>"; };
+		D27085351BDE2B740086DDE7 /* CWStarRateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWStarRateView.m; sourceTree = "<group>"; };
+		D2769D211B9041DA003D9E3D /* MoreChoiceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreChoiceView.h; sourceTree = "<group>"; };
+		D2769D221B9041DA003D9E3D /* MoreChoiceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreChoiceView.m; sourceTree = "<group>"; };
+		D2769D251B9052D7003D9E3D /* button_demo_department@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_demo_department@2x.png"; sourceTree = "<group>"; };
+		D2769D261B9052D7003D9E3D /* button_demo_department_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_demo_department_select@2x.png"; sourceTree = "<group>"; };
+		D279679F1BDE53D200842C28 /* bg_rl_satisfaction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_rl_satisfaction.png; sourceTree = "<group>"; };
+		D27967A11BDF30B700842C28 /* icon_star_select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_star_select.png; sourceTree = "<group>"; };
+		D27967A21BDF30B700842C28 /* icon_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_star.png; sourceTree = "<group>"; };
+		D27967A51BDF33D200842C28 /* CustomerSystem.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerSystem.pch; sourceTree = "<group>"; };
+		D2BFC28F1BB2416300FFD771 /* EMChatTextMenuBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatTextMenuBubbleView.h; sourceTree = "<group>"; };
+		D2BFC2901BB2416300FFD771 /* EMChatTextMenuBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMChatTextMenuBubbleView.m; sourceTree = "<group>"; };
 		EB30A5221B20637100FD223F /* EMCDDeviceManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCDDeviceManagerDelegate.h; sourceTree = "<group>"; };
 		EB30A5231B20637100FD223F /* EMCDDeviceManagerProximitySensorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCDDeviceManagerProximitySensorDelegate.h; sourceTree = "<group>"; };
 		EB30A5251B20637100FD223F /* EMAudioPlayerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAudioPlayerUtil.h; sourceTree = "<group>"; };
@@ -699,6 +729,7 @@
 				EB62E4491A8E2D8700705655 /* libiconv.dylib in Frameworks */,
 				EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */,
 				EB62E4431A8E2D7300705655 /* SystemConfiguration.framework in Frameworks */,
+				D270852B1BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a in Frameworks */,
 				EB62E4411A8E2D6B00705655 /* libresolv.dylib in Frameworks */,
 				EB62E43F1A8E2D6200705655 /* CoreLocation.framework in Frameworks */,
 				EB30A54E1B2063C200FD223F /* libopencore-amrnb.a in Frameworks */,
@@ -719,6 +750,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D27084BC1BDDE85F0086DDE7 /* EaseMobSDK */ = {
+			isa = PBXGroup;
+			children = (
+				D27085251BDDE85F0086DDE7 /* lib */,
+				D27085281BDDE85F0086DDE7 /* resources */,
+			);
+			name = EaseMobSDK;
+			path = ../EaseMobSDK;
+			sourceTree = "<group>";
+		};
+		D27085251BDDE85F0086DDE7 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				D27085271BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		D27085281BDDE85F0086DDE7 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				D27085291BDDE85F0086DDE7 /* EaseMob.bundle */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+		D27085331BDE2B740086DDE7 /* StarRatingView */ = {
+			isa = PBXGroup;
+			children = (
+				D27967A11BDF30B700842C28 /* icon_star_select.png */,
+				D27967A21BDF30B700842C28 /* icon_star.png */,
+				D279679F1BDE53D200842C28 /* bg_rl_satisfaction.png */,
+				D27085341BDE2B740086DDE7 /* CWStarRateView.h */,
+				D27085351BDE2B740086DDE7 /* CWStarRateView.m */,
+			);
+			path = StarRatingView;
+			sourceTree = "<group>";
+		};
+		D2769D201B904185003D9E3D /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				D2769D211B9041DA003D9E3D /* MoreChoiceView.h */,
+				D2769D221B9041DA003D9E3D /* MoreChoiceView.m */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
+		D2769D241B9052D7003D9E3D /* home */ = {
+			isa = PBXGroup;
+			children = (
+				D2769D251B9052D7003D9E3D /* button_demo_department@2x.png */,
+				D2769D261B9052D7003D9E3D /* button_demo_department_select@2x.png */,
+			);
+			path = home;
+			sourceTree = "<group>";
+		};
 		EB30A5201B20637100FD223F /* DeviceUtil */ = {
 			isa = PBXGroup;
 			children = (
@@ -866,6 +953,7 @@
 		EB4B05EE1AC685E900DCF67B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D2769D241B9052D7003D9E3D /* home */,
 				EB4B077C1AC699EB00DCF67B /* commodity@2x.png */,
 				EB4B077A1AC698DB00DCF67B /* message@2x.png */,
 				EB4B06FE1AC688A400DCF67B /* mallImage0@2x.png */,
@@ -1114,6 +1202,7 @@
 		EB62E1F01A8DD92D00705655 = {
 			isa = PBXGroup;
 			children = (
+				D27084BC1BDDE85F0086DDE7 /* EaseMobSDK */,
 				EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */,
 				EB62E4541A8E2DAB00705655 /* Foundation.framework */,
 				EB62E4521A8E2DA400705655 /* UIKit.framework */,
@@ -1168,6 +1257,7 @@
 				EB62E3B61A8DE09600705655 /* LocalDefine.h */,
 				EB62E1FD1A8DD92D00705655 /* Info.plist */,
 				EB62E1FE1A8DD92D00705655 /* main.m */,
+				D27967A51BDF33D200842C28 /* CustomerSystem.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1192,6 +1282,7 @@
 		EB62E2221A8DDA4800705655 /* 3rdparty */ = {
 			isa = PBXGroup;
 			children = (
+				D27085331BDE2B740086DDE7 /* StarRatingView */,
 				EB30A53B1B2063C200FD223F /* VoiceConvert */,
 				EB30A5201B20637100FD223F /* DeviceUtil */,
 				EB62E2231A8DDA4800705655 /* Emoji */,
@@ -1402,6 +1493,7 @@
 		EB62E2981A8DDA4800705655 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				D2769D201B904185003D9E3D /* HomeView */,
 				EB62E3BF1A8E0C9400705655 /* ChatView */,
 				EB62E2991A8DDA4800705655 /* AppDelegate+EaseMob.h */,
 				EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */,
@@ -1438,6 +1530,8 @@
 				EB62E3CC1A8E0C9400705655 /* LocationViewController.m */,
 				EB62E3CD1A8E0C9400705655 /* MessageToolbar */,
 				EB62E3DC1A8E0C9400705655 /* MessageView */,
+				D27085301BDE14350086DDE7 /* SatisfactionViewController.h */,
+				D27085311BDE14350086DDE7 /* SatisfactionViewController.m */,
 			);
 			path = ChatView;
 			sourceTree = "<group>";
@@ -1530,6 +1624,10 @@
 				EB62E3EA1A8E0C9400705655 /* EMChatVideoBubbleView.m */,
 				EBC96E191AC8EC4900A152F3 /* EMChatCustomBubbleView.h */,
 				EBC96E1A1AC8EC4900A152F3 /* EMChatCustomBubbleView.m */,
+				D2BFC28F1BB2416300FFD771 /* EMChatTextMenuBubbleView.h */,
+				D2BFC2901BB2416300FFD771 /* EMChatTextMenuBubbleView.m */,
+				D270852D1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.h */,
+				D270852E1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m */,
 			);
 			path = ChatCellBubble;
 			sourceTree = "<group>";
@@ -1627,8 +1725,10 @@
 				EB4B06BB1AC685E900DCF67B /* call_silence_h.png in Resources */,
 				EB4B06B51AC685E900DCF67B /* call_out.png in Resources */,
 				EB4B06961AC685E900DCF67B /* VoiceSearchFeedback005@2x.png in Resources */,
+				D2769D271B9052D7003D9E3D /* button_demo_department@2x.png in Resources */,
 				EB4B06B01AC685E900DCF67B /* VoiceSearchFeedback018@2x.png in Resources */,
 				EB4B06F91AC685E900DCF67B /* titleBar@2x.png in Resources */,
+				D2769D281B9052D7003D9E3D /* button_demo_department_select@2x.png in Resources */,
 				EB4B06971AC685E900DCF67B /* VoiceSearchFeedback006.png in Resources */,
 				EB4B06C61AC685E900DCF67B /* chatBar_more_faceSelected@2x.png in Resources */,
 				EB4B06A41AC685E900DCF67B /* VoiceSearchFeedback012@2x.png in Resources */,
@@ -1669,6 +1769,7 @@
 				EB4B06D21AC685E900DCF67B /* faceDelete@2x.png in Resources */,
 				EB4B07041AC688A400DCF67B /* mallImage2@2x.png in Resources */,
 				EB4B077B1AC698DB00DCF67B /* message@2x.png in Resources */,
+				D270852C1BDDE85F0086DDE7 /* EaseMob.bundle in Resources */,
 				EB4B06AC1AC685E900DCF67B /* VoiceSearchFeedback016@2x.png in Resources */,
 				EB4B06901AC685E900DCF67B /* VoiceSearchFeedback002@2x.png in Resources */,
 				EB4B06891AC685E900DCF67B /* chatFire_audioPlaying2.png in Resources */,
@@ -1684,6 +1785,7 @@
 				EB62E30A1A8DDA4800705655 /* sr_refresh.png in Resources */,
 				EB4B06DD1AC685E900DCF67B /* chatBar_colorMore_photoSelected@2x.png in Resources */,
 				EB4B06F41AC685E900DCF67B /* chat_sender_audio_playing_full@2x.png in Resources */,
+				D27967A31BDF30B700842C28 /* icon_star_select.png in Resources */,
 				EB4B06EA1AC685E900DCF67B /* chat_receiver_bg@2x.png in Resources */,
 				EB4B06D11AC685E900DCF67B /* faceDelete.png in Resources */,
 				EB4B06D71AC685E900DCF67B /* chatBar_keyboardSelected@2x.png in Resources */,
@@ -1716,9 +1818,11 @@
 				EB4B06A21AC685E900DCF67B /* VoiceSearchFeedback011@2x.png in Resources */,
 				EB4B06E21AC685E900DCF67B /* chat_receiver_audio_playing001@2x.png in Resources */,
 				EB4B06B81AC685E900DCF67B /* call_out_h@2x.png in Resources */,
+				D27967A01BDE53D200842C28 /* bg_rl_satisfaction.png in Resources */,
 				EB4B06851AC685E900DCF67B /* chatFire_audioPlaying0.png in Resources */,
 				EB4B068A1AC685E900DCF67B /* chatFire_audioPlaying2@2x.png in Resources */,
 				EB4B06D91AC685E900DCF67B /* chatBar_question@2x.png in Resources */,
+				D27967A41BDF30B700842C28 /* icon_star.png in Resources */,
 				EB4B06D81AC685E900DCF67B /* chatBar_more@2x.png in Resources */,
 				EB4B06921AC685E900DCF67B /* VoiceSearchFeedback003@2x.png in Resources */,
 				EB4B06EE1AC685E900DCF67B /* chat_sender_audio_playing_001@2x.png in Resources */,
@@ -1789,6 +1893,7 @@
 				EB62E4091A8E0C9400705655 /* EMChatTimeCell.m in Sources */,
 				EB62E2E81A8DDA4800705655 /* MWTapDetectingImageView.m in Sources */,
 				EB62E4071A8E0C9400705655 /* EMChatTextBubbleView.m in Sources */,
+				D27085321BDE14350086DDE7 /* SatisfactionViewController.m in Sources */,
 				EB3959671A8EE4160083B659 /* UIResponder+Router.m in Sources */,
 				EB4B07831AC6B47D00DCF67B /* EMIMHelper.m in Sources */,
 				EB30A5361B20637100FD223F /* EMCDDeviceManager+Media.m in Sources */,
@@ -1801,6 +1906,7 @@
 				EB62E3FC1A8E0C9400705655 /* ConvertToCommonEmoticonsHelper.m in Sources */,
 				EB62E2F31A8DDA4800705655 /* MKAnnotationView+EMWebCache.m in Sources */,
 				EB62E3111A8DDA4800705655 /* AppDelegate+EaseMob.m in Sources */,
+				D2769D231B9041DA003D9E3D /* MoreChoiceView.m in Sources */,
 				EB62E2FF1A8DDA4800705655 /* PSTCollectionViewController.m in Sources */,
 				EB62E2E41A8DDA4800705655 /* MWGridCell.m in Sources */,
 				EB62E30C1A8DDA4800705655 /* SRRefreshView.m in Sources */,
@@ -1810,6 +1916,7 @@
 				EB62E3041A8DDA4800705655 /* PSTCollectionViewUpdateItem.m in Sources */,
 				EB62E2E61A8DDA4800705655 /* MWPhoto.m in Sources */,
 				EB62E3081A8DDA4800705655 /* PSTGridLayoutSection.m in Sources */,
+				D27085361BDE2B740086DDE7 /* CWStarRateView.m in Sources */,
 				EB3959651A8EE4160083B659 /* NSDateFormatter+Category.m in Sources */,
 				EB3959681A8EE4160083B659 /* UIViewController+DismissKeyboard.m in Sources */,
 				EB3959661A8EE4160083B659 /* NSString+Valid.m in Sources */,
@@ -1832,6 +1939,8 @@
 				EB62E2F11A8DDA4800705655 /* EMSDWebImageManager.m in Sources */,
 				EB62E32E1A8DDA4800705655 /* HomeViewController.m in Sources */,
 				EB62E2FB1A8DDA4800705655 /* UIView+EMWebCacheOperation.m in Sources */,
+				D2BFC2911BB2416300FFD771 /* EMChatTextMenuBubbleView.m in Sources */,
+				D270852F1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m in Sources */,
 				EB62E2FA1A8DDA4800705655 /* UIImageView+EMWebCache.m in Sources */,
 				EB62E1FF1A8DD92D00705655 /* main.m in Sources */,
 				EB62E40D1A8E0C9400705655 /* MessageModelManager.m in Sources */,
@@ -2007,19 +2116,27 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PROJECT_DIR}/../EaseMobSDK/include/**",
+				);
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/sdk-egftlguniriaatetrtetyjwlreue/Build/Products/Debug-iphoneos",
+					"${PROJECT_DIR}/../EaseMobSDK/lib",
 					"$(PROJECT_DIR)/CustomerSystem-ios/3rdparty/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/CustomerSystem-ios/3rdparty/VoiceConvert/opencore-amrwb",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "32864BA2-3C98-4A3E-9C26-47601229562F";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -2028,19 +2145,27 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PROJECT_DIR}/../EaseMobSDK/include/**",
+				);
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/sdk-egftlguniriaatetrtetyjwlreue/Build/Products/Debug-iphoneos",
+					"${PROJECT_DIR}/../EaseMobSDK/lib",
 					"$(PROJECT_DIR)/CustomerSystem-ios/3rdparty/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/CustomerSystem-ios/3rdparty/VoiceConvert/opencore-amrwb",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "32864BA2-3C98-4A3E-9C26-47601229562F";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

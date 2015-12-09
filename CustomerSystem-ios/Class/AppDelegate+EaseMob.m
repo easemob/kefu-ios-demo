@@ -25,9 +25,9 @@
 #warning SDK注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
     NSString *apnsCertName = nil;
 #if DEBUG
-    apnsCertName = @"chatdemoui_dev";
+    apnsCertName = @"customer_dev";
 #else
-    apnsCertName = @"chatdemoui";
+    apnsCertName = @"customer";
 #endif
     
     [[EaseMob sharedInstance] registerSDKWithAppKey:[[EMIMHelper defaultHelper] appkey]

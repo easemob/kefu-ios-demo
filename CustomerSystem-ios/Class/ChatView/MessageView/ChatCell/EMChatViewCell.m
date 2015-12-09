@@ -152,10 +152,13 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
     switch (messageModel.type) {
         case eMessageBodyType_Text:
         {
-            if ([messageModel.message.ext objectForKey:@"msgtype"]) {
+            if ([EMChatTextMenuBubbleView isMenuMessage:messageModel.message]) {
+                return [[EMChatTextMenuBubbleView alloc] init];
+            } else if ([messageModel.message.ext objectForKey:@"msgtype"]) {
                 return [[EMChatCustomBubbleView alloc] init];
-            }
-            else{
+            } else if ([EMChatSatisfactionBubbleView isSatisfactionMessage:messageModel.message]) {
+                return [[EMChatSatisfactionBubbleView alloc] init];
+            } else{
                 return [[EMChatTextBubbleView alloc] init];
             }
         }
@@ -195,8 +198,9 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
             if ([messageModel.message.ext objectForKey:@"msgtype"])
             {
                 return [EMChatCustomBubbleView heightForBubbleWithObject:messageModel];
-            }
-            else{
+            } else if ([EMChatSatisfactionBubbleView isSatisfactionMessage:messageModel.message]) {
+                return [EMChatSatisfactionBubbleView heightForBubbleWithObject:messageModel];
+            } else{
                 return [EMChatTextBubbleView heightForBubbleWithObject:messageModel];
             }
         }

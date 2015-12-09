@@ -30,10 +30,15 @@
 #import "UIViewController+HUD.h"
 #import "NSDate+Category.h"
 #import "ChatViewController+Category.h"
+#import "EMIMHelper.h"
+#import "SatisfactionViewController.h"
+#import "ConvertToCommonEmoticonsHelper.h"
 
 #define KPageCount 20
+#define kafterSale @"shouhou"
+#define kpreSale @"shouqian"
 
-@interface ChatViewController ()<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, SRRefreshDelegate, IChatManagerDelegate, DXChatBarMoreViewDelegate, DXMessageToolBarDelegate, LocationViewDelegate, IDeviceManagerDelegate>
+@interface ChatViewController ()<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, SRRefreshDelegate, IChatManagerDelegate, DXChatBarMoreViewDelegate, DXMessageToolBarDelegate, LocationViewDelegate, IDeviceManagerDelegate,SatisfactionDelegate>
 {
     UIMenuController *_menuController;
     UIMenuItem *_copyMenuItem;
@@ -62,6 +67,8 @@
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (nonatomic) BOOL isScrollToBottom;
 @property (nonatomic) BOOL isPlayingAudio;
+@property (nonatomic) EMDemoSaleType saleType;
+
 
 @end
 
@@ -77,6 +84,24 @@
         _chatter = chatter;
         _isChatGroup = isGroup;
         _messages = [NSMutableArray array];
+        
+        //根据接收者的username获取当前会话的管理者
+        _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:chatter isGroup:_isChatGroup];
+        [_conversation markAllMessagesAsRead:YES];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithChatter:(NSString *)chatter type:(EMDemoSaleType)type
+{
+    self = [super initWithNibName:nil bundle:nil];
+    if (self) {
+        _isPlayingAudio = NO;
+        _chatter = chatter;
+        _isChatGroup = NO;
+        _messages = [NSMutableArray array];
+        _saleType = type;
         
         //根据接收者的username获取当前会话的管理者
         _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:chatter isGroup:_isChatGroup];
@@ -485,6 +510,13 @@
         [chatManager asyncResendMessage:messageModel.message progress:nil];
     }else if([eventName isEqualToString:kRouterEventChatCellVideoTapEventName]){
         [self chatVideoCellPressed:model];
+    }else if ([eventName isEqualToString:kRouterEventMenuTapEventName]) {
+        [self sendTextMessage:[userInfo objectForKey:@"text"]];
+    } else if ([eventName isEqualToString:kRouterEventSatisfactionBubbleTapEventName]) {
+        SatisfactionViewController *view = [[SatisfactionViewController alloc] init];
+        view.messageModel = model;
+        view.delegate = self;
+        [self.navigationController pushViewController:view animated:YES];
     }
 }
 
@@ -1061,25 +1093,25 @@
 
 -(void)sendTextMessage:(NSString *)textMessage
 {
-    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:textMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:nil];
+    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:textMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getWeiChat]];
     [self addMessage:tempMessage];
 }
 
 -(void)sendImageMessage:(UIImage *)imageMessage
 {
-    EMMessage *tempMessage = [ChatSendHelper sendImageMessageWithImage:imageMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:nil];
+    EMMessage *tempMessage = [ChatSendHelper sendImageMessageWithImage:imageMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getWeiChat]];
     [self addMessage:tempMessage];
 }
 
 -(void)sendAudioMessage:(EMChatVoice *)voice
 {
-    EMMessage *tempMessage = [ChatSendHelper sendVoice:voice toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:nil];
+    EMMessage *tempMessage = [ChatSendHelper sendVoice:voice toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getWeiChat]];
     [self addMessage:tempMessage];
 }
 
 -(void)sendVideoMessage:(EMChatVideo *)video
 {
-    EMMessage *tempMessage = [ChatSendHelper sendVideo:video toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:nil];
+    EMMessage *tempMessage = [ChatSendHelper sendVideo:video toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getWeiChat]];
     [self addMessage:tempMessage];
 }
 
@@ -1117,9 +1149,77 @@
     }
     
     NSString *imageName = [info objectForKey:@"imageName"];
-    NSDictionary *extDic = @{@"msgtype":@{type:itemDic}, @"imageName":imageName, @"type":@"custom"};
+    NSMutableDictionary *extDic = [NSMutableDictionary dictionaryWithDictionary:[self getWeiChat]];
+    [extDic setObject:@{type:itemDic} forKey:@"msgtype"];
+    [extDic setObject:imageName forKey:@"imageName"];
+    [extDic setObject:@"custom" forKey:@"type"];
+    
     EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:@"客服图文混排消息" toUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO ext:extDic];
     [self addMessage:tempMessage];
+}
+
+- (NSDictionary*)getUserInfoAttribute
+{
+    NSDictionary *ext = nil;
+    NSMutableDictionary *visitor = [NSMutableDictionary dictionary];
+    [visitor setObject:@"李明" forKey:@"trueName"];
+    [visitor setObject:@"10000" forKey:@"qq"];
+    [visitor setObject:@"13512345678" forKey:@"phone"];
+    [visitor setObject:@"环信" forKey:@"companyName"];
+    NSString *nickname = [[EMIMHelper defaultHelper] nickname];
+    [visitor setObject:nickname.length==0?@"李明":nickname forKey:@"userNickname"];
+    [visitor setObject:@"abc@123.com" forKey:@"email"];
+    switch (_saleType) {
+        case ePreSaleType:
+            ext = @{@"visitor":visitor,@"queueName":kpreSale};
+            break;
+        case eAfterSaleType:
+            ext = @{@"visitor":visitor,@"queueName":kafterSale};
+            break;
+        case eSaleTypeNone:
+            ext = @{@"visitor":visitor};
+            break;
+        default:
+            break;
+    }
+    return ext;
+}
+
+- (NSDictionary*)getWeiChat
+{
+    NSDictionary *ext = nil;
+    NSDictionary* weichat = [self getUserInfoAttribute];
+    ext = @{kMesssageExtWeChat:weichat};
+    return ext;
+}
+
+- (NSDictionary*)getCmdUpdateVisitorInfoSrc
+{
+    NSDictionary *ext = nil;
+    NSMutableDictionary *visitor = [NSMutableDictionary dictionary];
+    [visitor setObject:[NSString stringWithFormat:@"name-test from hxid:%@",[EMIMHelper defaultHelper].username] forKey:@"name"];
+    NSDictionary* weichat = [self getUserInfoAttribute];
+    ext = @{@"cmd":@{@"updateVisitorInfoSrc":@{@"params":visitor}},kMesssageExtWeChat:weichat};
+    return ext;
+}
+
+#pragma mark 
+- (void)commitSatisfactionWithExt:(NSDictionary*)ext messageModel:(MessageModel*)model
+{
+    NSString *willSendText = [ConvertToCommonEmoticonsHelper convertToCommonEmoticons:@""];
+    EMChatText *text = [[EMChatText alloc] initWithText:willSendText];
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithChatObject:text];
+    
+    EMMessage *retureMsg = [[EMMessage alloc] initWithReceiver:_conversation.chatter bodies:[NSArray arrayWithObject:body]];
+    retureMsg.requireEncryption = NO;
+    retureMsg.ext = @{kMesssageExtWeChat:ext};
+    __weak typeof(self) weakself = self;
+    [[EaseMob sharedInstance].chatManager asyncSendMessage:retureMsg progress:nil prepare:^(EMMessage *message, EMError *error) {} onQueue:dispatch_get_main_queue() completion:^(EMMessage *message, EMError *error) {
+        if (!error) {
+            [weakself.tableView reloadData];
+        }
+        [_conversation removeMessage:retureMsg];
+    } onQueue:dispatch_get_main_queue()];
 }
 
 @end

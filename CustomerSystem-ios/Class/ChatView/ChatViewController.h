@@ -12,6 +12,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, EMDemoSaleType){
+    ePreSaleType,
+    eAfterSaleType,
+    eSaleTypeNone
+};
+
 @interface ChatViewController : UIViewController
 
 @property (nonatomic, strong) NSString *chatter;
@@ -19,6 +25,9 @@
 
 - (instancetype)initWithChatter:(NSString *)chatter
                         isGroup:(BOOL)isGroup;
+
+- (instancetype)initWithChatter:(NSString *)chatter
+                        type:(EMDemoSaleType)type;
 
 - (void)reloadData;
 

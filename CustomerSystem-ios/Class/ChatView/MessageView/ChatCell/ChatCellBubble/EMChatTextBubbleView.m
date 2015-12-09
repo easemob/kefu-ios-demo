@@ -14,12 +14,9 @@
 #import "EMChatTextBubbleView.h"
 
 NSString *const kRouterEventTextURLTapEventName = @"kRouterEventTextURLTapEventName";
+NSString *const kRouterEventMenuTapEventName = @"kRouterEventMenuTapEventName";
 
 @interface EMChatTextBubbleView ()
-{
-    NSDataDetector *_detector;
-    NSArray *_urlMatches;
-}
 
 @end
 
@@ -116,7 +113,7 @@ NSString *const kRouterEventTextURLTapEventName = @"kRouterEventTextURLTapEventN
     
     for (NSTextCheckingResult *match in _urlMatches) {
         
-        if ([match resultType] == NSTextCheckingTypeLink) {
+        if ([match resultType] == NSTextCheckingTypeLink || [match resultType] == NSTextCheckingTypeReplacement) {
             
             NSRange matchRange = [match range];
             
@@ -124,7 +121,7 @@ NSString *const kRouterEventTextURLTapEventName = @"kRouterEventTextURLTapEventN
                 [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:matchRange];
             }
             else {
-                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:matchRange];
+                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:(242)/255.0 green:(83)/255.0 blue:(131)/255.0 alpha:(1)] range:matchRange];
             }
             
             [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:matchRange];
@@ -268,6 +265,15 @@ NSString *const kRouterEventTextURLTapEventName = @"kRouterEventTextURLTapEventN
             if ([self isIndex:charIndex inRange:matchRange]) {
                 
                 [self routerEventWithName:kRouterEventTextURLTapEventName userInfo:@{KMESSAGEKEY:self.model, @"url":match.URL}];
+                break;
+            }
+        } else if ([match resultType] ==  NSTextCheckingTypeReplacement) {
+            
+            NSRange matchRange = [match range];
+            
+            if ([self isIndex:charIndex inRange:matchRange]) {
+                
+                [self routerEventWithName:kRouterEventMenuTapEventName userInfo:@{KMESSAGEKEY:self.model, @"text":match.replacementString}];
                 break;
             }
         }

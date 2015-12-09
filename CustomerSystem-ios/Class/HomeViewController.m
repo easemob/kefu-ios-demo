@@ -17,6 +17,7 @@
 #import "ChatSendHelper.h"
 #import "EMCDDeviceManager.h"
 #import "LocalDefine.h"
+#import "MoreChoiceView.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
@@ -30,6 +31,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;
+@property (strong, nonatomic) MoreChoiceView *choiceView;
 
 @end
 
@@ -85,18 +87,30 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)chatItemAction
 {
-    [self chatAction:nil];
+    if (_choiceView.hidden) {
+        _choiceView.hidden = NO;
+    } else {
+        _choiceView.hidden = YES;
+    }
+//    [self chatAction:nil];
 }
 
 - (void)chatAction:(NSNotification *)notification
 {
     [[EMIMHelper defaultHelper] loginEasemobSDK];
     NSString *cname = [[EMIMHelper defaultHelper] cname];
-    ChatViewController *chatController = [[ChatViewController alloc] initWithChatter:cname isGroup:NO];
-    chatController.title = @"演示客服";
-    if (notification.object) {
-        chatController.commodityInfo = (NSDictionary *)notification.object;
+    ChatViewController *chatController;
+    if (notification.object && [notification.object isKindOfClass:[NSDictionary class]]) {
+        if ([notification.object objectForKey:kpreSell]) {
+            chatController = [[ChatViewController alloc] initWithChatter:cname type:[[notification.object objectForKey:kpreSell] boolValue]?ePreSaleType:eAfterSaleType];
+        } else {
+            chatController = [[ChatViewController alloc] initWithChatter:cname type:eAfterSaleType];
+            chatController.commodityInfo = (NSDictionary *)notification.object;
+        }
+    } else {
+        chatController = [[ChatViewController alloc] initWithChatter:cname type:eSaleTypeNone];
     }
+    chatController.title = @"演示客服";
     [self.navigationController pushViewController:chatController animated:YES];
 }
 
@@ -154,6 +168,10 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     self.viewControllers = @[_mallController, _settingController];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
+    
+    _choiceView = [[MoreChoiceView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
+    _choiceView.hidden = YES;
+    [self.view addSubview:_choiceView];
 }
 
 -(void)unSelectedTapTabBarItems:(UITabBarItem *)tabBarItem
