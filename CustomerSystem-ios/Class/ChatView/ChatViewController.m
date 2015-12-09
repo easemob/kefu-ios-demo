@@ -1213,13 +1213,10 @@
     EMMessage *retureMsg = [[EMMessage alloc] initWithReceiver:_conversation.chatter bodies:[NSArray arrayWithObject:body]];
     retureMsg.requireEncryption = NO;
     retureMsg.ext = @{kMesssageExtWeChat:ext};
+    __weak typeof(self) weakself = self;
     [[EaseMob sharedInstance].chatManager asyncSendMessage:retureMsg progress:nil prepare:^(EMMessage *message, EMError *error) {} onQueue:dispatch_get_main_queue() completion:^(EMMessage *message, EMError *error) {
         if (!error) {
-//            NSMutableDictionary *messageExt = [NSMutableDictionary dictionaryWithDictionary:model.message.ext];
-//            [[messageExt objectForKey:@"weichat"] setObject:[NSNumber numberWithBool:YES] forKey:@"enable"];
-//            model.message.ext = messageExt;
-//            [model.message updateMessageExtToDB];
-            [self.tableView reloadData];
+            [weakself.tableView reloadData];
         }
         [_conversation removeMessage:retureMsg];
     } onQueue:dispatch_get_main_queue()];
