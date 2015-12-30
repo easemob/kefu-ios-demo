@@ -924,8 +924,13 @@
         self.dataSource = [[self formatMessages:messages] mutableCopy];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
-            
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.dataSource count] - currentCount - 1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            NSInteger rowCount = self.dataSource count] - currentCount - 1;
+            if (rowCount < 0) {
+                rowCount = 0;
+            }
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rowCount inSection:0]
+                                  atScrollPosition:UITableViewScrollPositionTop
+                                          animated:NO];
         });
         
         //从数据库导入时重新下载没有下载成功的附件
