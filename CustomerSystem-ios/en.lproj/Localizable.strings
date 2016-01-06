@@ -87,6 +87,8 @@
 "satisfaction.nickname" = "nickname";
 "satisfaction.commit" = "commit";
 "satisfaction.alert" = "please evaluate first";
+"satisfaction.success" = "satisfaction success";
+"satisfaction.failed" = "satisfaction failed";
 
 //message
 "message.camera" = "Camera";

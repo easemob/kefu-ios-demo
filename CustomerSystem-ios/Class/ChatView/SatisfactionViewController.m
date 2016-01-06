@@ -45,6 +45,9 @@
     [self.bgView addSubview:self.commitBtn];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyBoardHidden)];
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)setupBarButtonItem
@@ -142,6 +145,11 @@
 }
 
 #pragma mark - action
+- (void)keyBoardHidden
+{
+    [self.textView endEditing:YES];
+}
+
 - (void)back
 {
     [self.navigationController popViewControllerAnimated:YES];

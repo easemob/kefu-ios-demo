@@ -86,6 +86,8 @@
 "satisfaction.nickname" = "客服昵称";
 "satisfaction.commit" = "提交";
 "satisfaction.alert" = "请先选择评星";
+"satisfaction.success" = "满意度评价成功";
+"satisfaction.failed" = "满意度评价失败";
 
 //message
 "message.camera" = "相机";

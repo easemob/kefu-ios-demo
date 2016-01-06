@@ -12,9 +12,8 @@
 #import "EMIMHelper.h"
 #import "MallViewController.h"
 #import "SettingViewController.h"
-#import "ChatViewController.h"
+#import "EaseChatViewController.h"
 #import "UIViewController+HUD.h"
-#import "ChatSendHelper.h"
 #import "EMCDDeviceManager.h"
 #import "LocalDefine.h"
 #import "MoreChoiceView.h"
@@ -99,16 +98,16 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     [[EMIMHelper defaultHelper] loginEasemobSDK];
     NSString *cname = [[EMIMHelper defaultHelper] cname];
-    ChatViewController *chatController;
+    EaseChatViewController *chatController;
     if (notification.object && [notification.object isKindOfClass:[NSDictionary class]]) {
         if ([notification.object objectForKey:kpreSell]) {
-            chatController = [[ChatViewController alloc] initWithChatter:cname type:[[notification.object objectForKey:kpreSell] boolValue]?ePreSaleType:eAfterSaleType];
+            chatController = [[EaseChatViewController alloc] initWithChatter:cname type:[[notification.object objectForKey:kpreSell] boolValue]?ePreSaleType:eAfterSaleType];
         } else {
-            chatController = [[ChatViewController alloc] initWithChatter:cname type:eAfterSaleType];
+            chatController = [[EaseChatViewController alloc] initWithChatter:cname type:eAfterSaleType];
             chatController.commodityInfo = (NSDictionary *)notification.object;
         }
     } else {
-        chatController = [[ChatViewController alloc] initWithChatter:cname type:eSaleTypeNone];
+        chatController = [[EaseChatViewController alloc] initWithChatter:cname type:eSaleTypeNone];
     }
     chatController.title = @"演示客服";
     [self.navigationController pushViewController:chatController animated:YES];

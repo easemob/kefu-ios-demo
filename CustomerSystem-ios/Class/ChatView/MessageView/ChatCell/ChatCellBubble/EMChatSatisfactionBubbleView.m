@@ -36,7 +36,6 @@ NSString *const kRouterEventSatisfactionBubbleTapEventName = @"kRouterEventSatis
     
     CGRect frame = self.bounds;
     frame.size.height -= 75.f;
-    frame.size.width -= BUBBLE_ARROW_WIDTH;
     frame = CGRectInset(frame, BUBBLE_VIEW_PADDING, BUBBLE_VIEW_PADDING);
     if (self.model.isSender) {
         frame.origin.x = BUBBLE_VIEW_PADDING;
