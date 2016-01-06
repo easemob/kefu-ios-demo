@@ -18,10 +18,10 @@
 		D27967A01BDE53D200842C28 /* bg_rl_satisfaction.png in Resources */ = {isa = PBXBuildFile; fileRef = D279679F1BDE53D200842C28 /* bg_rl_satisfaction.png */; };
 		D27967A31BDF30B700842C28 /* icon_star_select.png in Resources */ = {isa = PBXBuildFile; fileRef = D27967A11BDF30B700842C28 /* icon_star_select.png */; };
 		D27967A41BDF30B700842C28 /* icon_star.png in Resources */ = {isa = PBXBuildFile; fileRef = D27967A21BDF30B700842C28 /* icon_star.png */; };
-		D28BBB601BF08A25003E85EF /* libEaseUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D28BBB5D1BF08A25003E85EF /* libEaseUI.a */; };
-		D28BBB611BF08A25003E85EF /* EaseUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D28BBB5F1BF08A25003E85EF /* EaseUIResource.bundle */; };
 		D28BBB641BF092E8003E85EF /* EaseChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D28BBB631BF092E8003E85EF /* EaseChatViewController.m */; };
 		D28BBB651BF0A3D8003E85EF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4541A8E2DAB00705655 /* Foundation.framework */; };
+		D2B1BA661C3CF8F50087A74F /* libeaseui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B1BA631C3CF8F50087A74F /* libeaseui.a */; };
+		D2B1BA671C3CF8F50087A74F /* EaseUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D2B1BA651C3CF8F50087A74F /* EaseUIResource.bundle */; };
 		D2B3DAA41BF0C8AD00913BD5 /* EaseMessageToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B3DAA31BF0C8AD00913BD5 /* EaseMessageToolBar.m */; };
 		D2BFC2911BB2416300FFD771 /* EMChatTextMenuBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BFC2901BB2416300FFD771 /* EMChatTextMenuBubbleView.m */; };
 		EB3959641A8EE4160083B659 /* NSDate+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3959591A8EE4160083B659 /* NSDate+Category.m */; };
@@ -256,10 +256,10 @@
 		D27967A11BDF30B700842C28 /* icon_star_select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_star_select.png; sourceTree = "<group>"; };
 		D27967A21BDF30B700842C28 /* icon_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_star.png; sourceTree = "<group>"; };
 		D27967A51BDF33D200842C28 /* CustomerSystem.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerSystem.pch; sourceTree = "<group>"; };
-		D28BBB5D1BF08A25003E85EF /* libEaseUI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseUI.a; sourceTree = "<group>"; };
-		D28BBB5F1BF08A25003E85EF /* EaseUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseUIResource.bundle; sourceTree = "<group>"; };
 		D28BBB621BF092E8003E85EF /* EaseChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseChatViewController.h; sourceTree = "<group>"; };
 		D28BBB631BF092E8003E85EF /* EaseChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseChatViewController.m; sourceTree = "<group>"; };
+		D2B1BA631C3CF8F50087A74F /* libeaseui.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libeaseui.a; sourceTree = "<group>"; };
+		D2B1BA651C3CF8F50087A74F /* EaseUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseUIResource.bundle; sourceTree = "<group>"; };
 		D2B3DAA21BF0C8AD00913BD5 /* EaseMessageToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseMessageToolBar.h; sourceTree = "<group>"; };
 		D2B3DAA31BF0C8AD00913BD5 /* EaseMessageToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseMessageToolBar.m; sourceTree = "<group>"; };
 		D2BFC28F1BB2416300FFD771 /* EMChatTextMenuBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatTextMenuBubbleView.h; sourceTree = "<group>"; };
@@ -534,6 +534,7 @@
 				EB3959891A8EE69D0083B659 /* libstdc++.6.dylib in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
 				D28BBB651BF0A3D8003E85EF /* Foundation.framework in Frameworks */,
+				D2B1BA661C3CF8F50087A74F /* libeaseui.a in Frameworks */,
 				EB62E4511A8E2DA000705655 /* libxml2.dylib in Frameworks */,
 				EB62E44F1A8E2D9900705655 /* libz.dylib in Frameworks */,
 				EB62E44D1A8E2D9300705655 /* CFNetwork.framework in Frameworks */,
@@ -546,7 +547,6 @@
 				EB62E43F1A8E2D6200705655 /* CoreLocation.framework in Frameworks */,
 				EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */,
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
-				D28BBB601BF08A25003E85EF /* libEaseUI.a in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
 				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
 			);
@@ -621,27 +621,27 @@
 		D28BBACF1BF08A25003E85EF /* EaseUISDK */ = {
 			isa = PBXGroup;
 			children = (
-				D28BBB5C1BF08A25003E85EF /* lib */,
-				D28BBB5E1BF08A25003E85EF /* resource */,
+				D2B1BA621C3CF8F50087A74F /* lib */,
+				D2B1BA641C3CF8F50087A74F /* resources */,
 			);
 			name = EaseUISDK;
 			path = ../EaseUISDK;
 			sourceTree = "<group>";
 		};
-		D28BBB5C1BF08A25003E85EF /* lib */ = {
+		D2B1BA621C3CF8F50087A74F /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				D28BBB5D1BF08A25003E85EF /* libEaseUI.a */,
+				D2B1BA631C3CF8F50087A74F /* libeaseui.a */,
 			);
 			path = lib;
 			sourceTree = "<group>";
 		};
-		D28BBB5E1BF08A25003E85EF /* resource */ = {
+		D2B1BA641C3CF8F50087A74F /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				D28BBB5F1BF08A25003E85EF /* EaseUIResource.bundle */,
+				D2B1BA651C3CF8F50087A74F /* EaseUIResource.bundle */,
 			);
-			path = resource;
+			path = resources;
 			sourceTree = "<group>";
 		};
 		EB3959571A8EE4160083B659 /* Category */ = {
@@ -1343,7 +1343,6 @@
 				EB4B06A01AC685E900DCF67B /* VoiceSearchFeedback010@2x.png in Resources */,
 				EB4B06BC1AC685E900DCF67B /* call_silence_h@2x.png in Resources */,
 				EB4B06F81AC685E900DCF67B /* delete@2x.png in Resources */,
-				D28BBB611BF08A25003E85EF /* EaseUIResource.bundle in Resources */,
 				EB4B06AD1AC685E900DCF67B /* VoiceSearchFeedback017.png in Resources */,
 				EB4B06EF1AC685E900DCF67B /* chat_sender_audio_playing_002.png in Resources */,
 				EB4B068F1AC685E900DCF67B /* VoiceSearchFeedback002.png in Resources */,
@@ -1407,6 +1406,7 @@
 				D27967A41BDF30B700842C28 /* icon_star.png in Resources */,
 				EB4B06D81AC685E900DCF67B /* chatBar_more@2x.png in Resources */,
 				EB4B06921AC685E900DCF67B /* VoiceSearchFeedback003@2x.png in Resources */,
+				D2B1BA671C3CF8F50087A74F /* EaseUIResource.bundle in Resources */,
 				EB4B06EE1AC685E900DCF67B /* chat_sender_audio_playing_001@2x.png in Resources */,
 				EB4B06931AC685E900DCF67B /* VoiceSearchFeedback004.png in Resources */,
 				EB4B06DE1AC685E900DCF67B /* messageToolbarBg@2x.png in Resources */,
