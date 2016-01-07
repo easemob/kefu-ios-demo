@@ -924,7 +924,7 @@
         self.dataSource = [[self formatMessages:messages] mutableCopy];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
-            NSInteger rowCount = self.dataSource count] - currentCount - 1;
+            NSInteger rowCount = [self.dataSource count] - currentCount - 1;
             if (rowCount < 0) {
                 rowCount = 0;
             }
