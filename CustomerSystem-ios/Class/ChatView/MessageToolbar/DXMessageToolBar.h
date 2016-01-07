@@ -91,10 +91,6 @@
  */
 + (CGFloat)defaultHeight;
 
-/**
- *  取消触摸录音键
- */
-- (void)cancelTouchRecord;
 
 @end
 

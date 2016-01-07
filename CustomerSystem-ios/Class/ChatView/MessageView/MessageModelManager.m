@@ -32,7 +32,7 @@
     model.messageId = message.messageId;
     model.isSender = isSender;
     model.isPlaying = NO;
-    model.isChatGroup = message.isGroup;
+    model.isChatGroup = NO;
     if (model.isChatGroup) {
         model.username = message.groupSenderName;
     }

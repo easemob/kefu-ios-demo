@@ -15,7 +15,6 @@
 #import "ChatViewController.h"
 #import "UIViewController+HUD.h"
 #import "ChatSendHelper.h"
-#import "EMCDDeviceManager.h"
 #import "LocalDefine.h"
 #import "MoreChoiceView.h"
 
@@ -210,10 +209,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     //保存最后一次响铃时间
     self.lastPlaySoundDate = [NSDate date];
     
-    // 收到消息时，播放音频
-    [[EMCDDeviceManager sharedInstance] playNewMessageSound];
-    // 收到消息时，震动
-    [[EMCDDeviceManager sharedInstance] playVibration];
+    // change by du.
+//     收到消息时，播放音频
+//    [[EMCDDeviceManager sharedInstance] playNewMessageSound];
+//    // 收到消息时，震动
+//    [[EMCDDeviceManager sharedInstance] playVibration];
 }
 
 - (void)_showNotificationWithMessage:(EMMessage *)message

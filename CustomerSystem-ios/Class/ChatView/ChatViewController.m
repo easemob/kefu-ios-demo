@@ -15,7 +15,6 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
-#import "EMCDDeviceManager.h"
 #import "SRRefreshView.h"
 #import "DXChatBarMoreView.h"
 #import "DXFaceView.h"
@@ -38,7 +37,19 @@
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 
-@interface ChatViewController ()<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, SRRefreshDelegate, IChatManagerDelegate, DXChatBarMoreViewDelegate, DXMessageToolBarDelegate, LocationViewDelegate, IDeviceManagerDelegate,SatisfactionDelegate>
+@interface ChatViewController ()
+<UITableViewDataSource,
+UITableViewDelegate,
+UINavigationControllerDelegate,
+UIImagePickerControllerDelegate,
+SRRefreshDelegate,
+IChatManagerDelegate,
+DXChatBarMoreViewDelegate,
+DXMessageToolBarDelegate,
+LocationViewDelegate,
+IDeviceManagerDelegate,
+SatisfactionDelegate
+>
 {
     UIMenuController *_menuController;
     UIMenuItem *_copyMenuItem;
@@ -86,7 +97,8 @@
         _messages = [NSMutableArray array];
         
         //根据接收者的username获取当前会话的管理者
-        _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:chatter isGroup:_isChatGroup];
+        _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:chatter
+                                                                    conversationType:eConversationTypeChat];
         [_conversation markAllMessagesAsRead:YES];
     }
     
@@ -104,7 +116,8 @@
         _saleType = type;
         
         //根据接收者的username获取当前会话的管理者
-        _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:chatter isGroup:_isChatGroup];
+        _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:chatter
+                                                                    conversationType:eConversationTypeChat];
         [_conversation markAllMessagesAsRead:YES];
     }
     
@@ -122,8 +135,6 @@
         self.edgesForExtendedLayout =  UIRectEdgeNone;
     }
     
-    #warning 以下三行代码必须写，注册为SDK的ChatManager的delegate
-    [EMCDDeviceManager sharedInstance].delegate = self;
     [[EaseMob sharedInstance].chatManager removeDelegate:self];
     //注册为SDK的ChatManager的delegate
     [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
@@ -179,7 +190,6 @@
     
     // 设置当前conversation的所有message为已读
     [_conversation markAllMessagesAsRead:YES];
-    [[EMCDDeviceManager sharedInstance] disableProximitySensor];
 }
 
 - (void)dealloc
@@ -193,9 +203,6 @@
     
     _chatToolBar.delegate = nil;
     _chatToolBar = nil;
-    
-    [[EMCDDeviceManager sharedInstance] stopPlaying];
-    [EMCDDeviceManager sharedInstance].delegate = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 #warning 以下第一行代码必须写，将self从ChatManager的代理中移除
@@ -547,29 +554,7 @@
     
     // 播放音频
     if (model.type == eMessageBodyType_Voice) {
-        __weak ChatViewController *weakSelf = self;
-        BOOL isPrepare = [self.messageReadManager prepareMessageAudioModel:model updateViewCompletion:^(MessageModel *prevAudioModel, MessageModel *currentAudioModel) {
-            if (prevAudioModel || currentAudioModel) {
-                [weakSelf.tableView reloadData];
-            }
-        }];
-        
-        if (isPrepare) {
-            _isPlayingAudio = YES;
-            __weak ChatViewController *weakSelf = self;
-            [[EMCDDeviceManager sharedInstance] enableProximitySensor];
-            [[EMCDDeviceManager sharedInstance] asyncPlayingWithPath:model.chatVoice.localPath completion:^(NSError *error) {
-                [weakSelf.messageReadManager stopMessageAudioModel];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.tableView reloadData];
-                    weakSelf.isPlayingAudio = NO;
-                    [[EMCDDeviceManager sharedInstance] disableProximitySensor];
-                });
-            }];
-        }
-        else{
-            _isPlayingAudio = NO;
-        }
+     
     }
 }
 
@@ -760,8 +745,6 @@
 
 - (void)didInterruptionRecordAudio
 {
-    [_chatToolBar cancelTouchRecord];
-    
     // 设置当前conversation的所有message为已读
     [_conversation markAllMessagesAsRead:YES];
 }
@@ -1088,8 +1071,6 @@
 
 - (void)applicationDidEnterBackground
 {
-    [_chatToolBar cancelTouchRecord];
-    
     // 设置当前conversation的所有message为已读
     [_conversation markAllMessagesAsRead:YES];
 }
