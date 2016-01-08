@@ -11,7 +11,6 @@
   */
 
 #import "MessageReadManager.h"
-#import "UIImageView+EMWebCache.h"
 #import "EMCDDeviceManager.h"
 
 static MessageReadManager *detailInstance = nil;

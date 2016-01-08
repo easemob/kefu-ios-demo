@@ -18,9 +18,9 @@ static NSString *g_cname = nil;
     EMConnectionState _connectionState;
 }
 
-- (void)jumpToChatList;
+//- (void)jumpToChatList;
 
-- (void)setupUntreatedApplyCount;
+//- (void)setupUntreatedApplyCount;
 
 - (void)networkChanged:(EMConnectionState)connectionState;
 

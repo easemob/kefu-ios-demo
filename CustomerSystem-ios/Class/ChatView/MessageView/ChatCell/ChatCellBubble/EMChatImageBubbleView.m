@@ -10,7 +10,6 @@
   * from EaseMob Technologies.
   */
 
-#import "UIImageView+EMWebCache.h"
 #import "EMChatImageBubbleView.h"
 #import "UIImage+Utils.h"
 
