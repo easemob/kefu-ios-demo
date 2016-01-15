@@ -12,7 +12,6 @@
 
 #import "MessageReadManager.h"
 #import "UIImageView+EMWebCache.h"
-#import "EMCDDeviceManager.h"
 
 static MessageReadManager *detailInstance = nil;
 
@@ -139,67 +138,6 @@ static MessageReadManager *detailInstance = nil;
     
     UIViewController *rootController = [self.keyWindow rootViewController];
     [rootController presentViewController:self.photoNavigationController animated:YES completion:nil];
-}
-
-- (BOOL)prepareMessageAudioModel:(MessageModel *)messageModel
-                      updateViewCompletion:(void (^)(MessageModel *prevAudioModel, MessageModel *currentAudioModel))updateCompletion
-{
-    BOOL isPrepare = NO;
-    
-    if(messageModel.type == eMessageBodyType_Voice)
-    {
-        MessageModel *prevAudioModel = self.audioMessageModel;
-        MessageModel *currentAudioModel = messageModel;
-        self.audioMessageModel = messageModel;
-        
-        BOOL isPlaying = messageModel.isPlaying;
-        if (isPlaying) {
-            messageModel.isPlaying = NO;
-            self.audioMessageModel = nil;
-//            prevAudioModel.isPlaying = NO;
-            currentAudioModel = nil;
-            
-            [[EMCDDeviceManager sharedInstance] stopPlaying];
-        }
-        else {
-            messageModel.isPlaying = YES;
-            prevAudioModel.isPlaying = NO;
-            isPrepare = YES;
-            
-            if (!messageModel.isPlayed) {
-                messageModel.isPlayed = YES;
-                EMMessage *chatMessage = messageModel.message;
-                if (chatMessage.ext) {
-                    NSMutableDictionary *dict = [chatMessage.ext mutableCopy];
-                    if (![[dict objectForKey:@"isPlayed"] boolValue]) {
-                        [dict setObject:@YES forKey:@"isPlayed"];
-                        chatMessage.ext = dict;
-                        [chatMessage updateMessageExtToDB];
-                    }
-                }
-            }
-        }
-        
-        if (updateCompletion) {
-            updateCompletion(prevAudioModel, currentAudioModel);
-        }
-    }
-    
-    return isPrepare;
-}
-
-- (MessageModel *)stopMessageAudioModel
-{
-    MessageModel *model = nil;
-    if (self.audioMessageModel.type == eMessageBodyType_Voice) {
-        if (self.audioMessageModel.isPlaying) {
-            model = self.audioMessageModel;
-        }
-        self.audioMessageModel.isPlaying = NO;
-        self.audioMessageModel = nil;
-    }
-    
-    return model;
 }
 
 
