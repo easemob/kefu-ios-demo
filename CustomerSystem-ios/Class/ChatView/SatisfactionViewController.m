@@ -31,7 +31,10 @@
     self.title = NSLocalizedString(@"title.satisfaction", @"satisfaction evaluation");
     
     [self setupBarButtonItem];
-    self.view.backgroundColor = [UIColor colorWithRed:235 / 255.0 green:235 / 255.0 blue:235 / 255.0 alpha:1.0];
+    self.view.backgroundColor = [UIColor colorWithRed:235 / 255.0
+                                                green:235 / 255.0
+                                                 blue:235 / 255.0
+                                                alpha:1.0];
     
     self.bgView = [[UIView alloc] init];
     self.bgView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
@@ -44,7 +47,10 @@
     [self.bgView addSubview:self.textView];
     [self.bgView addSubview:self.commitBtn];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillChangeFrame:)
+                                                 name:UIKeyboardWillChangeFrameNotification
+                                               object:nil];
 }
 
 - (void)setupBarButtonItem
