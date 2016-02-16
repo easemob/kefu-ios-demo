@@ -195,8 +195,9 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
     switch (messageModel.type) {
         case eMessageBodyType_Text:
         {
-            if ([messageModel.message.ext objectForKey:@"msgtype"])
-            {
+            if ([EMChatTextMenuBubbleView isMenuMessage:messageModel.message]) {
+                return [EMChatTextMenuBubbleView heightForBubbleWithObject:messageModel];
+            }else if ([messageModel.message.ext objectForKey:@"msgtype"]) {
                 return [EMChatCustomBubbleView heightForBubbleWithObject:messageModel];
             } else if ([EMChatSatisfactionBubbleView isSatisfactionMessage:messageModel.message]) {
                 return [EMChatSatisfactionBubbleView heightForBubbleWithObject:messageModel];

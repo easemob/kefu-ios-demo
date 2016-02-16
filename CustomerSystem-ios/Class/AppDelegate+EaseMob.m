@@ -30,18 +30,25 @@
     apnsCertName = @"customer";
 #endif
     
-    [[EaseMob sharedInstance] registerSDKWithAppKey:[[EMIMHelper defaultHelper] appkey]
-                                       apnsCertName:apnsCertName];
+//    [[EaseMob sharedInstance] registerSDKWithAppKey:[[EMIMHelper defaultHelper] appkey]
+//                                       apnsCertName:apnsCertName];
     // 登录成功后，自动去取好友列表
     // SDK获取结束后，会回调
     // - (void)didFetchedBuddyList:(NSArray *)buddyList error:(EMError *)error方法。
     [[EaseMob sharedInstance].chatManager setIsAutoFetchBuddyList:NO];
     
     // 注册环信监听
-    [self registerEaseMobNotification];
-    [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+//    [self registerEaseMobNotification];
+//    [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
-    [self setupNotifiers];
+    
+    [[EaseSDKHelper shareHelper] easemobApplication:application
+                      didFinishLaunchingWithOptions:launchOptions
+                                             appkey:[[EMIMHelper defaultHelper] appkey]
+                                       apnsCertName:apnsCertName
+                                        otherConfig:@{kSDKConfigEnableConsoleLogger:[NSNumber numberWithBool:YES],kEaseUISDKConfigIsUseLite:@(YES)}];
+    
+//    [self setupNotifiers];
     [[EMIMHelper defaultHelper] loginEasemobSDK];
 }
 

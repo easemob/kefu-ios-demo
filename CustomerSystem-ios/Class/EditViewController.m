@@ -10,7 +10,7 @@
 
 #import "LocalDefine.h"
 
-@interface EditViewController ()
+@interface EditViewController () <UITextFieldDelegate>
 {
     UITextField *_editField;
     NSString *_type;
@@ -58,6 +58,7 @@
     _editField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _editField.returnKeyType = UIReturnKeyDone;
     _editField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    _editField.delegate = self;
     [contentView addSubview:_editField];
 }
 
@@ -75,6 +76,13 @@
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_SETTINGCHANGE object:@{@"type":_type, @"content":_editField.text}];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self back];
+    return YES;
 }
 
 @end

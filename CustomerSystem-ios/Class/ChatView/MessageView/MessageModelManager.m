@@ -11,7 +11,6 @@
  */
 
 #import "MessageModelManager.h"
-#import "ConvertToCommonEmoticonsHelper.h"
 #import "MessageModel.h"
 #import "EaseMob.h"
 
@@ -53,7 +52,7 @@
         case eMessageBodyType_Text:
         {
             // 表情映射。
-            NSString *didReceiveText = [ConvertToCommonEmoticonsHelper
+            NSString *didReceiveText = [EaseConvertToCommonEmoticonsHelper
                                         convertToSystemEmoticons:((EMTextMessageBody *)messageBody).text];
             model.content = didReceiveText;
         }

@@ -53,6 +53,7 @@
 #pragma mark - Private Methods
 
 - (void)buildDataAndUI {
+    _isTap = YES;
     _scorePercent = 1;//默认为1
     _hasAnimation = NO;//默认为NO
     _allowIncompleteStar = NO;//默认为NO
@@ -71,23 +72,45 @@
 }
 
 - (void)userTapRateView:(UITapGestureRecognizer *)gesture {
-    _isTap = YES;
     CGPoint tapPoint = [gesture locationInView:self];
     CGFloat offset = tapPoint.x;
     CGFloat realStarScore = offset / (self.bounds.size.width / self.numberOfStars);
     CGFloat starScore = self.allowIncompleteStar ? realStarScore : ceilf(realStarScore);
     self.scorePercent = starScore / self.numberOfStars;
-    self.scorePercent = (int)(self.scorePercent/0.2)*0.2;
+    if (self.scorePercent <= 0.05) {
+        self.scorePercent = 0.2;
+    } else if (self.scorePercent>0.05 && self.scorePercent <= 0.2) {
+        self.scorePercent = 0.2;
+    } else if (self.scorePercent>0.2 && self.scorePercent <= 0.4){
+        self.scorePercent = 0.4;
+    } else if (self.scorePercent>0.4 && self.scorePercent <= 0.6){
+        self.scorePercent = 0.6;
+    } else if (self.scorePercent>0.6 && self.scorePercent <= 0.8){
+        self.scorePercent = 0.8;
+    } else {
+        self.scorePercent = 1.0;
+    }
 }
 
 -(void)userPanRateView:(UIPanGestureRecognizer *)gesture{
-    _isTap = YES;
     CGPoint tapPoint = [gesture locationInView:self];
     CGFloat offset = tapPoint.x;
     CGFloat realStarScore = offset / (self.bounds.size.width / self.numberOfStars);
     CGFloat starScore = self.allowIncompleteStar ? realStarScore : ceilf(realStarScore);
     self.scorePercent = starScore / self.numberOfStars;
-    self.scorePercent = (int)(self.scorePercent/0.2)*0.2;
+    if (self.scorePercent <= 0.05) {
+        self.scorePercent = 0.2;
+    } else if (self.scorePercent>0.05 && self.scorePercent <= 0.2) {
+        self.scorePercent = 0.2;
+    } else if (self.scorePercent>0.2 && self.scorePercent <= 0.4){
+        self.scorePercent = 0.4;
+    } else if (self.scorePercent>0.4 && self.scorePercent <= 0.6){
+        self.scorePercent = 0.6;
+    } else if (self.scorePercent>0.6 && self.scorePercent <= 0.8){
+        self.scorePercent = 0.8;
+    } else {
+        self.scorePercent = 1.0;
+    }
 }
 
 - (UIView *)createStarViewWithImage:(NSString *)imageName {

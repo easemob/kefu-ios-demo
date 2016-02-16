@@ -61,20 +61,20 @@ NSString *const kRouterEventMenuTapEventName = @"kRouterEventMenuTapEventName";
 {
     CGSize textBlockMinSize = {TEXTLABEL_MAX_WIDTH, CGFLOAT_MAX};
     CGSize retSize;
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineSpacing:LABEL_LINESPACE];//调整行间距
-        
-        retSize = [self.model.content boundingRectWithSize:textBlockMinSize options:NSStringDrawingUsesLineFragmentOrigin
-                                                attributes:@{
-                                                             NSFontAttributeName:_textLabel.font,
-                                                             NSParagraphStyleAttributeName:paragraphStyle
-                                                             }
-                                                   context:nil].size;
-    }else{
-        retSize = [self.model.content sizeWithFont:_textLabel.font constrainedToSize:textBlockMinSize lineBreakMode:NSLineBreakByCharWrapping];
-        retSize.height += 10;
-    }
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:LABEL_LINESPACE];//调整行间距
+    
+    retSize = [self.model.content boundingRectWithSize:textBlockMinSize options:NSStringDrawingUsesLineFragmentOrigin
+                                            attributes:@{
+                                                         NSFontAttributeName:_textLabel.font,
+                                                         NSParagraphStyleAttributeName:paragraphStyle
+                                                         }
+                                               context:nil].size;
+#else
+    retSize = [self.model.content sizeWithFont:_textLabel.font constrainedToSize:textBlockMinSize lineBreakMode:NSLineBreakByCharWrapping];
+    retSize.height += 10;
+#endif
     
     CGFloat height = 40;
     if (2*BUBBLE_VIEW_PADDING + retSize.height > height) {
@@ -284,12 +284,7 @@ NSString *const kRouterEventMenuTapEventName = @"kRouterEventMenuTapEventName";
 {
     CGSize textBlockMinSize = {TEXTLABEL_MAX_WIDTH, CGFLOAT_MAX};
     CGSize size;
-    static float systemVersion;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        systemVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
-    });
-    if (systemVersion >= 7.0) {
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setLineSpacing:LABEL_LINESPACE];//调整行间距
         size = [object.content boundingRectWithSize:textBlockMinSize options:NSStringDrawingUsesLineFragmentOrigin
@@ -298,12 +293,12 @@ NSString *const kRouterEventMenuTapEventName = @"kRouterEventMenuTapEventName";
                                                       NSParagraphStyleAttributeName:paragraphStyle
                                                       }
                                             context:nil].size;
-    }else{
+#else
         size = [object.content sizeWithFont:[UIFont systemFontOfSize:LABEL_FONT_SIZE]
                           constrainedToSize:textBlockMinSize
                               lineBreakMode:NSLineBreakByCharWrapping];
         size.height += 10;
-    }
+#endif
     return 2 * BUBBLE_VIEW_PADDING + size.height;
 }
 

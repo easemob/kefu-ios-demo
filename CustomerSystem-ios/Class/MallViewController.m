@@ -41,7 +41,7 @@
         for (int j = 0; j < 2; j++) {
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(margin + i * (margin + width), margin + j * (margin + height), width, height)];
             button.tag = i * 2 + j;
-            NSString *imageName = [NSString stringWithFormat:@"mallImage%i", button.tag];
+            NSString *imageName = [NSString stringWithFormat:@"mallImage%li", (long)button.tag];
             [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
             [button addTarget:self action:@selector(mallImageAction:) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:button];
