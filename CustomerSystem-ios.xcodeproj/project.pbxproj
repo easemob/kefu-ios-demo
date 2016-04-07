@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71A38A231CB62D5100C59BF4 /* EMChatTransferBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A38A221CB62D5100C59BF4 /* EMChatTransferBubbleView.m */; };
 		D270852B1BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D27085271BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a */; };
 		D270852C1BDDE85F0086DDE7 /* EaseMob.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D27085291BDDE85F0086DDE7 /* EaseMob.bundle */; };
 		D270852F1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D270852E1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m */; };
@@ -298,6 +299,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		71A38A211CB62D5100C59BF4 /* EMChatTransferBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatTransferBubbleView.h; sourceTree = "<group>"; };
+		71A38A221CB62D5100C59BF4 /* EMChatTransferBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMChatTransferBubbleView.m; sourceTree = "<group>"; };
 		D27085271BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseMobClientSDKLite.a; sourceTree = "<group>"; };
 		D27085291BDDE85F0086DDE7 /* EaseMob.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseMob.bundle; sourceTree = "<group>"; };
 		D270852D1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatSatisfactionBubbleView.h; sourceTree = "<group>"; };
@@ -1628,6 +1631,8 @@
 				D2BFC2901BB2416300FFD771 /* EMChatTextMenuBubbleView.m */,
 				D270852D1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.h */,
 				D270852E1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m */,
+				71A38A211CB62D5100C59BF4 /* EMChatTransferBubbleView.h */,
+				71A38A221CB62D5100C59BF4 /* EMChatTransferBubbleView.m */,
 			);
 			path = ChatCellBubble;
 			sourceTree = "<group>";
@@ -1900,6 +1905,7 @@
 				EBE086281AD7FC250028D40B /* UIImage+Utils.m in Sources */,
 				EB30A5371B20637100FD223F /* EMCDDeviceManager+Microphone.m in Sources */,
 				EB3959841A8EE54D0083B659 /* EMChooseViewController.m in Sources */,
+				71A38A231CB62D5100C59BF4 /* EMChatTransferBubbleView.m in Sources */,
 				EB62E3FA1A8E0C9400705655 /* ChatViewController+Category.m in Sources */,
 				EB62E2EA1A8DDA4800705655 /* MWZoomingScrollView.m in Sources */,
 				EB62E40A1A8E0C9400705655 /* EMChatViewBaseCell.m in Sources */,

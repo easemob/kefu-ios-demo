@@ -13,6 +13,7 @@
 #import "EMChatViewBaseCell.h"
 #import "UIImageView+EMWebCache.h"
 #import "EMChatSatisfactionBubbleView.h"
+#import "EMChatTransferBubbleView.h"
 
 NSString *const kRouterEventChatHeadImageTapEventName = @"kRouterEventChatHeadImageTapEventName";
 
@@ -116,7 +117,11 @@ NSString *const kRouterEventChatHeadImageTapEventName = @"kRouterEventChatHeadIm
         {
             if ([model.message.ext objectForKey:@"msgtype"]) {
                 identifier = [identifier stringByAppendingString:@"Custom"];
-            } else if ([EMChatSatisfactionBubbleView isSatisfactionMessage:model.message]){
+            }
+            else if ([EMChatTransferBubbleView isTransferMessage:model.message]){
+                identifier = [identifier stringByAppendingString:@"transfe"];
+            }
+            else if ([EMChatSatisfactionBubbleView isSatisfactionMessage:model.message]){
                 identifier = [identifier stringByAppendingString:@"satisfaction"];
             }
             else{
