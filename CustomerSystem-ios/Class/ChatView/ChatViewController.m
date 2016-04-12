@@ -49,6 +49,7 @@
     
     NSMutableArray *_messages;
     BOOL _isScrollToBottom;
+    BOOL _isSendingTransferCMD;  //判断是否正在发送转人工cmd消息
 }
 
 @property (nonatomic) BOOL isChatGroup;
@@ -521,6 +522,11 @@
     else if ([eventName isEqualToString:kRouterEventTransferBubbleTapEventName])
     {
         NSLog(@"--- 转人工 ---");
+        //发送转人工客服cmd消息未发送完成，只允许点一次
+        if (_isSendingTransferCMD) {
+            return;
+        }
+        _isSendingTransferCMD = YES;
         if ([model.message.ext objectForKey:kMesssageExtWeChat]) {
             NSDictionary *weichat = [model.message.ext objectForKey:kMesssageExtWeChat];
             if ([weichat objectForKey:kMesssageExtWeChat_ctrlArgs]) {
@@ -547,6 +553,7 @@
     __weak typeof(self) weakSelf = self;
     __weak EMMessage * weakMsg = model.message;
     [[EaseMob sharedInstance].chatManager asyncSendMessage:cmdMessage progress:nil prepare:nil onQueue:dispatch_get_main_queue() completion:^(EMMessage *message, EMError *error) {
+        _isSendingTransferCMD = NO;
         if (!error) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 //更新ext，目的当点击一次转人工客服按钮且cmd发送成功后，此按钮不在被使用
@@ -557,6 +564,8 @@
                     });
                 }
             });
+        } else {
+            [self showHint:NSLocalizedString(@"transferToKf.fail", @"转人工客服请求失败，请确认连接状态！")];
         }
     } onQueue:dispatch_get_main_queue()];
 }
@@ -567,11 +576,8 @@
     NSMutableDictionary *_ext = [NSMutableDictionary dictionaryWithDictionary:message.ext];
     [_ext setObject:@YES forKey:kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer];
     _message.ext = _ext;
-    EMConversation *conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:message.conversationChatter conversationType:(EMConversationType)message.messageType];
-    if ([conversation removeMessageWithId:message.messageId])
-    {
-        BOOL isSuccess = [[EaseMob sharedInstance].chatManager insertMessageToDB:_message append2Chat:YES];
-        return isSuccess;
+    if ([_message updateMessageExtToDB]) {
+        return YES;
     }
     return NO;
 }
