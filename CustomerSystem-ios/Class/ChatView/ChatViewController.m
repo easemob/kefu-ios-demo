@@ -565,7 +565,7 @@
                 }
             });
         } else {
-            [self showHint:NSLocalizedString(@"transferToKf.fail", @"转人工客服请求失败，请确认连接状态！")];
+            [self showHint:NSLocalizedString(@"transferToKf.fail", @"Transfer to the artificial customer service request failed, please confirm the connection status!")];
         }
     } onQueue:dispatch_get_main_queue()];
 }
