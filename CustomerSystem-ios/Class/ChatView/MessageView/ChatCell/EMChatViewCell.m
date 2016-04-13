@@ -156,6 +156,8 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
                 return [[EMChatTextMenuBubbleView alloc] init];
             } else if ([messageModel.message.ext objectForKey:@"msgtype"]) {
                 return [[EMChatCustomBubbleView alloc] init];
+            } else if ([EMChatTransferBubbleView isTransferMessage:messageModel.message]) {
+                return [[EMChatTransferBubbleView alloc] init];
             } else if ([EMChatSatisfactionBubbleView isSatisfactionMessage:messageModel.message]) {
                 return [[EMChatSatisfactionBubbleView alloc] init];
             } else{
@@ -198,7 +200,9 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
             if ([messageModel.message.ext objectForKey:@"msgtype"])
             {
                 return [EMChatCustomBubbleView heightForBubbleWithObject:messageModel];
-            } else if ([EMChatSatisfactionBubbleView isSatisfactionMessage:messageModel.message]) {
+            } else if ([EMChatTransferBubbleView isTransferMessage:messageModel.message]) {
+                return [EMChatTransferBubbleView heightForBubbleWithObject:messageModel];
+            }  else if ([EMChatSatisfactionBubbleView isSatisfactionMessage:messageModel.message]) {
                 return [EMChatSatisfactionBubbleView heightForBubbleWithObject:messageModel];
             } else{
                 return [EMChatTextBubbleView heightForBubbleWithObject:messageModel];

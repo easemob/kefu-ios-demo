@@ -141,3 +141,5 @@
 "NSDateCategory.text12" = "晚上hh:mm";
 "NSDateCategory.text13" = "昨天HH:mm";
 "NSDateCategory.text14" = "今天 %@";
+
+"transferToKf.fail" = "转人工客服请求失败，请确认连接状态！";

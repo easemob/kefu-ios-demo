@@ -49,6 +49,7 @@
     
     NSMutableArray *_messages;
     BOOL _isScrollToBottom;
+    BOOL _isSendingTransferCMD;  //判断是否正在发送转人工cmd消息
 }
 
 @property (nonatomic) BOOL isChatGroup;
@@ -518,6 +519,67 @@
         view.delegate = self;
         [self.navigationController pushViewController:view animated:YES];
     }
+    else if ([eventName isEqualToString:kRouterEventTransferBubbleTapEventName])
+    {
+        NSLog(@"--- 转人工 ---");
+        //发送转人工客服cmd消息未发送完成，只允许点一次
+        if (_isSendingTransferCMD) {
+            return;
+        }
+        _isSendingTransferCMD = YES;
+        if ([model.message.ext objectForKey:kMesssageExtWeChat]) {
+            NSDictionary *weichat = [model.message.ext objectForKey:kMesssageExtWeChat];
+            if ([weichat objectForKey:kMesssageExtWeChat_ctrlArgs]) {
+                NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMesssageExtWeChat_ctrlArgs]];
+                [ctrlArgs removeObjectForKey:@"label"];
+                weichat = [NSDictionary dictionaryWithObjectsAndKeys:ctrlArgs, kMesssageExtWeChat_ctrlArgs, nil];
+                NSDictionary *ext = @{kMesssageExtWeChat:weichat};
+                //发送透传消息
+                [self sendTransferCmdMessage:ext messageModel:model];
+            }
+        }
+    }
+}
+
+//发送转人工客服的透传消息
+- (void)sendTransferCmdMessage:(NSDictionary *)ext
+                  messageModel:(MessageModel *)model{
+    EMChatCommand *chatCommand = [[EMChatCommand alloc] init];
+    chatCommand.cmd = @"TransferToKf";
+    EMCommandMessageBody *body = [[EMCommandMessageBody alloc] initWithChatObject:chatCommand];
+    EMMessage *cmdMessage = [[EMMessage alloc] initWithReceiver:_conversation.chatter bodies:@[body]];
+    cmdMessage.requireEncryption = NO;
+    cmdMessage.ext = [NSDictionary dictionaryWithDictionary:ext];
+    __weak typeof(self) weakSelf = self;
+    __weak EMMessage * weakMsg = model.message;
+    [[EaseMob sharedInstance].chatManager asyncSendMessage:cmdMessage progress:nil prepare:nil onQueue:dispatch_get_main_queue() completion:^(EMMessage *message, EMError *error) {
+        _isSendingTransferCMD = NO;
+        if (!error) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                //更新ext，目的当点击一次转人工客服按钮且cmd发送成功后，此按钮不在被使用
+                if ([weakSelf updateTransferMessageExt:weakMsg])
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf.tableView reloadData];
+                    });
+                }
+            });
+        } else {
+            [self showHint:NSLocalizedString(@"transferToKf.fail", @"Transfer to the artificial customer service request failed, please confirm the connection status!")];
+        }
+    } onQueue:dispatch_get_main_queue()];
+}
+
+//更新转人工消息的ext
+- (BOOL)updateTransferMessageExt:(EMMessage *)message {
+    EMMessage *_message = message;
+    NSMutableDictionary *_ext = [NSMutableDictionary dictionaryWithDictionary:message.ext];
+    [_ext setObject:@YES forKey:kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer];
+    _message.ext = _ext;
+    if ([_message updateMessageExtToDB]) {
+        return YES;
+    }
+    return NO;
 }
 
 //链接被点击
@@ -924,7 +986,7 @@
         self.dataSource = [[self formatMessages:messages] mutableCopy];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
-            NSInteger rowCount = self.dataSource count] - currentCount - 1;
+            NSInteger rowCount = [self.dataSource count] - currentCount - 1;
             if (rowCount < 0) {
                 rowCount = 0;
             }

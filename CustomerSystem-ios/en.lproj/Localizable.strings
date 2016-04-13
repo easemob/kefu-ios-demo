@@ -144,3 +144,5 @@
 "NSDateCategory.text12" = "aa hh:mm";
 "NSDateCategory.text13" = "M-d HH:mm";
 "NSDateCategory.text14" = "today %@";
+
+"transferToKf.fail" = "Transfer to the artificial customer service request failed, please confirm the connection status!";
