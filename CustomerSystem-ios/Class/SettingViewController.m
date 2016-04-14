@@ -10,7 +10,7 @@
 
 #import "EMIMHelper.h"
 #import "AppDelegate+EaseMob.h"
-#import "UIViewController+HUD.h"
+//#import "UIViewController+HUD.h"
 #import "EditViewController.h"
 #import "LocalDefine.h"
 
@@ -184,8 +184,9 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != alertView.cancelButtonIndex) {
-        [self showHint:NSLocalizedString(@"restart", @"restart...")];
+        //[self showHint:NSLocalizedString(@"restart", @"restart...")];
         //退出
+        /*
         [[EaseMob sharedInstance].chatManager asyncLogoffWithUnbindDeviceToken:NO completion:^(NSDictionary *info, EMError *error) {
             EMIMHelper *helper = [EMIMHelper defaultHelper];
             [helper refreshHelperData];
@@ -204,6 +205,7 @@
             [helper loginEasemobSDK];
             [self hideHud];
         } onQueue:nil];
+         */
     }
 }
 

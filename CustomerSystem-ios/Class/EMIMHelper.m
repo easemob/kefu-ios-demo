@@ -8,7 +8,7 @@
 
 #import "EMIMHelper.h"
 
-#import "EaseMob.h"
+//#import "EaseMob.h"
 #import "LocalDefine.h"
 
 static EMIMHelper *helper = nil;
@@ -66,6 +66,7 @@ static EMIMHelper *helper = nil;
 
 - (void)loginEasemobSDK
 {
+    /*
     EaseMob *easemob = [EaseMob sharedInstance];
     if (![easemob.chatManager isLoggedIn] || ([_username length] == 0 || [_password length] == 0)) {
         if ([_username length] == 0 || [_password length] == 0) {
@@ -94,6 +95,7 @@ static EMIMHelper *helper = nil;
             [easemob.chatManager asyncLoginWithUsername:_username password:_password];
         }
     }
+     */
 }
 
 #pragma mark - info

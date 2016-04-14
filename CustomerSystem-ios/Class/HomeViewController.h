@@ -8,20 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-#import "EaseMob.h"
+//#import "EaseMob.h"
 
 static NSString *g_appkey = nil;
 static NSString *g_cname = nil;
 
 @interface HomeViewController : UITabBarController
 {
-    EMConnectionState _connectionState;
+   // EMConnectionState _connectionState;
 }
 
 - (void)jumpToChatList;
 
 - (void)setupUntreatedApplyCount;
 
-- (void)networkChanged:(EMConnectionState)connectionState;
+//- (void)networkChanged:(EMConnectionState)connectionState;
 
 @end

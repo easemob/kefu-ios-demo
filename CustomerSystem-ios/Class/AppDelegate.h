@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "EaseMob.h"
 #import "HomeViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, IChatManagerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>//, IChatManagerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

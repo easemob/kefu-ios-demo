@@ -29,6 +29,7 @@
 #else
     apnsCertName = @"customer";
 #endif
+    /*
     
     [[EaseMob sharedInstance] registerSDKWithAppKey:[[EMIMHelper defaultHelper] appkey]
                                        apnsCertName:apnsCertName];
@@ -40,7 +41,7 @@
     // 注册环信监听
     [self registerEaseMobNotification];
     [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
-    
+    */
     [self setupNotifiers];
     [[EMIMHelper defaultHelper] loginEasemobSDK];
 }
@@ -99,57 +100,57 @@
 
 #pragma mark - notifiers
 - (void)appDidEnterBackgroundNotif:(NSNotification*)notif{
-    [[EaseMob sharedInstance] applicationDidEnterBackground:notif.object];
+  //  [[EaseMob sharedInstance] applicationDidEnterBackground:notif.object];
 }
 
 - (void)appWillEnterForeground:(NSNotification*)notif
 {
-    [[EaseMob sharedInstance] applicationWillEnterForeground:notif.object];
+  //  [[EaseMob sharedInstance] applicationWillEnterForeground:notif.object];
 }
 
 - (void)appDidFinishLaunching:(NSNotification*)notif
 {
-    [[EaseMob sharedInstance] applicationDidFinishLaunching:notif.object];
+ //   [[EaseMob sharedInstance] applicationDidFinishLaunching:notif.object];
 }
 
 - (void)appDidBecomeActiveNotif:(NSNotification*)notif
 {
-    [[EaseMob sharedInstance] applicationDidBecomeActive:notif.object];
+  //  [[EaseMob sharedInstance] applicationDidBecomeActive:notif.object];
 }
 
 - (void)appWillResignActiveNotif:(NSNotification*)notif
 {
-    [[EaseMob sharedInstance] applicationWillResignActive:notif.object];
+ //   [[EaseMob sharedInstance] applicationWillResignActive:notif.object];
 }
 
 - (void)appDidReceiveMemoryWarning:(NSNotification*)notif
 {
-    [[EaseMob sharedInstance] applicationDidReceiveMemoryWarning:notif.object];
+ //   [[EaseMob sharedInstance] applicationDidReceiveMemoryWarning:notif.object];
 }
 
 - (void)appWillTerminateNotif:(NSNotification*)notif
 {
-    [[EaseMob sharedInstance] applicationWillTerminate:notif.object];
+//    [[EaseMob sharedInstance] applicationWillTerminate:notif.object];
 }
 
 - (void)appProtectedDataWillBecomeUnavailableNotif:(NSNotification*)notif
 {
-    [[EaseMob sharedInstance] applicationProtectedDataWillBecomeUnavailable:notif.object];
+ //   [[EaseMob sharedInstance] applicationProtectedDataWillBecomeUnavailable:notif.object];
 }
 
 - (void)appProtectedDataDidBecomeAvailableNotif:(NSNotification*)notif
 {
-    [[EaseMob sharedInstance] applicationProtectedDataDidBecomeAvailable:notif.object];
+ //   [[EaseMob sharedInstance] applicationProtectedDataDidBecomeAvailable:notif.object];
 }
 
 // 将得到的deviceToken传给SDK
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
-    [[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+ //   [[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 // 注册deviceToken失败，此处失败，与环信SDK无关，一般是您的环境配置或者证书配置有误
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-    [[EaseMob sharedInstance] application:application didFailToRegisterForRemoteNotificationsWithError:error];
+   // [[EaseMob sharedInstance] application:application didFailToRegisterForRemoteNotificationsWithError:error];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"apns.failToRegisterApns", Fail to register apns)
                                                     message:error.description
                                                    delegate:nil
@@ -189,11 +190,11 @@
 {
     [self unRegisterEaseMobNotification];
     // 将self 添加到SDK回调中，以便本类可以收到SDK回调
-    [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
+ //   [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
 }
 
 - (void)unRegisterEaseMobNotification{
-    [[EaseMob sharedInstance].chatManager removeDelegate:self];
+ //   [[EaseMob sharedInstance].chatManager removeDelegate:self];
 }
 
 #pragma mark - login

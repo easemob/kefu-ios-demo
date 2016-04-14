@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "EaseMob.h"
+
 #import "LocalDefine.h"
 #import "HomeViewController.h"
 #import "AppDelegate+EaseMob.h"
@@ -29,7 +29,7 @@
     [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
     
     self.homeController = [[HomeViewController alloc] init];
-    [self.homeController networkChanged:eEMConnectionDisconnected];
+   // [self.homeController networkChanged:eEMConnectionDisconnected];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.homeController];
     
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {

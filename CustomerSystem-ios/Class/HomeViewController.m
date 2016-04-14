@@ -8,21 +8,18 @@
 
 #import "HomeViewController.h"
 
-#import "EaseMob.h"
 #import "EMIMHelper.h"
 #import "MallViewController.h"
 #import "SettingViewController.h"
-#import "ChatViewController.h"
-#import "UIViewController+HUD.h"
-#import "ChatSendHelper.h"
-#import "EMCDDeviceManager.h"
+//#import "UIViewController+HUD.h"
+//#import "EMCDDeviceManager.h"
 #import "LocalDefine.h"
 #import "MoreChoiceView.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate, IChatManagerDelegate>
+@interface HomeViewController () <UIAlertViewDelegate> //, IChatManagerDelegate>
 {
     MallViewController *_mallController;
     SettingViewController *_settingController;
@@ -97,6 +94,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)chatAction:(NSNotification *)notification
 {
+    /*
     [[EMIMHelper defaultHelper] loginEasemobSDK];
     NSString *cname = [[EMIMHelper defaultHelper] cname];
     ChatViewController *chatController;
@@ -109,9 +107,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         }
     } else {
         chatController = [[ChatViewController alloc] initWithChatter:cname type:eSaleTypeNone];
+     
     }
     chatController.title = @"演示客服";
     [self.navigationController pushViewController:chatController animated:YES];
+     */
 }
 
 #pragma mark - UITabBarDelegate
@@ -134,12 +134,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     [self unregisterNotifications];
     
-    [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
+    //[[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
 }
 
 -(void)unregisterNotifications
 {
-    [[EaseMob sharedInstance].chatManager removeDelegate:self];
+//    [[EaseMob sharedInstance].chatManager removeDelegate:self];
 }
 
 - (void)setupSubviews
@@ -189,12 +189,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                                         nil] forState:UIControlStateSelected];
 }
 
+/*
+
 - (void)networkChanged:(EMConnectionState)connectionState
 {
-//    _connectionState = connectionState;
-//    [_chatListVC networkChanged:connectionState];
+    _connectionState = connectionState;
+    [_chatListVC networkChanged:connectionState];
 }
 
+ */
 #pragma mark - private chat
 
 - (void)_playSoundAndVibration
@@ -211,11 +214,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     self.lastPlaySoundDate = [NSDate date];
     
     // 收到消息时，播放音频
-    [[EMCDDeviceManager sharedInstance] playNewMessageSound];
+   // [[EMCDDeviceManager sharedInstance] playNewMessageSound];
     // 收到消息时，震动
-    [[EMCDDeviceManager sharedInstance] playVibration];
+    //[[EMCDDeviceManager sharedInstance] playVibration];
 }
-
+/*
 - (void)_showNotificationWithMessage:(EMMessage *)message
 {
     EMPushNotificationOptions *options = [[EaseMob sharedInstance].chatManager pushNotificationOptions];
@@ -353,5 +356,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         [self showHint:NSLocalizedString(@"reconnection.success", @"reconnection successful！")];
     }
 }
+ */
 
 @end
