@@ -7,6 +7,7 @@
 //
 
 #import "EMChatCustomBubbleView.h"
+#import "EMChatTextBubbleView.h"
 
 #define kImageWidth 40
 #define kImageHeight 70
@@ -114,10 +115,40 @@
 {
     NSDictionary *dic = [object.message.ext objectForKey:@"msgtype"];
     if ([dic objectForKey:@"order"]){
-       return 2 * BUBBLE_VIEW_PADDING + kImageHeight + kTitleHeight + 20;
-    }else{
+        return 2 * BUBBLE_VIEW_PADDING + kImageHeight + kTitleHeight + 20;
+    }
+#warning 机器人返回菜单列表
+    else if ([dic objectForKey:@"choice"] &&
+             [dic[@"choice"] isKindOfClass:[NSDictionary class]])
+    {
+        if (!object.content || object.content.length == 0)
+        {
+            object.content = [EMChatCustomBubbleView choiceToTextContent:dic[@"choice"]];
+        }
+        return [EMChatTextBubbleView heightForBubbleWithObject:object];
+    }
+    else{
         return 2 * BUBBLE_VIEW_PADDING + kImageHeight + 20;
     }
+}
+
++ (NSString *)choiceToTextContent:(NSDictionary *)choiceDic
+{
+    NSString *choiceContent = @"";
+    if (choiceDic[@"title"])
+    {
+        choiceContent = [choiceContent stringByAppendingString:choiceDic[@"title"]];
+    }
+    if (choiceDic[@"list"] &&
+        [choiceDic[@"list"] isKindOfClass:[NSArray class]])
+    {
+        NSArray *list = choiceDic[@"list"];
+        for (NSString *itemString in list)
+        {
+            choiceContent = [choiceContent stringByAppendingString:[NSString stringWithFormat:@"\n%@",itemString]];
+        }
+    }
+    return choiceContent;
 }
 
 
