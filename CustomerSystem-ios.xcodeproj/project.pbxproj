@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */; };
+		C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A61CC7495E00211B1B /* libc++.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
+		C9F823A61CC646F400EFA399 /* libhelpdesk_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F823A51CC646F400EFA399 /* libhelpdesk_sdk.a */; };
 		D2769D231B9041DA003D9E3D /* MoreChoiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2769D221B9041DA003D9E3D /* MoreChoiceView.m */; };
 		D2769D271B9052D7003D9E3D /* button_demo_department@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2769D251B9052D7003D9E3D /* button_demo_department@2x.png */; };
 		D2769D281B9052D7003D9E3D /* button_demo_department_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2769D261B9052D7003D9E3D /* button_demo_department_select@2x.png */; };
-		EB3959891A8EE69D0083B659 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */; };
 		EB395DFF1A8F0AC40083B659 /* MallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB395DFE1A8F0AC40083B659 /* MallViewController.m */; };
 		EB395E021A8F0C8D0083B659 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB395E011A8F0C8D0083B659 /* SettingViewController.m */; };
 		EB4B067D1AC685E900DCF67B /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = EB4B05F01AC685E900DCF67B /* 114.png */; };
@@ -189,6 +191,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		C9F823A51CC646F400EFA399 /* libhelpdesk_sdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libhelpdesk_sdk.a; path = "../kefu-sdk-ios/helpdesk_sdk/build/Debug-iphoneos/libhelpdesk_sdk.a"; sourceTree = "<group>"; };
 		D2769D211B9041DA003D9E3D /* MoreChoiceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoreChoiceView.h; path = HomeView/MoreChoiceView.h; sourceTree = "<group>"; };
 		D2769D221B9041DA003D9E3D /* MoreChoiceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoreChoiceView.m; path = HomeView/MoreChoiceView.m; sourceTree = "<group>"; };
 		D2769D251B9052D7003D9E3D /* button_demo_department@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_demo_department@2x.png"; sourceTree = "<group>"; };
@@ -383,7 +388,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB3959891A8EE69D0083B659 /* libstdc++.6.dylib in Frameworks */,
+				C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */,
+				C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */,
+				C9F823A61CC646F400EFA399 /* libhelpdesk_sdk.a in Frameworks */,
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
 				EB62E4511A8E2DA000705655 /* libxml2.dylib in Frameworks */,
@@ -673,6 +680,9 @@
 		EB62E1F01A8DD92D00705655 = {
 			isa = PBXGroup;
 			children = (
+				C9AAF3A61CC7495E00211B1B /* libc++.tbd */,
+				C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */,
+				C9F823A51CC646F400EFA399 /* libhelpdesk_sdk.a */,
 				EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */,
 				EB62E4541A8E2DAB00705655 /* Foundation.framework */,
 				EB62E4521A8E2DA400705655 /* UIKit.framework */,
@@ -815,7 +825,7 @@
 		EB62E1F11A8DD92D00705655 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = easemob;
 				TargetAttributes = {
 					EB62E1F81A8DD92D00705655 = {
@@ -1085,6 +1095,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: EaseMob Inc.";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1099,6 +1110,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/Users/brightleilei/easemob/kefu-sdk-ios/helpdesk_sdk/export/include";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1136,6 +1148,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/Users/brightleilei/easemob/kefu-sdk-ios/helpdesk_sdk/export/include";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "32864BA2-3C98-4A3E-9C26-47601229562F";
@@ -1156,7 +1169,7 @@
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"${PROJECT_DIR}/../EaseMobSDK/include/**",
+					"${PROJECT_DIR}/../emclient-ios/newSDK/export/include/**",
 				);
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -1168,6 +1181,7 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios/3rdparty/VoiceConvert/opencore-amrwb",
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1185,7 +1199,7 @@
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"${PROJECT_DIR}/../EaseMobSDK/include/**",
+					"${PROJECT_DIR}/../emclient-ios/newSDK/export/include/**",
 				);
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -1197,6 +1211,7 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios/3rdparty/VoiceConvert/opencore-amrwb",
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1216,6 +1231,7 @@
 				);
 				INFOPLIST_FILE = "CustomerSystem-iosTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.nonui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CustomerSystem-ios.app/CustomerSystem-ios";
 			};
@@ -1231,6 +1247,7 @@
 				);
 				INFOPLIST_FILE = "CustomerSystem-iosTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.nonui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CustomerSystem-ios.app/CustomerSystem-ios";
 			};
