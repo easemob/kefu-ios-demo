@@ -293,9 +293,9 @@
     //转变输入样式
     self.questionButton = [[UIButton alloc] initWithFrame:CGRectMake(kHorizontalPadding, kVerticalPadding, kInputTextViewMinHeight, kInputTextViewMinHeight)];
     self.questionButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_question"] forState:UIControlStateNormal];
-    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_keyboard"] forState:UIControlStateSelected];
-    [self.questionButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_comment"] forState:UIControlStateNormal];
+//    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_keyboard"] forState:UIControlStateSelected];
+    [self.questionButton addTarget:self action:@selector(leaveMsgAction:) forControlEvents:UIControlEventTouchUpInside];
     self.questionButton.tag = 0;
     allButtonWidth += CGRectGetMaxX(self.questionButton.frame);
     textViewLeftMargin += CGRectGetMaxX(self.questionButton.frame);
@@ -480,6 +480,13 @@
 
 #pragma mark - action
 
+- (void)leaveMsgAction:(id)sender
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didPressedLeaveMsgButton)]) {
+        [self.delegate didPressedLeaveMsgButton];
+    }
+}
+
 - (void)buttonAction:(id)sender
 {
     UIButton *button = (UIButton *)sender;
@@ -572,6 +579,17 @@
 + (CGFloat)defaultHeight
 {
     return kVerticalPadding * 2 + kInputTextViewMinHeight;
+}
+
+- (void)setLeaveMsgButtonHidden
+{
+    self.questionButton.hidden = YES;
+    self.moreButton.hidden = YES;
+    self.faceButton.frame = self.moreButton.frame;
+    CGRect frame = self.inputTextView.frame;
+    frame.size.width = CGRectGetMinX(self.faceButton.frame) - CGRectGetMinX(self.questionButton.frame) - kHorizontalPadding * 1.5;
+    frame.origin.x = CGRectGetMinX(self.questionButton.frame);
+    self.inputTextView.frame = frame;
 }
 
 @end

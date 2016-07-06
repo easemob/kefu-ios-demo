@@ -17,6 +17,9 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
+#define kEaseMobUserToken @"token"
+#define kKefuBaseURL @"https://kefu.easemob.com"
+
 
 //Ext keyWord
 #define kMesssageExtWeChat @"weichat"

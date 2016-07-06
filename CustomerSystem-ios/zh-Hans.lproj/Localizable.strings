@@ -74,6 +74,10 @@
 "title.commodity" = "商品详情";
 "title.nickname" = "昵称";
 "title.satisfaction" = "满意度评价";
+"title.messagebox" = "消息箱";
+"title.leavemsg" = "留言";
+"title.leavemsgdetail" = "留言详情";
+"title.leavemsgsetting" = "留言设置";
 
 //choice
 "choice.preSale" = "售前客服";
@@ -143,3 +147,24 @@
 "NSDateCategory.text14" = "今天 %@";
 
 "transferToKf.fail" = "转人工客服请求失败，请确认连接状态！";
+
+//leaveMessage
+"leaveMessage.name" = "姓名";
+"leaveMessage.phone" = "电话";
+"leaveMessage.mail" = "邮箱";
+"leaveMessage.content" = "内容";
+"leaveMessage.leavemsg.sending" = "发送中...";
+"leaveMessage.leavesucceed" = "发送成功";
+"leaveMessage.leavefailed" = "发送失败";
+"leaveMessage.leavemsg.load" = "加载留言详情";
+"leaveMessage.leavemsg.loadsucceed" = "加载成功";
+"leaveMessage.leavemsg.loadfailed" = "加载失败";
+"leaveMessage.leavemsg.comment" = "评论";
+"leaveMessage.leavemsg.theme" = "主题:";
+"leaveMessage.leavemsg.nickname" = "访客昵称:";
+"leaveMessage.leavemsg.content" = "内容:";
+"leaveMessage.leavemsg.phone" = "手机:";
+"leaveMessage.leavemsg.qq" = "QQ:";
+"leaveMessage.leavemsg.weibo" = "微博:";
+"leaveMessage.leavemsg.mail" = "邮箱:";
+"leaveMessage.leavemsg.attachment" = "附件";

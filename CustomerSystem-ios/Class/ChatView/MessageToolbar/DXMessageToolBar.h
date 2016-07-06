@@ -96,6 +96,11 @@
  */
 - (void)cancelTouchRecord;
 
+/**
+ *  设置留言button隐藏
+ */
+- (void)setLeaveMsgButtonHidden;
+
 @end
 
 @protocol DXMessageToolBarDelegate <NSObject>
@@ -129,6 +134,13 @@
  *  @param faceLocalPath 选中的表情的本地路径
  */
 - (void)didSendFace:(NSString *)faceLocalPath;
+
+/*
+ *
+ *  发起留言
+ *
+ */
+- (void)didPressedLeaveMsgButton;
 
 
 @required

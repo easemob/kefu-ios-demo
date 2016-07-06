@@ -31,5 +31,7 @@
 #define kAppKey @"CSEM_appkey"
 #define kCustomerName @"CSEM_name"
 #define kCustomerNickname @"CSEM_nickname"
+#define kCustomerTenantId @"CSEM_tenantId"
+#define kCustomerProjectId @"CSEM_projectId"
 
 #endif

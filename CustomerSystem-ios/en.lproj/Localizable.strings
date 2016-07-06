@@ -75,6 +75,10 @@
 "title.commodity" = "Commodity Info";
 "title.nickname" = "Nickname";
 "title.satisfaction" = "Satisfaction Evaluation";
+"title.messagebox" = "Message Box";
+"title.leavemsg" = "Leave Message";
+"title.leavemsgdetail" = "Leave Message Detail";
+"title.leavemsgsetting" = "Leave Message Setting";
 
 //choice
 "choice.preSale" = "Pre Sale";
@@ -146,3 +150,24 @@
 "NSDateCategory.text14" = "today %@";
 
 "transferToKf.fail" = "Transfer to the artificial customer service request failed, please confirm the connection status!";
+
+//leaveMessage
+"leaveMessage.name" = "Name";
+"leaveMessage.phone" = "Phone";
+"leaveMessage.mail" = "Mail";
+"leaveMessage.content" = "Content";
+"leaveMessage.leavemsg.sending" = "Sending...";
+"leaveMessage.leavesucceed" = "Send succeed";
+"leaveMessage.leavefailed" = "Send failed";
+"leaveMessage.leavemsg.load" = "Loading...";
+"leaveMessage.leavemsg.loadsucceed" = "Load succeed";
+"leaveMessage.leavemsg.loadfailed" = "Load failed";
+"leaveMessage.leavemsg.comment" = "Comment";
+"leaveMessage.leavemsg.theme" = "Theme:";
+"leaveMessage.leavemsg.nickname" = "Nickname:";
+"leaveMessage.leavemsg.content" = "Content:";
+"leaveMessage.leavemsg.phone" = "Phone:";
+"leaveMessage.leavemsg.qq" = "QQ:";
+"leaveMessage.leavemsg.weibo" = "Weibo:";
+"leaveMessage.leavemsg.mail" = "Mail:";
+"leaveMessage.leavemsg.attachment" = "Attachment";

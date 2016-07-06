@@ -45,6 +45,18 @@ static EMIMHelper *helper = nil;
             [userDefaults setObject:_nickname forKey:kCustomerNickname];
         }
         
+        _tenantId = [userDefaults objectForKey:kCustomerTenantId];
+        if ([_tenantId length] == 0) {
+            _tenantId = @"";
+            [userDefaults setObject:_tenantId forKey:kCustomerTenantId];
+        }
+        
+        _projectId = [userDefaults objectForKey:kCustomerProjectId];
+        if ([_projectId length] == 0) {
+            _projectId = @"";
+            [userDefaults setObject:_projectId forKey:kCustomerProjectId];
+        }
+        
         _username = [userDefaults objectForKey:@"username"];
         _password = [userDefaults objectForKey:@"password"];
     }
@@ -86,6 +98,7 @@ static EMIMHelper *helper = nil;
                     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                     [userDefaults setObject:@"username" forKey:_username];
                     [userDefaults setObject:@"password" forKey:_password];
+                    [userDefaults synchronize];
                     [easemob.chatManager asyncLoginWithUsername:_username password:_password];
                 }
             } onQueue:nil];
@@ -116,6 +129,24 @@ static EMIMHelper *helper = nil;
     }
 }
 
+- (void)setProjectId:(NSString *)projectId
+{
+    if ([projectId length] > 0 && ![projectId isEqualToString:_projectId]) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:projectId forKey:kCustomerProjectId];
+        _projectId = [projectId copy];
+    }
+}
+
+- (void)setTenantId:(NSString *)tenantId
+{
+    if ([tenantId length] > 0 && ![tenantId isEqualToString:_tenantId]) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:tenantId forKey:kCustomerTenantId];
+        _tenantId = [tenantId copy];
+    }
+}
+
 - (void)refreshHelperData
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -135,6 +166,18 @@ static EMIMHelper *helper = nil;
     if ([_nickname length] == 0) {
         _nickname = @"";
         [userDefaults setObject:_nickname forKey:kCustomerNickname];
+    }
+    
+    _tenantId = [userDefaults objectForKey:kCustomerProjectId];
+    if ([_tenantId length] == 0) {
+        _tenantId = @"";
+        [userDefaults setObject:_tenantId forKey:kCustomerTenantId];
+    }
+    
+    _projectId = [userDefaults objectForKey:kCustomerProjectId];
+    if ([_projectId length] == 0) {
+        _projectId = @"";
+        [userDefaults setObject:_projectId forKey:kCustomerProjectId];
     }
     
     [userDefaults removeObjectForKey:@"username"];

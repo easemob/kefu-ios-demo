@@ -33,6 +33,7 @@
 #import "EMIMHelper.h"
 #import "SatisfactionViewController.h"
 #import "ConvertToCommonEmoticonsHelper.h"
+#import "LeaveMsgViewController.h"
 
 #define KPageCount 20
 #define kafterSale @"shouhou"
@@ -895,6 +896,12 @@
     if (text && text.length > 0) {
         [self sendTextMessage:text];
     }
+}
+
+- (void)didPressedLeaveMsgButton
+{
+    LeaveMsgViewController *leaveMsgView= [[LeaveMsgViewController alloc] init];
+    [self.navigationController pushViewController:leaveMsgView animated:YES];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
