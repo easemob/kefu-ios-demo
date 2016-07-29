@@ -185,6 +185,10 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
             return [[EMChatVideoBubbleView alloc] init];
         }
             break;
+        case eMessageBodyType_File:
+        {
+            return [[EMChatTextBubbleView alloc] init];
+        }
         default:
             break;
     }

@@ -33,6 +33,7 @@
 #import "EMIMHelper.h"
 #import "SatisfactionViewController.h"
 #import "ConvertToCommonEmoticonsHelper.h"
+#import "LeaveMsgViewController.h"
 
 #define KPageCount 20
 #define kafterSale @"shouhou"
@@ -897,6 +898,12 @@
     }
 }
 
+- (void)didPressedLeaveMsgButton
+{
+    LeaveMsgViewController *leaveMsgView= [[LeaveMsgViewController alloc] init];
+    [self.navigationController pushViewController:leaveMsgView animated:YES];
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -1221,7 +1228,7 @@
     [extDic setObject:imageName forKey:@"imageName"];
     [extDic setObject:@"custom" forKey:@"type"];
     
-    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:@"客服图文混排消息" toUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO ext:extDic];
+    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:@"" toUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO ext:extDic];
     [self addMessage:tempMessage];
 }
 

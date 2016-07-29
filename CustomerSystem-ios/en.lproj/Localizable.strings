@@ -38,6 +38,7 @@
 "loginAtOtherDevice" = "your login account has been in other places";
 "loginUserRemoveFromServer" = "your account has been removed from the server side";
 "appkeyError" = "appkey error";
+"unsupportMessageType" = "Unsupport Message Type";
 
 //general
 "prompt" = "Prompt";
@@ -46,6 +47,8 @@
 
 "receiveCmdMessage" = "Cmd Message";
 
+"setTenantId" = "TenantID";
+"setProjectId" = "ProjectID";
 "setNickname" = "Nickname";
 "customerChat" = "Customer";
 "customerUser" = "IM Customer";
@@ -75,6 +78,13 @@
 "title.commodity" = "Commodity Info";
 "title.nickname" = "Nickname";
 "title.satisfaction" = "Satisfaction Evaluation";
+"title.messagebox" = "Message Box";
+"title.leavemsg" = "Leave Message";
+"title.leavemsgdetail" = "Leave Message Detail";
+"title.leavemsgsetting" = "Leave Message Setting";
+"title.reply" = "Reply";
+"title.projectId" = "ProjectID";
+"title.tenantId" = "TenantID";
 
 //choice
 "choice.preSale" = "Pre Sale";
@@ -146,3 +156,30 @@
 "NSDateCategory.text14" = "today %@";
 
 "transferToKf.fail" = "Transfer to the artificial customer service request failed, please confirm the connection status!";
+
+//leaveMessage
+"leaveMessage.name" = "Name";
+"leaveMessage.phone" = "Phone";
+"leaveMessage.mail" = "Mail";
+"leaveMessage.content" = "Content";
+"leaveMessage.leavemsg.sending" = "Sending...";
+"leaveMessage.leavesucceed" = "Send succeed";
+"leaveMessage.leavefailed" = "Send failed";
+"leaveMessage.leavemsg.load" = "Loading...";
+"leaveMessage.leavemsg.loadsucceed" = "Load succeed";
+"leaveMessage.leavemsg.loadfailed" = "Load failed";
+"leaveMessage.leavemsg.comment" = "Comment";
+"leaveMessage.leavemsg.theme" = "Theme:";
+"leaveMessage.leavemsg.nickname" = "Nickname:";
+"leaveMessage.leavemsg.content" = "Content:";
+"leaveMessage.leavemsg.phone" = "Phone:";
+"leaveMessage.leavemsg.qq" = "QQ:";
+"leaveMessage.leavemsg.weibo" = "Weibo:";
+"leaveMessage.leavemsg.mail" = "Mail:";
+"leaveMessage.leavemsg.attachment" = "Attachment";
+"leaveMessage.leavemsg.reply" = "Reply";
+"leaveMessage.leavemsg.addattachment" = "Add Attachment";
+"leaveMessage.leavemsg.replyempty" = "Reply is empty";
+"leaveMessage.leavemsg.attachmentname" = "Attachment";
+"leaveMessage.leavemsg.uploadattachment" = "Upload attachment";
+"leaveMessage.leavemsg.uploadattachment.failed" = "Upload attachment failed";

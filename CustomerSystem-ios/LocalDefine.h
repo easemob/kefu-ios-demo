@@ -20,6 +20,7 @@
 #define KNOTIFICATION_LOGINCHANGE @"loginStateChange"
 #define KNOTIFICATION_CHAT @"chat"
 #define KNOTIFICATION_SETTINGCHANGE @"settingChange"
+#define KNOTIFICATION_ADDMSG_TO_LIST @"addmsgtolist"
 
 #define CHATVIEWBACKGROUNDCOLOR [UIColor colorWithRed:0.936 green:0.932 blue:0.907 alpha:1]
 
@@ -31,5 +32,7 @@
 #define kAppKey @"CSEM_appkey"
 #define kCustomerName @"CSEM_name"
 #define kCustomerNickname @"CSEM_nickname"
+#define kCustomerTenantId @"CSEM_tenantId"
+#define kCustomerProjectId @"CSEM_projectId"
 
 #endif

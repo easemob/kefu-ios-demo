@@ -73,6 +73,7 @@
     if ([_editField.text length] == 0) {
         _editField.text = _content;
     }
+    [_editField resignFirstResponder];
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_SETTINGCHANGE object:@{@"type":_type, @"content":_editField.text}];
     [self.navigationController popViewControllerAnimated:YES];
 }

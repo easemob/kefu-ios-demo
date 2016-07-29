@@ -20,6 +20,10 @@
 
 @property (strong, nonatomic) NSString *password;
 
+@property (copy, nonatomic) NSString *tenantId;
+
+@property (copy, nonatomic) NSString *projectId;
+
 + (instancetype)defaultHelper;
 
 - (void)loginEasemobSDK;

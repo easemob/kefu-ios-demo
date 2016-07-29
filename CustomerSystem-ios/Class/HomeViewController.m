@@ -13,11 +13,13 @@
 #import "MallViewController.h"
 #import "SettingViewController.h"
 #import "ChatViewController.h"
+#import "MessageViewController.h"
 #import "UIViewController+HUD.h"
 #import "ChatSendHelper.h"
 #import "EMCDDeviceManager.h"
 #import "LocalDefine.h"
 #import "MoreChoiceView.h"
+#import "LeaveMsgDetailModel.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
@@ -25,6 +27,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 @interface HomeViewController () <UIAlertViewDelegate, IChatManagerDelegate>
 {
     MallViewController *_mallController;
+    MessageViewController *_messageController;
     SettingViewController *_settingController;
     
     UIBarButtonItem *_chatItem;
@@ -123,6 +126,10 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         self.navigationItem.rightBarButtonItem = _chatItem;
     }
     else if (item.tag == 1){
+        self.title = NSLocalizedString(@"title.messagebox", @"Message Box");
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    else if (item.tag == 2){
         self.title = NSLocalizedString(@"title.setting", @"Setting");
         self.navigationItem.rightBarButtonItem = nil;
     }
@@ -158,15 +165,21 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [self unSelectedTapTabBarItems:_mallController.tabBarItem];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
+    _messageController = [[MessageViewController alloc] initWithNibName:nil bundle:nil];
+    _messageController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.messagebox", @"Message Box") image:nil tag:1];
+    [_messageController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_message_hl"] withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_message"]];
+    [self unSelectedTapTabBarItems:_messageController.tabBarItem];
+    [self selectedTapTabBarItems:_messageController.tabBarItem];
+    
     _settingController = [[SettingViewController alloc] initWithNibName:nil bundle:nil];
-    _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:1];
+    _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:2];
     [_settingController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_settingHL"]
                          withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_setting"]];
     _settingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self unSelectedTapTabBarItems:_settingController.tabBarItem];
     [self selectedTapTabBarItems:_settingController.tabBarItem];
     
-    self.viewControllers = @[_mallController, _settingController];
+    self.viewControllers = @[_mallController,_messageController, _settingController];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
     _choiceView = [[MoreChoiceView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
@@ -272,6 +285,25 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
 }
 
+// 统计未读消息数
+-(void)setupUnreadMessageCount
+{
+    NSArray *conversations = [[[EaseMob sharedInstance] chatManager] conversations];
+    NSInteger unreadCount = 0;
+    for (EMConversation *conversation in conversations) {
+        unreadCount += conversation.unreadMessagesCount;
+    }
+    if (_messageController) {
+        if (unreadCount > 0) {
+            _messageController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%i",(int)unreadCount];
+        }else{
+            _messageController.tabBarItem.badgeValue = nil;
+        }
+    }
+    UIApplication *application = [UIApplication sharedApplication];
+    [application setApplicationIconBadgeNumber:unreadCount];
+}
+
 #pragma mark - IChatManagerDelegate 消息变化
 
 - (void)didUpdateConversationList:(NSArray *)conversationList
@@ -306,6 +338,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         [self _playSoundAndVibration];
     }
 #endif
+}
+
+-(void)didReceiveOfflineMessages:(NSArray *)offlineMessages
+{
+
 }
 
 -(void)didReceiveCmdMessage:(EMMessage *)message
@@ -351,6 +388,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         [self showHint:NSLocalizedString(@"reconnection.fail", @"reconnection failure, later will continue to reconnection")];
     }else{
         [self showHint:NSLocalizedString(@"reconnection.success", @"reconnection successful！")];
+    }
+}
+
+- (void)didAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
+{
+    if (!error) {
+        [_messageController reloadLeaveMsgList];
     }
 }
 

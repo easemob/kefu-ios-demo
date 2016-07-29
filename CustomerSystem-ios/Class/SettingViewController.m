@@ -19,6 +19,8 @@
     NSString *_appkey;
     NSString *_cname;
     NSString *_nickname;
+    NSString *_tenantId;
+    NSString *_projectId;
 }
 
 @end
@@ -44,6 +46,8 @@
     _appkey = [[EMIMHelper defaultHelper] appkey];
     _cname = [[EMIMHelper defaultHelper] cname];
     _nickname = [[EMIMHelper defaultHelper] nickname];
+    _tenantId = [[EMIMHelper defaultHelper] tenantId];
+    _projectId = [[EMIMHelper defaultHelper] projectId];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingChange:) name:KNOTIFICATION_SETTINGCHANGE object:nil];
 }
@@ -62,7 +66,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 4;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -108,6 +112,18 @@
         }
             break;
         case 3:
+        {
+            cell.textLabel.text = NSLocalizedString(@"setTenantId", @"TenantId");
+            tempLabel.text = _tenantId;
+        }
+            break;
+        case 4:
+        {
+            cell.textLabel.text = NSLocalizedString(@"setProjectId", @"ProjectId");
+            tempLabel.text = _projectId;
+        }
+            break;
+        case 5:
         {
             cell.textLabel.text = NSLocalizedString(@"setting.feedback", @"Feedback");
             tempLabel.text = @"";
@@ -169,6 +185,20 @@
         }
             break;
         case 3:
+        {
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"tenantId" content:_tenantId];
+            editController.title = NSLocalizedString(@"title.tenantId", @"TenantId");
+            [self.navigationController pushViewController:editController animated:YES];
+        }
+            break;
+        case 4:
+        {
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"projectId" content:_projectId];
+            editController.title = NSLocalizedString(@"title.projectId", @"ProjectId");
+            [self.navigationController pushViewController:editController animated:YES];
+        }
+            break;
+        case 5:
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:nil];
         }
@@ -232,6 +262,12 @@
         } else if ([type isEqualToString:@"nickname"]) {
             _nickname = content;
             [[EMIMHelper defaultHelper] setNickname:content];
+        } else if ([type isEqualToString:@"tenantId"]) {
+            _tenantId = content;
+            [[EMIMHelper defaultHelper] setTenantId:content];
+        } else if ([type isEqualToString:@"projectId"]) {
+            _projectId = content;
+            [[EMIMHelper defaultHelper] setProjectId:content];
         }
         
         [self.tableView reloadData];

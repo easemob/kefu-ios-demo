@@ -130,6 +130,13 @@
  */
 - (void)didSendFace:(NSString *)faceLocalPath;
 
+/*
+ *
+ *  发起留言
+ *
+ */
+- (void)didPressedLeaveMsgButton;
+
 
 @required
 /**
