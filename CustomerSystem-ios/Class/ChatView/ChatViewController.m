@@ -1228,7 +1228,7 @@
     [extDic setObject:imageName forKey:@"imageName"];
     [extDic setObject:@"custom" forKey:@"type"];
     
-    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:@"客服图文混排消息" toUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO ext:extDic];
+    EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:@"" toUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO ext:extDic];
     [self addMessage:tempMessage];
 }
 

@@ -37,6 +37,7 @@
 "loginAtOtherDevice" = "你的账号已在其他地方登录";
 "loginUserRemoveFromServer" = "你的账号已被从服务器端移除";
 "appkeyError" = "appkey错误";
+"unsupportMessageType" = "不支持的消息类型";
 
 //general
 "prompt" = "提示";
@@ -45,6 +46,8 @@
 
 "receiveCmdMessage" = "透传消息";
 
+"setTenantId" = "租户ID";
+"setProjectId" = "留言ID";
 "setNickname" = "设置昵称";
 "customerChat" = "联系客服";
 "customerUser" = "IM服务号";
@@ -74,10 +77,13 @@
 "title.commodity" = "商品详情";
 "title.nickname" = "昵称";
 "title.satisfaction" = "满意度评价";
-"title.messagebox" = "消息箱";
+"title.messagebox" = "留言箱";
 "title.leavemsg" = "留言";
 "title.leavemsgdetail" = "留言详情";
 "title.leavemsgsetting" = "留言设置";
+"title.reply" = "写评论";
+"title.projectId" = "留言ID";
+"title.tenantId" = "租户ID";
 
 //choice
 "choice.preSale" = "售前客服";
@@ -168,3 +174,9 @@
 "leaveMessage.leavemsg.weibo" = "微博:";
 "leaveMessage.leavemsg.mail" = "邮箱:";
 "leaveMessage.leavemsg.attachment" = "附件";
+"leaveMessage.leavemsg.reply" = "回复";
+"leaveMessage.leavemsg.addattachment" = "添加附件";
+"leaveMessage.leavemsg.replyempty" = "回复内容不能空";
+"leaveMessage.leavemsg.attachmentname" = "附件名称";
+"leaveMessage.leavemsg.uploadattachment" = "上传附件";
+"leaveMessage.leavemsg.uploadattachment.failed" = "上传附件失败";

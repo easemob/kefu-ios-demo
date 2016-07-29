@@ -96,11 +96,6 @@
  */
 - (void)cancelTouchRecord;
 
-/**
- *  设置留言button隐藏
- */
-- (void)setLeaveMsgButtonHidden;
-
 @end
 
 @protocol DXMessageToolBarDelegate <NSObject>

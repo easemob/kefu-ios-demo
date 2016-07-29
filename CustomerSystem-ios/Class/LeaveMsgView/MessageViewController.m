@@ -16,11 +16,22 @@
 #import "NSDate+Category.h"
 #import "LeaveMsgDetailViewController.h"
 #import "LeaveMsgDetailModel.h"
+#import "EMHttpManager.h"
+#import "EMIMHelper.h"
 
 @interface MessageViewController () <UITableViewDelegate,UITableViewDataSource,EMChatManagerDelegate,SRRefreshDelegate>
+{
+    NSInteger _page;
+    NSInteger _pageSize;
+    BOOL _hasMore;
+    
+    NSObject *_refreshLock;
+    BOOL _isRefresh;
+}
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) SRRefreshView *slimeView;
+@property (nonatomic, strong) NSDateFormatter *dateformatter;
 
 @end
 
@@ -31,21 +42,29 @@
     [super viewDidLoad];
     self.title = NSLocalizedString(@"title.messagebox", @"Message Box");
     
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        self.edgesForExtendedLayout =  UIRectEdgeNone;
+    }
+    
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.tableView addSubview:self.slimeView];
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = RGBACOLOR(238, 238, 245, 1);
     
-    [[EaseMob sharedInstance].chatManager loadAllConversationsFromDatabaseWithAppend2Chat:YES];
+    _pageSize = 10;
+    _refreshLock = [[NSObject alloc] init];
+    [self reloadLeaveMsgList];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addMsgToList:) name:KNOTIFICATION_ADDMSG_TO_LIST object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self loadAndRefreshData];
+
     [self registNotification];
 }
 
@@ -75,6 +94,8 @@
     
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - getter
@@ -104,16 +125,52 @@
     return _slimeView;
 }
 
-#pragma mark - IChatMangerDelegate
-
--(void)didUnreadMessagesCountChanged
+- (NSDateFormatter*)dateformatter
 {
-    [self loadAndRefreshData];
+    if (_dateformatter == nil) {
+        _dateformatter = [[NSDateFormatter alloc] init];
+        [_dateformatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+        [_dateformatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+    }
+    return _dateformatter;
 }
 
-- (void)didUpdateGroupList:(NSArray *)allGroups error:(EMError *)error
+
+#pragma mark - IChatMangerDelegate
+
+- (void)didReceiveMessage:(EMMessage *)message
 {
-    [self loadAndRefreshData];
+    NSDictionary *ext = [self _getSafeDictionary:message.ext];
+    if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
+        EMConversation *conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:message.from conversationType:eConversationTypeChat];
+        [conversation removeMessageWithId:message.messageId];
+        [[EaseMob sharedInstance].chatManager removeConversationByChatter:conversation.chatter deleteMessages:YES append2Chat:YES];
+        
+        LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"]];
+        
+        for (LeaveMsgCommentModel *comment in _dataArray) {
+            if (comment.ticketId == ticket.ticketId) {
+                [self.tableView reloadData];
+                return;
+            }
+        }
+        
+        [self reloadLeaveMsgList];
+    }
+}
+
+- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
+{
+    for (EMMessage *message in offlineMessages) {
+        NSDictionary *ext = [self _getSafeDictionary:message.ext];
+        if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
+            EMConversation *conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:message.from conversationType:eConversationTypeChat];
+            [conversation removeMessageWithId:message.messageId];
+            [[EaseMob sharedInstance].chatManager removeConversationByChatter:conversation.chatter deleteMessages:YES append2Chat:YES];
+            
+            [self reloadLeaveMsgList];
+        }
+    }
 }
 
 #pragma mark - scrollView delegate
@@ -136,42 +193,66 @@
 //加载更多
 - (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
 {
-    [self loadAndRefreshData];
-    [_slimeView endRefresh];
+    _page = 0;
+    __weak typeof(self) weakSelf = self;
+    [self loadAndRefreshDataWithCompletion:^(BOOL success) {
+        [weakSelf.slimeView endRefresh];
+    }];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (_hasMore) {
+        if (section == 0) {
+            return [self.dataArray count];
+        } else {
+            return 1;
+        }
+    }
     return [self.dataArray count];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (_hasMore) {
+        return 2;
+    }
     return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identify = @"MessageListCell";
-    LeaveMsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
-    if (cell == nil) {
-        cell = [[LeaveMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
-    }
-    EMConversation *conversation = [self.dataArray objectAtIndex:indexPath.row];
-    cell.name = conversation.chatter;
-    cell.detailMsg = [self subTitleMessageByConversation:conversation];
-    cell.time = [self lastMessageTimeByConversation:conversation];
-    cell.unreadCount = [self unreadMessageCountByConversation:conversation];
-    if ([self isLeaveMsgCell:conversation.latestMessage]) {
-        cell.name = [NSString stringWithFormat:@"ID: %@",[self getTicketIdWithMessage:conversation.latestMessage]];
+    if (indexPath.section == 0) {
+        LeaveMsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
+        if (cell == nil) {
+            cell = [[LeaveMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+        }
+        
+        
+        LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row];
+        cell.name = [NSString stringWithFormat:@"ID: %@",@(comment.ticketId)];
+        cell.placeholderImage = [UIImage imageNamed:@"customer"];
+        if (comment.attachments) {
+            cell.detailMsg = [NSString stringWithFormat:@"%@-[%@]",comment.content,NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment")];
+        } else {
+            cell.detailMsg = comment.content;
+        }
+        cell.time = [NSDate formattedTimeFromTimeInterval:[[self.dateformatter dateFromString:comment.updated_at] timeIntervalSince1970]];
         cell.placeholderImage = [UIImage imageNamed:@"message_comment"];
         cell.imageView.backgroundColor = RGBACOLOR(242, 83, 131, 1);
-    } else {
-        cell.placeholderImage = [UIImage imageNamed:@"message_avatar"];
-        cell.imageView.backgroundColor = RGBACOLOR(212, 200, 204, 1);
+        return cell;
     }
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadMoreCell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"loadMoreCell"];
+    }
+    
+    cell.textLabel.text = @"点击加载更多";
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     
     return cell;
 }
@@ -181,14 +262,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    EMConversation *conversation = [self.dataArray objectAtIndex:indexPath.row];
-    if ([self isLeaveMsgCell:conversation.latestMessage]) {
-        LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithTicketId:[self getTicketIdWithMessage:conversation.latestMessage] chatter:conversation.chatter];
+    if (indexPath.section == 0) {
+        LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row];
+        LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithTicketId:comment.ticketId chatter:nil];
         [self.navigationController pushViewController:leaveMsgDetail animated:YES];
     } else {
-        ChatViewController *chatController = [[ChatViewController alloc] initWithChatter:conversation.chatter type:eSaleTypeNone];
-        chatController.title = @"演示客服";
-        [self.navigationController pushViewController:chatController animated:YES];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        cell.userInteractionEnabled = NO;
+        [self loadAndRefreshDataWithCompletion:^(BOOL success) {
+            cell.userInteractionEnabled = YES;
+        }];
     }
 }
 
@@ -197,60 +280,53 @@
     return [LeaveMsgCell tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
--(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        EMConversation *conversation = [self.dataArray objectAtIndex:indexPath.row];
-        [[EaseMob sharedInstance].chatManager removeConversationByChatter:conversation.chatter deleteMessages:YES append2Chat:YES];
-        [self.dataArray removeObjectAtIndex:indexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }
-}
-
 #pragma mark - private
 
-- (void)loadAndRefreshData
+- (void)loadAndRefreshDataWithCompletion:(void (^)(BOOL success))completion
 {
-    NSMutableArray *ret = nil;
-    NSArray *conversations = [[EaseMob sharedInstance].chatManager conversations];
-    
-    NSArray* sorted = [conversations sortedArrayUsingComparator:
-                      ^(EMConversation *obj1, EMConversation* obj2){
-                          EMMessage *message1 = [obj1 latestMessage];
-                          EMMessage *message2 = [obj2 latestMessage];
-                          if(message1.timestamp > message2.timestamp) {
-                              return(NSComparisonResult)NSOrderedAscending;
-                          }else {
-                              return(NSComparisonResult)NSOrderedDescending;
-                          }
-                      }];
-    
-    ret = [[NSMutableArray alloc] initWithArray:sorted];
-    [self.dataArray removeAllObjects];
-    for (EMConversation *conversation in ret) {
-        EMMessage *message = conversation.latestMessage;
-        if ([message.ext objectForKey:@"weichat"] && [[message.ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
-        } else {
-            [self.dataArray addObject:conversation];
+    @synchronized (_refreshLock) {
+        if (_isRefresh) {
+            return;
         }
+        _isRefresh = YES;
     }
-    
-    [self.tableView reloadData];
-}
-
-// 得到最后消息时间
--(NSString *)lastMessageTimeByConversation:(EMConversation *)conversation
-{
-    NSString *ret = @"";
-    EMMessage *lastMessage = [conversation latestMessage];;
-    if (lastMessage) {
-        ret = [NSDate formattedTimeFromTimeInterval:lastMessage.timestamp];
-    }
-    return ret;
+    NSDictionary *parameters = @{@"size":@(_pageSize),@"page":@(_page),@"sort":@"updatedAt,desc"};
+    __weak typeof(self) weakSelf = self;
+    [[EMHttpManager sharedInstance] asyncGetMessagesWithTenantId:[EMIMHelper defaultHelper].tenantId projectId:[EMIMHelper defaultHelper].projectId parameters:parameters completion:^(id responseObject, NSError *error) {
+        @synchronized (_refreshLock) {
+            _isRefresh = NO;
+        }
+        if (!error) {
+            if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
+                if (_page == 0) {
+                    [weakSelf.dataArray removeAllObjects];
+                }
+                _page++;
+                _pageSize = 10;
+                if ([responseObject objectForKey:@"entities"]) {
+                    NSArray *array = [responseObject objectForKey:@"entities"];
+                    for (NSDictionary *entity in array) {
+                        LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:entity];
+                        [weakSelf.dataArray addObject:comment];
+                    }
+                    
+                    if ([array count] == _pageSize) {
+                        _hasMore = YES;
+                    } else {
+                        _hasMore = NO;
+                    }
+                }
+                [weakSelf.tableView reloadData];
+            }
+            if (completion) {
+                completion(YES);
+            }
+        } else {
+            if (completion) {
+                completion(NO);
+            }
+        }
+    }];
 }
 
 // 得到未读消息条数
@@ -309,23 +385,6 @@
     return @"";
 }
 
-- (BOOL)isLeaveMsgCell:(EMMessage*)message
-{
-    NSDictionary *ext = [self _getSafeDictionary:message.ext];
-    if (ext) {
-        if ([ext objectForKey:@"weichat"]) {
-            if ([[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
-                if ([[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"eventName"]) {
-                    if ([[[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"eventName"] isEqualToString:@"CommentCreatedEvent"]) {
-                        return YES;
-                    }
-                }
-            }
-        }
-    }
-    return NO;
-}
-
 - (NSMutableDictionary*)_getSafeDictionary:(NSDictionary*)dic
 {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:dic];
@@ -341,6 +400,26 @@
         }
     }
     return userInfo;
+}
+
+#pragma mark - public 
+
+- (void)reloadLeaveMsgList
+{
+    _page = 0;
+    [self loadAndRefreshDataWithCompletion:nil];
+}
+
+#pragma mark - notification
+
+- (void)addMsgToList:(NSNotification*)notify
+{
+    if (notify.object && [notify.object isKindOfClass:[NSDictionary class]]) {
+        LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:notify.object];
+        [self.dataArray insertObject:comment atIndex:0];
+        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+        _pageSize++;
+    }
 }
 
 @end

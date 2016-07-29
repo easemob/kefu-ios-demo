@@ -26,7 +26,7 @@
 
 -(NSDictionary*)getContent
 {
-    return nil;
+    return [NSDictionary dictionary];
 }
 
 @end
@@ -144,7 +144,7 @@
 - (void)updateModel:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"id"]) {
-        _ticketId = [dictionary objectForKey:@"id"];
+        _ticketId = [[dictionary objectForKey:@"id"] integerValue];
     }
     
     if ([dictionary objectForKey:@"content"]) {
@@ -205,6 +205,24 @@
     }
 }
 
+-(NSDictionary*)getContent
+{
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    if (_name.length > 0) {
+        [dictionary setObject:_name forKey:@"name"];
+    }
+    
+    if (_url.length > 0) {
+        [dictionary setObject:_url forKey:@"url"];
+    }
+    
+    if (_type.length > 0) {
+        [dictionary setObject:_type forKey:@"type"];
+    }
+    
+    return dictionary;
+}
+
 @end
 
 @implementation LeaveMsgBaseModelTicket
@@ -212,7 +230,7 @@
 - (void)updateModel:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"id"]) {
-        _ticketId = [dictionary objectForKey:@"id"];
+        _ticketId = [[dictionary objectForKey:@"id"] integerValue];
     }
     
     if ([dictionary objectForKey:@"content"]) {

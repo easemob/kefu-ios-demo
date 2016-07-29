@@ -20,7 +20,6 @@
 #import "LocalDefine.h"
 #import "MoreChoiceView.h"
 #import "LeaveMsgDetailModel.h"
-#import "LeaveMsgSettingViewController.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
@@ -32,7 +31,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     SettingViewController *_settingController;
     
     UIBarButtonItem *_chatItem;
-    UIBarButtonItem *_msgItem;
 }
 
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;
@@ -74,11 +72,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     _chatItem = [[UIBarButtonItem alloc] initWithCustomView:chatButton];
     self.navigationItem.rightBarButtonItem = _chatItem;
     
-    UIButton *msgButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [msgButton setTitle:NSLocalizedString(@"title.setting", @"Setting") forState:UIControlStateNormal];
-    [msgButton addTarget:self action:@selector(settingLeaveMsg) forControlEvents:UIControlEventTouchUpInside];
-    _msgItem = [[UIBarButtonItem alloc] initWithCustomView:msgButton];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
 }
 
@@ -94,12 +87,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 
 #pragma mark - private action
-
-- (void)settingLeaveMsg
-{
-    LeaveMsgSettingViewController *setting = [[LeaveMsgSettingViewController alloc] init];
-    [self.navigationController pushViewController:setting animated:YES];
-}
 
 - (void)chatItemAction
 {
@@ -140,7 +127,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     }
     else if (item.tag == 1){
         self.title = NSLocalizedString(@"title.messagebox", @"Message Box");
-        self.navigationItem.rightBarButtonItem = _msgItem;
+        self.navigationItem.rightBarButtonItem = nil;
     }
     else if (item.tag == 2){
         self.title = NSLocalizedString(@"title.setting", @"Setting");
@@ -327,7 +314,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 // 未读消息数量变化回调
 -(void)didUnreadMessagesCountChanged
 {
-    [self setupUnreadMessageCount];
+//    [self setupUnreadMessageCount];
 }
 
 - (void)didFinishedReceiveOfflineMessages:(NSArray *)offlineMessages
@@ -351,14 +338,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         [self _playSoundAndVibration];
     }
 #endif
-    [self dealWithMessage:message];
 }
 
 -(void)didReceiveOfflineMessages:(NSArray *)offlineMessages
 {
-    for (EMMessage *message in offlineMessages) {
-        [self dealWithMessage:message];
-    }
+
 }
 
 -(void)didReceiveCmdMessage:(EMMessage *)message
@@ -366,22 +350,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"receiveCmdMessage", @"CMD message") message:msg delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
     [alertView show];
-}
-
-- (void)dealWithMessage:(EMMessage*)message
-{
-    if ([message.ext objectForKey:@"weichat"] && [[message.ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
-        EMConversation *conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:message.from conversationType:eConversationTypeChat];
-        [conversation removeMessageWithId:message.messageId];
-        [[EaseMob sharedInstance].chatManager removeConversationByChatter:conversation.chatter deleteMessages:YES append2Chat:YES];
-        LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[[[message.ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"]];
-        message.from = [NSString stringWithFormat:@"ID:%@",ticket.ticketId];
-        NSMutableDictionary *ext = [NSMutableDictionary dictionaryWithDictionary:message.ext];
-        [[ext objectForKey:@"weichat"] removeObjectForKey:@"notification"];
-        message.ext = ext;
-        [[EaseMob sharedInstance].chatManager conversationForChatter:message.from conversationType:eConversationTypeChat];
-        [[EaseMob sharedInstance].chatManager insertMessageToDB:message append2Chat:YES];
-    }
 }
 
 #pragma mark - IChatManagerDelegate 登录状态变化
@@ -420,6 +388,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         [self showHint:NSLocalizedString(@"reconnection.fail", @"reconnection failure, later will continue to reconnection")];
     }else{
         [self showHint:NSLocalizedString(@"reconnection.success", @"reconnection successful！")];
+    }
+}
+
+- (void)didAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
+{
+    if (!error) {
+        [_messageController reloadLeaveMsgList];
     }
 }
 

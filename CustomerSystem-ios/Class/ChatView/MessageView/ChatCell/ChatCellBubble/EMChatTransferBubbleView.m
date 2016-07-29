@@ -188,6 +188,16 @@ NSString *const kRouterEventTransferBubbleTapEventName = @"kRouterEventTransferB
         _transferBtn.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:167.0/255.0 blue:252.0/255.0 alpha:1.0];
         _transferBtn.userInteractionEnabled = YES;
     }
+    
+    if ([model.message.ext objectForKey:kMesssageExtWeChat]) {
+        NSDictionary *ctrlArgs = [[model.message.ext objectForKey:kMesssageExtWeChat] objectForKey:kMesssageExtWeChat_ctrlArgs];
+        if (ctrlArgs) {
+            if ([ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_label]) {
+                [_transferBtn setTitle:[ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_label] forState:UIControlStateNormal];
+                [_transferBtn setTitle:[ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_label] forState:UIControlStateHighlighted];
+            }
+        }
+    }
 }
 
 - (void)transferAction:(id)sender

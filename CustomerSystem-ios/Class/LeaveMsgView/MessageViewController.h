@@ -10,4 +10,6 @@
 
 @interface MessageViewController : UITableViewController
 
+- (void)reloadLeaveMsgList;
+
 @end

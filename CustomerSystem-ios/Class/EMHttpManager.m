@@ -20,6 +20,8 @@
 
 #define kPOST_leaveAMessage_API @"tenants/%@/projects/%@/tickets/%@/comments%@"
 
+#define kGet_getMessages_API @"tenants/%@/projects/%@/tickets%@"
+
 #define kQUERY_PARAMETER @"?tenantId=%@&easemob-appkey=%@&easemob-username=%@&easemob-target-username=%@"
 
 static EMHttpManager *manager = nil;
@@ -77,11 +79,11 @@ static EMHttpManager *manager = nil;
 
 - (void)asyncGetLeaveMessageDetailWithTenantId:(NSString*)tenantId
                                      projectId:(NSString*)projectId
-                                      ticketId:(NSString*)ticketId
+                                      ticketId:(NSInteger)ticketId
                                     parameters:(NSDictionary*)parameters
                                     completion:(void (^)(id responseObject, NSError *error))completion
 {
-    NSString *path = [NSString stringWithFormat:kGET_leaveAMessageDetail_API,tenantId,projectId,ticketId,[self _getQueryParameters:tenantId]];
+    NSString *path = [NSString stringWithFormat:kGET_leaveAMessageDetail_API,tenantId,projectId,@(ticketId),[self _getQueryParameters:tenantId]];
     [_httpManager GET:path parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completion) {
             completion(responseObject, nil);
@@ -95,11 +97,11 @@ static EMHttpManager *manager = nil;
 
 - (void)asyncGetLeaveMessageAllCommentsWithTenantId:(NSString*)tenantId
                                           projectId:(NSString*)projectId
-                                           ticketId:(NSString*)ticketId
+                                           ticketId:(NSInteger)ticketId
                                          parameters:(NSDictionary*)parameters
                                          completion:(void (^)(id responseObject, NSError *error))completion
 {
-    NSString *path = [NSString stringWithFormat:kGET_leaveAMessageAllComments_API,tenantId,projectId,ticketId,[self _getQueryParameters:tenantId]];
+    NSString *path = [NSString stringWithFormat:kGET_leaveAMessageAllComments_API,tenantId,projectId,@(ticketId),[self _getQueryParameters:tenantId]];
     [_httpManager GET:path parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completion) {
             completion(responseObject, nil);
@@ -112,12 +114,12 @@ static EMHttpManager *manager = nil;
 }
 
 - (void)asyncLeaveAMessageWithTenantId:(NSString*)tenantId
-                            projectId:(NSString*)projectId
-                              ticketId:(NSString*)ticketId
+                             projectId:(NSString*)projectId
+                              ticketId:(NSInteger)ticketId
                             parameters:(NSDictionary*)parameters
                             completion:(void (^)(id responseObject, NSError *error))completion
 {
-    NSString *path = [NSString stringWithFormat:kPOST_leaveAMessage_API,tenantId,projectId,ticketId,[self _getQueryParameters:tenantId]];
+    NSString *path = [NSString stringWithFormat:kPOST_leaveAMessage_API,tenantId,projectId,@(ticketId),[self _getQueryParameters:tenantId]];
     [_httpManager POST:path parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completion) {
             completion(responseObject, nil);
@@ -136,6 +138,51 @@ static EMHttpManager *manager = nil;
         [_httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Easemob IM %@",token] forHTTPHeaderField:@"Authorization"];
     }
     return [[NSString stringWithFormat:kQUERY_PARAMETER,tenantId,[EMIMHelper defaultHelper].appkey,[EMIMHelper defaultHelper].username,[EMIMHelper defaultHelper].cname] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
+- (void)asyncGetMessagesWithTenantId:(NSString*)tenantId
+                           projectId:(NSString*)projectId
+                          parameters:(NSDictionary*)parameters
+                          completion:(void (^)(id responseObject, NSError *error))completion
+{
+    NSString *path = [NSString stringWithFormat:kGet_getMessages_API,tenantId,projectId,[self _getQueryParameters:tenantId]];
+    [_httpManager GET:path parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (completion) {
+            completion(responseObject, nil);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (completion) {
+            completion(nil, error);
+        }
+    }];
+}
+
+- (void)uploadWithTenantId:(NSString*)tenantId
+                      File:(NSData*)file
+                parameters:(NSDictionary*)parameters
+                completion:(void (^)(id responseObject, NSError *error))completion
+
+{
+    
+    NSString *path = [NSString stringWithFormat:@"https://a1.easemob.com/%@/chatfiles",[[EMIMHelper defaultHelper].appkey stringByReplacingOccurrencesOfString:@"#" withString:@"/"]];
+    if ([[EaseMob sharedInstance].chatManager loginInfo]) {
+        [_httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Bear %@",[[[EaseMob sharedInstance].chatManager loginInfo] objectForKey:@"token"]] forHTTPHeaderField:@"Authorization"];
+    }
+    [_httpManager POST:path parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        if ([parameters objectForKey:@"fileName"]) {
+            [formData appendPartWithFileData:file name:@"file" fileName:[parameters objectForKey:@"fileName"] mimeType:@"image/jpeg"];
+        } else {
+            [formData appendPartWithFileData:file name:@"file" fileName:@"image" mimeType:@"image/jpeg"];
+        }
+    } success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (completion) {
+            completion(responseObject, nil);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (completion) {
+            completion(nil, error);
+        }
+    }];
 }
 
 @end

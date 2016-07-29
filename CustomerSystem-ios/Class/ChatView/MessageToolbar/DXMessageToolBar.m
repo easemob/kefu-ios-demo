@@ -581,15 +581,4 @@
     return kVerticalPadding * 2 + kInputTextViewMinHeight;
 }
 
-- (void)setLeaveMsgButtonHidden
-{
-    self.questionButton.hidden = YES;
-    self.moreButton.hidden = YES;
-    self.faceButton.frame = self.moreButton.frame;
-    CGRect frame = self.inputTextView.frame;
-    frame.size.width = CGRectGetMinX(self.faceButton.frame) - CGRectGetMinX(self.questionButton.frame) - kHorizontalPadding * 1.5;
-    frame.origin.x = CGRectGetMinX(self.questionButton.frame);
-    self.inputTextView.frame = frame;
-}
-
 @end

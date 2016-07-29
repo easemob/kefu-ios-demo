@@ -106,6 +106,9 @@
             model.thumbnailImage = [UIImage imageWithContentsOfFile:videoMessageBody.thumbnailLocalPath];
             model.image = model.thumbnailImage;
         }
+        case eMessageBodyType_File:{
+            model.content = NSLocalizedString(@"unsupportMessageType", @"Unsupport Message Type");
+        }
             break;
         default:
             break;

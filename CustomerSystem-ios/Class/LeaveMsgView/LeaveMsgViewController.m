@@ -53,7 +53,7 @@
 {
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
     
@@ -126,17 +126,13 @@
                                                             if (error == nil) {
                                                                 [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavesucceed", "Send succeed")];
                                                                 [weakHud hide:YES afterDelay:0.5];
-                                                                [weakSelf back];
+                                                                [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_ADDMSG_TO_LIST object:responseObject];
+                                                                [weakSelf.navigationController popViewControllerAnimated:YES];
                                                             } else {
                                                                 [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavefailed", "Send failed")];
                                                                 [weakHud hide:YES afterDelay:0.5];
                                                             }
                                                         }];
-}
-
-- (void)back
-{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source

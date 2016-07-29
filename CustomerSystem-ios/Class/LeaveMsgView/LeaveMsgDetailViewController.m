@@ -16,12 +16,12 @@
 #import "LeaveMsgDetailModel.h"
 #import "NSDate+Category.h"
 #import "EaseMob.h"
-#import "DXMessageToolBar.h"
 #import "MessageReadManager.h"
+#import "LeaseMsgReplyController.h"
 
-@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,EMChatManagerDelegate,DXMessageToolBarDelegate>
+@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,EMChatManagerDelegate, LeaseMsgReplyControllerDelegate,LeaveMsgCellDelegate>
 {
-    NSString *_ticketId;
+    NSInteger _ticketId;
     NSDictionary *_temp;
 }
 
@@ -29,16 +29,16 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) DXMessageToolBar *chatToolBar;
 
 @property (nonatomic, strong) EMConversation *conversation;//会话管理者
 @property (nonatomic, strong) NSDateFormatter *dateformatter;
+@property (nonatomic, strong) UIButton *replyButton;
 
 @end
 
 @implementation LeaveMsgDetailViewController
 
-- (instancetype)initWithTicketId:(NSString *)ticketId chatter:(NSString*)chatter
+- (instancetype)initWithTicketId:(NSInteger)ticketId chatter:(NSString*)chatter
 {
     self = [super init];
     if (self) {
@@ -58,12 +58,8 @@
     }
     
     self.tableView.tableHeaderView = self.headerView;
+    [self.view addSubview:self.replyButton];
     [self.view addSubview:self.tableView];
-    [self.view addSubview:self.chatToolBar];
-    [_chatToolBar setLeaveMsgButtonHidden];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyBoardHidden)];
-    [self.headerView addGestureRecognizer:tap];
     
     [self setupBarButtonItem];
     [self loadLeaveMessageDetail];
@@ -91,7 +87,7 @@
 {
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
 }
@@ -124,20 +120,23 @@
     return _headerView;
 }
 
-- (DXMessageToolBar *)chatToolBar
+- (UIButton*)replyButton
 {
-    if (_chatToolBar == nil) {
-        _chatToolBar = [[DXMessageToolBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - [DXMessageToolBar defaultHeight], self.view.frame.size.width, [DXMessageToolBar defaultHeight])];
-        _chatToolBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-        _chatToolBar.delegate = self;
+    if (_replyButton == nil) {
+        _replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _replyButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
+        _replyButton.frame = CGRectMake(0, kScreenHeight - 50.f, kScreenWidth, 50.f);
+        [_replyButton setTitle:NSLocalizedString(@"leaveMessage.leavemsg.reply", @"Reply") forState:UIControlStateNormal];
+        [_replyButton setBackgroundColor:RGBACOLOR(242, 83, 131, 1)];
+        [_replyButton addTarget:self action:@selector(replyAction) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _chatToolBar;
+    return _replyButton;
 }
 
 - (UITableView *)tableView
 {
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.chatToolBar.frame.size.height) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - CGRectGetHeight(_replyButton.frame) - 44.f) style:UITableViewStylePlain];
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -151,17 +150,11 @@
 
 #pragma mark - action
 
-- (void)back
+- (void)replyAction
 {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-#pragma mark - GestureRecognizer
-
-// 点击背景隐藏
--(void)keyBoardHidden
-{
-    [self.chatToolBar endEditing:YES];
+    LeaseMsgReplyController *replyController = [[LeaseMsgReplyController alloc] init];
+    replyController.delegate = self;
+    [self.navigationController pushViewController:replyController animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
@@ -195,15 +188,10 @@
     LeaveMsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
         cell = [[LeaveMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+        cell.delegate = self;
     }
     LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
-    cell.name = comment.creator.name;
-    cell.placeholderImage = [UIImage imageNamed:@"customer"];
-    if (comment.attachments) {
-        cell.detailMsg = [NSString stringWithFormat:@"%@-[%@]",comment.content,NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment")];
-    } else {
-        cell.detailMsg = comment.content;
-    }
+    [cell setModel:comment];
     cell.time = [NSDate formattedTimeFromTimeInterval:[[self.dateformatter dateFromString:comment.updated_at] timeIntervalSince1970]];
     return cell;
 }
@@ -226,14 +214,17 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [LeaveMsgCell tableView:tableView heightForRowAtIndexPath:indexPath];
+    if (indexPath.row == 0) {
+        return 60.f;
+    }
+    LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
+    return [LeaveMsgCell tableView:tableView model:comment];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self keyBoardHidden];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row > 1) {
+    if (indexPath.row > 0) {
         LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
         if ([comment.attachments count] > 0) {
             NSMutableArray *images = [NSMutableArray array];
@@ -247,6 +238,21 @@
             }
         }
     }
+}
+
+#pragma mark - LeaveMsgCellDelegate
+
+- (void)didSelectFileAttachment:(LeaveMsgAttachmentModel*)attachment
+{
+    NSString *textToShare = [NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment"),attachment.name];
+    NSURL *urlToShare = [NSURL URLWithString:attachment.url];
+    NSArray *activityItems = @[textToShare, urlToShare];
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems
+                                                                            applicationActivities:nil];
+    activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
+                                         UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
+    
+    [self presentViewController:activityVC animated:YES completion:nil];
 }
 
 #pragma mark - private
@@ -264,6 +270,8 @@
                                                                 completion:^(id responseObject, NSError *error) {
                                                                     if (error == nil) {
                                                                         [weakSelf.headerView setDetail:responseObject];
+                                                                        weakSelf.tableView.tableHeaderView = weakSelf.headerView;
+                                                                        [weakSelf.tableView layoutSubviews];
                                                                         [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.loadsucceed", "Load succeed")];
                                                                         [weakHud hide:YES afterDelay:0.5];
                                                                     } else {
@@ -275,7 +283,6 @@
 
 - (void)loadLeaveMessageAllComments
 {
-    [_conversation markAllMessagesAsRead:YES];
     __weak typeof(self) weakSelf = self;
     [[EMHttpManager sharedInstance] asyncGetLeaveMessageAllCommentsWithTenantId:[EMIMHelper defaultHelper].tenantId
                                                                       projectId:[EMIMHelper defaultHelper].projectId
@@ -283,13 +290,13 @@
                                                                      parameters:@{@"size":@(10000)}
                                                                      completion:^(id responseObject, NSError *error) {
                                                                          if (error == nil) {
-                                                                             [weakSelf reloadDataArray:responseObject];
+                                                                             [weakSelf loadDataArray:responseObject];
                                                                          } else {
                                                                          }
                                                                      }];
 }
 
-- (void)reloadDataArray:(NSDictionary*)dic
+- (void)loadDataArray:(NSDictionary*)dic
 {
     [self.dataArray removeAllObjects];
     if ([dic objectForKey:@"entities"]) {
@@ -301,77 +308,87 @@
         }
     }
     [self.tableView reloadData];
+    [self scrollViewToBottom:YES];
 }
 
 #pragma mark - EMChatManagerDelegate
 - (void)didReceiveMessage:(EMMessage *)message
 {
-    [_conversation markMessageWithId:message.messageId asRead:YES];
-    if ([_conversation.chatter isEqualToString:message.conversationChatter]) {
-        if ([message.ext objectForKey:@"weichat"] && [[message.ext objectForKey:@"weichat"] objectForKey:@"event"]) {
-            LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:[[[message.ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"comment"]];
-            comment.content = ((EMTextMessageBody*)[message.messageBodies objectAtIndex:0]).text;
-            [self.dataArray addObject:comment];
-            [self.tableView reloadData];
-            [self scrollViewToBottom:YES];
+    NSDictionary *ext = [self _getSafeDictionary:message.ext];
+    if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
+        NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
+        if ([event objectForKey:@"comment"]) {
+            LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
+            if (ticket.ticketId  == _ticketId) {
+                [self loadLeaveMessageAllComments];
+            }
         }
     }
 }
 
-#pragma mark - DXMessageToolBarDelegate
-
-- (void)inputTextViewWillBeginEditing:(XHMessageTextView *)messageInputTextView
+- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
 {
-    
+    for (EMMessage *message in offlineMessages) {
+        NSDictionary *ext = [self _getSafeDictionary:message.ext];
+        if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
+            NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
+            if ([event objectForKey:@"comment"]) {
+                LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
+                if (ticket.ticketId == _ticketId) {
+                    [self loadLeaveMessageAllComments];
+                    break;
+                }
+            }
+        }
+    }
 }
 
-- (void)didChangeFrameToHeight:(CGFloat)toHeight
+- (void)scrollViewToBottom:(BOOL)animated
 {
-    [UIView animateWithDuration:0.3 animations:^{
-        CGRect rect = self.tableView.frame;
-        rect.origin.y = 0;
-        rect.size.height = self.view.frame.size.height - toHeight;
-        self.tableView.frame = rect;
-    }];
-    [self scrollViewToBottom:YES];
+    if (self.tableView.contentSize.height > self.tableView.frame.size.height)
+    {
+        CGPoint offset = CGPointMake(0, self.tableView.contentSize.height - self.tableView.frame.size.height);
+        [self.tableView setContentOffset:offset animated:YES];
+    }
 }
 
-- (void)didSendText:(NSString *)text
+#pragma mark - LeaseMsgReplyControllerDelegate
+
+- (void)didSelectSendButtonWithParameters:(NSDictionary*)aParameters
 {
     /*
      {
      subject: "评论的主题, 可选",
      content: "评论的内容",
      reply : {
-        id: "回复的哪条评论的id, 可选"
+     id: "回复的哪条评论的id, 可选"
      },
      creator: {
-        id: "创建这个评论的人的id", //可选
-        username: "创建这个comment的人的username",
-        name: "创建这个comment的人的name",
-        avatar: "创建这个comment的人的头像",
-        type: "创建这个comment的人的类型, 例如是坐席还是访客"
-        email: "电子邮件地址",
-        phone: "电话号码",
-        qq: "qq号码",
-        company: "公司",
-        description: "具体的描述信息"
+     id: "创建这个评论的人的id", //可选
+     username: "创建这个comment的人的username",
+     name: "创建这个comment的人的name",
+     avatar: "创建这个comment的人的头像",
+     type: "创建这个comment的人的类型, 例如是坐席还是访客"
+     email: "电子邮件地址",
+     phone: "电话号码",
+     qq: "qq号码",
+     company: "公司",
+     description: "具体的描述信息"
      },
      attachments:[{
-        name: "该附件的名称",
-        url: "该附件的url",
-        type: "附件的类型, 当前支持image和file"
+     name: "该附件的名称",
+     url: "该附件的url",
+     type: "附件的类型, 当前支持image和file"
      }],
      status_id: "status 的id" //设置了这个属性的话, 可以在添加评论的时候同时设置这个ticket的状态, 只有agent能够调用
      }
      */
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:aParameters];
     //[parameters setObject:@"" forKey:@"subject"];
-    [parameters setObject:text forKey:@"content"];
     //[parameters setObject:@"" forKey:@"status_id"];
     
     //reply
-    NSMutableDictionary *reply = [NSMutableDictionary dictionary];
+    //NSMutableDictionary *reply = [NSMutableDictionary dictionary];
     //[reply setObject:@"159545" forKey:@"id"];
     //[parameters setObject:reply forKey:@"reply"];
     
@@ -389,39 +406,43 @@
     [creator setObject:@"VISITOR" forKey:@"type"];
     [parameters setObject:creator forKey:@"creator"];
     
-    //attachments
-    NSMutableArray *attachments = [NSMutableArray array];
-    [parameters setObject:attachments forKey:@"attachments"];
-    
     LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:parameters];
     
-    if (text && text.length > 0) {
-        __weak typeof(self) weakSelf = self;
-        [[EMHttpManager sharedInstance] asyncLeaveAMessageWithTenantId:[EMIMHelper defaultHelper].tenantId
-                                                             projectId:[EMIMHelper defaultHelper].projectId
-                                                              ticketId:_ticketId
-                                                            parameters:parameters
-                                                            completion:^(id responseObject, NSError *error) {
-                                                                if (!error) {
-                                                                    comment.updated_at = [responseObject objectForKey:@"updated_at"];
-                                                                    comment.created_at = [responseObject objectForKey:@"created_at"];
-                                                                    comment.ticketId = [responseObject objectForKey:@"id"];
-                                                                    comment.version = [responseObject objectForKey:@"version"];
-                                                                    [weakSelf.dataArray addObject:comment];
-                                                                    [weakSelf.tableView reloadData];
-                                                                    [weakSelf scrollViewToBottom:YES];
-                                                                }
-                                                            }];
-    }
+    __weak typeof(self) weakSelf = self;
+    [[EMHttpManager sharedInstance] asyncLeaveAMessageWithTenantId:[EMIMHelper defaultHelper].tenantId
+                                                         projectId:[EMIMHelper defaultHelper].projectId
+                                                          ticketId:_ticketId
+                                                        parameters:parameters
+                                                        completion:^(id responseObject, NSError *error) {
+                                                            if (!error) {
+                                                                comment.updated_at = [responseObject objectForKey:@"updated_at"];
+                                                                comment.created_at = [responseObject objectForKey:@"created_at"];
+                                                                comment.ticketId = [[responseObject objectForKey:@"id"] integerValue];
+                                                                comment.version = [responseObject objectForKey:@"version"];
+                                                                [weakSelf.dataArray addObject:comment];
+                                                                [weakSelf.tableView reloadData];
+                                                                [weakSelf scrollViewToBottom:YES];
+                                                            }
+                                                        }];
+    
+    [self.navigationController popToViewController:self animated:YES];
 }
 
-- (void)scrollViewToBottom:(BOOL)animated
+- (NSMutableDictionary*)_getSafeDictionary:(NSDictionary*)dic
 {
-    if (self.tableView.contentSize.height > self.tableView.frame.size.height)
-    {
-        CGPoint offset = CGPointMake(0, self.tableView.contentSize.height - self.tableView.frame.size.height);
-        [self.tableView setContentOffset:offset animated:YES];
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:dic];
+    if ([[userInfo allKeys] count] > 0) {
+        for (NSString *key in [userInfo allKeys]){
+            if ([userInfo objectForKey:key] == [NSNull null]) {
+                [userInfo removeObjectForKey:key];
+            } else {
+                if ([[userInfo objectForKey:key] isKindOfClass:[NSDictionary class]]) {
+                    [userInfo setObject:[self _getSafeDictionary:[userInfo objectForKey:key]] forKey:key];
+                }
+            }
+        }
     }
+    return userInfo;
 }
 
 @end

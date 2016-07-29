@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		71A38A231CB62D5100C59BF4 /* EMChatTransferBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A38A221CB62D5100C59BF4 /* EMChatTransferBubbleView.m */; };
-		D270852B1BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D27085271BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a */; };
+		D2052DBB1D49A5ED006C9D2C /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D2052DBA1D49A5ED006C9D2C /* libstdc++.6.0.9.tbd */; };
 		D270852C1BDDE85F0086DDE7 /* EaseMob.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D27085291BDDE85F0086DDE7 /* EaseMob.bundle */; };
 		D270852F1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D270852E1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m */; };
 		D27085321BDE14350086DDE7 /* SatisfactionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D27085311BDE14350086DDE7 /* SatisfactionViewController.m */; };
@@ -36,12 +36,14 @@
 		D2D395F31D24F79100A84914 /* EMHttpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D395F21D24F79100A84914 /* EMHttpManager.m */; };
 		D2D395F71D250F1800A84914 /* LeaveMsgDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D395F61D250F1800A84914 /* LeaveMsgDetailHeaderView.m */; };
 		D2D3960A1D2676A200A84914 /* LeaveMsgDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D396091D2676A200A84914 /* LeaveMsgDetailModel.m */; };
+		D2E36B4A1D45B8E500B1C90C /* LeaseMsgReplyController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E36B491D45B8E500B1C90C /* LeaseMsgReplyController.m */; };
+		D2E36B6A1D45FF4300B1C90C /* libEaseMobClientSDKLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2E36B691D45FF4300B1C90C /* libEaseMobClientSDKLite.a */; };
+		D2E36B811D46149200B1C90C /* LeaveMsgAttatchmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E36B801D46149200B1C90C /* LeaveMsgAttatchmentView.m */; };
 		D2F873A31D2B9491004ED4D4 /* tabbar_message_hl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F873A11D2B9491004ED4D4 /* tabbar_message_hl@2x.png */; };
 		D2F873A41D2B9491004ED4D4 /* tabbar_message@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F873A21D2B9491004ED4D4 /* tabbar_message@2x.png */; };
 		D2F873A61D2B95AC004ED4D4 /* chatBar_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F873A51D2B95AC004ED4D4 /* chatBar_comment@2x.png */; };
 		D2F873B11D2CB381004ED4D4 /* message_avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F873AF1D2CB381004ED4D4 /* message_avatar@2x.png */; };
 		D2F873B21D2CB381004ED4D4 /* message_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F873B01D2CB381004ED4D4 /* message_comment@2x.png */; };
-		D2F873B51D2CEAC1004ED4D4 /* LeaveMsgSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F873B41D2CEAC1004ED4D4 /* LeaveMsgSettingViewController.m */; };
 		EB30A5341B20637100FD223F /* EMAudioPlayerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EB30A5261B20637100FD223F /* EMAudioPlayerUtil.m */; };
 		EB30A5351B20637100FD223F /* EMAudioRecorderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EB30A5281B20637100FD223F /* EMAudioRecorderUtil.m */; };
 		EB30A5361B20637100FD223F /* EMCDDeviceManager+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = EB30A52A1B20637100FD223F /* EMCDDeviceManager+Media.m */; };
@@ -69,7 +71,6 @@
 		EB3959851A8EE54D0083B659 /* EMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB39597A1A8EE54D0083B659 /* EMNavigationController.m */; };
 		EB3959861A8EE54D0083B659 /* EMSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB39597C1A8EE54D0083B659 /* EMSearchDisplayController.m */; };
 		EB3959871A8EE54D0083B659 /* XHMessageTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = EB39597E1A8EE54D0083B659 /* XHMessageTextView.m */; };
-		EB3959891A8EE69D0083B659 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */; };
 		EB395B981A8EF2F10083B659 /* DXQuestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = EB395B971A8EF2F10083B659 /* DXQuestionView.m */; };
 		EB395DFF1A8F0AC40083B659 /* MallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB395DFE1A8F0AC40083B659 /* MallViewController.m */; };
 		EB395E021A8F0C8D0083B659 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB395E011A8F0C8D0083B659 /* SettingViewController.m */; };
@@ -323,7 +324,7 @@
 /* Begin PBXFileReference section */
 		71A38A211CB62D5100C59BF4 /* EMChatTransferBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatTransferBubbleView.h; sourceTree = "<group>"; };
 		71A38A221CB62D5100C59BF4 /* EMChatTransferBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMChatTransferBubbleView.m; sourceTree = "<group>"; };
-		D27085271BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseMobClientSDKLite.a; sourceTree = "<group>"; };
+		D2052DBA1D49A5ED006C9D2C /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		D27085291BDDE85F0086DDE7 /* EaseMob.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseMob.bundle; sourceTree = "<group>"; };
 		D270852D1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatSatisfactionBubbleView.h; sourceTree = "<group>"; };
 		D270852E1BDDEA610086DDE7 /* EMChatSatisfactionBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMChatSatisfactionBubbleView.m; sourceTree = "<group>"; };
@@ -374,13 +375,16 @@
 		D2D395F61D250F1800A84914 /* LeaveMsgDetailHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaveMsgDetailHeaderView.m; sourceTree = "<group>"; };
 		D2D396081D2676A200A84914 /* LeaveMsgDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaveMsgDetailModel.h; sourceTree = "<group>"; };
 		D2D396091D2676A200A84914 /* LeaveMsgDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaveMsgDetailModel.m; sourceTree = "<group>"; };
+		D2E36B481D45B8E500B1C90C /* LeaseMsgReplyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeaseMsgReplyController.h; path = "CustomerSystem-ios/Class/LeaveMsgView/LeaseMsgReplyController.h"; sourceTree = SOURCE_ROOT; };
+		D2E36B491D45B8E500B1C90C /* LeaseMsgReplyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeaseMsgReplyController.m; path = "CustomerSystem-ios/Class/LeaveMsgView/LeaseMsgReplyController.m"; sourceTree = SOURCE_ROOT; };
+		D2E36B691D45FF4300B1C90C /* libEaseMobClientSDKLite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseMobClientSDKLite.a; sourceTree = "<group>"; };
+		D2E36B7F1D46149200B1C90C /* LeaveMsgAttatchmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaveMsgAttatchmentView.h; sourceTree = "<group>"; };
+		D2E36B801D46149200B1C90C /* LeaveMsgAttatchmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaveMsgAttatchmentView.m; sourceTree = "<group>"; };
 		D2F873A11D2B9491004ED4D4 /* tabbar_message_hl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_message_hl@2x.png"; sourceTree = "<group>"; };
 		D2F873A21D2B9491004ED4D4 /* tabbar_message@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_message@2x.png"; sourceTree = "<group>"; };
 		D2F873A51D2B95AC004ED4D4 /* chatBar_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatBar_comment@2x.png"; sourceTree = "<group>"; };
 		D2F873AF1D2CB381004ED4D4 /* message_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message_avatar@2x.png"; sourceTree = "<group>"; };
 		D2F873B01D2CB381004ED4D4 /* message_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message_comment@2x.png"; sourceTree = "<group>"; };
-		D2F873B31D2CEAC1004ED4D4 /* LeaveMsgSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaveMsgSettingViewController.h; sourceTree = "<group>"; };
-		D2F873B41D2CEAC1004ED4D4 /* LeaveMsgSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaveMsgSettingViewController.m; sourceTree = "<group>"; };
 		EB30A5221B20637100FD223F /* EMCDDeviceManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCDDeviceManagerDelegate.h; sourceTree = "<group>"; };
 		EB30A5231B20637100FD223F /* EMCDDeviceManagerProximitySensorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCDDeviceManagerProximitySensorDelegate.h; sourceTree = "<group>"; };
 		EB30A5251B20637100FD223F /* EMAudioPlayerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAudioPlayerUtil.h; sourceTree = "<group>"; };
@@ -783,7 +787,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB3959891A8EE69D0083B659 /* libstdc++.6.dylib in Frameworks */,
+				D2052DBB1D49A5ED006C9D2C /* libstdc++.6.0.9.tbd in Frameworks */,
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
 				EB62E4511A8E2DA000705655 /* libxml2.dylib in Frameworks */,
@@ -794,12 +798,12 @@
 				EB62E4491A8E2D8700705655 /* libiconv.dylib in Frameworks */,
 				EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */,
 				EB62E4431A8E2D7300705655 /* SystemConfiguration.framework in Frameworks */,
-				D270852B1BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a in Frameworks */,
 				EB62E4411A8E2D6B00705655 /* libresolv.dylib in Frameworks */,
 				EB62E43F1A8E2D6200705655 /* CoreLocation.framework in Frameworks */,
 				EB30A54E1B2063C200FD223F /* libopencore-amrnb.a in Frameworks */,
 				EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */,
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
+				D2E36B6A1D45FF4300B1C90C /* libEaseMobClientSDKLite.a in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
 				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
 			);
@@ -828,7 +832,7 @@
 		D27085251BDDE85F0086DDE7 /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				D27085271BDDE85F0086DDE7 /* libEaseMobClientSDKLite.a */,
+				D2E36B691D45FF4300B1C90C /* libEaseMobClientSDKLite.a */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -882,8 +886,8 @@
 				D2D395CF1D24EB2D00A84914 /* LeaveMsgViewController.m */,
 				D2D395D11D24F5A800A84914 /* LeaveMsgDetailViewController.h */,
 				D2D395D21D24F5A800A84914 /* LeaveMsgDetailViewController.m */,
-				D2F873B31D2CEAC1004ED4D4 /* LeaveMsgSettingViewController.h */,
-				D2F873B41D2CEAC1004ED4D4 /* LeaveMsgSettingViewController.m */,
+				D2E36B481D45B8E500B1C90C /* LeaseMsgReplyController.h */,
+				D2E36B491D45B8E500B1C90C /* LeaseMsgReplyController.m */,
 			);
 			path = LeaveMsgView;
 			sourceTree = "<group>";
@@ -930,6 +934,8 @@
 				D2D395F61D250F1800A84914 /* LeaveMsgDetailHeaderView.m */,
 				D2D396081D2676A200A84914 /* LeaveMsgDetailModel.h */,
 				D2D396091D2676A200A84914 /* LeaveMsgDetailModel.m */,
+				D2E36B7F1D46149200B1C90C /* LeaveMsgAttatchmentView.h */,
+				D2E36B801D46149200B1C90C /* LeaveMsgAttatchmentView.m */,
 			);
 			path = LeaveMsgView;
 			sourceTree = "<group>";
@@ -1335,6 +1341,7 @@
 		EB62E1F01A8DD92D00705655 = {
 			isa = PBXGroup;
 			children = (
+				D2052DBA1D49A5ED006C9D2C /* libstdc++.6.0.9.tbd */,
 				D27084BC1BDDE85F0086DDE7 /* EaseMobSDK */,
 				EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */,
 				EB62E4541A8E2DAB00705655 /* Foundation.framework */,
@@ -1820,6 +1827,7 @@
 				TargetAttributes = {
 					EB62E1F81A8DD92D00705655 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 499WYUV8Q2;
 					};
 					EB62E2111A8DD92D00705655 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -2048,7 +2056,6 @@
 				EB30A5361B20637100FD223F /* EMCDDeviceManager+Media.m in Sources */,
 				EBE086281AD7FC250028D40B /* UIImage+Utils.m in Sources */,
 				EB30A5371B20637100FD223F /* EMCDDeviceManager+Microphone.m in Sources */,
-				D2F873B51D2CEAC1004ED4D4 /* LeaveMsgSettingViewController.m in Sources */,
 				EB3959841A8EE54D0083B659 /* EMChooseViewController.m in Sources */,
 				71A38A231CB62D5100C59BF4 /* EMChatTransferBubbleView.m in Sources */,
 				EB62E3FA1A8E0C9400705655 /* ChatViewController+Category.m in Sources */,
@@ -2072,6 +2079,7 @@
 				EB3959651A8EE4160083B659 /* NSDateFormatter+Category.m in Sources */,
 				EB3959681A8EE4160083B659 /* UIViewController+DismissKeyboard.m in Sources */,
 				D2D395D31D24F5A800A84914 /* LeaveMsgDetailViewController.m in Sources */,
+				D2E36B811D46149200B1C90C /* LeaveMsgAttatchmentView.m in Sources */,
 				EB3959661A8EE4160083B659 /* NSString+Valid.m in Sources */,
 				EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */,
 				EB62E3071A8DDA4800705655 /* PSTGridLayoutRow.m in Sources */,
@@ -2140,6 +2148,7 @@
 				EB30A54B1B2063C200FD223F /* amrFileCodec.mm in Sources */,
 				D2D395D01D24EB2D00A84914 /* LeaveMsgViewController.m in Sources */,
 				EB62E2EB1A8DDA4800705655 /* DACircularProgressView.m in Sources */,
+				D2E36B4A1D45B8E500B1C90C /* LeaseMsgReplyController.m in Sources */,
 				EB3959691A8EE4160083B659 /* UIViewController+HUD.m in Sources */,
 				EB30A54C1B2063C200FD223F /* wav.mm in Sources */,
 				EB62E2F61A8DDA4800705655 /* UIImage+EMGIF.m in Sources */,
@@ -2309,7 +2318,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

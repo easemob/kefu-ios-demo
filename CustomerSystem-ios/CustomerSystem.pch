@@ -33,6 +33,7 @@
 #define kMesssageExtWeChat_ctrlArgs_serviceSessionId @"serviceSessionId"
 #define kMesssageExtWeChat_ctrlArgs_detail @"detail"
 #define kMesssageExtWeChat_ctrlArgs_summary @"summary"
+#define kMesssageExtWeChat_ctrlArgs_label @"label"
 
 
 #endif
