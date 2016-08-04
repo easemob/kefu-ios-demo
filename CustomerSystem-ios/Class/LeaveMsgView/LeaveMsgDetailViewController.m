@@ -395,7 +395,12 @@
     //creator
     NSMutableDictionary *creator = [NSMutableDictionary dictionary];
     
-    [creator setObject:[[[EaseMob sharedInstance].chatManager loginInfo] objectForKey:@"username"] forKey:@"name"];
+    LeaveMsgDetailModel *model = [_headerView getMsgDetailModel];
+    if (model.comment.creator.name) {
+        [creator setObject:model.comment.creator.name forKey:@"name"];
+    } else {
+        [creator setObject:[[[EaseMob sharedInstance].chatManager loginInfo] objectForKey:@"username"] forKey:@"name"];
+    }
     [creator setObject:[[[EaseMob sharedInstance].chatManager loginInfo] objectForKey:@"username"] forKey:@"username"];
     [creator setObject:@"" forKey:@"avatar"];
     [creator setObject:@"" forKey:@"email"];

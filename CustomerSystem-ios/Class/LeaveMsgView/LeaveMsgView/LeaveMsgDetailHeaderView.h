@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class LeaveMsgDetailModel;
 @interface LeaveMsgDetailHeaderView : UITableView
 
 - (instancetype)initWithFrame:(CGRect)frame dictionary:(NSDictionary*)dictionary;
 
 - (void)setDetail:(NSDictionary*)dictionary;
+
+- (LeaveMsgDetailModel*)getMsgDetailModel;
 
 @end

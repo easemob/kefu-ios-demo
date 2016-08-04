@@ -5,8 +5,8 @@
 
 ###快速集成:
 
-1. 此项目不包含环信SDK,需要下载[环信2.x 版本SDK](http://www.easemob.com/download)
-2. 下载完成,将压缩包解压,将EaseMobSDK与helpdeskdemo-ios放在相同路径下
-3. 打开CustomerSystem-ios.xcodeproj,运行商城Demo
+1. 此项目不包含环信SDK,需要下载[环信2.x 版本SDK](http://www.easemob.com/download/im)
+2. 下载完成,将压缩包解压,将文件夹EaseMobSDKLite与文件夹helpdeskdemo-ios放在同一路径下
+3. 点击helpdeskdemo-ios进入文件夹,打开CustomerSystem-ios.xcodeproj,运行商城Demo
 
 具体的使用步骤可以参考我们的[官方文档](http://docs.easemob.com/cs/start)
