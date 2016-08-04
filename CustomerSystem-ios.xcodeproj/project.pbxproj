@@ -819,6 +819,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		905544A11D52F73900F8E2A5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D2052DBA1D49A5ED006C9D2C /* libstdc++.6.0.9.tbd */,
+				D27084BC1BDDE85F0086DDE7 /* EaseMobSDK */,
+				EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */,
+				EB62E4541A8E2DAB00705655 /* Foundation.framework */,
+				EB62E4521A8E2DA400705655 /* UIKit.framework */,
+				EB62E4501A8E2DA000705655 /* libxml2.dylib */,
+				EB62E44E1A8E2D9900705655 /* libz.dylib */,
+				EB62E44C1A8E2D9300705655 /* CFNetwork.framework */,
+				EB62E44A1A8E2D8D00705655 /* AddressBook.framework */,
+				EB62E4481A8E2D8700705655 /* libiconv.dylib */,
+				EB62E4461A8E2D8000705655 /* libstdc++.dylib */,
+				EB62E4441A8E2D7900705655 /* MobileCoreServices.framework */,
+				EB62E4421A8E2D7300705655 /* SystemConfiguration.framework */,
+				EB62E4401A8E2D6A00705655 /* libresolv.dylib */,
+				EB62E43E1A8E2D6200705655 /* CoreLocation.framework */,
+				EB62E43C1A8E2D5C00705655 /* MapKit.framework */,
+				EB62E43A1A8E2D5600705655 /* ImageIO.framework */,
+				EB62E4381A8E2D5000705655 /* CoreText.framework */,
+				EB62E4361A8E2D4900705655 /* libsqlite3.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D27084BC1BDDE85F0086DDE7 /* EaseMobSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -1341,25 +1367,7 @@
 		EB62E1F01A8DD92D00705655 = {
 			isa = PBXGroup;
 			children = (
-				D2052DBA1D49A5ED006C9D2C /* libstdc++.6.0.9.tbd */,
-				D27084BC1BDDE85F0086DDE7 /* EaseMobSDK */,
-				EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */,
-				EB62E4541A8E2DAB00705655 /* Foundation.framework */,
-				EB62E4521A8E2DA400705655 /* UIKit.framework */,
-				EB62E4501A8E2DA000705655 /* libxml2.dylib */,
-				EB62E44E1A8E2D9900705655 /* libz.dylib */,
-				EB62E44C1A8E2D9300705655 /* CFNetwork.framework */,
-				EB62E44A1A8E2D8D00705655 /* AddressBook.framework */,
-				EB62E4481A8E2D8700705655 /* libiconv.dylib */,
-				EB62E4461A8E2D8000705655 /* libstdc++.dylib */,
-				EB62E4441A8E2D7900705655 /* MobileCoreServices.framework */,
-				EB62E4421A8E2D7300705655 /* SystemConfiguration.framework */,
-				EB62E4401A8E2D6A00705655 /* libresolv.dylib */,
-				EB62E43E1A8E2D6200705655 /* CoreLocation.framework */,
-				EB62E43C1A8E2D5C00705655 /* MapKit.framework */,
-				EB62E43A1A8E2D5600705655 /* ImageIO.framework */,
-				EB62E4381A8E2D5000705655 /* CoreText.framework */,
-				EB62E4361A8E2D4900705655 /* libsqlite3.dylib */,
+				905544A11D52F73900F8E2A5 /* Frameworks */,
 				EB62E1FB1A8DD92D00705655 /* CustomerSystem-ios */,
 				EB62E2151A8DD92D00705655 /* CustomerSystem-iosTests */,
 				EB62E1FA1A8DD92D00705655 /* Products */,
