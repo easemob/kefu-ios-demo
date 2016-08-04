@@ -142,4 +142,11 @@
     return height;
 }
 
+#pragma mark - public
+
+- (LeaveMsgDetailModel*)getMsgDetailModel
+{
+    return _msgDetailModel;
+}
+
 @end
