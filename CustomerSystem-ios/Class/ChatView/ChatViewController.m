@@ -804,7 +804,8 @@
 -(void)didReceiveCmdMessage:(EMMessage *)message
 {
     if ([_conversation.chatter isEqualToString:message.conversationChatter]) {
-        [self showHint:NSLocalizedString(@"receiveCmd", @"receive cmd message")];
+//        [self showHint:NSLocalizedString(@"receiveCmd", @"receive cmd message")];
+        NSLog(@"%@",NSLocalizedString(@"receiveCmd", @"receive cmd message"));
     }
 }
 
