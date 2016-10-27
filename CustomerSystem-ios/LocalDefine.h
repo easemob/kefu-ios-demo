@@ -10,6 +10,8 @@
   * from EaseMob Technologies.
   */
 
+#import <Foundation/Foundation.h>
+
 #ifndef ChatDemo_UI2_0_ChatDemoUIDefine_h
 #define ChatDemo_UI2_0_ChatDemoUIDefine_h
 
@@ -21,14 +23,18 @@
 #define KNOTIFICATION_CHAT @"chat"
 #define KNOTIFICATION_SETTINGCHANGE @"settingChange"
 #define KNOTIFICATION_ADDMSG_TO_LIST @"addmsgtolist"
-
 #define CHATVIEWBACKGROUNDCOLOR [UIColor colorWithRed:0.936 green:0.932 blue:0.907 alpha:1]
 
-#define kDefaultAppKey @"sipsoft#sandbox"
-#define kDefaultCustomerName @"customer0"
+//商城默认配置
+#define kDefaultAppKey @"1141161024115978#kefuchannelapp29593"
+#define kDefaultCustomerName @"kefuchannelimid_012680"
+#define kDefaultTenantId  @"29593";
+#define kDefaultProjectId @"306713";
+
 //#define kDefaultCustomerName @"130121"
 //#define kDefaultAppKey @"culiukeji#99baoyou"
 //#define kDefaultCustomerName @"culiutest3"
+
 #define kAppKey @"CSEM_appkey"
 #define kCustomerName @"CSEM_name"
 #define kCustomerNickname @"CSEM_nickname"
