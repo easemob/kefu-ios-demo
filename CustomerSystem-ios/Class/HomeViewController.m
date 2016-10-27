@@ -348,8 +348,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 -(void)didReceiveCmdMessage:(EMMessage *)message
 {
     NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"receiveCmdMessage", @"CMD message") message:msg delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    [alertView show];
+    NSLog(@"%@:%@",NSLocalizedString(@"receiveCmdMessage", @"CMD message"),msg);
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"receiveCmdMessage", @"CMD message") message:msg delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+//    [alertView show];
 }
 
 #pragma mark - IChatManagerDelegate 登录状态变化
