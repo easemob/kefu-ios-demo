@@ -385,6 +385,7 @@
 		D2F873A51D2B95AC004ED4D4 /* chatBar_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatBar_comment@2x.png"; sourceTree = "<group>"; };
 		D2F873AF1D2CB381004ED4D4 /* message_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message_avatar@2x.png"; sourceTree = "<group>"; };
 		D2F873B01D2CB381004ED4D4 /* message_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message_comment@2x.png"; sourceTree = "<group>"; };
+		D3F7B3581DC3523500D4D98A /* CustomerSystem-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ios.entitlements"; sourceTree = "<group>"; };
 		EB30A5221B20637100FD223F /* EMCDDeviceManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCDDeviceManagerDelegate.h; sourceTree = "<group>"; };
 		EB30A5231B20637100FD223F /* EMCDDeviceManagerProximitySensorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCDDeviceManagerProximitySensorDelegate.h; sourceTree = "<group>"; };
 		EB30A5251B20637100FD223F /* EMAudioPlayerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAudioPlayerUtil.h; sourceTree = "<group>"; };
@@ -1386,6 +1387,7 @@
 		EB62E1FB1A8DD92D00705655 /* CustomerSystem-ios */ = {
 			isa = PBXGroup;
 			children = (
+				D3F7B3581DC3523500D4D98A /* CustomerSystem-ios.entitlements */,
 				EB39596A1A8EE54D0083B659 /* Custom */,
 				EB3959571A8EE4160083B659 /* Category */,
 				EB62E2221A8DDA4800705655 /* 3rdparty */,
@@ -1836,6 +1838,12 @@
 					EB62E1F81A8DD92D00705655 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 499WYUV8Q2;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					EB62E2111A8DD92D00705655 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -2248,7 +2256,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "32864BA2-3C98-4A3E-9C26-47601229562F";
+				PROVISIONING_PROFILE = "2b8670d1-0f98-4bd5-b99d-21da8b00f126";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2284,7 +2292,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "32864BA2-3C98-4A3E-9C26-47601229562F";
+				PROVISIONING_PROFILE = "2b8670d1-0f98-4bd5-b99d-21da8b00f126";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2296,8 +2304,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -2316,7 +2326,8 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0d37fac3-f1a2-4772-9235-f48b810a563c";
+				PROVISIONING_PROFILE_SPECIFIER = easemob_enterprise_customer_distribution;
 			};
 			name = Debug;
 		};
@@ -2326,8 +2337,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -2346,7 +2359,8 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0d37fac3-f1a2-4772-9235-f48b810a563c";
+				PROVISIONING_PROFILE_SPECIFIER = easemob_enterprise_customer_distribution;
 			};
 			name = Release;
 		};
