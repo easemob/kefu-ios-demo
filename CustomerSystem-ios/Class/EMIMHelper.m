@@ -47,13 +47,13 @@ static EMIMHelper *helper = nil;
         
         _tenantId = [userDefaults objectForKey:kCustomerTenantId];
         if ([_tenantId length] == 0) {
-            _tenantId = @"";
+            _tenantId = kDefaultTenantId;
             [userDefaults setObject:_tenantId forKey:kCustomerTenantId];
         }
         
         _projectId = [userDefaults objectForKey:kCustomerProjectId];
         if ([_projectId length] == 0) {
-            _projectId = @"";
+            _projectId = kDefaultProjectId;
             [userDefaults setObject:_projectId forKey:kCustomerProjectId];
         }
         
