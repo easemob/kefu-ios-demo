@@ -11,6 +11,13 @@
   */
 
 #import "DXMessageToolBar.h"
+#import "EmotionEscape.h"
+
+typedef NS_ENUM(NSUInteger, ButtonType) {
+    ButtonTypeLeaveMessage = 0,
+    ButtonTypeEmojiMessage,
+    ButtonTypeMoreTypeMessage,
+};
 
 @interface DXMessageToolBar()<UITextViewDelegate, DXFaceDelegate, DXQuestionViewDelegate>
 {
@@ -18,6 +25,8 @@
 }
 
 @property (nonatomic) CGFloat version;
+
+@property(nonatomic,strong) NSMutableString *inputText;
 
 /**
  *  背景
@@ -62,6 +71,13 @@
         frame.size.height = kVerticalPadding * 2 + kInputTextViewMinHeight;
     }
     [super setFrame:frame];
+}
+
+- (NSMutableString *)inputText {
+    if (!_inputText) {
+        _inputText = [[NSMutableString alloc] initWithCapacity:0];
+    }
+    return _inputText;
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
@@ -176,12 +192,37 @@
 {
     if ([text isEqualToString:@"\n"]) {
         if ([self.delegate respondsToSelector:@selector(didSendText:)]) {
-            [self.delegate didSendText:textView.text];
+            [self.delegate didSendText:_inputText];
+            [_inputText setString:@""];
             self.inputTextView.text = @"";
             [self willShowInputTextViewToHeight:[self getTextViewContentH:self.inputTextView]];;
         }
         
         return NO;
+    } else {
+        if (text.length == 0) {
+            if (_inputText.length >= 4)
+            {
+                NSString *subStr = [_inputText substringFromIndex:_inputText.length - 4];
+                if ([(DXFaceView *)self.faceView stringIsFace:subStr]) {
+                    [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 4, 4)];
+                    return YES;
+                }
+                if (_inputText.length >= 5) {
+                    subStr = [_inputText substringFromIndex:_inputText.length - 5];
+                    if ([(DXFaceView *)self.faceView stringIsFace:subStr]) {
+                        [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 5, 5)];
+                        return YES;
+                    }
+                }
+            }
+            
+            if (_inputText.length > 0) {
+                [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 1, 1)];
+            }
+        } else {
+            [_inputText appendString:text];
+        }
     }
     return YES;
 }
@@ -195,24 +236,35 @@
 
 - (void)selectedFacialView:(NSString *)str isDelete:(BOOL)isDelete
 {
-    NSString *chatText = self.inputTextView.text;
-    
     if (!isDelete && str.length > 0) {
-        self.inputTextView.text = [NSString stringWithFormat:@"%@%@",chatText,str];
+        [self.inputText appendString:str];
+        self.inputTextView.attributedText = [[EmotionEscape sharedInstance] attStringFromTextForInputView:_inputText textFont:self.inputTextView.font];
     }
     else {
-        if (chatText.length >= 2)
+        if (_inputText.length >= 4)
         {
-            NSString *subStr = [chatText substringFromIndex:chatText.length-2];
+            NSString *subStr = [_inputText substringFromIndex:_inputText.length - 4];
             if ([(DXFaceView *)self.faceView stringIsFace:subStr]) {
-                self.inputTextView.text = [chatText substringToIndex:chatText.length-2];
+                [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 4, 4)];
+                self.inputTextView.attributedText = [[EmotionEscape sharedInstance] attStringFromTextForInputView:_inputText textFont:self.inputTextView.font];
                 [self textViewDidChange:self.inputTextView];
                 return;
             }
+            
+            if (_inputText.length >= 5) {
+                subStr = [_inputText substringFromIndex:_inputText.length - 5];
+                if ([(DXFaceView *)self.faceView stringIsFace:subStr]) {
+                    [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 5, 5)];
+                    self.inputTextView.attributedText = [[EmotionEscape sharedInstance] attStringFromTextForInputView:_inputText textFont:self.inputTextView.font];
+                    [self textViewDidChange:self.inputTextView];
+                    return;
+                }
+            }
         }
         
-        if (chatText.length > 0) {
-            self.inputTextView.text = [chatText substringToIndex:chatText.length-1];
+        if (_inputText.length > 0) {
+            [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 1, 1)];
+            self.inputTextView.attributedText = [[EmotionEscape sharedInstance] attStringFromTextForInputView:_inputText textFont:self.inputTextView.font];
         }
     }
     
@@ -220,10 +272,10 @@
 }
 - (void)sendFace
 {
-    NSString *chatText = self.inputTextView.text;
-    if (chatText.length > 0) {
+    if (_inputText.length > 0) {
         if ([self.delegate respondsToSelector:@selector(didSendText:)]) {
-            [self.delegate didSendText:chatText];
+            [self.delegate didSendText:_inputText];
+            [_inputText setString:@""];
             self.inputTextView.text = @"";
             [self willShowInputTextViewToHeight:[self getTextViewContentH:self.inputTextView]];;
         }
@@ -295,8 +347,8 @@
     self.questionButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
     [self.questionButton setImage:[UIImage imageNamed:@"chatBar_comment"] forState:UIControlStateNormal];
 //    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_keyboard"] forState:UIControlStateSelected];
-    [self.questionButton addTarget:self action:@selector(leaveMsgAction:) forControlEvents:UIControlEventTouchUpInside];
-    self.questionButton.tag = 0;
+    [self.questionButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    self.questionButton.tag = ButtonTypeLeaveMessage;
     allButtonWidth += CGRectGetMaxX(self.questionButton.frame);
     textViewLeftMargin += CGRectGetMaxX(self.questionButton.frame);
     
@@ -307,7 +359,7 @@
     [self.moreButton setImage:[UIImage imageNamed:@"chatBar_moreSelected"] forState:UIControlStateHighlighted];
     [self.moreButton setImage:[UIImage imageNamed:@"chatBar_keyboard"] forState:UIControlStateSelected];
     [self.moreButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    self.moreButton.tag = 2;
+    self.moreButton.tag = ButtonTypeMoreTypeMessage;
     allButtonWidth += CGRectGetWidth(self.moreButton.frame) + kHorizontalPadding * 2.5;
     
     //表情
@@ -317,7 +369,7 @@
     [self.faceButton setImage:[UIImage imageNamed:@"chatBar_faceSelected"] forState:UIControlStateHighlighted];
     [self.faceButton setImage:[UIImage imageNamed:@"chatBar_keyboard"] forState:UIControlStateSelected];
     [self.faceButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    self.faceButton.tag = 1;
+    self.faceButton.tag = ButtonTypeEmojiMessage;
     allButtonWidth += CGRectGetWidth(self.faceButton.frame) + kHorizontalPadding * 1.5;
     
     
@@ -326,7 +378,6 @@
     // 初始化输入框
     self.inputTextView = [[XHMessageTextView  alloc] initWithFrame:CGRectMake(textViewLeftMargin, kVerticalPadding, width, kInputTextViewMinHeight)];
     self.inputTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-//    self.inputTextView.contentMode = UIViewContentModeCenter;
     _inputTextView.scrollEnabled = YES;
     _inputTextView.returnKeyType = UIReturnKeySend;
     _inputTextView.enablesReturnKeyAutomatically = YES; // UITextView内部判断send按钮是否可以用
@@ -371,22 +422,18 @@
     CGRect fromFrame = self.frame;
     CGFloat toHeight = self.toolbarView.frame.size.height + bottomHeight;
     CGRect toFrame = CGRectMake(fromFrame.origin.x, fromFrame.origin.y + (fromFrame.size.height - toHeight), fromFrame.size.width, toHeight);
-    
     //如果需要将所有扩展页面都隐藏，而此时已经隐藏了所有扩展页面，则不进行任何操作
     if(bottomHeight == 0 && self.frame.size.height == self.toolbarView.frame.size.height)
     {
         return;
     }
-    
     if (bottomHeight == 0) {
         self.isShowButtomView = NO;
     }
     else{
         self.isShowButtomView = YES;
     }
-    
     self.frame = toFrame;
-    
     if (_delegate && [_delegate respondsToSelector:@selector(didChangeFrameToHeight:)]) {
         [_delegate didChangeFrameToHeight:toHeight];
     }
@@ -447,7 +494,6 @@
     }
     else{
         CGFloat changeHeight = toHeight - _previousTextViewContentHeight;
-        
         CGRect rect = self.frame;
         rect.size.height += changeHeight;
         rect.origin.y -= changeHeight;
@@ -479,76 +525,38 @@
 }
 
 #pragma mark - action
-
-- (void)leaveMsgAction:(id)sender
+- (void)buttonAction:(UIButton *)button
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didPressedLeaveMsgButton)]) {
-        [self.delegate didPressedLeaveMsgButton];
-    }
-}
-
-- (void)buttonAction:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
     button.selected = !button.selected;
-    NSInteger tag = button.tag;
-    
-    switch (tag) {
-        case 0://问题
+    switch (button.tag) {
+        case ButtonTypeLeaveMessage://留言问题
         {
-            if (button.selected) {
-                self.faceButton.selected = NO;
-                self.moreButton.selected = NO;
-                [self.inputTextView resignFirstResponder];
-                
-                [self willShowBottomView:self.questionView];
-            }
-            else{
-                //键盘也算一种底部扩展页面
-                [self.inputTextView becomeFirstResponder];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didPressedLeaveMsgButton)]) {
+                [self.delegate didPressedLeaveMsgButton];
             }
         }
             break;
-        case 1://表情
+        case ButtonTypeEmojiMessage://表情
         {
             if (button.selected) {
+                [self.inputTextView resignFirstResponder];
                 self.moreButton.selected = NO;
-                //如果处于问题状态
-                if (self.questionButton.selected) {
-                    self.questionButton.selected = NO;
-                }
-                else{//如果处于文字输入状态，使文字输入框失去焦点
-                    [self.inputTextView resignFirstResponder];
-                }
-                
                 [self willShowBottomView:self.faceView];
             } else {
-                if (!self.questionButton.selected) {
-                    [self.inputTextView becomeFirstResponder];
-                }
-                else{
-                    [self willShowBottomView:nil];
-                }
+                [self willShowBottomView:nil];
             }
         }
             break;
-        case 2://更多
+        case ButtonTypeMoreTypeMessage://更多消息类型
         {
             if (button.selected) {
                 self.faceButton.selected = NO;
                 //如果选择表情并且处于问题状态，切换成文字输入状态，但是不显示键盘
-                if (self.questionButton.selected) {
-                    self.questionButton.selected = NO;
-                }
-                else{//如果处于文字输入状态，使文字输入框失去焦点
-                    [self.inputTextView resignFirstResponder];
-                }
-
+                [self.inputTextView resignFirstResponder];
                 [self willShowBottomView:self.moreView];
             }
             else
             {
-                self.questionButton.selected = NO;
                 [self.inputTextView becomeFirstResponder];
             }
         }
@@ -567,12 +575,10 @@
 - (BOOL)endEditing:(BOOL)force
 {
     BOOL result = [super endEditing:force];
-    
     self.questionButton.selected = NO;
     self.faceButton.selected = NO;
     self.moreButton.selected = NO;
     [self willShowBottomView:nil];
-    
     return result;
 }
 

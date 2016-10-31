@@ -11,7 +11,9 @@
   */
 
 #import <Foundation/Foundation.h>
-
+#import "UIView+FLExtension.h"
+#import "EmotionEscape.h"
+#import "ConvertToCommonEmoticonsHelper.h"
 #ifndef ChatDemo_UI2_0_ChatDemoUIDefine_h
 #define ChatDemo_UI2_0_ChatDemoUIDefine_h
 

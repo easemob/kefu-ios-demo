@@ -90,16 +90,32 @@ NSString *const kRouterEventMenuTapEventName = @"kRouterEventMenuTapEventName";
 {
     [super setModel:model];
     
-    _urlMatches = [_detector matchesInString:self.model.content options:0 range:NSMakeRange(0, self.model.content.length)];
-    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc]
-                                                    initWithString:self.model.content];
+    NSString *text =model.content;
+    _urlMatches = [_detector matchesInString:text options:0 range:NSMakeRange(0, text.length)];
+    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[EmotionEscape sharedInstance] attStringFromTextForChatting:text textFont:self.textLabel.font]];
     NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle setLineSpacing:LABEL_LINESPACE];
     [attributedString addAttribute:NSParagraphStyleAttributeName
                              value:paragraphStyle
-                             range:NSMakeRange(0, [self.model.content length])];
+                             range:NSMakeRange(0, [attributedString length])];
+    
     [_textLabel setAttributedText:attributedString];
+    if (model.isSender) {
+        [_textLabel setTextColor:[UIColor whiteColor]];
+    } else {
+        [_textLabel setTextColor:[UIColor blackColor]];
+    }
     [self highlightLinksWithIndex:NSNotFound];
+//    _urlMatches = [_detector matchesInString:self.model.content options:0 range:NSMakeRange(0, self.model.content.length)];
+//    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc]
+//                                                    initWithString:self.model.content];
+//    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//    [paragraphStyle setLineSpacing:LABEL_LINESPACE];
+//    [attributedString addAttribute:NSParagraphStyleAttributeName
+//                             value:paragraphStyle
+//                             range:NSMakeRange(0, [self.model.content length])];
+//    [_textLabel setAttributedText:attributedString];
+//    [self highlightLinksWithIndex:NSNotFound];
 }
 
 - (BOOL)isIndex:(CFIndex)index inRange:(NSRange)range
