@@ -215,8 +215,8 @@
     [self.navigationItem setLeftBarButtonItem:backItem];
     
     UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [clearButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-    [clearButton addTarget:self action:@selector(removeAllMessages:) forControlEvents:UIControlEventTouchUpInside];
+    [clearButton setImage:[[UIImage imageNamed:@"chatBar_comment"] imageWithTintColor:[UIColor whiteColor]]forState:UIControlStateNormal];
+    [clearButton addTarget:self action:@selector(didPressedLeaveMsgButton) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:clearButton];
 }
 

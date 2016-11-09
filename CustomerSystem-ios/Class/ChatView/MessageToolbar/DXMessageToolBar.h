@@ -63,6 +63,8 @@
 /**
  *  录音的附加页面
  */
+@property (strong, nonatomic) UIView *recordView;
+
 @property (strong, nonatomic) UIView *questionView;
 
 /**
@@ -129,6 +131,30 @@
  *  @param faceLocalPath 选中的表情的本地路径
  */
 - (void)didSendFace:(NSString *)faceLocalPath;
+/**
+ *  按下录音按钮开始录音
+ */
+- (void)didStartRecordingVoiceAction:(UIView *)recordView;
+
+/**
+ *  手指向上滑动取消录音
+ */
+- (void)didCancelRecordingVoiceAction:(UIView *)recordView;
+
+/**
+ *  松开手指完成录音
+ */
+- (void)didFinishRecoingVoiceAction:(UIView *)recordView;
+
+/**
+ *  当手指离开按钮的范围内时，主要为了通知外部的HUD
+ */
+- (void)didDragOutsideAction:(UIView *)recordView;
+
+/**
+ *  当手指再次进入按钮的范围内时，主要也是为了通知外部的HUD
+ */
+- (void)didDragInsideAction:(UIView *)recordView;
 
 /*
  *
@@ -145,3 +171,5 @@
 - (void)didChangeFrameToHeight:(CGFloat)toHeight;
 
 @end
+
+

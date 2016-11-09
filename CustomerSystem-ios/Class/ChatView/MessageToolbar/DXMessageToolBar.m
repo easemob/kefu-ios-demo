@@ -12,6 +12,7 @@
 
 #import "DXMessageToolBar.h"
 #import "EmotionEscape.h"
+#import "EaseRecordView.h"
 
 typedef NS_ENUM(NSUInteger, ButtonType) {
     ButtonTypeLeaveMessage = 0,
@@ -39,6 +40,7 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
  */
 @property (strong, nonatomic) UIView *toolbarView;
 @property (strong, nonatomic) UIButton *questionButton;
+@property (strong, nonatomic) UIButton *recordButton;
 @property (strong, nonatomic) UIButton *moreButton;
 @property (strong, nonatomic) UIButton *faceButton;
 
@@ -345,8 +347,8 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
     //转变输入样式
     self.questionButton = [[UIButton alloc] initWithFrame:CGRectMake(kHorizontalPadding, kVerticalPadding, kInputTextViewMinHeight, kInputTextViewMinHeight)];
     self.questionButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_comment"] forState:UIControlStateNormal];
-//    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_keyboard"] forState:UIControlStateSelected];
+    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_record"] forState:UIControlStateNormal];
+    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_keyboard"] forState:UIControlStateSelected];
     [self.questionButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     self.questionButton.tag = ButtonTypeLeaveMessage;
     allButtonWidth += CGRectGetMaxX(self.questionButton.frame);
@@ -409,11 +411,81 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
         self.questionView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
     
+    //录制
+    self.recordButton = [[UIButton alloc] initWithFrame:self.inputTextView.frame];
+    self.recordButton.accessibilityIdentifier = @"record";
+    self.recordButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
+    [self.recordButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [self.recordButton setBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chatBar_recordBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
+    [self.recordButton setBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chatBar_recordSelectedBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateHighlighted];
+    [self.recordButton setTitle:kTouchToRecord forState:UIControlStateNormal];
+    [self.recordButton setTitle:kTouchToFinish forState:UIControlStateHighlighted];
+    self.recordButton.hidden = YES;
+    [self.recordButton addTarget:self action:@selector(recordButtonTouchDown) forControlEvents:UIControlEventTouchDown];
+    [self.recordButton addTarget:self action:@selector(recordButtonTouchUpOutside) forControlEvents:UIControlEventTouchUpOutside];
+    [self.recordButton addTarget:self action:@selector(recordButtonTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+    [self.recordButton addTarget:self action:@selector(recordDragOutside) forControlEvents:UIControlEventTouchDragExit];
+    [self.recordButton addTarget:self action:@selector(recordDragInside) forControlEvents:UIControlEventTouchDragEnter];
+    self.recordButton.hidden = YES;
+    [self.toolbarView addSubview:self.recordButton];
+    
     [self.toolbarView addSubview:self.questionButton];
     [self.toolbarView addSubview:self.moreButton];
     [self.toolbarView addSubview:self.faceButton];
     [self.toolbarView addSubview:self.inputTextView];
 }
+
+#pragma mark - 录音
+- (void)recordButtonTouchDown
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(didStartRecordingVoiceAction:)]) {
+        [_delegate didStartRecordingVoiceAction:self.recordView];
+    }
+}
+
+- (void)recordButtonTouchUpOutside
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(didCancelRecordingVoiceAction:)])
+    {
+        [_delegate didCancelRecordingVoiceAction:self.recordView];
+    }
+}
+
+- (void)recordButtonTouchUpInside
+{
+    self.recordButton.enabled = NO;
+    if ([self.delegate respondsToSelector:@selector(didFinishRecoingVoiceAction:)])
+    {
+        [self.delegate didFinishRecoingVoiceAction:self.recordView];
+    }
+    self.recordButton.enabled = YES;
+}
+
+- (void)recordDragOutside
+{
+    if ([self.delegate respondsToSelector:@selector(didDragOutsideAction:)])
+    {
+        [self.delegate didDragOutsideAction:self.recordView];
+    }
+}
+
+- (void)recordDragInside
+{
+    if ([self.delegate respondsToSelector:@selector(didDragInsideAction:)])
+    {
+        [self.delegate didDragInsideAction:self.recordView];
+    }
+}
+- (UIView *)recordView
+{
+    if (_recordView == nil) {
+        _recordView = [[EaseRecordView alloc] initWithFrame:CGRectMake(90, 130, 140, 140)];
+    }
+    
+    return _recordView;
+}
+
+
 
 #pragma mark - change frame
 
@@ -531,9 +603,24 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
     switch (button.tag) {
         case ButtonTypeLeaveMessage://留言问题
         {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(didPressedLeaveMsgButton)]) {
-                [self.delegate didPressedLeaveMsgButton];
+            if (button.selected) {
+                //录音状态下，不显示底部扩展页面
+                [self willShowBottomView:nil];
+                
+                //将inputTextView内容置空，以使toolbarView回到最小高度
+                self.inputTextView.text = @"";
+                [self textViewDidChange:self.inputTextView];
+                [self.inputTextView resignFirstResponder];
             }
+            else{
+                //键盘也算一种底部扩展页面
+                [self.inputTextView becomeFirstResponder];
+            }
+            
+            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                self.recordButton.hidden = !button.selected;
+                self.inputTextView.hidden = button.selected;
+            } completion:nil];
         }
             break;
         case ButtonTypeEmojiMessage://表情
