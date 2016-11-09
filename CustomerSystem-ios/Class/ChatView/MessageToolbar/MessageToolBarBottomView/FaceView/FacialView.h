@@ -24,7 +24,7 @@
 
 @interface FacialView : UIView
 {
-	NSArray *_faces;
+	NSMutableArray *_faces;
 }
 
 @property(nonatomic) id<FacialViewDelegate> delegate;

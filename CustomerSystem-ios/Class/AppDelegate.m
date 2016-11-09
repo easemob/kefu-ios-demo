@@ -49,6 +49,9 @@
     self.window.rootViewController = navigationController;
     
     [self.window makeKeyAndVisible];
+    
+    [[EmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
+    [[EmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[ConvertToCommonEmoticonsHelper emotionsDictionary]];
     return YES;
 }
 

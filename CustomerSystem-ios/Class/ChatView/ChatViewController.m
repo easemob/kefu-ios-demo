@@ -1168,7 +1168,9 @@
 
 -(void)sendTextMessage:(NSString *)textMessage
 {
+    textMessage = [ConvertToCommonEmoticonsHelper convertToCommonEmoticons:textMessage];
     EMMessage *tempMessage = [ChatSendHelper sendTextMessageWithString:textMessage toUsername:_conversation.chatter isChatGroup:_isChatGroup requireEncryption:NO ext:[self getWeiChat]];
+    
     [self addMessage:tempMessage];
 }
 
