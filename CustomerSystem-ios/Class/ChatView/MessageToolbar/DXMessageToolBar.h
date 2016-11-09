@@ -39,6 +39,8 @@
 @interface DXMessageToolBar : UIView
 
 @property (nonatomic, weak) id <DXMessageToolBarDelegate> delegate;
+@property (strong, nonatomic) UIButton *recordButton;
+
 
 /**
  *  操作栏背景图片
@@ -64,6 +66,8 @@
  *  录音的附加页面
  */
 @property (strong, nonatomic) UIView *recordView;
+
+
 
 @property (strong, nonatomic) UIView *questionView;
 

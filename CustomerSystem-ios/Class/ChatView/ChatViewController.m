@@ -123,7 +123,6 @@
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         self.edgesForExtendedLayout =  UIRectEdgeNone;
     }
-    
     #warning 以下三行代码必须写，注册为SDK的ChatManager的delegate
     [EMCDDeviceManager sharedInstance].delegate = self;
     [[EaseMob sharedInstance].chatManager removeDelegate:self];
@@ -480,6 +479,82 @@
 - (void)reloadData{
     self.dataSource = [[self formatMessages:self.messages] mutableCopy];
     [self.tableView reloadData];
+}
+#pragma mark - 录音相关
+/**
+ *  按下录音按钮开始录音
+ */
+- (void)didStartRecordingVoiceAction:(UIView *)recordView{
+    if ([self _canRecord]) {
+        DXRecordView *tmpView = (DXRecordView *)recordView;
+        tmpView.center = self.view.center;
+        [self.view addSubview:tmpView];
+        [self.view bringSubviewToFront:recordView];
+        int x = arc4random() % 100000;
+        NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
+        NSString *fileName = [NSString stringWithFormat:@"%d%d",(int)time,x];
+        
+        [[EMCDDeviceManager sharedInstance] asyncStartRecordingWithFileName:fileName
+                                                                 completion:^(NSError *error)
+         {
+             if (error) {
+                 NSLog(NSLocalizedString(@"message.startRecordFail", @"failure to start recording"));
+             }
+         }];
+    }
+}
+
+/**
+ *  手指向上滑动取消录音
+ */
+- (void)didCancelRecordingVoiceAction:(UIView *)recordView{
+     [[EMCDDeviceManager sharedInstance] cancelCurrentRecording];
+}
+
+/**
+ *  松开手指完成录音
+ */
+- (void)didFinishRecoingVoiceAction:(UIView *)recordView{
+    __weak typeof(self) weakSelf = self;
+    [[EMCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
+        if (!error) {
+            EMChatVoice *voice = [[EMChatVoice alloc] initWithFile:recordPath
+                                                       displayName:@"audio"];
+            voice.duration = aDuration;
+            [weakSelf sendAudioMessage:voice];
+        }else {
+            [weakSelf showHudInView:self.view hint:NSLocalizedString(@"media.timeShort", @"The recording time is too short")];
+            weakSelf.chatToolBar.recordButton.enabled = NO;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf hideHud];
+                weakSelf.chatToolBar.recordButton.enabled = YES;
+            });
+        }
+    }];
+}
+
+- (void)sendVoiceMessageWithLocalPath:(NSString *)localPath
+                             duration:(NSInteger)duration
+{
+    EMChatVoice *voice = [EMChatVoice new];
+    voice.localPath = localPath;
+    voice.duration = duration;
+    EMMessage *voiceMessage = [ChatSendHelper sendVoice:voice toUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO ext:[self getWeiChat]];
+    [self addMessage:voiceMessage];
+}
+
+/**
+ *  当手指离开按钮的范围内时，主要为了通知外部的HUD
+ */
+- (void)didDragOutsideAction:(UIView *)recordView{
+    
+}
+
+/**
+ *  当手指再次进入按钮的范围内时，主要也是为了通知外部的HUD
+ */
+- (void)didDragInsideAction:(UIView *)recordView{
+    
 }
 
 #pragma mark - UIResponder actions
@@ -1297,6 +1372,22 @@
         }
         [_conversation removeMessage:retureMsg];
     } onQueue:dispatch_get_main_queue()];
+}
+
+- (BOOL)_canRecord
+{
+    __block BOOL bCanRecord = YES;
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending)
+    {
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        if ([audioSession respondsToSelector:@selector(requestRecordPermission:)]) {
+            [audioSession performSelector:@selector(requestRecordPermission:) withObject:^(BOOL granted) {
+                bCanRecord = granted;
+            }];
+        }
+    }
+    
+    return bCanRecord;
 }
 
 @end

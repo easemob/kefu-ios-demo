@@ -12,7 +12,7 @@
 
 #import "DXMessageToolBar.h"
 #import "EmotionEscape.h"
-#import "EaseRecordView.h"
+#import "DXRecordView.h"
 
 typedef NS_ENUM(NSUInteger, ButtonType) {
     ButtonTypeLeaveMessage = 0,
@@ -39,8 +39,8 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
  *  按钮、输入框、toolbarView
  */
 @property (strong, nonatomic) UIView *toolbarView;
-@property (strong, nonatomic) UIButton *questionButton;
-@property (strong, nonatomic) UIButton *recordButton;
+@property (strong, nonatomic) UIButton *styleChangeButton;
+
 @property (strong, nonatomic) UIButton *moreButton;
 @property (strong, nonatomic) UIButton *faceButton;
 
@@ -53,6 +53,9 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 @end
 
 @implementation DXMessageToolBar
+{
+    NSInteger _inputStrLength;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -171,7 +174,7 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
     }
     
     self.faceButton.selected = NO;
-    self.questionButton.selected = NO;
+    self.styleChangeButton.selected = NO;
     self.moreButton.selected = NO;
     return YES;
 }
@@ -202,28 +205,31 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
         
         return NO;
     } else {
-        if (text.length == 0) {
+        if (text.length == 0) { //删除操作
             if (_inputText.length >= 4)
             {
                 NSString *subStr = [_inputText substringFromIndex:_inputText.length - 4];
                 if ([(DXFaceView *)self.faceView stringIsFace:subStr]) {
-                    [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 4, 4)];
+                    [_inputText replaceCharactersInRange:NSMakeRange(_inputText.length - 4, 4) withString:@""];
                     return YES;
                 }
                 if (_inputText.length >= 5) {
                     subStr = [_inputText substringFromIndex:_inputText.length - 5];
                     if ([(DXFaceView *)self.faceView stringIsFace:subStr]) {
-                        [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 5, 5)];
+                        [_inputText replaceCharactersInRange:NSMakeRange(_inputText.length - 5, 5) withString:@""];
                         return YES;
                     }
                 }
             }
             
             if (_inputText.length > 0) {
-                [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 1, 1)];
+               [_inputText replaceCharactersInRange:NSMakeRange(_inputText.length - 1, 1) withString:@""];
             }
         } else {
-            [_inputText appendString:text];
+//            UITextRange *range = [textView markedTextRange];
+//            NSLog(@"markedRange :%@",range);
+////             [_inputText appendString:text];
+            
         }
     }
     return YES;
@@ -231,6 +237,13 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 
 - (void)textViewDidChange:(UITextView *)textView
 {
+    UITextRange *range = [textView markedTextRange];
+    if ([[textView textInRange:range] length] <= 0 && _inputStrLength >=0) {
+        
+        [self.inputText appendString:[textView.text substringFromIndex:textView.text.length - _inputStrLength]];
+        self.inputTextView.attributedText = [[EmotionEscape sharedInstance] attStringFromTextForInputView:_inputText textFont:self.inputTextView.font];
+    }
+    _inputStrLength = [[textView textInRange:range] length];
     [self willShowInputTextViewToHeight:[self getTextViewContentH:textView]];
 }
 
@@ -345,14 +358,14 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
     CGFloat textViewLeftMargin = 6.0;
     
     //转变输入样式
-    self.questionButton = [[UIButton alloc] initWithFrame:CGRectMake(kHorizontalPadding, kVerticalPadding, kInputTextViewMinHeight, kInputTextViewMinHeight)];
-    self.questionButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_record"] forState:UIControlStateNormal];
-    [self.questionButton setImage:[UIImage imageNamed:@"chatBar_keyboard"] forState:UIControlStateSelected];
-    [self.questionButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    self.questionButton.tag = ButtonTypeLeaveMessage;
-    allButtonWidth += CGRectGetMaxX(self.questionButton.frame);
-    textViewLeftMargin += CGRectGetMaxX(self.questionButton.frame);
+    self.styleChangeButton = [[UIButton alloc] initWithFrame:CGRectMake(kHorizontalPadding, kVerticalPadding, kInputTextViewMinHeight, kInputTextViewMinHeight)];
+    self.styleChangeButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
+    [self.styleChangeButton setImage:[UIImage imageNamed:@"chatBar_record"] forState:UIControlStateNormal];
+    [self.styleChangeButton setImage:[UIImage imageNamed:@"chatBar_keyboard"] forState:UIControlStateSelected];
+    [self.styleChangeButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    self.styleChangeButton.tag = ButtonTypeLeaveMessage;
+    allButtonWidth += CGRectGetMaxX(self.styleChangeButton.frame);
+    textViewLeftMargin += CGRectGetMaxX(self.styleChangeButton.frame);
     
     //更多
     self.moreButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.bounds) - kHorizontalPadding - kInputTextViewMinHeight, kVerticalPadding, kInputTextViewMinHeight, kInputTextViewMinHeight)];
@@ -381,6 +394,7 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
     self.inputTextView = [[XHMessageTextView  alloc] initWithFrame:CGRectMake(textViewLeftMargin, kVerticalPadding, width, kInputTextViewMinHeight)];
     self.inputTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _inputTextView.scrollEnabled = YES;
+    _inputTextView.keyboardType =  UIKeyboardTypeDefault;
     _inputTextView.returnKeyType = UIReturnKeySend;
     _inputTextView.enablesReturnKeyAutomatically = YES; // UITextView内部判断send按钮是否可以用
     _inputTextView.placeHolder = NSLocalizedString(@"message.toolBar.inputPlaceHolder", @"input a new message");
@@ -416,8 +430,8 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
     self.recordButton.accessibilityIdentifier = @"record";
     self.recordButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [self.recordButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [self.recordButton setBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chatBar_recordBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
-    [self.recordButton setBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chatBar_recordSelectedBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateHighlighted];
+    [self.recordButton setBackgroundImage:[[UIImage imageNamed:@"chatBar_recordBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
+    [self.recordButton setBackgroundImage:[[UIImage imageNamed:@"chatBar_recordSelectedBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateHighlighted];
     [self.recordButton setTitle:kTouchToRecord forState:UIControlStateNormal];
     [self.recordButton setTitle:kTouchToFinish forState:UIControlStateHighlighted];
     self.recordButton.hidden = YES;
@@ -429,7 +443,7 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
     self.recordButton.hidden = YES;
     [self.toolbarView addSubview:self.recordButton];
     
-    [self.toolbarView addSubview:self.questionButton];
+    [self.toolbarView addSubview:self.styleChangeButton];
     [self.toolbarView addSubview:self.moreButton];
     [self.toolbarView addSubview:self.faceButton];
     [self.toolbarView addSubview:self.inputTextView];
@@ -438,6 +452,10 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 #pragma mark - 录音
 - (void)recordButtonTouchDown
 {
+    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
+        [(DXRecordView *)self.recordView recordButtonTouchDown];
+    }
+    
     if (_delegate && [_delegate respondsToSelector:@selector(didStartRecordingVoiceAction:)]) {
         [_delegate didStartRecordingVoiceAction:self.recordView];
     }
@@ -449,20 +467,34 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
     {
         [_delegate didCancelRecordingVoiceAction:self.recordView];
     }
+    
+    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
+        [(DXRecordView *)self.recordView recordButtonTouchUpOutside];
+    }
+    
+    [self.recordView removeFromSuperview];
 }
 
 - (void)recordButtonTouchUpInside
 {
-    self.recordButton.enabled = NO;
+    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
+        [(DXRecordView *)self.recordView recordButtonTouchUpInside];
+    }
+    
     if ([self.delegate respondsToSelector:@selector(didFinishRecoingVoiceAction:)])
     {
         [self.delegate didFinishRecoingVoiceAction:self.recordView];
     }
-    self.recordButton.enabled = YES;
+    
+    [self.recordView removeFromSuperview];
 }
 
 - (void)recordDragOutside
 {
+    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
+        [(DXRecordView *)self.recordView recordButtonDragOutside];
+    }
+    
     if ([self.delegate respondsToSelector:@selector(didDragOutsideAction:)])
     {
         [self.delegate didDragOutsideAction:self.recordView];
@@ -471,6 +503,10 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 
 - (void)recordDragInside
 {
+    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
+        [(DXRecordView *)self.recordView recordButtonDragInside];
+    }
+    
     if ([self.delegate respondsToSelector:@selector(didDragInsideAction:)])
     {
         [self.delegate didDragInsideAction:self.recordView];
@@ -479,7 +515,7 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 - (UIView *)recordView
 {
     if (_recordView == nil) {
-        _recordView = [[EaseRecordView alloc] initWithFrame:CGRectMake(90, 130, 140, 140)];
+        _recordView = [[DXRecordView alloc] initWithFrame:CGRectMake(90, 130, 140, 140)];
     }
     
     return _recordView;
@@ -604,6 +640,8 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
         case ButtonTypeLeaveMessage://留言问题
         {
             if (button.selected) {
+                self.faceButton.selected = NO;
+                self.moreButton.selected = NO;
                 //录音状态下，不显示底部扩展页面
                 [self willShowBottomView:nil];
                 
@@ -620,30 +658,62 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
             [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
                 self.recordButton.hidden = !button.selected;
                 self.inputTextView.hidden = button.selected;
-            } completion:nil];
+            } completion:^(BOOL finished) {
+                
+            }];
         }
             break;
         case ButtonTypeEmojiMessage://表情
         {
             if (button.selected) {
-                [self.inputTextView resignFirstResponder];
                 self.moreButton.selected = NO;
+                //如果选择表情并且处于录音状态，切换成文字输入状态，但是不显示键盘
+                if (self.styleChangeButton.selected) {
+                    self.styleChangeButton.selected = NO;
+                }
+                else{//如果处于文字输入状态，使文字输入框失去焦点
+                    [self.inputTextView resignFirstResponder];
+                }
+                
                 [self willShowBottomView:self.faceView];
+                [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                    self.recordButton.hidden = button.selected;
+                    self.inputTextView.hidden = !button.selected;
+                } completion:^(BOOL finished) {
+                    
+                }];
             } else {
-                [self willShowBottomView:nil];
-            }
-        }
+                if (!self.styleChangeButton.selected) {
+                    [self.inputTextView becomeFirstResponder];
+                }
+                else{
+                    [self willShowBottomView:nil];
+                }
+            }        }
             break;
         case ButtonTypeMoreTypeMessage://更多消息类型
         {
             if (button.selected) {
                 self.faceButton.selected = NO;
-                //如果选择表情并且处于问题状态，切换成文字输入状态，但是不显示键盘
-                [self.inputTextView resignFirstResponder];
+                //如果选择表情并且处于录音状态，切换成文字输入状态，但是不显示键盘
+                if (self.styleChangeButton.selected) {
+                    self.styleChangeButton.selected = NO;
+                }
+                else{//如果处于文字输入状态，使文字输入框失去焦点
+                    [self.inputTextView resignFirstResponder];
+                }
+                
                 [self willShowBottomView:self.moreView];
+                [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                    self.recordButton.hidden = button.selected;
+                    self.inputTextView.hidden = !button.selected;
+                } completion:^(BOOL finished) {
+                    
+                }];
             }
             else
             {
+                self.styleChangeButton.selected = NO;
                 [self.inputTextView becomeFirstResponder];
             }
         }
@@ -662,7 +732,7 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 - (BOOL)endEditing:(BOOL)force
 {
     BOOL result = [super endEditing:force];
-    self.questionButton.selected = NO;
+    self.styleChangeButton.selected = NO;
     self.faceButton.selected = NO;
     self.moreButton.selected = NO;
     [self willShowBottomView:nil];

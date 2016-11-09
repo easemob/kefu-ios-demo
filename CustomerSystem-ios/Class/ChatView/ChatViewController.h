@@ -11,6 +11,7 @@
   */
 
 #import <UIKit/UIKit.h>
+#import "DXRecordView.h"
 
 typedef NS_ENUM(NSInteger, EMDemoSaleType){
     ePreSaleType,
@@ -22,6 +23,7 @@ typedef NS_ENUM(NSInteger, EMDemoSaleType){
 
 @property (nonatomic, strong) NSString *chatter;
 @property (nonatomic, strong) NSDictionary *commodityInfo;
+@property(nonatomic,strong) DXRecordView *recordView;
 
 - (instancetype)initWithChatter:(NSString *)chatter
                         isGroup:(BOOL)isGroup;

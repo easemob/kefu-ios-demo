@@ -12,21 +12,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum{
-    EaseRecordViewTypeTouchDown,
-    EaseRecordViewTypeTouchUpInside,
-    EaseRecordViewTypeTouchUpOutside,
-    EaseRecordViewTypeDragInside,
-    EaseRecordViewTypeDragOutside,
-}EaseRecordViewType;
-
-@interface EaseRecordView : UIView
-
-@property (nonatomic) NSArray *voiceMessageAnimationImages UI_APPEARANCE_SELECTOR;
-
-@property (nonatomic) NSString *upCancelText UI_APPEARANCE_SELECTOR;
-
-@property (nonatomic) NSString *loosenCancelText UI_APPEARANCE_SELECTOR;
+@interface DXRecordView : UIView
 
 // 录音按钮按下
 -(void)recordButtonTouchDown;
