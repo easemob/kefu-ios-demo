@@ -161,9 +161,7 @@
 - (void)didDragInsideAction:(UIView *)recordView;
 
 /*
- *
  *  发起留言
- *
  */
 - (void)didPressedLeaveMsgButton;
 

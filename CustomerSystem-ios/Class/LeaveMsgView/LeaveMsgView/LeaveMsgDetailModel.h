@@ -79,7 +79,7 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *url;
 @property (nonatomic, copy) NSString *type;
-
+@property(nonatomic,copy) NSString  *wavDuration;
 @end
 
 @interface LeaveMsgBaseModelTicket : LeaveMsgBaseModel

@@ -10,9 +10,12 @@
 
 @class LeaveMsgAttachmentModel;
 @class LeaveMsgCommentModel;
+@class LeaveMsgAttatchmentView;
 @protocol LeaveMsgCellDelegate <NSObject>
 
 - (void)didSelectFileAttachment:(LeaveMsgAttachmentModel*)attachment;
+
+- (void)didSelectAudioAttachment:(LeaveMsgAttachmentModel*)attachment touchImage:(LeaveMsgAttatchmentView *)attatchmentView;
 
 @end
 

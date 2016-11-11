@@ -170,7 +170,11 @@ static EMHttpManager *manager = nil;
     }
     [_httpManager POST:path parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         if ([parameters objectForKey:@"fileName"]) {
-            [formData appendPartWithFileData:file name:@"file" fileName:[parameters objectForKey:@"fileName"] mimeType:@"image/jpeg"];
+            NSString *mimeType = @"image/jpeg";
+            if ([[parameters objectForKey:@"fileName"] hasSuffix:@"amr"]) {
+                mimeType = @"audio/amr";
+            }
+            [formData appendPartWithFileData:file name:@"file" fileName:[parameters objectForKey:@"fileName"] mimeType:mimeType];
         } else {
             [formData appendPartWithFileData:file name:@"file" fileName:@"image" mimeType:@"image/jpeg"];
         }

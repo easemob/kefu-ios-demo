@@ -18,4 +18,7 @@
 
 @property (nonatomic, strong) id<LeaseMsgReplyControllerDelegate> delegate;
 
+//清除语音缓存
++ (void)resetFile;
+
 @end

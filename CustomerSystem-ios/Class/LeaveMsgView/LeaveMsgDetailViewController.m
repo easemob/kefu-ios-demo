@@ -17,9 +17,12 @@
 #import "NSDate+Category.h"
 #import "EaseMob.h"
 #import "MessageReadManager.h"
+#import "SCNetworkManager.h"
 #import "LeaseMsgReplyController.h"
+#import "SCAudioPlay.h"
+#import "LeaveMsgAttatchmentView.h"
 
-@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,EMChatManagerDelegate, LeaseMsgReplyControllerDelegate,LeaveMsgCellDelegate>
+@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,EMChatManagerDelegate, LeaseMsgReplyControllerDelegate,LeaveMsgCellDelegate,SCAudioPlayDelegate>
 {
     NSInteger _ticketId;
     NSDictionary *_temp;
@@ -37,6 +40,9 @@
 @end
 
 @implementation LeaveMsgDetailViewController
+{
+    LeaveMsgAttatchmentView *_touchView;
+}
 
 - (instancetype)initWithTicketId:(NSInteger)ticketId chatter:(NSString*)chatter
 {
@@ -48,10 +54,13 @@
     return self;
 }
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [LeaseMsgReplyController resetFile];
+    [self clearTempWav];
     self.title = NSLocalizedString(@"title.leavemsgdetail", @"Leave Message Detail");
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         self.edgesForExtendedLayout =  UIRectEdgeNone;
@@ -242,8 +251,48 @@
 
 #pragma mark - LeaveMsgCellDelegate
 
+- (void)didSelectAudioAttachment:(LeaveMsgAttachmentModel *)attachment touchImage:(LeaveMsgAttatchmentView *)attatchmentView {
+    _touchView = attatchmentView;
+    SCNetworkManager *manager = [SCNetworkManager sharedInstance];
+    kWeakSelf
+    [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
+        if (!error) {
+            NSString *toPath = [NSString stringWithFormat:@"%@/%d.wav",NSTemporaryDirectory(),123];
+            BOOL success = [[EMCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
+            if (success) {
+                [weakSelf playWithfilePath:toPath];
+            }
+        }else{
+            NSLog(@"下载文件失败");
+        }
+    }];
+}
+
+- (void)playWithfilePath:(NSString *)path {
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:path]) {
+        [fm removeItemAtPath:path error:nil];
+    }
+    SCAudioPlay *play = [SCAudioPlay sharedInstance];
+    play.delegate = self;
+    if (play.isPlaying) {
+        [play stopSound];
+    }
+    [play playSoundWithData:data];
+}
+
+- (void)AVAudioPlayerBeiginPlay {
+    [_touchView startAnimating];
+}
+
+- (void)AVAudioPlayerDidFinishPlay {
+    [_touchView stopAnimating];
+}
+
 - (void)didSelectFileAttachment:(LeaveMsgAttachmentModel*)attachment
 {
+
     NSString *textToShare = [NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment"),attachment.name];
     NSURL *urlToShare = [NSURL URLWithString:attachment.url];
     NSArray *activityItems = @[textToShare, urlToShare];
@@ -448,6 +497,14 @@
         }
     }
     return userInfo;
+}
+
+- (void)clearTempWav {
+    NSString *path = [NSString stringWithFormat:@"%@/%d.wav",NSTemporaryDirectory(),123];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:path]) {
+        [fm removeItemAtPath:path error:nil];
+    }
 }
 
 @end

@@ -14,6 +14,10 @@
 
 #import "LocalDefine.h"
 #import "UIImage+Add.h"
+#import "NSObject+Add.h"
+#import "EMCDDeviceManager+Media.h"
+#import "UIViewController+HUD.h"
+#import "AFNetworking.h"
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -36,5 +40,9 @@
 #define kMesssageExtWeChat_ctrlArgs_summary @"summary"
 #define kMesssageExtWeChat_ctrlArgs_label @"label"
 
+
+//weak strong
+#define kStrongSelf __strong __typeof(self) strongSelf = self;
+#define kWeakSelf __weak __typeof__(self) weakSelf = self;
 
 #endif

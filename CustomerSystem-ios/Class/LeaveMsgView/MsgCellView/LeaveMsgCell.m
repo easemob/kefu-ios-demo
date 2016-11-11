@@ -218,7 +218,12 @@
         LeaveMsgAttachmentModel *attachment = [_attachments objectAtIndex:index];
         if ([attachment.type isEqualToString:@"image"]) {
             [[MessageReadManager defaultManager] showBrowserWithImages:@[[NSURL URLWithString:attachment.url]]];
-        } else {
+        } else if([attachment.type isEqualToString:@"audio"]) {
+            if (_delegate && [_delegate respondsToSelector:@selector(didSelectAudioAttachment:touchImage:)]) {
+                [_delegate didSelectAudioAttachment:attachment touchImage:(LeaveMsgAttatchmentView *)tap.view];
+            }
+        } else
+        {
             if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectFileAttachment:)]) {
                 [self.delegate didSelectFileAttachment:attachment];
             }

@@ -43,4 +43,7 @@
 // 当前是否正在录音
 -(BOOL)isRecording;
 
+- (BOOL)convertAMR:(NSString *)amrFilePath
+             toWAV:(NSString *)wavFilePath;
+
 @end
