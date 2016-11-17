@@ -34,6 +34,8 @@
 #import "SatisfactionViewController.h"
 #import "ConvertToCommonEmoticonsHelper.h"
 #import "LeaveMsgViewController.h"
+#import "EMChatFileBubbleView.h"
+#import "EMFileViewController.h"
 
 #define KPageCount 20
 #define kafterSale @"shouhou"
@@ -568,7 +570,9 @@
     else if ([eventName isEqualToString:kRouterEventAudioBubbleTapEventName]) {
         [self chatAudioCellBubblePressed:model];
     }
-    else if ([eventName isEqualToString:kRouterEventImageBubbleTapEventName]){
+    else if ([eventName isEqualToString:kRouterEventFileBubbleTapEventName]) {
+        [self chatFileCellBubblePressed:model];
+    } if ([eventName isEqualToString:kRouterEventImageBubbleTapEventName]){
         [self chatImageCellBubblePressed:model];
     }
     else if ([eventName isEqualToString:kRouterEventLocationBubbleTapEventName]){
@@ -615,6 +619,13 @@
             }
         }
     }
+}
+- (void)chatFileCellBubblePressed:(MessageModel *)model
+{
+    
+    EMFileViewController *viewController = [[EMFileViewController alloc] init];
+    viewController.model = model;
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 //发送转人工客服的透传消息

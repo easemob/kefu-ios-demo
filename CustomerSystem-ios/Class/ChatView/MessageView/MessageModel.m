@@ -41,3 +41,22 @@
 }
 
 @end
+
+@implementation FileMessageBody
+
+- (instancetype)initWithDic :(EMFileMessageBody *)body {
+    if (self = [super init]) {
+        [self setup:body];
+    }
+    return self;
+}
+
+- (void)setup:(EMFileMessageBody *)body {
+    self.filename = body.displayName;
+    self.file_length = [NSString stringWithFormat:@"%lld",body.fileLength];
+    self.url = body.remotePath;
+}
+
+
+
+@end

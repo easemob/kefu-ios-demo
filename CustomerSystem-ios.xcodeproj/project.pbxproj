@@ -46,6 +46,13 @@
 		D2F873B21D2CB381004ED4D4 /* message_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F873B01D2CB381004ED4D4 /* message_comment@2x.png */; };
 		D304DEEA1DD48D9600AF29F6 /* SCAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D304DEE91DD48D9600AF29F6 /* SCAudioPlay.m */; };
 		D304DEF01DD4983B00AF29F6 /* SCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D304DEEF1DD4983B00AF29F6 /* SCNetworkManager.m */; };
+		D3298BC51DDD8E4C005DE14E /* EMChatFileBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3298BC41DDD8E4C005DE14E /* EMChatFileBubbleView.m */; };
+		D3298BC71DDD9054005DE14E /* image_file2_icon_files@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3298BC61DDD9054005DE14E /* image_file2_icon_files@2x.png */; };
+		D3298BC91DDD9069005DE14E /* image_file2_icon_files@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3298BC81DDD9069005DE14E /* image_file2_icon_files@3x.png */; };
+		D3298BCC1DDD91D1005DE14E /* EMFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3298BCB1DDD91D1005DE14E /* EMFileViewController.m */; };
+		D3298BD21DDD927E005DE14E /* DXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3298BD11DDD927E005DE14E /* DXBaseViewController.m */; };
+		D3298BD51DDD92B5005DE14E /* TTOpenInAppActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = D3298BD41DDD92B5005DE14E /* TTOpenInAppActivity.m */; };
+		D3298BDB1DDDB215005DE14E /* SCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D3298BDA1DDDB215005DE14E /* SCFileManager.m */; };
 		D35231631DD321280020476D /* UIImage+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = D35231621DD321280020476D /* UIImage+Add.m */; };
 		D35231661DD321380020476D /* chatBar_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D35231641DD321380020476D /* chatBar_keyboard@2x.png */; };
 		D35231671DD321380020476D /* chatBar_record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D35231651DD321380020476D /* chatBar_record@2x.png */; };
@@ -438,6 +445,18 @@
 		D304DEE91DD48D9600AF29F6 /* SCAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAudioPlay.m; sourceTree = "<group>"; };
 		D304DEEE1DD4983B00AF29F6 /* SCNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkManager.h; sourceTree = "<group>"; };
 		D304DEEF1DD4983B00AF29F6 /* SCNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetworkManager.m; sourceTree = "<group>"; };
+		D3298BC31DDD8E4C005DE14E /* EMChatFileBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatFileBubbleView.h; sourceTree = "<group>"; };
+		D3298BC41DDD8E4C005DE14E /* EMChatFileBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMChatFileBubbleView.m; sourceTree = "<group>"; };
+		D3298BC61DDD9054005DE14E /* image_file2_icon_files@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image_file2_icon_files@2x.png"; sourceTree = "<group>"; };
+		D3298BC81DDD9069005DE14E /* image_file2_icon_files@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image_file2_icon_files@3x.png"; sourceTree = "<group>"; };
+		D3298BCA1DDD91D1005DE14E /* EMFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMFileViewController.h; sourceTree = "<group>"; };
+		D3298BCB1DDD91D1005DE14E /* EMFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMFileViewController.m; sourceTree = "<group>"; };
+		D3298BD01DDD927E005DE14E /* DXBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXBaseViewController.h; sourceTree = "<group>"; };
+		D3298BD11DDD927E005DE14E /* DXBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXBaseViewController.m; sourceTree = "<group>"; };
+		D3298BD31DDD92B5005DE14E /* TTOpenInAppActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTOpenInAppActivity.h; sourceTree = "<group>"; };
+		D3298BD41DDD92B5005DE14E /* TTOpenInAppActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTOpenInAppActivity.m; sourceTree = "<group>"; };
+		D3298BD91DDDB215005DE14E /* SCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCFileManager.h; sourceTree = "<group>"; };
+		D3298BDA1DDDB215005DE14E /* SCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCFileManager.m; sourceTree = "<group>"; };
 		D35231611DD321280020476D /* UIImage+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Add.h"; sourceTree = "<group>"; };
 		D35231621DD321280020476D /* UIImage+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Add.m"; sourceTree = "<group>"; };
 		D35231641DD321380020476D /* chatBar_keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatBar_keyboard@2x.png"; sourceTree = "<group>"; };
@@ -1086,6 +1105,23 @@
 			name = Others;
 			sourceTree = "<group>";
 		};
+		D3298BD71DDDB1EA005DE14E /* CacheManager */ = {
+			isa = PBXGroup;
+			children = (
+				D3298BD81DDDB1F7005DE14E /* FileManager */,
+			);
+			name = CacheManager;
+			sourceTree = "<group>";
+		};
+		D3298BD81DDDB1F7005DE14E /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				D3298BD91DDDB215005DE14E /* SCFileManager.h */,
+				D3298BDA1DDDB215005DE14E /* SCFileManager.m */,
+			);
+			name = FileManager;
+			sourceTree = "<group>";
+		};
 		D352316D1DD32D8F0020476D /* RecordView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1351,6 +1387,8 @@
 		EB4B05F91AC685E900DCF67B /* ChatView */ = {
 			isa = PBXGroup;
 			children = (
+				D3298BC81DDD9069005DE14E /* image_file2_icon_files@3x.png */,
+				D3298BC61DDD9054005DE14E /* image_file2_icon_files@2x.png */,
 				D35FB2AB1DC73C8A0064FE65 /* icon_faceborad_delete.png */,
 				EB4B05FA1AC685E900DCF67B /* audio */,
 				EB4B062B1AC685E900DCF67B /* call_out.png */,
@@ -1841,6 +1879,7 @@
 		EB62E2981A8DDA4800705655 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				D3298BD71DDDB1EA005DE14E /* CacheManager */,
 				D2D395C61D24BE4A00A84914 /* LeaveMsgView */,
 				D2769D201B904185003D9E3D /* HomeView */,
 				EB62E3BF1A8E0C9400705655 /* ChatView */,
@@ -1878,6 +1917,12 @@
 				EB62E3C81A8E0C9400705655 /* ChatViewController.m */,
 				EB62E3CB1A8E0C9400705655 /* LocationViewController.h */,
 				EB62E3CC1A8E0C9400705655 /* LocationViewController.m */,
+				D3298BCA1DDD91D1005DE14E /* EMFileViewController.h */,
+				D3298BCB1DDD91D1005DE14E /* EMFileViewController.m */,
+				D3298BD01DDD927E005DE14E /* DXBaseViewController.h */,
+				D3298BD11DDD927E005DE14E /* DXBaseViewController.m */,
+				D3298BD31DDD92B5005DE14E /* TTOpenInAppActivity.h */,
+				D3298BD41DDD92B5005DE14E /* TTOpenInAppActivity.m */,
 				EB62E3CD1A8E0C9400705655 /* MessageToolbar */,
 				EB62E3DC1A8E0C9400705655 /* MessageView */,
 				D27085301BDE14350086DDE7 /* SatisfactionViewController.h */,
@@ -1959,6 +2004,8 @@
 		EB62E3DE1A8E0C9400705655 /* ChatCellBubble */ = {
 			isa = PBXGroup;
 			children = (
+				D3298BC31DDD8E4C005DE14E /* EMChatFileBubbleView.h */,
+				D3298BC41DDD8E4C005DE14E /* EMChatFileBubbleView.m */,
 				EBE086261AD7FC250028D40B /* UIImage+Utils.h */,
 				EBE086271AD7FC250028D40B /* UIImage+Utils.m */,
 				EB62E3DF1A8E0C9400705655 /* EMChatAudioBubbleView.h */,
@@ -2115,6 +2162,7 @@
 				EB4B06941AC685E900DCF67B /* VoiceSearchFeedback004@2x.png in Resources */,
 				EB4B06831AC685E900DCF67B /* customer@2x.png in Resources */,
 				EB62E30B1A8DDA4800705655 /* sr_refresh@2X.png in Resources */,
+				D3298BC91DDD9069005DE14E /* image_file2_icon_files@3x.png in Resources */,
 				EB4B06F61AC685E900DCF67B /* chat_sender_bg@2x.png in Resources */,
 				D35FB2801DC718730064FE65 /* ee_23.png in Resources */,
 				EB4B06951AC685E900DCF67B /* VoiceSearchFeedback005.png in Resources */,
@@ -2197,6 +2245,7 @@
 				D35FB27C1DC718730064FE65 /* ee_19.png in Resources */,
 				D35FB2731DC718730064FE65 /* ee_10.png in Resources */,
 				EB4B067E1AC685E900DCF67B /* 120.png in Resources */,
+				D3298BC71DDD9054005DE14E /* image_file2_icon_files@2x.png in Resources */,
 				EB4B069E1AC685E900DCF67B /* VoiceSearchFeedback009@2x.png in Resources */,
 				D35FB28A1DC718730064FE65 /* ee_33.png in Resources */,
 				EB4B06C01AC685E900DCF67B /* chatBar_more_card@2x.png in Resources */,
@@ -2334,7 +2383,9 @@
 				D2D395EE1D24F73000A84914 /* AFURLRequestSerialization.m in Sources */,
 				D27085361BDE2B740086DDE7 /* CWStarRateView.m in Sources */,
 				EB3959651A8EE4160083B659 /* NSDateFormatter+Category.m in Sources */,
+				D3298BDB1DDDB215005DE14E /* SCFileManager.m in Sources */,
 				EB3959681A8EE4160083B659 /* UIViewController+DismissKeyboard.m in Sources */,
+				D3298BC51DDD8E4C005DE14E /* EMChatFileBubbleView.m in Sources */,
 				D2D395D31D24F5A800A84914 /* LeaveMsgDetailViewController.m in Sources */,
 				D2E36B811D46149200B1C90C /* LeaveMsgAttatchmentView.m in Sources */,
 				EB3959661A8EE4160083B659 /* NSString+Valid.m in Sources */,
@@ -2351,6 +2402,7 @@
 				EB62E4011A8E0C9400705655 /* DXChatBarMoreView.m in Sources */,
 				EB30A5391B20637100FD223F /* EMCDDeviceManager+Remind.m in Sources */,
 				EB62E2DF1A8DDA4800705655 /* Emoji.m in Sources */,
+				D3298BD21DDD927E005DE14E /* DXBaseViewController.m in Sources */,
 				EB62E30D1A8DDA4800705655 /* SRSlimeView.m in Sources */,
 				EB62E30F1A8DDA4800705655 /* TTGlobalUICommon.m in Sources */,
 				D2D395EB1D24F73000A84914 /* AFNetworkReachabilityManager.m in Sources */,
@@ -2369,6 +2421,7 @@
 				EB62E1FF1A8DD92D00705655 /* main.m in Sources */,
 				EB62E40D1A8E0C9400705655 /* MessageModelManager.m in Sources */,
 				D35FB28F1DC724150064FE65 /* UIView+FLExtension.m in Sources */,
+				D3298BCC1DDD91D1005DE14E /* EMFileViewController.m in Sources */,
 				EB62E3021A8DDA4800705655 /* PSTCollectionViewItemKey.m in Sources */,
 				EB3959821A8EE54D0083B659 /* EMRemarkImageView.m in Sources */,
 				EB62E4041A8E0C9400705655 /* EMChatBaseBubbleView.m in Sources */,
@@ -2387,6 +2440,7 @@
 				EB62E3FD1A8E0C9400705655 /* LocationViewController.m in Sources */,
 				EB62E3051A8DDA4800705655 /* PSTGridLayoutInfo.m in Sources */,
 				EB62E3FB1A8E0C9400705655 /* ChatViewController.m in Sources */,
+				D3298BD51DDD92B5005DE14E /* TTOpenInAppActivity.m in Sources */,
 				EB3959851A8EE54D0083B659 /* EMNavigationController.m in Sources */,
 				EB62E2EC1A8DDA4800705655 /* EMSDImageCache.m in Sources */,
 				EB62E2E01A8DDA4800705655 /* EmojiEmoticons.m in Sources */,

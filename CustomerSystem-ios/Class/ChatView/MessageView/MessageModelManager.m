@@ -33,6 +33,10 @@
     model.isSender = isSender;
     model.isPlaying = NO;
     model.isChatGroup = message.isGroup;
+    if (eMessageBodyType_File == model.type) {
+        FileMessageBody *bdy = [[FileMessageBody alloc] initWithDic:[[message valueForKey:@"bodies"] firstObject]];
+        model.body = bdy;
+    }
     if (model.isChatGroup) {
         model.username = message.groupSenderName;
     }

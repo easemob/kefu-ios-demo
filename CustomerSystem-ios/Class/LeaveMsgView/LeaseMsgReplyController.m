@@ -156,10 +156,6 @@ const NSInteger baseTag=123;
             MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment", "Upload attachment") toView:self.view];
             hud.layer.zPosition = 1.f;
             __weak MBProgressHUD *weakHud = hud;
-            AVAudioPlayer   *player;
-            //计算时间
-            NSURL *soundUrl = [NSURL URLWithString:recordPath];
-            player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
             NSString *fileName =[[recordPath componentsSeparatedByString:@"/"] lastObject];
             
             NSData *data = [NSData dataWithContentsOfFile:recordPath];
@@ -176,7 +172,7 @@ const NSInteger baseTag=123;
                         }
                         attachment.name = fileName;
                         attachment.type = @"audio";
-                        attachment.wavDuration = player ? [NSString stringWithFormat:@"%d",(int)player.duration] : @"";
+                        attachment.wavDuration =  [NSString stringWithFormat:@"%d",(int)aDuration];
                         [weakSelf.attachments addObject:attachment];
                         [weakSelf _reloadAttatchmentsView];
                     }

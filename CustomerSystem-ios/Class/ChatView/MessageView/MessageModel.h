@@ -16,6 +16,8 @@
 
 #define KFIRETIME 20
 
+@class FileMessageBody;
+
 @interface MessageModel : NSObject
 {
     BOOL _isPlaying;
@@ -32,6 +34,8 @@
 @property (nonatomic, strong) NSURL *headImageURL;
 @property (nonatomic, strong) NSString *nickName;
 @property (nonatomic, strong) NSString *username;
+
+@property(nonatomic,strong) FileMessageBody *body;
 
 //text
 @property (nonatomic, strong) NSString *content;
@@ -59,5 +63,18 @@
 
 @property (nonatomic, strong)id<IEMMessageBody> messageBody;
 @property (nonatomic, strong)EMMessage *message;
+//file
 
 @end
+
+
+@interface FileMessageBody : NSObject
+
+@property(nonatomic,copy) NSString *filename;    //文件名
+@property(nonatomic,copy) NSString *file_length; //文件大小
+@property(nonatomic,copy) NSString *url;         //文件远程url
+
+- (instancetype)initWithDic :(EMFileMessageBody *)body;
+@end
+
+
