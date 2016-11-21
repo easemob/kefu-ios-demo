@@ -196,6 +196,12 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]) {
+        if (_inputText.length > 1500) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"字数不能超过1500" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:@"", nil];
+            [alert show];
+            _inputText = [_inputText substringToIndex:1500].mutableCopy;
+            return NO;
+        }
         if ([self.delegate respondsToSelector:@selector(didSendText:)]) {
             [self.delegate didSendText:_inputText];
             [_inputText setString:@""];
