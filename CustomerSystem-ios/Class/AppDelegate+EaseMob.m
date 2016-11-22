@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 dujiepeng. All rights reserved.
 //
 
-#import "AppDelegate+EaseMob.h"
+#import "AppDelegate+easemob.h"
 
 #import "EMIMHelper.h"
 #import "LocalDefine.h"
@@ -15,20 +15,25 @@
  *  本类中做了EaseMob初始化和推送等操作
  */
 
-@implementation AppDelegate (EaseMob)
+#define hxUserName @"userNameKefuSdk"
+#define hxPassWord @"123456"
 
+@implementation AppDelegate (easemob)
 - (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //ios8注册apns
     [self registerRemoteNotification];
+    //注册环信客服sdk
+    [self registerKefuSdk];
+    /*
+     注册IM用户【注意:注册建议在服务端创建，而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器。】
+     */
+    [self registerIMuser];
+    //登录IM
+    [self loginIM];
     
-#warning SDK注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
-    NSString *apnsCertName = nil;
-#if DEBUG
-    apnsCertName = @"customer_dev";
-#else
-    apnsCertName = @"customer";
-#endif
+    
+    
     /*
     
     [[EaseMob sharedInstance] registerSDKWithAppKey:[[EMIMHelper defaultHelper] appkey]
@@ -46,6 +51,40 @@
     [[EMIMHelper defaultHelper] loginEasemobSDK];
 }
 
+- (void)loginIM {
+    EMError *error = nil;
+    error = [[HChatClient sharedClient] loginWithUsername:@"8001" password:@"111111"];
+    
+}
+
+- (void)registerIMuser {
+    EMError *error = nil;
+    error = [[HChatClient sharedClient] registerWithUsername:hxUserName password:hxPassWord];
+    
+//  ErrorCode:
+//  Error.NETWORK_ERROR 网络不可用
+//  Error.USER_ALREADY_EXIST  用户已存在
+//  Error.USER_AUTHENTICATION_FAILED 无开放注册权限（后台管理界面设置[开放|授权]）
+//  Error.USER_ILLEGAL_ARGUMENT 用户名非法
+}
+
+//注册客服sdk
+- (void)registerKefuSdk {
+#warning SDK注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
+    NSString *apnsCertName = nil;
+#if DEBUG
+    apnsCertName = @"customer_dev";
+#else
+    apnsCertName = @"customer";
+#endif
+    //注册kefu_sdk
+    HOptions *option = [[HOptions alloc] init];
+    option.appkey = @"1234567";
+    option.tenantId = @"12342";
+    option.leaveMsgId = @"22322";
+    option.apnsCertName = apnsCertName;
+    [[HChatClient sharedClient] initializeSDKWithOptions:option];
+}
 
 // 监听系统生命周期回调，以便将需要的事件传给SDK
 - (void)setupNotifiers{
@@ -100,12 +139,12 @@
 
 #pragma mark - notifiers
 - (void)appDidEnterBackgroundNotif:(NSNotification*)notif{
-  //  [[EaseMob sharedInstance] applicationDidEnterBackground:notif.object];
+    [[HChatClient sharedClient] applicationDidEnterBackground:notif.object];
 }
 
 - (void)appWillEnterForeground:(NSNotification*)notif
 {
-  //  [[EaseMob sharedInstance] applicationWillEnterForeground:notif.object];
+    [[HChatClient sharedClient] applicationWillEnterForeground:notif.object];
 }
 
 - (void)appDidFinishLaunching:(NSNotification*)notif

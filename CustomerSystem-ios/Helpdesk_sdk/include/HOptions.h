@@ -10,6 +10,7 @@
 
 #import "EMOptions.h"
 
+
 @interface HOptions : NSObject
 
 /*!
@@ -20,6 +21,12 @@
  *  Application's unique identifier
  */
 @property (nonatomic, strong) NSString *appkey;
+
+@property(nonatomic,copy) NSString *IMServiceId; //IM 服务号
+
+@property(nonatomic,copy) NSString *tenantId;    //租户ID
+
+@property(nonatomic,copy) NSString *leaveMsgId;  //留言id
 
 /*!
  *  \~chinese

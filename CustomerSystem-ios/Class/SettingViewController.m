@@ -9,7 +9,7 @@
 #import "SettingViewController.h"
 
 #import "EMIMHelper.h"
-#import "AppDelegate+EaseMob.h"
+#import "AppDelegate+easemob.h"
 //#import "UIViewController+HUD.h"
 #import "EditViewController.h"
 #import "LocalDefine.h"

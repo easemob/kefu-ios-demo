@@ -12,7 +12,8 @@
 
 
 #import "HChatClientDelegate.h"
-
+#import "HChatClient.h"
+#import "HOptions.h"
 
 
 #endif /* helpdesk_sdk_h */

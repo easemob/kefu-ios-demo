@@ -20,7 +20,6 @@
  *  Unique identifier of message
  */
 @property (nonatomic, copy) NSString *messageId;
-
 /*!
  *  \~chinese
  *  消息的方向

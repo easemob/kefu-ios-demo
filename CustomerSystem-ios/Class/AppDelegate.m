@@ -11,7 +11,7 @@
 
 #import "LocalDefine.h"
 #import "HomeViewController.h"
-#import "AppDelegate+EaseMob.h"
+#import "AppDelegate+easemob.h"
 
 @interface AppDelegate ()
 @end

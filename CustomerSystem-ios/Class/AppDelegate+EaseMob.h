@@ -8,8 +8,7 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate (EaseMob)<UIAlertViewDelegate>
-
+@interface AppDelegate (easemob)<UIAlertViewDelegate>
 - (void)easemobApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 
