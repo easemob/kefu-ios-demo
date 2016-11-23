@@ -159,7 +159,7 @@
 		EB62E1FF1A8DD92D00705655 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E1FE1A8DD92D00705655 /* main.m */; };
 		EB62E20A1A8DD92D00705655 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB62E2091A8DD92D00705655 /* Images.xcassets */; };
 		EB62E2191A8DD92D00705655 /* CustomerSystem_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E2181A8DD92D00705655 /* CustomerSystem_iosTests.m */; };
-		EB62E3111A8DDA4800705655 /* AppDelegate+easemob.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E29A1A8DDA4800705655 /* AppDelegate+easemob.m */; };
+		EB62E3111A8DDA4800705655 /* AppDelegate+EaseMob.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */; };
 		EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E29E1A8DDA4800705655 /* AppDelegate.m */; };
 		EB62E32E1A8DDA4800705655 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E2DE1A8DDA4800705655 /* HomeViewController.m */; };
 		EB62E3B91A8E08EB00705655 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB62E3B71A8E08EA00705655 /* Localizable.strings */; };
@@ -408,8 +408,8 @@
 		EB62E2121A8DD92D00705655 /* CustomerSystem-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CustomerSystem-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB62E2171A8DD92D00705655 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB62E2181A8DD92D00705655 /* CustomerSystem_iosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerSystem_iosTests.m; sourceTree = "<group>"; };
-		EB62E2991A8DDA4800705655 /* AppDelegate+easemob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+easemob.h"; sourceTree = "<group>"; };
-		EB62E29A1A8DDA4800705655 /* AppDelegate+easemob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+easemob.m"; sourceTree = "<group>"; };
+		EB62E2991A8DDA4800705655 /* AppDelegate+EaseMob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+EaseMob.h"; sourceTree = "<group>"; };
+		EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+EaseMob.m"; sourceTree = "<group>"; };
 		EB62E29D1A8DDA4800705655 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EB62E29E1A8DDA4800705655 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		EB62E2DD1A8DDA4800705655 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
@@ -901,8 +901,8 @@
 			children = (
 				D2769D211B9041DA003D9E3D /* MoreChoiceView.h */,
 				D2769D221B9041DA003D9E3D /* MoreChoiceView.m */,
-				EB62E2991A8DDA4800705655 /* AppDelegate+easemob.h */,
-				EB62E29A1A8DDA4800705655 /* AppDelegate+easemob.m */,
+				EB62E2991A8DDA4800705655 /* AppDelegate+EaseMob.h */,
+				EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */,
 				EB62E29D1A8DDA4800705655 /* AppDelegate.h */,
 				EB62E29E1A8DDA4800705655 /* AppDelegate.m */,
 				EB62E2DD1A8DDA4800705655 /* HomeViewController.h */,
@@ -1162,7 +1162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB4B07831AC6B47D00DCF67B /* EMIMHelper.m in Sources */,
-				EB62E3111A8DDA4800705655 /* AppDelegate+easemob.m in Sources */,
+				EB62E3111A8DDA4800705655 /* AppDelegate+EaseMob.m in Sources */,
 				D2769D231B9041DA003D9E3D /* MoreChoiceView.m in Sources */,
 				EB395DFF1A8F0AC40083B659 /* MallViewController.m in Sources */,
 				EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */,

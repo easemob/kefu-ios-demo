@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 dujiepeng. All rights reserved.
 //
 
-#import "AppDelegate+easemob.h"
+#import "AppDelegate+EaseMob.h"
 
 #import "EMIMHelper.h"
 #import "LocalDefine.h"
@@ -18,7 +18,7 @@
 #define hxUserName @"userNameKefuSdk"
 #define hxPassWord @"123456"
 
-@implementation AppDelegate (easemob)
+@implementation AppDelegate (EaseMob)
 - (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //ios8注册apns
@@ -30,8 +30,12 @@
      */
     [self registerIMuser];
     //登录IM
-    [self loginIM];
-    
+    EMError *error = [self loginIM];
+    if (!error) { //IM登录成功
+        
+    } else { //登录失败
+        NSLog(@"error code :%d,error description:%@",error.code,error.errorDescription);
+    }
     
     
     /*
@@ -51,16 +55,15 @@
     [[EMIMHelper defaultHelper] loginEasemobSDK];
 }
 
-- (void)loginIM {
+- (EMError *)loginIM {
     EMError *error = nil;
-    error = [[HChatClient sharedClient] loginWithUsername:@"8001" password:@"111111"];
-    
+    error = [[HChatClient sharedClient] loginWithUsername:hxUserName password:hxPassWord];
+    return error;
 }
 
 - (void)registerIMuser {
     EMError *error = nil;
     error = [[HChatClient sharedClient] registerWithUsername:hxUserName password:hxPassWord];
-    
 //  ErrorCode:
 //  Error.NETWORK_ERROR 网络不可用
 //  Error.USER_ALREADY_EXIST  用户已存在
@@ -79,8 +82,8 @@
 #endif
     //注册kefu_sdk
     HOptions *option = [[HOptions alloc] init];
-    option.appkey = @"1234567";
-    option.tenantId = @"12342";
+    option.appkey = @"1124161024178184#kefuchannelapp29044";
+    option.tenantId = @"29044";
     option.leaveMsgId = @"22322";
     option.apnsCertName = apnsCertName;
     [[HChatClient sharedClient] initializeSDKWithOptions:option];
