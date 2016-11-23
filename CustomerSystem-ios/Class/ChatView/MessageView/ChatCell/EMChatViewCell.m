@@ -44,7 +44,6 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
     bubbleFrame.origin.y = self.headImageView.frame.origin.y;
     
     if (self.messageModel.isSender) {
-        bubbleFrame.origin.y = self.headImageView.frame.origin.y;
         // 菊花状态 （因不确定菊花具体位置，要在子类中实现位置的修改）
         switch (self.messageModel.status) {
             case eMessageDeliveryState_Delivering:
@@ -98,6 +97,7 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
     }
     
     _bubbleView.model = self.messageModel;
+    
     [_bubbleView sizeToFit];
 }
 

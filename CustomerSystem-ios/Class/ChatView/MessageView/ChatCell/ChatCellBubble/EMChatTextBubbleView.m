@@ -61,21 +61,21 @@ NSString *const kRouterEventMenuTapEventName = @"kRouterEventMenuTapEventName";
 {
     CGSize textBlockMinSize = {TEXTLABEL_MAX_WIDTH, CGFLOAT_MAX};
     CGSize retSize;
+    NSInteger emojiCount = 0;
+    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[EmotionEscape sharedInstance] attStringFromTextForChatting:self.model.content textFont:self.textLabel.font]];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:LABEL_LINESPACE];//调整行间距
+    [attributedString addAttribute:NSParagraphStyleAttributeName
+                             value:paragraphStyle
+                             range:NSMakeRange(0, [attributedString length])];
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineSpacing:LABEL_LINESPACE];//调整行间距
-        
-        retSize = [self.model.content boundingRectWithSize:textBlockMinSize options:NSStringDrawingUsesLineFragmentOrigin
-                                                attributes:@{
-                                                             NSFontAttributeName:_textLabel.font,
-                                                             NSParagraphStyleAttributeName:paragraphStyle
-                                                             }
-                                                   context:nil].size;
+       
+       retSize = [attributedString boundingRectWithSize:textBlockMinSize options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
     }else{
         retSize = [self.model.content sizeWithFont:_textLabel.font constrainedToSize:textBlockMinSize lineBreakMode:NSLineBreakByCharWrapping];
         retSize.height += 10;
     }
-    
+    retSize.width -= emojiCount*30;
     CGFloat height = 40;
     if (2*BUBBLE_VIEW_PADDING + retSize.height > height) {
         height = 2*BUBBLE_VIEW_PADDING + retSize.height;
@@ -106,16 +106,6 @@ NSString *const kRouterEventMenuTapEventName = @"kRouterEventMenuTapEventName";
         [_textLabel setTextColor:[UIColor blackColor]];
     }
     [self highlightLinksWithIndex:NSNotFound];
-//    _urlMatches = [_detector matchesInString:self.model.content options:0 range:NSMakeRange(0, self.model.content.length)];
-//    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc]
-//                                                    initWithString:self.model.content];
-//    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//    [paragraphStyle setLineSpacing:LABEL_LINESPACE];
-//    [attributedString addAttribute:NSParagraphStyleAttributeName
-//                             value:paragraphStyle
-//                             range:NSMakeRange(0, [self.model.content length])];
-//    [_textLabel setAttributedText:attributedString];
-//    [self highlightLinksWithIndex:NSNotFound];
 }
 
 - (BOOL)isIndex:(CFIndex)index inRange:(NSRange)range
