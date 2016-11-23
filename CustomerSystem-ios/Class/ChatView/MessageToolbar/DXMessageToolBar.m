@@ -196,107 +196,93 @@ typedef NS_ENUM(NSUInteger, ButtonType) {
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]) {
-        if (_inputText.length > 1500) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"字数不能超过1500" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:@"", nil];
-            [alert show];
-            _inputText = [_inputText substringToIndex:1500].mutableCopy;
-            return NO;
-        }
         if ([self.delegate respondsToSelector:@selector(didSendText:)]) {
-            [self.delegate didSendText:_inputText];
-            [_inputText setString:@""];
+            
+            NSMutableString *attStr = [[NSMutableString alloc] initWithString:self.inputTextView.attributedText.string];
+            [_inputTextView.attributedText enumerateAttribute:NSAttachmentAttributeName
+                                                      inRange:NSMakeRange(0, self.inputTextView.attributedText.length)
+                                                      options:NSAttributedStringEnumerationReverse
+                                                   usingBlock:^(id value, NSRange range, BOOL *stop)
+             {
+                 if (value) {
+                     EMTextAttachment* attachment = (EMTextAttachment*)value;
+                     NSString *str = [NSString stringWithFormat:@"%@",attachment.imageName];
+                     [attStr replaceCharactersInRange:range withString:str];
+                 }
+             }];
+            
+            [self.delegate didSendText:attStr];
             self.inputTextView.text = @"";
-            [self willShowInputTextViewToHeight:[self getTextViewContentH:self.inputTextView]];;
+            [self willShowInputTextViewToHeight:[self getTextViewContentH:self.inputTextView]];
         }
         
         return NO;
-    } else {
-        if (text.length == 0) { //删除操作
-            if (_inputText.length >= 4)
-            {
-                NSString *subStr = [_inputText substringFromIndex:_inputText.length - 4];
-                if ([(DXFaceView *)self.faceView stringIsFace:subStr]) {
-                    [_inputText replaceCharactersInRange:NSMakeRange(_inputText.length - 4, 4) withString:@""];
-                    return YES;
-                }
-                if (_inputText.length >= 5) {
-                    subStr = [_inputText substringFromIndex:_inputText.length - 5];
-                    if ([(DXFaceView *)self.faceView stringIsFace:subStr]) {
-                        [_inputText replaceCharactersInRange:NSMakeRange(_inputText.length - 5, 5) withString:@""];
-                        return YES;
-                    }
-                }
-            }
-            
-            if (_inputText.length > 0) {
-               [_inputText replaceCharactersInRange:NSMakeRange(_inputText.length - 1, 1) withString:@""];
-            }
-        } else {
-//            UITextRange *range = [textView markedTextRange];
-//            NSLog(@"markedRange :%@",range);
-////             [_inputText appendString:text];
-            
-        }
     }
     return YES;
 }
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    UITextRange *range = [textView markedTextRange];
-    if ([[textView textInRange:range] length] <= 0 && _inputStrLength >=0) {
-        
-        [self.inputText appendString:[textView.text substringFromIndex:textView.text.length - _inputStrLength]];
-        self.inputTextView.attributedText = [[EmotionEscape sharedInstance] attStringFromTextForInputView:_inputText textFont:self.inputTextView.font];
-    }
-    _inputStrLength = [[textView textInRange:range] length];
-    [self willShowInputTextViewToHeight:[self getTextViewContentH:textView]];
+   [self willShowInputTextViewToHeight:[self getTextViewContentH:textView]];
 }
 
 #pragma mark - DXFaceDelegate
 
 - (void)selectedFacialView:(NSString *)str isDelete:(BOOL)isDelete
 {
+    
+    NSString *chatText = self.inputTextView.text;
+    
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:self.inputTextView.attributedText];
+    
     if (!isDelete && str.length > 0) {
-        [self.inputText appendString:str];
-        self.inputTextView.attributedText = [[EmotionEscape sharedInstance] attStringFromTextForInputView:_inputText textFont:self.inputTextView.font];
+        NSRange range = [self.inputTextView selectedRange];
+        [attr insertAttributedString:[[EmotionEscape sharedInstance] attStringFromTextForInputView:str textFont:self.inputTextView.font] atIndex:range.location];
+        self.inputTextView.attributedText = attr;
     }
     else {
-        if (_inputText.length >= 4)
-        {
-            NSString *subStr = [_inputText substringFromIndex:_inputText.length - 4];
-            if ([(DXFaceView *)self.faceView stringIsFace:subStr]) {
-                [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 4, 4)];
-                self.inputTextView.attributedText = [[EmotionEscape sharedInstance] attStringFromTextForInputView:_inputText textFont:self.inputTextView.font];
-                [self textViewDidChange:self.inputTextView];
-                return;
-            }
-            
-            if (_inputText.length >= 5) {
-                subStr = [_inputText substringFromIndex:_inputText.length - 5];
+        if (chatText.length > 0) {
+            NSInteger length = 1;
+            if (chatText.length >= 2) {
+                NSString *subStr = [chatText substringFromIndex:chatText.length-2];
                 if ([(DXFaceView *)self.faceView stringIsFace:subStr]) {
-                    [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 5, 5)];
-                    self.inputTextView.attributedText = [[EmotionEscape sharedInstance] attStringFromTextForInputView:_inputText textFont:self.inputTextView.font];
-                    [self textViewDidChange:self.inputTextView];
-                    return;
+                    length = 2;
                 }
             }
-        }
-        
-        if (_inputText.length > 0) {
-            [_inputText deleteCharactersInRange:NSMakeRange(_inputText.length - 1, 1)];
-            self.inputTextView.attributedText = [[EmotionEscape sharedInstance] attStringFromTextForInputView:_inputText textFont:self.inputTextView.font];
+            self.inputTextView.attributedText = [self backspaceText:attr length:length];
         }
     }
     
     [self textViewDidChange:self.inputTextView];
 }
+-(NSMutableAttributedString*)backspaceText:(NSMutableAttributedString*) attr length:(NSInteger)length
+{
+    NSRange range = [self.inputTextView selectedRange];
+    if (range.location == 0) {
+        return attr;
+    }
+    [attr deleteCharactersInRange:NSMakeRange(range.location - length, length)];
+    return attr;
+}
 - (void)sendFace
 {
-    if (_inputText.length > 0) {
+    NSString *chatText = self.inputTextView.text;
+    if (chatText.length > 0) {
         if ([self.delegate respondsToSelector:@selector(didSendText:)]) {
-            [self.delegate didSendText:_inputText];
-            [_inputText setString:@""];
+            NSMutableString *attStr = [[NSMutableString alloc] initWithString:self.inputTextView.attributedText.string];
+            [_inputTextView.attributedText enumerateAttribute:NSAttachmentAttributeName
+                                                      inRange:NSMakeRange(0, self.inputTextView.attributedText.length)
+                                                      options:NSAttributedStringEnumerationReverse
+                                                   usingBlock:^(id value, NSRange range, BOOL *stop)
+             {
+                 if (value) {
+                     EMTextAttachment* attachment = (EMTextAttachment*)value;
+                     NSString *str = [NSString stringWithFormat:@"%@",attachment.imageName];
+                     [attStr replaceCharactersInRange:range withString:str];
+                 }
+             }];
+            
+            [self.delegate didSendText:attStr];
             self.inputTextView.text = @"";
             [self willShowInputTextViewToHeight:[self getTextViewContentH:self.inputTextView]];;
         }
