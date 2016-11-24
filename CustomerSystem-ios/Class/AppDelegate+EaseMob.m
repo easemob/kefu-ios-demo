@@ -37,7 +37,6 @@
         NSLog(@"error code :%d,error description:%@",error.code,error.errorDescription);
     }
     
-    
     /*
     
     [[EaseMob sharedInstance] registerSDKWithAppKey:[[EMIMHelper defaultHelper] appkey]
