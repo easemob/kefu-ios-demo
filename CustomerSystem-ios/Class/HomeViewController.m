@@ -17,6 +17,7 @@
 #import "MoreChoiceView.h"
 #import "SCChatViewController.h"
 #import "SCLoginManager.h"
+#import "MessageViewController.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
@@ -25,7 +26,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     MallViewController *_mallController;
     SettingViewController *_settingController;
-    
+    MessageViewController *_leaveMsgVC;
     UIBarButtonItem *_chatItem;
 }
 
@@ -135,6 +136,10 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         self.navigationItem.rightBarButtonItem = _chatItem;
     }
     else if (item.tag == 1){
+        self.title = NSLocalizedString(@"title.messagebox", @"Message Box");
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    else if (item.tag == 2){
         self.title = NSLocalizedString(@"title.setting", @"Setting");
         self.navigationItem.rightBarButtonItem = nil;
     }
@@ -170,15 +175,21 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [self unSelectedTapTabBarItems:_mallController.tabBarItem];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
+    _leaveMsgVC = [[MessageViewController alloc] initWithNibName:nil bundle:nil];
+    _leaveMsgVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.messagebox", @"Message Box") image:nil tag:1];
+    [_leaveMsgVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_message_hl"] withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_message"]];
+    [self unSelectedTapTabBarItems:_leaveMsgVC.tabBarItem];
+    [self selectedTapTabBarItems:_leaveMsgVC.tabBarItem];
+    
     _settingController = [[SettingViewController alloc] initWithNibName:nil bundle:nil];
-    _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:1];
+    _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:2];
     [_settingController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_settingHL"]
                          withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_setting"]];
     _settingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self unSelectedTapTabBarItems:_settingController.tabBarItem];
     [self selectedTapTabBarItems:_settingController.tabBarItem];
     
-    self.viewControllers = @[_mallController, _settingController];
+    self.viewControllers = @[_mallController, _leaveMsgVC ,_settingController];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
     _choiceView = [[MoreChoiceView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];

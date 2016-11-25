@@ -74,6 +74,13 @@
 "title.commodity" = "商品详情";
 "title.nickname" = "昵称";
 "title.satisfaction" = "满意度评价";
+"title.messagebox" = "留言箱";
+"title.leavemsg" = "留言";
+"title.leavemsgdetail" = "留言详情";
+"title.leavemsgsetting" = "留言设置";
+"title.reply" = "写评论";
+"title.projectId" = "留言ID";
+"title.tenantId" = "租户ID";
 
 //choice
 "choice.preSale" = "售前客服";

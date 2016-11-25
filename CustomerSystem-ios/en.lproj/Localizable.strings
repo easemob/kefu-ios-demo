@@ -75,6 +75,13 @@
 "title.commodity" = "Commodity Info";
 "title.nickname" = "Nickname";
 "title.satisfaction" = "Satisfaction Evaluation";
+"title.messagebox" = "Message Box";
+"title.leavemsg" = "Leave Message";
+"title.leavemsgdetail" = "Leave Message Detail";
+"title.leavemsgsetting" = "Leave Message Setting";
+"title.reply" = "Reply";
+"title.projectId" = "ProjectID";
+"title.tenantId" = "TenantID";
 
 //choice
 "choice.preSale" = "Pre Sale";
