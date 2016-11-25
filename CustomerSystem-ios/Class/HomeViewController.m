@@ -8,13 +8,15 @@
 
 #import "HomeViewController.h"
 
-#import "EMIMHelper.h"
+//#import "EMIMHelper.h"
 #import "MallViewController.h"
 #import "SettingViewController.h"
 //#import "UIViewController+HUD.h"
 //#import "EMCDDeviceManager.h"
 #import "LocalDefine.h"
 #import "MoreChoiceView.h"
+#import "SCChatViewController.h"
+#import "SCLoginManager.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
@@ -94,6 +96,16 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)chatAction:(NSNotification *)notification
 {
+    //登录IM
+
+    SCChatViewController *chatVC = [[SCChatViewController alloc] init];
+    chatVC.title = @"演示客服";
+    if ([[SCLoginManager shareLoginManager] loginKefuSDK]) {
+         [self.navigationController pushViewController:chatVC animated:YES];
+    } else {
+        NSLog(@"请检查网络");
+    }
+   
     /*
     [[EMIMHelper defaultHelper] loginEasemobSDK];
     NSString *cname = [[EMIMHelper defaultHelper] cname];

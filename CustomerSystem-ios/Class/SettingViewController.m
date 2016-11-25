@@ -7,10 +7,7 @@
 //
 
 #import "SettingViewController.h"
-
-#import "EMIMHelper.h"
 #import "AppDelegate+easemob.h"
-//#import "UIViewController+HUD.h"
 #import "EditViewController.h"
 #import "LocalDefine.h"
 
@@ -27,7 +24,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7)
     {
         self.tableView.backgroundColor = [UIColor colorWithRed:238 / 255.0 green:238 / 255.0 blue:243 / 255.0 alpha:1.0];
@@ -41,9 +37,9 @@
     }
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     
-    _appkey = [[EMIMHelper defaultHelper] appkey];
-    _cname = [[EMIMHelper defaultHelper] cname];
-    _nickname = [[EMIMHelper defaultHelper] nickname];
+    _appkey = [[SCLoginManager shareLoginManager] appkey];
+    _cname = [[SCLoginManager shareLoginManager] cname];
+    _nickname = [[SCLoginManager shareLoginManager] nickname];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingChange:) name:KNOTIFICATION_SETTINGCHANGE object:nil];
 }
@@ -230,10 +226,10 @@
         }
         else if ([type isEqualToString:@"cname"]){
             _cname = content;
-            [[EMIMHelper defaultHelper] setCname:content];
+            [[SCLoginManager shareLoginManager] setCname:content];
         } else if ([type isEqualToString:@"nickname"]) {
             _nickname = content;
-            [[EMIMHelper defaultHelper] setNickname:content];
+            [[SCLoginManager shareLoginManager] setNickname:content];
         }
         
         [self.tableView reloadData];

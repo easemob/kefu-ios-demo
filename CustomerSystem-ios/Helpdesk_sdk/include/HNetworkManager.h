@@ -9,8 +9,7 @@
 #import <Foundation/Foundation.h>
 typedef void(^CompletionBlock)(id responseObject,NSError *error);
 @interface HNetworkManager : NSObject
-
-
++(instancetype)shareInstance;
 /*
  @method
  @brief 创建一个留言

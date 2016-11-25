@@ -8,15 +8,11 @@
 
 #import "AppDelegate+EaseMob.h"
 
-#import "EMIMHelper.h"
 #import "LocalDefine.h"
 
 /**
  *  本类中做了EaseMob初始化和推送等操作
  */
-
-#define hxUserName @"userNameKefuSdk"
-#define hxPassWord @"123456"
 
 @implementation AppDelegate (EaseMob)
 - (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -28,14 +24,7 @@
     /*
      注册IM用户【注意:注册建议在服务端创建，而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器。】
      */
-    [self registerIMuser];
-    //登录IM
-    EMError *error = [self loginIM];
-    if (!error) { //IM登录成功
-        
-    } else { //登录失败
-        NSLog(@"error code :%d,error description:%@",error.code,error.errorDescription);
-    }
+   
     
     /*
     
@@ -51,24 +40,10 @@
     [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     */
     [self setupNotifiers];
-    [[EMIMHelper defaultHelper] loginEasemobSDK];
+//    [[EMIMHelper defaultHelper] loginEasemobSDK];
 }
 
-- (EMError *)loginIM {
-    EMError *error = nil;
-    error = [[HChatClient sharedClient] loginWithUsername:hxUserName password:hxPassWord];
-    return error;
-}
 
-- (void)registerIMuser {
-    EMError *error = nil;
-    error = [[HChatClient sharedClient] registerWithUsername:hxUserName password:hxPassWord];
-//  ErrorCode:
-//  Error.NETWORK_ERROR 网络不可用
-//  Error.USER_ALREADY_EXIST  用户已存在
-//  Error.USER_AUTHENTICATION_FAILED 无开放注册权限（后台管理界面设置[开放|授权]）
-//  Error.USER_ILLEGAL_ARGUMENT 用户名非法
-}
 
 //注册客服sdk
 - (void)registerKefuSdk {
@@ -83,7 +58,8 @@
     HOptions *option = [[HOptions alloc] init];
     option.appkey = @"1124161024178184#kefuchannelapp29044";
     option.tenantId = @"29044";
-    option.leaveMsgId = @"22322";
+    option.leaveMsgId = @"306164";
+    option.cname = kDefaultCustomerName;
     option.apnsCertName = apnsCertName;
     [[HChatClient sharedClient] initializeSDKWithOptions:option];
 }

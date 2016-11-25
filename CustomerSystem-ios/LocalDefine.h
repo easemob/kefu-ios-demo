@@ -23,13 +23,18 @@
 
 #define CHATVIEWBACKGROUNDCOLOR [UIColor colorWithRed:0.936 green:0.932 blue:0.907 alpha:1]
 
-#define kDefaultAppKey @"sipsoft#sandbox"
-#define kDefaultCustomerName @"customer0"
-//#define kDefaultCustomerName @"130121"
-//#define kDefaultAppKey @"culiukeji#99baoyou"
-//#define kDefaultCustomerName @"culiutest3"
-#define kAppKey @"CSEM_appkey"
-#define kCustomerName @"CSEM_name"
-#define kCustomerNickname @"CSEM_nickname"
+#define kDefaultAppKey @"1124161024178184#kefuchannelapp29044"
+#define kDefaultCustomerName @"kefuchannelimid_008267"
+#define kDefaultTenantId @"29044"
+#define kDefaultProjectId @"306164"
+
+#define kAppKey @"KF_appkey"
+#define kCustomerName @"KF_name"
+#define kCustomerNickname @"KF_nickname"
+#define kCustomerTenantId @"KF_tenantId"
+#define kCustomerProjectId @"KF_projectId"
+
+#define hxUserName @"userNameKefuSdk"
+#define hxPassWord @"123456"
 
 #endif
