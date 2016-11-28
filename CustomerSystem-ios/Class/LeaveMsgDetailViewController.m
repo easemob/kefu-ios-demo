@@ -7,28 +7,27 @@
 //
 
 #import "LeaveMsgDetailViewController.h"
-
-//#import "LeaveMsgDetailHeaderView.h"
+#import "LeaveMsgDetailHeaderView.h"
+#import "LeaseMsgReplyController.h"
 //#import "EMHttpManager.h"
 //#import "MBProgressHUD+Add.h"
 //#import "EMIMHelper.h"
-//#import "LeaveMsgCell.h"
-//#import "LeaveMsgDetailModel.h"
+#import "LeaveMsgCell.h"
+#import "LeaveMsgDetailModel.h"
 //#import "NSDate+Category.h"
 //#import "EaseMob.h"
 //#import "MessageReadManager.h"
 //#import "SCNetworkManager.h"
-//#import "LeaseMsgReplyController.h"
 //#import "SCAudioPlay.h"
-//#import "LeaveMsgAttatchmentView.h"
+#import "LeaveMsgAttatchmentView.h"
 
-@interface LeaveMsgDetailViewController () /*<UITableViewDelegate,UITableViewDataSource,EMChatManagerDelegate, LeaseMsgReplyControllerDelegate,LeaveMsgCellDelegate,SCAudioPlayDelegate>*/
+@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate/*,EMChatManagerDelegate, LeaseMsgReplyControllerDelegate,SCAudioPlayDelegate*/>
 {
     NSInteger _ticketId;
     NSDictionary *_temp;
 }
 
-//@property (nonatomic, strong) LeaveMsgDetailHeaderView *headerView;
+@property (nonatomic, strong) LeaveMsgDetailHeaderView *headerView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -41,7 +40,7 @@
 
 @implementation LeaveMsgDetailViewController
 {
-//    LeaveMsgAttatchmentView *_touchView;
+    LeaveMsgAttatchmentView *_touchView;
 }
 
 - (instancetype)initWithTicketId:(NSInteger)ticketId chatter:(NSString*)chatter
@@ -66,13 +65,13 @@
         self.edgesForExtendedLayout =  UIRectEdgeNone;
     }
     
-//    self.tableView.tableHeaderView = self.headerView;
+    self.tableView.tableHeaderView = self.headerView;
     [self.view addSubview:self.replyButton];
     [self.view addSubview:self.tableView];
     
     [self setupBarButtonItem];
-//    [self loadLeaveMessageDetail];
-//    [self loadLeaveMessageAllComments];
+    [self loadLeaveMessageDetail];
+    [self loadLeaveMessageAllComments];
     [self registNotification];
 }
 
@@ -121,13 +120,13 @@
     return _dataArray;
 }
 
-//- (LeaveMsgDetailHeaderView*)headerView
-//{
-//    if (_headerView == nil) {
-//        _headerView = [[LeaveMsgDetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 227) dictionary:nil];
-//    }
-//    return _headerView;
-//}
+- (LeaveMsgDetailHeaderView*)headerView
+{
+    if (_headerView == nil) {
+        _headerView = [[LeaveMsgDetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 227) dictionary:nil];
+    }
+    return _headerView;
+}
 
 - (UIButton*)replyButton
 {
@@ -161,9 +160,9 @@
 
 - (void)replyAction
 {
-//    LeaseMsgReplyController *replyController = [[LeaseMsgReplyController alloc] init];
-//    replyController.delegate = self;
-//    [self.navigationController pushViewController:replyController animated:YES];
+    LeaseMsgReplyController *replyController = [[LeaseMsgReplyController alloc] init];
+    replyController.delegate = self;
+    [self.navigationController pushViewController:replyController animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
@@ -180,7 +179,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identify = @"MessageListCell";
     if (indexPath.row == 0) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"titleCell"];
         if (cell == nil) {
@@ -190,19 +188,22 @@
             lineView.backgroundColor = RGBACOLOR(207, 210, 213, 0.7);
             [cell.contentView addSubview:lineView];
         }
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.comment", @"comment");
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
-//    LeaveMsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
-//    if (cell == nil) {
-//        cell = [[LeaveMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
-//        cell.delegate = self;
-//    }
-//    LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
-//    [cell setModel:comment];
-//    cell.time = [NSDate formattedTimeFromTimeInterval:[[self.dateformatter dateFromString:comment.updated_at] timeIntervalSince1970]];
-    return nil;
+    static NSString *identify = @"commentListID";
+    LeaveMsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
+    if (cell == nil) {
+        cell = [[LeaveMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+        cell.delegate = self;
+    }
+    LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
+    [cell setModel:comment];
+    cell.time = @"2016年11月28日15:18:25";
+//    [NSDate formattedTimeFromTimeInterval:[[self.dateformatter dateFromString:comment.updated_at] timeIntervalSince1970]];
+    return cell;
 }
 
 
@@ -223,16 +224,16 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.row == 0) {
+    if (indexPath.row == 0) {
         return 60.f;
-//    }
-//    LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
-//    return [LeaveMsgCell tableView:tableView model:comment];
+    }
+    LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
+    return [LeaveMsgCell tableView:tableView model:comment];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 //    if (indexPath.row > 0) {
 //        LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
 //        if ([comment.attachments count] > 0) {
@@ -306,59 +307,56 @@
 
 #pragma mark - private
 
-//- (void)loadLeaveMessageDetail
-//{
+- (void)loadLeaveMessageDetail
+{
 //    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"leaveMessage.leavemsg.load", "Loading...") toView:self.view];
 //    hud.layer.zPosition = 1.f;
 //    __weak MBProgressHUD *weakHud = hud;
-//    __weak typeof(self) weakSelf = self;
-//    [[EMHttpManager sharedInstance] asyncGetLeaveMessageDetailWithTenantId:[EMIMHelper defaultHelper].tenantId
-//                                                                 projectId:[EMIMHelper defaultHelper].projectId
-//                                                                  ticketId:_ticketId
-//                                                                parameters:nil
-//                                                                completion:^(id responseObject, NSError *error) {
-//                                                                    if (error == nil) {
-//                                                                        [weakSelf.headerView setDetail:responseObject];
-//                                                                        weakSelf.tableView.tableHeaderView = weakSelf.headerView;
-//                                                                        [weakSelf.tableView layoutSubviews];
-//                                                                        [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.loadsucceed", "Load succeed")];
-//                                                                        [weakHud hide:YES afterDelay:0.5];
-//                                                                    } else {
-//                                                                        [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.loadfailed", "Load failed")];
-//                                                                        [weakHud hide:YES afterDelay:0.5];
-//                                                                    }
-//                                                                }];
-//}
+    __weak typeof(self) weakSelf = self;
+    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    [[HNetworkManager shareInstance] asyncGetLeaveMessageDetailWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId parameters:nil completion:^(id responseObject, NSError *error) {
+        if (error == nil) {
+            [weakSelf.headerView setDetail:responseObject];
+            weakSelf.tableView.tableHeaderView = weakSelf.headerView;
+            [weakSelf.tableView layoutSubviews];
+//            [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.loadsucceed", "Load succeed")];
+//            [weakHud hide:YES afterDelay:0.5];
+        } else {
+            NSLog(@"请求出错哦~");
+//            [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.loadfailed", "Load failed")];
+//            [weakHud hide:YES afterDelay:0.5];
+        }
+        
+    }];
+}
 
-//- (void)loadLeaveMessageAllComments
-//{
-//    __weak typeof(self) weakSelf = self;
-//    [[EMHttpManager sharedInstance] asyncGetLeaveMessageAllCommentsWithTenantId:[EMIMHelper defaultHelper].tenantId
-//                                                                      projectId:[EMIMHelper defaultHelper].projectId
-//                                                                       ticketId:_ticketId
-//                                                                     parameters:@{@"size":@(10000)}
-//                                                                     completion:^(id responseObject, NSError *error) {
-//                                                                         if (error == nil) {
-//                                                                             [weakSelf loadDataArray:responseObject];
-//                                                                         } else {
-//                                                                         }
-//                                                                     }];
-//}
-//
-//- (void)loadDataArray:(NSDictionary*)dic
-//{
-//    [self.dataArray removeAllObjects];
-//    if ([dic objectForKey:@"entities"]) {
-//        _temp = [NSDictionary dictionaryWithDictionary:dic];
-//        NSArray *entities = [dic objectForKey:@"entities"];
-//        for (NSDictionary *entity in entities) {
-//            LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:entity];
-//            [self.dataArray addObject:comment];
-//        }
-//    }
-//    [self.tableView reloadData];
-//    [self scrollViewToBottom:YES];
-//}
+//请求所有回复
+- (void)loadLeaveMessageAllComments
+{
+    __weak typeof(self) weakSelf = self;
+    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    [[HNetworkManager shareInstance] asyncGetLeaveMessageAllCommentsWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId parameters:@{@"size":@(10000)} completion:^(id responseObject, NSError *error) {
+        if (error == nil) {
+            [weakSelf loadDataArray:responseObject];
+        } else {
+        }
+    }];
+}
+
+- (void)loadDataArray:(NSDictionary*)dic
+{
+    [self.dataArray removeAllObjects];
+    if ([dic objectForKey:@"entities"]) {
+        _temp = [NSDictionary dictionaryWithDictionary:dic];
+        NSArray *entities = [dic objectForKey:@"entities"];
+        for (NSDictionary *entity in entities) {
+            LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:entity];
+            [self.dataArray addObject:comment];
+        }
+    }
+    [self.tableView reloadData];
+    [self scrollViewToBottom:YES];
+}
 //
 //#pragma mark - EMChatManagerDelegate
 //- (void)didReceiveMessage:(EMMessage *)message
@@ -433,53 +431,44 @@
      }
      */
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:aParameters];
-    //[parameters setObject:@"" forKey:@"subject"];
-    //[parameters setObject:@"" forKey:@"status_id"];
-    
-    //reply
-    //NSMutableDictionary *reply = [NSMutableDictionary dictionary];
-    //[reply setObject:@"159545" forKey:@"id"];
-    //[parameters setObject:reply forKey:@"reply"];
-    
     //creator
     NSMutableDictionary *creator = [NSMutableDictionary dictionary];
     
-//    LeaveMsgDetailModel *model = [_headerView getMsgDetailModel];
-//    if (model.comment.creator.name) {
-//        [creator setObject:model.comment.creator.name forKey:@"name"];
-//    } else {
-//        [creator setObject:[[[EaseMob sharedInstance].chatManager loginInfo] objectForKey:@"username"] forKey:@"name"];
-//    }
-//    [creator setObject:[[[EaseMob sharedInstance].chatManager loginInfo] objectForKey:@"username"] forKey:@"username"];
-//    [creator setObject:@"" forKey:@"avatar"];
-//    [creator setObject:@"" forKey:@"email"];
-//    [creator setObject:@"" forKey:@"phone"];
-//    [creator setObject:@"" forKey:@"qq"];
-//    [creator setObject:@"" forKey:@"company"];
-//    [creator setObject:@"" forKey:@"description"];
-//    [creator setObject:@"VISITOR" forKey:@"type"];
-//    [parameters setObject:creator forKey:@"creator"];
-//    
-//    LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:parameters];
-//    
-//    __weak typeof(self) weakSelf = self;
-//    [[EMHttpManager sharedInstance] asyncLeaveAMessageWithTenantId:[EMIMHelper defaultHelper].tenantId
-//                                                         projectId:[EMIMHelper defaultHelper].projectId
-//                                                          ticketId:_ticketId
-//                                                        parameters:parameters
-//                                                        completion:^(id responseObject, NSError *error) {
-//                                                            if (!error) {
-//                                                                comment.updated_at = [responseObject objectForKey:@"updated_at"];
-//                                                                comment.created_at = [responseObject objectForKey:@"created_at"];
-//                                                                comment.ticketId = [[responseObject objectForKey:@"id"] integerValue];
-//                                                                comment.version = [responseObject objectForKey:@"version"];
-//                                                                [weakSelf.dataArray addObject:comment];
-//                                                                [weakSelf.tableView reloadData];
-//                                                                [weakSelf scrollViewToBottom:YES];
-//                                                            }
-//                                                        }];
-//    
-//    [self.navigationController popToViewController:self animated:YES];
+    SCLoginManager *lgM =[SCLoginManager shareLoginManager];
+    
+    LeaveMsgDetailModel *model = [_headerView getMsgDetailModel];
+    if (model.comment.creator.name) {
+        [creator setObject:model.comment.creator.name forKey:@"name"];
+    } else {
+        [creator setObject:lgM.username forKey:@"name"];
+    }
+    [creator setObject:lgM.username forKey:@"username"];
+    [creator setObject:@"" forKey:@"avatar"];
+    [creator setObject:@"afan@163.com" forKey:@"email"];
+    [creator setObject:@"110" forKey:@"phone"];
+    [creator setObject:@"12580" forKey:@"qq"];
+    [creator setObject:@"中国·北京" forKey:@"company"];
+    [creator setObject:@"" forKey:@"description"];
+    [creator setObject:@"VISITOR" forKey:@"type"];
+    [parameters setObject:creator forKey:@"creator"];
+    
+    LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:parameters];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    [[HNetworkManager shareInstance] asyncLeaveAMessageWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId parameters:parameters completion:^(id responseObject, NSError *error) {
+        if (!error) {
+            comment.updated_at = [responseObject objectForKey:@"updated_at"];
+            comment.created_at = [responseObject objectForKey:@"created_at"];
+            comment.ticketId = [[responseObject objectForKey:@"id"] integerValue];
+            comment.version = [responseObject objectForKey:@"version"];
+            [weakSelf.dataArray addObject:comment];
+            [weakSelf.tableView reloadData];
+            [weakSelf scrollViewToBottom:YES];
+        }
+    }];
+    
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 - (NSMutableDictionary*)_getSafeDictionary:(NSDictionary*)dic

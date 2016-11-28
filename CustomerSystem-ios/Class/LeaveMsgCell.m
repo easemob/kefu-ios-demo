@@ -8,10 +8,8 @@
 
 #import "LeaveMsgCell.h"
 
-//#import "UIImageView+EMWebCache.h"
-//#import "LeaveMsgAttatchmentView.h"
+#import "LeaveMsgAttatchmentView.h"
 #import "LeaveMsgDetailModel.h"
-//#import "MessageReadManager.h"
 
 #define kDefaultLeft 65.f
 
@@ -97,7 +95,7 @@
     [super layoutSubviews];
     CGRect frame = self.imageView.frame;
     
-//    [self.imageView sd_setImageWithURL:_imageURL placeholderImage:_placeholderImage];
+    [self.imageView sd_setImageWithURL:_imageURL placeholderImage:_placeholderImage];
     self.imageView.frame = CGRectMake(10, 7, 45, 45);
     self.imageView.layer.cornerRadius = CGRectGetWidth(self.imageView.frame)/2;
     self.imageView.contentMode = UIViewContentModeCenter;
@@ -186,50 +184,60 @@
     
     [self.contentView addSubview:_lineView2];
     
-//    CGFloat left = kDefaultLeft;
-//    CGFloat height = 40;
-//    NSInteger index = 0;
-//    for (LeaveMsgAttachmentModel *attachment in attachments) {
-//        if (left + [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10] >= kScreenWidth) {
-//            left = kDefaultLeft;
-//            height += 40;
-//        }
-//        LeaveMsgAttatchmentView *attatchmentView = [[LeaveMsgAttatchmentView alloc] initWithFrame:CGRectMake(left, height - 30, [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10], 30)
-//                                                                                             edit:NO
-//                                                                                            model:attachment];
-//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAttatchmentAction:)];
-//        [attatchmentView addGestureRecognizer:tap];
-//        attatchmentView.tag = index;
-//        [_attchmentView addSubview:attatchmentView];
-//        index ++;
-//        left += [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10] + 10;
-//    }
-//    
-//    CGRect frame = _attchmentView.frame;
-//    frame.size.height = height + 10.f;
-//    _attchmentView.frame = frame;
+    CGFloat left = kDefaultLeft;
+    CGFloat height = 40;
+    NSInteger index = 0;
+    for (LeaveMsgAttachmentModel *attachment in attachments) {
+        if (left + [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10] >= kScreenWidth) {
+            left = kDefaultLeft;
+            height += 40;
+        }
+        LeaveMsgAttatchmentView *attatchmentView = [[LeaveMsgAttatchmentView alloc] initWithFrame:CGRectMake(left, height - 30, [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10], 30)
+                                                                                             edit:NO
+                                                                                            model:attachment];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAttatchmentAction:)];
+        [attatchmentView addGestureRecognizer:tap];
+        attatchmentView.tag = index;
+        [_attchmentView addSubview:attatchmentView];
+        index ++;
+        left += [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10] + 10;
+    }
+    
+    CGRect frame = _attchmentView.frame;
+    frame.size.height = height + 10.f;
+    _attchmentView.frame = frame;
 }
 
-//- (void)tapAttatchmentAction:(id)sender
-//{
-//    UITapGestureRecognizer *tap = (UITapGestureRecognizer*)sender;
-//    NSInteger index = tap.view.tag;
-//    if ([_attachments count] > index) {
-//        LeaveMsgAttachmentModel *attachment = [_attachments objectAtIndex:index];
-//        if ([attachment.type isEqualToString:@"image"]) {
+- (void)tapAttatchmentAction:(id)sender
+{
+    UITapGestureRecognizer *tap = (UITapGestureRecognizer*)sender;
+    NSInteger index = tap.view.tag;
+    if ([_attachments count] > index) {
+        LeaveMsgAttachmentModel *attachment = [_attachments objectAtIndex:index];
+        if ([attachment.type isEqualToString:@"image"]) {
 //            [[MessageReadManager defaultManager] showBrowserWithImages:@[[NSURL URLWithString:attachment.url]]];
-//        } else if([attachment.type isEqualToString:@"audio"]) {
-//            if (_delegate && [_delegate respondsToSelector:@selector(didSelectAudioAttachment:touchImage:)]) {
-//                [_delegate didSelectAudioAttachment:attachment touchImage:(LeaveMsgAttatchmentView *)tap.view];
-//            }
-//        } else
-//        {
-//            if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectFileAttachment:)]) {
-//                [self.delegate didSelectFileAttachment:attachment];
-//            }
-//        }
-//    }
-//}
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.frame = fKeyWindow.bounds;
+            [button addTarget:self action:@selector(tapImageView:) forControlEvents:UIControlEventTouchUpInside];
+            [button sd_setImageWithURL:[NSURL URLWithString:attachment.url] forState:UIControlStateNormal];
+            button.backgroundColor = [UIColor blackColor];
+            [fKeyWindow addSubview:button];
+        } else if([attachment.type isEqualToString:@"audio"]) {
+            if (_delegate && [_delegate respondsToSelector:@selector(didSelectAudioAttachment:touchImage:)]) {
+                [_delegate didSelectAudioAttachment:attachment touchImage:(LeaveMsgAttatchmentView *)tap.view];
+            }
+        } else
+        {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectFileAttachment:)]) {
+                [self.delegate didSelectFileAttachment:attachment];
+            }
+        }
+    }
+}
+
+- (void)tapImageView:(UIButton *)sender {
+    [sender removeFromSuperview];
+}
 
 + (CGFloat)_heightForContent:(NSString*)content
 {
@@ -250,31 +258,30 @@
     return height;
 }
 
-//+ (CGFloat)_heightForAttachments:(NSArray*)attachments
-//{
-//    if ([attachments count] > 0) {
-//        CGFloat left = kDefaultLeft;
-//        CGFloat height = 40;
-//        for (LeaveMsgAttachmentModel *attachment in attachments) {
-//            if (left + [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10] >= kScreenWidth) {
-//                left = kDefaultLeft;
-//                height += 40;
-//            }
-//            left += [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10] + 10;
-//        }
-//        return height + 10.f;
-//    } else {
-//        return 0.f;
-//    }
-//}
-
 + (CGFloat)_heightForModel:(LeaveMsgCommentModel*)model
 {
-//    CGFloat height = 0;
-//    height += [self _heightForContent:model.content];
-//    height += [self _heightForAttachments:model.attachments];
-//    return height;
-    return 45;
+    CGFloat height = 0;
+    height += [self _heightForContent:model.content];
+    height += [self _heightForAttachments:model.attachments];
+    return height;
+}
+
++ (CGFloat)_heightForAttachments:(NSArray*)attachments
+{
+    if ([attachments count] > 0) {
+        CGFloat left = kDefaultLeft;
+        CGFloat height = 40;
+        for (LeaveMsgAttachmentModel *attachment in attachments) {
+            if (left + [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10] >= kScreenWidth) {
+                left = kDefaultLeft;
+                height += 40;
+            }
+            left += [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10] + 10;
+        }
+        return height + 10.f;
+    } else {
+        return 0.f;
+    }
 }
 
 @end

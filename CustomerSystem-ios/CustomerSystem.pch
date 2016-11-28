@@ -16,12 +16,16 @@
 #import "helpdesk_sdk.h"
 #import "SCLoginManager.h"
 #import "SRRefreshView.h"
+#import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
+#import "UIView+FLExtension.h"
+#import "NSObject+SCAdd.h"
 //#import "NSDate+Category.h"
 
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
-
+#define fKeyWindow [UIApplication sharedApplication].keyWindow
 
 //Ext keyWord
 #define kMesssageExtWeChat @"weichat"

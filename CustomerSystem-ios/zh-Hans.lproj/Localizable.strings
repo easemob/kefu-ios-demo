@@ -148,3 +148,30 @@
 "NSDateCategory.text12" = "晚上hh:mm";
 "NSDateCategory.text13" = "昨天HH:mm";
 "NSDateCategory.text14" = "今天 %@";
+
+//leaveMessage
+"leaveMessage.name" = "姓名";
+"leaveMessage.phone" = "电话";
+"leaveMessage.mail" = "邮箱";
+"leaveMessage.content" = "内容";
+"leaveMessage.leavemsg.sending" = "发送中...";
+"leaveMessage.leavesucceed" = "发送成功";
+"leaveMessage.leavefailed" = "发送失败";
+"leaveMessage.leavemsg.load" = "加载留言详情";
+"leaveMessage.leavemsg.loadsucceed" = "加载成功";
+"leaveMessage.leavemsg.loadfailed" = "加载失败";
+"leaveMessage.leavemsg.comment" = "评论";
+"leaveMessage.leavemsg.theme" = "主题:";
+"leaveMessage.leavemsg.nickname" = "访客昵称:";
+"leaveMessage.leavemsg.content" = "内容:";
+"leaveMessage.leavemsg.phone" = "手机:";
+"leaveMessage.leavemsg.qq" = "QQ:";
+"leaveMessage.leavemsg.weibo" = "微博:";
+"leaveMessage.leavemsg.mail" = "邮箱:";
+"leaveMessage.leavemsg.attachment" = "附件";
+"leaveMessage.leavemsg.reply" = "回复";
+"leaveMessage.leavemsg.addattachment" = "添加附件";
+"leaveMessage.leavemsg.replyempty" = "回复内容不能空";
+"leaveMessage.leavemsg.attachmentname" = "附件名称";
+"leaveMessage.leavemsg.uploadattachment" = "上传附件";
+"leaveMessage.leavemsg.uploadattachment.failed" = "上传附件失败";

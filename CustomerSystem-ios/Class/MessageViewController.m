@@ -15,12 +15,12 @@
 //#import "LeaveMsgCell.h"
 //#import "ConvertToCommonEmoticonsHelper.h"
 //#import "NSDate+Category.h"
-//#import "LeaveMsgDetailViewController.h"
+#import "LeaveMsgDetailViewController.h"
 //#import "LeaveMsgDetailModel.h"
 //#import "EMHttpManager.h"
 //#import "EMIMHelper.h"
 
-@interface MessageViewController () <UITableViewDelegate,UITableViewDataSource,EMChatManagerDelegate/*,SRRefreshDelegate*/>
+@interface MessageViewController () <UITableViewDelegate,UITableViewDataSource,EMChatManagerDelegate,SRRefreshDelegate>
 {
     NSInteger   _page;
     NSInteger   _pageSize;
@@ -56,6 +56,7 @@
     
     _pageSize = 10;
     _refreshLock = [[NSObject alloc] init];
+    [self slimeRefreshStartRefresh:_slimeView];
     [self reloadLeaveMsgList];
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addMsgToList:) name:KNOTIFICATION_ADDMSG_TO_LIST object:nil];
@@ -89,8 +90,8 @@
 {
     [self unregistNotification];
     
-//    self.slimeView.delegate = nil;
-//    self.slimeView = nil;
+    self.slimeView.delegate = nil;
+    self.slimeView = nil;
     
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
@@ -108,22 +109,22 @@
     return _dataArray;
 }
 
-//- (SRRefreshView *)slimeView
-//{
-//    if (_slimeView == nil) {
-//        _slimeView = [[SRRefreshView alloc] init];
-//        _slimeView.delegate = self;
-//        _slimeView.upInset = 0;
-//        _slimeView.slimeMissWhenGoingBack = YES;
-//        _slimeView.slime.bodyColor = [UIColor grayColor];
-//        _slimeView.slime.skinColor = [UIColor grayColor];
-//        _slimeView.slime.lineWith = 1;
-//        _slimeView.slime.shadowBlur = 4;
-//        _slimeView.slime.shadowColor = [UIColor grayColor];
-//    }
-//    
-//    return _slimeView;
-//}
+- (SRRefreshView *)slimeView
+{
+    if (_slimeView == nil) {
+        _slimeView = [[SRRefreshView alloc] init];
+        _slimeView.delegate = self;
+        _slimeView.upInset = 0;
+        _slimeView.slimeMissWhenGoingBack = YES;
+        _slimeView.slime.bodyColor = [UIColor grayColor];
+        _slimeView.slime.skinColor = [UIColor grayColor];
+        _slimeView.slime.lineWith = 1;
+        _slimeView.slime.shadowBlur = 4;
+        _slimeView.slime.shadowColor = [UIColor grayColor];
+    }
+    
+    return _slimeView;
+}
 
 - (NSDateFormatter*)dateformatter
 {
@@ -175,30 +176,32 @@
 
 #pragma mark - scrollView delegate
 
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    if (_slimeView) {
-//        [_slimeView scrollViewDidScroll];
-//    }
-//}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (_slimeView) {
+        [_slimeView scrollViewDidScroll];
+    }
+}
 
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    if (_slimeView) {
-//        [_slimeView scrollViewDidEndDraging];
-//    }
-//}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (_slimeView) {
+        [_slimeView scrollViewDidEndDraging];
+    }
+}
 
 #pragma mark - slimeRefresh delegate
 //加载更多
-//- (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
-//{
-//    _page = 0;
-//    __weak typeof(self) weakSelf = self;
-//    [self loadAndRefreshDataWithCompletion:^(BOOL success) {
-//        [weakSelf.slimeView endRefresh];
-//    }];
-//}
+- (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
+{
+    _page = 0;
+    __weak typeof(self) weakSelf = self;
+    [self loadAndRefreshDataWithCompletion:^(BOOL success) {
+        if ([_slimeView loading]) {
+            [weakSelf.slimeView endRefresh];
+        }
+    }];
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -240,7 +243,7 @@
         } else {
             cell.detailMsg = comment.content;
         }
-        cell.time =@"1999-12-11";
+        cell.time = @"2016年11月28日12:00";
         cell.placeholderImage = [UIImage imageNamed:@"message_comment"];
         cell.imageView.backgroundColor = RGBACOLOR(242, 83, 131, 1);
         return cell;
@@ -262,23 +265,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (indexPath.section == 0) {
-//        LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row];
-//        LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithTicketId:comment.ticketId chatter:nil];
-//        [self.navigationController pushViewController:leaveMsgDetail animated:YES];
-//    } else {
-//        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//        cell.userInteractionEnabled = NO;
-//        [self loadAndRefreshDataWithCompletion:^(BOOL success) {
-//            cell.userInteractionEnabled = YES;
-//        }];
-//    }
+    if (indexPath.section == 0) {
+        LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row];
+        LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithTicketId:comment.ticketId chatter:nil];
+        [self.navigationController pushViewController:leaveMsgDetail animated:YES];
+    } else {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        cell.userInteractionEnabled = NO;
+        [self loadAndRefreshDataWithCompletion:^(BOOL success) {
+            cell.userInteractionEnabled = YES;
+        }];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 10;
-//    return [LeaveMsgCell tableView:tableView heightForRowAtIndexPath:indexPath];
+    return [LeaveMsgCell tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 #pragma mark - private
