@@ -14,11 +14,12 @@
 //#import "EMIMHelper.h"
 #import "LeaveMsgCell.h"
 #import "LeaveMsgDetailModel.h"
+#import "EMCDDeviceManager+Media.h"
 //#import "NSDate+Category.h"
 //#import "EaseMob.h"
 //#import "MessageReadManager.h"
 //#import "SCNetworkManager.h"
-//#import "SCAudioPlay.h"
+#import "SCAudioPlay.h"
 #import "LeaveMsgAttatchmentView.h"
 
 @interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate/*,EMChatManagerDelegate, LeaseMsgReplyControllerDelegate,SCAudioPlayDelegate*/>
@@ -58,6 +59,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"%@",NSHomeDirectory());
 //    [LeaseMsgReplyController resetFile];
     [self clearTempWav];
     self.title = NSLocalizedString(@"title.leavemsgdetail", @"Leave Message Detail");
@@ -252,22 +254,22 @@
 
 #pragma mark - LeaveMsgCellDelegate
 
-//- (void)didSelectAudioAttachment:(LeaveMsgAttachmentModel *)attachment touchImage:(LeaveMsgAttatchmentView *)attatchmentView {
-//    _touchView = attatchmentView;
-//    SCNetworkManager *manager = [SCNetworkManager sharedInstance];
-//    kWeakSelf
-//    [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
-//        if (!error) {
-//            NSString *toPath = [NSString stringWithFormat:@"%@/%d.wav",NSTemporaryDirectory(),123];
-//            BOOL success = [[EMCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
-//            if (success) {
-//                [weakSelf playWithfilePath:toPath];
-//            }
-//        }else{
-//            NSLog(@"下载文件失败");
-//        }
-//    }];
-//}
+- (void)didSelectAudioAttachment:(LeaveMsgAttachmentModel *)attachment touchImage:(LeaveMsgAttatchmentView *)attatchmentView {
+    _touchView = attatchmentView;
+    HNetworkManager *manager = [HNetworkManager shareInstance];
+    kWeakSelf
+    [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
+        if (!error) {
+            NSString *toPath = [NSString stringWithFormat:@"%@/%d.wav",NSTemporaryDirectory(),123];
+            BOOL success = [[EMCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
+            if (success) {
+                [weakSelf playWithfilePath:toPath];
+            }
+        }else{
+            NSLog(@"下载文件失败");
+        }
+    }];
+}
 
 - (void)playWithfilePath:(NSString *)path {
     NSData *data = [NSData dataWithContentsOfFile:path];
@@ -275,35 +277,35 @@
     if ([fm fileExistsAtPath:path]) {
         [fm removeItemAtPath:path error:nil];
     }
-//    SCAudioPlay *play = [SCAudioPlay sharedInstance];
-//    play.delegate = self;
-//    if (play.isPlaying) {
-//        [play stopSound];
-//    }
-//    [play playSoundWithData:data];
+    SCAudioPlay *play = [SCAudioPlay sharedInstance];
+    play.delegate = self;
+    if (play.isPlaying) {
+        [play stopSound];
+    }
+    [play playSoundWithData:data];
 }
 
 - (void)AVAudioPlayerBeiginPlay {
-//    [_touchView startAnimating];
+    [_touchView startAnimating];
 }
 
 - (void)AVAudioPlayerDidFinishPlay {
-//    [_touchView stopAnimating];
+    [_touchView stopAnimating];
 }
 
-//- (void)didSelectFileAttachment:(LeaveMsgAttachmentModel*)attachment
-//{
-//
-//    NSString *textToShare = [NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment"),attachment.name];
-//    NSURL *urlToShare = [NSURL URLWithString:attachment.url];
-//    NSArray *activityItems = @[textToShare, urlToShare];
-//    UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems
-//                                                                            applicationActivities:nil];
-//    activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
-//                                         UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
-//    
-//    [self presentViewController:activityVC animated:YES completion:nil];
-//}
+- (void)didSelectFileAttachment:(LeaveMsgAttachmentModel*)attachment
+{
+
+    NSString *textToShare = [NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment"),attachment.name];
+    NSURL *urlToShare = [NSURL URLWithString:attachment.url];
+    NSArray *activityItems = @[textToShare, urlToShare];
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems
+                                                                            applicationActivities:nil];
+    activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
+                                         UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
+    
+    [self presentViewController:activityVC animated:YES completion:nil];
+}
 
 #pragma mark - private
 
@@ -358,37 +360,37 @@
     [self scrollViewToBottom:YES];
 }
 //
-//#pragma mark - EMChatManagerDelegate
-//- (void)didReceiveMessage:(EMMessage *)message
-//{
-//    NSDictionary *ext = [self _getSafeDictionary:message.ext];
-//    if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
-//        NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
-//        if ([event objectForKey:@"comment"]) {
-//            LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
-//            if (ticket.ticketId  == _ticketId) {
-//                [self loadLeaveMessageAllComments];
-//            }
-//        }
-//    }
-//}
+#pragma mark - EMChatManagerDelegate
+- (void)didReceiveMessage:(EMMessage *)message
+{
+    NSDictionary *ext = [self _getSafeDictionary:message.ext];
+    if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
+        NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
+        if ([event objectForKey:@"comment"]) {
+            LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
+            if (ticket.ticketId  == _ticketId) {
+                [self loadLeaveMessageAllComments];
+            }
+        }
+    }
+}
 //
-//- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
-//{
-//    for (EMMessage *message in offlineMessages) {
-//        NSDictionary *ext = [self _getSafeDictionary:message.ext];
-//        if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
-//            NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
-//            if ([event objectForKey:@"comment"]) {
-//                LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
-//                if (ticket.ticketId == _ticketId) {
-//                    [self loadLeaveMessageAllComments];
-//                    break;
-//                }
-//            }
-//        }
-//    }
-//}
+- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
+{
+    for (EMMessage *message in offlineMessages) {
+        NSDictionary *ext = [self _getSafeDictionary:message.ext];
+        if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
+            NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
+            if ([event objectForKey:@"comment"]) {
+                LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
+                if (ticket.ticketId == _ticketId) {
+                    [self loadLeaveMessageAllComments];
+                    break;
+                }
+            }
+        }
+    }
+}
 
 - (void)scrollViewToBottom:(BOOL)animated
 {

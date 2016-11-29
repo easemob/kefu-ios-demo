@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 typedef void(^CompletionBlock)(id responseObject,NSError *error);
 @interface HNetworkManager : NSObject
+
 +(instancetype)shareInstance;
 /*
  @method
@@ -100,5 +101,12 @@ typedef void(^CompletionBlock)(id responseObject,NSError *error);
                       File:(NSData*)file
                 parameters:(NSDictionary*)parameters
                 completion:(CompletionBlock)completion;
+
+/*
+ 下载文件
+ */
+
+- (void)downloadFileWithUrl:(NSString *)url completionHander:(void (^)(BOOL success,NSURL *filePath,NSError *error))completion;
+
 
 @end

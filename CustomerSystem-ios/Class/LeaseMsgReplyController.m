@@ -9,6 +9,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 #import "LeaseMsgReplyController.h"
+#import "EMCDDeviceManager.h"
+#import "EMCDDeviceManager+Media.h"
 //#import "EMAudioPlayerUtil.h"
 #import "FLTextView.h"
 #import "LeaveMsgAttatchmentView.h"
@@ -19,17 +21,15 @@
 //#import "MBProgressHUD+Add.h"
 //#import "UIViewController+DismissKeyboard.h"
 #import "DXRecordView.h"
-//#import "SCAudioPlay.h"
-//#import "SCNetworkManager.h"
+#import "SCAudioPlay.h"
 //#import "EMVoiceConverter.h"
-//#import "EMCDDeviceManager+Media.h"
 
 #define kTouchToRecord NSLocalizedString(@"message.toolBar.record.touch", @"hold down to talk")
 #define kTouchToFinish NSLocalizedString(@"message.toolBar.record.send", @"loosen to send")
 
 #define kDefaultLeft 20
 const NSInteger baseTag=123;
-@interface LeaseMsgReplyController () <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LeaveMsgAttatchmentViewDelegate/*,SCAudioPlayDelegate*/>
+@interface LeaseMsgReplyController () <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LeaveMsgAttatchmentViewDelegate,SCAudioPlayDelegate>
 
 @property (nonatomic, strong) FLTextView *textView;
 @property (nonatomic, strong) UIButton *addButton;
@@ -127,87 +127,85 @@ const NSInteger baseTag=123;
 
 }
 
-//- (void)recordButtonTouchUpOutside
-//{
-//    [[EMCDDeviceManager sharedInstance] cancelCurrentRecording];
-//    
-//    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
-//        [(DXRecordView *)self.recordView recordButtonTouchUpOutside];
-//    }
-//    
-//    [self.recordView removeFromSuperview];
-//}
+- (void)recordButtonTouchUpOutside
+{
+    [[EMCDDeviceManager sharedInstance] cancelCurrentRecording];
+    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
+        [(DXRecordView *)self.recordView recordButtonTouchUpOutside];
+    }
+    [self.recordView removeFromSuperview];
+}
 
-//- (void)recordButtonTouchUpInside
-//{
-//    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
-//        [(DXRecordView *)self.recordView recordButtonTouchUpInside];
-//    }
-//    
-//    __weak typeof(self) weakSelf = self;
-//    [[EMCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
-//        if (!error) {
-////            EMChatVoice *voice = [[EMChatVoice alloc] initWithFile:recordPath
-////                                                       displayName:@"audio"];
-////            voice.duration = aDuration;
-//            
-//            __weak typeof(self) weakSelf = self;
+
+- (void)recordButtonTouchUpInside
+{
+    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
+        [(DXRecordView *)self.recordView recordButtonTouchUpInside];
+    }
+
+    __weak typeof(self) weakSelf = self;
+    [[EMCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
+        if (!error) {
+            //            EMChatVoice *voice = [[EMChatVoice alloc] initWithFile:recordPath
+            //                                                       displayName:@"audio"];
+            //            voice.duration = aDuration;
+            
+            __weak typeof(self) weakSelf = self;
 //            MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment", "Upload attachment") toView:self.view];
 //            hud.layer.zPosition = 1.f;
 //            __weak MBProgressHUD *weakHud = hud;
-//            NSString *fileName =[[recordPath componentsSeparatedByString:@"/"] lastObject];
-//            
-//            NSData *data = [NSData dataWithContentsOfFile:recordPath];
-//            
-//            [[EMHttpManager sharedInstance] uploadWithTenantId:[EMIMHelper defaultHelper].tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
-//                if (!error) {
-//                    [weakHud hide:YES];
-//                    if ([responseObject isKindOfClass:[NSDictionary class]]) {
-//                        LeaveMsgAttachmentModel *attachment = [[LeaveMsgAttachmentModel alloc] initWithDictionary:nil];
-//                        NSArray * entities = [responseObject objectForKey:@"entities"];
-//                        if ([entities count] > 0) {
-//                            NSDictionary *entity = [entities objectAtIndex:0];
-//                            attachment.url = [NSString stringWithFormat:@"%@/%@",[responseObject objectForKey:@"uri"],[entity objectForKey:@"uuid"]];
-//                        }
-//                        attachment.name = fileName;
-//                        attachment.type = @"audio";
-//                        attachment.wavDuration =  [NSString stringWithFormat:@"%d",(int)aDuration];
-//                        [weakSelf.attachments addObject:attachment];
-//                        [weakSelf _reloadAttatchmentsView];
-//                    }
-//                } else {
-//                    [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment.failed", "Upload attachment failed")];
-//                    [weakHud hide:YES afterDelay:0.5];
-//                }
-//            }];
-//            
-//            
-//        }else {
+            NSString *fileName =[[recordPath componentsSeparatedByString:@"/"] lastObject];
+            
+            NSData *data = [NSData dataWithContentsOfFile:recordPath];
+            
+            SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+            
+            [[HNetworkManager shareInstance] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
+                if (!error) {
+                    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                        LeaveMsgAttachmentModel *attachment = [[LeaveMsgAttachmentModel alloc] initWithDictionary:nil];
+                        NSArray * entities = [responseObject objectForKey:@"entities"];
+                        if ([entities count] > 0) {
+                            NSDictionary *entity = [entities objectAtIndex:0];
+                            attachment.url = [NSString stringWithFormat:@"%@/%@",[responseObject objectForKey:@"uri"],[entity objectForKey:@"uuid"]];
+                        }
+                        attachment.name = fileName;
+                        attachment.type = @"audio";
+                        attachment.wavDuration =  [NSString stringWithFormat:@"%d",(int)aDuration];
+                        [weakSelf.attachments addObject:attachment];
+                        [weakSelf _reloadAttatchmentsView];
+                    }
+                } else {
+                    
+                }
+            }];
+
+        }else {
 //            [weakSelf showHudInView:self.view hint:NSLocalizedString(@"media.timeShort", @"The recording time is too short")];
-//            self.recordBtn.enabled = NO;
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.recordBtn.enabled = NO;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //                [weakSelf hideHud];
-//                self.recordBtn.enabled = NO;
-//            });
-//        }
-//    }];
-//    
-//    [self.recordView removeFromSuperview];
-//}
+                self.recordBtn.enabled = NO;
+            });
+        }
+    }];
+  
+    [self.recordView removeFromSuperview];
+}
 
-//- (void)recordDragOutside
-//{
-//    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
-//        [(DXRecordView *)self.recordView recordButtonDragOutside];
-//    }
-//}
+- (void)recordDragOutside
+{
+    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
+        [(DXRecordView *)self.recordView recordButtonDragOutside];
+    }
+}
 
-//- (void)recordDragInside
-//{
-//    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
-//        [(DXRecordView *)self.recordView recordButtonDragInside];
-//    }
-//}
+- (void)recordDragInside
+{
+    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
+        [(DXRecordView *)self.recordView recordButtonDragInside];
+    }
+}
 
 - (void)setupBarButtonItem
 {
@@ -427,22 +425,22 @@ const NSInteger baseTag=123;
             [fKeyWindow addSubview:button];
         }
         if ([attachment.type isEqualToString:@"audio"]) {
-//            LeaveMsgAttatchmentView *view = (LeaveMsgAttatchmentView *)tap.view;
-//            _currentAnimationView = view;
-//            SCNetworkManager *manager = [SCNetworkManager sharedInstance];
-//            kWeakSelf
-//            [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
-//                if (!error) {
-//                    NSString *toPath = [NSString stringWithFormat:@"%@/%ld.wav",NSTemporaryDirectory(),tap.view.tag];
-//                    BOOL success = [[EMCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
-//                    if (success) {
-//                        [weakSelf playWithfilePath:toPath];
-//                    }
-//                }else{
-//                  
-//                    NSLog(@"下载文件失败");
-//                }
-//            }];
+            LeaveMsgAttatchmentView *view = (LeaveMsgAttatchmentView *)tap.view;
+            _currentAnimationView = view;
+            HNetworkManager *manager = [HNetworkManager shareInstance];
+            kWeakSelf
+            [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
+                if (!error) {
+                    NSString *toPath = [NSString stringWithFormat:@"%@/%ld.wav",NSTemporaryDirectory(),tap.view.tag];
+                    BOOL success = [[EMCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
+                    if (success) {
+                        [weakSelf playWithfilePath:toPath];
+                    }
+                }else{
+                  
+                    NSLog(@"下载文件失败");
+                }
+            }];
         }
     }
 }
@@ -451,19 +449,19 @@ const NSInteger baseTag=123;
     [sender removeFromSuperview];
 }
 
-//- (void)playWithfilePath:(NSString *)path {
-//    NSData *data = [NSData dataWithContentsOfFile:path];
-//    NSFileManager *fm = [NSFileManager defaultManager];
-//    if ([fm fileExistsAtPath:path]) {
-//        [fm removeItemAtPath:path error:nil];
-//    }
-//    SCAudioPlay *play = [SCAudioPlay sharedInstance];
-//    play.delegate = self;
-//    if (play.isPlaying) {
-//        [play stopSound];
-//    }
-//    [play playSoundWithData:data];
-//}
+- (void)playWithfilePath:(NSString *)path {
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:path]) {
+        [fm removeItemAtPath:path error:nil];
+    }
+    SCAudioPlay *play = [SCAudioPlay sharedInstance];
+    play.delegate = self;
+    if (play.isPlaying) {
+        [play stopSound];
+    }
+    [play playSoundWithData:data];
+}
 
 - (void)AVAudioPlayerBeiginPlay {
     [_currentAnimationView startAnimating];
