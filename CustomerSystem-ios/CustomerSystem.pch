@@ -6,12 +6,10 @@
 //  Copyright (c) 2015年 easemob. All rights reserved.
 //
 
-#ifndef CustomerSystem_ios_CustomerSystem_pch
-#define CustomerSystem_ios_CustomerSystem_pch
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
-
+#ifdef __OBJC__
 #import "LocalDefine.h"
 #import "helpdesk_sdk.h"
 #import "SCLoginManager.h"

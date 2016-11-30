@@ -2,7 +2,7 @@
 //  HNetworkManager.h
 //  helpdesk_sdk
 //
-//  Created by __阿彤木_ on 16/11/23.
+//  Created by ease on 16/11/23.
 //  Copyright © 2016年 hyphenate. All rights reserved.
 //
 
