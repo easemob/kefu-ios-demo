@@ -47,8 +47,36 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void)hyphenateApplication:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo;
 
-#pragma mark - send message
+#pragma mark - send message new
 
++ (HMessage *)textHMessageFormatWithText:(NSString *)text
+                                      to:(NSString *)toUser
+                                     ext:(NSDictionary *)ext;
+
++ (HMessage *)imageMessageWithImageData:(NSData *)imageData
+                                     to:(NSString *)to
+                             messageExt:(NSDictionary *)messageExt;
+
++ (HMessage *)imageMessageWithImage:(UIImage *)image
+                                     to:(NSString *)to
+                             messageExt:(NSDictionary *)messageExt;
+
++ (HMessage *)locationHMessageWithLatitude:(double)latitude
+                                 longitude:(double)longitude
+                                   address:(NSString *)address
+                                        to:(NSString *)to
+                                messageExt:(NSDictionary *)messageExt;
+
++ (HMessage *)voiceMessageWithLocalPath:(NSString *)localPath
+                               duration:(NSInteger)duration
+                                     to:(NSString *)to
+                             messageExt:(NSDictionary *)messageExt;
+
++ (HMessage *)videoMessageWithURL:(NSURL *)url
+                               to:(NSString *)to
+                       messageExt:(NSDictionary *)messageExt;
+
+#pragma mark - send message old
 + (EMMessage *)sendTextMessage:(NSString *)text
                             to:(NSString *)to
                    messageType:(EMChatType)messageType

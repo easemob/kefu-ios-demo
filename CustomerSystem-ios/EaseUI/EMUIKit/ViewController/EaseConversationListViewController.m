@@ -111,10 +111,10 @@
         EaseConversationModel *model = [self.dataArray objectAtIndex:indexPath.row];
         [_delegate conversationListViewController:self didSelectConversationModel:model];
     } else {
-        EaseConversationModel *model = [self.dataArray objectAtIndex:indexPath.row];
-        EaseMessageViewController *viewController = [[EaseMessageViewController alloc] initWithConversationChatter:model.conversation.conversationId conversationType:model.conversation.type];
-        viewController.title = model.title;
-        [self.navigationController pushViewController:viewController animated:YES];
+//        EaseConversationModel *model = [self.dataArray objectAtIndex:indexPath.row];
+//        EaseMessageViewController *viewController = [[EaseMessageViewController alloc] initWithConversationChatter:model.conversation.conversationId];
+//        viewController.title = model.title;
+//        [self.navigationController pushViewController:viewController animated:YES];
     }
 }
 

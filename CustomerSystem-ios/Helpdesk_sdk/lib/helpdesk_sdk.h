@@ -15,6 +15,8 @@
 #import "HChatClient.h"
 #import "HOptions.h"
 #import "HNetworkManager.h"
+#import "HConversation.h"
+
 
 
 #endif /* helpdesk_sdk_h */

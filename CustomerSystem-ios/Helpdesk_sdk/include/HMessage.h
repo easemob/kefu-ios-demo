@@ -110,6 +110,33 @@
 
 - (instancetype)initWithEMMessage:(EMMessage *)message;
 - (instancetype)init;
-
+/*!
+ *  \~chinese
+ *  初始化消息实例
+ *
+ *  @param aConversationId  会话ID
+ *  @param aFrom            发送方
+ *  @param aTo              接收方
+ *  @param aBody            消息体实例
+ *  @param aExt             扩展信息
+ *
+ *  @result 消息实例
+ *
+ *  \~english
+ *  Initialize a message instance
+ *
+ *  @param aConversationId  Conversation id
+ *  @param aFrom            The sender
+ *  @param aTo              The receiver
+ *  @param aBody            Message body
+ *  @param aExt             Message extention
+ *
+ *  @result Message instance
+ */
+- (id)initWithConversationID:(NSString *)aConversationId
+                        from:(NSString *)aFrom
+                          to:(NSString *)aTo
+                        body:(EMMessageBody *)aBody
+                         ext:(NSDictionary *)aExt;
 @end
 

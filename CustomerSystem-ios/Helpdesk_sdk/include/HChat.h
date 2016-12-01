@@ -129,18 +129,21 @@
  *  \~chinese
  *  发送消息
  *
- *
- *  @param aMessage            消息
- *  @param aProgressCompletion 附件上传进度回调block
- *  @param aCompletion         发送完成回调block
+ *  @param aMessage         消息
+ *  @param aProgressBlock   附件上传进度回调block
+ *  @param aCompletion      发送完成回调block
  *
  *  \~english
  *  Send a message
  *
  *
  *  @param aMessage            Message instance
+ *  @param aProgressBlock      The block of attachment upload progress
+ *  @param aCompletion         The block of send complete
  */
-- (void)sendMessage:(HMessage *)aMessage;
+- (void)sendMessage:(HMessage *)aMessage
+           progress:(void (^)(int progress))aProgressBlock
+         completion:(void (^)(HMessage *message, EMError *error))aCompletionBlock;
 
 /*!
  *  \~chinese

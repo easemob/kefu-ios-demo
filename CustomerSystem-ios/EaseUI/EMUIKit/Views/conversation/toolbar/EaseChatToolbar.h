@@ -53,8 +53,7 @@
 
 @property (strong, nonatomic) UIView *recordView;
 
-- (instancetype)initWithFrame:(CGRect)frame
-                         type:(EMChatToolbarType)type;
+- (instancetype)initWithFrame:(CGRect)frame;
 
 /**
  *  Initializa chat bar

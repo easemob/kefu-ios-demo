@@ -18,6 +18,7 @@
 #import "SCChatViewController.h"
 #import "SCLoginManager.h"
 #import "MessageViewController.h"
+#import "EaseMessageViewController.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
@@ -98,14 +99,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)chatAction:(NSNotification *)notification
 {
     //登录IM
-
-    SCChatViewController *chatVC = [[SCChatViewController alloc] init];
-    chatVC.title = @"演示客服";
+    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
     if ([[SCLoginManager shareLoginManager] loginKefuSDK]) {
-         [self.navigationController pushViewController:chatVC animated:YES];
+        EaseMessageViewController *chat = [[EaseMessageViewController alloc] initWithConversationChatter:lgM.cname saleType:[[notification.object objectForKey:kpreSell] boolValue]?hPreSaleType:hAfterSaleType];
+        chat.title =[[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
+         [self.navigationController pushViewController:chat animated:YES];
     } else {
-        NSLog(@"请检查网络");
+        NSLog(@"网络异常");
     }
+    
    
     /*
     [[EMIMHelper defaultHelper] loginEasemobSDK];

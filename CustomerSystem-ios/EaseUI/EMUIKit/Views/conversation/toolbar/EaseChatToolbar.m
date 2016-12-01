@@ -43,20 +43,11 @@
 @synthesize moreView = _moreView;
 @synthesize recordView = _recordView;
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [self initWithFrame:frame horizontalPadding:8 verticalPadding:5 inputViewMinHeight:36 inputViewMaxHeight:150 type:EMChatToolbarTypeGroup];
-    if (self) {
-        
-    }
-    
-    return self;
-}
 
 - (instancetype)initWithFrame:(CGRect)frame
-                         type:(EMChatToolbarType)type
+
 {
-    self = [self initWithFrame:frame horizontalPadding:8 verticalPadding:5 inputViewMinHeight:36 inputViewMaxHeight:150 type:type];
+    self = [self initWithFrame:frame horizontalPadding:8 verticalPadding:5 inputViewMinHeight:36 inputViewMaxHeight:150 type:EMChatToolbarTypeChat];
     if (self) {
         
     }

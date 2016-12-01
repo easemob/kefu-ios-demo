@@ -26,6 +26,12 @@
 #import "UIViewController+HUD.h"
 #import "EaseSDKHelper.h"
 
+typedef NS_ENUM(NSInteger, HDemoSaleType){
+    hPreSaleType,   //售前
+    hAfterSaleType, //售后
+    hSaleTypeNone   //其他
+};
+
 @interface EaseAtTarget : NSObject
 @property (nonatomic, copy) NSString    *userId;
 @property (nonatomic, copy) NSString    *nickname;
@@ -134,13 +140,13 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
 
 @end
 
-@interface EaseMessageViewController : EaseRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, EMChatManagerDelegate, EMCDDeviceManagerDelegate, EMChatToolbarDelegate, EaseChatBarMoreViewDelegate, EMLocationViewDelegate,EMChatroomManagerDelegate, EaseMessageCellDelegate>
+@interface EaseMessageViewController : EaseRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */EMCDDeviceManagerDelegate, EMChatToolbarDelegate, EaseChatBarMoreViewDelegate, EMLocationViewDelegate,EMChatroomManagerDelegate, EaseMessageCellDelegate>
 
 @property (weak, nonatomic) id<EaseMessageViewControllerDelegate> delegate;
 
 @property (weak, nonatomic) id<EaseMessageViewControllerDataSource> dataSource;
 
-@property (strong, nonatomic) EMConversation *conversation;
+@property(nonatomic,strong) HConversation *conversation;
 
 @property (nonatomic) NSTimeInterval messageTimeIntervalTag;
 
@@ -172,8 +178,7 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
 
 @property (nonatomic) BOOL isJoinedChatroom;
 
-- (instancetype)initWithConversationChatter:(NSString *)conversationChatter
-                           conversationType:(EMConversationType)conversationType;
+- (instancetype)initWithConversationChatter:(NSString *)conversationChatter saleType:(HDemoSaleType)saleType;
 
 - (void)tableViewDidTriggerHeaderRefresh;
 
