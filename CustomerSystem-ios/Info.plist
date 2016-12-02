@@ -11,6 +11,8 @@
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>需要访问您的相册</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>需要访问您的地理位置</string>
 	<key>NSCameraUsageDescription</key>
 	<string>需要访问您的摄像机</string>
 	<key>NSMicrophoneUsageDescription</key>

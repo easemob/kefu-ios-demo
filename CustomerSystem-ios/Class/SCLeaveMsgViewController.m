@@ -93,15 +93,22 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     NSMutableArray *attachments = [NSMutableArray array];
     [parameters setObject:attachments forKey:@"attachments"];
     SCLoginManager *logM = [SCLoginManager shareLoginManager];
+    [self showHudInView:self.view hint:@"发送中..."];
     [[HNetworkManager shareInstance] asyncCreateMessageWithTenantId:logM.tenantId projectId:logM.projectId parameters:parameters completion:^(id responseObject, NSError *error) {
         
         if (error == nil) {
             NSLog(@"发送留言成功");
-            [self.navigationController popViewControllerAnimated:YES];
+            [self hideHud];
+            [self showHudInView:self.view hint:@"留言发送成功"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self hideHud];
+                [self.navigationController popViewControllerAnimated:YES];
+            });
         } else {
             NSLog(@"发送留言失败");
+            [self hideHud];
+            [self showHudInView:self.view hint:@"发送失败，请稍后重试"];
         }
-        
     }];
 }
 

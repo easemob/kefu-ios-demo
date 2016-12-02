@@ -15,10 +15,10 @@
 //#import "EMCDDeviceManager.h"
 #import "LocalDefine.h"
 #import "MoreChoiceView.h"
-#import "SCChatViewController.h"
 #import "SCLoginManager.h"
 #import "MessageViewController.h"
 #import "EaseMessageViewController.h"
+#import "ChatViewController.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
@@ -101,32 +101,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     //登录IM
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
     if ([[SCLoginManager shareLoginManager] loginKefuSDK]) {
-        EaseMessageViewController *chat = [[EaseMessageViewController alloc] initWithConversationChatter:lgM.cname saleType:[[notification.object objectForKey:kpreSell] boolValue]?hPreSaleType:hAfterSaleType];
+        ChatViewController *chat = [[ChatViewController alloc] initWithConversationChatter:lgM.cname saleType:[[notification.object objectForKey:kpreSell] boolValue]?hPreSaleType:hAfterSaleType];
         chat.title =[[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
          [self.navigationController pushViewController:chat animated:YES];
     } else {
         NSLog(@"网络异常");
     }
-    
-   
-    /*
-    [[EMIMHelper defaultHelper] loginEasemobSDK];
-    NSString *cname = [[EMIMHelper defaultHelper] cname];
-    ChatViewController *chatController;
-    if (notification.object && [notification.object isKindOfClass:[NSDictionary class]]) {
-        if ([notification.object objectForKey:kpreSell]) {
-            chatController = [[ChatViewController alloc] initWithChatter:cname type:[[notification.object objectForKey:kpreSell] boolValue]?ePreSaleType:eAfterSaleType];
-        } else {
-            chatController = [[ChatViewController alloc] initWithChatter:cname type:eAfterSaleType];
-            chatController.commodityInfo = (NSDictionary *)notification.object;
-        }
-    } else {
-        chatController = [[ChatViewController alloc] initWithChatter:cname type:eSaleTypeNone];
-     
-    }
-    chatController.title = @"演示客服";
-    [self.navigationController pushViewController:chatController animated:YES];
-     */
 }
 
 #pragma mark - UITabBarDelegate

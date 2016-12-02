@@ -10,6 +10,7 @@
 #import "HChatDelegate.h"
 #import "HConversation.h"
 #import "IEMChatManager.h"
+#import "HChatDelegate.h"
 
 @interface HChat : NSObject<EMChatManagerDelegate>
 
@@ -84,7 +85,7 @@
  *  @result Conversation
  */
 - (HConversation *)getConversation:(NSString *)aConversationId
-                   createIfNotExist:(BOOL)aIfCreate;
+                  createIfNotExist:(BOOL)aIfCreate;
 
 /*!
  *  \~chinese
@@ -143,7 +144,7 @@
  */
 - (void)sendMessage:(HMessage *)aMessage
            progress:(void (^)(int progress))aProgressBlock
-         completion:(void (^)(HMessage *message, EMError *error))aCompletionBlock;
+         completion:(void (^)(HMessage *aMessage, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -158,7 +159,10 @@
  *
  *  @param aMessage            Message instance
  */
-- (void)resendMessage:(HMessage *)aMessage;
+- (void)resendMessage:(HMessage *)aMessage
+             progress:(void (^)(int progress))aProgressCompletion
+           completion:(void (^)(HMessage *message,
+                                EMError *error))aCompletion;
 
 @end
 

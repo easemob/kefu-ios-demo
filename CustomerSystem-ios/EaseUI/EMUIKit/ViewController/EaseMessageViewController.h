@@ -64,8 +64,6 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 - (void)messageViewController:(EaseMessageViewController *)viewController
  didReceiveHasReadAckForModel:(id<IMessageModel>)messageModel;
 
-- (BOOL)messageViewController:(EaseMessageViewController *)viewController
-        didSelectMessageModel:(id<IMessageModel>)messageModel;
 
 - (void)messageViewController:(EaseMessageViewController *)viewController
     didSelectAvatarMessageModel:(id<IMessageModel>)messageModel;
@@ -111,7 +109,7 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
                              count:(NSInteger)count;
 
 - (id<IMessageModel>)messageViewController:(EaseMessageViewController *)viewController
-                           modelForMessage:(EMMessage *)message;
+                           modelForMessage:(HMessage *)message;
 
 - (BOOL)messageViewController:(EaseMessageViewController *)viewController
    canLongPressRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -119,11 +117,6 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 - (BOOL)messageViewController:(EaseMessageViewController *)viewController
    didLongPressRowAtIndexPath:(NSIndexPath *)indexPath;
 
-- (BOOL)messageViewControllerShouldMarkMessagesAsRead:(EaseMessageViewController *)viewController;
-
-- (BOOL)messageViewController:(EaseMessageViewController *)viewController
-shouldSendHasReadAckForMessage:(EMMessage *)message
-                         read:(BOOL)read;
 
 - (BOOL)isEmotionMessageFormessageViewController:(EaseMessageViewController *)viewController
                                     messageModel:(id<IMessageModel>)messageModel;
@@ -135,8 +128,6 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
 
 - (NSDictionary*)emotionExtFormessageViewController:(EaseMessageViewController *)viewController
                                         easeEmotion:(EaseEmotion*)easeEmotion;
-
-- (void)messageViewControllerMarkAllMessagesAsRead:(EaseMessageViewController *)viewController;
 
 @end
 
@@ -154,7 +145,6 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
 
 @property (nonatomic) BOOL scrollToBottomWhenAppear; //default YES;
 
-@property (nonatomic) BOOL isViewDidAppear;
 
 @property (nonatomic) NSInteger messageCountOfPage; //default 50
 
@@ -197,14 +187,12 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
 
 - (void)sendVideoMessageWithURL:(NSURL *)url;
 
--(void)addMessageToDataSource:(EMMessage *)message
+-(void)addMessageToDataSource:(HMessage *)message
                      progress:(id)progress;
 
 -(void)showMenuViewController:(UIView *)showInView
                  andIndexPath:(NSIndexPath *)indexPath
                   messageType:(EMMessageBodyType)messageType;
 
--(BOOL)shouldSendHasReadAckForMessage:(EMMessage *)message
-                                 read:(BOOL)read;
 
 @end

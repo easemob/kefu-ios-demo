@@ -160,8 +160,8 @@
 //    }
 }
 
-- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
-{
+//- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
+//{
 //    for (EMMessage *message in offlineMessages) {
 //        NSDictionary *ext = [self _getSafeDictionary:message.ext];
 //        if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
@@ -172,7 +172,7 @@
 //            [self reloadLeaveMsgList];
 //        }
 //    }
-}
+//}
 
 #pragma mark - scrollView delegate
 
