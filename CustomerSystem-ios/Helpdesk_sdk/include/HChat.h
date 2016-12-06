@@ -164,5 +164,63 @@
            completion:(void (^)(HMessage *message,
                                 EMError *error))aCompletion;
 
+/*!
+ *  \~chinese
+ *  更新消息到DB
+ *
+ *  @param aMessage  消息
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Update message
+ *
+ *  @param aMessage  Message
+ *  @param aSuccessBlock    The callback block of completion
+ *
+ */
+- (void)updateMessage:(HMessage *)aMessage
+           completion:(void (^)(HMessage *aMessage, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  下载缩略图（图片消息的缩略图或视频消息的第一帧图片），SDK会自动下载缩略图，所以除非自动下载失败，用户不需要自己下载缩略图
+ *
+ *  @param aMessage            消息
+ *  @param aProgressBlock      附件下载进度回调block
+ *  @param aCompletion         下载完成回调block
+ *
+ *  \~english
+ *  Download message thumbnail (thumbnail of image message or first frame of video image), SDK downloads thumbails automatically, no need to download thumbail manually unless automatic download failed.
+ *
+ *  @param aMessage            Message instance
+ *  @param aProgressBlock      The callback block of attachment download progress
+ *  @param aCompletion         The callback block of download complete
+ */
+- (void)downloadMessageThumbnail:(HMessage *)aMessage
+                        progress:(void (^)(int progress))aProgressBlock
+                      completion:(void (^)(HMessage *message, EMError *error))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  下载消息附件（语音，视频，图片原图，文件），SDK会自动下载语音消息，所以除非自动下载语音失败，用户不需要自动下载语音附件
+ *
+ *  异步方法
+ *
+ *  @param aMessage            消息
+ *  @param aProgressBlock      附件下载进度回调block
+ *  @param aCompletion         下载完成回调block
+ *
+ *  \~english
+ *  Download message attachment(voice, video, image or file), SDK downloads attachment automatically, no need to download attachment manually unless automatic download failed
+ *
+ *
+ *  @param aMessage            Message instance
+ *  @param aProgressBlock      The callback block of attachment download progress
+ *  @param aCompletion         The callback block of download complete
+ */
+- (void)downloadMessageAttachment:(HMessage *)aMessage
+                         progress:(void (^)(int progress))aProgressBlock
+                       completion:(void (^)(HMessage *message, EMError *error))aCompletionBlock;
+
 @end
 

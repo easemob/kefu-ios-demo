@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "719"
             endingLineNumber = "719"
-            landmarkName = "-chatAudioCellBubblePressed:"
+            landmarkName = "-didMessageAttachmentsStatusChanged:error:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "715"
             endingLineNumber = "715"
-            landmarkName = "-chatAudioCellBubblePressed:"
+            landmarkName = "-didMessageAttachmentsStatusChanged:error:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -64,16 +64,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "502369005.308302"
+            filePath = "CustomerSystem-ios/Class/ChatViewController.m"
+            timestampString = "502627826.219922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1513"
-            endingLineNumber = "1513"
-            landmarkName = "-_refreshAfterSentMessage:"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "-sendCommodityMessageWithInfo:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/Views/conversation/MessageCell/EaseMessageCell.m"
+            timestampString = "502702549.527735"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
+            landmarkName = "-_updateActivityWidthConstraint"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/Views/conversation/MessageCell/EaseMessageCell.m"
+            timestampString = "502702549.527735"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
+            landmarkName = "-_setupConstraints"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/Views/conversation/MessageCell/EaseMessageCell.m"
+            timestampString = "502702549.527735"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
+            landmarkName = "-_setupConstraints"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

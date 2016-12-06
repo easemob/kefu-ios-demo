@@ -17,7 +17,7 @@
 
 @implementation EaseMessageModel
 
-- (instancetype)initWithMessage:(EMMessage *)message
+- (instancetype)initWithMessage:(HMessage *)message
 {
     self = [super init];
     if (self) {
@@ -131,11 +131,6 @@
 - (EMMessageStatus)messageStatus
 {
     return _message.status;
-}
-
-- (EMChatType)messageType
-{
-    return _message.chatType;
 }
 
 - (EMMessageBodyType)bodyType

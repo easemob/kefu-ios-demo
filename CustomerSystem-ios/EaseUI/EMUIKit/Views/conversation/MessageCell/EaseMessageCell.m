@@ -14,6 +14,8 @@
 
 #import "EaseBubbleView+Text.h"
 #import "EaseBubbleView+Image.h"
+#import "EaseBubbleView+Track.h"
+#import "EaseBubbleView+Order.h"
 #import "EaseBubbleView+Location.h"
 #import "EaseBubbleView+Voice.h"
 #import "EaseBubbleView+Video.h"
@@ -22,9 +24,15 @@
 #import "EaseEmotionEscape.h"
 #import "EaseLocalDefine.h"
 
+#define kImageWidth 40
+#define kImageHeight 70
+#define kTitleHeight 20
+
 CGFloat const EaseMessageCellPadding = 10;
 
 NSString *const EaseMessageCellIdentifierRecvText = @"EaseMessageCellRecvText";
+NSString *const EaseMessageCellIdentifierRecvTrack = @"EaseMessageCellRecvTrack";
+NSString *const EaseMessageCellIdentifierRecvOrder = @"EaseMessageCellRecvOrder";
 NSString *const EaseMessageCellIdentifierRecvLocation = @"EaseMessageCellRecvLocation";
 NSString *const EaseMessageCellIdentifierRecvVoice = @"EaseMessageCellRecvVoice";
 NSString *const EaseMessageCellIdentifierRecvVideo = @"EaseMessageCellRecvVideo";
@@ -32,6 +40,8 @@ NSString *const EaseMessageCellIdentifierRecvImage = @"EaseMessageCellRecvImage"
 NSString *const EaseMessageCellIdentifierRecvFile = @"EaseMessageCellRecvFile";
 
 NSString *const EaseMessageCellIdentifierSendText = @"EaseMessageCellSendText";
+NSString *const EaseMessageCellIdentifierSendTrack = @"EaseMessageCellSendTrack";
+NSString *const EaseMessageCellIdentifierSendOrder = @"EaseMessageCellSendOrder";
 NSString *const EaseMessageCellIdentifierSendLocation = @"EaseMessageCellSendLocation";
 NSString *const EaseMessageCellIdentifierSendVoice = @"EaseMessageCellSendVoice";
 NSString *const EaseMessageCellIdentifierSendVideo = @"EaseMessageCellSendVideo";
@@ -150,10 +160,19 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
         switch (messageType) {
             case EMMessageBodyTypeText:
             {
-                [_bubbleView setupTextBubbleView];
-                
-                _bubbleView.textLabel.font = _messageTextFont;
-                _bubbleView.textLabel.textColor = _messageTextColor;
+                NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
+                if (dic) { //“msgtype”轨迹消息
+                    if ([dic objectForKey:@"track"]) {
+                        [_bubbleView setupTrackBubbleView];
+                    }
+                    if ([dic objectForKey:@"order"]) {
+                        [_bubbleView setupOrderBubbleView];
+                    }
+                } else {
+                    [_bubbleView setupTextBubbleView];
+                    _bubbleView.textLabel.font = _messageTextFont;
+                    _bubbleView.textLabel.textColor = _messageTextColor;
+                }
             }
                 break;
             case EMMessageBodyTypeImage:
@@ -292,7 +311,42 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
         switch (model.bodyType) {
             case EMMessageBodyTypeText:
             {
-                _bubbleView.textLabel.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
+                if ([model.message.ext objectForKey:@"msgtype"]) {
+                    NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
+                     NSDictionary *itemDic = [dic objectForKey:@"order"] ? [dic objectForKey:@"order"] : [dic objectForKey:@"track"];
+                    if ([dic objectForKey:@"track"]) { //轨迹消息
+                        NSString *imageName = [model.message.ext objectForKey:@"imageName"];
+                        if ([imageName length] > 0) {
+                            _bubbleView.cusImageView.image = [UIImage imageNamed:imageName];
+                        }
+                        else{
+                            _bubbleView.cusImageView.image = [UIImage imageNamed:@"imageDownloadFail.png"];
+                        }
+                        _bubbleView.trackTitleLabel.text = [itemDic objectForKey:@"title"];
+                        _bubbleView.cusDescLabel.text = [itemDic objectForKey:@"desc"];
+                        _bubbleView.cusPriceLabel.text = [itemDic objectForKey:@"price"];
+                    }
+                    if ([dic objectForKey:@"order"]) { //订单消息
+                        NSString *imageName = [model.message.ext objectForKey:@"imageName"];
+                        if ([imageName length] > 0) {
+                            _bubbleView.orderImageView.image = [UIImage imageNamed:imageName];
+                        }
+                        else{
+                            _bubbleView.orderImageView.image = [UIImage imageNamed:@"imageDownloadFail.png"];
+                        }
+                        _bubbleView.orderTitleLabel.text = [itemDic objectForKey:@"title"];
+                        _bubbleView.orderNoLabel.text = [itemDic objectForKey:@"order_title"];
+                        _bubbleView.orderDescLabel.text = [itemDic objectForKey:@"desc"];
+                        _bubbleView.orderPriceLabel.text = [itemDic objectForKey:@"price"];
+                    }
+                    
+                   
+                    
+                   
+                } else {
+                    _bubbleView.textLabel.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
+                }
+                
             }
                 break;
             case EMMessageBodyTypeImage:
@@ -360,7 +414,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                 break;
             case EMMessageBodyTypeFile:
             {
-                _bubbleView.fileIconView.image = [UIImage imageNamed:_model.fileIconName];
+                _bubbleView.fileIconView.image = [UIImage imageNamed:[NSString stringWithFormat:@"EaseUIResource.bundle/%@",_model.fileIconName]];
                 _bubbleView.fileNameLabel.text = _model.fileName;
                 _bubbleView.fileSizeLabel.text = _model.fileSizeDes;
             }
@@ -420,7 +474,18 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
             switch (_messageType) {
                 case EMMessageBodyTypeText:
                 {
-                    [_bubbleView updateTextMargin:_bubbleMargin];
+                    NSDictionary *dic = [_model.message.ext objectForKey:@"msgtype"];
+                    if (dic) { //ext消息
+                        if ([dic objectForKey:@"order"]) {
+                            [_bubbleView updateOrderMargin:_bubbleMargin];
+                        }
+                        if ([dic objectForKey:@"track"]) {
+                            [_bubbleView updateTrackMargin:_bubbleMargin];
+                        }
+                        
+                    } else {
+                         [_bubbleView updateTextMargin:_bubbleMargin];
+                    }
                 }
                     break;
                 case EMMessageBodyTypeImage:
@@ -653,8 +718,19 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     NSString *cellIdentifier = nil;
     if (model.isSender) {
         switch (model.bodyType) {
-            case EMMessageBodyTypeText:
-                cellIdentifier = EaseMessageCellIdentifierSendText;
+            case EMMessageBodyTypeText: {
+                NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
+                if (dic) {
+                    if ([dic objectForKey:@"track"]) {
+                        cellIdentifier = EaseMessageCellIdentifierSendTrack;                    }
+                    if ([dic objectForKey:@"order"]) {
+                        cellIdentifier = EaseMessageCellIdentifierSendOrder;
+                    }
+                    
+                } else {
+                    cellIdentifier = EaseMessageCellIdentifierSendText;
+                }
+            }
                 break;
             case EMMessageBodyTypeImage:
                 cellIdentifier = EaseMessageCellIdentifierSendImage;
@@ -677,7 +753,19 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     }
     else{
         switch (model.bodyType) {
-            case EMMessageBodyTypeText:
+            case EMMessageBodyTypeText: {
+                NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
+                if (dic) {
+                    if ([dic objectForKey:@"track"]) {
+                        cellIdentifier = EaseMessageCellIdentifierRecvTrack;                    }
+                    if ([dic objectForKey:@"order"]) {
+                        cellIdentifier = EaseMessageCellIdentifierRecvOrder;
+                    }
+                    
+                } else {
+                    cellIdentifier = EaseMessageCellIdentifierSendText;
+                }
+            }
                 cellIdentifier = EaseMessageCellIdentifierRecvText;
                 break;
             case EMMessageBodyTypeImage:
@@ -724,17 +812,15 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
             NSAttributedString *text = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
             CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
             height += (rect.size.height > 20 ? rect.size.height : 20) + 10;
-//            NSString *text = model.text;
-//            UIFont *textFont = cell.messageTextFont;
-//            CGSize retSize;
-//            if ([NSString instancesRespondToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
-//                retSize = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:textFont} context:nil].size;
-//            }else{
-//                retSize = [text sizeWithFont:textFont constrainedToSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) lineBreakMode:NSLineBreakByCharWrapping];
-//            }
-//            
-//            
-//            height += (retSize.height > 20 ? retSize.height : 20) + 10;
+            if ([model.message.ext objectForKey:@"msgtype"]) {
+                NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
+                if ([dic objectForKey:@"track"]) {
+                    return 2*EaseMessageCellPadding + kImageHeight + kTitleHeight + 20;
+                }
+                if ([dic objectForKey:@"order"]) {
+                    return 2*EaseMessageCellPadding + kImageHeight + 2*kTitleHeight + 20;
+                }
+            }
         }
             break;
         case EMMessageBodyTypeImage:

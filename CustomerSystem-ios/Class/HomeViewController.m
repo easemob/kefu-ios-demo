@@ -102,6 +102,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
     if ([[SCLoginManager shareLoginManager] loginKefuSDK]) {
         ChatViewController *chat = [[ChatViewController alloc] initWithConversationChatter:lgM.cname saleType:[[notification.object objectForKey:kpreSell] boolValue]?hPreSaleType:hAfterSaleType];
+        chat.commodityInfo = (NSDictionary *)notification.object;
         chat.title =[[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
          [self.navigationController pushViewController:chat animated:YES];
     } else {

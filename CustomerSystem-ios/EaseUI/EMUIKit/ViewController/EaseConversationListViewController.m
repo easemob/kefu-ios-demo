@@ -229,6 +229,15 @@
                 NSString *didReceiveText = [EaseConvertToCommonEmoticonsHelper
                                             convertToSystemEmoticons:((EMTextMessageBody *)messageBody).text];
                 latestMessageTitle = didReceiveText;
+                if ([conversationModel.conversation.ext objectForKey:@"msgtype"]) {
+                    NSDictionary *dic = [conversationModel.conversation.ext objectForKey:@"msgtype"];
+                    if ([dic objectForKey:@"track"]) {
+                        latestMessageTitle = @"轨迹消息";
+                    }
+                    if ([dic objectForKey:@"order"]) {
+                        latestMessageTitle = @"订单消息";
+                    }
+                }
             } break;
             case EMMessageBodyTypeVoice:{
                 latestMessageTitle = NSEaseLocalizedString(@"message.voice1", @"[voice]");

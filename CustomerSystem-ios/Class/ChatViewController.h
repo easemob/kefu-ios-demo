@@ -14,6 +14,7 @@
 #import "EaseMessageViewController.h"
 @interface ChatViewController : EaseMessageViewController <EaseMessageViewControllerDelegate, EaseMessageViewControllerDataSource>
 
+@property (strong, nonatomic) NSDictionary *commodityInfo; //商品信息
 
 - (void)showMenuViewController:(UIView *)showInView
                   andIndexPath:(NSIndexPath *)indexPath

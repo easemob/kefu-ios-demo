@@ -43,26 +43,38 @@ extern NSString *const EaseMessageCellIdentifierRecvFile;
 
 @property (strong, nonatomic) UIImageView *backgroundImageView;
 
-//text views
+//------text views
 @property (strong, nonatomic) UILabel *textLabel;
 
-//image views
+//track views 【track 属于text消息，包含在消息扩展中的msgtype -> track 键】
+@property (strong, nonatomic) UILabel *trackTitleLabel;          //标题
+@property (strong, nonatomic) UIImageView *cusImageView;    //图片
+@property (strong, nonatomic) UILabel *cusDescLabel;             //商品描述
+@property (strong, nonatomic) UILabel *cusPriceLabel;            //商品价格
+//order views 【order 属于text消息，包含在消息扩展中的msgtype -> order 键】
+@property(nonatomic,strong) UILabel *orderTitleLabel;        //订单
+@property(nonatomic,strong) UILabel *orderNoLabel;      //订单号
+@property(nonatomic,strong) UIImageView *orderImageView;//订单展示图
+@property(nonatomic,strong) UILabel *orderDescLabel;         //订单描述
+@property(nonatomic,strong) UILabel *orderPriceLabel;        //订单价格
+
+//------image views
 @property (strong, nonatomic) UIImageView *imageView;
 
-//location views
+//------location views
 @property (strong, nonatomic) UIImageView *locationImageView;
 @property (strong, nonatomic) UILabel *locationLabel;
 
-//voice views
+//------voice views
 @property (strong, nonatomic) UIImageView *voiceImageView;
 @property (strong, nonatomic) UILabel *voiceDurationLabel;
 @property (strong, nonatomic) UIImageView *isReadView;
 
-//video views
+//------video views
 @property (strong, nonatomic) UIImageView *videoImageView;
 @property (strong, nonatomic) UIImageView *videoTagView;
 
-//file views
+//------file views
 @property (strong, nonatomic) UIImageView *fileIconView;
 @property (strong, nonatomic) UILabel *fileNameLabel;
 @property (strong, nonatomic) UILabel *fileSizeLabel;

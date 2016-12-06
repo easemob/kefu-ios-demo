@@ -39,15 +39,69 @@
     
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
+    if ([_commodityInfo count] > 0) {
+        [self sendCommodityMessageWithInfo:_commodityInfo];
+        _commodityInfo = nil;
+    }
 }
 
+- (void)sendCommodityMessageWithInfo:(NSDictionary *)info
+{
+    NSString *type = [info objectForKey:@"type"];
+    NSString *title = [info objectForKey:@"title"];
+    NSString *desc = [info objectForKey:@"desc"];
+    NSString *price = [info objectForKey:@"price"];
+    NSString *imageUrl = [info objectForKey:@"img_url"];
+    NSString *itemUrl = [info objectForKey:@"item_url"];
+    
+    NSMutableDictionary *itemDic = [NSMutableDictionary dictionary];
+    if (title) {
+        [itemDic setObject:title forKey:@"title"];
+    }
+    if (desc) {
+        [itemDic setObject:desc forKey:@"desc"];
+    }
+    if (price) {
+        [itemDic setObject:price forKey:@"price"];
+    }
+    if (imageUrl) {
+        [itemDic setObject:imageUrl forKey:@"img_url"];
+    }
+    if (itemUrl) {
+        [itemDic setObject:itemUrl forKey:@"item_url"];
+    }
+    
+    if ([type isEqualToString:@"order"]) {
+        NSString *orderTitle = [info objectForKey:@"order_title"];
+        if (orderTitle) {
+            [itemDic setObject:orderTitle forKey:@"order_title"];
+        }
+    }
+    
+    NSString *imageName = [info objectForKey:@"imageName"];
+    NSMutableDictionary *extDic = [NSMutableDictionary dictionaryWithDictionary:[self getWeiChat]];
+    [extDic setObject:@{type:itemDic} forKey:@"msgtype"];
+    [extDic setObject:imageName forKey:@"imageName"];
+    [extDic setObject:@"custom" forKey:@"type"];
+    
+    [self sendTextMessage:@"" withExt:extDic];
+
+}
+
+- (NSDictionary*)getWeiChat
+{
+    NSDictionary *ext = nil;
+    NSDictionary* weichat = [self getUserInfoAttribute];
+    ext = @{kMesssageExtWeChat:weichat};
+    return ext;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 - (void)dealloc{
-    [[EMClient sharedClient] removeDelegate:self];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -135,7 +189,7 @@
                            modelForMessage:(HMessage *)message
 {
     id<IMessageModel> model = nil;
-    model = [[EaseMessageModel alloc] initWithMessage:message.message];
+    model = [[EaseMessageModel alloc] initWithMessage:message];
     model.avatarImage = [UIImage imageNamed:@"EaseUIResource.bundle/user"];
     model.failImageName = @"imageDownloadFail";
     return model;

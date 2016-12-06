@@ -27,7 +27,7 @@
 #import "EaseSDKHelper.h"
 
 typedef NS_ENUM(NSInteger, HDemoSaleType){
-    hPreSaleType,   //售前
+    hPreSaleType=100,   //售前
     hAfterSaleType, //售后
     hSaleTypeNone   //其他
 };
@@ -60,10 +60,6 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 - (void)messageViewController:(EaseMessageViewController *)viewController
    didFailSendingMessageModel:(id<IMessageModel>)messageModel
                         error:(EMError *)error;
-
-- (void)messageViewController:(EaseMessageViewController *)viewController
- didReceiveHasReadAckForModel:(id<IMessageModel>)messageModel;
-
 
 - (void)messageViewController:(EaseMessageViewController *)viewController
     didSelectAvatarMessageModel:(id<IMessageModel>)messageModel;
@@ -181,6 +177,7 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 - (void)sendLocationMessageLatitude:(double)latitude
                           longitude:(double)longitude
                          andAddress:(NSString *)address;
+- (NSDictionary*)getUserInfoAttribute;
 
 - (void)sendVoiceMessageWithLocalPath:(NSString *)localPath
                              duration:(NSInteger)duration;
