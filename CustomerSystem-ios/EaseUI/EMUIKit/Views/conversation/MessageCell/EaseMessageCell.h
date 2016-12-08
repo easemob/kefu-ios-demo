@@ -34,7 +34,7 @@ typedef enum{
 }EaseMessageCellTapEventType;
 
 @protocol EaseMessageCellDelegate;
-@interface EaseMessageCell : UITableViewCell<IModelChatCell>
+@interface EaseMessageCell : UITableViewCell<IModelChatCell,UIGestureRecognizerDelegate>
 {
     UIButton *_statusButton;
     UILabel *_hasRead;
@@ -108,6 +108,8 @@ typedef enum{
 + (NSString *)cellIdentifierWithModel:(id<IMessageModel>)model;
 
 + (CGFloat)cellHeightWithModel:(id<IMessageModel>)model;
+
++ (NSString*)_getMessageContent:(HMessage*)message;
 
 @end
 

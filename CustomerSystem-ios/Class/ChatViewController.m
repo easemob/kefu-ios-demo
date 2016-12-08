@@ -40,7 +40,7 @@
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
     if ([_commodityInfo count] > 0) {
-        [self sendCommodityMessageWithInfo:_commodityInfo];
+//        [self sendCommodityMessageWithInfo:_commodityInfo];
         _commodityInfo = nil;
     }
 }

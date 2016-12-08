@@ -154,6 +154,18 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
 
 #pragma mark - send message new
 
++ (HMessage *)cmdMessageFormatTo:(NSString *)to
+                             ext:(NSDictionary *)ext
+                          params:(NSArray *)params{
+    EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"TransferToKf"];
+    NSString *from = [[HChatClient sharedClient] currentUsername];
+    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body ext:ext];
+    if (params) {
+        body.params = params;
+    }
+    return message;
+}
+
 //构造text消息体
 + (HMessage *)textHMessageFormatWithText:(NSString *)text
                                       to:(NSString *)toUser

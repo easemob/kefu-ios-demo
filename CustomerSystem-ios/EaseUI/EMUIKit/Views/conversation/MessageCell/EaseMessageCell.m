@@ -16,6 +16,8 @@
 #import "EaseBubbleView+Image.h"
 #import "EaseBubbleView+Track.h"
 #import "EaseBubbleView+Order.h"
+#import "EaseBubbleView+RobotMenu.h"
+#import "EaseBubbleView+Transform.h"
 #import "EaseBubbleView+Location.h"
 #import "EaseBubbleView+Voice.h"
 #import "EaseBubbleView+Video.h"
@@ -33,6 +35,8 @@ CGFloat const EaseMessageCellPadding = 10;
 NSString *const EaseMessageCellIdentifierRecvText = @"EaseMessageCellRecvText";
 NSString *const EaseMessageCellIdentifierRecvTrack = @"EaseMessageCellRecvTrack";
 NSString *const EaseMessageCellIdentifierRecvOrder = @"EaseMessageCellRecvOrder";
+NSString *const EaseMessageCellIdentifierRecvMenu = @"EaseMessageCellRecvMenu";
+NSString *const EaseMessageCellIdentifierRecvTransform = @"EaseMessageCellRecvTransform";
 NSString *const EaseMessageCellIdentifierRecvLocation = @"EaseMessageCellRecvLocation";
 NSString *const EaseMessageCellIdentifierRecvVoice = @"EaseMessageCellRecvVoice";
 NSString *const EaseMessageCellIdentifierRecvVideo = @"EaseMessageCellRecvVideo";
@@ -61,6 +65,10 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
 @end
 
 @implementation EaseMessageCell
+{
+    NSDataDetector *_detector;
+    NSArray *_urlMatches;
+}
 
 @synthesize statusButton = _statusButton;
 @synthesize bubbleView = _bubbleView;
@@ -161,14 +169,20 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
             case EMMessageBodyTypeText:
             {
                 NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
-                if (dic) { //“msgtype”轨迹消息
-                    if ([dic objectForKey:@"track"]) {
+                if (dic) {
+                    if ([dic objectForKey:@"track"]) {//“msgtype”轨迹消息
                         [_bubbleView setupTrackBubbleView];
                     }
-                    if ([dic objectForKey:@"order"]) {
+                    if ([dic objectForKey:@"order"]) {//订单消息
                         [_bubbleView setupOrderBubbleView];
                     }
-                } else {
+                    if ([dic objectForKey:@"choice"]) { //菜单消息
+                        [_bubbleView setupRobotMenuBubbleView];
+                    }
+                    
+                } else if([EaseBubbleView isTransferMessage:model.message]){
+                        [_bubbleView setupTransformBubbleView];
+                }else {
                     [_bubbleView setupTextBubbleView];
                     _bubbleView.textLabel.font = _messageTextFont;
                     _bubbleView.textLabel.textColor = _messageTextColor;
@@ -223,10 +237,20 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     [self _setupConstraints];
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bubbleViewTapAction:)];
+    tapRecognizer.delegate = self;
     [_bubbleView addGestureRecognizer:tapRecognizer];
     
     UITapGestureRecognizer *tapRecognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarViewTapAction:)];
     [_avatarView addGestureRecognizer:tapRecognizer2];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    if ([NSStringFromClass([touch.view class])isEqualToString:@"UITableViewCellContentView" ]) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 #pragma mark - Setup Constraints
@@ -311,7 +335,8 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
         switch (model.bodyType) {
             case EMMessageBodyTypeText:
             {
-                if ([model.message.ext objectForKey:@"msgtype"]) {
+                _detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+                if ([model.message.ext objectForKey:@"msgtype"] || [EaseBubbleView isTransferMessage:model.message]) {
                     NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
                      NSDictionary *itemDic = [dic objectForKey:@"order"] ? [dic objectForKey:@"order"] : [dic objectForKey:@"track"];
                     if ([dic objectForKey:@"track"]) { //轨迹消息
@@ -339,10 +364,23 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                         _bubbleView.orderDescLabel.text = [itemDic objectForKey:@"desc"];
                         _bubbleView.orderPriceLabel.text = [itemDic objectForKey:@"price"];
                     }
-                    
-                   
-                    
-                   
+                    if ([dic objectForKey:@"choice"]) { //机器人菜单
+                        NSDictionary *choiceDic = [dic objectForKey:@"choice"];
+                        NSArray *menu = [choiceDic objectForKey:@"list"];
+                        NSMutableArray *array = [NSMutableArray array];
+                        for (NSString *string in menu) {
+                            [array addObject:string];
+                        }
+                        _bubbleView.options = array;
+                        _bubbleView.menuTitle = [choiceDic objectForKey:@"title"];
+                        [_bubbleView reloadData];
+                    }
+                    if ([EaseBubbleView isTransferMessage:model.message]) {
+                        _bubbleView.transTitle.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
+                        NSLog(@"model.message.ext :%@",model.message.ext);
+                        BOOL hasTransfer = [model.message.ext[kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer] boolValue];
+                        [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer];
+                    }
                 } else {
                     _bubbleView.textLabel.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
                 }
@@ -482,8 +520,13 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                         if ([dic objectForKey:@"track"]) {
                             [_bubbleView updateTrackMargin:_bubbleMargin];
                         }
-                        
-                    } else {
+                        if ([dic objectForKey:@"choice"]) {
+                             [_bubbleView updateRobotMenuMargin:_bubbleMargin];
+                            [_bubbleView reloadData];
+                        }
+                    } else if ([EaseBubbleView isTransferMessage:_model.message]) {
+                         [_bubbleView updateTransformMargin:_bubbleMargin];
+                    }else {
                          [_bubbleView updateTextMargin:_bubbleMargin];
                     }
                 }
@@ -627,6 +670,10 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
             }
         }
         switch (_model.bodyType) {
+            case EMMessageBodyTypeText: {
+                
+            }
+                break;
             case EMMessageBodyTypeImage:
             {
                 if ([_delegate respondsToSelector:@selector(messageCellSelected:)]) {
@@ -689,6 +736,13 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     }
 }
 
+- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo {
+    if ([eventName isEqualToString:HRouterEventTapTransform]) {
+        userInfo = @{@"HMessage":_model.message};
+    }
+    [self.nextResponder routerEventWithName:eventName userInfo:userInfo];
+}
+
 #pragma mark - IModelCell
 /*
 - (BOOL)isCustomBubbleView:(id<IMessageModel>)model
@@ -726,7 +780,6 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                     if ([dic objectForKey:@"order"]) {
                         cellIdentifier = EaseMessageCellIdentifierSendOrder;
                     }
-                    
                 } else {
                     cellIdentifier = EaseMessageCellIdentifierSendText;
                 }
@@ -761,12 +814,17 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                     if ([dic objectForKey:@"order"]) {
                         cellIdentifier = EaseMessageCellIdentifierRecvOrder;
                     }
+                    if ([dic objectForKey:@"choice"]) {
+                        cellIdentifier = EaseMessageCellIdentifierRecvMenu;
+                    }
                     
+                } else if ([EaseBubbleView isTransferMessage:model.message]) {
+                    cellIdentifier = EaseMessageCellIdentifierRecvTransform;
                 } else {
-                    cellIdentifier = EaseMessageCellIdentifierSendText;
+                    cellIdentifier = EaseMessageCellIdentifierRecvText;
                 }
             }
-                cellIdentifier = EaseMessageCellIdentifierRecvText;
+                
                 break;
             case EMMessageBodyTypeImage:
                 cellIdentifier = EaseMessageCellIdentifierRecvImage;
@@ -809,18 +867,40 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     switch (model.bodyType) {
         case EMMessageBodyTypeText:
         {
-            NSAttributedString *text = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
-            CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
-            height += (rect.size.height > 20 ? rect.size.height : 20) + 10;
-            if ([model.message.ext objectForKey:@"msgtype"]) {
-                NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
-                if ([dic objectForKey:@"track"]) {
-                    return 2*EaseMessageCellPadding + kImageHeight + kTitleHeight + 20;
+            NSDictionary *msgDic = [model.message.ext objectForKey:@"msgtype"];
+            CGFloat tableWidth = 200-cell.bubbleMargin.left-cell.bubbleMargin.right;
+            if ([msgDic objectForKey:@"choice"]) { //机器人菜单
+                NSDictionary *choiceDic = [msgDic objectForKey:@"choice"];
+                NSArray *menu = [choiceDic objectForKey:@"list"];
+                NSString *menuTitle = [choiceDic objectForKey:@"title"];
+                height += [menuTitle boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
+                for (NSString *string in menu) {
+                    height += [string boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
                 }
-                if ([dic objectForKey:@"order"]) {
-                    return 2*EaseMessageCellPadding + kImageHeight + 2*kTitleHeight + 20;
+                return 2*EaseMessageCellPadding + height + 20;
+            } else { //其他消息【订单、轨迹、富文本】
+                NSAttributedString *text = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
+                CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
+                height += (rect.size.height > 20 ? rect.size.height : 20) + 10;
+                if ([model.message.ext objectForKey:@"msgtype"]) {
+                    NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
+                    if ([dic objectForKey:@"track"]) {
+                        return 2*EaseMessageCellPadding + kImageHeight + kTitleHeight + 20;
+                    }
+                    if ([dic objectForKey:@"order"]) {
+                        return 2*EaseMessageCellPadding + kImageHeight + 2*kTitleHeight + 20;
+                    }
+                    if ([dic objectForKey:@"choice"]) {
+                        return 2*EaseMessageCellPadding + height + 20;
+                    }
+                }
+                if ([EaseBubbleView isTransferMessage:model.message]) {
+                    height += [model.text boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
+                    height += 50;
+                    return height;
                 }
             }
+            
         }
             break;
         case EMMessageBodyTypeImage:
@@ -886,6 +966,23 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     model.cellHeight = height;
     
     return height;
+}
+
++ (NSString*)_getMessageContent:(HMessage*)message
+{
+    NSString *content = @"";
+    if ([message.ext objectForKey:@"msgtype"]) {
+        NSDictionary *dic = [message.ext objectForKey:@"msgtype"];
+        if ([dic objectForKey:@"choice"]) {
+            NSDictionary *choice = [dic objectForKey:@"choice"];
+            NSArray *menu = [choice objectForKey:@"list"];
+            content = [choice objectForKey:@"title"];
+            for (NSString *string in menu) {
+                content = [content stringByAppendingString:[NSString stringWithFormat:@"\n%@",string]];
+            }
+        }
+    }
+    return content;
 }
 
 @end

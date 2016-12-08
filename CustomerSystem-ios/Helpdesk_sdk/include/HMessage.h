@@ -83,7 +83,7 @@
  */
 @property (nonatomic) BOOL isRead;
 
-/*!
+/*
  *  \~chinese
  *  消息体
  *

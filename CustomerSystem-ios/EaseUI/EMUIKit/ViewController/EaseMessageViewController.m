@@ -26,7 +26,8 @@
 #import "UIImage+EMGIF.h"
 #import "EaseLocalDefine.h"
 #import "EaseSDKHelper.h"
-
+#import "HFileViewController.h"
+#import "EaseBubbleView+Transform.h"
 #define KHintAdjustY    50
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
@@ -43,7 +44,7 @@
 }
 @end
 
-@interface EaseMessageViewController ()<EaseMessageCellDelegate,HChatDelegate>
+@interface EaseMessageViewController ()<EaseMessageCellDelegate,HChatDelegate,UIGestureRecognizerDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
@@ -51,6 +52,8 @@
     NSMutableArray *_atTargets;
     
     dispatch_queue_t _messageQueue;
+    
+    BOOL _isSendingTransformMessage; //正在发送转人工消息
 }
 
 @property (strong, nonatomic) id<IMessageModel> playingVoiceModel;
@@ -103,6 +106,7 @@
     
     //Initializa the gesture recognizer
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyBoardHidden:)];
+    tap.delegate = self;
     [self.view addGestureRecognizer:tap];
     
     _lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
@@ -133,6 +137,15 @@
     [[EaseChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
     
     [self tableViewDidTriggerHeaderRefresh];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
+        if (touch.view.width == 200) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 - (void)setupEmotion
@@ -421,6 +434,12 @@
     
     EaseLocationViewController *locationController = [[EaseLocationViewController alloc] initWithLocation:CLLocationCoordinate2DMake(model.latitude, model.longitude)];
     [self.navigationController pushViewController:locationController animated:YES];
+}
+
+- (void)_fileMessageCellSelected:(id<IMessageModel>)model{
+    HFileViewController *viewController = [[HFileViewController alloc] init];
+    viewController.model = model;
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)_videoMessageCellSelected:(id<IMessageModel>)model
@@ -914,6 +933,7 @@
         case EMMessageBodyTypeFile:
         {
             _scrollToBottomWhenAppear = NO;
+            [self _fileMessageCellSelected:model];
             [self showHint:@"Custom implementation!"];
         }
             break;
@@ -1473,6 +1493,57 @@
 - (void)sendTextMessage:(NSString *)text
 {
     [self sendTextMessage:text withExt:[self getUserInfoAttribute]];
+}
+
+
+- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo {
+    if ([eventName isEqualToString:HRouterEventTapMenu]) {
+        NSString *text = [userInfo objectForKey:@"clickText"];
+        [self sendTextMessage:text];
+    }
+    if ([eventName isEqualToString:HRouterEventTapTransform]) {
+        if (_isSendingTransformMessage) return;
+        _isSendingTransformMessage = YES;
+        __block HMessage *message = [userInfo objectForKey:@"HMessage"];
+        NSDictionary *weichat = [message.ext objectForKey:kMesssageExtWeChat];
+        if ([EaseBubbleView isTransferMessage:message]) {
+            NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMesssageExtWeChat_ctrlArgs]];
+            [ctrlArgs removeObjectForKey:@"label"];
+            weichat = [NSDictionary dictionaryWithObjectsAndKeys:ctrlArgs, kMesssageExtWeChat_ctrlArgs, nil];
+            NSDictionary *ext = @{kMesssageExtWeChat:weichat};
+            //发送透传消息
+            HMessage *aHMessage = [EaseSDKHelper cmdMessageFormatTo:self.conversation.conversationId ext:ext params:nil];
+            __weak typeof(self) weakSelf = self;
+            [[HChatClient sharedClient].chat sendMessage:aHMessage progress:nil completion:^(HMessage *aMessage, EMError *aError) {
+                _isSendingTransformMessage = NO;
+                if (!aError) {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        //更新ext，目的当点击一次转人工客服按钮且cmd发送成功后，此按钮不在被使用
+                        [weakSelf updateTransferMessageExt:message];
+                    });
+                } else {
+                    [self showHint:NSLocalizedString(@"transferToKf.fail", @"Transfer to the artificial customer service request failed, please confirm the connection status!")];
+                }
+            }];
+        }
+    }
+}
+
+//更新转人工消息的ext
+- (void)updateTransferMessageExt:(HMessage *)message {
+    HMessage *_message = message;
+    NSMutableDictionary *_ext = [NSMutableDictionary dictionaryWithDictionary:message.ext];
+    
+    [_ext setValue:@YES forKey:kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer];
+    _message.ext = [_ext copy];
+    __weak typeof(self) weakSelf = self;
+    [[HChatClient sharedClient].chat updateMessage:_message completion:^(HMessage *aMessage, EMError *aError) {
+        if (!aError) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.tableView reloadData];
+            });
+        }
+    }];
 }
 
 //获取扩展字段

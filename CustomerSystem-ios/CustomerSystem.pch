@@ -19,6 +19,7 @@
 #import "UIView+FLExtension.h"
 #import "NSObject+SCAdd.h"
 #import "EaseUI.h"
+#import "UIResponder+HRouter.h"
 //#import "NSDate+Category.h"
 
 
@@ -31,7 +32,9 @@
 #define kMesssageExtWeChat_ctrlType @"ctrlType"
 #define kMesssageExtWeChat_ctrlType_enquiry @"enquiry"
 #define kMesssageExtWeChat_ctrlType_inviteEnquiry @"inviteEnquiry"
+#define kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer @"hasTransfer"
 #define kMesssageExtWeChat_ctrlArgs @"ctrlArgs"
+#define kMesssageExtWeChat_ctrlType_transferToKfHint  @"TransferToKfHint"
 #define kMesssageExtWeChat_ctrlArgs_inviteId @"inviteId"
 #define kMesssageExtWeChat_ctrlArgs_serviceSessionId @"serviceSessionId"
 #define kMesssageExtWeChat_ctrlArgs_detail @"detail"

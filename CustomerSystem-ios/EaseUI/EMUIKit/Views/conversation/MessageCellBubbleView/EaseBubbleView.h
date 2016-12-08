@@ -15,6 +15,9 @@
 
 extern CGFloat const EaseMessageCellPadding;
 
+extern NSString *const HRouterEventTapMenu; //选择菜单
+extern NSString *const HRouterEventTapTransform; //转人工
+
 extern NSString *const EaseMessageCellIdentifierSendText;
 extern NSString *const EaseMessageCellIdentifierSendLocation;
 extern NSString *const EaseMessageCellIdentifierSendVoice;
@@ -57,6 +60,14 @@ extern NSString *const EaseMessageCellIdentifierRecvFile;
 @property(nonatomic,strong) UIImageView *orderImageView;//订单展示图
 @property(nonatomic,strong) UILabel *orderDescLabel;         //订单描述
 @property(nonatomic,strong) UILabel *orderPriceLabel;        //订单价格
+//robotMenu
+@property(nonatomic,strong) UITableView *tableView;     //菜单
+@property(nonatomic,strong) NSArray *options;           //菜单选项
+@property(nonatomic,strong) NSString *menuTitle;
+
+//transform
+@property(nonatomic,strong) UILabel *transTitle; //机器人回复文字
+@property(nonatomic,strong) UIButton *transformButton; //转人工客服button
 
 //------image views
 @property (strong, nonatomic) UIImageView *imageView;

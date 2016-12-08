@@ -21,6 +21,9 @@
 #import "EaseBubbleView+File.h"
 #import "EaseBubbleView+Track.h"
 
+NSString *const HRouterEventTapMenu = @"HRouterEventTapMenu";
+NSString *const HRouterEventTapTransform = @"HRouterEventTapTransform";
+
 @interface EaseBubbleView()
 
 @property (nonatomic) NSLayoutConstraint *marginTopConstraint;
@@ -67,6 +70,7 @@
     if (_backgroundImageView == nil) {
         _backgroundImageView = [[UIImageView alloc] init];
         _backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        _backgroundImageView.userInteractionEnabled = YES;
         _backgroundImageView.backgroundColor = [UIColor clearColor];
         [self addSubview:_backgroundImageView];
         [self _setupBackgroundImageViewConstraints];
@@ -74,5 +78,6 @@
     
     return _backgroundImageView;
 }
+
 
 @end

@@ -13,6 +13,7 @@
 #import "EaseBaseMessageCell.h"
 
 #import "UIImageView+EMWebCache.h"
+#import "EaseBubbleView+Transform.h"
 
 @interface EaseBaseMessageCell()
 
@@ -84,7 +85,7 @@
     switch (self.model.bodyType) {
         case EMMessageBodyTypeText:
         {
-            if ([self.model.message.ext objectForKey:@"msgtype"]) {
+            if ([self.model.message.ext objectForKey:@"msgtype"] || [EaseBubbleView isTransferMessage:self.model.message]) {
                 [self removeConstraint:self.bubbleWithExtConstraint];
                 CGFloat margin = [EaseMessageCell appearance].leftBubbleMargin.left + [EaseMessageCell appearance].leftBubbleMargin.right;
                     self.bubbleWithExtConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + margin];

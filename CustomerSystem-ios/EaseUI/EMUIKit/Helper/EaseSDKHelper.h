@@ -48,6 +48,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 didReceiveRemoteNotification:(NSDictionary *)userInfo;
 
 #pragma mark - send message new
++ (HMessage *)cmdMessageFormatTo:(NSString *)to
+                             ext:(NSDictionary *)ext
+                          params:(NSArray *)params;
 
 + (HMessage *)textHMessageFormatWithText:(NSString *)text
                                       to:(NSString *)toUser

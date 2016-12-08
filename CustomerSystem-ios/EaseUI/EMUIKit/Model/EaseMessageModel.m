@@ -11,7 +11,7 @@
  */
 
 #import "EaseMessageModel.h"
-
+#import "EaseMessageCell.h"
 #import "EaseEmotionEscape.h"
 #import "EaseConvertToCommonEmoticonsHelper.h"
 
@@ -32,8 +32,12 @@
         switch (_firstMessageBody.type) {
             case EMMessageBodyTypeText:
             {
+                NSDictionary *msgDic = [self.message.ext objectForKey:@"msgtype"];
                 EMTextMessageBody *textBody = (EMTextMessageBody *)_firstMessageBody;
                 NSString *didReceiveText = [EaseConvertToCommonEmoticonsHelper convertToSystemEmoticons:textBody.text];
+                if ([msgDic objectForKey:@"choice"]) {
+                    didReceiveText = [EaseMessageCell _getMessageContent:self.message];
+                }
                 self.text = didReceiveText;
             }
                 break;
