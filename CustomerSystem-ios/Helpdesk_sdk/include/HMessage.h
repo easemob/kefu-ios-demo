@@ -83,7 +83,13 @@
  */
 @property (nonatomic) BOOL isRead;
 
-/*
+
+/*!
+ * 文件消息体
+ *
+ */
+
+/*!
  *  \~chinese
  *  消息体
  *
@@ -110,6 +116,8 @@
 
 - (instancetype)initWithEMMessage:(EMMessage *)message;
 - (instancetype)init;
+
+
 /*!
  *  \~chinese
  *  初始化消息实例
@@ -138,5 +146,7 @@
                           to:(NSString *)aTo
                         body:(EMMessageBody *)aBody
                          ext:(NSDictionary *)aExt;
+
+
 @end
 

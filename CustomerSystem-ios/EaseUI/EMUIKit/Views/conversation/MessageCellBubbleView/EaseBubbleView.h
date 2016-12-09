@@ -17,6 +17,7 @@ extern CGFloat const EaseMessageCellPadding;
 
 extern NSString *const HRouterEventTapMenu; //选择菜单
 extern NSString *const HRouterEventTapTransform; //转人工
+extern NSString *const HRouterEventTapEvaluate ; //评价
 
 extern NSString *const EaseMessageCellIdentifierSendText;
 extern NSString *const EaseMessageCellIdentifierSendLocation;
@@ -68,6 +69,10 @@ extern NSString *const EaseMessageCellIdentifierRecvFile;
 //transform
 @property(nonatomic,strong) UILabel *transTitle; //机器人回复文字
 @property(nonatomic,strong) UIButton *transformButton; //转人工客服button
+
+//evaluate
+@property(nonatomic,strong) UILabel *evaluateTitle; //评价title
+@property(nonatomic,strong) UIButton *evaluateButton; //评价按钮
 
 //------image views
 @property (strong, nonatomic) UIImageView *imageView;

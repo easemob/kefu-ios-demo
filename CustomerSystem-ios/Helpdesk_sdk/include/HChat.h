@@ -85,7 +85,7 @@
  *  @result Conversation
  */
 - (HConversation *)getConversation:(NSString *)aConversationId
-                  createIfNotExist:(BOOL)aIfCreate;
+                   createIfNotExist:(BOOL)aIfCreate;
 
 /*!
  *  \~chinese

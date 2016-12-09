@@ -4,23 +4,24 @@
 //
 //  Created by 赵 蕾 on 16/3/29.
 //  Copyright © 2016年 hyphenate. All rights reserved.
-//
+// corresponds -> EMChatManagerDelegate
 
 #import <Foundation/Foundation.h>
 #import "HMessage.h"
 @protocol HChatDelegate<NSObject>
+
 #pragma mark - Message
 
 /*!
  *  \~chinese
  *  收到消息
  *
- *  @param aMessages  消息列表<EMMessage>
+ *  @param aMessages  消息列表<HMessage>
  *
  *  \~english
  *  Delegate method will be invoked when receiving new messages
  *
- *  @param aMessages  Receivecd message list<EMMessage>
+ *  @param aMessages  Receivecd message list<HMessage>
  */
 - (void)messagesDidReceive:(NSArray *)aMessages;
 
@@ -28,40 +29,14 @@
  *  \~chinese
  *  收到Cmd消息
  *
- *  @param aCmdMessages  Cmd消息列表<EMMessage>
+ *  @param aCmdMessages  Cmd消息列表<HMessage>
  *
  *  \~english
  *  Delegate method will be invoked when receiving command messages
  *
- *  @param aCmdMessages  Command message list<EMMessage>
+ *  @param aCmdMessages  Command message list<HMessage>
  */
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages;
-
-/*!
- *  \~chinese
- *  收到已读回执
- *
- *  @param aMessages  已读消息列表<EMMessage>
- *
- *  \~english
- *   Delegate method will be invoked when receiving read acknowledgements for message list
- *
- *  @param aMessages  Acknowledged message list<EMMessage>
- */
-- (void)messagesDidRead:(NSArray *)aMessages;
-
-/*!
- *  \~chinese
- *  收到消息送达回执
- *
- *  @param aMessages  送达消息列表<EMMessage>
- *
- *  \~english
- * Delegate method will be invoked when receiving deliver acknowledgements for message list
- *
- *  @param aMessages  Acknowledged message list<EMMessage>
- */
-- (void)messagesDidDeliver:(NSArray *)aMessages;
 
 /*!
  *  \~chinese
@@ -94,7 +69,6 @@
  */
 - (void)messageAttachmentStatusDidChange:(HMessage *)aMessage
                                    error:(EMError *)aError;
-
 
 
 @end

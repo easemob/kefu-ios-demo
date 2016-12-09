@@ -25,7 +25,7 @@
 #import "EMCDDeviceManager+ProximitySensor.h"
 #import "UIViewController+HUD.h"
 #import "EaseSDKHelper.h"
-
+#import "SatisfactionViewController.h"
 typedef NS_ENUM(NSInteger, HDemoSaleType){
     hPreSaleType=100,   //售前
     hAfterSaleType, //售后
@@ -127,7 +127,7 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 
 @end
 
-@interface EaseMessageViewController : EaseRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */EMCDDeviceManagerDelegate, EMChatToolbarDelegate, EaseChatBarMoreViewDelegate, EMLocationViewDelegate,EMChatroomManagerDelegate, EaseMessageCellDelegate>
+@interface EaseMessageViewController : EaseRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */EMCDDeviceManagerDelegate, EMChatToolbarDelegate, EaseChatBarMoreViewDelegate, EMLocationViewDelegate,EMChatroomManagerDelegate, EaseMessageCellDelegate,SatisfactionDelegate>
 
 @property (weak, nonatomic) id<EaseMessageViewControllerDelegate> delegate;
 

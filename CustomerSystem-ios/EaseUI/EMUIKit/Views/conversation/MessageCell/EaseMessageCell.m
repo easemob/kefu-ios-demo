@@ -18,6 +18,7 @@
 #import "EaseBubbleView+Order.h"
 #import "EaseBubbleView+RobotMenu.h"
 #import "EaseBubbleView+Transform.h"
+#import "EaseBubbleView+Evaluate.h"
 #import "EaseBubbleView+Location.h"
 #import "EaseBubbleView+Voice.h"
 #import "EaseBubbleView+Video.h"
@@ -37,6 +38,7 @@ NSString *const EaseMessageCellIdentifierRecvTrack = @"EaseMessageCellRecvTrack"
 NSString *const EaseMessageCellIdentifierRecvOrder = @"EaseMessageCellRecvOrder";
 NSString *const EaseMessageCellIdentifierRecvMenu = @"EaseMessageCellRecvMenu";
 NSString *const EaseMessageCellIdentifierRecvTransform = @"EaseMessageCellRecvTransform";
+NSString *const EaseMessageCellIdentifierRecvEvaluate = @"EaseMessageCellRecvEvaluate";
 NSString *const EaseMessageCellIdentifierRecvLocation = @"EaseMessageCellRecvLocation";
 NSString *const EaseMessageCellIdentifierRecvVoice = @"EaseMessageCellRecvVoice";
 NSString *const EaseMessageCellIdentifierRecvVideo = @"EaseMessageCellRecvVideo";
@@ -181,7 +183,9 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                     }
                     
                 } else if([EaseBubbleView isTransferMessage:model.message]){
-                        [_bubbleView setupTransformBubbleView];
+                    [_bubbleView setupTransformBubbleView];
+                } else if ([EaseBubbleView isEvaluateMessage:model.message]){
+                    [_bubbleView setupEvaluateBubbleView];
                 }else {
                     [_bubbleView setupTextBubbleView];
                     _bubbleView.textLabel.font = _messageTextFont;
@@ -336,7 +340,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
             case EMMessageBodyTypeText:
             {
                 _detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
-                if ([model.message.ext objectForKey:@"msgtype"] || [EaseBubbleView isTransferMessage:model.message]) {
+                if ([model.message.ext objectForKey:@"msgtype"] || [EaseBubbleView isTransferMessage:model.message] || [EaseBubbleView isEvaluateMessage:model.message]) {
                     NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
                      NSDictionary *itemDic = [dic objectForKey:@"order"] ? [dic objectForKey:@"order"] : [dic objectForKey:@"track"];
                     if ([dic objectForKey:@"track"]) { //轨迹消息
@@ -377,9 +381,11 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                     }
                     if ([EaseBubbleView isTransferMessage:model.message]) {
                         _bubbleView.transTitle.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
-                        NSLog(@"model.message.ext :%@",model.message.ext);
                         BOOL hasTransfer = [model.message.ext[kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer] boolValue];
                         [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer];
+                    }
+                    if ([EaseBubbleView isEvaluateMessage:model.message]) {
+                        _bubbleView.evaluateTitle.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
                     }
                 } else {
                     _bubbleView.textLabel.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
@@ -526,6 +532,8 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                         }
                     } else if ([EaseBubbleView isTransferMessage:_model.message]) {
                          [_bubbleView updateTransformMargin:_bubbleMargin];
+                    } else if ([EaseBubbleView isEvaluateMessage:_model.message]) {
+                        [_bubbleView updateEvaluateMargin:_bubbleMargin];
                     }else {
                          [_bubbleView updateTextMargin:_bubbleMargin];
                     }
@@ -737,7 +745,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
 }
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo {
-    if ([eventName isEqualToString:HRouterEventTapTransform]) {
+    if ([eventName isEqualToString:HRouterEventTapTransform] || [eventName isEqualToString:HRouterEventTapEvaluate]) {
         userInfo = @{@"HMessage":_model.message};
     }
     [self.nextResponder routerEventWithName:eventName userInfo:userInfo];
@@ -820,7 +828,9 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                     
                 } else if ([EaseBubbleView isTransferMessage:model.message]) {
                     cellIdentifier = EaseMessageCellIdentifierRecvTransform;
-                } else {
+                } else if ([EaseBubbleView isEvaluateMessage:model.message]) {
+                    cellIdentifier = EaseMessageCellIdentifierRecvEvaluate;
+                }else {
                     cellIdentifier = EaseMessageCellIdentifierRecvText;
                 }
             }
@@ -895,6 +905,11 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                     }
                 }
                 if ([EaseBubbleView isTransferMessage:model.message]) {
+                    height += [model.text boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
+                    height += 50;
+                    return height;
+                }
+                if ([EaseBubbleView isEvaluateMessage:model.message]) {
                     height += [model.text boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
                     height += 50;
                     return height;

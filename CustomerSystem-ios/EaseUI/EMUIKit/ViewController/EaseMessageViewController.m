@@ -28,6 +28,8 @@
 #import "EaseSDKHelper.h"
 #import "HFileViewController.h"
 #import "EaseBubbleView+Transform.h"
+#import "EaseBubbleView+Evaluate.h"
+#import "SatisfactionViewController.h"
 #define KHintAdjustY    50
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
@@ -54,6 +56,7 @@
     dispatch_queue_t _messageQueue;
     
     BOOL _isSendingTransformMessage; //正在发送转人工消息
+    BOOL _isSendingEvaluateMessage;//点击立即评价按钮
 }
 
 @property (strong, nonatomic) id<IMessageModel> playingVoiceModel;
@@ -1527,6 +1530,28 @@
             }];
         }
     }
+    if ([eventName isEqualToString:HRouterEventTapEvaluate]) {
+        if (_isSendingEvaluateMessage) return;
+        _isSendingEvaluateMessage = YES;
+        SatisfactionViewController *view = [[SatisfactionViewController alloc] init];
+        id <IMessageModel> model = nil;
+        model = [[EaseMessageModel alloc] initWithMessage:[userInfo objectForKey:@"HMessage"]];
+        view.messageModel = model;
+        view.delegate = self;
+        [self.navigationController pushViewController:view animated:YES];
+    }
+}
+
+- (void)commitSatisfactionWithExt:(NSDictionary *)ext messageModel:(id<IMessageModel>)model {
+    HMessage *message = [EaseSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId ext:ext];
+    __weak typeof(self) weakself = self;
+    [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *aMessage, EMError *aError) {
+        if (!aError) {
+            [weakself.tableView reloadData];
+        }
+        [_conversation deleteMessageWithId:aMessage.messageId error:nil];
+    }];
+    
 }
 
 //更新转人工消息的ext

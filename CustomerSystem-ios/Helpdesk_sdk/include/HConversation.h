@@ -190,7 +190,7 @@
  *  @param aMessageId       参考消息的ID
  *  @param count            获取的条数
  *  @param aDirection       消息搜索方向
- *  @param aCompletionBlock 完成的回调 (HMessages,error)
+ *  @param aCompletionBlock 完成的回调
  *
  *  \~english
  *  Load messages from a specified message, returning messages are sorted by receiving timestamp. If the aMessageId is nil, return the latest received messages.
