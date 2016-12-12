@@ -19,38 +19,62 @@ static SCLoginManager *_manager = nil;
     return _manager;
 }
 
-- (instancetype)init { //全部为默认设置
+- (void)setAppkey:(NSString *)appkey {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    _appkey = appkey;
+    [userDefaults setObject:_appkey forKey:kAppKey];
+}
+
+- (void)setCname:(NSString *)cname {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    _cname = cname;
+    [userDefaults setObject:_cname forKey:kCustomerName];
+}
+
+- (void)setTenantId:(NSString *)tenantId {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    _tenantId = tenantId;
+    [userDefaults setObject:_tenantId forKey:kCustomerTenantId];
+}
+
+- (void)setProjectId:(NSString *)projectId {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    _projectId = projectId;
+    [userDefaults setObject:_projectId forKey:kCustomerProjectId];
+}
+
+- (instancetype)init {
     if (self = [super init]) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//        _appkey = [userDefaults objectForKey:kAppKey];
-//        if ([_appkey length] == 0) {
+        _appkey = [userDefaults objectForKey:kAppKey];
+        if ([_appkey length] == 0) {
             _appkey = kDefaultAppKey;
-//            [userDefaults setObject:_appkey forKey:kAppKey];
-//        }
-//        _cname = [userDefaults objectForKey:kCustomerName];
-//        if ([_cname length] == 0) {
+            [userDefaults setObject:_appkey forKey:kAppKey];
+        }
+        _cname = [userDefaults objectForKey:kCustomerName];
+        if ([_cname length] == 0) {
             _cname = kDefaultCustomerName;
-//            [userDefaults setObject:_cname forKey:kCustomerName];
-//        }
-//        
-//        _nickname = [userDefaults objectForKey:kCustomerNickname];
-//        if ([_nickname length] == 0) {
-//            _nickname = @"";
-//            [userDefaults setObject:_nickname forKey:kCustomerNickname];
-//        }
-//        
-//        _tenantId = [userDefaults objectForKey:kCustomerTenantId];
-//        if ([_tenantId length] == 0) {
+            [userDefaults setObject:_cname forKey:kCustomerName];
+        }
+
+        _nickname = [userDefaults objectForKey:kCustomerNickname];
+        if ([_nickname length] == 0) {
+            _nickname = @"";
+            [userDefaults setObject:_nickname forKey:kCustomerNickname];
+        }
+
+        _tenantId = [userDefaults objectForKey:kCustomerTenantId];
+        if ([_tenantId length] == 0) {
             _tenantId = kDefaultTenantId;
-//            [userDefaults setObject:_tenantId forKey:kCustomerTenantId];
-//        }
-//        
-//        _projectId = [userDefaults objectForKey:kCustomerProjectId];
-//        if ([_projectId length] == 0) {
+            [userDefaults setObject:_tenantId forKey:kCustomerTenantId];
+        }
+
+        _projectId = [userDefaults objectForKey:kCustomerProjectId];
+        if ([_projectId length] == 0) {
             _projectId = kDefaultProjectId;
-//            [userDefaults setObject:_projectId forKey:kCustomerProjectId];
-//        }
-//        
+            [userDefaults setObject:_projectId forKey:kCustomerProjectId];
+        }
+        
         _username = [userDefaults objectForKey:@"username"];
         _password = [userDefaults objectForKey:@"password"];
     }
@@ -85,12 +109,20 @@ static SCLoginManager *_manager = nil;
     return error;
 }
 
-//随机获取一个用户名
 - (NSString *)username {
     NSString *username = nil;
     if (_username.length == 0) {
-        int userInt = arc4random() %99999 + 100000 ;
-        username = [NSString stringWithFormat:@"%d",userInt];
+        UIDevice *device = [UIDevice currentDevice];//创建设备对象
+        NSString *deviceUID = [[NSString alloc] initWithString:[[device identifierForVendor] UUIDString]];
+        if ([deviceUID length] == 0) {
+            CFUUIDRef uuid = CFUUIDCreate(NULL);
+            if (uuid)
+            {
+                deviceUID = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, uuid);
+                CFRelease(uuid);
+            }
+        }
+        username = [deviceUID stringByReplacingOccurrencesOfString:@"-" withString:@""];
     } else {
         username = _username;
     }
@@ -101,8 +133,8 @@ static SCLoginManager *_manager = nil;
     EMError *error = nil;
     NSString *newUser = [self username];
     error = [[HChatClient sharedClient] registerWithUsername: newUser password:hxPassWord];
-    if (error) {
-        NSLog(@"注册失败，请检查配置信息，如appKey;error code：%d,error description :%@",error.code,error.errorDescription);
+    if (error &&  error.code != EMErrorUserAlreadyExist) {
+        NSLog(@"注册失败;error code：%d,error description :%@",error.code,error.errorDescription);
         return NO;
     }
     _username = newUser;

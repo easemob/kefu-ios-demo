@@ -70,6 +70,7 @@
 
 - (void)back
 {
+    [self.view endEditing:YES];
     if ([_editField.text length] == 0) {
         _editField.text = _content;
     }

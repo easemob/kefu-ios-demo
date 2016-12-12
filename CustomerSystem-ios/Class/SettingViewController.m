@@ -15,6 +15,8 @@
 {
     NSString *_appkey;
     NSString *_cname;
+    NSString *_tenantId;
+    NSString *_projectId;
     NSString *_nickname;
 }
 
@@ -39,6 +41,8 @@
     
     _appkey = [[SCLoginManager shareLoginManager] appkey];
     _cname = [[SCLoginManager shareLoginManager] cname];
+    _tenantId = [[SCLoginManager shareLoginManager] tenantId];
+    _projectId = [[SCLoginManager shareLoginManager] projectId];
     _nickname = [[SCLoginManager shareLoginManager] nickname];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingChange:) name:KNOTIFICATION_SETTINGCHANGE object:nil];
@@ -58,7 +62,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 4;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -97,15 +101,29 @@
             tempLabel.text = _cname;
         }
             break;
+        
+            break;
         case 2:
         {
-            cell.textLabel.text = NSLocalizedString(@"setNickname", @"Nickname");
-            tempLabel.text = _nickname;
+            cell.textLabel.text = @"tenantId";
+            tempLabel.text = _tenantId;
         }
             break;
         case 3:
         {
-            cell.textLabel.text = NSLocalizedString(@"setting.feedback", @"Feedback");
+            cell.textLabel.text = @"projectId";
+            tempLabel.text = _projectId;
+        }
+            break;
+        case 4:
+        {
+            cell.textLabel.text = @"设置昵称";
+            tempLabel.text = _nickname;
+        }
+            break;
+        case 5:
+        {
+            cell.textLabel.text = @"意见反馈";
             tempLabel.text = @"";
         }
             break;
@@ -153,18 +171,32 @@
         case 1:
         {
             EditViewController *editController = [[EditViewController alloc] initWithType:@"cname" content:_cname];
-            editController.title = NSLocalizedString(@"title.customer", @"Customer");
+            editController.title = @"IM 服务号";
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 2:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"nickname" content:_nickname];
-            editController.title = NSLocalizedString(@"title.nickname", @"Nickname");
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"tenantId" content:_tenantId];
+            editController.title = @"租户ID";
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 3:
+        {
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"projectId" content:_projectId];
+            editController.title = @"留言ID";
+            [self.navigationController pushViewController:editController animated:YES];
+        }
+            break;
+        case 4:
+        {
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"nickname" content:_nickname];
+            editController.title = @"昵称";
+            [self.navigationController pushViewController:editController animated:YES];
+        }
+            break;
+        case 5:
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:nil];
         }
@@ -220,22 +252,30 @@
             needRestart = ![content isEqualToString:_appkey];
             if (needRestart) {
                 _appkey = content;
-                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                [userDefaults setObject:content forKey:kAppKey];
+                [SCLoginManager shareLoginManager].appkey = _appkey;
             }
         }
         else if ([type isEqualToString:@"cname"]){
             _cname = content;
-            [[SCLoginManager shareLoginManager] setCname:content];
+            [SCLoginManager shareLoginManager].cname = _cname;
         } else if ([type isEqualToString:@"nickname"]) {
             _nickname = content;
-            [[SCLoginManager shareLoginManager] setNickname:content];
+            [SCLoginManager shareLoginManager].nickname = content;
+        } else if ([type isEqualToString:@"tenantId"]) {
+            _tenantId = content;
+            [SCLoginManager shareLoginManager].tenantId = _tenantId;
+        } else if ([type isEqualToString:@"projectId"]) {
+            _projectId = content;
+            [SCLoginManager shareLoginManager].projectId = _projectId;
         }
         
         [self.tableView reloadData];
         if (needRestart) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"restart", @"Restart") message:NSLocalizedString(@"restartInfo", @"Configuration information need to reboot to take effect") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"OK"), nil];
-            [alert show];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.5*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [alert show];
+            });
+            
         }
     }
 }

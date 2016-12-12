@@ -55,11 +55,12 @@
     apnsCertName = @"customer";
 #endif
     //注册kefu_sdk
+    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
     HOptions *option = [[HOptions alloc] init];
-    option.appkey = @"1124161024178184#kefuchannelapp29044";
-    option.tenantId = @"29044";
-    option.leaveMsgId = @"306164";
-    option.cname = kDefaultCustomerName;
+    option.appkey = lgM.appkey;
+    option.cname = lgM.cname;
+    option.tenantId = lgM.tenantId;
+    option.leaveMsgId = lgM.projectId;
     option.apnsCertName = apnsCertName;
     [[HChatClient sharedClient] initializeSDKWithOptions:option];
 }
