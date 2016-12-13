@@ -16,6 +16,8 @@
 		D32055161DF8120900520A4C /* EaseBubbleView+RobotMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D32055151DF8120900520A4C /* EaseBubbleView+RobotMenu.m */; };
 		D3312AC51DF903E3001934BC /* UIResponder+HRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = D3312AC41DF903E3001934BC /* UIResponder+HRouter.m */; };
 		D3312AC81DF91CCD001934BC /* EaseBubbleView+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = D3312AC71DF91CCD001934BC /* EaseBubbleView+Transform.m */; };
+		D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D339953B1E000D5E00F7B71D /* QRCodeViewController.m */; };
+		D339953F1E000EDF00F7B71D /* ScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = D339953E1E000EDF00F7B71D /* ScanningView.m */; };
 		D34743A51DE6D6C100F32D87 /* libhelpdesk_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D34743A41DE6D6C100F32D87 /* libhelpdesk_sdk.a */; };
 		D34743AC1DE6E05200F32D87 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D34743AB1DE6E05200F32D87 /* ChatViewController.m */; };
 		D34743AE1DE6E38600F32D87 /* chatBar_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D34743AD1DE6E38600F32D87 /* chatBar_comment@2x.png */; };
@@ -362,6 +364,10 @@
 		D3312AC41DF903E3001934BC /* UIResponder+HRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIResponder+HRouter.m"; sourceTree = "<group>"; };
 		D3312AC61DF91CCD001934BC /* EaseBubbleView+Transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EaseBubbleView+Transform.h"; sourceTree = "<group>"; };
 		D3312AC71DF91CCD001934BC /* EaseBubbleView+Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EaseBubbleView+Transform.m"; sourceTree = "<group>"; };
+		D339953A1E000D5E00F7B71D /* QRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
+		D339953B1E000D5E00F7B71D /* QRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
+		D339953D1E000EDF00F7B71D /* ScanningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanningView.h; sourceTree = "<group>"; };
+		D339953E1E000EDF00F7B71D /* ScanningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanningView.m; sourceTree = "<group>"; };
 		D34743A31DE6D6C100F32D87 /* helpdesk_sdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helpdesk_sdk.h; sourceTree = "<group>"; };
 		D34743A41DE6D6C100F32D87 /* libhelpdesk_sdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libhelpdesk_sdk.a; sourceTree = "<group>"; };
 		D34743AA1DE6E05200F32D87 /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
@@ -952,6 +958,26 @@
 			path = home;
 			sourceTree = "<group>";
 		};
+		D33995351E000C7C00F7B71D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EB395E001A8F0C8D0083B659 /* SettingViewController.h */,
+				EB395E011A8F0C8D0083B659 /* SettingViewController.m */,
+				D339953A1E000D5E00F7B71D /* QRCodeViewController.h */,
+				D339953B1E000D5E00F7B71D /* QRCodeViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		D33995361E000C8800F7B71D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D339953D1E000EDF00F7B71D /* ScanningView.h */,
+				D339953E1E000EDF00F7B71D /* ScanningView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		D347436C1DE6D6C100F32D87 /* Helpdesk_sdk */ = {
 			isa = PBXGroup;
 			children = (
@@ -995,8 +1021,8 @@
 		D34743A81DE6DF4C00F32D87 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				EB395E001A8F0C8D0083B659 /* SettingViewController.h */,
-				EB395E011A8F0C8D0083B659 /* SettingViewController.m */,
+				D33995351E000C7C00F7B71D /* Controllers */,
+				D33995361E000C8800F7B71D /* Views */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -2464,6 +2490,7 @@
 				D37D1A931DEEF1B300831BFA /* EaseBubbleView+Video.m in Sources */,
 				D3D1BB421DE8478C004B3557 /* LeaveMsgDetailModel.m in Sources */,
 				D37D1A851DEEF1B300831BFA /* EaseMessageViewController.m in Sources */,
+				D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */,
 				D37D1A691DEEF1B300831BFA /* PSTCollectionViewFlowLayout.m in Sources */,
 				EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */,
 				D37D1A3C1DEEF1B200831BFA /* MJRefreshHeader.m in Sources */,
@@ -2471,6 +2498,7 @@
 				D37D1A921DEEF1B300831BFA /* EaseBubbleView+Text.m in Sources */,
 				D37D1ADF1DEEF7E100831BFA /* SRSlimeView.m in Sources */,
 				D37D1A751DEEF1B300831BFA /* EaseUserModel.m in Sources */,
+				D339953F1E000EDF00F7B71D /* ScanningView.m in Sources */,
 				D37D1A631DEEF1B200831BFA /* UIView+EMWebCacheOperation.m in Sources */,
 				D37D1A9A1DEEF1B300831BFA /* EaseFaceView.m in Sources */,
 				D37D1A541DEEF1B200831BFA /* EMSDImageCache.m in Sources */,
@@ -2648,7 +2676,7 @@
 					"$(inherited)",
 					"${PROJECT_DIR}/Helpdesk_sdk/include",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2694,7 +2722,7 @@
 					"$(inherited)",
 					"${PROJECT_DIR}/Helpdesk_sdk/include",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "2b8670d1-0f98-4bd5-b99d-21da8b00f126";

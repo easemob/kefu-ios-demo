@@ -17,6 +17,7 @@
 @implementation AppDelegate (EaseMob)
 - (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSString  *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
     //ios8注册apns
     [self registerRemoteNotification];
     //注册环信客服sdk
@@ -62,7 +63,11 @@
     option.tenantId = lgM.tenantId;
     option.leaveMsgId = lgM.projectId;
     option.apnsCertName = apnsCertName;
-    [[HChatClient sharedClient] initializeSDKWithOptions:option];
+    EMError *initError = [[HChatClient sharedClient] initializeSDKWithOptions:option];
+    if (initError) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"重要提示[初始化错误]" message:initError.errorDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+    }
 }
 
 // 监听系统生命周期回调，以便将需要的事件传给SDK

@@ -39,8 +39,8 @@
     
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
-    if ([_commodityInfo count] > 0) {
-//        [self sendCommodityMessageWithInfo:_commodityInfo];
+    if ([_commodityInfo count] > 1) {
+        [self sendCommodityMessageWithInfo:_commodityInfo];
         _commodityInfo = nil;
     }
 }
@@ -88,13 +88,7 @@
 
 }
 
-- (NSDictionary*)getWeiChat
-{
-    NSDictionary *ext = nil;
-    NSDictionary* weichat = [self getUserInfoAttribute];
-    ext = @{kMesssageExtWeChat:weichat};
-    return ext;
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

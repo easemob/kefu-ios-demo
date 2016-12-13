@@ -98,6 +98,9 @@ static SCLoginManager *_manager = nil;
         return YES;
     } else { //登录失败
         NSLog(@"error code :%d,error description:%@",error.code,error.errorDescription);
+        if (error.code == EMErrorUserNotFound) {
+            [self registerIMuser];
+        }
         return NO;
     }
     return NO;
@@ -129,7 +132,7 @@ static SCLoginManager *_manager = nil;
     return username;
 }
 
-- (BOOL)registerIMuser {
+- (BOOL)registerIMuser { //举个栗子，尽量不要在移动端注册
     EMError *error = nil;
     NSString *newUser = [self username];
     error = [[HChatClient sharedClient] registerWithUsername: newUser password:hxPassWord];

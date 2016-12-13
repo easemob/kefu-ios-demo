@@ -242,7 +242,7 @@ const NSInteger baseTag=123;
 {
     if (_addButton == nil) {
         _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _addButton.frame = CGRectMake(20.f,200 + 10.f, 98.f, 28.f);
+        _addButton.frame = CGRectMake(20.f,130 + 10.f, 98.f, 28.f);
         [_addButton setTitle:NSLocalizedString(@"leaveMessage.leavemsg.addattachment", @"Add Attachment") forState:UIControlStateNormal];
         [_addButton setTitleColor:RGBACOLOR(77, 178, 244, 1) forState:UIControlStateNormal];
         _addButton.titleLabel.font = [UIFont systemFontOfSize:14.f];

@@ -195,7 +195,7 @@
             editController.title = @"昵称";
             [self.navigationController pushViewController:editController animated:YES];
         }
-            break;
+            break;                             
         case 5:
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:nil];

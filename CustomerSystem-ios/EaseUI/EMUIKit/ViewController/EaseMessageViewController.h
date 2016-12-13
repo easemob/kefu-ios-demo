@@ -190,6 +190,6 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 -(void)showMenuViewController:(UIView *)showInView
                  andIndexPath:(NSIndexPath *)indexPath
                   messageType:(EMMessageBodyType)messageType;
-
+- (NSDictionary*)getWeiChat;
 
 @end

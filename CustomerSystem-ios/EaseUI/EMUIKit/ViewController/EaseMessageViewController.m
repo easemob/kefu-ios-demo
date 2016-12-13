@@ -1495,8 +1495,9 @@
 
 - (void)sendTextMessage:(NSString *)text
 {
-    [self sendTextMessage:text withExt:[self getUserInfoAttribute]];
+    [self sendTextMessage:text withExt:[self getWeiChat]];
 }
+
 
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo {
@@ -1569,6 +1570,14 @@
             });
         }
     }];
+}
+
+- (NSDictionary*)getWeiChat
+{
+    NSDictionary *ext = nil;
+    NSDictionary* weichat = [self getUserInfoAttribute];
+    ext = @{kMesssageExtWeChat:weichat};
+    return ext;
 }
 
 //获取扩展字段

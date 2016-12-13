@@ -173,19 +173,19 @@ static EaseMessageReadManager *detailInstance = nil;
             
             if (!messageModel.isMediaPlayed) {
                 messageModel.isMediaPlayed = YES;
-                EMMessage *chatMessage = messageModel.message;
+                HMessage *chatMessage = messageModel.message;
                 if (chatMessage.ext) {
                     NSMutableDictionary *dict = [chatMessage.ext mutableCopy];
                     if (![[dict objectForKey:@"isPlayed"] boolValue]) {
                         [dict setObject:@YES forKey:@"isPlayed"];
                         chatMessage.ext = dict;
-                        [[EMClient sharedClient].chatManager updateMessage:chatMessage completion:nil];
+                        [[EMClient sharedClient].chatManager updateMessage:chatMessage.message completion:nil];
                     }
                 } else {
                     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:chatMessage.ext];
                     [dic setObject:@YES forKey:@"isPlayed"];
                     chatMessage.ext = dic;
-                    [[EMClient sharedClient].chatManager updateMessage:chatMessage completion:nil];
+                    [[EMClient sharedClient].chatManager updateMessage:chatMessage.message completion:nil];
                 }
             }
         }
