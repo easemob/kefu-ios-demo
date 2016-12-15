@@ -933,11 +933,10 @@
 
         }
             break;
-        case EMMessageBodyTypeFile:
+        case EMMessageBodyTypeFile: //自定义实现
         {
             _scrollToBottomWhenAppear = NO;
             [self _fileMessageCellSelected:model];
-            [self showHint:@"Custom implementation!"];
         }
             break;
         default:
@@ -1541,14 +1540,29 @@
         view.delegate = self;
         [self.navigationController pushViewController:view animated:YES];
     }
+    
+    if ([eventName isEqualToString:HRouterEventTextURLTapEventName]) {
+        [self chatTextCellUrlPressed:[userInfo objectForKey:@"url"]];
+    }
+}
+
+//链接被点击
+- (void)chatTextCellUrlPressed:(NSURL *)url
+{
+    if (url) {
+        [[UIApplication sharedApplication] openURL:url];
+    }
 }
 
 - (void)commitSatisfactionWithExt:(NSDictionary *)ext messageModel:(id<IMessageModel>)model {
     HMessage *message = [EaseSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId ext:ext];
     __weak typeof(self) weakself = self;
+    [self showHudInView:self.view hint:@"评价提交"];
     [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *aMessage, EMError *aError) {
         if (!aError) {
             [weakself.tableView reloadData];
+            [self showHint:@"评价成功" duration:1];
+            _isSendingEvaluateMessage = NO;
         }
         [_conversation deleteMessageWithId:aMessage.messageId error:nil];
     }];
@@ -1589,7 +1603,7 @@
     [visitor setObject:@"10000" forKey:@"qq"];
     [visitor setObject:@"13512345678" forKey:@"phone"];
     [visitor setObject:@"环信" forKey:@"companyName"];
-    NSString *nickname = [[SCLoginManager shareLoginManager] nickname];
+    NSString *nickname = [[NSUserDefaults standardUserDefaults] valueForKey:kCustomerNickname];
     [visitor setObject:nickname.length==0?@"李明":nickname forKey:@"userNickname"];
     [visitor setObject:@"abc@123.com" forKey:@"email"];
     switch (_saleType) {

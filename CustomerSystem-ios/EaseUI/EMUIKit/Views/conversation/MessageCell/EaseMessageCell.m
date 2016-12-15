@@ -254,6 +254,10 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
         return NO;
     }
     
+    if (_model.bodyType == EMMessageBodyTypeText) {
+        return NO;
+    }
+    
     return YES;
 }
 
@@ -388,7 +392,10 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                         _bubbleView.evaluateTitle.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
                     }
                 } else {
-                    _bubbleView.textLabel.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
+                    NSString *content = model.text;
+                    _urlMatches = [_detector matchesInString:content options:0 range:NSMakeRange(0, content.length)];
+                    _bubbleView.textLabel.attributedText = [self highlightLinksWithIndex:0 attributedString:[[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:self.messageTextFont]];
+                    
                 }
                 
             }
@@ -468,6 +475,34 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
         }
     }
 }
+
+- (NSMutableAttributedString *)highlightLinksWithIndex:(CFIndex)index attributedString:(NSAttributedString *)attributedString1{
+    NSMutableAttributedString *attributedString = [attributedString1 mutableCopy] ;
+    for (NSTextCheckingResult *match in _urlMatches) {
+        
+        if ([match resultType] == NSTextCheckingTypeLink ) {
+            
+            NSRange matchRange = [match range];
+            
+         //   if ([self isIndex:index inRange:matchRange]) {
+          //      [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:matchRange];
+          //  }
+           // else {
+            [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:(242)/255.0 green:(83)/255.0 blue:(131)/255.0 alpha:(1)] range:matchRange];
+            //}
+            
+            [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:matchRange];
+        }
+    }
+    
+    return attributedString;
+}
+
+- (BOOL)isIndex:(CFIndex)index inRange:(NSRange)range
+{
+    return index >= range.location && index <= range.location+range.length;
+}
+
 
 - (void)setStatusSize:(CGFloat)statusSize
 {
@@ -748,7 +783,21 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     if ([eventName isEqualToString:HRouterEventTapTransform] || [eventName isEqualToString:HRouterEventTapEvaluate]) {
         userInfo = @{@"HMessage":_model.message};
     }
-    [self.nextResponder routerEventWithName:eventName userInfo:userInfo];
+    if ([eventName isEqualToString:HRouterEventTextURLTapEventName]) {
+        CFIndex charIndex = [[userInfo objectForKey:@"charIndex"] longValue];
+        for (NSTextCheckingResult *match in _urlMatches) {
+            if ([match resultType] == NSTextCheckingTypeLink) {
+                NSRange matchRange = [match range];
+                if ([self isIndex:charIndex inRange:matchRange]) {
+                    [self.nextResponder routerEventWithName:HRouterEventTextURLTapEventName userInfo:@{@"HMessage":_model.message, @"url":match.URL}];
+                    break;
+                }
+            }
+        }
+    } else {
+        [self.nextResponder routerEventWithName:eventName userInfo:userInfo];
+    }
+    
 }
 
 #pragma mark - IModelCell

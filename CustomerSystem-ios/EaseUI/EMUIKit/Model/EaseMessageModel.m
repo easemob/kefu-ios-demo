@@ -26,8 +26,19 @@
         _firstMessageBody = message.body;
         _isMediaPlaying = NO;
         
-        _nickname = message.from;
+        
         _isSender = message.direction == EMMessageDirectionSend ? YES : NO;
+        
+        if (!_isSender) {
+            NSString *kefu = [[[message.ext objectForKey:@"weichat"] objectForKey:@"agent"] objectForKey:@"userNickname"];
+            if (kefu) {
+                _nickname = kefu;
+            } else {
+                _nickname = message.from;
+            }
+        } else {
+            _nickname = [[[message.ext objectForKey:@"weichat"] objectForKey:@"visitor"] objectForKey:@"userNickname"];
+        }
         
         switch (_firstMessageBody.type) {
             case EMMessageBodyTypeText:

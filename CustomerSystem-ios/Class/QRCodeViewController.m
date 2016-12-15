@@ -7,18 +7,91 @@
 //
 
 #import "QRCodeViewController.h"
+#import "ScanningView.h"
+#import <AVFoundation/AVFoundation.h>
 
-@interface QRCodeViewController ()
+#define kClearRectWH [UIScreen mainScreen].bounds.size.width*2/3
+#define kClearRectLR [UIScreen mainScreen].bounds.size.width/6
+#define kClearRectTop ([UIScreen mainScreen].bounds.size.height-kClearRectWH)/2
 
+@interface QRCodeViewController () <AVCaptureMetadataOutputObjectsDelegate>
+@property(nonatomic,strong) ScanningView *scanningView;
 @end
 
 @implementation QRCodeViewController
-
+{
+    AVCaptureSession *_session;//输入输出的中间桥梁
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"扫一扫";
+    if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    [self setLeftBarButtonItem];
     self.view.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:self.scanningView];
+    [self startScanning];
+}
+
+- (void)startScanning {
+    AVCaptureDevice * device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    //创建输入流
+    AVCaptureDeviceInput * input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
+    if (!input) return;
+    //创建输出流
+    AVCaptureMetadataOutput * output = [[AVCaptureMetadataOutput alloc]init];
+    //设置代理 在主线程里刷新
+    [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+    //设置有效扫描区域
+    CGRect scanCrop=[self getScanCrop:CGRectMake(kClearRectLR, kClearRectTop, kClearRectWH, kClearRectWH) readerViewBounds:self.view.frame];
+    output.rectOfInterest = scanCrop;
+    //初始化链接对象
+    _session = [[AVCaptureSession alloc]init];
+    //高质量采集率
+    [_session setSessionPreset:AVCaptureSessionPresetHigh];
+    
+    [_session addInput:input];
+    [_session addOutput:output];
+    //设置扫码支持的编码格式(如下设置条形码和二维码兼容)
+    output.metadataObjectTypes=@[AVMetadataObjectTypeQRCode,AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode128Code];
+    
+    AVCaptureVideoPreviewLayer * layer = [AVCaptureVideoPreviewLayer layerWithSession:_session];
+    layer.videoGravity=AVLayerVideoGravityResizeAspectFill;
+    layer.frame=self.view.layer.bounds;
+    [self.view.layer insertSublayer:layer atIndex:0];
+    //开始捕获
+    [_session startRunning];
+}
+
+-(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
+    if (metadataObjects.count>0) {
+        [_session stopRunning];
+        [_scanningView stopScanning];
+        AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects objectAtIndex : 0 ];
+        [self showHudInView:self.view duration:1];
+        //输出扫描字符串
+        NSLog(@"%@",metadataObject.stringValue);
+    }
+}
+#pragma mark-> 获取扫描区域的比例关系
+-(CGRect)getScanCrop:(CGRect)rect readerViewBounds:(CGRect)readerViewBounds
+{
+    CGFloat x,y,width,height;
+    y = (readerViewBounds.size.width - CGRectGetMaxX(rect))/readerViewBounds.size.width;
+    x =  CGRectGetMinY(rect)/readerViewBounds.size.height;
+    width = CGRectGetHeight(rect)/CGRectGetHeight(readerViewBounds);
+    height = CGRectGetWidth(rect)/CGRectGetWidth(readerViewBounds);
+    return CGRectMake(x, y, width, height);
+}
+
+- (ScanningView *)scanningView {
+    if (!_scanningView) {
+        _scanningView = [[ScanningView alloc] initWithFrame:self.view.bounds];
+        _scanningView.clearRect = CGRectMake(kClearRectLR, kClearRectTop, kClearRectWH, kClearRectWH);
+    }
+    return _scanningView;
 }
 
 - (void)didReceiveMemoryWarning {

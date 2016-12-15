@@ -19,6 +19,8 @@ extern NSString *const HRouterEventTapMenu; //选择菜单
 extern NSString *const HRouterEventTapTransform; //转人工
 extern NSString *const HRouterEventTapEvaluate ; //评价
 
+extern NSString *const HRouterEventTextURLTapEventName;
+
 extern NSString *const EaseMessageCellIdentifierSendText;
 extern NSString *const EaseMessageCellIdentifierSendLocation;
 extern NSString *const EaseMessageCellIdentifierSendVoice;

@@ -2,7 +2,7 @@
 //  SCAudioPlay.m
 //  CustomerSystem-ios
 //
-//  Created by __阿彤木_ on 16/11/10.
+//  Created by afanda on 16/11/10.
 //  Copyright © 2016年 easemob. All rights reserved.
 //
 

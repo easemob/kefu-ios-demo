@@ -20,4 +20,6 @@
 @property (nonatomic, strong) id<IMessageModel> messageModel;
 @property (nonatomic, weak) id<SatisfactionDelegate> delegate;
 
+@property(nonatomic,copy) void(^EvaluateSuccessBlock)();
+
 @end

@@ -27,6 +27,15 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
     objc_setAssociatedObject(self, HttpRequestHUDKey, HUD, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (void)showHudInView:(UIView *)view duration:(NSTimeInterval)duration {
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
+    HUD.labelText = @"";
+    [view addSubview:HUD];
+    [HUD show:YES];
+    [HUD hide:YES afterDelay:duration];
+    [self setHUD:HUD];
+}
+
 - (void)showHudInView:(UIView *)view hint:(NSString *)hint{
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
     HUD.labelText = hint;
@@ -48,6 +57,22 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
     hud.removeFromSuperViewOnHide = YES;
     [hud hide:YES afterDelay:2];
 }
+
+- (void)showHint:(NSString *)hint duration:(NSTimeInterval)duration
+{
+    [self hideHud];
+    UIView *view = [[UIApplication sharedApplication].delegate window];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.userInteractionEnabled = NO;
+    // Configure for text only and offset down
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = hint;
+    hud.margin = 10.f;
+    hud.yOffset = 180;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud hide:YES afterDelay:duration];
+}
+
 
 - (void)showHint:(NSString *)hint yOffset:(float)yOffset
 {

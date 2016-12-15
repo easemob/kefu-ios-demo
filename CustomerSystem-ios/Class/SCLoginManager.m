@@ -37,6 +37,12 @@ static SCLoginManager *_manager = nil;
     [userDefaults setObject:_tenantId forKey:kCustomerTenantId];
 }
 
+- (void)setNickname:(NSString *)nickname {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    _nickname = nickname;
+    [userDefaults setObject:_nickname forKey:kCustomerNickname];
+}
+
 - (void)setProjectId:(NSString *)projectId {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     _projectId = projectId;

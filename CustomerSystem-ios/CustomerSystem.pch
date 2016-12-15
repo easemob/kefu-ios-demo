@@ -20,6 +20,9 @@
 #import "NSObject+SCAdd.h"
 #import "EaseUI.h"
 #import "UIResponder+HRouter.h"
+#import "UIBarButtonItem+KFAdd.h"
+#import "UIViewController+KFAdd.h"
+#import "IQKeyboardManager.h"
 //#import "NSDate+Category.h"
 
 

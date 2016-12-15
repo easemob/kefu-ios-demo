@@ -11,6 +11,7 @@
 #import "EditViewController.h"
 #import "LocalDefine.h"
 
+
 @interface SettingViewController ()<UIAlertViewDelegate>
 {
     NSString *_appkey;

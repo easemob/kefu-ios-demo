@@ -2,7 +2,7 @@
 //  ScanningView.m
 //  CustomerSystem-ios
 //
-//  Created by __阿彤木_ on 16/12/13.
+//  Created by afanda on 16/12/13.
 //  Copyright © 2016年 easemob. All rights reserved.
 //
 
@@ -11,7 +11,7 @@
 @interface ScanningView ()
 @property(nonatomic,strong) UILabel  *QRCodeTipLabel; //小提示
 @property (nonatomic, strong) UIImageView *scanningImageView;
-@property(nonatomic,assign) CGRect clearRect;
+
 @end
 
 @implementation ScanningView
@@ -30,26 +30,30 @@
     [UIView commitAnimations];
 }
 
+- (void)stopScanning {
+    [self.scanningImageView.layer removeAllAnimations];
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         self.backgroundColor = [UIColor colorWithWhite:0.000 alpha:0.500];
-        
-        self.clearRect = CGRectMake(10, 100, 100, 100);
-        
-        [self addSubview:self.scanningImageView];
         [self addSubview:self.QRCodeTipLabel];
-        
-        [self scanning];
     }
     return self;
 }
 
+- (void)setClearRect:(CGRect)clearRect {
+    _clearRect = clearRect;
+    [self addSubview:self.scanningImageView];
+}
+
 - (UIImageView *)scanningImageView {
     if (!_scanningImageView) {
-        _scanningImageView = [[UIImageView alloc] initWithFrame:CGRectMake(55, 30, CGRectGetWidth(self.bounds) - 110, 3)];
-        _scanningImageView.backgroundColor = [UIColor greenColor];
+        _scanningImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.clearRect.origin.x, _clearRect.origin.y, _clearRect.size.width, 3)];
+        _scanningImageView.backgroundColor = [UIColor whiteColor];
+        [self scanning];
     }
     return _scanningImageView;
 }
@@ -66,6 +70,32 @@
     }
     return _QRCodeTipLabel;
 }
+
+
+- (void)drawRect:(CGRect)rect {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, self.backgroundColor.CGColor);
+    CGContextFillRect(context, rect);
+    CGFloat paddingX;
+    CGFloat tipLabelPadding = 20;
+    paddingX = _clearRect.origin.x;
+    CGRect QRCodeTipLabelFrame = self.QRCodeTipLabel.frame;
+    QRCodeTipLabelFrame.origin.y = CGRectGetMaxY(self.clearRect) + tipLabelPadding;
+    self.QRCodeTipLabel.frame = QRCodeTipLabelFrame;
+    CGContextClearRect(context, _clearRect);
+    CGContextSaveGState(context);
+    CGFloat padding = 0.5;
+    CGContextMoveToPoint(context, CGRectGetMinX(_clearRect) - padding, CGRectGetMinY(_clearRect) - padding);
+    CGContextAddLineToPoint(context, CGRectGetMaxX(_clearRect) + padding, CGRectGetMinY(_clearRect) + padding);
+    CGContextAddLineToPoint(context, CGRectGetMaxX(_clearRect) + padding, CGRectGetMaxY(_clearRect) + padding);
+    CGContextAddLineToPoint(context, CGRectGetMinX(_clearRect) - padding, CGRectGetMaxY(_clearRect) + padding);
+    CGContextAddLineToPoint(context, CGRectGetMinX(_clearRect) - padding, CGRectGetMinY(_clearRect) - padding);
+    CGContextSetLineWidth(context, padding);
+    CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+    CGContextStrokePath(context);
+}
+
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

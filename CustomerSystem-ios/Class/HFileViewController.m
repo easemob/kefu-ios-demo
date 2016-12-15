@@ -2,18 +2,19 @@
 //  HFileViewController.m
 //  CustomerSystem-ios
 //
-//  Created by __阿彤木_ on 16/12/6.
+//  Created by afanda on 16/12/6.
 //  Copyright © 2016年 easemob. All rights reserved.
 //
 
 #import "HFileViewController.h"
 
-@interface HFileViewController ()
+@interface HFileViewController () <UIDocumentInteractionControllerDelegate>
 @property (strong, nonatomic) UIBarButtonItem *backItem;
 @property (nonatomic, strong) UIImageView *fileImageView;
 @property (nonatomic, strong) UIBarButtonItem *openFileItem;
 @property (nonatomic, strong) UIButton *downloadButton;
 @property (nonatomic, strong) UILabel *nameLabel;
+@property(nonatomic,strong) UIDocumentInteractionController *documentInteractionController;
 @end
 
 @implementation HFileViewController
@@ -96,6 +97,14 @@
     [self downloadMessageAttachments:_model];
 }
 
+- (UIDocumentInteractionController *)documentInteractionController {
+    if (!_documentInteractionController) {
+        _documentInteractionController = [[UIDocumentInteractionController alloc]init];
+        _documentInteractionController.delegate = self;
+    }
+    return _documentInteractionController;
+}
+
 - (void)openFileAction
 {
     
@@ -106,16 +115,25 @@
     }
     
     EMFileMessageBody *body = (EMFileMessageBody *)_model.firstMessageBody;
-    NSString *textToShare = [NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment"),body.displayName];
-    NSURL *urlToShare = [NSURL URLWithString:body.remotePath];
-    NSArray *activityItems = @[textToShare, urlToShare];
-    UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems
-                                                                            applicationActivities:nil];
-    activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
-                                         UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
+    NSURL *localUrl = [NSURL fileURLWithPath:body.localPath];
+    self.documentInteractionController.URL = localUrl;
+    self.documentInteractionController.name = body.displayName;
+    if (![self.documentInteractionController presentPreviewAnimated:YES]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"系统不支持预览此类文件" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+        [alert show];
+    }
     
-    [self presentViewController:activityVC animated:YES completion:nil];
+}
 
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
+    return self;
+}
+
+- (void)documentInteractionControllerWillBeginPreview:(UIDocumentInteractionController *)controller {
+    
+}
+
+- (void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller {
     
 }
 

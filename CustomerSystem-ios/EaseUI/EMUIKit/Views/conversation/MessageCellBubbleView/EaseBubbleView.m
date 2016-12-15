@@ -24,6 +24,7 @@
 NSString *const HRouterEventTapMenu = @"HRouterEventTapMenu";
 NSString *const HRouterEventTapTransform = @"HRouterEventTapTransform";
 NSString *const HRouterEventTapEvaluate = @"HRouterEventTapEvaluate";
+NSString *const HRouterEventTextURLTapEventName = @"HRouterEventTextURLTapEventName";
 
 @interface EaseBubbleView()
 

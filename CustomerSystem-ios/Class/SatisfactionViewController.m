@@ -149,7 +149,7 @@
 
 - (void)commit
 {
-    if (!_starRateView.isTap) {
+    if (!_starRateView.isTap && _starRateView.scorePercent != 1) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"satisfaction.alert", @"please evaluate first") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"Ok"), nil];
         [alert show];
         return;
