@@ -112,6 +112,8 @@
 "message.toolBar.record.touch" = "按住说话";
 "message.toolBar.record.send" = "松开发送";
 
+"media.timeShort" = "录制时间过短";
+
 "message.downloadingAudio" = "正在下载语音，稍后点击";
 "message.downloadingVideo" = "正在获取视频...";
 "message.videoFail" = "视频获取失败!";

@@ -161,7 +161,7 @@ typedef NS_ENUM(NSInteger, EMAudioSession){
     
     if([_recorderEndDate timeIntervalSinceDate:_recorderStartDate] < [EMCDDeviceManager recordMinDuration]){
         if (completion) {
-            error = [NSError errorWithDomain:NSEaseLocalizedString(@"error.recordTooShort", @"Recording time is too short")
+            error = [NSError errorWithDomain:@"时间过短"
                                         code:EMErrorAudioRecordDurationTooShort
                                     userInfo:nil];
             completion(nil,0,error);

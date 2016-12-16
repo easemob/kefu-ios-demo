@@ -29,6 +29,7 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 #define fKeyWindow [UIApplication sharedApplication].keyWindow
+#define fUserDefaults [NSUserDefaults standardUserDefaults]
 
 //Ext keyWord
 #define kMesssageExtWeChat @"weichat"

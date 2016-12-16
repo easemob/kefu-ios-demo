@@ -7,6 +7,7 @@
 //
 
 #import "SCLoginManager.h"
+#import <objc/runtime.h>
 
 @implementation SCLoginManager
 
@@ -21,92 +22,94 @@ static SCLoginManager *_manager = nil;
 
 - (void)setAppkey:(NSString *)appkey {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    _appkey = appkey;
-    [userDefaults setObject:_appkey forKey:kAppKey];
+    [userDefaults setObject:appkey forKey:kAppKey];
 }
 
 - (void)setCname:(NSString *)cname {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    _cname = cname;
-    [userDefaults setObject:_cname forKey:kCustomerName];
+    [userDefaults setObject:cname forKey:kCustomerName];
 }
 
 - (void)setTenantId:(NSString *)tenantId {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    _tenantId = tenantId;
-    [userDefaults setObject:_tenantId forKey:kCustomerTenantId];
+    [userDefaults setObject:tenantId forKey:kCustomerTenantId];
 }
 
 - (void)setNickname:(NSString *)nickname {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    _nickname = nickname;
-    [userDefaults setObject:_nickname forKey:kCustomerNickname];
+    [userDefaults setObject:nickname forKey:kCustomerNickname];
 }
 
 - (void)setProjectId:(NSString *)projectId {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    _projectId = projectId;
-    [userDefaults setObject:_projectId forKey:kCustomerProjectId];
+    [userDefaults setObject:projectId forKey:kCustomerProjectId];
+}
+
+- (NSString *)appkey {
+    NSString *apk = [fUserDefaults objectForKey:kAppKey];
+    if ([apk length] == 0) {
+        apk = kDefaultAppKey;
+        [fUserDefaults setObject:apk forKey:kAppKey];
+    }
+    return apk;
+}
+
+- (NSString *)cname {
+    NSString *im = [fUserDefaults objectForKey:kCustomerName];
+    if ([im length] == 0) {
+        im = kDefaultCustomerName;
+        [fUserDefaults setObject:im forKey:kCustomerName];
+    }
+    return im;
+}
+
+- (NSString *)nickname {
+    NSString * tnickname = [fUserDefaults objectForKey:kCustomerNickname];
+    if ([tnickname length] == 0) {
+        tnickname = kDefaultCustomerNickname;
+        [fUserDefaults setObject:tnickname forKey:kCustomerNickname];
+    }
+    return tnickname;
+}
+
+- (NSString *)tenantId {
+    NSString *ttenantId = [fUserDefaults objectForKey:kCustomerTenantId];
+    if ([ttenantId length] == 0) {
+        ttenantId = kDefaultTenantId;
+        [fUserDefaults setObject:ttenantId forKey:kCustomerTenantId];
+    }
+    return ttenantId;
+}
+
+- (NSString *)projectId {
+    NSString *tprojectId = [fUserDefaults objectForKey:kCustomerProjectId];
+    if ([tprojectId length] == 0) {
+        tprojectId = kDefaultProjectId;
+        [fUserDefaults setObject:tprojectId forKey:kCustomerProjectId];
+    }
+    return tprojectId;
 }
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        _appkey = [userDefaults objectForKey:kAppKey];
-        if ([_appkey length] == 0) {
-            _appkey = kDefaultAppKey;
-            [userDefaults setObject:_appkey forKey:kAppKey];
-        }
-        _cname = [userDefaults objectForKey:kCustomerName];
-        if ([_cname length] == 0) {
-            _cname = kDefaultCustomerName;
-            [userDefaults setObject:_cname forKey:kCustomerName];
-        }
-
-        _nickname = [userDefaults objectForKey:kCustomerNickname];
-        if ([_nickname length] == 0) {
-            _nickname = @"";
-            [userDefaults setObject:_nickname forKey:kCustomerNickname];
-        }
-
-        _tenantId = [userDefaults objectForKey:kCustomerTenantId];
-        if ([_tenantId length] == 0) {
-            _tenantId = kDefaultTenantId;
-            [userDefaults setObject:_tenantId forKey:kCustomerTenantId];
-        }
-
-        _projectId = [userDefaults objectForKey:kCustomerProjectId];
-        if ([_projectId length] == 0) {
-            _projectId = kDefaultProjectId;
-            [userDefaults setObject:_projectId forKey:kCustomerProjectId];
-        }
-        
-        _username = [userDefaults objectForKey:@"username"];
-        _password = [userDefaults objectForKey:@"password"];
+        _password = hxPassWord;
     }
     return self;
 }
-
+//登录IM
 - (BOOL)loginKefuSDK {
     HChatClient *client = [HChatClient sharedClient];
-    if (client.isLoggedIn && [client.currentUsername isEqualToString:_username]) {
+    if (client.isLoggedIn) {
         return YES;
     }
-    _username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
-    _password = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
-    if (_username.length == 0 || _password.length == 0) {
-        if (![self registerIMuser]) {
-            return NO;
-        }
+    if (![self registerIMuser]) {
+        return NO;
     }
     EMError *error = [self loginIM];
     if (!error) { //IM登录成功
         return YES;
     } else { //登录失败
         NSLog(@"error code :%d,error description:%@",error.code,error.errorDescription);
-        if (error.code == EMErrorUserNotFound) {
-            [self registerIMuser];
-        }
         return NO;
     }
     return NO;
@@ -114,60 +117,49 @@ static SCLoginManager *_manager = nil;
 
 - (EMError *)loginIM {
     EMError *error = nil;
-    error = [[HChatClient sharedClient] loginWithUsername:_username password:hxPassWord];
+    error = [[HChatClient sharedClient] loginWithUsername:self.username password:hxPassWord];
     return error;
 }
 
-- (NSString *)username {
+//创建一个随机的用户名
+- (NSString *)getrandomUsername {
     NSString *username = nil;
-    if (_username.length == 0) {
-        UIDevice *device = [UIDevice currentDevice];//创建设备对象
-        NSString *deviceUID = [[NSString alloc] initWithString:[[device identifierForVendor] UUIDString]];
-        if ([deviceUID length] == 0) {
-            CFUUIDRef uuid = CFUUIDCreate(NULL);
-            if (uuid)
-            {
-                deviceUID = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, uuid);
-                CFRelease(uuid);
-            }
+    UIDevice *device = [UIDevice currentDevice];//创建设备对象
+    NSString *deviceUID = [[NSString alloc] initWithString:[[device identifierForVendor] UUIDString]];
+    if ([deviceUID length] == 0) {
+        CFUUIDRef uuid = CFUUIDCreate(NULL);
+        if (uuid)
+        {
+            deviceUID = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, uuid);
+            CFRelease(uuid);
         }
-        username = [deviceUID stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    } else {
-        username = _username;
     }
+    username = [deviceUID stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    username = [username stringByAppendingString:[NSString stringWithFormat:@"%u",arc4random()%100000]];
     return username;
 }
 
 - (BOOL)registerIMuser { //举个栗子，尽量不要在移动端注册
     EMError *error = nil;
-    NSString *newUser = [self username];
-    error = [[HChatClient sharedClient] registerWithUsername: newUser password:hxPassWord];
+    NSString *newUser = [self getrandomUsername];
+    self.username = newUser;
+    error = [[HChatClient sharedClient] registerWithUsername:newUser password:hxPassWord];
     if (error &&  error.code != EMErrorUserAlreadyExist) {
         NSLog(@"注册失败;error code：%d,error description :%@",error.code,error.errorDescription);
         return NO;
     }
-    _username = newUser;
-    [[NSUserDefaults standardUserDefaults] setValue:newUser forKey:@"username"];
-    [[NSUserDefaults standardUserDefaults] setValue:hxPassWord forKey:@"password"];
-    _password = hxPassWord;
     return YES;
 }
 - (void)refreshManagerData {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    [userDefaults removeObjectForKey:kAppKey];
-    _appkey = @"";
-//    [userDefaults removeObjectForKey:kCustomerName];
-//    _cname = @"";
-//    [userDefaults removeObjectForKey:kCustomerNickname];
-    _nickname = @"";
-//    [userDefaults removeObjectForKey:kCustomerTenantId];
-    _tenantId = @"";
-//    [userDefaults removeObjectForKey:kCustomerProjectId];
-    _projectId = @"";
-    [userDefaults removeObjectForKey:@"username"];
-    [userDefaults removeObjectForKey:@"password"];
-    _username = nil;
-    _password = nil;
+    unsigned int propertysCount = 0;
+    objc_property_t *propertys = class_copyPropertyList([self class], &propertysCount);
+    for (int i=0; i<propertysCount-1; i++) {
+        objc_property_t property = propertys[i];
+        const char * propertyName = property_getName(property);
+        NSString *key = [NSString stringWithUTF8String:propertyName];
+        //因为都是NSString所以直接赋值
+        [self setValue:@"" forKey:key];
+    }
 }
 
 

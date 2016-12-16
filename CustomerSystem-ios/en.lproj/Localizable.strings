@@ -114,6 +114,7 @@
 "message.toolBar.record.send" = "loosen to send";
 "DXMessageToolBarDelegate.record" = "hold down to talk";
 "DXMessageToolBarDelegate.send" = "loosen to send";
+"media.timeShort" = "record time too short";
 
 "message.downloadingAudio" = "downloading voice, click later";
 "message.downloadingVideo" = "downloading video...";

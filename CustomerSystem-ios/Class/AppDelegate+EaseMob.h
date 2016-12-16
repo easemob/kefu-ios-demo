@@ -11,5 +11,5 @@
 @interface AppDelegate (EaseMob)<UIAlertViewDelegate>
 - (void)easemobApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-
+- (void)resetCustomerServiceSDK;
 @end

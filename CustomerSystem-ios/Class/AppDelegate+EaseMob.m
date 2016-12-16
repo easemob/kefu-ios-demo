@@ -17,37 +17,21 @@
 @implementation AppDelegate (EaseMob)
 - (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSString  *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
     //ios8注册apns
     [self registerRemoteNotification];
-    //注册环信客服sdk
-    [self registerKefuSdk];
+    //初始化环信客服sdk
+    [self initializeCustomerServiceSdk];
     /*
      注册IM用户【注意:注册建议在服务端创建，而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器。】
      */
-   
-    
-    /*
-    
-    [[EaseMob sharedInstance] registerSDKWithAppKey:[[EMIMHelper defaultHelper] appkey]
-                                       apnsCertName:apnsCertName];
-    // 登录成功后，自动去取好友列表
-    // SDK获取结束后，会回调
-    // - (void)didFetchedBuddyList:(NSArray *)buddyList error:(EMError *)error方法。
-    [[EaseMob sharedInstance].chatManager setIsAutoFetchBuddyList:NO];
-    
     // 注册环信监听
-    [self registerEaseMobNotification];
-    [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
-    */
     [self setupNotifiers];
-//    [[EMIMHelper defaultHelper] loginEasemobSDK];
 }
 
 
 
-//注册客服sdk
-- (void)registerKefuSdk {
+//初始化客服sdk
+- (void)initializeCustomerServiceSdk {
 #warning SDK注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
     NSString *apnsCertName = nil;
 #if DEBUG
@@ -68,6 +52,19 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"重要提示[初始化错误]" message:initError.errorDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
     }
+}
+
+//修改关联app后需要重新初始化
+- (void)resetCustomerServiceSDK {
+    //如果在登录状态,账号要退出
+    HChatClient *client = [HChatClient sharedClient];
+    if (client.isLoggedIn) {
+        EMError *error = [client logout:YES];
+        if (error) {
+            NSLog(@"error.code:%u,error.errorDescription :%@",error.code,error.errorDescription);
+        }
+    }
+    [self initializeCustomerServiceSdk];
 }
 
 // 监听系统生命周期回调，以便将需要的事件传给SDK

@@ -10,6 +10,7 @@
 #import "AppDelegate+easemob.h"
 #import "EditViewController.h"
 #import "LocalDefine.h"
+#import "AppDelegate+EaseMob.h"
 
 
 @interface SettingViewController ()<UIAlertViewDelegate>
@@ -24,9 +25,13 @@
 @end
 
 @implementation SettingViewController
+{
+    SCLoginManager *_lgM;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _lgM = [SCLoginManager shareLoginManager];
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7)
     {
         self.tableView.backgroundColor = [UIColor colorWithRed:238 / 255.0 green:238 / 255.0 blue:243 / 255.0 alpha:1.0];
@@ -39,15 +44,18 @@
         self.tableView.tableFooterView = footerView;
     }
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    
-    _appkey = [[SCLoginManager shareLoginManager] appkey];
-    _cname = [[SCLoginManager shareLoginManager] cname];
-    _tenantId = [[SCLoginManager shareLoginManager] tenantId];
-    _projectId = [[SCLoginManager shareLoginManager] projectId];
-    _nickname = [[SCLoginManager shareLoginManager] nickname];
-    
+    [self initializePropertys];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingChange:) name:KNOTIFICATION_SETTINGCHANGE object:nil];
 }
+
+- (void)initializePropertys {
+    _appkey = _lgM.appkey;
+    _cname = _lgM.cname;
+    _tenantId = _lgM.tenantId;
+    _projectId = _lgM.projectId;
+    _nickname = _lgM.nickname;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -63,7 +71,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 6;
+    return 7;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -106,29 +114,38 @@
             break;
         case 2:
         {
-            cell.textLabel.text = @"tenantId";
+            cell.textLabel.text = NSLocalizedString(@"title.tenantId",@"tenantId");
             tempLabel.text = _tenantId;
         }
             break;
         case 3:
         {
-            cell.textLabel.text = @"projectId";
+            cell.textLabel.text = NSLocalizedString(@"title.projectId", @"projectId");
             tempLabel.text = _projectId;
         }
             break;
         case 4:
         {
-            cell.textLabel.text = @"设置昵称";
+            cell.textLabel.text = NSLocalizedString(@"setNickname", @"setNickname");
             tempLabel.text = _nickname;
         }
             break;
         case 5:
         {
-            cell.textLabel.text = @"意见反馈";
+            cell.textLabel.text = NSLocalizedString(@"setting.feedback", @"feedback");
             tempLabel.text = @"";
         }
             break;
-    
+            case 6:
+        {
+            UILabel *commit = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
+            commit.text = @"确认修改";
+            commit.textAlignment = NSTextAlignmentCenter;
+            commit.backgroundColor = [UIColor clearColor];
+            [cell.contentView addSubview:commit];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+            break;
         default:
             break;
     }
@@ -172,28 +189,28 @@
         case 1:
         {
             EditViewController *editController = [[EditViewController alloc] initWithType:@"cname" content:_cname];
-            editController.title = @"IM 服务号";
+            editController.title = NSLocalizedString(@"customerUser", @"Customer");
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 2:
         {
             EditViewController *editController = [[EditViewController alloc] initWithType:@"tenantId" content:_tenantId];
-            editController.title = @"租户ID";
+            editController.title = NSLocalizedString(@"title.tenantId",@"tenantId");
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 3:
         {
             EditViewController *editController = [[EditViewController alloc] initWithType:@"projectId" content:_projectId];
-            editController.title = @"留言ID";
+            editController.title = NSLocalizedString(@"title.projectId", @"projectId");
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 4:
         {
             EditViewController *editController = [[EditViewController alloc] initWithType:@"nickname" content:_nickname];
-            editController.title = @"昵称";
+            editController.title = NSLocalizedString(@"setNickname", @"setNickname");
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;                             
@@ -202,7 +219,17 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:nil];
         }
             break;
-            
+            case 6:
+        {
+//            if ([_appkey isEqualToString:_lgM.appkey]) {
+//                UIAlertView *alert =[ [UIAlertView alloc] initWithTitle:@"提示" message:@"appkey未做修改" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//                [alert show];
+//                return;
+//            }
+            UIAlertView *alert =[ [UIAlertView alloc] initWithTitle:@"提示" message:@"昵称只有在和appkey同时修改时才起作用,确认修改?" delegate:self cancelButtonTitle:@"暂不修改" otherButtonTitles:@"确认修改", nil];
+            [alert show];
+            break;
+        }
         default:
             break;
     }
@@ -212,31 +239,22 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex != alertView.cancelButtonIndex) {
-        //[self showHint:NSLocalizedString(@"restart", @"restart...")];
-        //退出
-        /*
-        [[EaseMob sharedInstance].chatManager asyncLogoffWithUnbindDeviceToken:NO completion:^(NSDictionary *info, EMError *error) {
-            EMIMHelper *helper = [EMIMHelper defaultHelper];
-            [helper refreshHelperData];
-            //重新设置appkey
-#warning SDK注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
-            NSString *apnsCertName = nil;
-#if DEBUG
-            apnsCertName = @"chatdemoui_dev";
-#else
-            apnsCertName = @"chatdemoui";
-#endif
-            [[EaseMob sharedInstance] registerSDKWithAppKey:helper.appkey
-                                               apnsCertName:apnsCertName];
-            
-            //重新登录
-            [helper loginEasemobSDK];
-            [self hideHud];
-        } onQueue:nil];
-         */
+    if (buttonIndex != alertView.cancelButtonIndex) { //修改
+         [self commitModify];
     }
 }
+
+- (void)commitModify {
+    _lgM.appkey = _appkey;
+    _lgM.cname = _cname;
+    _lgM.nickname = _nickname;
+    _lgM.tenantId = _tenantId;
+    _lgM.projectId = _projectId;
+    [self.tableView reloadData];
+    AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate resetCustomerServiceSDK];
+}
+
 
 #pragma mark - private
 
@@ -247,105 +265,21 @@
         NSDictionary *dic = (NSDictionary *)object;
         NSString *type = [dic objectForKey:@"type"];
         NSString *content = [dic objectForKey:@"content"];
-        
-        BOOL needRestart = NO;
         if ([type isEqualToString:@"appkey"]) {
-            needRestart = ![content isEqualToString:_appkey];
-            if (needRestart) {
                 _appkey = content;
-                [SCLoginManager shareLoginManager].appkey = _appkey;
-            }
         }
         else if ([type isEqualToString:@"cname"]){
             _cname = content;
-            [SCLoginManager shareLoginManager].cname = _cname;
         } else if ([type isEqualToString:@"nickname"]) {
             _nickname = content;
-            [SCLoginManager shareLoginManager].nickname = content;
         } else if ([type isEqualToString:@"tenantId"]) {
             _tenantId = content;
-            [SCLoginManager shareLoginManager].tenantId = _tenantId;
         } else if ([type isEqualToString:@"projectId"]) {
             _projectId = content;
-            [SCLoginManager shareLoginManager].projectId = _projectId;
         }
-        
         [self.tableView reloadData];
-        if (needRestart) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"restart", @"Restart") message:NSLocalizedString(@"restartInfo", @"Configuration information need to reboot to take effect") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"OK"), nil];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.5*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [alert show];
-            });
-            
-        }
     }
 }
 
-//- (void)buttonAction:(id)sender
-//{
-//    UIButton *button = (UIButton *)sender;
-//    if (button.selected) {
-//        [self showHint:NSLocalizedString(@"saveSetting", @"save setting...")];
-//        
-//        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//        NSString *appKey = [userDefaults objectForKey:kAppKey];
-//        if ([self.appkeyField.text length] == 0) {
-//            self.appkeyField.text = kDefaultAppKey;
-//        }
-//        else{
-//            NSArray *tmpArray = [self.appkeyField.text componentsSeparatedByString:@"#"];
-//            if ([tmpArray count] != 2) {
-//                [self hideHud];
-//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"Error") message:NSLocalizedString(@"appkeyError", @"appkey error") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-//                [alertView show];
-//                return;
-//            }
-//        }
-//        
-//        if (![self.appkeyField.text isEqualToString:appKey]) {
-//            [userDefaults setObject:self.appkeyField.text forKey:kAppKey];
-//            
-//            //退出
-//            [[EaseMob sharedInstance].chatManager asyncLogoffWithUnbindDeviceToken:NO completion:^(NSDictionary *info, EMError *error) {
-//                //重新设置appkey
-//                [[EaseMob sharedInstance] registerSDKWithAppKey:self.appkeyField.text
-//                                                   apnsCertName:nil];
-//                
-//                //重新登录
-//                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//                [userDefaults removeObjectForKey:@"username"];
-//                [userDefaults removeObjectForKey:@"password"];
-//                AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//                [delegate loginEasemobSDK];
-//                [self hideHud];
-//            } onQueue:nil];
-//        }
-//        
-//        if ([self.cunameField.text length] == 0) {
-//            self.cunameField.text = kDefaultCustomerName;
-//        }
-//        NSString *cuname = [userDefaults objectForKey:kCustomerName];
-//        if (![self.cunameField.text isEqualToString:cuname]) {
-//            [userDefaults setObject:self.cunameField.text forKey:kCustomerName];
-//        }
-//        
-//        _appkeyField.layer.borderWidth = 0;
-//        _cunameField.layer.borderWidth = 0;
-//        _appkeyField.enabled = NO;
-//        _cunameField.enabled = NO;
-//        [_appkeyField resignFirstResponder];
-//        [_cunameField resignFirstResponder];
-//    }
-//    else{
-//        _appkeyField.layer.borderWidth = 1;
-//        _cunameField.layer.borderWidth = 1;
-//        _appkeyField.enabled = YES;
-//        _cunameField.enabled = YES;
-//    }
-//    
-//    button.selected = !button.selected;
-//    
-//    self.navigationItem.rightBarButtonItem.enabled = button.selected;
-//}
 
 @end

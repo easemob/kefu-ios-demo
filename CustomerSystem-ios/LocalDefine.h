@@ -25,6 +25,7 @@
 
 #define kDefaultAppKey @"1124161024178184#kefuchannelapp29044"
 #define kDefaultCustomerName @"kefuchannelimid_008267"
+#define kDefaultCustomerNickname @"I am an ugly duckling"
 #define kDefaultTenantId @"29044"
 #define kDefaultProjectId @"306164"
 
@@ -34,7 +35,6 @@
 #define kCustomerTenantId @"KF_tenantId"
 #define kCustomerProjectId @"KF_projectId"
 
-#define hxUserName @"userNameKefuSdk"
 #define hxPassWord @"123456"
 
 
