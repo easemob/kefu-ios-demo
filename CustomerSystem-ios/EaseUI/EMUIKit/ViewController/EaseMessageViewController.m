@@ -1264,6 +1264,7 @@
     }
 }
 
+
 //消息状态发生变化
 - (void)messageStatusDidChange:(HMessage *)aMessage error:(EMError *)aError {
      [self _updateMessageStatus:aMessage];

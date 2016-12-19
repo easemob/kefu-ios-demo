@@ -17,8 +17,8 @@
 #import "LeaveMsgDetailModel.h"
 //#import "EMHttpManager.h"
 //#import "EMIMHelper.h"
-//#import "MessageReadManager.h"
-//#import "MBProgressHUD+Add.h"
+#import "EaseMessageReadManager.h"
+#import "MBProgressHUD+Add.h"
 //#import "UIViewController+DismissKeyboard.h"
 #import "DXRecordView.h"
 #import "SCAudioPlay.h"
@@ -322,9 +322,9 @@ const NSInteger baseTag=123;
         NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
         
         __weak typeof(self) weakSelf = self;
-//        MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment", "Upload attachment") toView:self.view];
-//        hud.layer.zPosition = 1.f;
-//        __weak MBProgressHUD *weakHud = hud;
+        MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment", "Upload attachment") toView:self.view];
+        hud.layer.zPosition = 1.f;
+        __weak MBProgressHUD *weakHud = hud;
         ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset) {
             ALAssetRepresentation *representation = [myasset defaultRepresentation];
             NSString *fileName = [representation filename];
@@ -333,7 +333,7 @@ const NSInteger baseTag=123;
             SCLoginManager *lgM = [SCLoginManager shareLoginManager];
             [[HNetworkManager shareInstance] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {
-//                    [weakHud hide:YES];
+                    [weakHud hide:YES];
                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
                         LeaveMsgAttachmentModel *attachment = [[LeaveMsgAttachmentModel alloc] initWithDictionary:nil];
                         NSArray * entities = [responseObject objectForKey:@"entities"];
@@ -347,8 +347,8 @@ const NSInteger baseTag=123;
                         [weakSelf _reloadAttatchmentsView];
                     }
                 } else {
-//                    [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment.failed", "Upload attachment failed")];
-//                    [weakHud hide:YES afterDelay:0.5];
+                    [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment.failed", "Upload attachment failed")];
+                    [weakHud hide:YES afterDelay:0.5];
                 }
             }];
            
@@ -416,13 +416,7 @@ const NSInteger baseTag=123;
     if ([_attachments count] > index) {
         LeaveMsgAttachmentModel *attachment = [_attachments objectAtIndex:index];
         if ([attachment.type isEqualToString:@"image"]) {
-//            [[MessageReadManager defaultManager] showBrowserWithImages:@[[NSURL URLWithString:attachment.url]]];
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.frame = fKeyWindow.bounds;
-            [button addTarget:self action:@selector(tapImageView:) forControlEvents:UIControlEventTouchUpInside];
-            [button sd_setImageWithURL:[NSURL URLWithString:attachment.url] forState:UIControlStateNormal];
-            button.backgroundColor = [UIColor blackColor];
-            [fKeyWindow addSubview:button];
+            [[EaseMessageReadManager defaultManager] showBrowserWithImages:@[[NSURL URLWithString:attachment.url]]];
         }
         if ([attachment.type isEqualToString:@"audio"]) {
             LeaveMsgAttatchmentView *view = (LeaveMsgAttatchmentView *)tap.view;
@@ -444,11 +438,6 @@ const NSInteger baseTag=123;
         }
     }
 }
-
-- (void)tapImageView:(UIButton *)sender {
-    [sender removeFromSuperview];
-}
-
 - (void)playWithfilePath:(NSString *)path {
     NSData *data = [NSData dataWithContentsOfFile:path];
     NSFileManager *fm = [NSFileManager defaultManager];

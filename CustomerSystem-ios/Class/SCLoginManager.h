@@ -14,7 +14,7 @@
 
 @property (strong, nonatomic) NSString *cname;  //IM service account
 
-@property (strong, nonatomic) NSString *nickname;
+@property (strong, nonatomic) NSString *nickname; //My nickname
 
 @property (strong, nonatomic) NSString *username;  // IM account
 

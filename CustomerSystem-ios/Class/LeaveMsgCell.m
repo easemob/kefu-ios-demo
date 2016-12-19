@@ -10,6 +10,7 @@
 
 #import "LeaveMsgAttatchmentView.h"
 #import "LeaveMsgDetailModel.h"
+#import "EaseMessageReadManager.h"
 
 #define kDefaultLeft 65.f
 
@@ -215,13 +216,7 @@
     if ([_attachments count] > index) {
         LeaveMsgAttachmentModel *attachment = [_attachments objectAtIndex:index];
         if ([attachment.type isEqualToString:@"image"]) {
-//            [[MessageReadManager defaultManager] showBrowserWithImages:@[[NSURL URLWithString:attachment.url]]];
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.frame = fKeyWindow.bounds;
-            [button addTarget:self action:@selector(tapImageView:) forControlEvents:UIControlEventTouchUpInside];
-            [button sd_setImageWithURL:[NSURL URLWithString:attachment.url] forState:UIControlStateNormal];
-            button.backgroundColor = [UIColor blackColor];
-            [fKeyWindow addSubview:button];
+            [[EaseMessageReadManager defaultManager] showBrowserWithImages:@[[NSURL URLWithString:attachment.url]]];
         } else if([attachment.type isEqualToString:@"audio"]) {
             if (_delegate && [_delegate respondsToSelector:@selector(didSelectAudioAttachment:touchImage:)]) {
                 [_delegate didSelectAudioAttachment:attachment touchImage:(LeaveMsgAttatchmentView *)tap.view];
@@ -235,9 +230,6 @@
     }
 }
 
-- (void)tapImageView:(UIButton *)sender {
-    [sender removeFromSuperview];
-}
 
 + (CGFloat)_heightForContent:(NSString*)content
 {
