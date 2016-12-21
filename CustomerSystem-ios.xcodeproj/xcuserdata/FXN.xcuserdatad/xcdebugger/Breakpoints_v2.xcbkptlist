@@ -36,7 +36,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/Class/SettingViewController.m"
-            timestampString = "503558246.116804"
+            timestampString = "503916638.232774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "224"
@@ -68,12 +68,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/Class/SettingViewController.m"
-            timestampString = "503566881.05148"
+            timestampString = "503916638.232774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "249"
             endingLineNumber = "249"
             landmarkName = "-commitModify"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
+            timestampString = "503918933.243432"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1563"
+            endingLineNumber = "1563"
+            landmarkName = "-commitSatisfactionWithExt:messageModel:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
