@@ -30,6 +30,7 @@
 #import "EaseBubbleView+Transform.h"
 #import "EaseBubbleView+Evaluate.h"
 #import "SatisfactionViewController.h"
+#import "HNConversation.h"
 #define KHintAdjustY    50
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
@@ -1476,7 +1477,8 @@
 
 - (void)_sendMessage:(HMessage *)message
 {
-    
+    HNConversation *conversation = [[HNConversation alloc] initWithConversation:_conversation.conversationId];
+    [conversation insertMessage:message error:nil];
     [self addMessageToDataSource:message
                         progress:nil];
     

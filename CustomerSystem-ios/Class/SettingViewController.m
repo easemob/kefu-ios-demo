@@ -56,6 +56,13 @@
     _nickname = _lgM.nickname;
 }
 
+- (void)setvalueWithDic:(NSDictionary *)dic {
+    _appkey = [dic valueForKey:@"appkey"];
+    _cname = [dic valueForKey:@"imservicenum"];
+    _tenantId = [dic valueForKey:@"tenantid"];
+    _projectId = [dic valueForKey:@"projectId"];
+    [self.tableView reloadData];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

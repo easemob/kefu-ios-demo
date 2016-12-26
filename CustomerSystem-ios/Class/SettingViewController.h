@@ -10,4 +10,6 @@
 
 @interface SettingViewController : UITableViewController
 
+- (void)setvalueWithDic:(NSDictionary *)dic;
+
 @end

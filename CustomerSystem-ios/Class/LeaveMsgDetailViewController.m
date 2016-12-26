@@ -66,7 +66,6 @@
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         self.edgesForExtendedLayout =  UIRectEdgeNone;
     }
-    
     self.tableView.tableHeaderView = self.headerView;
     [self.view addSubview:self.replyButton];
     [self.view addSubview:self.tableView];

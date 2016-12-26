@@ -63,6 +63,7 @@
     [self.view.layer insertSublayer:layer atIndex:0];
     //开始捕获
     [_session startRunning];
+    
 }
 
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
@@ -73,6 +74,40 @@
         [self showHudInView:self.view duration:1];
         //输出扫描字符串
         NSLog(@"%@",metadataObject.stringValue);
+        NSString *useful = @"";
+        NSMutableDictionary *useDic = [NSMutableDictionary dictionaryWithCapacity:0];
+        NSArray *arr = [metadataObject.stringValue componentsSeparatedByString:@"?"];
+        if (arr.count == 2) {
+            useful = arr[1];
+            NSArray *arr1 = [useful componentsSeparatedByString:@"&"];
+            if (arr1.count == 3) {
+                for (int i=0 ; i<3 ;i++) {
+                    if (i==1) {
+                        NSArray *dics = [arr1[i] componentsSeparatedByString:@"#"];
+                        if (dics.count == 2) {
+                            for (int i=0; i<2;i++) {
+                                NSArray *ar = [dics[i] componentsSeparatedByString:@"="];
+                                if (ar.count == 2) {
+                                    [useDic setValue:ar[1] forKey:ar[0]];
+                                }
+                            }
+                        }
+                    } else {
+                        NSArray *dics = [arr1[i] componentsSeparatedByString:@"="];
+                        if (dics.count == 2) {
+                            [useDic setValue:dics[1] forKey:dics[0]];
+                        }
+                    }
+                }
+                //字典dics里是有用数据
+                __weak typeof(self) weakSelf = self;
+                if (_qrBlock) {
+                    _qrBlock(useDic);
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+            }
+        }
+        
     }
 }
 #pragma mark-> 获取扫描区域的比例关系

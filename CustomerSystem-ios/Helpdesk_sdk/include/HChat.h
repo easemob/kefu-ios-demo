@@ -5,6 +5,7 @@
 //  Created by 赵 蕾 on 16/3/29.
 //  Copyright © 2016年 hyphenate. All rights reserved.
 //
+//管理消息和对话
 
 #import <Foundation/Foundation.h>
 #import "HChatDelegate.h"

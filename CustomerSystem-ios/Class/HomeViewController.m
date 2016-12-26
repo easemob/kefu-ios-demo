@@ -135,6 +135,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)scan {
     QRCodeViewController *qrcodeVC = [[QRCodeViewController alloc] init];
+    qrcodeVC.qrBlock = ^(NSDictionary *dic) {
+        if (dic) {
+            [_settingController setvalueWithDic:dic];
+        }
+    };
     [self.navigationController pushViewController:qrcodeVC animated:YES];
 }
 

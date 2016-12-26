@@ -143,7 +143,6 @@
         [self.conversation deleteAllMessages:nil];
         [self.dataArray removeAllObjects];
         [self.messsagesSource removeAllObjects];
-        
         [self.tableView reloadData];
     }
 }

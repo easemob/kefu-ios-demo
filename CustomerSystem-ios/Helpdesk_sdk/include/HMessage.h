@@ -20,6 +20,24 @@
  *  Unique identifier of message
  */
 @property (nonatomic, copy) NSString *messageId;
+
+/*!
+ *  \~chinese
+ *  时间戳，服务器收到此消息的时间
+ *
+ *  \~english
+ *  Timestamp, the time of server received this message
+ */
+@property (nonatomic) long long timestamp;
+
+/*!
+ *  \~chinese
+ *  客户端发送/收到此消息的时间
+ *
+ *  \~english
+ *  The time of client send/receive the message
+ */
+@property (nonatomic) long long localTime;
 /*!
  *  \~chinese
  *  消息的方向
@@ -28,6 +46,15 @@
  *  Message direction
  */
 @property (nonatomic) EMMessageDirection direction;
+
+/*!
+ *  \~chinese
+ *  所属会话的唯一标识符
+ *
+ *  \~english
+ *  Unique identifier of message's conversation
+ */
+@property (nonatomic, copy) NSString *conversationId;
 
 /*!
  *  \~chinese
