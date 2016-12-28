@@ -52,6 +52,28 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingChange:) name:KNOTIFICATION_SETTINGCHANGE object:nil];
 }
 
+- (void)setvalueWithDic:(NSDictionary *)dic {
+    BOOL needRestart = NO;
+    needRestart = ![[dic valueForKey:@"appkey"] isEqualToString:_appkey];
+    if (needRestart) {
+        _appkey = [dic valueForKey:@"appkey"];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:[dic valueForKey:@"appkey"] forKey:kAppKey];
+    }
+    _cname = [dic valueForKey:@"imservicenum"];
+    [[EMIMHelper defaultHelper] setCname:[dic valueForKey:@"imservicenum"]];
+    _tenantId = [dic valueForKey:@"tenantid"];;
+    [[EMIMHelper defaultHelper] setTenantId:[dic valueForKey:@"tenantid"]];
+    _projectId = [dic valueForKey:@"projectId"];
+    [[EMIMHelper defaultHelper] setProjectId:[dic valueForKey:@"projectId"]];
+
+    [self.tableView reloadData];
+    if (needRestart) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"restart", @"Restart") message:NSLocalizedString(@"restartInfo", @"Configuration information need to reboot to take effect") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"OK"), nil];
+        [alert show];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

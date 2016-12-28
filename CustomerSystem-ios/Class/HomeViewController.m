@@ -20,6 +20,8 @@
 #import "LocalDefine.h"
 #import "MoreChoiceView.h"
 #import "LeaveMsgDetailModel.h"
+#import "UIBarButtonItem+KFAdd.h"
+#import "QRCodeViewController.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
@@ -131,8 +133,18 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     }
     else if (item.tag == 2){
         self.title = NSLocalizedString(@"title.setting", @"Setting");
-        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTitle:@"扫一扫" titleColor:[UIColor whiteColor] selectedTitleColor:[UIColor lightGrayColor] target:self action:@selector(scan)];
     }
+}
+
+- (void)scan {
+    QRCodeViewController *qrcodeVC = [[QRCodeViewController alloc] init];
+    qrcodeVC.qrBlock = ^(NSDictionary *dic) {
+        if (dic) {
+            [_settingController setvalueWithDic:dic];
+        }
+    };
+    [self.navigationController pushViewController:qrcodeVC animated:YES];
 }
 
 #pragma mark - private

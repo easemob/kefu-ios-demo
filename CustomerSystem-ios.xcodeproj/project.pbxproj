@@ -53,6 +53,9 @@
 		D3298BD21DDD927E005DE14E /* DXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3298BD11DDD927E005DE14E /* DXBaseViewController.m */; };
 		D3298BD51DDD92B5005DE14E /* TTOpenInAppActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = D3298BD41DDD92B5005DE14E /* TTOpenInAppActivity.m */; };
 		D3298BDB1DDDB215005DE14E /* SCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D3298BDA1DDDB215005DE14E /* SCFileManager.m */; };
+		D32A78161E1357FD00A19425 /* UIBarButtonItem+KFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = D32A78151E1357FD00A19425 /* UIBarButtonItem+KFAdd.m */; };
+		D32A78191E13586E00A19425 /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D32A78181E13586E00A19425 /* QRCodeViewController.m */; };
+		D32A781F1E135B5500A19425 /* ScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = D32A781E1E135B5500A19425 /* ScanningView.m */; };
 		D35231631DD321280020476D /* UIImage+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = D35231621DD321280020476D /* UIImage+Add.m */; };
 		D35231661DD321380020476D /* chatBar_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D35231641DD321380020476D /* chatBar_keyboard@2x.png */; };
 		D35231671DD321380020476D /* chatBar_record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D35231651DD321380020476D /* chatBar_record@2x.png */; };
@@ -457,6 +460,12 @@
 		D3298BD41DDD92B5005DE14E /* TTOpenInAppActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTOpenInAppActivity.m; sourceTree = "<group>"; };
 		D3298BD91DDDB215005DE14E /* SCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCFileManager.h; sourceTree = "<group>"; };
 		D3298BDA1DDDB215005DE14E /* SCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCFileManager.m; sourceTree = "<group>"; };
+		D32A78141E1357FD00A19425 /* UIBarButtonItem+KFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+KFAdd.h"; sourceTree = "<group>"; };
+		D32A78151E1357FD00A19425 /* UIBarButtonItem+KFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+KFAdd.m"; sourceTree = "<group>"; };
+		D32A78171E13586E00A19425 /* QRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
+		D32A78181E13586E00A19425 /* QRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
+		D32A781D1E135B5500A19425 /* ScanningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanningView.h; sourceTree = "<group>"; };
+		D32A781E1E135B5500A19425 /* ScanningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanningView.m; sourceTree = "<group>"; };
 		D35231611DD321280020476D /* UIImage+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Add.h"; sourceTree = "<group>"; };
 		D35231621DD321280020476D /* UIImage+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Add.m"; sourceTree = "<group>"; };
 		D35231641DD321380020476D /* chatBar_keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatBar_keyboard@2x.png"; sourceTree = "<group>"; };
@@ -1013,6 +1022,8 @@
 		D2769D201B904185003D9E3D /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
+				D32A781D1E135B5500A19425 /* ScanningView.h */,
+				D32A781E1E135B5500A19425 /* ScanningView.m */,
 				D2769D211B9041DA003D9E3D /* MoreChoiceView.h */,
 				D2769D221B9041DA003D9E3D /* MoreChoiceView.m */,
 			);
@@ -1273,6 +1284,8 @@
 			children = (
 				D35231611DD321280020476D /* UIImage+Add.h */,
 				D35231621DD321280020476D /* UIImage+Add.m */,
+				D32A78141E1357FD00A19425 /* UIBarButtonItem+KFAdd.h */,
+				D32A78151E1357FD00A19425 /* UIBarButtonItem+KFAdd.m */,
 				D3702E541DD4500600250F5E /* NSObject+Add.h */,
 				D3702E551DD4500600250F5E /* NSObject+Add.m */,
 				D35FB2A21DC72D680064FE65 /* NSDictionary+SafeValue.h */,
@@ -1887,6 +1900,8 @@
 				EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */,
 				EB62E29D1A8DDA4800705655 /* AppDelegate.h */,
 				EB62E29E1A8DDA4800705655 /* AppDelegate.m */,
+				D32A78171E13586E00A19425 /* QRCodeViewController.h */,
+				D32A78181E13586E00A19425 /* QRCodeViewController.m */,
 				EB62E2DD1A8DDA4800705655 /* HomeViewController.h */,
 				EB62E2DE1A8DDA4800705655 /* HomeViewController.m */,
 				EB395DFD1A8F0AC40083B659 /* MallViewController.h */,
@@ -2083,7 +2098,7 @@
 					EB62E1F81A8DD92D00705655 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 499WYUV8Q2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -2338,6 +2353,7 @@
 				EB62E3031A8DDA4800705655 /* PSTCollectionViewLayout.m in Sources */,
 				D2D395E81D24F73000A84914 /* AFHTTPRequestOperation.m in Sources */,
 				EB62E2F41A8DDA4800705655 /* NSData+EMImageContentType.m in Sources */,
+				D32A78161E1357FD00A19425 /* UIBarButtonItem+KFAdd.m in Sources */,
 				EB3959861A8EE54D0083B659 /* EMSearchDisplayController.m in Sources */,
 				EB62E2FE1A8DDA4800705655 /* PSTCollectionViewCell.m in Sources */,
 				D35FB2AA1DC72E8E0064FE65 /* FacialView.m in Sources */,
@@ -2347,6 +2363,7 @@
 				EB62E2ED1A8DDA4800705655 /* EMSDWebImageCompat.m in Sources */,
 				D304DEF01DD4983B00AF29F6 /* SCNetworkManager.m in Sources */,
 				EB62E2E11A8DDA4800705655 /* MBProgressHUD+Add.m in Sources */,
+				D32A78191E13586E00A19425 /* QRCodeViewController.m in Sources */,
 				EB30A5351B20637100FD223F /* EMAudioRecorderUtil.m in Sources */,
 				EB62E30E1A8DDA4800705655 /* THProgressView.m in Sources */,
 				EB3959811A8EE54D0083B659 /* EMTextView.m in Sources */,
@@ -2410,6 +2427,7 @@
 				EB30A5381B20637100FD223F /* EMCDDeviceManager+ProximitySensor.m in Sources */,
 				EB3959801A8EE54D0083B659 /* EMSearchBar.m in Sources */,
 				D2D395ED1D24F73000A84914 /* AFURLConnectionOperation.m in Sources */,
+				D32A781F1E135B5500A19425 /* ScanningView.m in Sources */,
 				EB62E2F11A8DDA4800705655 /* EMSDWebImageManager.m in Sources */,
 				EB62E32E1A8DDA4800705655 /* HomeViewController.m in Sources */,
 				D2D395EF1D24F73000A84914 /* AFURLResponseSerialization.m in Sources */,
@@ -2606,9 +2624,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -2617,7 +2635,7 @@
 					"${PROJECT_DIR}/../EaseMobSDKLite/include/**",
 				);
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2627,8 +2645,8 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "7776c7d8-782a-4c75-9b22-6c51bdb698d3";
+				PROVISIONING_PROFILE_SPECIFIER = easemob_enterprise_customer_development;
 			};
 			name = Debug;
 		};
@@ -2639,9 +2657,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -2650,7 +2668,7 @@
 					"${PROJECT_DIR}/../EaseMobSDKLite/include/**",
 				);
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2660,8 +2678,8 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "00b6fd54-58b5-4261-a364-2ee7c249317d";
+				PROVISIONING_PROFILE_SPECIFIER = easemob_enterprise_customer_distribution;
 			};
 			name = Release;
 		};
