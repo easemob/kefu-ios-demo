@@ -59,7 +59,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"%@",NSHomeDirectory());
 //    [LeaseMsgReplyController resetFile];
     [self clearTempWav];
     self.title = NSLocalizedString(@"title.leavemsgdetail", @"Leave Message Detail");

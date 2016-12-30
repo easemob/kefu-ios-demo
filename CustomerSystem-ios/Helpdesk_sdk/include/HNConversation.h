@@ -12,6 +12,14 @@
 
 /*!
  *  \~chinese
+ *  会话唯一标识
+ *
+ *  \~english
+ *  Unique identifier of conversation
+ */
+@property (nonatomic, copy, readonly) NSString *conversationId;
+/*!
+ *  \~chinese
  *   会话未读消息数量
  *
  *  \~english

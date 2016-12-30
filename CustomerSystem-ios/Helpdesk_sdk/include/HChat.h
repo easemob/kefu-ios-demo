@@ -5,13 +5,13 @@
 //  Created by 赵 蕾 on 16/3/29.
 //  Copyright © 2016年 hyphenate. All rights reserved.
 //
-//管理消息和对话
 
 #import <Foundation/Foundation.h>
 #import "HChatDelegate.h"
 #import "HConversation.h"
 #import "IEMChatManager.h"
 #import "HChatDelegate.h"
+#import "HNConversation.h"
 
 @interface HChat : NSObject<EMChatManagerDelegate>
 
@@ -85,7 +85,7 @@
  *
  *  @result Conversation
  */
-- (HConversation *)getConversation:(NSString *)aConversationId
+- (HNConversation *)getConversation:(NSString *)aConversationId
                    createIfNotExist:(BOOL)aIfCreate;
 
 /*!

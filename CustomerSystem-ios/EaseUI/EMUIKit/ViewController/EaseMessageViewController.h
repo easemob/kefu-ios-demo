@@ -14,7 +14,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "EaseRefreshTableViewController.h"
-
 #import "IMessageModel.h"
 #import "EaseMessageModel.h"
 #import "EaseBaseMessageCell.h"
@@ -26,6 +25,7 @@
 #import "UIViewController+HUD.h"
 #import "EaseSDKHelper.h"
 #import "SatisfactionViewController.h"
+#import "HNConversation.h"
 typedef NS_ENUM(NSInteger, HDemoSaleType){
     hPreSaleType=100,   //售前
     hAfterSaleType, //售后
@@ -133,7 +133,7 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 
 @property (weak, nonatomic) id<EaseMessageViewControllerDataSource> dataSource;
 
-@property(nonatomic,strong) HConversation *conversation;
+@property(nonatomic,strong) HNConversation *conversation;
 
 @property (nonatomic) NSTimeInterval messageTimeIntervalTag;
 

@@ -11,11 +11,9 @@
  */
 
 #import "EaseMessageViewController.h"
-
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-
 #import "NSDate+Category.h"
 #import "EaseUsersListViewController.h"
 #import "EaseMessageReadManager.h"
@@ -53,9 +51,7 @@
     UIMenuItem *_deleteMenuItem;
     UILongPressGestureRecognizer *_lpgr;
     NSMutableArray *_atTargets;
-    
     dispatch_queue_t _messageQueue;
-    
     BOOL _isSendingTransformMessage; //正在发送转人工消息
     BOOL _isSendingEvaluateMessage;//点击立即评价按钮
 }
@@ -619,7 +615,6 @@
         dispatch_async(_messageQueue, ^{
             //Format the message
             NSArray *formattedMessages = [weakSelf formatMessages:messages];
-            
             //Refresh the page
             dispatch_async(dispatch_get_main_queue(), ^{
                 EaseMessageViewController *strongSelf = weakSelf;
@@ -627,7 +622,6 @@
                     NSInteger scrollToIndex = 0;
                     if (isAppend) {
                         [strongSelf.messsagesSource insertObjects:messages atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [messages count])]];
-                        
                         //Combine the message
                         id object = [strongSelf.dataArray firstObject];
                         if ([object isKindOfClass:[NSString class]]) {
@@ -651,14 +645,13 @@
                     }
                     
                     HMessage *latest = [strongSelf.messsagesSource lastObject];
-                    strongSelf.messageTimeIntervalTag = latest.message.timestamp;
+                    strongSelf.messageTimeIntervalTag = latest.timestamp;
                     
                     [strongSelf.tableView reloadData];
                     
                     [strongSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.dataArray count] - scrollToIndex - 1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
                 }
             });
-            
             //re-download all messages that are not successfully downloaded
             for (HMessage *message in messages)
             {
@@ -1372,9 +1365,9 @@
     
     for (HMessage *message in messages) {
         //Calculate time interval
-        CGFloat interval = (self.messageTimeIntervalTag - message.message.timestamp) / 1000;
+        CGFloat interval = (self.messageTimeIntervalTag - message.timestamp) / 1000;
         if (self.messageTimeIntervalTag < 0 || interval > 60 || interval < -60) {
-            NSDate *messageDate = [NSDate dateWithTimeIntervalInMilliSecondSince1970:(NSTimeInterval)message.message.timestamp];
+            NSDate *messageDate = [NSDate dateWithTimeIntervalInMilliSecondSince1970:(NSTimeInterval)message.timestamp];
             NSString *timeStr = @"";
             
             if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:stringForDate:)]) {
@@ -1384,7 +1377,7 @@
                 timeStr = [messageDate formattedTime];
             }
             [formattedArray addObject:timeStr];
-            self.messageTimeIntervalTag = message.message.timestamp;
+            self.messageTimeIntervalTag = message.timestamp;
         }
         
         //Construct message model
@@ -1477,8 +1470,6 @@
 
 - (void)_sendMessage:(HMessage *)message
 {
-    HNConversation *conversation = [[HNConversation alloc] initWithConversation:_conversation.conversationId];
-    [conversation insertMessage:message error:nil];
     [self addMessageToDataSource:message
                         progress:nil];
     
@@ -1650,7 +1641,8 @@
     }
     
     HMessage *message = [EaseSDKHelper imageMessageWithImageData:imageData to:self.conversation.conversationId messageExt:nil];
-    
+    EMImageMessageBody *body = (EMImageMessageBody *)message.body;
+    NSLog(@"body.localPathbody.localPath:%@",body.localPath);
     [self _sendMessage:message];
 }
 

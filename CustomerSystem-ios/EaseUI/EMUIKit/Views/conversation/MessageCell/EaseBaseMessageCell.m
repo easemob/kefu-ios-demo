@@ -244,6 +244,14 @@
     if (self.model.isSender) {
         _hasRead.hidden = YES;
         switch (self.model.messageStatus) {
+                
+            case EMMessageStatusPending:
+            {
+                _statusButton.hidden = YES;
+                [_activity setHidden:NO];
+                [_activity startAnimating];
+            }
+                break;
             case EMMessageStatusDelivering:
             {
                 _statusButton.hidden = YES;
@@ -260,7 +268,7 @@
                 }
             }
                 break;
-            case EMMessageStatusPending:
+            
             case EMMessageStatusFailed:
             {
                 [_activity stopAnimating];
