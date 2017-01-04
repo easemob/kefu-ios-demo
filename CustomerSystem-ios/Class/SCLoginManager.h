@@ -10,7 +10,7 @@
 
 @interface SCLoginManager : NSObject
 
-@property (strong, nonatomic) NSString *appkey;  // appley
+@property (strong, nonatomic) NSString *appkey;  // appkey
 
 @property (strong, nonatomic) NSString *cname;  //IM service account
 

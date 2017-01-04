@@ -94,7 +94,7 @@
 /*!
  *  \~chinese
  *  缩略图文件的大小, 以字节为单位
- *
+
  *  \~english
  *  File length of a thumbnail, in bytes
  */

@@ -2,7 +2,7 @@
 //  HNetworkManager.h
 //  helpdesk_sdk
 //
-//  Created by ease on 16/11/23.
+//  Created by afanda on 16/11/23.
 //  Copyright © 2016年 hyphenate. All rights reserved.
 //
 
@@ -10,7 +10,14 @@
 typedef void(^CompletionBlock)(id responseObject,NSError *error);
 @interface HNetworkManager : NSObject
 
+/**
+ 使用留言功能需要传入IM 服务号
+ */
+
+@property(nonatomic,copy) NSString  *imServiceNo;
+
 +(instancetype)shareInstance;
+
 /*
  @method
  @brief 创建一个留言
@@ -107,6 +114,9 @@ typedef void(^CompletionBlock)(id responseObject,NSError *error);
  */
 
 - (void)downloadFileWithUrl:(NSString *)url completionHander:(void (^)(BOOL success,NSURL *filePath,NSError *error))completion;
+
+
+
 
 
 @end

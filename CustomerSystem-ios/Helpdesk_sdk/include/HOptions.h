@@ -22,9 +22,16 @@
  */
 @property (nonatomic, strong) NSString *appkey;
 
+/*!
+ *  \~chinese
+ *  租户ID
+ *
+ *  \~english
+ *  tenantId
+ */
 @property(nonatomic,copy) NSString *tenantId;    //租户ID
-@property(nonatomic,strong) NSString  *cname;   //IM服务号
-@property(nonatomic,copy) NSString *leaveMsgId;  //留言id
+//@property(nonatomic,strong) NSString  *cname;   //IM服务号
+//@property(nonatomic,copy) NSString *leaveMsgId;  //留言id
 
 /*!
  *  \~chinese

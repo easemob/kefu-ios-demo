@@ -15,6 +15,11 @@
 
 @interface HChat : NSObject<EMChatManagerDelegate>
 
+/**
+    正在会话的conversationId，只读
+ */
+@property(nonatomic,copy,readonly) NSString *currentConversationId;
+
 -(instancetype)initWithChatManager:(id<IEMChatManager>)manager;
 
 #pragma mark - Delegate

@@ -19,5 +19,12 @@
 #import "HMessage.h"
 #import "HNConversation.h"
 
+#import "HMessageBody.h"
+#import "HTextMessageBody.h"
+#import "HImageMessageBody.h"
+#import "HVoiceMessageBody.h"
+#import "HFileMessageBody.h"
+#import "HCmdMessageBody.h"
+
 
 #endif /* helpdesk_sdk_h */

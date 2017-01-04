@@ -243,7 +243,7 @@
         } else {
             cell.detailMsg = comment.content;
         }
-        cell.time = @"2016年11月28日12:00";
+        cell.time = [self dateformatWithTimeStr:comment.created_at];
         cell.placeholderImage = [UIImage imageNamed:@"message_comment"];
         cell.imageView.backgroundColor = RGBACOLOR(242, 83, 131, 1);
         return cell;
@@ -258,6 +258,16 @@
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     
     return cell;
+}
+
+- (NSString *)dateformatWithTimeStr:(NSString *)time {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //输入格式
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+    NSDate *date = [dateFormatter dateFromString:time];
+    [dateFormatter setDateFormat:@"MM月DD日HH:MM"];
+    NSString *timeStr=[dateFormatter stringFromDate:date];
+    return timeStr;
 }
 
 #pragma mark - UITableViewDelegate

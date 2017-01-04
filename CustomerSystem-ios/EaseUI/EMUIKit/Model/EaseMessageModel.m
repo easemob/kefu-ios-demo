@@ -38,7 +38,7 @@
             }
         } else {
             if (message.ext) {
-//                _nickname = [[[message.ext objectForKey:@"weichat"] objectForKey:@"visitor"] objectForKey:@"userNickname"];
+                _nickname = [[[message.ext objectForKey:@"weichat"] objectForKey:@"visitor"] objectForKey:@"userNickname"];
             } else {
                 _nickname = message.from;
             }

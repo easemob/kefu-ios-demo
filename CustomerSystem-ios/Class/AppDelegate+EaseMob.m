@@ -40,18 +40,19 @@
     apnsCertName = @"customer";
 #endif
     //注册kefu_sdk
-    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    SCLoginManager *lgM = [SCLoginManager shareLoginManager]; //
     HOptions *option = [[HOptions alloc] init];
-    option.appkey = lgM.appkey;
-    option.cname = lgM.cname;
+    option.appkey = lgM.appkey; 
     option.tenantId = lgM.tenantId;
-    option.leaveMsgId = lgM.projectId;
     option.apnsCertName = apnsCertName;
     EMError *initError = [[HChatClient sharedClient] initializeSDKWithOptions:option];
     if (initError) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"重要提示[初始化错误]" message:initError.errorDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
     }
+#warning Leave messages initialization
+    //要使用环信客服的留言功能需要以下初始化
+    [HNetworkManager shareInstance].imServiceNo = [SCLoginManager shareLoginManager].cname;
 }
 
 //修改关联app后需要重新初始化

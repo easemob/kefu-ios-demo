@@ -35,8 +35,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 80, 7, 80, 16)];
+        _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 200, 7, 190, 16)];
         _timeLabel.font = [UIFont systemFontOfSize:13];
+        _timeLabel.textAlignment = NSTextAlignmentRight;
         _timeLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:_timeLabel];
         

@@ -164,7 +164,7 @@
                 NSMutableDictionary *wc = [NSMutableDictionary dictionary];
                 [wc setObject:ctrlArgs forKey:kMesssageExtWeChat_ctrlArgs];
                 [wc setObject:kMesssageExtWeChat_ctrlType_enquiry forKey:kMesssageExtWeChat_ctrlType];
-                [self.delegate commitSatisfactionWithExt:wc messageModel:self.messageModel];
+                [self.delegate commitSatisfactionWithExt:[NSDictionary dictionaryWithObject:wc forKey:@"weichat"] messageModel:self.messageModel];
             }
         }
     }

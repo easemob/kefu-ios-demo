@@ -2,7 +2,7 @@
 //  HNConversation.h
 //  helpdesk_sdk
 //
-//  Created by __阿彤木_ on 12/26/16.
+//  Created by afanda on 12/26/16.
 //  Copyright © 2016 hyphenate. All rights reserved.
 //
 

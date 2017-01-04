@@ -201,11 +201,21 @@
     }
     LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
     [cell setModel:comment];
-    cell.time = @"2016年11月28日15:18:25";
+    cell.time = [self dateformatWithTimeStr:comment.updated_at];
 //    [NSDate formattedTimeFromTimeInterval:[[self.dateformatter dateFromString:comment.updated_at] timeIntervalSince1970]];
     return cell;
 }
 
+
+- (NSString *)dateformatWithTimeStr:(NSString *)time {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //输入格式
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+    NSDate *date = [dateFormatter dateFromString:time];
+    [dateFormatter setDateFormat:@"MM月DD日HH:MM"];
+    NSString *timeStr=[dateFormatter stringFromDate:date];
+    return timeStr;
+}
 
 #pragma mark - Table view delegate
 
@@ -440,9 +450,9 @@
     if (model.comment.creator.name) {
         [creator setObject:model.comment.creator.name forKey:@"name"];
     } else {
-        [creator setObject:lgM.username forKey:@"name"];
+        [creator setObject:lgM.nickname forKey:@"name"];
     }
-    [creator setObject:lgM.username forKey:@"username"];
+    [creator setObject:lgM.nickname forKey:@"username"];
     [creator setObject:@"" forKey:@"avatar"];
     [creator setObject:@"afan@163.com" forKey:@"email"];
     [creator setObject:@"110" forKey:@"phone"];

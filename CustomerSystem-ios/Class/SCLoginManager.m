@@ -115,6 +115,7 @@ static SCLoginManager *_manager = nil;
     return NO;
 }
 
+#pragma mark loginIM
 - (EMError *)loginIM {
     EMError *error = nil;
     error = [[HChatClient sharedClient] loginWithUsername:self.username password:hxPassWord];
@@ -139,7 +140,8 @@ static SCLoginManager *_manager = nil;
     return username;
 }
 
-- (BOOL)registerIMuser { //举个栗子，尽量不要在移动端注册
+- (BOOL)registerIMuser { //举个栗子。注册建议在服务端创建环信id与自己app的账号一一对应，\
+    而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器
     EMError *error = nil;
     NSString *newUser = [self getrandomUsername];
     self.username = newUser;
