@@ -80,7 +80,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         _conversation = [[HChatClient sharedClient].chat getConversation:conversationChatter createIfNotExist:YES];
-        [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
+//        [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
         _deleteConversationIfNull = YES;
