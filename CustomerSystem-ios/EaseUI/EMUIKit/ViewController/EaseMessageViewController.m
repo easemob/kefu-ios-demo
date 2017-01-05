@@ -80,6 +80,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         _conversation = [[HChatClient sharedClient].chat getConversation:conversationChatter createIfNotExist:YES];
+        [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
         _deleteConversationIfNull = YES;
@@ -1519,7 +1520,7 @@
                         [weakSelf updateTransferMessageExt:message];
                     });
                 } else {
-                    [self showHint:NSLocalizedString(@"transferToKf.fail", @"Transfer to the artificial customer service request failed, please confirm the connection status!")];
+                    [weakSelf showHint:NSLocalizedString(@"transferToKf.fail", @"Transfer to the artificial customer service request failed, please confirm the connection status!")];
                 }
             }];
         }
@@ -1555,7 +1556,7 @@
     [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *aMessage, EMError *aError) {
         if (!aError) {
             [weakself.tableView reloadData];
-            [self showHint:@"评价成功" duration:1];
+            [weakself showHint:@"评价成功" duration:1];
             _isSendingEvaluateMessage = NO;
         }
         [_conversation deleteMessageWithId:aMessage.messageId error:nil];

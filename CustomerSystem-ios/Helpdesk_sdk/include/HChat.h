@@ -72,6 +72,10 @@
  */
 - (NSArray *)loadAllConversationsFromDB;
 
+
+- (void)startPollingCname:(NSString *)cname;
+
+- (void)endPolling;
 /*!
  *  \~chinese
  *  获取一个会话
