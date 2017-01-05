@@ -88,7 +88,7 @@
         NSLog(@"%@",metadataObject.stringValue);
         NSString *value =metadataObject.stringValue;
         if (![value containsString:@"easemob.com"] || ![value containsString:@"appkey"]
-            || [value containsString:@"tenantid"] || ![value containsString:@"imservicenum"]) {
+            || ![value containsString:@"tenantid"] || ![value containsString:@"imservicenum"]) {
             [self showHint:@"二维码无效"];
             [self.navigationController popViewControllerAnimated:YES];
             return;
