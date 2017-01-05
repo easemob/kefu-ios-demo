@@ -27,6 +27,7 @@
 @implementation SettingViewController
 {
     SCLoginManager *_lgM;
+    UIScrollView *_scrollview;
 }
 
 - (void)viewDidLoad {
@@ -44,6 +45,7 @@
         self.tableView.tableFooterView = footerView;
     }
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
     [self initializePropertys];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingChange:) name:KNOTIFICATION_SETTINGCHANGE object:nil];
 }
@@ -171,8 +173,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 45;
+{    return 45;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
