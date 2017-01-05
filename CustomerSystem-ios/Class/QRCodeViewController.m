@@ -71,32 +71,19 @@
         [_session stopRunning];
         [_scanningView stopScanning];
         AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects objectAtIndex : 0 ];
-        [self showHudInView:self.view duration:1];
         //输出扫描字符串
         NSLog(@"%@",metadataObject.stringValue);
         NSString *useful = @"";
         NSMutableDictionary *useDic = [NSMutableDictionary dictionaryWithCapacity:0];
         NSArray *arr = [metadataObject.stringValue componentsSeparatedByString:@"?"];
         if (arr.count == 2) {
-            useful = arr[1];
+            useful = [arr[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSArray *arr1 = [useful componentsSeparatedByString:@"&"];
-            if (arr1.count == 3) {
-                for (int i=0 ; i<3 ;i++) {
-                    if (i==1) {
-                        NSArray *dics = [arr1[i] componentsSeparatedByString:@"#"];
-                        if (dics.count == 2) {
-                            for (int i=0; i<2;i++) {
-                                NSArray *ar = [dics[i] componentsSeparatedByString:@"="];
-                                if (ar.count == 2) {
-                                    [useDic setValue:ar[1] forKey:ar[0]];
-                                }
-                            }
-                        }
-                    } else {
-                        NSArray *dics = [arr1[i] componentsSeparatedByString:@"="];
-                        if (dics.count == 2) {
-                            [useDic setValue:dics[1] forKey:dics[0]];
-                        }
+            if (arr1.count == 4) {
+                for (int i=0 ; i<4 ;i++) {
+                    NSArray *dics = [arr1[i] componentsSeparatedByString:@"="];
+                    if (dics.count == 2) {
+                        [useDic setValue:dics[1] forKey:dics[0]];
                     }
                 }
                 //字典dics里是有用数据

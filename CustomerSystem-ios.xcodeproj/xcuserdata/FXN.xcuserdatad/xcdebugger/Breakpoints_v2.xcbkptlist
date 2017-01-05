@@ -171,6 +171,38 @@
             endingLineNumber = "551"
             landmarkName = "-_imageMessageCellSelected:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[EaseMessageViewController _imageMessageCellSelected:]"
+                  moduleName = "CustomerSystem-ios"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/FXN/%E7%8E%AF%E4%BF%A1%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%9C%8D/helpdeskdemo-ios/CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
+                  timestampString = "505281965.557005"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "551"
+                  endingLineNumber = "551"
+                  offsetFromSymbolStart = "1832">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__55-[EaseMessageViewController _imageMessageCellSelected:]_block_invoke.439"
+                  moduleName = "CustomerSystem-ios"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/FXN/%E7%8E%AF%E4%BF%A1%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%9C%8D/helpdeskdemo-ios/CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
+                  timestampString = "505281965.558761"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "552"
+                  endingLineNumber = "552"
+                  offsetFromSymbolStart = "80">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
