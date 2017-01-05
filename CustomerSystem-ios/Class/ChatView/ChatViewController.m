@@ -1379,6 +1379,7 @@
     __weak typeof(self) weakself = self;
     [[EaseMob sharedInstance].chatManager asyncSendMessage:retureMsg progress:nil prepare:^(EMMessage *message, EMError *error) {} onQueue:dispatch_get_main_queue() completion:^(EMMessage *message, EMError *error) {
         if (!error) {
+            [weakself showHint:@"评价成功"];
             [weakself.tableView reloadData];
         }
         [_conversation removeMessage:retureMsg];

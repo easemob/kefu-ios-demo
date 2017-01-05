@@ -149,11 +149,6 @@
 
 - (void)commit
 {
-    if (!_starRateView.isTap) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"satisfaction.alert", @"please evaluate first") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"Ok"), nil];
-        [alert show];
-        return;
-    }
     if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithExt:messageModel:)]) {
         if ([self.messageModel.message.ext objectForKey:kMesssageExtWeChat]) {
             NSDictionary *weichat = [self.messageModel.message.ext objectForKey:kMesssageExtWeChat];

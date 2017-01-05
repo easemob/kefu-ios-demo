@@ -2098,7 +2098,7 @@
 					EB62E1F81A8DD92D00705655 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 499WYUV8Q2;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -2626,7 +2626,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -2645,8 +2645,8 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7776c7d8-782a-4c75-9b22-6c51bdb698d3";
-				PROVISIONING_PROFILE_SPECIFIER = easemob_enterprise_customer_development;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -2658,8 +2658,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -2678,8 +2678,8 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "00b6fd54-58b5-4261-a364-2ee7c249317d";
-				PROVISIONING_PROFILE_SPECIFIER = easemob_enterprise_customer_distribution;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

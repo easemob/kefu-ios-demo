@@ -86,6 +86,13 @@
         AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects objectAtIndex : 0 ];
         //输出扫描字符串
         NSLog(@"%@",metadataObject.stringValue);
+        NSString *value =metadataObject.stringValue;
+        if (![value containsString:@"easemob.com"] || ![value containsString:@"appkey"]
+            || [value containsString:@"tenantid"] || ![value containsString:@"imservicenum"]) {
+            [self showHint:@"二维码无效"];
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
         NSString *useful = @"";
         NSMutableDictionary *useDic = [NSMutableDictionary dictionaryWithCapacity:0];
         NSArray *arr = [metadataObject.stringValue componentsSeparatedByString:@"?"];

@@ -152,6 +152,7 @@
     if (![self isExistFile:_model]) {
         [self showHint:@"正在下载文件,请稍后点击"];
         [self downloadMessageAttachments:_model];
+        return;
     }
     
     FileMessageBody *body = _model.body;
@@ -184,9 +185,7 @@
                 return;
             }
             kWeakSelf
-            [self showHudInView:self.view hint:@""];
             [[SCNetworkManager sharedInstance] downloadFileWithUrl:model.body.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
-                [self hideHud];
                 if (success) {
                     NSString *path = [_filesPath stringByAppendingPathComponent:model.body.filename];
                     NSData *fileData = [NSData dataWithContentsOfURL:filePath];
