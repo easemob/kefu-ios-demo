@@ -188,7 +188,7 @@ const NSInteger baseTag=123;
             self.recordBtn.enabled = NO;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [weakSelf hideHud];
-                self.recordBtn.enabled = NO;
+                self.recordBtn.enabled = YES;
             });
         }
     }];
@@ -334,7 +334,7 @@ const NSInteger baseTag=123;
             ALAssetRepresentation *representation = [myasset defaultRepresentation];
             NSString *fileName = [representation filename];
             
-            NSData *data = UIImagePNGRepresentation(orgImage);
+            NSData *data =UIImageJPEGRepresentation(orgImage, 0.5);
             
             [[EMHttpManager sharedInstance] uploadWithTenantId:[EMIMHelper defaultHelper].tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {

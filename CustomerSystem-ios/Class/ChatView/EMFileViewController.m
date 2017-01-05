@@ -13,12 +13,13 @@
 //#import "DXCSManager.h"
 #import "ChatViewController.h"
 
-@interface EMFileViewController ()
+@interface EMFileViewController ()<UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, strong) UIBarButtonItem *openFileItem;
 @property (nonatomic, strong) UIButton *downloadButton;
 @property (nonatomic, strong) UIImageView *fileImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
+@property(nonatomic,strong) UIDocumentInteractionController *documentInteractionController;
 
 @end
 
@@ -32,7 +33,6 @@
 {
     [super viewDidLoad];
     [self base];
-    
     self.title = @"文件";
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -154,24 +154,25 @@
         [self downloadMessageAttachments:_model];
     }
     
+    FileMessageBody *body = _model.body;
     NSURL *URL = [NSURL fileURLWithPath:_model.localPath];
-    TTOpenInAppActivity *openInAppActivity = [[TTOpenInAppActivity alloc] initWithView:self.view andRect:self.tableView.frame];
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[URL] applicationActivities:@[openInAppActivity]];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
-        // Store reference to superview (UIActionSheet) to allow dismissal
-        openInAppActivity.superViewController = activityViewController;
-        // Show UIActivityViewController
-        [self presentViewController:activityViewController animated:YES completion:NULL];
-    } else {
-        // Create pop up
-        UIPopoverController *activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
-        // Store reference to superview (UIPopoverController) to allow dismissal
-        openInAppActivity.superViewController = activityPopoverController;
-        // Show UIActivityViewController in popup
-        [activityPopoverController presentPopoverFromRect:self.tableView.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.documentInteractionController.URL = URL;
+    self.documentInteractionController.name = body.filename;
+    if (![self.documentInteractionController presentPreviewAnimated:YES]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"系统不支持预览此类文件" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+        [alert show];
     }
 
+}
+- (UIDocumentInteractionController *)documentInteractionController {
+    if (!_documentInteractionController) {
+        _documentInteractionController = [[UIDocumentInteractionController alloc]init];
+        _documentInteractionController.delegate = self;
+    }
+    return _documentInteractionController;
+}
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
+    return self;
 }
 
 - (void)downloadMessageAttachments:(MessageModel *)model
@@ -185,12 +186,13 @@
             kWeakSelf
             [self showHudInView:self.view hint:@""];
             [[SCNetworkManager sharedInstance] downloadFileWithUrl:model.body.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
+                [self hideHud];
                 if (success) {
                     NSString *path = [_filesPath stringByAppendingPathComponent:model.body.filename];
                     NSData *fileData = [NSData dataWithContentsOfURL:filePath];
                     BOOL sus = [fileData writeToFile:path atomically:YES];
                     if (sus) {
-                        [self showHudInView:self.view hint:@"下载成功"];
+                        [self showHint:@"下载成功"];
                         model.localPath = [_filesPath stringByAppendingPathComponent:model.body.filename];
                         [weakSelf.downloadButton setTitle:@"已下载" forState:UIControlStateNormal];
                         weakSelf.downloadButton.enabled = NO;
@@ -201,7 +203,7 @@
                     [self showHint:@"下载失败"];
 
                 }
-                 [self hideHud];
+                
             }];
            
         }

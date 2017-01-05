@@ -62,7 +62,7 @@
 {
     if (_backItem == nil) {
         UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        [backButton setImage:[UIImage imageNamed:@"shai_icon_backCopy"] forState:UIControlStateNormal];
+        [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
         backButton.imageEdgeInsets = UIEdgeInsetsMake(0, -22, 0, 0);
         [backButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
         _backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
