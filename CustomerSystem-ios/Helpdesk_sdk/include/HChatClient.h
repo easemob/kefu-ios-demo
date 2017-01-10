@@ -18,7 +18,7 @@
 @interface HChatClient :NSObject<EMClientDelegate>
 /*!
  *  \~chinese
- *  当前登录环信账号
+ *  当前登录账号
  *
  *  \~english
  *  Current logined account

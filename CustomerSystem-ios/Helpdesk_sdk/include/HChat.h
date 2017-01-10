@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "HChatDelegate.h"
-#import "HConversation.h"
 #import "IEMChatManager.h"
 #import "HChatDelegate.h"
 #import "HNConversation.h"
@@ -76,6 +75,7 @@
 - (void)startPollingCname:(NSString *)cname;
 
 - (void)endPolling;
+
 /*!
  *  \~chinese
  *  获取一个会话

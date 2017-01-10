@@ -11,6 +11,32 @@
 #import "HContent.h"
 #import "HCompositeContent.h"
 
+/*!
+ *  \~chinese
+ *  消息发送状态
+ *
+ *  \~english
+ *   Message Status
+ */
+typedef enum{
+    HMessageStatusPending  = 0,    /*! \~chinese 发送未开始 \~english Pending */
+    HMessageStatusDelivering,      /*! \~chinese 正在发送 \~english Delivering */
+    HMessageStatusSuccessed,       /*! \~chinese 发送成功 \~english Successed */
+    HMessageStatusFailed,          /*! \~chinese 发送失败 \~english Failed */
+}HMessageStatus;
+
+/*!
+ *  \~chinese
+ *  消息方向
+ *
+ *  \~english
+ *  Message direction
+ */
+typedef enum{
+    HMessageDirectionSend = 0,    /*! \~chinese 发送的消息 \~english Send */
+    HMessageDirectionReceive,     /*! \~chinese 接收的消息 \~english Receive */
+}HMessageDirection;
+
 @interface HMessage : NSObject
 /*!
  *  \~chinese
@@ -45,7 +71,7 @@
  *  \~english
  *  Message direction
  */
-@property (nonatomic) EMMessageDirection direction;
+@property (nonatomic) HMessageDirection direction;
 
 /*!
  *  \~chinese
@@ -81,40 +107,7 @@
  *  \~english
  *  Message status
  */
-@property (nonatomic) EMMessageStatus status;
-
-/*!
- *  \~chinese
- *  已读回执是否已发送/收到, 对于发送方表示是否已经收到已读回执，对于接收方表示是否已经发送已读回执
- *
- *  \~english
- *  Whether read ack has been sent or received, it indicates whether has received read ack for sender, and whether has send read ack for receiver
- */
-@property (nonatomic) BOOL isReadAcked;
-
-/*!
- *  \~chinese
- *  送达回执是否已发送/收到，对于发送方表示是否已经收到送达回执，对于接收方表示是否已经发送送达回执，如果EMOptions设置了enableDeliveryAck，SDK收到消息后会自动发送送达回执
- *
- *  \~english
- *  Whether delivery ack has been sent or received, it indicates whether has received delivery ack for send, and whether has send delivery ack for receiver, SDK will automatically send delivery ack if EMOptions has set enableDeliveryAck
- */
-@property (nonatomic) BOOL isDeliverAcked;
-
-/*!
- *  \~chinese
- *  是否已读
- *
- *  \~english
- *  Whether the message has been read
- */
-@property (nonatomic) BOOL isRead;
-
-
-/*!
- * 文件消息体
- *
- */
+@property (nonatomic)HMessageStatus status;
 
 /*!
  *  \~chinese
@@ -137,13 +130,6 @@
  *  Key type must be NSString, Value type must be NSString or NSNumber of BOOL, int, unsigned in, long long, double.
  */
 @property (nonatomic, copy) NSDictionary *ext;
-
-@property (nonatomic, strong) EMMessage *message;
-
-
-- (instancetype)initWithEMMessage:(EMMessage *)message;
-- (instancetype)init;
-
 
 /*!
  *  \~chinese

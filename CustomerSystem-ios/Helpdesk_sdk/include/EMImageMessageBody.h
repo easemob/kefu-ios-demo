@@ -42,7 +42,6 @@
  *  \~english
  *  Image compression ratio. 1.0 without compression, default value is 0.6. SDK uses the default value if the given value is less than zero.
  */
-@property (nonatomic) CGFloat compressRatio __deprecated_msg("Use - compressionRatio");
 
 @property (nonatomic) CGFloat compressionRatio;
 

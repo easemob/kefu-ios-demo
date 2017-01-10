@@ -157,11 +157,6 @@
     return self.firstMessageBody.type;
 }
 
-- (BOOL)isMessageRead
-{
-    return _message.isReadAcked;
-}
-
 - (NSString *)fileLocalPath
 {
     if (_firstMessageBody) {

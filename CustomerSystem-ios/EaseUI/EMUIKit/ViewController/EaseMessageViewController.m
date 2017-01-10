@@ -80,7 +80,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         _conversation = [[HChatClient sharedClient].chat getConversation:conversationChatter createIfNotExist:YES];
-        [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
+//        [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
         _deleteConversationIfNull = YES;
@@ -1244,7 +1244,7 @@
 
 - (void)messagesDidReceive:(NSArray *)aMessages {
     for (HMessage *message in aMessages) {
-        if ([self.conversation.conversationId isEqualToString:message.message.conversationId]) {
+        if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             [self addMessageToDataSource:message progress:nil];
         }
     }
@@ -1252,7 +1252,7 @@
 
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
     for (HMessage *message in aCmdMessages) {
-        if ([self.conversation.conversationId isEqualToString:message.message.conversationId]) {
+        if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             [self showHint:NSEaseLocalizedString(@"receiveCmd", @"receive cmd message")];
             break;
         }
@@ -1268,7 +1268,7 @@
 
 - (void)messageAttachmentStatusDidChange:(HMessage *)aMessage error:(EMError *)aError {
     if (!aError) {
-        EMFileMessageBody *fileBody = (EMFileMessageBody*)[aMessage.message body];
+        EMFileMessageBody *fileBody = (EMFileMessageBody*)[aMessage body];
         if ([fileBody type] == EMMessageBodyTypeImage) {
             EMImageMessageBody *imageBody = (EMImageMessageBody *)fileBody;
             if ([imageBody thumbnailDownloadStatus] == EMDownloadStatusSuccessed)
@@ -1442,7 +1442,6 @@
         NSString *msgId = aMessage.messageId;
         HMessage *last = self.messsagesSource.lastObject;
         if ([last isKindOfClass:[HMessage class]]) {
-
             __block NSUInteger index = NSNotFound;
             index = NSNotFound;
             [self.messsagesSource enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(HMessage *obj, NSUInteger idx, BOOL *stop) {
@@ -1707,7 +1706,7 @@
 #pragma mark - private
 - (void)_reloadTableViewDataWithMessage:(HMessage *)message
 {
-    if ([self.conversation.conversationId isEqualToString:message.message.conversationId])
+    if ([self.conversation.conversationId isEqualToString:message.conversationId])
     {
         for (int i = 0; i < self.dataArray.count; i ++) {
             id object = [self.dataArray objectAtIndex:i];
@@ -1737,7 +1736,7 @@
 
 - (void)_updateMessageStatus:(HMessage *)aMessage
 {
-    BOOL isChatting = [aMessage.message.conversationId isEqualToString:self.conversation.conversationId];
+    BOOL isChatting = [aMessage.conversationId isEqualToString:self.conversation.conversationId];
     if (aMessage && isChatting) {
         id<IMessageModel> model = nil;
         if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:modelForMessage:)]) {

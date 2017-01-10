@@ -359,4 +359,10 @@
 //错误
 - (NSString *)lastError;
 
+//interface
+- (EMMessageBody *)getEMMessageBodyWithType:(EMMessageBodyType)type body:(NSDictionary *)body;
+
+
+- (NSInteger )messageCountWithMessageId:(NSString *)messageId;
+
 @end
