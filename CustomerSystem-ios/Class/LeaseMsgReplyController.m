@@ -11,21 +11,13 @@
 #import "LeaseMsgReplyController.h"
 #import "EMCDDeviceManager.h"
 #import "EMCDDeviceManager+Media.h"
-//#import "EMAudioPlayerUtil.h"
 #import "FLTextView.h"
 #import "LeaveMsgAttatchmentView.h"
 #import "LeaveMsgDetailModel.h"
-//#import "EMHttpManager.h"
-//#import "EMIMHelper.h"
 #import "EaseMessageReadManager.h"
 #import "MBProgressHUD+Add.h"
-//#import "UIViewController+DismissKeyboard.h"
 #import "DXRecordView.h"
 #import "SCAudioPlay.h"
-//#import "EMVoiceConverter.h"
-
-#define kTouchToRecord NSLocalizedString(@"message.toolBar.record.touch", @"hold down to talk")
-#define kTouchToFinish NSLocalizedString(@"message.toolBar.record.send", @"loosen to send")
 
 #define kDefaultLeft 20
 const NSInteger baseTag=123;
@@ -47,6 +39,7 @@ const NSInteger baseTag=123;
 @implementation LeaseMsgReplyController
 {
     LeaveMsgAttatchmentView *_currentAnimationView;
+    SCAudioPlay *_audioPlayer;
 }
 
 - (void)viewDidLoad
@@ -444,15 +437,19 @@ const NSInteger baseTag=123;
     if ([fm fileExistsAtPath:path]) {
         [fm removeItemAtPath:path error:nil];
     }
-    SCAudioPlay *play = [SCAudioPlay sharedInstance];
-    play.delegate = self;
-    if (play.isPlaying) {
-        [play stopSound];
+    _audioPlayer = [SCAudioPlay sharedInstance];
+    _audioPlayer.delegate = self;
+    if (_audioPlayer.isPlaying) {
+        [_audioPlayer stopSound];
     }
-    [play playSoundWithData:data];
+    [_audioPlayer playSoundWithData:data];
 }
 
 - (void)AVAudioPlayerBeiginPlay {
+    if (_audioPlayer.attatchmentView != nil) {
+        [_audioPlayer.attatchmentView stopAnimating];
+    }
+    _audioPlayer.attatchmentView = _currentAnimationView;;
     [_currentAnimationView startAnimating];
 }
 

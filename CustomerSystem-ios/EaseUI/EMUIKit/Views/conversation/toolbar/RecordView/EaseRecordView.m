@@ -13,7 +13,7 @@
 #import "EaseRecordView.h"
 #import "EMCDDeviceManager.h"
 #import "EaseLocalDefine.h"
-
+#define kCoverTag 32320
 @interface EaseRecordView ()
 {
     NSTimer *_timer;
@@ -88,6 +88,7 @@
 
 -(void)recordButtonTouchDown
 {
+    [self addCover];
     _textLabel.text = _upCancelText;
     _textLabel.backgroundColor = [UIColor clearColor];
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.05
@@ -98,13 +99,26 @@
     
 }
 
+- (void)addCover {
+    UIView *cover = [[UIView alloc] initWithFrame:fKeyWindow.bounds];
+    cover.tag = kCoverTag;
+    [self bringSubviewToFront:cover];
+    [fKeyWindow addSubview:cover];
+}
+
+- (void)removeCoverView {
+    UIView *coverView = [fKeyWindow viewWithTag:kCoverTag];
+    [coverView removeFromSuperview];
+}
 -(void)recordButtonTouchUpInside
 {
+    [self removeCoverView];
     [_timer invalidate];
 }
 
 -(void)recordButtonTouchUpOutside
 {
+    [self removeCoverView];
     [_timer invalidate];
 }
 

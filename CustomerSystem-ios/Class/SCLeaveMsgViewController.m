@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     NSTextFieldTagContent
 };
 
-@interface SCLeaveMsgViewController ()
+@interface SCLeaveMsgViewController ()<UITextFieldDelegate>
 
 @end
 
@@ -34,15 +34,20 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 - (void)createTextfieldWithY:(CGFloat)y placeholder:(NSString *)placeholder tag:(NSTextFieldTag)tag
 {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, y, kScreenWidth-20, 40)];
+    if (tag == NSTextFieldTagTel) {
+        textField.keyboardType = UIKeyboardTypeNumberPad;
+    }
     textField.borderStyle = UITextBorderStyleRoundedRect;
     textField.layer.borderWidth = 1.0;
     textField.layer.borderColor = [UIColor lightGrayColor].CGColor;
     textField.tag = tag;
+    textField.delegate = self;
     textField.placeholder = placeholder;
     [self.view addSubview:textField];
 }
 
 - (void)leaveMessage {
+    [self.view endEditing:YES];
     NSString *name = ((UITextField *)[self.view viewWithTag:NSTextFieldTagName]).text;
     NSString *tel = ((UITextField *)[self.view viewWithTag:NSTextFieldTagTel]).text;
     NSString *mail = ((UITextField *)[self.view viewWithTag:NSTextFieldTagMail]).text;
@@ -112,6 +117,17 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     }];
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField.tag == NSTextFieldTagTel && ![string isEqualToString:@""]) {
+        if (textField.text.length >=20) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"长度受限" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
+            [alert show];
+            return NO;
+        }
+    }
+    return YES;
+}
+
 - (void)setupBarButtonItem
 {
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
@@ -125,6 +141,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     [sendButton addTarget:self action:@selector(leaveMessage) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:sendButton];
 }
+
 
 
 - (void)didReceiveMemoryWarning {

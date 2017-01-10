@@ -131,6 +131,7 @@
 
 - (void)appDidFinishLaunching:(NSNotification*)notif
 {
+//    [[HChatClient sharedClient] applicationdidfinishLounching];
  //   [[EaseMob sharedInstance] applicationDidFinishLaunching:notif.object];
 }
 
@@ -166,12 +167,11 @@
 
 // 将得到的deviceToken传给SDK
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
- //   [[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    [[HChatClient sharedClient] bindDeviceToken:deviceToken];
 }
 
 // 注册deviceToken失败，此处失败，与环信SDK无关，一般是您的环境配置或者证书配置有误
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-   // [[EaseMob sharedInstance] application:application didFailToRegisterForRemoteNotificationsWithError:error];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"apns.failToRegisterApns", Fail to register apns)
                                                     message:error.description
                                                    delegate:nil
@@ -211,35 +211,28 @@
 {
     [self unRegisterEaseMobNotification];
     // 将self 添加到SDK回调中，以便本类可以收到SDK回调
+    [[HChatClient sharedClient] addDelegate:self delegateQueue:nil];
  //   [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
 }
 
 - (void)unRegisterEaseMobNotification{
  //   [[EaseMob sharedInstance].chatManager removeDelegate:self];
+    [[HChatClient sharedClient] removeDelegate:self];
 }
 
-#pragma mark - login
 
+#pragma mark - IChatManagerDelegate
 
-//#pragma mark - UIAlertViewDelegate
-//
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    [self loginEasemobSDK];
-//}
-//
-//#pragma mark - IChatManagerDelegate
-//
-//- (void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
-//{
-//    if (error) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt")
-//                                                            message:NSLocalizedString(@"login.fail", @"Logon failure")
-//                                                           delegate:self
-//                                                  cancelButtonTitle:NSLocalizedString(@"retry", @"Retry")
-//                                                  otherButtonTitles:nil, nil];
-//        [alertView show];
-//    }
-//}
+- (void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
+{
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt")
+                                                            message:NSLocalizedString(@"login.fail", @"Logon failure")
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"retry", @"Retry")
+                                                  otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+}
 
 @end

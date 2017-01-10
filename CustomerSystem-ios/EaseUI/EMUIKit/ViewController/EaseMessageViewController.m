@@ -80,7 +80,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         _conversation = [[HChatClient sharedClient].chat getConversation:conversationChatter createIfNotExist:YES];
-//        [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
+        [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
         _deleteConversationIfNull = YES;
@@ -200,7 +200,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-
+    [[HChatClient sharedClient].chat endPolling];
     [[EMCDDeviceManager sharedInstance] disableProximitySensor];
 }
 
@@ -1442,7 +1442,7 @@
         NSString *msgId = aMessage.messageId;
         HMessage *last = self.messsagesSource.lastObject;
         if ([last isKindOfClass:[HMessage class]]) {
-            
+
             __block NSUInteger index = NSNotFound;
             index = NSNotFound;
             [self.messsagesSource enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(HMessage *obj, NSUInteger idx, BOOL *stop) {

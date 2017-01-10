@@ -9,23 +9,18 @@
 #import "LeaveMsgDetailViewController.h"
 #import "LeaveMsgDetailHeaderView.h"
 #import "LeaseMsgReplyController.h"
-//#import "EMHttpManager.h"
-//#import "MBProgressHUD+Add.h"
-//#import "EMIMHelper.h"
+#import "EaseMessageReadManager.h"
 #import "LeaveMsgCell.h"
 #import "LeaveMsgDetailModel.h"
 #import "EMCDDeviceManager+Media.h"
-//#import "NSDate+Category.h"
-//#import "EaseMob.h"
-//#import "MessageReadManager.h"
-//#import "SCNetworkManager.h"
 #import "SCAudioPlay.h"
 #import "LeaveMsgAttatchmentView.h"
 
-@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate/*,EMChatManagerDelegate, LeaseMsgReplyControllerDelegate,SCAudioPlayDelegate*/>
+@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate,SCAudioPlayDelegate,LeaseMsgReplyControllerDelegate>
 {
     NSInteger _ticketId;
     NSDictionary *_temp;
+    SCAudioPlay *_audioPlayer;
 }
 
 @property (nonatomic, strong) LeaveMsgDetailHeaderView *headerView;
@@ -202,23 +197,20 @@
     LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
     [cell setModel:comment];
     cell.time = [self dateformatWithTimeStr:comment.updated_at];
-//    [NSDate formattedTimeFromTimeInterval:[[self.dateformatter dateFromString:comment.updated_at] timeIntervalSince1970]];
     return cell;
 }
-
 
 - (NSString *)dateformatWithTimeStr:(NSString *)time {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     //输入格式
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
     NSDate *date = [dateFormatter dateFromString:time];
-    [dateFormatter setDateFormat:@"MM月DD日HH:MM"];
+    [dateFormatter setDateFormat:@"MM-dd HH:mm"];
     NSString *timeStr=[dateFormatter stringFromDate:date];
     return timeStr;
 }
 
 #pragma mark - Table view delegate
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(tableView.frame), 15)];
@@ -244,20 +236,25 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (indexPath.row > 0) {
-//        LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
-//        if ([comment.attachments count] > 0) {
-//            NSMutableArray *images = [NSMutableArray array];
-//            for (LeaveMsgAttachmentModel *attachment in comment.attachments) {
-//                if ([attachment.type isEqualToString:@"image"]) {
-//                    [images addObject:[NSURL URLWithString:attachment.url]];
-//                }
-//            }
-//            if ([images count] > 0) {
-//                [[MessageReadManager defaultManager] showBrowserWithImages:images];
-//            }
-//        }
-//    }
+    if (indexPath.row > 0) {
+        LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
+        if ([comment.attachments count] > 0) {
+            NSMutableArray *images = [NSMutableArray array];
+            for (LeaveMsgAttachmentModel *attachment in comment.attachments) {
+                if ([attachment.type isEqualToString:@"image"]) {
+                    [images addObject:[NSURL URLWithString:attachment.url]];
+                }
+            }
+            NSMutableArray *uiimages = [NSMutableArray arrayWithCapacity:0];
+            for (NSURL *url in images) {
+                UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+                [uiimages addObject:image];
+            }
+            if ([images count] > 0) {
+                [[EaseMessageReadManager defaultManager] showBrowserWithImages:uiimages];
+            }
+        }
+    }
 }
 
 #pragma mark - LeaveMsgCellDelegate
@@ -285,15 +282,19 @@
     if ([fm fileExistsAtPath:path]) {
         [fm removeItemAtPath:path error:nil];
     }
-    SCAudioPlay *play = [SCAudioPlay sharedInstance];
-    play.delegate = self;
-    if (play.isPlaying) {
-        [play stopSound];
+    _audioPlayer = [SCAudioPlay sharedInstance];
+    _audioPlayer.delegate = self;
+    if (_audioPlayer.isPlaying) {
+        [_audioPlayer stopSound];
     }
-    [play playSoundWithData:data];
+    [_audioPlayer playSoundWithData:data];
 }
 
 - (void)AVAudioPlayerBeiginPlay {
+    if (_audioPlayer.attatchmentView != nil) {
+        [_audioPlayer.attatchmentView stopAnimating];
+    }
+    _audioPlayer.attatchmentView = _touchView;
     [_touchView startAnimating];
 }
 

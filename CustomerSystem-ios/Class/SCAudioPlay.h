@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import "LeaveMsgAttatchmentView.h"
 
 @protocol SCAudioPlayDelegate <NSObject>
 
@@ -20,6 +21,8 @@
 @property (nonatomic ,strong) AVAudioPlayer *player;
 @property (nonatomic ,assign) id<SCAudioPlayDelegate>delegate;
 @property(nonatomic,assign,getter=isPlaying) BOOL playing;
+
+@property(nonatomic,strong) LeaveMsgAttatchmentView *attatchmentView;
 + (instancetype)sharedInstance;
 
 -(void)playSongWithUrl:(NSString *)songUrl;

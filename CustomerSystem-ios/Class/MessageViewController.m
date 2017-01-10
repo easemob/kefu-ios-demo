@@ -263,9 +263,9 @@
 - (NSString *)dateformatWithTimeStr:(NSString *)time {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     //输入格式
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
     NSDate *date = [dateFormatter dateFromString:time];
-    [dateFormatter setDateFormat:@"MM月DD日HH:MM"];
+    [dateFormatter setDateFormat:@"MM-dd HH:mm"];
     NSString *timeStr=[dateFormatter stringFromDate:date];
     return timeStr;
 }

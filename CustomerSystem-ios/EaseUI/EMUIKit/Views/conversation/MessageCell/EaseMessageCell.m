@@ -389,7 +389,11 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                         [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer];
                     }
                     if ([EaseBubbleView isEvaluateMessage:model.message]) {
-                        _bubbleView.evaluateTitle.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
+                        if ([model.text isEqualToString:@""]) {
+                            _bubbleView.evaluateTitle.attributedText = [[NSAttributedString alloc] initWithString:@"请对我的服务做出评价"];
+                        } else  {
+                            _bubbleView.evaluateTitle.attributedText = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
+                        }
                     }
                 } else {
                     NSString *content = model.text;

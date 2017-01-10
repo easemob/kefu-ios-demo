@@ -12,6 +12,7 @@
 
 #import "DXRecordView.h"
 #import "EMCDDeviceManager.h"
+#define kCoverTag 10210
 @interface DXRecordView ()
 {
     NSTimer *_timer;
@@ -62,6 +63,7 @@
 // 录音按钮按下
 -(void)recordButtonTouchDown
 {
+    [self addCover];
     // 需要根据声音大小切换recordView动画
     _textLabel.text = NSLocalizedString(@"message.toolBar.record.upCancel", @"Fingers up slide, cancel sending");
     _textLabel.backgroundColor = [UIColor clearColor];
@@ -72,15 +74,29 @@
                                              repeats:YES];
     
 }
+
+- (void)addCover {
+    UIView *cover = [[UIView alloc] initWithFrame:fKeyWindow.bounds];
+    cover.tag = kCoverTag;
+    [self bringSubviewToFront:cover];
+    [fKeyWindow addSubview:cover];
+}
 // 手指在录音按钮内部时离开
 -(void)recordButtonTouchUpInside
 {
+    [self removeCoverView];
     [_timer invalidate];
 }
 // 手指在录音按钮外部时离开
 -(void)recordButtonTouchUpOutside
 {
+    [self removeCoverView];
     [_timer invalidate];
+}
+
+- (void)removeCoverView {
+    UIView *coverView = [fKeyWindow viewWithTag:kCoverTag];
+    [coverView removeFromSuperview];
 }
 // 手指移动到录音按钮内部
 -(void)recordButtonDragInside
