@@ -65,26 +65,5 @@
     
 }
 
-- (void)didConnectionStateChanged:(HConnectionState)aConnectionState
-{
-    
-}
-
-- (void)didAutoLoginWithError:(EMError *)aError
-{
-    
-    
-}
-
-- (void)didLoginFromOtherDevice
-{
-    
-}
-
-- (void)didRemovedFromServer
-{
-    
-}
-
 
 @end

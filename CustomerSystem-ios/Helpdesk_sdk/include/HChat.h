@@ -11,6 +11,7 @@
 #import "IEMChatManager.h"
 #import "HChatDelegate.h"
 #import "HNConversation.h"
+#import "HError.h"
 
 @interface HChat : NSObject<EMChatManagerDelegate>
 
@@ -154,7 +155,7 @@
  */
 - (void)sendMessage:(HMessage *)aMessage
            progress:(void (^)(int progress))aProgressBlock
-         completion:(void (^)(HMessage *aMessage, EMError *aError))aCompletionBlock;
+         completion:(void (^)(HMessage *aMessage, HError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -172,7 +173,7 @@
 - (void)resendMessage:(HMessage *)aMessage
              progress:(void (^)(int progress))aProgressCompletion
            completion:(void (^)(HMessage *message,
-                                EMError *error))aCompletion;
+                                HError *error))aCompletion;
 
 /*!
  *  \~chinese
@@ -189,7 +190,7 @@
  *
  */
 - (void)updateMessage:(HMessage *)aMessage
-           completion:(void (^)(HMessage *aMessage, EMError *aError))aCompletionBlock;
+           completion:(void (^)(HMessage *aMessage, HError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -208,7 +209,7 @@
  */
 - (void)downloadMessageThumbnail:(HMessage *)aMessage
                         progress:(void (^)(int progress))aProgressBlock
-                      completion:(void (^)(HMessage *message, EMError *error))aCompletionBlock;
+                      completion:(void (^)(HMessage *message, HError *error))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -230,7 +231,7 @@
  */
 - (void)downloadMessageAttachment:(HMessage *)aMessage
                          progress:(void (^)(int progress))aProgressBlock
-                       completion:(void (^)(HMessage *message, EMError *error))aCompletionBlock;
+                       completion:(void (^)(HMessage *message, HError *error))aCompletionBlock;
 
 @end
 

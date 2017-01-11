@@ -80,13 +80,14 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         _conversation = [[HChatClient sharedClient].chat getConversation:conversationChatter createIfNotExist:YES];
-//        [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
+        [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
         _deleteConversationIfNull = YES;
         _scrollToBottomWhenAppear = YES;
         _messsagesSource = [NSMutableArray array];
-        [_conversation markAllMessagesAsRead:nil];
+        HError *er = [HError new];
+        [_conversation markAllMessagesAsRead:&er];
     }
     
     return self;
@@ -382,7 +383,7 @@
 - (void)_downloadMessageAttachments:(HMessage *)message
 {
     __weak typeof(self) weakSelf = self;
-    void (^completion)(HMessage *, EMError *) = ^(HMessage *aMessage, EMError *error) {
+    void (^completion)(HMessage *, HError *) = ^(HMessage *aMessage, HError *error) {
         if (!error)
         {
             [weakSelf _reloadTableViewDataWithMessage:message];
@@ -417,7 +418,7 @@
         if (voiceBody.downloadStatus > EMDownloadStatusSuccessed)
         {
             //download the message attachment
-            [[HChatClient sharedClient].chat downloadMessageAttachment:message progress:nil completion:^(HMessage *message, EMError *error) {
+            [[HChatClient sharedClient].chat downloadMessageAttachment:message progress:nil completion:^(HMessage *message, HError *error) {
                 if (!error) {
                     [weakSelf _reloadTableViewDataWithMessage:message];
                 }
@@ -466,7 +467,7 @@
     };
     
     __weak typeof(self) weakSelf = self;
-    void (^completion)(HMessage *aMessage, EMError *error) = ^(HMessage *aMessage, EMError *error) {
+    void (^completion)(HMessage *aMessage, HError *error) = ^(HMessage *aMessage, HError *error) {
         if (!error)
         {
             [weakSelf _reloadTableViewDataWithMessage:aMessage];
@@ -490,7 +491,7 @@
     }
     
     [self showHudInView:self.view hint:NSEaseLocalizedString(@"message.downloadingVideo", @"downloading video...")];
-    [[HChatClient sharedClient].chat downloadMessageAttachment:model.message progress:nil completion:^(HMessage *message, EMError *error) {
+    [[HChatClient sharedClient].chat downloadMessageAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
         [weakSelf hideHud];
         if (!error) {
             block();
@@ -526,7 +527,7 @@
                 }
             }
             [weakSelf showHudInView:weakSelf.view hint:NSEaseLocalizedString(@"message.downloadingImage", @"downloading a image...")];
-            [[HChatClient sharedClient].chat downloadMessageAttachment:model.message progress:nil completion:^(HMessage *message, EMError *error) {
+            [[HChatClient sharedClient].chat downloadMessageAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
                 [weakSelf hideHud];
                 if (!error) {
                     //send the acknowledgement
@@ -549,7 +550,7 @@
             }];
         }else{
             //get the message thumbnail
-            [[HChatClient sharedClient].chat downloadMessageThumbnail:model.message progress:nil completion:^(HMessage *message, EMError *error) {
+            [[HChatClient sharedClient].chat downloadMessageThumbnail:model.message progress:nil completion:^(HMessage *message, HError *error) {
                 if (!error) {
                     [weakSelf _reloadTableViewDataWithMessage:model.message];
                 }else{
@@ -661,7 +662,7 @@
         });
     };
     
-    [self.conversation loadMessagesStartFromId:messageId count:(int)count searchDirection:EMMessageSearchDirectionUp completion:^(NSArray *aMessages, EMError *aError) {
+    [self.conversation loadMessagesStartFromId:messageId count:(int)count searchDirection:EMMessageSearchDirectionUp completion:^(NSArray *aMessages, HError *aError) {
         if (!aError && [aMessages count]) {
             refresh(aMessages);
         }
@@ -947,7 +948,7 @@
     }
     __weak typeof(self) weakself = self;
     
-    [[HChatClient sharedClient].chat resendMessage:model.message progress:nil completion:^(HMessage *message, EMError *error) {
+    [[HChatClient sharedClient].chat resendMessage:model.message progress:nil completion:^(HMessage *message, HError *error) {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
         }
@@ -1261,12 +1262,12 @@
 
 
 //消息状态发生变化
-- (void)messageStatusDidChange:(HMessage *)aMessage error:(EMError *)aError {
+- (void)messageStatusDidChange:(HMessage *)aMessage error:(HError *)aError {
      [self _updateMessageStatus:aMessage];
 }
 
 
-- (void)messageAttachmentStatusDidChange:(HMessage *)aMessage error:(EMError *)aError {
+- (void)messageAttachmentStatusDidChange:(HMessage *)aMessage error:(HError *)aError {
     if (!aError) {
         EMFileMessageBody *fileBody = (EMFileMessageBody*)[aMessage body];
         if ([fileBody type] == EMMessageBodyTypeImage) {
@@ -1475,7 +1476,7 @@
     
     __weak typeof(self) weakself = self;
     
-    [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *message, EMError *error) {
+    [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *message, HError *error) {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
         }
@@ -1511,7 +1512,7 @@
             //发送透传消息
             HMessage *aHMessage = [EaseSDKHelper cmdMessageFormatTo:self.conversation.conversationId ext:ext params:nil];
             __weak typeof(self) weakSelf = self;
-            [[HChatClient sharedClient].chat sendMessage:aHMessage progress:nil completion:^(HMessage *aMessage, EMError *aError) {
+            [[HChatClient sharedClient].chat sendMessage:aHMessage progress:nil completion:^(HMessage *aMessage, HError *aError) {
                 _isSendingTransformMessage = NO;
                 if (!aError) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -1548,15 +1549,21 @@
     }
 }
 
+- (void)backFromSatisfactionViewController {
+    _isSendingEvaluateMessage = NO;
+}
+
 - (void)commitSatisfactionWithExt:(NSDictionary *)ext messageModel:(id<IMessageModel>)model {
     HMessage *message = [EaseSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId ext:ext];
     __weak typeof(self) weakself = self;
+    _isSendingEvaluateMessage = NO;
     [self showHudInView:self.view hint:@"评价提交"];
-    [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *aMessage, EMError *aError) {
+    [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *aMessage, HError *aError) {
         if (!aError) {
             [weakself.tableView reloadData];
             [weakself showHint:@"评价成功" duration:1];
-            _isSendingEvaluateMessage = NO;
+        } else {
+            [weakself showHint:@"评价失败" duration:1];
         }
         [_conversation deleteMessageWithId:aMessage.messageId error:nil];
     }];
@@ -1571,7 +1578,7 @@
     [_ext setValue:@YES forKey:kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer];
     _message.ext = [_ext copy];
     __weak typeof(self) weakSelf = self;
-    [[HChatClient sharedClient].chat updateMessage:_message completion:^(HMessage *aMessage, EMError *aError) {
+    [[HChatClient sharedClient].chat updateMessage:_message completion:^(HMessage *aMessage, HError *aError) {
         if (!aError) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.tableView reloadData];
@@ -1640,7 +1647,7 @@
         progress = self;
     }
     
-    HMessage *message = [EaseSDKHelper imageMessageWithImageData:imageData to:self.conversation.conversationId messageExt:nil];
+    HMessage *message = [EaseSDKHelper imageMessageWithImageData:imageData to:self.conversation.conversationId messageExt:[self getWeiChat]];
     EMImageMessageBody *body = (EMImageMessageBody *)message.body;
     NSLog(@"body.localPathbody.localPath:%@",body.localPath);
     [self _sendMessage:message];
@@ -1655,7 +1662,7 @@
     else{
         progress = self;
     }
-    HMessage *message = [EaseSDKHelper imageMessageWithImage:image to:self.conversation.conversationId messageExt:nil];
+    HMessage *message = [EaseSDKHelper imageMessageWithImage:image to:self.conversation.conversationId messageExt:[self getWeiChat]];
     [self _sendMessage:message];
 }
 
@@ -1670,7 +1677,7 @@
         progress = self;
     }
     
-    HMessage *message = [EaseSDKHelper voiceMessageWithLocalPath:localPath duration:duration to:self.conversation.conversationId messageExt:nil];
+    HMessage *message = [EaseSDKHelper voiceMessageWithLocalPath:localPath duration:duration to:self.conversation.conversationId messageExt:[self getWeiChat]];
     [self _sendMessage:message];
 }
 

@@ -150,7 +150,7 @@
             
             [[HChatClient sharedClient].chat downloadMessageAttachment:model.message progress:^(int progress) {
                 
-            } completion:^(HMessage *message, EMError *error) {
+            } completion:^(HMessage *message, HError *error) {
                 [self hideHud];
                 if (!error) { //成功
                     [_downloadButton setTitle:@"已下载" forState:UIControlStateNormal];

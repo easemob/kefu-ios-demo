@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate (EaseMob)<UIAlertViewDelegate>
+@interface AppDelegate (EaseMob)<UIAlertViewDelegate,HChatClientDelegate>
 - (void)easemobApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 - (void)resetCustomerServiceSDK;

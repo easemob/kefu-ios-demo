@@ -129,10 +129,6 @@
 - (BOOL)updateMessageChange:(HMessage *)aMessage
                       error:(EMError **)pError;
 
-//更新消息状态
-- (BOOL)updateMessageStatusWithMessageId:(NSString *)messageId status:(EMMessageStatus)status error:(EMError *__autoreleasing *)pError;
-
-
 /*!
  *  \~chinese
  *  将消息设置为已读

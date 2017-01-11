@@ -13,6 +13,10 @@
 @optional
 - (void)commitSatisfactionWithExt:(NSDictionary*)ext messageModel:(id<IMessageModel>)model;
 
+@required
+
+- (void)backFromSatisfactionViewController;
+
 @end
 
 @interface SatisfactionViewController : UIViewController

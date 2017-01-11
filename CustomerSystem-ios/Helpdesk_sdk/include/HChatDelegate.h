@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HMessage.h"
+#import "HError.h"
 @protocol HChatDelegate<NSObject>
 
 #pragma mark - Message
@@ -52,7 +53,7 @@
  *  @param aError    Error info
  */
 - (void)messageStatusDidChange:(HMessage *)aMessage
-                         error:(EMError *)aError;
+                         error:(HError *)aError;
 
 /*!
  *  \~chinese
@@ -68,7 +69,7 @@
  *  @param aError    Error
  */
 - (void)messageAttachmentStatusDidChange:(HMessage *)aMessage
-                                   error:(EMError *)aError;
+                                   error:(HError *)aError;
 
 
 @end

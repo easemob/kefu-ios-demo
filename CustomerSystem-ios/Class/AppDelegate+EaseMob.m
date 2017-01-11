@@ -45,11 +45,13 @@
     option.appkey = lgM.appkey; 
     option.tenantId = lgM.tenantId;
     option.apnsCertName = apnsCertName;
-    EMError *initError = [[HChatClient sharedClient] initializeSDKWithOptions:option];
+    HChatClient *client = [HChatClient sharedClient];
+    HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"重要提示[初始化错误]" message:initError.errorDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
     }
+    [self registerEaseMobNotification];
 #warning Leave messages initialization
     //要使用环信客服的留言功能需要以下初始化
     [HNetworkManager shareInstance].imServiceNo = [SCLoginManager shareLoginManager].cname;
@@ -60,7 +62,7 @@
     //如果在登录状态,账号要退出
     HChatClient *client = [HChatClient sharedClient];
     if (client.isLoggedIn) {
-        EMError *error = [client logout:YES];
+        HError *error = [client logout:YES];
         if (error) {
             NSLog(@"error.code:%u,error.errorDescription :%@",error.code,error.errorDescription);
         }
@@ -223,9 +225,9 @@
 
 #pragma mark - IChatManagerDelegate
 
-- (void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
-{
-    if (error) {
+- (void)autoLoginDidCompleteWithError:(HError *)aError {
+    NSLog(@"autoLogin Success!!!");
+    if (aError) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt")
                                                             message:NSLocalizedString(@"login.fail", @"Logon failure")
                                                            delegate:self
@@ -234,5 +236,27 @@
         [alertView show];
     }
 }
+
+- (void)connectionStateDidChange:(HConnectionState)aConnectionState {
+    switch (aConnectionState) {
+        case HConnectionConnected: {
+            break;
+        }
+        case HConnectionDisconnected: {
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)userAccountDidRemoveFromServer {
+    
+}
+
+- (void)userAccountDidLoginFromOtherDevice {
+    
+}
+
 
 @end

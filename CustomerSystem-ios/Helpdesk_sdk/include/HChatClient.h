@@ -7,15 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EMClient.h"
 #import "HChat.h"
 #import "HOptions.h"
 #import "HChatClientDelegate.h"
-
+#import "HError.h"
+#import "EMPushOptions.h"
 // resued concept
-// 1. EMError
 
-@interface HChatClient :NSObject<EMClientDelegate>
+@interface HChatClient :NSObject<HChatClientDelegate>
 /*!
  *  \~chinese
  *  当前登录账号
@@ -109,7 +108,7 @@
  *
  *  @result Error
  */
-- (EMError *)initializeSDKWithOptions:(HOptions *)aOptions;
+- (HError *)initializeSDKWithOptions:(HOptions *)aOptions;
 
 #pragma mark - Register
 
@@ -134,7 +133,7 @@
  *
  *  @result Error
  */
-- (EMError *)registerWithUsername:(NSString *)aUsername
+- (HError *)registerWithUsername:(NSString *)aUsername
                          password:(NSString *)aPassword;
 
 #pragma mark - Login
@@ -160,7 +159,7 @@
  *
  *  @result Error
  */
-- (EMError *)loginWithUsername:(NSString *)aUsername
+- (HError *)loginWithUsername:(NSString *)aUsername
                       password:(NSString *)aPassword;
 
 #pragma makr - Logout
@@ -185,7 +184,7 @@
  *
  *  @result Error
  */
-- (EMError *)logout:(BOOL)bIsUnbindDeviceToken;
+- (HError *)logout:(BOOL)bIsUnbindDeviceToken;
 
 #pragma mark - Apns
 
@@ -208,7 +207,7 @@
  *
  *  @result Error
  */
-- (EMError *)bindDeviceToken:(NSData *)aDeviceToken;
+- (HError *)bindDeviceToken:(NSData *)aDeviceToken;
 
 /*!
  *  \~chinese
@@ -229,7 +228,7 @@
  *
  *  @result Apns options
  */
-- (EMPushOptions *)getPushOptionsFromServerWithError:(EMError **)pError;
+- (EMPushOptions *)getPushOptionsFromServerWithError:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -250,7 +249,7 @@
  *
  *  @result Error
  */
-- (EMError *)setApnsNickname:(NSString *)aNickname;
+- (HError *)setApnsNickname:(NSString *)aNickname;
 
 /*!
  *  \~chinese
@@ -267,7 +266,7 @@
  *
  *  @result Error
  */
-- (EMError *)updatePushOptionsToServer;
+- (HError *)updatePushOptionsToServer;
 
 #pragma mark - iOS
 

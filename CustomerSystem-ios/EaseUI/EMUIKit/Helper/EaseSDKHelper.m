@@ -159,7 +159,6 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
                              ext:(NSDictionary *)ext
                           params:(NSArray *)params{
     HCmdMessageBody *bdy = [[HCmdMessageBody alloc] initWithAction:@"TransferToKf"];
-    EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"TransferToKf"];
     NSString *from = [[HChatClient sharedClient] currentUsername];
     if (params) {
         bdy.params = params;
@@ -174,7 +173,6 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
                                      ext:(NSDictionary *)ext {
     NSString *willSendText = [EaseConvertToCommonEmoticonsHelper convertToCommonEmoticons:text];
     HTextMessageBody *bdy = [[HTextMessageBody alloc] initWithText:willSendText];
-//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:willSendText];
     NSString *from = [[HChatClient sharedClient] currentUsername];
     HMessage *message = [[HMessage alloc] initWithConversationID:toUser from:from to:toUser body:bdy.textMessagBody ext:ext];
     return message;
@@ -184,7 +182,6 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
                                           to:(NSString *)to
                                   messageExt:(NSDictionary *)messageExt
 {
-//    EMImageMessageBody *body = [[EMImageMessageBody alloc] initWithData:imageData displayName:@"image.png"];
     HImageMessageBody *bdy = [[HImageMessageBody alloc] initWithData:imageData displayName:@"image"];
     NSString *from = [[HChatClient sharedClient] currentUsername];
     HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:bdy.imgMessageBody ext:messageExt];

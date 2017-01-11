@@ -144,6 +144,9 @@
 #pragma mark - action
 - (void)back
 {
+    if (_delegate && [_delegate respondsToSelector:@selector(backFromSatisfactionViewController)]) {
+        [_delegate backFromSatisfactionViewController];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

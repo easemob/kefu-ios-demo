@@ -7,6 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HError.h"
+
+
+/*
+ *  \~chinese
+ *  消息搜索方向
+ *
+ *  \~english
+ *  Message search direction
+ */
+typedef enum{
+    HMessageSearchDirectionUp  = 0,    /*! \~chinese 向上搜索 \~english Search older messages */
+    HMessageSearchDirectionDown        /*! \~chinese 向下搜索 \~english Search newer messages */
+} HMessageSearchDirection;
 
 @interface HNConversation : NSObject
 
@@ -61,7 +75,7 @@
  *  @param pError   Error
  */
 - (void)insertMessage:(HMessage *)aMessage
-                error:(EMError **)pError;
+                error:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -78,7 +92,7 @@
  *
  */
 - (void)deleteMessageWithId:(NSString *)aMessageId
-                      error:(EMError **)pError;
+                      error:(HError **)pError;
 /*!
  *  \~chinese
  *  删除该会话所有消息
@@ -88,7 +102,7 @@
  *  Delete all message of a conversation
  *  @param pError       Error
  */
-- (void)deleteAllMessages:(EMError **)pError;
+- (void)deleteAllMessages:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -105,7 +119,7 @@
  *
  */
 - (void)updateMessageChange:(HMessage *)aMessage
-                      error:(EMError **)pError;
+                      error:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -122,7 +136,7 @@
  *
  */
 - (void)markMessageAsReadWithId:(NSString *)aMessageId
-                          error:(EMError **)pError;
+                          error:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -136,7 +150,7 @@
  *  @param pError   Error
  *
  */
-- (void)markAllMessagesAsRead:(EMError **)pError;
+- (void)markAllMessagesAsRead:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -168,7 +182,7 @@
  *
  */
 - (HMessage *)loadMessageWithId:(NSString *)aMessageId
-                          error:(EMError **)pError;
+                          error:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -190,8 +204,8 @@
  */
 - (void)loadMessagesStartFromId:(NSString *)aMessageId
                           count:(int)aCount
-                searchDirection:(EMMessageSearchDirection)aDirection
-                     completion:(void (^)(NSArray *aMessages, EMError *aError))aCompletionBlock;
+                searchDirection:(HMessageSearchDirection)aDirection
+                     completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -219,8 +233,8 @@
                    timestamp:(long long)aTimestamp
                        count:(int)aCount
                     fromUser:(NSString*)aUsername
-             searchDirection:(EMMessageSearchDirection)aDirection
-                  completion:(void (^)(NSArray *aMessages, EMError *aError))aCompletionBlock;
+             searchDirection:(HMessageSearchDirection)aDirection
+                  completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
 /*!
  *  \~chinese
  *  从数据库获取包含指定内容的消息，取到的消息按时间排序，如果参考的时间戳为负数，则从最新消息向前取，如果aCount小于等于0当作1处理
@@ -247,8 +261,8 @@
                       timestamp:(long long)aTimestamp
                           count:(int)aCount
                        fromUser:(NSString*)aSender
-                searchDirection:(EMMessageSearchDirection)aDirection
-                     completion:(void (^)(NSArray *aMessages, EMError *aError))aCompletionBlock;
+                searchDirection:(HMessageSearchDirection)aDirection
+                     completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -271,7 +285,7 @@
 - (void)loadMessagesFrom:(long long)aStartTimestamp
                       to:(long long)aEndTimestamp
                    count:(int)aCount
-              completion:(void (^)(NSArray *aMessages, EMError *aError))aCompletionBlock;
+              completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
 /*!
  *  \~chinese
  *  收到的对方发送的最后一条消息

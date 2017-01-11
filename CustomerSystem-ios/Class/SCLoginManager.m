@@ -99,13 +99,16 @@ static SCLoginManager *_manager = nil;
 //登录IM
 - (BOOL)loginKefuSDK {
     HChatClient *client = [HChatClient sharedClient];
+    if (!client.isConnected) {
+        return NO;
+    }
     if (client.isLoggedIn) {
         return YES;
     }
     if (![self registerIMuser]) {
         return NO;
     }
-    EMError *error = [self loginIM];
+    HError *error = [self loginIM];
     if (!error) { //IM登录成功
         return YES;
     } else { //登录失败
@@ -116,8 +119,8 @@ static SCLoginManager *_manager = nil;
 }
 
 #pragma mark loginIM
-- (EMError *)loginIM {
-    EMError *error = nil;
+- (HError *)loginIM {
+    HError *error = nil;
     error = [[HChatClient sharedClient] loginWithUsername:self.username password:hxPassWord];
     return error;
 }
@@ -142,11 +145,11 @@ static SCLoginManager *_manager = nil;
 
 - (BOOL)registerIMuser { //举个栗子。注册建议在服务端创建环信id与自己app的账号一一对应，\
     而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器
-    EMError *error = nil;
+    HError *error = nil;
     NSString *newUser = [self getrandomUsername];
     self.username = newUser;
     error = [[HChatClient sharedClient] registerWithUsername:newUser password:hxPassWord];
-    if (error &&  error.code != EMErrorUserAlreadyExist) {
+    if (error &&  error.code != HErrorUserAlreadyExist) {
         NSLog(@"注册失败;error code：%d,error description :%@",error.code,error.errorDescription);
         return NO;
     }
