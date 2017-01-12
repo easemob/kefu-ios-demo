@@ -175,7 +175,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[HChatClient sharedClient] removeDelegate:self];
+    [[HChatClient sharedClient].chat removeDelegate:self];
     [[EMCDDeviceManager sharedInstance] stopPlaying];
     [EMCDDeviceManager sharedInstance].delegate = nil;
     
@@ -1621,11 +1621,39 @@
     return ext;
 }
 
+- (NSMutableDictionary *)visitorInfoDic {
+    NSMutableDictionary *visitor = [NSMutableDictionary dictionary];
+    [visitor setObject:@"SDK 小名" forKey:@"trueName"];
+    [visitor setObject:@"SDK 123456" forKey:@"qq"];
+    [visitor setObject:@"13112345678" forKey:@"phone"];
+    [visitor setObject:@"环信移动客服" forKey:@"companyName"];
+    NSString *nickname = [[NSUserDefaults standardUserDefaults] valueForKey:kCustomerNickname];
+    [visitor setObject:nickname.length==0?@"SDK 小名":nickname forKey:@"userNickname"];
+    [visitor setObject:@"abc@123.com" forKey:@"email"];
+    return [visitor mutableCopy];
+}
+
+- (NSString *)queueName {
+    NSString *queueName = nil;
+    switch (_saleType) {
+        case hPreSaleType:
+            queueName = kpreSale;
+            break;
+        case hAfterSaleType:
+            queueName = kafterSale;
+            break;
+        default:
+            break;
+    }
+    return queueName;
+}
+
 - (void)sendTextMessage:(NSString *)text withExt:(NSDictionary*)ext
 {
     
     HMessage *message = [EaseSDKHelper textHMessageFormatWithText:text to:self.conversation.conversationId ext:ext];
-    
+    [message addContent:[[VisitorInfo alloc] initWithObject:[self visitorInfoDic]]];
+    [message addContent:[[QueueIdentityInfo alloc] initWithValue:[self queueName]]];
     [self _sendMessage:message];
 }
 

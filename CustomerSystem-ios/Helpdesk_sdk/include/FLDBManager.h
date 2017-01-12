@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HError.h"
 @class HNConversation;
 @interface FLDBManager : NSObject
 
@@ -65,7 +66,7 @@
  *  @param pError   Error
  */
 - (BOOL)insertMessage:(HMessage *)aMessage
-                error:(EMError **)pError;
+                error:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -82,7 +83,7 @@
  *
  */
 - (BOOL)appendMessage:(HMessage *)aMessage
-                error:(EMError **)pError;
+                error:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -99,7 +100,7 @@
  *
  */
 - (BOOL)deleteMessageWithId:(NSString *)aMessageId
-                      error:(EMError **)pError;
+                      error:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -110,7 +111,7 @@
  *  Delete all message of a conversation
  *  @param pError       Error
  */
-- (BOOL)deleteAllMessages:(EMError **)pError;
+- (BOOL)deleteAllMessages:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -127,7 +128,7 @@
  *
  */
 - (BOOL)updateMessageChange:(HMessage *)aMessage
-                      error:(EMError **)pError;
+                      error:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -144,7 +145,7 @@
  *
  */
 - (void)markMessageAsReadWithId:(NSString *)aMessageId
-                          error:(EMError **)pError;
+                          error:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -158,7 +159,7 @@
  *  @param pError   Error
  *
  */
-- (void)markAllMessagesAsRead:(EMError **)pError;
+- (void)markAllMessagesAsRead:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -175,7 +176,7 @@
  *
  */
 - (HMessage *)loadMessageWithId:(NSString *)aMessageId
-                           error:(EMError **)pError;
+                           error:(HError **)pError;
 
 /*!
  *  \~chinese
@@ -226,7 +227,7 @@
 - (void)loadMessagesStartFromId:(NSString *)aMessageId
                           count:(int)aCount
                 searchDirection:(EMMessageSearchDirection)aDirection
-                     completion:(void (^)(NSArray *aMessages, EMError *aError))aCompletionBlock;
+                     completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -255,7 +256,7 @@
                        count:(int)aCount
                     fromUser:(NSString*)aUsername
              searchDirection:(EMMessageSearchDirection)aDirection
-                  completion:(void (^)(NSArray *aMessages, EMError *aError))aCompletionBlock;
+                  completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -284,7 +285,7 @@
                           count:(int)aCount
                        fromUser:(NSString*)aSender
                 searchDirection:(EMMessageSearchDirection)aDirection
-                     completion:(void (^)(NSArray *aMessages, EMError *aError))aCompletionBlock;
+                     completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -307,7 +308,7 @@
 - (void)loadMessagesFrom:(long long)aStartTimestamp
                       to:(long long)aEndTimestamp
                    count:(int)aCount
-              completion:(void (^)(NSArray *aMessages, EMError *aError))aCompletionBlock;
+              completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
 
 #pragma mark - conversations
 

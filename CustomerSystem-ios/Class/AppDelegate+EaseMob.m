@@ -211,14 +211,11 @@
 
 - (void)registerEaseMobNotification
 {
-    [self unRegisterEaseMobNotification];
     // 将self 添加到SDK回调中，以便本类可以收到SDK回调
     [[HChatClient sharedClient] addDelegate:self delegateQueue:nil];
- //   [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
 }
 
 - (void)unRegisterEaseMobNotification{
- //   [[EaseMob sharedInstance].chatManager removeDelegate:self];
     [[HChatClient sharedClient] removeDelegate:self];
 }
 
@@ -226,7 +223,7 @@
 #pragma mark - IChatManagerDelegate
 
 - (void)autoLoginDidCompleteWithError:(HError *)aError {
-    NSLog(@"autoLogin Success!!!");
+    
     if (aError) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt")
                                                             message:NSLocalizedString(@"login.fail", @"Logon failure")

@@ -13,7 +13,7 @@
 @property (nonatomic)NSMutableArray* contents;
 
 -(instancetype) initWithContents:(NSMutableDictionary *)obj;
--(instancetype) init;
+
 
 -(BOOL)isNull;
 -(NSMutableArray *)getContents;

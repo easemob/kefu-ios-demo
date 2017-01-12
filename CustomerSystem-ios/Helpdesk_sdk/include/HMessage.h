@@ -7,9 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EMMessage.h"
+#import "EMMessageBody.h"
 #import "HContent.h"
 #import "HCompositeContent.h"
+#import "VisitorInfo.h"
+#import "VisitorTrack.h"
+#import "OrderInfo.h"
+#import "AgentInfo.h"
+#import "AgentIdentityInfo.h"
+#import "QueueIdentityInfo.h"
+#import "RobotMenuInfo.h"
+#import "TransferIndication.h"
+#import "ControlMessage.h"
 
 /*!
  *  \~chinese

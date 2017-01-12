@@ -22,6 +22,17 @@
 
 -(instancetype)initWithChatManager:(id<IEMChatManager>)manager;
 
+#pragma mark - 第二通道
+/**
+ 开启第二通道
+ */
+- (void)startPollingCname:(NSString *)cname;
+
+/**
+ 关闭第二通道
+ */
+- (void)endPolling;
+
 #pragma mark - Delegate
 
 /*!
@@ -71,11 +82,6 @@
  *  @result Conversation list<EMConversation>
  */
 - (NSArray *)loadAllConversationsFromDB;
-
-
-- (void)startPollingCname:(NSString *)cname;
-
-- (void)endPolling;
 
 /*!
  *  \~chinese
