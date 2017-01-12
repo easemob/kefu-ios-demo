@@ -28,10 +28,10 @@
 #define CHATVIEWBACKGROUNDCOLOR [UIColor colorWithRed:0.936 green:0.932 blue:0.907 alpha:1]
 
 //商城默认配置
-//#define kDefaultAppKey @"1141161024115978#kefuchannelapp29593"
-#define kDefaultAppKey @"1124161024178184#kefuchannelapp29044"
-//#define kDefaultCustomerName @"kefuchannelimid_012680"
-#define kDefaultCustomerName @"kefuchannelimid_008267"
+#define kDefaultAppKey @"1141161024115978#kefuchannelapp29593"
+//#define kDefaultAppKey @"1124161024178184#kefuchannelapp29044"
+#define kDefaultCustomerName @"kefuchannelimid_012680"
+//#define kDefaultCustomerName @"kefuchannelimid_008267"
 #define kDefaultTenantId  @"29593";
 #define kDefaultProjectId @"306713";
 
