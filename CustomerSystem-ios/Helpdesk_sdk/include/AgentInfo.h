@@ -12,5 +12,4 @@
 @property (nonatomic) NSString* nickName;
 @property (nonatomic) NSString* avatar;
 
--(instancetype) initWithObject:(NSMutableDictionary *)obj;
 @end

@@ -79,7 +79,7 @@
     _saleType = saleType;
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        _conversation = [[HChatClient sharedClient].chat getConversation:conversationChatter createIfNotExist:YES];
+        _conversation = [[HChatClient sharedClient].chat getConversation:conversationChatter];
         [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
@@ -1489,7 +1489,7 @@
 
 - (void)sendTextMessage:(NSString *)text
 {
-    [self sendTextMessage:text withExt:[self getWeiChat]];
+    [self sendTextMessage:text withExt:nil];
 }
 
 
@@ -1504,13 +1504,16 @@
         _isSendingTransformMessage = YES;
         __block HMessage *message = [userInfo objectForKey:@"HMessage"];
         NSDictionary *weichat = [message.ext objectForKey:kMesssageExtWeChat];
+        NSDictionary *ctrlArgs = [weichat objectForKey:kMesssageExtWeChat_ctrlArgs];
+        ControlArguments *arguments = [ControlArguments new];
+        arguments.identity = [ctrlArgs valueForKey:@"id"];
+        arguments.sessionId = [ctrlArgs valueForKey:@"serviceSessionId"];
+        ControlMessage *hcont = [ControlMessage new];
+        hcont.arguments = arguments;
         if ([EaseBubbleView isTransferMessage:message]) {
-            NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMesssageExtWeChat_ctrlArgs]];
-            [ctrlArgs removeObjectForKey:@"label"];
-            weichat = [NSDictionary dictionaryWithObjectsAndKeys:ctrlArgs, kMesssageExtWeChat_ctrlArgs, nil];
-            NSDictionary *ext = @{kMesssageExtWeChat:weichat};
             //发送透传消息
-            HMessage *aHMessage = [EaseSDKHelper cmdMessageFormatTo:self.conversation.conversationId ext:ext params:nil];
+            HMessage *aHMessage = [EaseSDKHelper cmdMessageFormatTo:self.conversation.conversationId];
+            [aHMessage addCompositeContent:hcont];
             __weak typeof(self) weakSelf = self;
             [[HChatClient sharedClient].chat sendMessage:aHMessage progress:nil completion:^(HMessage *aMessage, HError *aError) {
                 _isSendingTransformMessage = NO;
@@ -1554,7 +1557,7 @@
 }
 
 - (void)commitSatisfactionWithExt:(NSDictionary *)ext messageModel:(id<IMessageModel>)model {
-    HMessage *message = [EaseSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId ext:ext];
+    HMessage *message = [EaseSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
     __weak typeof(self) weakself = self;
     _isSendingEvaluateMessage = NO;
     [self showHudInView:self.view hint:@"评价提交"];
@@ -1587,50 +1590,17 @@
     }];
 }
 
-- (NSDictionary*)getWeiChat
-{
-    NSDictionary *ext = nil;
-    NSDictionary* weichat = [self getUserInfoAttribute];
-    ext = @{kMesssageExtWeChat:weichat};
-    return ext;
-}
 
-//获取扩展字段
-- (NSDictionary*)getUserInfoAttribute
-{
-    NSDictionary *ext = nil;
-    NSMutableDictionary *visitor = [NSMutableDictionary dictionary];
-    [visitor setObject:@"李明" forKey:@"trueName"];
-    [visitor setObject:@"10000" forKey:@"qq"];
-    [visitor setObject:@"13512345678" forKey:@"phone"];
-    [visitor setObject:@"环信" forKey:@"companyName"];
-    NSString *nickname = [[NSUserDefaults standardUserDefaults] valueForKey:kCustomerNickname];
-    [visitor setObject:nickname.length==0?@"李明":nickname forKey:@"userNickname"];
-    [visitor setObject:@"abc@123.com" forKey:@"email"];
-    switch (_saleType) {
-        case hPreSaleType:
-            ext = @{@"visitor":visitor,@"queueName":kpreSale};
-            break;
-        case hAfterSaleType:
-            ext = @{@"visitor":visitor,@"queueName":kafterSale};
-            break;
-        default:
-            ext = @{@"visitor":visitor};
-            break;
-    }
-    return ext;
-}
-
-- (NSMutableDictionary *)visitorInfoDic {
-    NSMutableDictionary *visitor = [NSMutableDictionary dictionary];
-    [visitor setObject:@"SDK 小名" forKey:@"trueName"];
-    [visitor setObject:@"SDK 123456" forKey:@"qq"];
-    [visitor setObject:@"13112345678" forKey:@"phone"];
-    [visitor setObject:@"环信移动客服" forKey:@"companyName"];
-    NSString *nickname = [[NSUserDefaults standardUserDefaults] valueForKey:kCustomerNickname];
-    [visitor setObject:nickname.length==0?@"SDK 小名":nickname forKey:@"userNickname"];
-    [visitor setObject:@"abc@123.com" forKey:@"email"];
-    return [visitor mutableCopy];
+- (VisitorInfo *)visitorInfo {
+    VisitorInfo *visitor = [[VisitorInfo alloc] init];
+    visitor.name = @"小明儿";
+    visitor.qq = @"12345678";
+    visitor.phone = @"13636362637";
+    visitor.companyName = @"环信";
+    visitor.nickName = @"风口上的猪";
+    visitor.email = @"abv@126.com";
+    visitor.desc = @"环信移动客服";
+    return visitor;
 }
 
 - (NSString *)queueName {
@@ -1651,8 +1621,9 @@
 - (void)sendTextMessage:(NSString *)text withExt:(NSDictionary*)ext
 {
     
-    HMessage *message = [EaseSDKHelper textHMessageFormatWithText:text to:self.conversation.conversationId ext:ext];
-    [message addContent:[[VisitorInfo alloc] initWithObject:[self visitorInfoDic]]];
+    HMessage *message = [EaseSDKHelper textHMessageFormatWithText:text to:self.conversation.conversationId];
+    [message addContent:[self visitorInfo]];
+    [message addContent:[[AgentIdentityInfo alloc] initWithValue:@"123@126.com"]];
     [message addContent:[[QueueIdentityInfo alloc] initWithValue:[self queueName]]];
     [self _sendMessage:message];
 }
@@ -1675,7 +1646,7 @@
         progress = self;
     }
     
-    HMessage *message = [EaseSDKHelper imageMessageWithImageData:imageData to:self.conversation.conversationId messageExt:[self getWeiChat]];
+    HMessage *message = [EaseSDKHelper imageMessageWithImageData:imageData to:self.conversation.conversationId messageExt:nil];
     EMImageMessageBody *body = (EMImageMessageBody *)message.body;
     NSLog(@"body.localPathbody.localPath:%@",body.localPath);
     [self _sendMessage:message];
@@ -1690,7 +1661,7 @@
     else{
         progress = self;
     }
-    HMessage *message = [EaseSDKHelper imageMessageWithImage:image to:self.conversation.conversationId messageExt:[self getWeiChat]];
+    HMessage *message = [EaseSDKHelper imageMessageWithImage:image to:self.conversation.conversationId messageExt:nil];
     [self _sendMessage:message];
 }
 
@@ -1705,7 +1676,7 @@
         progress = self;
     }
     
-    HMessage *message = [EaseSDKHelper voiceMessageWithLocalPath:localPath duration:duration to:self.conversation.conversationId messageExt:[self getWeiChat]];
+    HMessage *message = [EaseSDKHelper voiceMessageWithLocalPath:localPath duration:duration to:self.conversation.conversationId messageExt:nil];
     [self _sendMessage:message];
 }
 

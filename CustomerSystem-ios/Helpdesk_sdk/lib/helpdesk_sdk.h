@@ -15,7 +15,6 @@
 #import "HChatClient.h"
 #import "HOptions.h"
 #import "HNetworkManager.h"
-#import "HConversation.h"
 #import "HMessage.h"
 #import "HMessage+Content.h"
 #import "HNConversation.h"

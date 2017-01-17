@@ -13,9 +13,7 @@
 @property (nonatomic) NSString* qq;
 @property (nonatomic) NSString* companyName;
 @property (nonatomic) NSString* nickName;
+@property (nonatomic) NSString* phone;
 @property (nonatomic) NSString* desc;
 @property (nonatomic) NSString* email;
-
--(instancetype) initWithObject:(NSMutableDictionary *)obj;
-
 @end

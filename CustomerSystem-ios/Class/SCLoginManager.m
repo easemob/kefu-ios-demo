@@ -99,7 +99,7 @@ static SCLoginManager *_manager = nil;
 //登录IM
 - (BOOL)loginKefuSDK {
     HChatClient *client = [HChatClient sharedClient];
-    if (client.isLoggedIn) {
+    if (client.isLoggedInBefore) {
         return YES;
     }
     if (![self registerIMuser]) {

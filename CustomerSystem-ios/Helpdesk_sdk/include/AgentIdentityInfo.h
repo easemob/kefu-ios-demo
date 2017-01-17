@@ -10,6 +10,4 @@
 
 @interface AgentIdentityInfo : HContent
 @property (nonatomic) NSString * agentName;
-
--(instancetype) initWithValue:(NSString *)value;
 @end

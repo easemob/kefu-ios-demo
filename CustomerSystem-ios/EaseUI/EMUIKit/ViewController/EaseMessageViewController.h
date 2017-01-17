@@ -170,6 +170,8 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 
 - (void)sendTextMessage:(NSString *)text;
 
+- (void)_sendMessage:(HMessage *)message;
+
 - (void)sendTextMessage:(NSString *)text withExt:(NSDictionary*)ext;
 
 - (void)sendImageMessage:(UIImage *)image;
@@ -177,7 +179,6 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 - (void)sendLocationMessageLatitude:(double)latitude
                           longitude:(double)longitude
                          andAddress:(NSString *)address;
-- (NSDictionary*)getUserInfoAttribute;
 
 - (void)sendVoiceMessageWithLocalPath:(NSString *)localPath
                              duration:(NSInteger)duration;
@@ -190,6 +191,5 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 -(void)showMenuViewController:(UIView *)showInView
                  andIndexPath:(NSIndexPath *)indexPath
                   messageType:(EMMessageBodyType)messageType;
-- (NSDictionary*)getWeiChat;
 
 @end

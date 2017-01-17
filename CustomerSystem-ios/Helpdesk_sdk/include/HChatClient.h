@@ -40,7 +40,7 @@
  *  \~english
  *  Whether user has logged in
  */
-@property (nonatomic, readonly) BOOL isLoggedIn;
+@property (nonatomic, readonly) BOOL isLoggedInBefore;
 
 /*!
  *  \~chinese

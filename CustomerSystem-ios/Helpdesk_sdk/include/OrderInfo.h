@@ -16,5 +16,4 @@
 @property (nonatomic) NSString* itemUrl;
 @property (nonatomic) NSString* desc;
 
--(instancetype) initWithObject:(NSDictionary *)obj;
 @end

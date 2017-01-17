@@ -13,11 +13,9 @@ FOUNDATION_EXPORT NSString * const TAG_MSGTYPE;
 
 
 @interface HContent : NSObject
-
+-(instancetype) initWithValue:(NSString *)value;
 -(NSMutableDictionary *)content;
 -(NSString *)value;
-
 -(NSString *)getName;
 -(NSString *)getParentName;
-
 @end

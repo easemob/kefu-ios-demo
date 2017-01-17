@@ -29,6 +29,12 @@
 #define kDefaultTenantId @"29044"
 #define kDefaultProjectId @"306164"
 
+//#define kDefaultAppKey @"1141161024115978#kefuchannelapp29593"
+//#define kDefaultCustomerName @"kefuchannelimid_012680"
+//#define kDefaultCustomerNickname @"小明"
+//#define kDefaultTenantId @"29593"
+//#define kDefaultProjectId @"306713"
+
 #define kAppKey @"KF_appkey"
 #define kCustomerName @"KF_name"
 #define kCustomerNickname @"KF_nickname"
@@ -36,7 +42,5 @@
 #define kCustomerProjectId @"KF_projectId"
 
 #define hxPassWord @"123456"
-
-
 
 #endif

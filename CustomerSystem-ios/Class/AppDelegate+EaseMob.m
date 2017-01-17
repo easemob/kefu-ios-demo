@@ -61,7 +61,7 @@
 - (void)resetCustomerServiceSDK {
     //如果在登录状态,账号要退出
     HChatClient *client = [HChatClient sharedClient];
-    if (client.isLoggedIn) {
+    if (client.isLoggedInBefore) {
         HError *error = [client logout:YES];
         if (error) {
             NSLog(@"error.code:%u,error.errorDescription :%@",error.code,error.errorDescription);

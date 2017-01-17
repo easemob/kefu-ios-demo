@@ -36,19 +36,6 @@ typedef enum{
 
 /*!
  *  \~chinese
- *  自动登录完成时的回调
- *
- *  @param aError 错误信息
- *
- *  \~english
- *  Delegate method will be invoked when auto login is completed
- *
- *  @param aError Error
- */
-- (void)autoLoginDidCompleteWithError:(HError *)aError;
-
-/*!
- *  \~chinese
  *  当前登录账号在其它设备登录时会接收到此回调
  *
  *  \~english

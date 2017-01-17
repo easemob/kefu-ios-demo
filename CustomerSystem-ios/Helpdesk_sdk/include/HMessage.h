@@ -148,7 +148,6 @@ typedef enum{
  *  @param aFrom            发送方
  *  @param aTo              接收方
  *  @param aBody            消息体实例
- *  @param aExt             扩展信息
  *
  *  @result 消息实例
  *
@@ -166,8 +165,7 @@ typedef enum{
 - (id)initWithConversationID:(NSString *)aConversationId
                         from:(NSString *)aFrom
                           to:(NSString *)aTo
-                        body:(EMMessageBody *)aBody
-                         ext:(NSDictionary *)aExt;
+                        body:(EMMessageBody *)aBody;
 
 
 @end

@@ -13,7 +13,7 @@
 #import "ChatViewController.h"
 #import "EaseUI.h"
 #import "SCLeaveMsgViewController.h"
-
+#import "VisitorTrack.h"
 @interface ChatViewController ()<UIAlertViewDelegate,EMClientDelegate>
 {
     UIMenuItem *_copyMenuItem;
@@ -45,47 +45,64 @@
     }
 }
 
-- (void)sendCommodityMessageWithInfo:(NSDictionary *)info
-{
-    NSString *type = [info objectForKey:@"type"];
+- (BOOL)isOrder {
+    if (_commodityInfo == nil) {
+        return NO;
+    }
+    NSString *type = [_commodityInfo objectForKey:@"type"];
+    return [type isEqualToString:@"order"];
+}
+
+- (id)trackOrOrder {
+    if (_commodityInfo == nil) {
+        return nil;
+    }
+    NSDictionary *info = _commodityInfo;
     NSString *title = [info objectForKey:@"title"];
-    NSString *desc = [info objectForKey:@"desc"];
+    NSString *orderTitle = [info objectForKey:@"order_title"];
     NSString *price = [info objectForKey:@"price"];
+    NSString *desc = [info objectForKey:@"desc"];
     NSString *imageUrl = [info objectForKey:@"img_url"];
     NSString *itemUrl = [info objectForKey:@"item_url"];
+    if ([self isOrder]) { //发送订单消息
+        OrderInfo *ord = [OrderInfo new];
+        ord.title = title;
+        ord.orderTitle = orderTitle;
+        ord.price = price;
+        ord.desc = desc;
+        ord.imageUrl = imageUrl;
+        ord.itemUrl = itemUrl;
+        return ord;
+    } else {
+        VisitorTrack *vst = [VisitorTrack new];
+        vst.title = title;
+        vst.price = price;
+        vst.desc = desc;
+        vst.imageUrl = imageUrl;
+        vst.itemUrl = itemUrl;
+        return vst;
+    }
     
-    NSMutableDictionary *itemDic = [NSMutableDictionary dictionary];
-    if (title) {
-        [itemDic setObject:title forKey:@"title"];
-    }
-    if (desc) {
-        [itemDic setObject:desc forKey:@"desc"];
-    }
-    if (price) {
-        [itemDic setObject:price forKey:@"price"];
-    }
-    if (imageUrl) {
-        [itemDic setObject:imageUrl forKey:@"img_url"];
-    }
-    if (itemUrl) {
-        [itemDic setObject:itemUrl forKey:@"item_url"];
-    }
-    
-    if ([type isEqualToString:@"order"]) {
-        NSString *orderTitle = [info objectForKey:@"order_title"];
-        if (orderTitle) {
-            [itemDic setObject:orderTitle forKey:@"order_title"];
-        }
+    return nil;
+}
+
+
+- (void)sendCommodityMessageWithInfo:(NSDictionary *)info
+{
+    HMessage *message = [EaseSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
+    if ([self isOrder]) {
+        OrderInfo *od  = (OrderInfo *)[self trackOrOrder];
+        [message addContent:od];
+    } else {
+        VisitorTrack *vt = (VisitorTrack *)[self trackOrOrder];
+        [message addContent:vt];
     }
     
     NSString *imageName = [info objectForKey:@"imageName"];
-    NSMutableDictionary *extDic = [NSMutableDictionary dictionaryWithDictionary:[self getWeiChat]];
-    [extDic setObject:@{type:itemDic} forKey:@"msgtype"];
-    [extDic setObject:imageName forKey:@"imageName"];
-    [extDic setObject:@"custom" forKey:@"type"];
-    
-    [self sendTextMessage:@"" withExt:extDic];
-
+    NSMutableDictionary *ext = [message.ext mutableCopy];
+    [ext setValue:imageName forKey:@"imageName"];
+    message.ext = [ext copy];
+    [self _sendMessage:message];
 }
 
 

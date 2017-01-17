@@ -101,9 +101,7 @@
  *
  *  @result Conversation
  */
-- (HNConversation *)getConversation:(NSString *)aConversationId
-                   createIfNotExist:(BOOL)aIfCreate;
-
+- (HNConversation *)getConversation:(NSString *)aConversationId;
 /*!
  *  \~chinese
  *  删除会话

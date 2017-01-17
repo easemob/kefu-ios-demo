@@ -10,7 +10,4 @@
 
 @interface QueueIdentityInfo : HContent
 @property (nonatomic) NSString * queueIdentity;
-
--(instancetype) initWithValue:(NSString *)value;
-
 @end

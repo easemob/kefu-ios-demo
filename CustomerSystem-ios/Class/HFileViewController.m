@@ -113,7 +113,6 @@
         [self downloadMessageAttachments:_model];
         return;
     }
-    
     EMFileMessageBody *body = (EMFileMessageBody *)_model.firstMessageBody;
     NSURL *localUrl = [NSURL fileURLWithPath:body.localPath];
     self.documentInteractionController.URL = localUrl;

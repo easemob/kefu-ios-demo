@@ -155,26 +155,20 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
 #pragma mark - send message new
 
 //构造cmd消息
-+ (HMessage *)cmdMessageFormatTo:(NSString *)to
-                             ext:(NSDictionary *)ext
-                          params:(NSArray *)params{
-    HCmdMessageBody *bdy = [[HCmdMessageBody alloc] initWithAction:@"TransferToKf"];
++ (HMessage *)cmdMessageFormatTo:(NSString *)to{
+    EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"TransferToKf"];
     NSString *from = [[HChatClient sharedClient] currentUsername];
-    if (params) {
-        bdy.params = params;
-    }
-    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:bdy.cmdMessagBody ext:ext];
+    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body];
     return message;
 }
 
 //构造text消息体
 + (HMessage *)textHMessageFormatWithText:(NSString *)text
-                                      to:(NSString *)toUser
-                                     ext:(NSDictionary *)ext {
+                                      to:(NSString *)toUser{
     NSString *willSendText = [EaseConvertToCommonEmoticonsHelper convertToCommonEmoticons:text];
-    HTextMessageBody *bdy = [[HTextMessageBody alloc] initWithText:willSendText];
+    EMTextMessageBody *bdy = [[EMTextMessageBody alloc] initWithText:willSendText];
     NSString *from = [[HChatClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:toUser from:from to:toUser body:bdy.textMessagBody ext:ext];
+    HMessage *message = [[HMessage alloc] initWithConversationID:toUser from:from to:toUser body:bdy];
     return message;
 }
 //构造image消息体
@@ -182,9 +176,9 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
                                           to:(NSString *)to
                                   messageExt:(NSDictionary *)messageExt
 {
-    HImageMessageBody *bdy = [[HImageMessageBody alloc] initWithData:imageData displayName:@"image"];
+    EMImageMessageBody *body = [[EMImageMessageBody alloc] initWithData:imageData displayName:@"image"];
     NSString *from = [[HChatClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:bdy.imgMessageBody ext:messageExt];
+    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body];
     return message;
 }
 
@@ -203,11 +197,10 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
                                      to:(NSString *)to
                              messageExt:(NSDictionary *)messageExt
 {
-//    EMVoiceMessageBody *body = [[EMVoiceMessageBody alloc] initWithLocalPath:localPath displayName:@"audio"];
-    HVoiceMessageBody *bdy = [[HVoiceMessageBody alloc] initWithLocalPath:localPath displayName:@"audio"];
-    bdy.duration = (int)duration;
+    EMVoiceMessageBody *body = [[EMVoiceMessageBody alloc] initWithLocalPath:localPath displayName:@"audio"];
+    body.duration = (int)duration;
     NSString *from = [[HChatClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:bdy.voiceMessageBody ext:messageExt];
+    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body];
     
     return message;
 }
@@ -220,7 +213,7 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     EMLocationMessageBody *body = [[EMLocationMessageBody alloc] initWithLatitude:latitude longitude:longitude address:address];
     NSString *from = [[HChatClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body ext:messageExt];
+    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body];
     
     return message;
 }
@@ -233,25 +226,10 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     EMVideoMessageBody *body = [[EMVideoMessageBody alloc] initWithLocalPath:[url path] displayName:@"video.mp4"];
     NSString *from = [[EMClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body ext:messageExt];
+    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body];
     
     return message;
 }
-
-//+ (EMMessage *)sendTextMessage:(NSString *)text
-//                            to:(NSString *)toUser
-//                   messageType:(EMChatType)messageType
-//                    messageExt:(NSDictionary *)messageExt
-//
-//{
-//    NSString *willSendText = [EaseConvertToCommonEmoticonsHelper convertToCommonEmoticons:text];
-//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:willSendText];
-//    NSString *from = [[EMClient sharedClient] currentUsername];
-//    EMMessage *message = [[EMMessage alloc] initWithConversationID:toUser from:from to:toUser body:body ext:messageExt];
-//    message.chatType = messageType;
-//    
-//    return message;
-//}
 
 + (EMMessage *)sendCmdMessage:(NSString *)action
                             to:(NSString *)to

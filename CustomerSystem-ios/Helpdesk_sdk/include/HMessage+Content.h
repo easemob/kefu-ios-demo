@@ -11,12 +11,4 @@
 @interface HMessage (Content)
 - (void)addContent:(HContent *)content;
 - (void)addCompositeContent:(HCompositeContent *)content;
-
--(ControlMessage *) getEvalRequest;
--(ControlMessage *) getEvalResponse;
--(RobotMenuInfo *) getRobotMenu;
--(TransferIndication *) getTransferIndication;
--(OrderInfo *) getOrderInfo;
--(AgentInfo *) getAgentInfo;
--(VisitorTrack *) getVisitorTrack;
 @end
