@@ -8,9 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @class LeaveMsgRequestBody;
-typedef void(^CompletionBlock)(id responseObject,NSError *error);
 @interface HNetworkManager : NSObject
-
 /**
  使用留言功能需要传入IM 服务号
  */
@@ -36,7 +34,7 @@ typedef void(^CompletionBlock)(id responseObject,NSError *error);
 - (void)asyncCreateMessageWithTenantId:(NSString*)tenantId
                              projectId:(NSString*)projectId
                            requestBody:(LeaveMsgRequestBody *)requestBody
-                            completion:(CompletionBlock)completion;
+                            completion:(void(^)(id responseObject,NSError *error))completion;
 /*
  @method
  @brief 获取留言详情
@@ -50,7 +48,7 @@ typedef void(^CompletionBlock)(id responseObject,NSError *error);
 - (void)asyncGetLeaveMessageDetailWithTenantId:(NSString*)tenantId
                                      projectId:(NSString*)projectId
                                       ticketId:(NSString*)ticketId
-                                    completion:(CompletionBlock)completion;
+                                    completion:(void(^)(id responseObject,NSError *error))completion;
 
 /*
  @method
@@ -68,7 +66,7 @@ typedef void(^CompletionBlock)(id responseObject,NSError *error);
                                            ticketId:(NSString *)ticketId
                                                page:(NSUInteger)page
                                            pageSize:(NSUInteger)pageSize
-                                         completion:(CompletionBlock)completion;
+                                         completion:(void(^)(id responseObject,NSError *error))completion;
 
 /*
  @method
@@ -82,9 +80,9 @@ typedef void(^CompletionBlock)(id responseObject,NSError *error);
  */
 - (void)asyncLeaveAMessageCommentWithTenantId:(NSString*)tenantId
                              projectId:(NSString*)projectId
-                              ticketId:(NSString*)ticketId
+                              ticketId:(NSString *)ticketId
                             requestBody:(LeaveMsgRequestBody*)requestBody
-                            completion:(CompletionBlock)completion;
+                            completion:(void(^)(id responseObject,NSError *error))completion;
 
 
 /*
@@ -101,7 +99,7 @@ typedef void(^CompletionBlock)(id responseObject,NSError *error);
                            projectId:(NSString*)projectId
                                 page:(NSInteger)page
                             pageSize:(NSInteger)pigeSize
-                          completion:(CompletionBlock)completion;
+                          completion:(void(^)(id responseObject,NSError *error))completion;
 
 
 /*
@@ -116,7 +114,7 @@ typedef void(^CompletionBlock)(id responseObject,NSError *error);
 - (void)uploadWithTenantId:(NSString*)tenantId
                       File:(NSData*)file
                 parameters:(NSDictionary*)parameters
-                completion:(CompletionBlock)completion;
+                completion:(void(^)(id responseObject,NSError *error))completion;
 
 /*
  下载文件
@@ -146,13 +144,13 @@ typedef NS_ENUM(NSUInteger, AttachmentType) {
 @end
 
 @interface Creator : NSObject
-@property (nonatomic) NSString* name;   //访客名称
-@property(nonatomic,copy) NSString *avatar; //访客头像【头像】
-@property (nonatomic) NSString* email;  //访客email
-@property (nonatomic) NSString* phone;  //访客电话
-@property (nonatomic) NSString* qq; //访客QQ
-@property (nonatomic) NSString* companyName; //公司
-@property (nonatomic) NSString* desc;   //备注
+@property (nonatomic,copy) NSString* name;   //访客名称
+@property (nonatomic,copy) NSString* avatar; //访客头像【可选】
+@property (nonatomic,copy) NSString* email;  //访客email
+@property (nonatomic,copy) NSString* phone;  //访客电话
+@property (nonatomic,copy) NSString* qq; //访客QQ
+@property (nonatomic,copy) NSString* companyName; //公司
+@property (nonatomic,copy) NSString* desc;   //备注
 
 // - - - - - - - 回复评论特有 - - - - - - -
 @property(nonatomic,copy) NSString *identity; //可选。创建这个评论的人的id
@@ -168,17 +166,19 @@ typedef enum : NSUInteger {
 
 @interface  LeaveMsgRequestBody: NSObject
 
-@property(nonatomic,copy) NSString *subject;    //留言主题
-@property(nonatomic,copy) NSString *content;    //留言内容
-//回复评论的时候,设置了这个属性的话, 可以在添加评论的时候同时设置这个ticket的状态, 只有agent(访客)能够调用
-@property(nonatomic,assign) Status status;     //留言默认处理状态
-@property(nonatomic,copy) NSString *priority;   //优先级
-@property(nonatomic,copy) NSString *category;   //类别
-@property(nonatomic,strong) Creator *creator;   //创建者信息
-@property(nonatomic,copy) NSArray <LeaveMsgAttachment *> *attachments; //附件
+@property(nonatomic,copy) NSString *subject;    //留言的主题 【可选】
+@property(nonatomic,copy) NSString *content;    //留言的主要内容
 
-//回复评论独有
-@property(nonatomic,copy) NSString *replyId; //可选，回复那条评论的id
+//回复评论的时候,设置了这个属性的话, 可以在添加评论的时候同时设置这个ticket的状态, 只有agent(访客)能够调用
+@property(nonatomic,assign) Status status;     //留言默认处理状态【可选】
+@property(nonatomic,copy) NSString *priority;   //优先级别【可选】
+@property(nonatomic,copy) NSString *category;   //类别【可选】
+
+@property(nonatomic,strong) Creator *creator;   //创建者信息
+@property(nonatomic,copy) NSArray <LeaveMsgAttachment *> *attachments; //附件 【可选】
+
+//回复评论特有【可选项】
+@property(nonatomic,copy) NSString *replyId; //回复那条评论的id
 
 - (NSDictionary *)getContent;
 
