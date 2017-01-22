@@ -32,7 +32,14 @@
  *  Chat module
  */
 @property (nonatomic, strong, readonly) HChat *chat;
-
+/*!
+ *  \~chinese
+ *  SDK是否自动登录上次登录的账号
+ *
+ *  \~english
+ *  If SDK will automatically log into with previously logged in session
+ */
+@property (nonatomic, readonly) BOOL isAutoLogin;
 /*!
  *  \~chinese
  *  用户是否已登录

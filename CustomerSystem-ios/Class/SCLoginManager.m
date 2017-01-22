@@ -107,6 +107,7 @@ static SCLoginManager *_manager = nil;
     }
     HError *error = [self loginIM];
     if (!error) { //IM登录成功
+        [SCLoginManager shareLoginManager].isLogged = YES;
         return YES;
     } else { //登录失败
         NSLog(@"error code :%d,error description:%@",error.code,error.errorDescription);

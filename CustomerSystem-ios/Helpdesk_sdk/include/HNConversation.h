@@ -123,20 +123,19 @@ typedef enum{
 
 /*!
  *  \~chinese
- *  将消息设置为已读
+ *  将指定会话消息设置为已读
  *
- *  @param aMessageId   要设置消息的ID
+ *  @param conversationId 指定的会话
  *  @param pError       错误信息
  *
  *  \~english
  *  Mark a message as read
  *
- *  @param aMessageId   MessageID
+ *  @param conversationId   conversationId
  *  @param pError       Error
  *
  */
-- (void)markMessageAsReadWithId:(NSString *)aMessageId
-                          error:(HError **)pError;
+- (void)markMessagesAsReadWithConversationId:(NSString *)conversationId error:(HError **)pError;
 
 /*!
  *  \~chinese

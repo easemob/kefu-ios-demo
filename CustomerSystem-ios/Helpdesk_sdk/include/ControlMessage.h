@@ -23,17 +23,12 @@ FOUNDATION_EXPORT NSString * const TYPE_TRANSFER_TO_AGENT;
 @end
 
 @interface ControlArguments : HContent
-
 @property (nonatomic) NSString* identity;
 @property (nonatomic) NSString* sessionId;
 @property (nonatomic) NSString* label;
 @property (nonatomic) NSString* detail;
 @property (nonatomic) NSString* summary;
 @property (nonatomic) NSString* inviteId;
-
--(instancetype) initWithObject:(NSMutableDictionary *)obj;
-
-
 @end
 
 @interface ControlMessage : HCompositeContent

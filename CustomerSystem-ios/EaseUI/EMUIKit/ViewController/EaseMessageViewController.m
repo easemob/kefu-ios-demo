@@ -662,7 +662,7 @@
         });
     };
     
-    [self.conversation loadMessagesStartFromId:messageId count:(int)count searchDirection:EMMessageSearchDirectionUp completion:^(NSArray *aMessages, HError *aError) {
+    [self.conversation loadMessagesStartFromId:messageId count:(int)count searchDirection:HMessageSearchDirectionUp completion:^(NSArray *aMessages, HError *aError) {
         if (!aError && [aMessages count]) {
             refresh(aMessages);
         }

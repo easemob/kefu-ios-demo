@@ -35,6 +35,7 @@
         self.backgroundColor = RGBACOLOR(77, 178, 244, 1);
         _edit = edit;
         [self addSubview:self.nameLabel];
+        
         if (![model.type isEqualToString:@"audio"]) {
             self.nameLabel.text = model.name;
         } else {

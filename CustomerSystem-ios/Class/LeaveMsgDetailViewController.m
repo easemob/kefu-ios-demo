@@ -15,10 +15,11 @@
 #import "EMCDDeviceManager+Media.h"
 #import "SCAudioPlay.h"
 #import "LeaveMsgAttatchmentView.h"
+#import <objc/runtime.h>
 
 @interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate,SCAudioPlayDelegate,LeaseMsgReplyControllerDelegate>
 {
-    NSInteger _ticketId;
+    NSString *_ticketId;
     NSDictionary *_temp;
     SCAudioPlay *_audioPlayer;
 }
@@ -39,7 +40,7 @@
     LeaveMsgAttatchmentView *_touchView;
 }
 
-- (instancetype)initWithTicketId:(NSInteger)ticketId chatter:(NSString*)chatter
+- (instancetype)initWithTicketId:(NSString *)ticketId chatter:(NSString*)chatter
 {
     self = [super init];
     if (self) {
@@ -325,19 +326,15 @@
 //    __weak MBProgressHUD *weakHud = hud;
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    [[HNetworkManager shareInstance] asyncGetLeaveMessageDetailWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId parameters:nil completion:^(id responseObject, NSError *error) {
+    
+    [[HNetworkManager shareInstance] asyncGetLeaveMessageDetailWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             [weakSelf.headerView setDetail:responseObject];
             weakSelf.tableView.tableHeaderView = weakSelf.headerView;
             [weakSelf.tableView layoutSubviews];
-//            [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.loadsucceed", "Load succeed")];
-//            [weakHud hide:YES afterDelay:0.5];
         } else {
             NSLog(@"请求出错哦~");
-//            [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.loadfailed", "Load failed")];
-//            [weakHud hide:YES afterDelay:0.5];
         }
-        
     }];
 }
 
@@ -346,12 +343,13 @@
 {
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    [[HNetworkManager shareInstance] asyncGetLeaveMessageAllCommentsWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId parameters:@{@"size":@(10000)} completion:^(id responseObject, NSError *error) {
+    [[HNetworkManager shareInstance] asyncGetLeaveMessageAllCommentsWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId page:0 pageSize:100 completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             [weakSelf loadDataArray:responseObject];
         } else {
         }
     }];
+    
 }
 
 - (void)loadDataArray:(NSDictionary*)dic
@@ -377,7 +375,7 @@
         NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
         if ([event objectForKey:@"comment"]) {
             LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
-            if (ticket.ticketId  == _ticketId) {
+            if ([ticket.ticketId  isEqualToString:_ticketId]) {
                 [self loadLeaveMessageAllComments];
             }
         }
@@ -392,7 +390,7 @@
             NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
             if ([event objectForKey:@"comment"]) {
                 LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
-                if (ticket.ticketId == _ticketId) {
+                if ([ticket.ticketId  isEqualToString:_ticketId] ) {
                     [self loadLeaveMessageAllComments];
                     break;
                 }
@@ -441,45 +439,101 @@
      status_id: "status 的id" //设置了这个属性的话, 可以在添加评论的时候同时设置这个ticket的状态, 只有agent能够调用
      }
      */
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:aParameters];
-    //creator
-    NSMutableDictionary *creator = [NSMutableDictionary dictionary];
-    
-    SCLoginManager *lgM =[SCLoginManager shareLoginManager];
-    
     LeaveMsgDetailModel *model = [_headerView getMsgDetailModel];
-    if (model.comment.creator.name) {
-        [creator setObject:model.comment.creator.name forKey:@"name"];
-    } else {
-        [creator setObject:lgM.nickname forKey:@"name"];
+    SCLoginManager *lgM =[SCLoginManager shareLoginManager];
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithCapacity:0];
+    NSArray *atts = [aParameters valueForKey:@"attachments"];
+    NSMutableArray *attachments = [NSMutableArray arrayWithCapacity:0];
+    for (NSDictionary *dic in atts) {
+        LeaveMsgAttachmentModel *model = [[LeaveMsgAttachmentModel alloc] initWithDictionary:dic];
+        LeaveMsgAttachment *attachment = [LeaveMsgAttachment new];
+        attachment.name = model.name;
+        attachment.url = model.url;
+        if ([model.type isEqualToString:@"image"]) {
+            attachment.type = AttachmentTypeImage;
+        } else if ([model.type isEqualToString:@"file"]) {
+            attachment.type = AttachmentTypeFile;
+        } else if ([model.type isEqualToString:@"audio"]){
+            attachment.type = AttachmentTypeAudio;
+        }
+        [attachments addObject:attachment];
+        
     }
-    [creator setObject:lgM.nickname forKey:@"username"];
-    [creator setObject:@"" forKey:@"avatar"];
-    [creator setObject:@"afan@163.com" forKey:@"email"];
-    [creator setObject:@"110" forKey:@"phone"];
-    [creator setObject:@"12580" forKey:@"qq"];
-    [creator setObject:@"中国·北京" forKey:@"company"];
-    [creator setObject:@"" forKey:@"description"];
-    [creator setObject:@"VISITOR" forKey:@"type"];
-    [parameters setObject:creator forKey:@"creator"];
+    Creator *ctr=[Creator new];
+    ctr.identity =  [HChatClient sharedClient].currentUsername;
+    ctr.name = model.comment.creator.name ? model.comment.creator.name:lgM.nickname;
+    ctr.email = @"afanda@163.com";
+    ctr.phone = @"110119120";
+    ctr.qq = @"12345";
+    ctr.companyName = @"环信";
+    
+    LeaveMsgRequestBody *body = [LeaveMsgRequestBody new];
+    body.attachments = attachments;
+    body.creator = ctr;
+    body.content = [aParameters valueForKey:@"content"];
+    
+    parameters = [self getParametersWithRequestBody:body];
     
     LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:parameters];
-    
     __weak typeof(self) weakSelf = self;
     
-    [[HNetworkManager shareInstance] asyncLeaveAMessageWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId parameters:parameters completion:^(id responseObject, NSError *error) {
-        if (!error) {
-            comment.updated_at = [responseObject objectForKey:@"updated_at"];
-            comment.created_at = [responseObject objectForKey:@"created_at"];
-            comment.ticketId = [[responseObject objectForKey:@"id"] integerValue];
-            comment.version = [responseObject objectForKey:@"version"];
-            [weakSelf.dataArray addObject:comment];
-            [weakSelf.tableView reloadData];
-            [weakSelf scrollViewToBottom:YES];
-        }
+    [[HNetworkManager shareInstance] asyncLeaveAMessageCommentWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId requestBody:body completion:^(id responseObject, NSError *error) {
+                    comment.updated_at = [responseObject objectForKey:@"updated_at"];
+                    comment.created_at = [responseObject objectForKey:@"created_at"];
+                    comment.ticketId = [responseObject objectForKey:@"id"];
+                    comment.version = [responseObject objectForKey:@"version"];
+                    [weakSelf.dataArray addObject:comment];
+                    [weakSelf.tableView reloadData];
+                    [weakSelf scrollViewToBottom:YES];
     }];
     
     [self.navigationController popToViewController:self animated:YES];
+}
+
+- (NSMutableDictionary *)getParametersWithRequestBody:(LeaveMsgRequestBody *)body {
+    NSMutableDictionary *mDic = [NSMutableDictionary dictionaryWithCapacity:0];
+    [mDic setValue:body.subject forKey:@"subject"];
+    [mDic setValue:body.content forKey:@"content"];
+    [mDic setValue:[self getJsonWithObject:body.creator] forKey:@"creator"];
+    [mDic setValue:[self getJsonWithObject:body.attachments] forKey:@"attachments"];
+    return mDic;
+}
+
+- (id )getJsonWithObject:(id)object {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:0];
+    if ([object isKindOfClass:[Creator class]]) {
+        Creator *creator = object;
+        [dic setValue:creator.name forKey:@"name"];
+        [dic setValue:creator.avatar forKey:@"avatar"];
+        [dic setValue:creator.email forKey:@"email"];
+        [dic setValue:creator.phone forKey:@"phone"];
+        [dic setValue:creator.qq forKey:@"qq"];
+        [dic setValue:creator.companyName forKey:@"company"];
+        [dic setValue:creator.desc forKey:@"description"];
+        [dic setValue:creator.identity forKey:@"id"];
+        return dic;
+    } else if ([object isKindOfClass:[NSArray class]]) {
+        NSMutableArray *marr = [NSMutableArray arrayWithCapacity:0];
+        for (LeaveMsgAttachment *attachment in object) {
+            NSString *type = @"";
+            if (attachment.type == AttachmentTypeImage) {
+                type = @"image";
+            } else if (attachment.type == AttachmentTypeAudio) {
+                type = @"audio";
+            } else if (attachment.type == AttachmentTypeFile) {
+                type = @"file";
+            }
+            [marr addObject:@{
+                              @"name":attachment.name,
+                              @"url":attachment.url,
+                              @"type":type
+                              }];
+        }
+        [dic setValue:marr forKey:@"attachments"];
+        return marr;
+    }
+    
+    return nil;
 }
 
 - (NSMutableDictionary*)_getSafeDictionary:(NSDictionary*)dic

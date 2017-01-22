@@ -20,6 +20,7 @@
 @interface TransferIndication : HCompositeContent
 @property (nonatomic) AgentInfo * agentInfo;
 @property (nonatomic) Event *event;
+-(instancetype) initWithContents:(NSMutableDictionary *)obj;
 @end
 
 

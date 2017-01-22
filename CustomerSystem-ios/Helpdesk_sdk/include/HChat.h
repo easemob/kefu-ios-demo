@@ -72,16 +72,16 @@
  *
  *  同步方法，会阻塞当前线程
  *
- *  @result 会话列表<EMConversation>
+ *  @result 会话列表<HNConversation>
  *
  *  \~english
  *  Load all conversations from DB, will update conversation list in memory after this method is called
  *
  *  Synchronization method will block the current thread
  *
- *  @result Conversation list<EMConversation>
+ *  @result Conversation list<HNConversation>
  */
-- (NSArray *)loadAllConversationsFromDB;
+- (NSArray *)loadAllConversations;
 
 /*!
  *  \~chinese

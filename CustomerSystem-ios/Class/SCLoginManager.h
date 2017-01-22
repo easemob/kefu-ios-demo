@@ -24,6 +24,8 @@
 
 @property (copy, nonatomic) NSString *projectId;  //leaveMsgId
 
+@property(nonatomic,assign) BOOL isLogged;
+
 + (instancetype)shareLoginManager;
 
 - (BOOL)loginKefuSDK;

@@ -67,7 +67,7 @@
     tempLabel.frame = frame;
     tempLabel.numberOfLines = frame.size.height/15;
     if (indexPath.row == 0) {
-        cell.textLabel.text = [NSString stringWithFormat:@"NO.%@",@(_msgDetailModel.comment.ticketId)];
+        cell.textLabel.text = [NSString stringWithFormat:@"NO.%@",_msgDetailModel.comment.ticketId];
         tempLabel.text = @"";
     } else if (indexPath.row == 1) {
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.theme", @"theme:");

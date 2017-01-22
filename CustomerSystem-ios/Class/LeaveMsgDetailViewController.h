@@ -10,6 +10,6 @@
 
 @interface LeaveMsgDetailViewController : UIViewController
 
-- (instancetype)initWithTicketId:(NSInteger)ticketId chatter:(NSString*)chatter;
+- (instancetype)initWithTicketId:(NSString *)ticketId chatter:(NSString*)chatter;
 
 @end

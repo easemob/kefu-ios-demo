@@ -52,55 +52,25 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     NSString *tel = ((UITextField *)[self.view viewWithTag:NSTextFieldTagTel]).text;
     NSString *mail = ((UITextField *)[self.view viewWithTag:NSTextFieldTagMail]).text;
     NSString *content = ((UITextField *)[self.view viewWithTag:NSTextFieldTagContent]).text;
-    /*
-     创建一个新的留言
-     请求body：
-     {
-     subject: "ticket的主题, 可选, 如果没有的话, 那么默认是content的前10个字",
-     content: "ticket的主要内容",
-     status_id: "可选, 如果没有则使用project定义的默认的status, 如果没有定义默认的status则留空",
-     priority_id: "可选, 如果没有则使用project定义的默认的priority, 如果没有定义默认的priority则留空",
-     category_id: "可选, 如果没有则使用project定义的默认的category, 如果没有定义默认的priority则留空",
-     creator: {
-     name: "创建这个ticket的人的name",
-     avatar: "创建这个ticket的人的头像"//可选
-     email: "电子邮件地址",
-     phone: "电话号码",
-     qq: "qq号码",
-     company: "公司",
-     description: "具体的描述信息"
-     },
-     attachments:[{
-     name: "该附件的名称",
-     url: "该附件的url",
-     type: "附件的类型, 当前支持image和file"
-     }]
-     }
-     */
+    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     NSString *subject = content.length >=10 ? [content substringToIndex:10] : content;
-    [parameters setObject:subject forKey:@"subject"];
+    [parameters setValue:subject forKey:@"subject"];
     [parameters setObject:content.length>0 ? content:@"" forKey:@"content"];
-    [parameters setObject:@"" forKey:@"status_id"];
-    [parameters setObject:@"" forKey:@"priority_id"];
-    [parameters setObject:@"" forKey:@"category_id"];
     
-    //creator
-    NSMutableDictionary *creator = [NSMutableDictionary dictionary];
-    [creator setObject:name.length>0?name:@"" forKey:@"name"];
-    [creator setObject:@"" forKey:@"avatar"];
-    [creator setObject:mail.length>0?mail:@"" forKey:@"email"];
-    [creator setObject:tel.length>0? tel:@"" forKey:@"phone"];
-    [creator setObject:@"110101010" forKey:@"qq"];
-    [creator setObject:@"环信" forKey:@"company"];
-    [creator setObject:@"描述信息" forKey:@"description"];
-    [parameters setObject:creator forKey:@"creator"];
-    NSMutableArray *attachments = [NSMutableArray array];
-    [parameters setObject:attachments forKey:@"attachments"];
+    Creator *creator = [Creator new];
+    creator.name = name;
+    creator.email = mail;
+    creator.phone = tel;
+    creator.qq = @"123456";
+    creator.desc = @"我是一只丑小鸭";
+    creator.companyName = @"环信客服";
+    LeaveMsgRequestBody *body = [LeaveMsgRequestBody new];
+    body.creator = creator;
+    body.content = content;
     SCLoginManager *logM = [SCLoginManager shareLoginManager];
     [self showHudInView:self.view hint:@"发送中..."];
-    [[HNetworkManager shareInstance] asyncCreateMessageWithTenantId:logM.tenantId projectId:logM.projectId parameters:parameters completion:^(id responseObject, NSError *error) {
-        
+    [[HNetworkManager shareInstance] asyncCreateMessageWithTenantId:logM.tenantId projectId:logM.projectId requestBody:body completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             NSLog(@"发送留言成功");
             [self hideHud];

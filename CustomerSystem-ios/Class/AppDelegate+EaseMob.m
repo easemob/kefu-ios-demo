@@ -55,6 +55,18 @@
 #warning Leave messages initialization
     //要使用环信客服的留言功能需要以下初始化
     [HNetworkManager shareInstance].imServiceNo = [SCLoginManager shareLoginManager].cname;
+    //登录IM
+    [self loginIM];
+}
+
+- (NSString *)loginIM {
+    //登录IM
+    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    if (![lgM loginKefuSDK]) {
+       return @"登录失败，请检查网络";
+    }
+    lgM.isLogged = YES;
+    return nil;
 }
 
 //修改关联app后需要重新初始化

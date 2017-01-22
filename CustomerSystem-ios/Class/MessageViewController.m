@@ -236,7 +236,7 @@
         
         
         LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row];
-        cell.name = [NSString stringWithFormat:@"ID: %@",@(comment.ticketId)];
+        cell.name = [NSString stringWithFormat:@"ID: %@",comment.ticketId];
         cell.placeholderImage = [UIImage imageNamed:@"customer"];
         if (comment.attachments) {
             cell.detailMsg = [NSString stringWithFormat:@"%@-[%@]",comment.content,NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment")];
@@ -305,8 +305,8 @@
     }
     NSDictionary *parameters = @{@"size":@(_pageSize),@"page":@(_page),@"sort":@"updatedAt,desc"};
     __weak typeof(self) weakSelf = self;
-    [[HNetworkManager shareInstance] asyncGetMessagesWithTenantId:[SCLoginManager shareLoginManager].tenantId projectId:[SCLoginManager shareLoginManager].projectId parameters:parameters completion:^(id responseObject, NSError *error) {
-        _isRefreshing = NO;
+    SCLoginManager *lgm = [SCLoginManager shareLoginManager];
+    [[HNetworkManager shareInstance] asyncGetMessagesWithTenantId:lgm.tenantId projectId:lgm.projectId page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
         if (!error) { //请求成功
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
                 if (_page == 0) {
@@ -319,7 +319,7 @@
                         LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:entity];
                         [weakSelf.dataArray addObject:comment];
                     }
-
+                    
                     if ([array count] == _pageSize) {
                         _hasMore = YES;
                     } else {
@@ -336,7 +336,7 @@
                 completion(NO);
             }
         }
-        
+        _isRefreshing = NO;
     }];
 }
 
@@ -348,38 +348,6 @@
     return  ret;
 }
 
-// 得到最后消息文字或者类型
--(NSString *)subTitleMessageByConversation:(EMConversation *)conversation
-{
-    NSString *ret = @"";
-    EMMessage *lastMessage = [conversation latestMessage];
-//    if (lastMessage) {
-//        id<IEMMessageBody> messageBody = lastMessage.messageBodies.lastObject;
-//        switch (messageBody.messageBodyType) {
-//            case eMessageBodyType_Image:{
-//                ret = NSLocalizedString(@"message.image1", @"[image]");
-//            } break;
-//            case eMessageBodyType_Text:{
-//                // 表情映射。
-//                NSString *didReceiveText = [ConvertToCommonEmoticonsHelper
-//                                            convertToSystemEmoticons:((EMTextMessageBody *)messageBody).text];
-//                ret = didReceiveText;
-//            } break;
-//            case eMessageBodyType_Voice:{
-//                ret = NSLocalizedString(@"message.voice1", @"[voice]");
-//            } break;
-//            case eMessageBodyType_Location: {
-//                ret = NSLocalizedString(@"message.location1", @"[location]");
-//            } break;
-//            case eMessageBodyType_Video: {
-//                ret = NSLocalizedString(@"message.video1", @"[video]");
-//            } break;
-//            default: {
-//            } break;
-//        }
-//    }
-    return ret;
-}
 
 - (NSString*)getTicketIdWithMessage:(EMMessage*)message
 {

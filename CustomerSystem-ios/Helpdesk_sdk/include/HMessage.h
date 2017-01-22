@@ -148,6 +148,7 @@ typedef enum{
  *  @param aFrom            发送方
  *  @param aTo              接收方
  *  @param aBody            消息体实例
+ *  @param aExt             扩展信息
  *
  *  @result 消息实例
  *

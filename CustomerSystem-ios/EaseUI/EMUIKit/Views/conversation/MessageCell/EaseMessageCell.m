@@ -26,6 +26,7 @@
 #import "UIImageView+EMWebCache.h"
 #import "EaseEmotionEscape.h"
 #import "EaseLocalDefine.h"
+#import "HjudgeTextMessageSubType.h"
 
 #define kImageWidth 40
 #define kImageHeight 70
@@ -172,19 +173,18 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
             {
                 NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
                 if (dic) {
-                    if ([dic objectForKey:@"track"]) {//“msgtype”轨迹消息
+                    if ([HjudgeTextMessageSubType isTrackMessage:model.message]) {
                         [_bubbleView setupTrackBubbleView];
                     }
-                    if ([dic objectForKey:@"order"]) {//订单消息
+                    if ([HjudgeTextMessageSubType isOrderMessage:model.message]) {
                         [_bubbleView setupOrderBubbleView];
                     }
-                    if ([dic objectForKey:@"choice"]) { //菜单消息
-                        [_bubbleView setupRobotMenuBubbleView];
+                    if ([HjudgeTextMessageSubType isMenuMessage:model.message]) {
+                         [_bubbleView setupRobotMenuBubbleView];
                     }
-                    
-                } else if([EaseBubbleView isTransferMessage:model.message]){
+                } else if([HjudgeTextMessageSubType isTransferMessage:model.message]){
                     [_bubbleView setupTransformBubbleView];
-                } else if ([EaseBubbleView isEvaluateMessage:model.message]){
+                } else if ([HjudgeTextMessageSubType isEvaluateMessage:model.message]){
                     [_bubbleView setupEvaluateBubbleView];
                 }else {
                     [_bubbleView setupTextBubbleView];

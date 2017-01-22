@@ -10,8 +10,8 @@
 
 @interface VisitorTrack : HContent
 @property (nonatomic) NSString* title;
-@property (nonatomic) NSString* price;  //价格
-@property (nonatomic) NSString* imageUrl; //商品图片
-@property (nonatomic) NSString* itemUrl; //商品链接
+@property (nonatomic) NSString* price;
+@property (nonatomic) NSString* imageUrl;
+@property (nonatomic) NSString* itemUrl;
 @property (nonatomic) NSString* desc;
 @end
