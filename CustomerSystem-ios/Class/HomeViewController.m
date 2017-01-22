@@ -101,7 +101,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     //登录IM
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    if (lgM.isLogged) {
+    if ([[SCLoginManager shareLoginManager] loginKefuSDK]) {
         ChatViewController *chat = [[ChatViewController alloc] initWithConversationChatter:lgM.cname saleType:[[notification.object objectForKey:kpreSell] boolValue]?hPreSaleType:hAfterSaleType];
         chat.commodityInfo = (NSDictionary *)notification.object;
         if ([notification.object objectForKey:kpreSell]) {

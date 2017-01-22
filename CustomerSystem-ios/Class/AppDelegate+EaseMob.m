@@ -65,7 +65,6 @@
     if (![lgM loginKefuSDK]) {
        return @"登录失败，请检查网络";
     }
-    lgM.isLogged = YES;
     return nil;
 }
 
@@ -233,18 +232,6 @@
 
 
 #pragma mark - IChatManagerDelegate
-
-- (void)autoLoginDidCompleteWithError:(HError *)aError {
-    
-    if (aError) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt")
-                                                            message:NSLocalizedString(@"login.fail", @"Logon failure")
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"retry", @"Retry")
-                                                  otherButtonTitles:nil, nil];
-        [alertView show];
-    }
-}
 
 - (void)connectionStateDidChange:(HConnectionState)aConnectionState {
     switch (aConnectionState) {

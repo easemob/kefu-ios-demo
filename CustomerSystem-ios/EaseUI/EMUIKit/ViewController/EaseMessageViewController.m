@@ -1260,12 +1260,10 @@
     }
 }
 
-
 //消息状态发生变化
 - (void)messageStatusDidChange:(HMessage *)aMessage error:(HError *)aError {
      [self _updateMessageStatus:aMessage];
 }
-
 
 - (void)messageAttachmentStatusDidChange:(HMessage *)aMessage error:(HError *)aError {
     if (!aError) {
