@@ -76,6 +76,8 @@
         HError *error = [client logout:YES];
         if (error) {
             NSLog(@"error.code:%u,error.errorDescription :%@",error.code,error.errorDescription);
+        } else {
+            exit(0);
         }
     }
     [self initializeCustomerServiceSdk];

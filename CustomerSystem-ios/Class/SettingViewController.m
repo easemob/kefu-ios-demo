@@ -234,7 +234,7 @@
 //                [alert show];
 //                return;
 //            }
-            UIAlertView *alert =[ [UIAlertView alloc] initWithTitle:@"提示" message:@"昵称只有在和appkey同时修改时才起作用,确认修改?" delegate:self cancelButtonTitle:@"暂不修改" otherButtonTitles:@"确认修改", nil];
+            UIAlertView *alert =[ [UIAlertView alloc] initWithTitle:@"提示" message:@"昵称只有在和appkey同时修改时才起作用,确认修改?" delegate:self cancelButtonTitle:@"暂不修改" otherButtonTitles:@"确认修改[需重启]", nil];
             [alert show];
             break;
         }

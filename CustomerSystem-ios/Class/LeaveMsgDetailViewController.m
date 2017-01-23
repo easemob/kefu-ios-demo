@@ -478,13 +478,18 @@
     __weak typeof(self) weakSelf = self;
     
     [[HNetworkManager shareInstance] asyncLeaveAMessageCommentWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId requestBody:body completion:^(id responseObject, NSError *error) {
-                    comment.updated_at = [responseObject objectForKey:@"updated_at"];
-                    comment.created_at = [responseObject objectForKey:@"created_at"];
-                    comment.ticketId = [responseObject objectForKey:@"id"];
-                    comment.version = [responseObject objectForKey:@"version"];
-                    [weakSelf.dataArray addObject:comment];
-                    [weakSelf.tableView reloadData];
-                    [weakSelf scrollViewToBottom:YES];
+        if (error == nil) {
+            comment.updated_at = [responseObject objectForKey:@"updated_at"];
+            comment.created_at = [responseObject objectForKey:@"created_at"];
+            comment.ticketId = [responseObject objectForKey:@"id"];
+            comment.version = [responseObject objectForKey:@"version"];
+            [weakSelf.dataArray addObject:comment];
+            [weakSelf.tableView reloadData];
+            [weakSelf scrollViewToBottom:YES];
+        } else {
+            [self showHint:@"回复失败，请稍后再试" duration:1];
+        }
+        
     }];
     
     [self.navigationController popToViewController:self animated:YES];
