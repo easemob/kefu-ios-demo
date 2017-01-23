@@ -1016,8 +1016,10 @@
         
     }else{
         UIImage *orgImage = info[UIImagePickerControllerOriginalImage];
+        NSData *imgData = UIImageJPEGRepresentation(orgImage, 0.5);
+        UIImage *image = [UIImage imageWithData:imgData];
         [picker dismissViewControllerAnimated:YES completion:nil];
-        [self sendImageMessage:orgImage];
+        [self sendImageMessage:image];
     }
 }
 
