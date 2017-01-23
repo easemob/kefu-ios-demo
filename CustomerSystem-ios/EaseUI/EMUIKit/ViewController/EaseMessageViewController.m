@@ -273,8 +273,8 @@
 
 - (BOOL)_canRecord
 {
-    __block BOOL bCanRecord = YES;
-    if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending)
+    __block BOOL bCanRecord = NO;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
     {
         AVAudioSession *audioSession = [AVAudioSession sharedInstance];
         if ([audioSession respondsToSelector:@selector(requestRecordPermission:)]) {
@@ -1135,7 +1135,11 @@
             [weakSelf sendVoiceMessageWithLocalPath:recordPath duration:aDuration];
         }
         else {
-            [weakSelf showHudInView:self.view hint:error.domain];
+            NSString *ers = error.domain;
+            if (![self _canRecord]) {
+                ers = @"未授权";
+            }
+            [weakSelf showHudInView:self.view hint:ers];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [weakSelf hideHud];
             });
