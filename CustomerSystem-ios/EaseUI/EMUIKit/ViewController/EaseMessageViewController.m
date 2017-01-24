@@ -15,7 +15,6 @@
 #import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "NSDate+Category.h"
-#import "EaseUsersListViewController.h"
 #import "EaseMessageReadManager.h"
 #import "EaseEmotionManager.h"
 #import "EaseEmoji.h"

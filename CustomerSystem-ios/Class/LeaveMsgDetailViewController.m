@@ -29,7 +29,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 
-@property (nonatomic, strong) EMConversation *conversation;//会话管理者
+//@property (nonatomic, strong) EMConversation *conversation;//会话管理者
 @property (nonatomic, strong) NSDateFormatter *dateformatter;
 @property (nonatomic, strong) UIButton *replyButton;
 

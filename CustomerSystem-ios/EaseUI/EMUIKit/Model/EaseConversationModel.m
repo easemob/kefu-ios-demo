@@ -12,10 +12,10 @@
 
 #import "EaseConversationModel.h"
 
-#import "EMConversation.h"
 
 @implementation EaseConversationModel
 
+/*
 - (instancetype)initWithConversation:(EMConversation *)conversation
 {
     self = [super init];
@@ -32,5 +32,5 @@
     
     return self;
 }
-
+*/
 @end

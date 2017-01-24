@@ -84,11 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "505904508.012905"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "506"
-            endingLineNumber = "506"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
             landmarkName = "-_imageMessageCellSelected:"
             landmarkType = "7">
          </BreakpointContent>
@@ -100,11 +100,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "505904508.012905"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "509"
-            endingLineNumber = "509"
+            startingLineNumber = "508"
+            endingLineNumber = "508"
             landmarkName = "-_imageMessageCellSelected:"
             landmarkType = "7">
          </BreakpointContent>
@@ -148,45 +148,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "505904508.012905"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "553"
-            endingLineNumber = "553"
+            startingLineNumber = "552"
+            endingLineNumber = "552"
             landmarkName = "-_imageMessageCellSelected:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[EaseMessageViewController _imageMessageCellSelected:]"
-                  moduleName = "CustomerSystem-ios"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/FXN/%E7%8E%AF%E4%BF%A1%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%9C%8D/helpdeskdemo-ios/CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-                  timestampString = "506864018.594117"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "553"
-                  endingLineNumber = "553"
-                  offsetFromSymbolStart = "1832">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__55-[EaseMessageViewController _imageMessageCellSelected:]_block_invoke.444"
-                  moduleName = "CustomerSystem-ios"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/FXN/%E7%8E%AF%E4%BF%A1%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%9C%8D/helpdeskdemo-ios/CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-                  timestampString = "506864018.595552"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "554"
-                  endingLineNumber = "554"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -196,11 +164,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506850133.558992"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1562"
-            endingLineNumber = "1562"
+            startingLineNumber = "1561"
+            endingLineNumber = "1561"
             landmarkName = "-commitSatisfactionWithExt:messageModel:"
             landmarkType = "7">
          </BreakpointContent>
@@ -212,11 +180,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506850133.558992"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1567"
-            endingLineNumber = "1567"
+            startingLineNumber = "1566"
+            endingLineNumber = "1566"
             landmarkName = "-commitSatisfactionWithExt:messageModel:"
             landmarkType = "7">
          </BreakpointContent>
@@ -308,11 +276,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506850133.558992"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1444"
-            endingLineNumber = "1444"
+            startingLineNumber = "1443"
+            endingLineNumber = "1443"
             landmarkName = "-_refreshAfterSentMessage:"
             landmarkType = "7">
          </BreakpointContent>
@@ -324,11 +292,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "505904508.012905"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "741"
-            endingLineNumber = "741"
+            startingLineNumber = "740"
+            endingLineNumber = "740"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -452,11 +420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506850133.558992"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1260"
-            endingLineNumber = "1260"
+            startingLineNumber = "1259"
+            endingLineNumber = "1259"
             landmarkName = "-cmdMessagesDidReceive:"
             landmarkType = "7">
          </BreakpointContent>
@@ -468,11 +436,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506850133.558992"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1252"
-            endingLineNumber = "1252"
+            startingLineNumber = "1251"
+            endingLineNumber = "1251"
             landmarkName = "-messagesDidReceive:"
             landmarkType = "7">
          </BreakpointContent>
@@ -628,11 +596,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506850133.558992"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1481"
-            endingLineNumber = "1481"
+            startingLineNumber = "1480"
+            endingLineNumber = "1480"
             landmarkName = "-_sendMessage:"
             landmarkType = "7">
             <Locations>
@@ -756,11 +724,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506848976.168488"
+            timestampString = "506920082.837365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
             landmarkName = "-_canRecord"
             landmarkType = "7">
          </BreakpointContent>
@@ -788,12 +756,12 @@
                   moduleName = "CustomerSystem-ios"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/FXN/%E7%8E%AF%E4%BF%A1%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%9C%8D/helpdeskdemo-ios/CustomerSystem-ios/EaseUI/EMUIKit/Views/conversation/MessageCellBubbleView/EaseBubbleView+Text.m"
-                  timestampString = "506864018.611618"
+                  timestampString = "506931543.584286"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "70"
                   endingLineNumber = "70"
-                  offsetFromSymbolStart = "164">
+                  offsetFromSymbolStart = "240">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -803,12 +771,12 @@
                   moduleName = "CustomerSystem-ios"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/FXN/%E7%8E%AF%E4%BF%A1%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%9C%8D/helpdeskdemo-ios/CustomerSystem-ios/EaseUI/EMUIKit/Views/conversation/MessageCellBubbleView/EaseBubbleView+Text.m"
-                  timestampString = "506864018.613"
+                  timestampString = "506931543.587816"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "72"
                   endingLineNumber = "72"
-                  offsetFromSymbolStart = "88">
+                  offsetFromSymbolStart = "80">
                </Location>
             </Locations>
          </BreakpointContent>

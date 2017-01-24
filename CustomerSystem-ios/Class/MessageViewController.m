@@ -340,14 +340,6 @@
     }];
 }
 
-// 得到未读消息条数
-- (NSInteger)unreadMessageCountByConversation:(EMConversation *)conversation
-{
-    NSInteger ret = 0;
-    ret = conversation.unreadMessagesCount;
-    return  ret;
-}
-
 
 - (NSString*)getTicketIdWithMessage:(EMMessage*)message
 {

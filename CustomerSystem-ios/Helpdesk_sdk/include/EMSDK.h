@@ -17,7 +17,6 @@
 
 #if TARGET_OS_IPHONE
 
-#import "EMClient.h"
 #import "EMClientDelegate.h"
 
 #else

@@ -127,7 +127,7 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 
 @end
 
-@interface EaseMessageViewController : EaseRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */EMCDDeviceManagerDelegate, EMChatToolbarDelegate, EaseChatBarMoreViewDelegate, EMLocationViewDelegate,EMChatroomManagerDelegate, EaseMessageCellDelegate,SatisfactionDelegate>
+@interface EaseMessageViewController : EaseRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */EMCDDeviceManagerDelegate, EMChatToolbarDelegate, EaseChatBarMoreViewDelegate, EMLocationViewDelegate, EaseMessageCellDelegate,SatisfactionDelegate>
 
 @property (weak, nonatomic) id<EaseMessageViewControllerDelegate> delegate;
 

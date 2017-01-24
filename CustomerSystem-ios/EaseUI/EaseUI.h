@@ -12,9 +12,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "EaseConversationListViewController.h"
 #import "EaseMessageViewController.h"
-#import "EaseUsersListViewController.h"
 #import "EaseViewController.h"
 
 #import "IModelCell.h"
@@ -22,7 +20,6 @@
 #import "EaseMessageCell.h"
 #import "EaseBaseMessageCell.h"
 #import "EaseBubbleView.h"
-#import "EaseUserCell.h"
 
 
 #import "EaseChineseToPinyin.h"
