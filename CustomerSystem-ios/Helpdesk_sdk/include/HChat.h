@@ -8,11 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "HChatDelegate.h"
-#import "IEMChatManager.h"
 #import "HChatDelegate.h"
 #import "HConversation.h"
 #import "HError.h"
-
+#import "IEMChatManager.h"
 
 @interface HChat : NSObject
 

@@ -722,48 +722,48 @@
 		D3DEAA181DED66240081B654 /* chatBar_recordSelectedBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatBar_recordSelectedBg@2x.png"; sourceTree = "<group>"; };
 		D3DEAA1D1DED78D00081B654 /* SCAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAudioPlay.h; sourceTree = "<group>"; };
 		D3DEAA1E1DED78D00081B654 /* SCAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAudioPlay.m; sourceTree = "<group>"; };
-		D3F30A371E388BF8000165C0 /* EMChatManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatManagerDelegate.h; sourceTree = "<group>"; };
-		D3F30A381E388BF8000165C0 /* EMCmdMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCmdMessageBody.h; sourceTree = "<group>"; };
-		D3F30A391E388BF8000165C0 /* EMCommonDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCommonDefs.h; sourceTree = "<group>"; };
-		D3F30A3A1E388BF8000165C0 /* EMContactManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMContactManagerDelegate.h; sourceTree = "<group>"; };
-		D3F30A3B1E388BF8000165C0 /* EMConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMConversation.h; sourceTree = "<group>"; };
-		D3F30A3C1E388BF8000165C0 /* EMCursorResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCursorResult.h; sourceTree = "<group>"; };
-		D3F30A3D1E388BF8000165C0 /* EMFileMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMFileMessageBody.h; sourceTree = "<group>"; };
-		D3F30A3E1E388BF8000165C0 /* EMImageMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMImageMessageBody.h; sourceTree = "<group>"; };
-		D3F30A3F1E388BF8000165C0 /* EMLocationMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMLocationMessageBody.h; sourceTree = "<group>"; };
-		D3F30A401E388BF8000165C0 /* EMMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMMessageBody.h; sourceTree = "<group>"; };
-		D3F30A411E388BF8000165C0 /* EMOptions+PrivateDeploy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMOptions+PrivateDeploy.h"; sourceTree = "<group>"; };
-		D3F30A421E388BF8000165C0 /* EMOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMOptions.h; sourceTree = "<group>"; };
-		D3F30A431E388BF8000165C0 /* EMPageResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMPageResult.h; sourceTree = "<group>"; };
-		D3F30A441E388BF8000165C0 /* EMPushOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMPushOptions.h; sourceTree = "<group>"; };
-		D3F30A451E388BF8000165C0 /* EMSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMSDK.h; sourceTree = "<group>"; };
-		D3F30A461E388BF8000165C0 /* EMTextMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMTextMessageBody.h; sourceTree = "<group>"; };
-		D3F30A471E388BF8000165C0 /* EMVideoMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMVideoMessageBody.h; sourceTree = "<group>"; };
-		D3F30A481E388BF8000165C0 /* EMVoiceMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMVoiceMessageBody.h; sourceTree = "<group>"; };
-		D3F30A491E388BF8000165C0 /* HAgentIdentityInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAgentIdentityInfo.h; sourceTree = "<group>"; };
-		D3F30A4A1E388BF8000165C0 /* HAgentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAgentInfo.h; sourceTree = "<group>"; };
-		D3F30A4B1E388BF8000165C0 /* HChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HChat.h; sourceTree = "<group>"; };
-		D3F30A4C1E388BF8000165C0 /* HChatClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HChatClient.h; sourceTree = "<group>"; };
-		D3F30A4D1E388BF8000165C0 /* HChatClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HChatClientDelegate.h; sourceTree = "<group>"; };
-		D3F30A4E1E388BF8000165C0 /* HChatDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HChatDelegate.h; sourceTree = "<group>"; };
-		D3F30A4F1E388BF8000165C0 /* HCompositeContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCompositeContent.h; sourceTree = "<group>"; };
-		D3F30A501E388BF8000165C0 /* HContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HContent.h; sourceTree = "<group>"; };
-		D3F30A511E388BF8000165C0 /* HControlMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HControlMessage.h; sourceTree = "<group>"; };
-		D3F30A521E388BF8000165C0 /* HConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HConversation.h; sourceTree = "<group>"; };
-		D3F30A531E388BF8000165C0 /* HError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HError.h; sourceTree = "<group>"; };
-		D3F30A541E388BF8000165C0 /* HErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HErrorCode.h; sourceTree = "<group>"; };
-		D3F30A551E388BF8000165C0 /* HjudgeTextMessageSubType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HjudgeTextMessageSubType.h; sourceTree = "<group>"; };
-		D3F30A561E388BF8000165C0 /* HLeaveMsgManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLeaveMsgManager.h; sourceTree = "<group>"; };
-		D3F30A571E388BF8000165C0 /* HMessage+Content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HMessage+Content.h"; sourceTree = "<group>"; };
-		D3F30A581E388BF8000165C0 /* HMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMessage.h; sourceTree = "<group>"; };
-		D3F30A591E388BF8000165C0 /* HOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HOptions.h; sourceTree = "<group>"; };
-		D3F30A5A1E388BF8000165C0 /* HOrderInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HOrderInfo.h; sourceTree = "<group>"; };
-		D3F30A5B1E388BF8000165C0 /* HQueueIdentityInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQueueIdentityInfo.h; sourceTree = "<group>"; };
-		D3F30A5C1E388BF8000165C0 /* HRobotMenuInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRobotMenuInfo.h; sourceTree = "<group>"; };
-		D3F30A5D1E388BF8000165C0 /* HTransferIndication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTransferIndication.h; sourceTree = "<group>"; };
-		D3F30A5E1E388BF8000165C0 /* HVisitorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HVisitorInfo.h; sourceTree = "<group>"; };
-		D3F30A5F1E388BF8000165C0 /* HVisitorTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HVisitorTrack.h; sourceTree = "<group>"; };
-		D3F30A621E389206000165C0 /* EMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMMessage.h; sourceTree = "<group>"; };
+		D3F30A8F1E38C568000165C0 /* EMChatManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatManagerDelegate.h; sourceTree = "<group>"; };
+		D3F30A901E38C568000165C0 /* EMCmdMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCmdMessageBody.h; sourceTree = "<group>"; };
+		D3F30A911E38C568000165C0 /* EMCommonDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCommonDefs.h; sourceTree = "<group>"; };
+		D3F30A921E38C568000165C0 /* EMConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMConversation.h; sourceTree = "<group>"; };
+		D3F30A931E38C568000165C0 /* EMCursorResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCursorResult.h; sourceTree = "<group>"; };
+		D3F30A941E38C568000165C0 /* EMFileMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMFileMessageBody.h; sourceTree = "<group>"; };
+		D3F30A951E38C568000165C0 /* EMImageMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMImageMessageBody.h; sourceTree = "<group>"; };
+		D3F30A961E38C568000165C0 /* EMLocationMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMLocationMessageBody.h; sourceTree = "<group>"; };
+		D3F30A971E38C568000165C0 /* EMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMMessage.h; sourceTree = "<group>"; };
+		D3F30A981E38C568000165C0 /* EMMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMMessageBody.h; sourceTree = "<group>"; };
+		D3F30A991E38C568000165C0 /* EMOptions+PrivateDeploy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMOptions+PrivateDeploy.h"; sourceTree = "<group>"; };
+		D3F30A9A1E38C568000165C0 /* EMOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMOptions.h; sourceTree = "<group>"; };
+		D3F30A9B1E38C568000165C0 /* EMPageResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMPageResult.h; sourceTree = "<group>"; };
+		D3F30A9C1E38C568000165C0 /* EMPushOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMPushOptions.h; sourceTree = "<group>"; };
+		D3F30A9D1E38C568000165C0 /* EMSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMSDK.h; sourceTree = "<group>"; };
+		D3F30A9E1E38C568000165C0 /* EMTextMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMTextMessageBody.h; sourceTree = "<group>"; };
+		D3F30A9F1E38C568000165C0 /* EMVideoMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMVideoMessageBody.h; sourceTree = "<group>"; };
+		D3F30AA01E38C568000165C0 /* EMVoiceMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMVoiceMessageBody.h; sourceTree = "<group>"; };
+		D3F30AA11E38C568000165C0 /* HAgentIdentityInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAgentIdentityInfo.h; sourceTree = "<group>"; };
+		D3F30AA21E38C568000165C0 /* HAgentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAgentInfo.h; sourceTree = "<group>"; };
+		D3F30AA31E38C568000165C0 /* HChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HChat.h; sourceTree = "<group>"; };
+		D3F30AA41E38C568000165C0 /* HChatClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HChatClient.h; sourceTree = "<group>"; };
+		D3F30AA51E38C568000165C0 /* HChatClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HChatClientDelegate.h; sourceTree = "<group>"; };
+		D3F30AA61E38C568000165C0 /* HChatDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HChatDelegate.h; sourceTree = "<group>"; };
+		D3F30AA71E38C568000165C0 /* HCompositeContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCompositeContent.h; sourceTree = "<group>"; };
+		D3F30AA81E38C568000165C0 /* HContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HContent.h; sourceTree = "<group>"; };
+		D3F30AA91E38C568000165C0 /* HControlMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HControlMessage.h; sourceTree = "<group>"; };
+		D3F30AAA1E38C568000165C0 /* HConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HConversation.h; sourceTree = "<group>"; };
+		D3F30AAB1E38C568000165C0 /* HError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HError.h; sourceTree = "<group>"; };
+		D3F30AAC1E38C568000165C0 /* HErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HErrorCode.h; sourceTree = "<group>"; };
+		D3F30AAD1E38C568000165C0 /* HjudgeTextMessageSubType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HjudgeTextMessageSubType.h; sourceTree = "<group>"; };
+		D3F30AAE1E38C568000165C0 /* HLeaveMsgManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLeaveMsgManager.h; sourceTree = "<group>"; };
+		D3F30AAF1E38C568000165C0 /* HMessage+Content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HMessage+Content.h"; sourceTree = "<group>"; };
+		D3F30AB01E38C568000165C0 /* HMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMessage.h; sourceTree = "<group>"; };
+		D3F30AB11E38C568000165C0 /* HOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HOptions.h; sourceTree = "<group>"; };
+		D3F30AB21E38C568000165C0 /* HOrderInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HOrderInfo.h; sourceTree = "<group>"; };
+		D3F30AB31E38C568000165C0 /* HQueueIdentityInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQueueIdentityInfo.h; sourceTree = "<group>"; };
+		D3F30AB41E38C568000165C0 /* HRobotMenuInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRobotMenuInfo.h; sourceTree = "<group>"; };
+		D3F30AB51E38C568000165C0 /* HTransferIndication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTransferIndication.h; sourceTree = "<group>"; };
+		D3F30AB61E38C568000165C0 /* HVisitorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HVisitorInfo.h; sourceTree = "<group>"; };
+		D3F30AB71E38C568000165C0 /* HVisitorTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HVisitorTrack.h; sourceTree = "<group>"; };
+		D3F30AB81E38C568000165C0 /* IEMChatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEMChatManager.h; sourceTree = "<group>"; };
 		EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		EB395DFD1A8F0AC40083B659 /* MallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MallViewController.h; sourceTree = "<group>"; };
 		EB395DFE1A8F0AC40083B659 /* MallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MallViewController.m; sourceTree = "<group>"; };
@@ -1095,7 +1095,7 @@
 		D347436C1DE6D6C100F32D87 /* Helpdesk_sdk */ = {
 			isa = PBXGroup;
 			children = (
-				D3F30A361E388BF8000165C0 /* include */,
+				D3F30A8E1E38C568000165C0 /* include */,
 				D3DEAA201DED84870081B654 /* resources */,
 				D34743A21DE6D6C100F32D87 /* lib */,
 			);
@@ -1884,51 +1884,51 @@
 			path = resources;
 			sourceTree = "<group>";
 		};
-		D3F30A361E388BF8000165C0 /* include */ = {
+		D3F30A8E1E38C568000165C0 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				D3F30A621E389206000165C0 /* EMMessage.h */,
-				D3F30A371E388BF8000165C0 /* EMChatManagerDelegate.h */,
-				D3F30A381E388BF8000165C0 /* EMCmdMessageBody.h */,
-				D3F30A391E388BF8000165C0 /* EMCommonDefs.h */,
-				D3F30A3A1E388BF8000165C0 /* EMContactManagerDelegate.h */,
-				D3F30A3B1E388BF8000165C0 /* EMConversation.h */,
-				D3F30A3C1E388BF8000165C0 /* EMCursorResult.h */,
-				D3F30A3D1E388BF8000165C0 /* EMFileMessageBody.h */,
-				D3F30A3E1E388BF8000165C0 /* EMImageMessageBody.h */,
-				D3F30A3F1E388BF8000165C0 /* EMLocationMessageBody.h */,
-				D3F30A401E388BF8000165C0 /* EMMessageBody.h */,
-				D3F30A411E388BF8000165C0 /* EMOptions+PrivateDeploy.h */,
-				D3F30A421E388BF8000165C0 /* EMOptions.h */,
-				D3F30A431E388BF8000165C0 /* EMPageResult.h */,
-				D3F30A441E388BF8000165C0 /* EMPushOptions.h */,
-				D3F30A451E388BF8000165C0 /* EMSDK.h */,
-				D3F30A461E388BF8000165C0 /* EMTextMessageBody.h */,
-				D3F30A471E388BF8000165C0 /* EMVideoMessageBody.h */,
-				D3F30A481E388BF8000165C0 /* EMVoiceMessageBody.h */,
-				D3F30A491E388BF8000165C0 /* HAgentIdentityInfo.h */,
-				D3F30A4A1E388BF8000165C0 /* HAgentInfo.h */,
-				D3F30A4B1E388BF8000165C0 /* HChat.h */,
-				D3F30A4C1E388BF8000165C0 /* HChatClient.h */,
-				D3F30A4D1E388BF8000165C0 /* HChatClientDelegate.h */,
-				D3F30A4E1E388BF8000165C0 /* HChatDelegate.h */,
-				D3F30A4F1E388BF8000165C0 /* HCompositeContent.h */,
-				D3F30A501E388BF8000165C0 /* HContent.h */,
-				D3F30A511E388BF8000165C0 /* HControlMessage.h */,
-				D3F30A521E388BF8000165C0 /* HConversation.h */,
-				D3F30A531E388BF8000165C0 /* HError.h */,
-				D3F30A541E388BF8000165C0 /* HErrorCode.h */,
-				D3F30A551E388BF8000165C0 /* HjudgeTextMessageSubType.h */,
-				D3F30A561E388BF8000165C0 /* HLeaveMsgManager.h */,
-				D3F30A571E388BF8000165C0 /* HMessage+Content.h */,
-				D3F30A581E388BF8000165C0 /* HMessage.h */,
-				D3F30A591E388BF8000165C0 /* HOptions.h */,
-				D3F30A5A1E388BF8000165C0 /* HOrderInfo.h */,
-				D3F30A5B1E388BF8000165C0 /* HQueueIdentityInfo.h */,
-				D3F30A5C1E388BF8000165C0 /* HRobotMenuInfo.h */,
-				D3F30A5D1E388BF8000165C0 /* HTransferIndication.h */,
-				D3F30A5E1E388BF8000165C0 /* HVisitorInfo.h */,
-				D3F30A5F1E388BF8000165C0 /* HVisitorTrack.h */,
+				D3F30A8F1E38C568000165C0 /* EMChatManagerDelegate.h */,
+				D3F30A901E38C568000165C0 /* EMCmdMessageBody.h */,
+				D3F30A911E38C568000165C0 /* EMCommonDefs.h */,
+				D3F30A921E38C568000165C0 /* EMConversation.h */,
+				D3F30A931E38C568000165C0 /* EMCursorResult.h */,
+				D3F30A941E38C568000165C0 /* EMFileMessageBody.h */,
+				D3F30A951E38C568000165C0 /* EMImageMessageBody.h */,
+				D3F30A961E38C568000165C0 /* EMLocationMessageBody.h */,
+				D3F30A971E38C568000165C0 /* EMMessage.h */,
+				D3F30A981E38C568000165C0 /* EMMessageBody.h */,
+				D3F30A991E38C568000165C0 /* EMOptions+PrivateDeploy.h */,
+				D3F30A9A1E38C568000165C0 /* EMOptions.h */,
+				D3F30A9B1E38C568000165C0 /* EMPageResult.h */,
+				D3F30A9C1E38C568000165C0 /* EMPushOptions.h */,
+				D3F30A9D1E38C568000165C0 /* EMSDK.h */,
+				D3F30A9E1E38C568000165C0 /* EMTextMessageBody.h */,
+				D3F30A9F1E38C568000165C0 /* EMVideoMessageBody.h */,
+				D3F30AA01E38C568000165C0 /* EMVoiceMessageBody.h */,
+				D3F30AA11E38C568000165C0 /* HAgentIdentityInfo.h */,
+				D3F30AA21E38C568000165C0 /* HAgentInfo.h */,
+				D3F30AA31E38C568000165C0 /* HChat.h */,
+				D3F30AA41E38C568000165C0 /* HChatClient.h */,
+				D3F30AA51E38C568000165C0 /* HChatClientDelegate.h */,
+				D3F30AA61E38C568000165C0 /* HChatDelegate.h */,
+				D3F30AA71E38C568000165C0 /* HCompositeContent.h */,
+				D3F30AA81E38C568000165C0 /* HContent.h */,
+				D3F30AA91E38C568000165C0 /* HControlMessage.h */,
+				D3F30AAA1E38C568000165C0 /* HConversation.h */,
+				D3F30AAB1E38C568000165C0 /* HError.h */,
+				D3F30AAC1E38C568000165C0 /* HErrorCode.h */,
+				D3F30AAD1E38C568000165C0 /* HjudgeTextMessageSubType.h */,
+				D3F30AAE1E38C568000165C0 /* HLeaveMsgManager.h */,
+				D3F30AAF1E38C568000165C0 /* HMessage+Content.h */,
+				D3F30AB01E38C568000165C0 /* HMessage.h */,
+				D3F30AB11E38C568000165C0 /* HOptions.h */,
+				D3F30AB21E38C568000165C0 /* HOrderInfo.h */,
+				D3F30AB31E38C568000165C0 /* HQueueIdentityInfo.h */,
+				D3F30AB41E38C568000165C0 /* HRobotMenuInfo.h */,
+				D3F30AB51E38C568000165C0 /* HTransferIndication.h */,
+				D3F30AB61E38C568000165C0 /* HVisitorInfo.h */,
+				D3F30AB71E38C568000165C0 /* HVisitorTrack.h */,
+				D3F30AB81E38C568000165C0 /* IEMChatManager.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
