@@ -10,7 +10,7 @@
 
 #import "LeaveMsgAttatchmentView.h"
 #import "LeaveMsgDetailModel.h"
-#import "EaseMessageReadManager.h"
+#import "HDMessageReadManager.h"
 
 #define kDefaultLeft 65.f
 
@@ -217,7 +217,7 @@
     if ([_attachments count] > index) {
         LeaveMsgAttachmentModel *attachment = [_attachments objectAtIndex:index];
         if ([attachment.type isEqualToString:@"image"]) {
-            [[EaseMessageReadManager defaultManager] showBrowserWithImages:@[[NSURL URLWithString:attachment.url]]];
+            [[HDMessageReadManager defaultManager] showBrowserWithImages:@[[NSURL URLWithString:attachment.url]]];
         } else if([attachment.type isEqualToString:@"audio"]) {
             if (_delegate && [_delegate respondsToSelector:@selector(didSelectAudioAttachment:touchImage:)]) {
                 [_delegate didSelectAudioAttachment:attachment touchImage:(LeaveMsgAttatchmentView *)tap.view];

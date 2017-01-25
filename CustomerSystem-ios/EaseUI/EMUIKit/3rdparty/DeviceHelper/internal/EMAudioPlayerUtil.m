@@ -12,7 +12,7 @@
 
 #import "EMAudioPlayerUtil.h"
 #import <AVFoundation/AVFoundation.h>
-#import "EaseLocalDefine.h"
+#import "HDLocalDefine.h"
 
 static EMAudioPlayerUtil *audioPlayerUtil = nil;
 

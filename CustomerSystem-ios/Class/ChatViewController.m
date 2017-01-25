@@ -11,10 +11,9 @@
  */
 
 #import "ChatViewController.h"
-#import "EaseUI.h"
 #import "SCLeaveMsgViewController.h"
-#import "VisitorTrack.h"
-@interface ChatViewController ()<UIAlertViewDelegate,EMClientDelegate>
+#import "HVisitorTrack.h"
+@interface ChatViewController ()<UIAlertViewDelegate,HChatClientDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
@@ -65,7 +64,7 @@
     NSString *imageUrl = [info objectForKey:@"img_url"];
     NSString *itemUrl = [info objectForKey:@"item_url"];
     if ([self isOrder]) { //发送订单消息
-        OrderInfo *ord = [OrderInfo new];
+        HOrderInfo *ord = [HOrderInfo new];
         ord.title = title;
         ord.orderTitle = orderTitle;
         ord.price = price;
@@ -74,7 +73,7 @@
         ord.itemUrl = itemUrl;
         return ord;
     } else {
-        VisitorTrack *vst = [VisitorTrack new];
+        HVisitorTrack *vst = [HVisitorTrack new];
         vst.title = title;
         vst.price = price;
         vst.desc = desc;
@@ -89,12 +88,12 @@
 
 - (void)sendCommodityMessageWithInfo:(NSDictionary *)info
 {
-    HMessage *message = [EaseSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
+    HMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
     if ([self isOrder]) {
-        OrderInfo *od  = (OrderInfo *)[self trackOrOrder];
+        HOrderInfo *od  = (HOrderInfo *)[self trackOrOrder];
         [message addContent:od];
     } else {
-        VisitorTrack *vt = (VisitorTrack *)[self trackOrOrder];
+        HVisitorTrack *vt = (HVisitorTrack *)[self trackOrOrder];
         [message addContent:vt];
     }
     
@@ -166,18 +165,18 @@
 
 #pragma mark - EaseMessageViewControllerDelegate
 
-- (BOOL)messageViewController:(EaseMessageViewController *)viewController
+- (BOOL)messageViewController:(HDMessageViewController *)viewController
    canLongPressRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
 }
 
-- (BOOL)messageViewController:(EaseMessageViewController *)viewController
+- (BOOL)messageViewController:(HDMessageViewController *)viewController
    didLongPressRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id object = [self.dataArray objectAtIndex:indexPath.row];
     if (![object isKindOfClass:[NSString class]]) {
-        EaseMessageCell *cell = (EaseMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        HDMessageCell *cell = (HDMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         [cell becomeFirstResponder];
         self.menuIndexPath = indexPath;
         [self showMenuViewController:cell.bubbleView andIndexPath:indexPath messageType:cell.model.bodyType];
@@ -185,8 +184,8 @@
     return YES;
 }
 
-- (void)messageViewController:(EaseMessageViewController *)viewController
-  didSelectAvatarMessageModel:(id<IMessageModel>)messageModel
+- (void)messageViewController:(HDMessageViewController *)viewController
+  didSelectAvatarMessageModel:(id<HDIMessageModel>)messageModel
 {
 
 }
@@ -195,17 +194,17 @@
 
 #pragma mark - EaseMessageViewControllerDataSource
 
-- (id<IMessageModel>)messageViewController:(EaseMessageViewController *)viewController
+- (id<HDIMessageModel>)messageViewController:(HDMessageViewController *)viewController
                            modelForMessage:(HMessage *)message
 {
-    id<IMessageModel> model = nil;
-    model = [[EaseMessageModel alloc] initWithMessage:message];
+    id<HDIMessageModel> model = nil;
+    model = [[HDMessageModel alloc] initWithMessage:message];
     model.avatarImage = [UIImage imageNamed:@"EaseUIResource.bundle/user"];
     model.failImageName = @"imageDownloadFail";
     return model;
 }
 
-- (NSArray*)emotionFormessageViewController:(EaseMessageViewController *)viewController
+- (NSArray*)emotionFormessageViewController:(HDMessageViewController *)viewController
 {
     NSMutableArray *emotions = [NSMutableArray array];
     for (NSString *name in [EaseEmoji allEmoji]) {
@@ -218,8 +217,8 @@
     return @[managerDefault];
 }
 
-- (BOOL)isEmotionMessageFormessageViewController:(EaseMessageViewController *)viewController
-                                    messageModel:(id<IMessageModel>)messageModel
+- (BOOL)isEmotionMessageFormessageViewController:(HDMessageViewController *)viewController
+                                    messageModel:(id<HDIMessageModel>)messageModel
 {
     BOOL flag = NO;
     if ([messageModel.message.ext objectForKey:MESSAGE_ATTR_IS_BIG_EXPRESSION]) {
@@ -228,8 +227,8 @@
     return flag;
 }
 
-- (EaseEmotion*)emotionURLFormessageViewController:(EaseMessageViewController *)viewController
-                                      messageModel:(id<IMessageModel>)messageModel
+- (EaseEmotion*)emotionURLFormessageViewController:(HDMessageViewController *)viewController
+                                      messageModel:(id<HDIMessageModel>)messageModel
 {
     NSString *emotionId = [messageModel.message.ext objectForKey:MESSAGE_ATTR_EXPRESSION_ID];
     EaseEmotion *emotion = [_emotionDic objectForKey:emotionId];
@@ -239,13 +238,13 @@
     return emotion;
 }
 
-- (NSDictionary*)emotionExtFormessageViewController:(EaseMessageViewController *)viewController
+- (NSDictionary*)emotionExtFormessageViewController:(HDMessageViewController *)viewController
                                         easeEmotion:(EaseEmotion*)easeEmotion
 {
     return @{MESSAGE_ATTR_EXPRESSION_ID:easeEmotion.emotionId,MESSAGE_ATTR_IS_BIG_EXPRESSION:@(YES)};
 }
 
-- (void)messageViewControllerMarkAllMessagesAsRead:(EaseMessageViewController *)viewController
+- (void)messageViewControllerMarkAllMessagesAsRead:(HDMessageViewController *)viewController
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"setupUnreadMessageCount" object:nil];
 }
@@ -319,7 +318,7 @@
 {
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     if (self.menuIndexPath && self.menuIndexPath.row > 0) {
-        id<IMessageModel> model = [self.dataArray objectAtIndex:self.menuIndexPath.row];
+        id<HDIMessageModel> model = [self.dataArray objectAtIndex:self.menuIndexPath.row];
         pasteboard.string = model.text;
     }
     self.menuIndexPath = nil;
@@ -328,7 +327,7 @@
 - (void)deleteMenuAction:(id)sender
 {
     if (self.menuIndexPath && self.menuIndexPath.row > 0) {
-        id<IMessageModel> model = [self.dataArray objectAtIndex:self.menuIndexPath.row];
+        id<HDIMessageModel> model = [self.dataArray objectAtIndex:self.menuIndexPath.row];
         NSMutableIndexSet *indexs = [NSMutableIndexSet indexSetWithIndex:self.menuIndexPath.row];
         NSMutableArray *indexPaths = [NSMutableArray arrayWithObjects:self.menuIndexPath, nil];
         

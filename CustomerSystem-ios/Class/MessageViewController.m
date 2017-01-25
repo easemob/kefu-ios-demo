@@ -9,6 +9,7 @@
 #import "MessageViewController.h"
 #import "LeaveMsgDetailModel.h"
 #import "LeaveMsgCell.h"
+#import "EMChatManagerDelegate.h"
 //#import "EaseMob.h"
 //#import "SRRefreshView.h"
 //#import "ChatViewController.h"
@@ -58,8 +59,7 @@
     _refreshLock = [[NSObject alloc] init];
     [self slimeRefreshStartRefresh:_slimeView];
     [self reloadLeaveMsgList];
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addMsgToList:) name:KNOTIFICATION_ADDMSG_TO_LIST object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadLeaveMsgList) name:KNOTIFICATION_ADDMSG_TO_LIST object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -137,27 +137,33 @@
 }
 
 
-#pragma mark - IChatMangerDelegate
+#pragma mark - HChatDelegate
+
+- (void)messagesDidReceive:(NSArray *)aMessages {
+    for (HMessage *message in aMessages) {
+        NSDictionary *ext = [self _getSafeDictionary:message.ext];
+        if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
+//            EMConversation *conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:message.from conversationType:eConversationTypeChat];
+//            [conversation removeMessageWithId:message.messageId];
+//            [[EaseMob sharedInstance].chatManager removeConversationByChatter:conversation.chatter deleteMessages:YES append2Chat:YES];
+            
+            LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"]];
+            
+            for (LeaveMsgCommentModel *comment in _dataArray) {
+                if (comment.ticketId == ticket.ticketId) {
+                    [self.tableView reloadData];
+                    return;
+                }
+            }
+            
+            [self reloadLeaveMsgList];
+        }
+    }
+}
 
 - (void)didReceiveMessage:(EMMessage *)message
 {
-//    NSDictionary *ext = [self _getSafeDictionary:message.ext];
-//    if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
-//        EMConversation *conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:message.from conversationType:eConversationTypeChat];
-//        [conversation removeMessageWithId:message.messageId];
-//        [[EaseMob sharedInstance].chatManager removeConversationByChatter:conversation.chatter deleteMessages:YES append2Chat:YES];
-//        
-//        LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"]];
-//        
-//        for (LeaveMsgCommentModel *comment in _dataArray) {
-//            if (comment.ticketId == ticket.ticketId) {
-//                [self.tableView reloadData];
-//                return;
-//            }
-//        }
-//        
-//        [self reloadLeaveMsgList];
-//    }
+    
 }
 
 //- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
@@ -303,10 +309,10 @@
         }
         _isRefreshing = YES;
     }
-    NSDictionary *parameters = @{@"size":@(_pageSize),@"page":@(_page),@"sort":@"updatedAt,desc"};
+//    NSDictionary *parameters = @{@"size":@(_pageSize),@"page":@(_page),@"sort":@"updatedAt,desc"};
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgm = [SCLoginManager shareLoginManager];
-    [[HNetworkManager shareInstance] asyncGetMessagesWithTenantId:lgm.tenantId projectId:lgm.projectId page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
+    [[HLeaveMsgManager shareInstance] asyncGetMessagesWithTenantId:lgm.tenantId projectId:lgm.projectId page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
         if (!error) { //请求成功
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
                 if (_page == 0) {
@@ -341,20 +347,20 @@
 }
 
 
-- (NSString*)getTicketIdWithMessage:(EMMessage*)message
-{
-    NSDictionary *ext = [self _getSafeDictionary:message.ext];
-    if (ext) {
-        if ([ext objectForKey:@"weichat"]) {
-            if ([[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
-                if ([[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"]) {
-                    return [[[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"] objectForKey:@"id"];
-                }
-            }
-        }
-    }
-    return @"";
-}
+//- (NSString*)getTicketIdWithMessage:(EMMessage*)message
+//{
+//    NSDictionary *ext = [self _getSafeDictionary:message.ext];
+//    if (ext) {
+//        if ([ext objectForKey:@"weichat"]) {
+//            if ([[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
+//                if ([[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"]) {
+//                    return [[[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"] objectForKey:@"id"];
+//                }
+//            }
+//        }
+//    }
+//    return @"";
+//}
 
 - (NSMutableDictionary*)_getSafeDictionary:(NSDictionary*)dic
 {

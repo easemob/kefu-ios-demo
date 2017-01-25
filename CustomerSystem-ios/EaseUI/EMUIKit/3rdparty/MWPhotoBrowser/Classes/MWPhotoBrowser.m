@@ -11,7 +11,7 @@
 #import "MWPhotoBrowser.h"
 #import "MWPhotoBrowserPrivate.h"
 #import "EMSDImageCache.h"
-#import "EaseLocalDefine.h"
+#import "HDLocalDefine.h"
 
 #define PADDING                  10
 #define ACTION_SHEET_OLD_ACTIONS 2000

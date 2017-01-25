@@ -11,8 +11,8 @@
  */
 
 #define KNOTIFICATIONNAME_DELETEALLMESSAGE @"RemoveAllMessages"
-#import "EaseMessageViewController.h"
-@interface ChatViewController : EaseMessageViewController <EaseMessageViewControllerDelegate, EaseMessageViewControllerDataSource>
+#import "HDMessageViewController.h"
+@interface ChatViewController : HDMessageViewController <EaseMessageViewControllerDelegate, EaseMessageViewControllerDataSource>
 
 @property (strong, nonatomic) NSDictionary *commodityInfo; //商品信息
 

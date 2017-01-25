@@ -54,7 +54,7 @@
     [self registerEaseMobNotification];
 #warning Leave messages initialization
     //要使用环信客服的留言功能需要以下初始化
-    [HNetworkManager shareInstance].imServiceNo = [SCLoginManager shareLoginManager].cname;
+    [HLeaveMsgManager shareInstance].imServiceNo = [SCLoginManager shareLoginManager].cname;
     //登录IM
     [self loginIM];
 }
@@ -253,7 +253,10 @@
 }
 
 - (void)userAccountDidLoginFromOtherDevice {
-    
+    [[HChatClient sharedClient] logout:YES];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"loginAtOtherDevice", @"your login account has been in other places") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+    alertView.tag = 100;
+    [alertView show];
 }
 
 

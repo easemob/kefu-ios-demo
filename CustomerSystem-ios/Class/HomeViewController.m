@@ -17,14 +17,14 @@
 #import "MoreChoiceView.h"
 #import "SCLoginManager.h"
 #import "MessageViewController.h"
-#import "EaseMessageViewController.h"
+#import "HDMessageViewController.h"
 #import "ChatViewController.h"
 #import "QRCodeViewController.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate> //, IChatManagerDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HChatDelegate>
 {
     MallViewController *_mallController;
     SettingViewController *_settingController;
@@ -149,12 +149,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     [self unregisterNotifications];
     
-    //[[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
+    [[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
 }
 
 -(void)unregisterNotifications
 {
-//    [[EaseMob sharedInstance].chatManager removeDelegate:self];
+    [[HChatClient sharedClient].chat removeDelegate:self];
 }
 
 - (void)setupSubviews
@@ -235,43 +235,43 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     self.lastPlaySoundDate = [NSDate date];
     
     // 收到消息时，播放音频
-   // [[EMCDDeviceManager sharedInstance] playNewMessageSound];
+    [[EMCDDeviceManager sharedInstance] playNewMessageSound];
     // 收到消息时，震动
-    //[[EMCDDeviceManager sharedInstance] playVibration];
+    [[EMCDDeviceManager sharedInstance] playVibration];
 }
-/*
-- (void)_showNotificationWithMessage:(EMMessage *)message
+
+- (void)_showNotificationWithMessage:(NSArray *)messages
 {
-    EMPushNotificationOptions *options = [[EaseMob sharedInstance].chatManager pushNotificationOptions];
+    EMPushOptions *options = [[HChatClient sharedClient] getPushOptionsFromServerWithError:nil ];
     //发送本地推送
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     notification.fireDate = [NSDate date]; //触发通知的时间
     
-    if (options.displayStyle == ePushNotificationDisplayStyle_messageSummary) {
-        id<IEMMessageBody> messageBody = [message.messageBodies firstObject];
+    if (options.displayStyle == EMPushDisplayStyleMessageSummary) {
+        id<HDIMessageModel> messageModel  = messages.firstObject;
         NSString *messageStr = nil;
-        switch (messageBody.messageBodyType) {
-            case eMessageBodyType_Text:
+        switch (messageModel.bodyType) {
+            case EMMessageBodyTypeText:
             {
-                messageStr = ((EMTextMessageBody *)messageBody).text;
+                messageStr = ((EMTextMessageBody *)messageModel).text;
             }
                 break;
-            case eMessageBodyType_Image:
+            case EMMessageBodyTypeImage:
             {
                 messageStr = NSLocalizedString(@"message.image", @"Image");
             }
                 break;
-            case eMessageBodyType_Location:
+            case EMMessageBodyTypeLocation:
             {
                 messageStr = NSLocalizedString(@"message.location", @"Location");
             }
                 break;
-            case eMessageBodyType_Voice:
+            case EMMessageBodyTypeVoice:
             {
                 messageStr = NSLocalizedString(@"message.voice", @"Voice");
             }
                 break;
-            case eMessageBodyType_Video:{
+            case EMMessageBodyTypeVideo:{
                 messageStr = NSLocalizedString(@"message.vidio", @"Vidio");
             }
                 break;
@@ -279,7 +279,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 break;
         }
         
-        NSString *title = message.from;
+        NSString *title = messageModel.message.from;
         notification.alertBody = [NSString stringWithFormat:@"%@:%@", title, messageStr];
     }
     else{
@@ -295,7 +295,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     //发送通知
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
 }
-
+/*
 #pragma mark - IChatManagerDelegate 消息变化
 
 - (void)didUpdateConversationList:(NSArray *)conversationList
@@ -318,65 +318,27 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     
 }
-
+*/
 // 收到消息回调
--(void)didReceiveMessage:(EMMessage *)message
-{
+
+- (void)messagesDidReceive:(NSArray *)aMessages {
 #if !TARGET_IPHONE_SIMULATOR
     BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
     if (!isAppActivity) {
-        [self _showNotificationWithMessage:message];
+        [self _showNotificationWithMessage:aMessages];
     }else {
         [self _playSoundAndVibration];
     }
 #endif
 }
 
--(void)didReceiveCmdMessage:(EMMessage *)message
-{
-    NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"receiveCmdMessage", @"CMD message") message:msg delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    [alertView show];
-}
+//-(void)didReceiveCmdMessage:(EMMessage *)message
+//{
+//    NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"receiveCmdMessage", @"CMD message") message:msg delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+//    [alertView show];
+//}
 
-#pragma mark - IChatManagerDelegate 登录状态变化
 
-- (void)didLoginFromOtherDevice
-{
-    [[EaseMob sharedInstance].chatManager asyncLogoffWithUnbindDeviceToken:NO completion:^(NSDictionary *info, EMError *error) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"loginAtOtherDevice", @"your login account has been in other places") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-        alertView.tag = 100;
-        [alertView show];
-
-    } onQueue:nil];
-}
-
-- (void)didRemovedFromServer
-{
-    [[EaseMob sharedInstance].chatManager asyncLogoffWithUnbindDeviceToken:NO completion:^(NSDictionary *info, EMError *error) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"loginUserRemoveFromServer", @"your account has been removed from the server side") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-        alertView.tag = 101;
-        [alertView show];
-    } onQueue:nil];
-}
-
-#pragma mark - 自动登录回调
-
-- (void)willAutoReconnect
-{
-    [self hideHud];
-    [self showHint:NSLocalizedString(@"reconnection.ongoing", @"reconnecting...")];
-}
-
-- (void)didAutoReconnectFinishedWithError:(NSError *)error
-{
-    [self hideHud];
-    if (error) {
-        [self showHint:NSLocalizedString(@"reconnection.fail", @"reconnection failure, later will continue to reconnection")];
-    }else{
-        [self showHint:NSLocalizedString(@"reconnection.success", @"reconnection successful！")];
-    }
-}
- */
 
 @end

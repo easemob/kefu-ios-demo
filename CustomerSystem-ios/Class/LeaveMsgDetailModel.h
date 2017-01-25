@@ -84,7 +84,7 @@
 
 @interface LeaveMsgBaseModelTicket : LeaveMsgBaseModel
 
-@property (nonatomic, assign) NSString *ticketId;
+@property (nonatomic, copy) NSString *ticketId;
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, copy) NSString *updated_at;
 @property (nonatomic, copy) NSString *created_at;

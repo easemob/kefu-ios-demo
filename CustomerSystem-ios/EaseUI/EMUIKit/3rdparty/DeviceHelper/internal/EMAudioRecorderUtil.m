@@ -10,7 +10,7 @@
  * from Hyphenate Inc.
  */
 #import "EMAudioRecorderUtil.h"
-#import "EaseLocalDefine.h"
+#import "HDLocalDefine.h"
 
 static EMAudioRecorderUtil *audioRecorderUtil = nil;
 

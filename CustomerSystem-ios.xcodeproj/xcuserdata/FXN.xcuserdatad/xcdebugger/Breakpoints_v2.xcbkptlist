@@ -51,22 +51,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/Model/EaseMessageModel.m"
-            timestampString = "504765812.253"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "-initWithMessage:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/FLDBManager/FLDBManager.m"
             timestampString = "505717303.710935"
             startingColumnNumber = "9223372036854775807"
@@ -74,38 +58,6 @@
             startingLineNumber = "79"
             endingLineNumber = "79"
             landmarkName = "-formatBodyWithMessage:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505"
-            landmarkName = "-_imageMessageCellSelected:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "508"
-            endingLineNumber = "508"
-            landmarkName = "-_imageMessageCellSelected:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -144,54 +96,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "552"
-            endingLineNumber = "552"
-            landmarkName = "-_imageMessageCellSelected:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1561"
-            endingLineNumber = "1561"
-            landmarkName = "-commitSatisfactionWithExt:messageModel:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1566"
-            endingLineNumber = "1566"
-            landmarkName = "-commitSatisfactionWithExt:messageModel:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -211,28 +115,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/FormatMessage.m"
-            timestampString = "505980178.928573"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "+getHMessageWithEMMessage:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
-            timestampString = "505904508.012905"
+            timestampString = "507022033.144013"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "-sendMessage:progress:completion:"
             landmarkType = "7">
          </BreakpointContent>
@@ -260,59 +148,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
-            timestampString = "505904508.012905"
+            timestampString = "507022033.144013"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "-sendMessage:progress:completion:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1443"
-            endingLineNumber = "1443"
-            landmarkName = "-_refreshAfterSentMessage:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "740"
-            endingLineNumber = "740"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
-            timestampString = "506779063.484145"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "-sendMessage:progress:completion:"
             landmarkType = "7">
          </BreakpointContent>
@@ -324,11 +164,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
-            timestampString = "505904508.012905"
+            timestampString = "507022033.144013"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "-getMessageAttachmentPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
+            timestampString = "507022033.144013"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "-sendMessage:progress:completion:"
             landmarkType = "7">
             <Locations>
@@ -384,22 +240,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HNConversation.m"
-            timestampString = "506779161.21708"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "-deleteAllMessages:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -410,38 +250,6 @@
             startingLineNumber = "168"
             endingLineNumber = "168"
             landmarkName = "-getPushOptionsFromServerWithError:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1259"
-            endingLineNumber = "1259"
-            landmarkName = "-cmdMessagesDidReceive:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1251"
-            endingLineNumber = "1251"
-            landmarkName = "-messagesDidReceive:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -512,22 +320,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChatClient.m"
-            timestampString = "506771663.127142"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "-isAutoLogin"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -560,81 +352,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/Class/AppDelegate+EaseMob.m"
-            timestampString = "506863564.920036"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
-            landmarkName = "-userAccountDidRemoveFromServer"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/Class/AppDelegate+EaseMob.m"
-            timestampString = "506863564.920036"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "256"
-            endingLineNumber = "256"
-            landmarkName = "-userAccountDidLoginFromOtherDevice"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
+            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
+            timestampString = "507022033.144013"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1480"
-            endingLineNumber = "1480"
-            landmarkName = "-_sendMessage:"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "-sendMessage:progress:completion:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[EaseMessageViewController _sendMessage:]"
-                  moduleName = "CustomerSystem-ios"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/FXN/%E7%8E%AF%E4%BF%A1%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%9C%8D/helpdeskdemo-ios/CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-                  timestampString = "506778984.432095"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1477"
-                  endingLineNumber = "1477"
-                  offsetFromSymbolStart = "86">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__42-[EaseMessageViewController _sendMessage:]_block_invoke"
-                  moduleName = "CustomerSystem-ios"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/FXN/%E7%8E%AF%E4%BF%A1%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%9C%8D/helpdeskdemo-ios/CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-                  timestampString = "506778984.433673"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1478"
-                  endingLineNumber = "1478"
-                  offsetFromSymbolStart = "75">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -644,12 +372,156 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
-            timestampString = "506779979.956713"
+            timestampString = "507022033.144013"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "-sendMessage:progress:completion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
+            timestampString = "507022033.144013"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "-handleACKMessageWithAllCmdMessages:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
+            timestampString = "507022033.144013"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "-handleACKMessageWithAllCmdMessages:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
+            timestampString = "507022033.144013"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "-sendMessage:progress:completion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
+            timestampString = "507022033.144013"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "-sendMessage:progress:completion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomerSystem-ios/Class/MessageViewController.m"
+            timestampString = "507020472.388155"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "-messagesDidReceive:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomerSystem-ios/Class/LeaveMsgDetailViewController.m"
+            timestampString = "507026496.19402"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "373"
+            endingLineNumber = "373"
+            landmarkName = "-messagesDidReceive:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomerSystem-ios/Class/LeaveMsgDetailViewController.m"
+            timestampString = "507026720.495486"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
+            landmarkName = "-messagesDidReceive:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HLeaveMsgManager.m"
+            timestampString = "507027434.673867"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "-asyncLeaveAMessageCommentWithTenantId:projectId:ticketId:requestBody:completion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/Helper/HDSDKHelper.m"
+            timestampString = "507027923.255353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "152"
             endingLineNumber = "152"
-            landmarkName = "-sendMessage:progress:completion:"
+            landmarkName = "+imageMessageWithImageData:to:messageExt:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -659,13 +531,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
-            timestampString = "506779961.862191"
+            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/FLDBManager/FLDBManager.m"
+            timestampString = "507028187.134705"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "-sendMessage:progress:completion:"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "-formatBodyWithMessage:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -675,61 +547,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
-            timestampString = "506780102.695671"
+            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/FLDBManager/FLDBManager.m"
+            timestampString = "507028194.06288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
-            landmarkName = "-handleACKMessageWithAllCmdMessages:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
-            timestampString = "506780304.516519"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "203"
-            endingLineNumber = "203"
-            landmarkName = "-handleACKMessageWithAllCmdMessages:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../kefu-sdk-ios/helpdesk_sdk/helpdesk_sdk/HChat.m"
-            timestampString = "506780677.492926"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "-sendMessage:progress:completion:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "506920082.837365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
-            landmarkName = "-_canRecord"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "-formatBodyWithMessage:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -739,46 +563,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/Views/conversation/MessageCellBubbleView/EaseBubbleView+Text.m"
-            timestampString = "506860841.805544"
+            filePath = "CustomerSystem-ios/EaseUI/EMUIKit/ViewController/HDMessageViewController.m"
+            timestampString = "507030859.091802"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "-characterIndexAtPoint:"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
+            landmarkName = "-_imageMessageCellSelected:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[EaseBubbleView(Text) characterIndexAtPoint:]"
-                  moduleName = "CustomerSystem-ios"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/FXN/%E7%8E%AF%E4%BF%A1%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%9C%8D/helpdeskdemo-ios/CustomerSystem-ios/EaseUI/EMUIKit/Views/conversation/MessageCellBubbleView/EaseBubbleView+Text.m"
-                  timestampString = "506931543.584286"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "70"
-                  endingLineNumber = "70"
-                  offsetFromSymbolStart = "240">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__46-[EaseBubbleView(Text) characterIndexAtPoint:]_block_invoke"
-                  moduleName = "CustomerSystem-ios"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/FXN/%E7%8E%AF%E4%BF%A1%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%9C%8D/helpdeskdemo-ios/CustomerSystem-ios/EaseUI/EMUIKit/Views/conversation/MessageCellBubbleView/EaseBubbleView+Text.m"
-                  timestampString = "506931543.587816"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "72"
-                  endingLineNumber = "72"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

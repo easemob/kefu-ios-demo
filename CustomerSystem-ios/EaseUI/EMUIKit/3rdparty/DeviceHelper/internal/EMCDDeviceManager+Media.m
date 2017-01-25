@@ -13,9 +13,9 @@
 #import "EMCDDeviceManager+Media.h"
 #import "EMAudioPlayerUtil.h"
 #import "EMAudioRecorderUtil.h"
-#import "EMVoiceConverter.h"
+#import "HDVoiceConverter.h"
 #import "DemoErrorCode.h"
-#import "EaseLocalDefine.h"
+#import "HDLocalDefine.h"
 
 typedef NS_ENUM(NSInteger, EMAudioSession){
     EM_DEFAULT = 0,
@@ -261,7 +261,7 @@ typedef NS_ENUM(NSInteger, EMAudioSession){
     BOOL ret = NO;
     BOOL isFileExists = [[NSFileManager defaultManager] fileExistsAtPath:amrFilePath];
     if (isFileExists) {
-        [EMVoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath];
+        [HDVoiceConverter amrToWav:amrFilePath wavSavePath:wavFilePath];
         isFileExists = [[NSFileManager defaultManager] fileExistsAtPath:wavFilePath];
         if (isFileExists) {
             ret = YES;
@@ -276,7 +276,7 @@ typedef NS_ENUM(NSInteger, EMAudioSession){
     BOOL ret = NO;
     BOOL isFileExists = [[NSFileManager defaultManager] fileExistsAtPath:wavFilePath];
     if (isFileExists) {
-        [EMVoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath];
+        [HDVoiceConverter wavToAmr:wavFilePath amrSavePath:amrFilePath];
         isFileExists = [[NSFileManager defaultManager] fileExistsAtPath:amrFilePath];
         if (!isFileExists) {
             

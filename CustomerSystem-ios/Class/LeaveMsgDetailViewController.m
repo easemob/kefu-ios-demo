@@ -9,7 +9,7 @@
 #import "LeaveMsgDetailViewController.h"
 #import "LeaveMsgDetailHeaderView.h"
 #import "LeaseMsgReplyController.h"
-#import "EaseMessageReadManager.h"
+#import "HDMessageReadManager.h"
 #import "LeaveMsgCell.h"
 #import "LeaveMsgDetailModel.h"
 #import "EMCDDeviceManager+Media.h"
@@ -17,7 +17,7 @@
 #import "LeaveMsgAttatchmentView.h"
 #import <objc/runtime.h>
 
-@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate,SCAudioPlayDelegate,LeaseMsgReplyControllerDelegate>
+@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate,SCAudioPlayDelegate,LeaseMsgReplyControllerDelegate,HChatDelegate>
 {
     NSString *_ticketId;
     NSDictionary *_temp;
@@ -74,12 +74,13 @@
 - (void)registNotification
 {
     [self unregistNotification];
+    [[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
 //    [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
 }
 
 - (void)unregistNotification
 {
-//    [[EaseMob sharedInstance].chatManager removeDelegate:self];
+    [[HChatClient sharedClient].chat removeDelegate:self];
 }
 
 - (void)dealloc
@@ -252,7 +253,7 @@
                 [uiimages addObject:image];
             }
             if ([images count] > 0) {
-                [[EaseMessageReadManager defaultManager] showBrowserWithImages:uiimages];
+                [[HDMessageReadManager defaultManager] showBrowserWithImages:uiimages];
             }
         }
     }
@@ -262,7 +263,7 @@
 
 - (void)didSelectAudioAttachment:(LeaveMsgAttachmentModel *)attachment touchImage:(LeaveMsgAttatchmentView *)attatchmentView {
     _touchView = attatchmentView;
-    HNetworkManager *manager = [HNetworkManager shareInstance];
+    HLeaveMsgManager *manager = [HLeaveMsgManager shareInstance];
     kWeakSelf
     [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
         if (!error) {
@@ -327,7 +328,7 @@
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
     
-    [[HNetworkManager shareInstance] asyncGetLeaveMessageDetailWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId completion:^(id responseObject, NSError *error) {
+    [[HLeaveMsgManager shareInstance] asyncGetLeaveMessageDetailWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             [weakSelf.headerView setDetail:responseObject];
             weakSelf.tableView.tableHeaderView = weakSelf.headerView;
@@ -343,7 +344,7 @@
 {
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    [[HNetworkManager shareInstance] asyncGetLeaveMessageAllCommentsWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId page:0 pageSize:100 completion:^(id responseObject, NSError *error) {
+    [[HLeaveMsgManager shareInstance] asyncGetLeaveMessageAllCommentsWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId page:0 pageSize:100 completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             [weakSelf loadDataArray:responseObject];
         } else {
@@ -367,37 +368,41 @@
     [self scrollViewToBottom:YES];
 }
 //
-#pragma mark - EMChatManagerDelegate
-- (void)didReceiveMessage:(EMMessage *)message
-{
-    NSDictionary *ext = [self _getSafeDictionary:message.ext];
-    if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
-        NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
-        if ([event objectForKey:@"comment"]) {
-            LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
-            if ([ticket.ticketId  isEqualToString:_ticketId]) {
-                [self loadLeaveMessageAllComments];
-            }
-        }
-    }
-}
-//
-- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
-{
-    for (EMMessage *message in offlineMessages) {
+#pragma mark - HChatDelegate
+
+- (void)messagesDidReceive:(NSArray *)aMessages {
+    for (HMessage *message in aMessages) {
         NSDictionary *ext = [self _getSafeDictionary:message.ext];
         if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
             NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
             if ([event objectForKey:@"comment"]) {
                 LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
-                if ([ticket.ticketId  isEqualToString:_ticketId] ) {
+                if ([ticket.ticketId  isEqualToString:_ticketId]) {
                     [self loadLeaveMessageAllComments];
-                    break;
                 }
             }
         }
     }
 }
+
+
+//
+//- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
+//{
+//    for (EMMessage *message in offlineMessages) {
+//        NSDictionary *ext = [self _getSafeDictionary:message.ext];
+//        if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
+//            NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
+//            if ([event objectForKey:@"comment"]) {
+//                LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[event objectForKey:@"ticket"]];
+//                if ([ticket.ticketId  isEqualToString:_ticketId] ) {
+//                    [self loadLeaveMessageAllComments];
+//                    break;
+//                }
+//            }
+//        }
+//    }
+//}
 
 - (void)scrollViewToBottom:(BOOL)animated
 {
@@ -412,33 +417,6 @@
 
 - (void)didSelectSendButtonWithParameters:(NSDictionary*)aParameters
 {
-    /*
-     {
-     subject: "评论的主题, 可选",
-     content: "评论的内容",
-     reply : {
-     id: "回复的哪条评论的id, 可选"
-     },
-     creator: {
-     id: "创建这个评论的人的id", //可选
-     username: "创建这个comment的人的username",
-     name: "创建这个comment的人的name",
-     avatar: "创建这个comment的人的头像",
-     type: "创建这个comment的人的类型, 例如是坐席还是访客"
-     email: "电子邮件地址",
-     phone: "电话号码",
-     qq: "qq号码",
-     company: "公司",
-     description: "具体的描述信息"
-     },
-     attachments:[{
-     name: "该附件的名称",
-     url: "该附件的url",
-     type: "附件的类型, 当前支持image和file"
-     }],
-     status_id: "status 的id" //设置了这个属性的话, 可以在添加评论的时候同时设置这个ticket的状态, 只有agent能够调用
-     }
-     */
     LeaveMsgDetailModel *model = [_headerView getMsgDetailModel];
     SCLoginManager *lgM =[SCLoginManager shareLoginManager];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithCapacity:0];
@@ -477,7 +455,7 @@
     LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:parameters];
     __weak typeof(self) weakSelf = self;
     
-    [[HNetworkManager shareInstance] asyncLeaveAMessageCommentWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId requestBody:body completion:^(id responseObject, NSError *error) {
+    [[HLeaveMsgManager shareInstance] asyncLeaveAMessageCommentWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId requestBody:body completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             comment.updated_at = [responseObject objectForKey:@"updated_at"];
             comment.created_at = [responseObject objectForKey:@"created_at"];

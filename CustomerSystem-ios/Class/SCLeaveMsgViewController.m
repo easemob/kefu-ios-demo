@@ -70,11 +70,12 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     body.content = content;
     SCLoginManager *logM = [SCLoginManager shareLoginManager];
     [self showHudInView:self.view hint:@"发送中..."];
-    [[HNetworkManager shareInstance] asyncCreateMessageWithTenantId:logM.tenantId projectId:logM.projectId requestBody:body completion:^(id responseObject, NSError *error) {
+    [[HLeaveMsgManager shareInstance] asyncCreateMessageWithTenantId:logM.tenantId projectId:logM.projectId requestBody:body completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             NSLog(@"发送留言成功");
             [self hideHud];
             [self showHudInView:self.view hint:@"留言发送成功"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_ADDMSG_TO_LIST object:nil];
         } else {
             NSLog(@"发送留言失败");
             [self hideHud];

@@ -14,17 +14,11 @@
 #import "HChatClientDelegate.h"
 #import "HChatClient.h"
 #import "HOptions.h"
-#import "HNetworkManager.h"
+#import "HLeaveMsgManager.h"
 #import "HMessage.h"
 #import "HMessage+Content.h"
-#import "HNConversation.h"
+#import "HConversation.h"
 
-#import "HMessageBody.h"
-#import "HTextMessageBody.h"
-#import "HImageMessageBody.h"
-#import "HVoiceMessageBody.h"
-#import "HFileMessageBody.h"
-#import "HCmdMessageBody.h"
 
 
 #endif /* helpdesk_sdk_h */

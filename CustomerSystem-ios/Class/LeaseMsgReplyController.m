@@ -14,7 +14,7 @@
 #import "FLTextView.h"
 #import "LeaveMsgAttatchmentView.h"
 #import "LeaveMsgDetailModel.h"
-#import "EaseMessageReadManager.h"
+#import "HDMessageReadManager.h"
 #import "MBProgressHUD+Add.h"
 #import "DXRecordView.h"
 #import "SCAudioPlay.h"
@@ -153,7 +153,7 @@ const NSInteger baseTag=123;
             
             SCLoginManager *lgM = [SCLoginManager shareLoginManager];
             
-            [[HNetworkManager shareInstance] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
+            [[HLeaveMsgManager shareInstance] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {
                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
                         LeaveMsgAttachmentModel *attachment = [[LeaveMsgAttachmentModel alloc] initWithDictionary:nil];
@@ -324,7 +324,7 @@ const NSInteger baseTag=123;
             NSData *data =UIImageJPEGRepresentation(orgImage, 0.5);
             
             SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-            [[HNetworkManager shareInstance] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
+            [[HLeaveMsgManager shareInstance] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {
                     [weakHud hide:YES];
                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -409,12 +409,12 @@ const NSInteger baseTag=123;
     if ([_attachments count] > index) {
         LeaveMsgAttachmentModel *attachment = [_attachments objectAtIndex:index];
         if ([attachment.type isEqualToString:@"image"]) {
-            [[EaseMessageReadManager defaultManager] showBrowserWithImages:@[[NSURL URLWithString:attachment.url]]];
+            [[HDMessageReadManager defaultManager] showBrowserWithImages:@[[NSURL URLWithString:attachment.url]]];
         }
         if ([attachment.type isEqualToString:@"audio"]) {
             LeaveMsgAttatchmentView *view = (LeaveMsgAttatchmentView *)tap.view;
             _currentAnimationView = view;
-            HNetworkManager *manager = [HNetworkManager shareInstance];
+            HLeaveMsgManager *manager = [HLeaveMsgManager shareInstance];
             kWeakSelf
             [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
                 if (!error) {

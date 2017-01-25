@@ -144,7 +144,7 @@
 - (void)updateModel:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"id"]) {
-        _ticketId = [dictionary objectForKey:@"id"];
+        _ticketId = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"id"]];
     }
     
     if ([dictionary objectForKey:@"content"]) {
@@ -230,7 +230,7 @@
 - (void)updateModel:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"id"]) {
-        _ticketId = [dictionary objectForKey:@"id"];
+        _ticketId = [NSString stringWithFormat:@"%@",[dictionary objectForKey:@"id"]];
     }
     
     if ([dictionary objectForKey:@"content"]) {

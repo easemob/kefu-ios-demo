@@ -85,7 +85,7 @@
     }
     return _downloadButton;
 }
-- (BOOL)isExistFile:(EaseMessageModel*)model
+- (BOOL)isExistFile:(HDMessageModel*)model
 {
     EMFileMessageBody *body = (EMFileMessageBody *)model.firstMessageBody;
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -136,7 +136,7 @@
     
 }
 
-- (void)downloadMessageAttachments:(EaseMessageModel *)model
+- (void)downloadMessageAttachments:(HDMessageModel *)model
 {
     EMFileMessageBody *body = (EMFileMessageBody *)model.firstMessageBody;
     if (model.bodyType == EMMessageBodyTypeFile) {

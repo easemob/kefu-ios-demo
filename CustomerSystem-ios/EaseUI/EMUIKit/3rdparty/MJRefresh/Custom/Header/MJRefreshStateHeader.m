@@ -6,7 +6,7 @@
 //
 
 #import "MJRefreshStateHeader.h"
-#import "EaseLocalDefine.h"
+#import "HDLocalDefine.h"
 
 @interface MJRefreshStateHeader()
 {

@@ -6,7 +6,7 @@
 //
 
 #import "MJRefreshAutoStateFooter.h"
-#import "EaseLocalDefine.h"
+#import "HDLocalDefine.h"
 
 @interface MJRefreshAutoStateFooter()
 {

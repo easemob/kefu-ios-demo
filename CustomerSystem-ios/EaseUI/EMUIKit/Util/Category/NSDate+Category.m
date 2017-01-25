@@ -12,7 +12,7 @@
 
 #import "NSDate+Category.h"
 #import "NSDateFormatter+Category.h"
-#import "EaseLocalDefine.h"
+#import "HDLocalDefine.h"
 
 #define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 #define CURRENT_CALENDAR [NSCalendar currentCalendar]

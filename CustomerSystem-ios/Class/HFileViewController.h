@@ -10,6 +10,6 @@
 
 @interface HFileViewController : UIViewController
 
-@property (nonatomic, strong) EaseMessageModel *model;
+@property (nonatomic, strong) HDMessageModel *model;
 @property(nonatomic,strong) HMessage *message;
 @end

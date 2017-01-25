@@ -16,7 +16,7 @@
 #import "EaseEmoji.h"
 #import "EaseEmotionEscape.h"
 #import "EaseEmotionManager.h"
-#import "EaseLocalDefine.h"
+#import "HDLocalDefine.h"
 
 @interface EaseChatToolbar()<UITextViewDelegate, EMFaceDelegate>
 

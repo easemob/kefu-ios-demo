@@ -10,10 +10,11 @@
 #import "HChatDelegate.h"
 #import "IEMChatManager.h"
 #import "HChatDelegate.h"
-#import "HNConversation.h"
+#import "HConversation.h"
 #import "HError.h"
 
-@interface HChat : NSObject<EMChatManagerDelegate>
+
+@interface HChat : NSObject
 
 /**
     正在会话的conversationId，只读
@@ -34,6 +35,19 @@
 - (void)endPolling;
 
 #pragma mark - Delegate
+
+/*!
+ *  \~chinese
+ *  添加回调代理
+ *
+ *  @param aDelegate  要添加的代理
+ *
+ *  \~english
+ *  Add delegate
+ *
+ *  @param aDelegate  Delegate
+ */
+- (void)addDelegate:(id<HChatDelegate>)aDelegate;
 
 /*!
  *  \~chinese
@@ -72,14 +86,14 @@
  *
  *  同步方法，会阻塞当前线程
  *
- *  @result 会话列表<HNConversation>
+ *  @result 会话列表<HConversation>
  *
  *  \~english
  *  Load all conversations from DB, will update conversation list in memory after this method is called
  *
  *  Synchronization method will block the current thread
  *
- *  @result Conversation list<HNConversation>
+ *  @result Conversation list<HConversation>
  */
 - (NSArray *)loadAllConversations;
 
@@ -101,7 +115,7 @@
  *
  *  @result Conversation
  */
-- (HNConversation *)getConversation:(NSString *)aConversationId;
+- (HConversation *)getConversation:(NSString *)aConversationId;
 /*!
  *  \~chinese
  *  删除会话

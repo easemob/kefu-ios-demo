@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IMessageModel.h"
+#import "HDIMessageModel.h"
 @protocol SatisfactionDelegate <NSObject>
 
 @optional
-- (void)commitSatisfactionWithExt:(NSDictionary*)ext messageModel:(id<IMessageModel>)model;
+- (void)commitSatisfactionWithExt:(NSDictionary*)ext messageModel:(id<HDIMessageModel>)model;
 
 @required
 
@@ -21,7 +21,7 @@
 
 @interface SatisfactionViewController : UIViewController
 
-@property (nonatomic, strong) id<IMessageModel> messageModel;
+@property (nonatomic, strong) id<HDIMessageModel> messageModel;
 @property (nonatomic, weak) id<SatisfactionDelegate> delegate;
 
 @property(nonatomic,copy) void(^EvaluateSuccessBlock)();

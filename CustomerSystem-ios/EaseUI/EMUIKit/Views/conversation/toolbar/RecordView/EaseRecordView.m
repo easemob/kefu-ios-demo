@@ -12,7 +12,7 @@
 
 #import "EaseRecordView.h"
 #import "EMCDDeviceManager.h"
-#import "EaseLocalDefine.h"
+#import "HDLocalDefine.h"
 #define kCoverTag 32320
 @interface EaseRecordView ()
 {
