@@ -157,17 +157,18 @@
         [alert show];
         return;
     }
-    if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithExt:messageModel:)]) {
+    if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithControlArguments:type:)]) {
         if ([self.messageModel.message.ext objectForKey:kMesssageExtWeChat]) {
             NSDictionary *weichat = [self.messageModel.message.ext objectForKey:kMesssageExtWeChat];
             if ([weichat objectForKey:kMesssageExtWeChat_ctrlArgs]) {
                 NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMesssageExtWeChat_ctrlArgs]];
-                [ctrlArgs setObject:self.textView.text forKey:kMesssageExtWeChat_ctrlArgs_detail];
-                [ctrlArgs setObject:[NSString stringWithFormat:@"%d",(int)(_starRateView.scorePercent*5)] forKey:kMesssageExtWeChat_ctrlArgs_summary];
-                NSMutableDictionary *wc = [NSMutableDictionary dictionary];
-                [wc setObject:ctrlArgs forKey:kMesssageExtWeChat_ctrlArgs];
-                [wc setObject:kMesssageExtWeChat_ctrlType_enquiry forKey:kMesssageExtWeChat_ctrlType];
-                [self.delegate commitSatisfactionWithExt:[NSDictionary dictionaryWithObject:wc forKey:@"weichat"] messageModel:self.messageModel];
+                ControlType *type = [[ControlType alloc] initWithValue:@"enquiry"];
+                ControlArguments *arguments = [ControlArguments new];
+                arguments.identity = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_serviceSessionId];
+                arguments.inviteId = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_inviteId];
+                arguments.detail = self.textView.text;
+                arguments.summary = [NSString stringWithFormat:@"%d",(int)(_starRateView.scorePercent*5)];
+                [self.delegate commitSatisfactionWithControlArguments:arguments type:type];
             }
         }
     }

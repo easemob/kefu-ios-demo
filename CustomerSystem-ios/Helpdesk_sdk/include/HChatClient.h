@@ -11,7 +11,7 @@
 #import "HOptions.h"
 #import "HChatClientDelegate.h"
 #import "HError.h"
-#import "EMPushOptions.h"
+#import "HPushOptions.h"
 // resued concept
 
 @interface HChatClient :NSObject<HChatClientDelegate>
@@ -235,7 +235,7 @@
  *
  *  @result Apns options
  */
-- (EMPushOptions *)getPushOptionsFromServerWithError:(HError **)pError;
+- (HPushOptions *)getPushOptionsFromServerWithError:(HError **)pError;
 
 /*!
  *  \~chinese

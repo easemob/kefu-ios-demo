@@ -242,12 +242,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)_showNotificationWithMessage:(NSArray *)messages
 {
-    EMPushOptions *options = [[HChatClient sharedClient] getPushOptionsFromServerWithError:nil ];
+    HPushOptions *options = [[HChatClient sharedClient] getPushOptionsFromServerWithError:nil ];
     //发送本地推送
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     notification.fireDate = [NSDate date]; //触发通知的时间
     
-    if (options.displayStyle == EMPushDisplayStyleMessageSummary) {
+    if (options.displayStyle == HPushDisplayStyleMessageSummary) {
         id<HDIMessageModel> messageModel  = messages.firstObject;
         NSString *messageStr = nil;
         switch (messageModel.bodyType) {
@@ -320,7 +320,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 */
 // 收到消息回调
-
 - (void)messagesDidReceive:(NSArray *)aMessages {
 #if !TARGET_IPHONE_SIMULATOR
     BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
@@ -330,6 +329,14 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         [self _playSoundAndVibration];
     }
 #endif
+}
+
+- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
+    for (HMessage *message in aCmdMessages) {
+        NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"receiveCmdMessage", @"CMD message") message:msg delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+        [alertView show];
+    }
 }
 
 //-(void)didReceiveCmdMessage:(EMMessage *)message

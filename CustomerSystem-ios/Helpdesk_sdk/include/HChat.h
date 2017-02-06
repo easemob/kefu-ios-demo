@@ -11,7 +11,6 @@
 #import "HChatDelegate.h"
 #import "HConversation.h"
 #import "HError.h"
-#import "IEMChatManager.h"
 
 @interface HChat : NSObject
 
@@ -20,7 +19,6 @@
  */
 @property(nonatomic,copy,readonly) NSString *currentConversationId;
 
--(instancetype)initWithChatManager:(id<IEMChatManager>)manager;
 
 #pragma mark - 第二通道
 /**

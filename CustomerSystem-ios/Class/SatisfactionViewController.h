@@ -11,7 +11,7 @@
 @protocol SatisfactionDelegate <NSObject>
 
 @optional
-- (void)commitSatisfactionWithExt:(NSDictionary*)ext messageModel:(id<HDIMessageModel>)model;
+- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments type:(ControlType *)type;
 
 @required
 

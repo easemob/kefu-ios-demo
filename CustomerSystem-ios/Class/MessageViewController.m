@@ -9,7 +9,7 @@
 #import "MessageViewController.h"
 #import "LeaveMsgDetailModel.h"
 #import "LeaveMsgCell.h"
-#import "EMChatManagerDelegate.h"
+#import "HChatDelegate.h"
 //#import "EaseMob.h"
 //#import "SRRefreshView.h"
 //#import "ChatViewController.h"
@@ -21,7 +21,7 @@
 //#import "EMHttpManager.h"
 //#import "EMIMHelper.h"
 
-@interface MessageViewController () <UITableViewDelegate,UITableViewDataSource,EMChatManagerDelegate,SRRefreshDelegate>
+@interface MessageViewController () <UITableViewDelegate,UITableViewDataSource,HChatDelegate,SRRefreshDelegate>
 {
     NSInteger   _page;
     NSInteger   _pageSize;
@@ -143,10 +143,6 @@
     for (HMessage *message in aMessages) {
         NSDictionary *ext = [self _getSafeDictionary:message.ext];
         if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
-//            EMConversation *conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:message.from conversationType:eConversationTypeChat];
-//            [conversation removeMessageWithId:message.messageId];
-//            [[EaseMob sharedInstance].chatManager removeConversationByChatter:conversation.chatter deleteMessages:YES append2Chat:YES];
-            
             LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"]];
             
             for (LeaveMsgCommentModel *comment in _dataArray) {
@@ -160,25 +156,6 @@
         }
     }
 }
-
-- (void)didReceiveMessage:(EMMessage *)message
-{
-    
-}
-
-//- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
-//{
-//    for (EMMessage *message in offlineMessages) {
-//        NSDictionary *ext = [self _getSafeDictionary:message.ext];
-//        if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
-//            EMConversation *conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:message.from conversationType:eConversationTypeChat];
-//            [conversation removeMessageWithId:message.messageId];
-//            [[EaseMob sharedInstance].chatManager removeConversationByChatter:conversation.chatter deleteMessages:YES append2Chat:YES];
-//            
-//            [self reloadLeaveMsgList];
-//        }
-//    }
-//}
 
 #pragma mark - scrollView delegate
 

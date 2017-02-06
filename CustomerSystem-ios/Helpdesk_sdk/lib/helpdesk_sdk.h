@@ -19,6 +19,12 @@
 #import "HMessage+Content.h"
 #import "HConversation.h"
 
-
+//body
+#import "EMTextMessageBody.h"
+#import "EMVideoMessageBody.h"
+#import "EMImageMessageBody.h"
+#import "EMVoiceMessageBody.h"
+#import "EMLocationMessageBody.h"
+#import "EMCmdMessageBody.h"
 
 #endif /* helpdesk_sdk_h */
