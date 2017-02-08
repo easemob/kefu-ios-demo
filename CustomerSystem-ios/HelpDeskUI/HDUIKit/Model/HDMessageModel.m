@@ -63,11 +63,9 @@
                 if (imageData.length) {
                     self.image = [UIImage imageWithData:imageData];
                 }
-                
                 if ([imgMessageBody.thumbnailLocalPath length] > 0) {
                     self.thumbnailImage = [UIImage imageWithContentsOfFile:imgMessageBody.thumbnailLocalPath];
-                }
-                else{
+                }else{
                     CGSize size = self.image.size;
                     self.thumbnailImage = size.width * size.height > 200 * 200 ? [self scaleImage:self.image toScale:sqrt((200 * 200) / (size.width * size.height))] : self.image;
                 }

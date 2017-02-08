@@ -329,7 +329,7 @@
 		EB62E1FF1A8DD92D00705655 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E1FE1A8DD92D00705655 /* main.m */; };
 		EB62E20A1A8DD92D00705655 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB62E2091A8DD92D00705655 /* Images.xcassets */; };
 		EB62E2191A8DD92D00705655 /* CustomerSystem_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E2181A8DD92D00705655 /* CustomerSystem_iosTests.m */; };
-		EB62E3111A8DDA4800705655 /* AppDelegate+EaseMob.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */; };
+		EB62E3111A8DDA4800705655 /* AppDelegate+HelpDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E29A1A8DDA4800705655 /* AppDelegate+HelpDesk.m */; };
 		EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E29E1A8DDA4800705655 /* AppDelegate.m */; };
 		EB62E32E1A8DDA4800705655 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E2DE1A8DDA4800705655 /* HomeViewController.m */; };
 		EB62E3B91A8E08EB00705655 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB62E3B71A8E08EA00705655 /* Localizable.strings */; };
@@ -908,8 +908,8 @@
 		EB62E2121A8DD92D00705655 /* CustomerSystem-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CustomerSystem-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB62E2171A8DD92D00705655 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB62E2181A8DD92D00705655 /* CustomerSystem_iosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerSystem_iosTests.m; sourceTree = "<group>"; };
-		EB62E2991A8DDA4800705655 /* AppDelegate+EaseMob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+EaseMob.h"; sourceTree = "<group>"; };
-		EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+EaseMob.m"; sourceTree = "<group>"; };
+		EB62E2991A8DDA4800705655 /* AppDelegate+HelpDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+HelpDesk.h"; sourceTree = "<group>"; };
+		EB62E29A1A8DDA4800705655 /* AppDelegate+HelpDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+HelpDesk.m"; sourceTree = "<group>"; };
 		EB62E29D1A8DDA4800705655 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EB62E29E1A8DDA4800705655 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		EB62E2DD1A8DDA4800705655 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
@@ -1107,8 +1107,8 @@
 			children = (
 				EB62E29D1A8DDA4800705655 /* AppDelegate.h */,
 				EB62E29E1A8DDA4800705655 /* AppDelegate.m */,
-				EB62E2991A8DDA4800705655 /* AppDelegate+EaseMob.h */,
-				EB62E29A1A8DDA4800705655 /* AppDelegate+EaseMob.m */,
+				EB62E2991A8DDA4800705655 /* AppDelegate+HelpDesk.h */,
+				EB62E29A1A8DDA4800705655 /* AppDelegate+HelpDesk.m */,
 				EB62E2DD1A8DDA4800705655 /* HomeViewController.h */,
 				EB62E2DE1A8DDA4800705655 /* HomeViewController.m */,
 			);
@@ -2537,7 +2537,7 @@
 				D3CB64511E4888F30022A6BA /* MJRefreshBackFooter.m in Sources */,
 				D34D6D8B1DEC45570099EE23 /* NSObject+SCAdd.m in Sources */,
 				D3CB648B1E4888F30022A6BA /* HDMessageModel.m in Sources */,
-				EB62E3111A8DDA4800705655 /* AppDelegate+EaseMob.m in Sources */,
+				EB62E3111A8DDA4800705655 /* AppDelegate+HelpDesk.m in Sources */,
 				D3CB649F1E4888F30022A6BA /* HDBaseMessageCell.m in Sources */,
 				D3CB64601E4888F30022A6BA /* UIScrollView+MJExtension.m in Sources */,
 				D3CB64821E4888F30022A6BA /* PSTCollectionViewItemKey.m in Sources */,

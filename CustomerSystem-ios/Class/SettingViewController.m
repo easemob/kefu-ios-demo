@@ -7,10 +7,9 @@
 //
 
 #import "SettingViewController.h"
-#import "AppDelegate+easemob.h"
+#import "AppDelegate+HelpDesk.h"
 #import "EditViewController.h"
 #import "LocalDefine.h"
-#import "AppDelegate+EaseMob.h"
 
 
 @interface SettingViewController ()<UIAlertViewDelegate>

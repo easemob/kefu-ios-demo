@@ -294,6 +294,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     notification.soundName = UILocalNotificationDefaultSoundName;
     //发送通知
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+//    [UIApplication sharedApplication].applicationIconBadgeNumber
 }
 /*
 #pragma mark - IChatManagerDelegate 消息变化

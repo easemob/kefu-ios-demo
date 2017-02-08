@@ -1,3 +1,4 @@
+
 /************************************************************
  *  * Hyphenate CONFIDENTIAL
  * __________________
@@ -1200,7 +1201,7 @@
     [self showHint:NSEaseLocalizedString(@"message.simulatorNotSupportCamera", @"simulator does not support taking picture")];
 #elif TARGET_OS_IPHONE
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage,(NSString *)kUTTypeMovie];
+    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
 
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:YES];

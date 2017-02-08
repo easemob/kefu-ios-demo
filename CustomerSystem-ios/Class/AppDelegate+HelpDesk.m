@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 dujiepeng. All rights reserved.
 //
 
-#import "AppDelegate+EaseMob.h"
+#import "AppDelegate+HelpDesk.h"
 
 #import "LocalDefine.h"
 
@@ -14,7 +14,7 @@
  *  本类中做了EaseMob初始化和推送等操作
  */
 
-@implementation AppDelegate (EaseMob)
+@implementation AppDelegate (HelpDesk)
 - (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //ios8注册apns
@@ -55,8 +55,14 @@
 #warning Leave messages initialization
     //要使用环信客服的留言功能需要以下初始化
     [HLeaveMsgManager shareInstance].imServiceNo = [SCLoginManager shareLoginManager].cname;
+    __weak typeof(self) weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [weakSelf loginIM];
+    });
+    
+    
     //登录IM
-    [self loginIM];
+    
 }
 
 - (NSString *)loginIM {
@@ -172,12 +178,10 @@
 
 - (void)appProtectedDataWillBecomeUnavailableNotif:(NSNotification*)notif
 {
- //   [[EaseMob sharedInstance] applicationProtectedDataWillBecomeUnavailable:notif.object];
 }
 
 - (void)appProtectedDataDidBecomeAvailableNotif:(NSNotification*)notif
 {
- //   [[EaseMob sharedInstance] applicationProtectedDataDidBecomeAvailable:notif.object];
 }
 
 // 将得到的deviceToken传给SDK

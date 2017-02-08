@@ -97,9 +97,8 @@ static SCLoginManager *_manager = nil;
     return self;
 }
 //登录IM
-- (BOOL)loginKefuSDK {
+- (BOOL)loginKefuSDK {    
     HChatClient *client = [HChatClient sharedClient];
-
     if (client.isLoggedInBefore) {
         return YES;
     }
@@ -110,7 +109,7 @@ static SCLoginManager *_manager = nil;
     if (!error) { //IM登录成功
         return YES;
     } else { //登录失败
-        NSLog(@"error code :%d,error description:%@",error.code,error.errorDescription);
+        NSLog(@"登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
         return NO;
     }
     return NO;

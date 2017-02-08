@@ -162,7 +162,6 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
-@property (nonatomic) BOOL isJoinedChatroom;
 
 - (instancetype)initWithConversationChatter:(NSString *)conversationChatter saleType:(HDemoSaleType)saleType;
 

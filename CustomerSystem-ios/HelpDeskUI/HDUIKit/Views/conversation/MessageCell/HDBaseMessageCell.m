@@ -239,8 +239,9 @@
     } else {
         self.avatarView.image = model.avatarImage;
     }
-    _nameLabel.text = model.nickname;
-    
+    if (![model.nickname isKindOfClass:[NSNull class]]) {
+        _nameLabel.text = model.nickname;
+    }
     if (self.model.isSender) {
         _hasRead.hidden = YES;
         switch (self.model.messageStatus) {
