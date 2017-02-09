@@ -260,8 +260,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row];
-        LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithTicketId:comment.ticketId chatter:nil];
-        [self.navigationController pushViewController:leaveMsgDetail animated:YES];
+        [self loadLeaveMessageDetailWithTicketId:comment.ticketId];
+//        LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithTicketId:comment.ticketId chatter:nil];
+//        [self.navigationController pushViewController:leaveMsgDetail animated:YES];
     } else {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         cell.userInteractionEnabled = NO;
@@ -269,6 +270,20 @@
             cell.userInteractionEnabled = YES;
         }];
     }
+}
+
+- (void)loadLeaveMessageDetailWithTicketId:(NSString *)ticketId
+{
+    __weak typeof(self) weakSelf = self;
+    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    [[HLeaveMsgManager shareInstance] asyncGetLeaveMessageDetailWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:ticketId completion:^(id responseObject, NSError *error) {
+        if (error == nil) {
+            LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithResponseObject:responseObject ticketId:ticketId];
+            [weakSelf.navigationController pushViewController:leaveMsgDetail animated:YES];
+        } else {
+            NSLog(@"请求出错哦~");
+        }
+    }];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

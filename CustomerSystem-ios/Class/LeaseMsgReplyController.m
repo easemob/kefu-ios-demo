@@ -277,7 +277,7 @@ const NSInteger baseTag=123;
 
 - (void)sendAction
 {
-    if (_textView.text.length == 0) {
+    if (_textView.text.length == 0 && _attachments.count == 0) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"leaveMessage.leavemsg.replyempty", @"Reply is empty") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
         [alertView show];
         return;

@@ -134,7 +134,7 @@
 
 - (CGFloat)heightTest
 {
-    CGFloat height;
+    CGFloat height=0;
     [NSIndexPath indexPathForRow:0 inSection:0];
     for (int i = 0; i < 8; i ++) {
         height += [self tableView:self heightForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];

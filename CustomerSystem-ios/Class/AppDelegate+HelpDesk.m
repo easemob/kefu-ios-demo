@@ -60,9 +60,6 @@
         [weakSelf loginIM];
     });
     
-    
-    //登录IM
-    
 }
 
 - (NSString *)loginIM {
@@ -147,6 +144,7 @@
 
 - (void)appWillEnterForeground:(NSNotification*)notif
 {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     [[HChatClient sharedClient] applicationWillEnterForeground:notif.object];
 }
 

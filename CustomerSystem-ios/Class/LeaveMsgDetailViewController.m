@@ -19,6 +19,7 @@
 
 @interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate,SCAudioPlayDelegate,LeaseMsgReplyControllerDelegate,HChatDelegate>
 {
+    id _responseObject;
     NSString *_ticketId;
     NSDictionary *_temp;
     SCAudioPlay *_audioPlayer;
@@ -39,22 +40,18 @@
     LeaveMsgAttatchmentView *_touchView;
 }
 
-- (instancetype)initWithTicketId:(NSString *)ticketId chatter:(NSString*)chatter
-{
+- (instancetype)initWithResponseObject:(id)responseObject ticketId:(NSString *)ticketId{
     self = [super init];
     if (self) {
+        _responseObject = responseObject;
         _ticketId = ticketId;
-//        _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:chatter conversationType:eConversationTypeChat];
     }
     return self;
 }
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    [LeaseMsgReplyController resetFile];
     [self clearTempWav];
     self.title = NSLocalizedString(@"title.leavemsgdetail", @"Leave Message Detail");
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
@@ -321,21 +318,9 @@
 
 - (void)loadLeaveMessageDetail
 {
-//    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"leaveMessage.leavemsg.load", "Loading...") toView:self.view];
-//    hud.layer.zPosition = 1.f;
-//    __weak MBProgressHUD *weakHud = hud;
-    __weak typeof(self) weakSelf = self;
-    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    
-    [[HLeaveMsgManager shareInstance] asyncGetLeaveMessageDetailWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId completion:^(id responseObject, NSError *error) {
-        if (error == nil) {
-            [weakSelf.headerView setDetail:responseObject];
-            weakSelf.tableView.tableHeaderView = weakSelf.headerView;
-            [weakSelf.tableView layoutSubviews];
-        } else {
-            NSLog(@"请求出错哦~");
-        }
-    }];
+    [self.headerView setDetail:_responseObject];
+    self.tableView.tableHeaderView = self.headerView;
+//    [self.tableView layoutSubviews];
 }
 
 //请求所有回复
