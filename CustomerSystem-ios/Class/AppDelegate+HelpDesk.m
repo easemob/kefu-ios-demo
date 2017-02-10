@@ -52,23 +52,6 @@
         [alert show];
     }
     [self registerEaseMobNotification];
-#warning Leave messages initialization
-    //要使用环信客服的留言功能需要以下初始化
-    [HLeaveMsgManager shareInstance].imServiceNo = [SCLoginManager shareLoginManager].cname;
-    __weak typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [weakSelf loginIM];
-    });
-    
-}
-
-- (NSString *)loginIM {
-    //登录IM
-    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    if (![lgM loginKefuSDK]) {
-       return @"登录失败，请检查网络";
-    }
-    return nil;
 }
 
 //修改关联app后需要重新初始化
@@ -82,8 +65,9 @@
         } else {
             exit(0);
         }
+    } else {
+        exit(0);
     }
-    [self initializeCustomerServiceSdk];
 }
 
 // 监听系统生命周期回调，以便将需要的事件传给SDK

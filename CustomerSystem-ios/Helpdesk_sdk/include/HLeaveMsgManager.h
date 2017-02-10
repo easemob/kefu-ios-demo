@@ -9,11 +9,6 @@
 #import <Foundation/Foundation.h>
 @class LeaveMsgRequestBody;
 @interface HLeaveMsgManager : NSObject
-/**
- 使用留言功能需要传入IM 服务号
- */
-
-@property(nonatomic,copy) NSString  *imServiceNo;
 
 +(instancetype)shareInstance;
 
@@ -28,11 +23,13 @@
  @discussion 失败返回NSError,成功返回responseObject
  @param tenantId    客服tenantId
  @param projectId   留言的Project ID
- @param parameters  留言参数
+ @param cname im服务号
+ @param requestBody 留言参数
  @result
  */
 - (void)asyncCreateMessageWithTenantId:(NSString*)tenantId
                              projectId:(NSString*)projectId
+                                 cname:(NSString *)cname
                            requestBody:(LeaveMsgRequestBody *)requestBody
                             completion:(void(^)(id responseObject,NSError *error))completion;
 /*
@@ -41,12 +38,14 @@
  @discussion 失败返回NSError,成功返回responseObject
  @param tenantId    客服tenantId
  @param projectId   留言的Project ID
+ @param cname       im服务号
  @param tickedId    留言ID
  @param parameters  参数
  @result
  */
 - (void)asyncGetLeaveMessageDetailWithTenantId:(NSString*)tenantId
                                      projectId:(NSString*)projectId
+                                         cname:(NSString *)cname
                                       ticketId:(NSString*)ticketId
                                     completion:(void(^)(id responseObject,NSError *error))completion;
 
@@ -56,6 +55,7 @@
  @discussion 失败返回NSError,成功返回responseObject
  @param tenantId    客服tenantId
  @param projectId   留言的Project ID
+ @param cname       im服务号
  @param tickedId    留言ID
  @param page        参数
  @param pageSize    每页数据数目
@@ -63,6 +63,7 @@
  */
 - (void)asyncGetLeaveMessageAllCommentsWithTenantId:(NSString*)tenantId
                                           projectId:(NSString*)projectId
+                                              cname:(NSString *)cname
                                            ticketId:(NSString *)ticketId
                                                page:(NSUInteger)page
                                            pageSize:(NSUInteger)pageSize
@@ -74,12 +75,14 @@
  @discussion 失败返回NSError,成功返回responseObject
  @param tenantId    客服tenantId
  @param projectId   留言的Project ID
+ @param cname       im服务号
  @param tickedId    留言ID
  @param requestBody  请求体
  @result
  */
-- (void)asyncLeaveAMessageCommentWithTenantId:(NSString*)tenantId
-                             projectId:(NSString*)projectId
+- (void)asyncLeaveMessageCommentWithTenantId:(NSString*)tenantId
+                                   projectId:(NSString*)projectId
+                                       cname:(NSString *)cname
                               ticketId:(NSString *)ticketId
                             requestBody:(LeaveMsgRequestBody*)requestBody
                             completion:(void(^)(id responseObject,NSError *error))completion;
@@ -97,6 +100,7 @@
  */
 - (void)asyncGetMessagesWithTenantId:(NSString*)tenantId
                            projectId:(NSString*)projectId
+                               cname:(NSString *)cname
                                 page:(NSInteger)page
                             pageSize:(NSInteger)pigeSize
                           completion:(void(^)(id responseObject,NSError *error))completion;

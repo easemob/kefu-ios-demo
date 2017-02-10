@@ -276,7 +276,7 @@
 {
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    [[HLeaveMsgManager shareInstance] asyncGetLeaveMessageDetailWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:ticketId completion:^(id responseObject, NSError *error) {
+    [[HLeaveMsgManager shareInstance] asyncGetLeaveMessageDetailWithTenantId:lgM.tenantId projectId:lgM.projectId cname:lgM.cname ticketId:ticketId completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithResponseObject:responseObject ticketId:ticketId];
             [weakSelf.navigationController pushViewController:leaveMsgDetail animated:YES];
@@ -304,7 +304,7 @@
 //    NSDictionary *parameters = @{@"size":@(_pageSize),@"page":@(_page),@"sort":@"updatedAt,desc"};
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgm = [SCLoginManager shareLoginManager];
-    [[HLeaveMsgManager shareInstance] asyncGetMessagesWithTenantId:lgm.tenantId projectId:lgm.projectId page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
+    [[HLeaveMsgManager shareInstance] asyncGetMessagesWithTenantId:lgm.tenantId projectId:lgm.projectId cname:lgm.cname page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
         if (!error) { //请求成功
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
                 if (_page == 0) {

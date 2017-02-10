@@ -27,7 +27,7 @@
 
 #define kDefaultAppKey @"1124161024178184#kefuchannelapp29044"
 #define kDefaultCustomerName @"kefuchannelimid_008267"
-#define kDefaultCustomerNickname @"I am an ugly duckling"
+#define kDefaultCustomerNickname @"风口上的🐷"
 #define kDefaultTenantId @"29044"
 #define kDefaultProjectId @"306164"
 

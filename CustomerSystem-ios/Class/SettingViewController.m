@@ -140,8 +140,11 @@
             break;
         case 5:
         {
+            NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+            NSString *build = [NSString stringWithFormat:@"(%@)",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
+            NSString *fullVersion = [version stringByAppendingString:build];
             cell.textLabel.text = NSLocalizedString(@"setting.feedback", @"feedback");
-            tempLabel.text = @"";
+            tempLabel.text = [NSString stringWithFormat:@"Version:%@",fullVersion];
         }
             break;
             case 6:

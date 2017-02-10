@@ -29,6 +29,7 @@
 #import "HDBubbleView+Evaluate.h"
 #import "SatisfactionViewController.h"
 #import "HConversation.h"
+#import "SCLoginManager.h"
 #define KHintAdjustY    50
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
@@ -1604,7 +1605,7 @@
     visitor.qq = @"12345678";
     visitor.phone = @"13636362637";
     visitor.companyName = @"环信";
-    visitor.nickName = @"风口上的猪";
+    visitor.nickName = [SCLoginManager shareLoginManager].nickname;
     visitor.email = @"abv@126.com";
     visitor.desc = @"环信移动客服";
     return visitor;

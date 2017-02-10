@@ -243,13 +243,12 @@
                     [images addObject:[NSURL URLWithString:attachment.url]];
                 }
             }
-            NSMutableArray *uiimages = [NSMutableArray arrayWithCapacity:0];
+            NSMutableArray *imagesUrl = [NSMutableArray arrayWithCapacity:0];
             for (NSURL *url in images) {
-                UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-                [uiimages addObject:image];
+                [imagesUrl addObject:url];
             }
             if ([images count] > 0) {
-                [[HDMessageReadManager defaultManager] showBrowserWithImages:uiimages];
+                [[HDMessageReadManager defaultManager] showBrowserWithImages:imagesUrl];
             }
         }
     }
@@ -328,7 +327,7 @@
 {
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    [[HLeaveMsgManager shareInstance] asyncGetLeaveMessageAllCommentsWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId page:0 pageSize:100 completion:^(id responseObject, NSError *error) {
+    [[HLeaveMsgManager shareInstance] asyncGetLeaveMessageAllCommentsWithTenantId:lgM.tenantId projectId:lgM.projectId cname:lgM.cname ticketId:_ticketId page:0 pageSize:100 completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             [weakSelf loadDataArray:responseObject];
         } else {
@@ -439,7 +438,7 @@
     LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:parameters];
     __weak typeof(self) weakSelf = self;
     
-    [[HLeaveMsgManager shareInstance] asyncLeaveAMessageCommentWithTenantId:lgM.tenantId projectId:lgM.projectId ticketId:_ticketId requestBody:body completion:^(id responseObject, NSError *error) {
+    [[HLeaveMsgManager shareInstance] asyncLeaveMessageCommentWithTenantId:lgM.tenantId projectId:lgM.projectId cname:lgM.cname ticketId:_ticketId requestBody:body completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             comment.updated_at = [responseObject objectForKey:@"updated_at"];
             comment.created_at = [responseObject objectForKey:@"created_at"];
