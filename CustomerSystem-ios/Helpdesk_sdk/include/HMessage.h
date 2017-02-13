@@ -168,6 +168,8 @@ typedef enum{
                           to:(NSString *)aTo
                         body:(EMMessageBody *)aBody;
 
+- (void)addAttributeDictionary:(NSDictionary *)dic;
+
 
 @end
 

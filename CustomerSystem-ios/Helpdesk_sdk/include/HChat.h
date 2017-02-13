@@ -99,8 +99,6 @@
  *  获取一个会话
  *
  *  @param aConversationId  会话ID
- *  @param aType            会话类型
- *  @param aIfCreate        如果不存在是否创建
  *
  *  @result 会话对象
  *

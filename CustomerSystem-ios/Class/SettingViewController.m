@@ -276,16 +276,21 @@
         NSString *type = [dic objectForKey:@"type"];
         NSString *content = [dic objectForKey:@"content"];
         if ([type isEqualToString:@"appkey"]) {
-                _appkey = content;
+            _appkey = content;
+            _lgM.appkey = content;
         }
         else if ([type isEqualToString:@"cname"]){
             _cname = content;
+            _lgM.cname = content;
         } else if ([type isEqualToString:@"nickname"]) {
             _nickname = content;
+            _lgM.nickname = content;
         } else if ([type isEqualToString:@"tenantId"]) {
             _tenantId = content;
+            _lgM.tenantId = content;
         } else if ([type isEqualToString:@"projectId"]) {
             _projectId = content;
+            _lgM.projectId = content;
         }
         [self.tableView reloadData];
     }
