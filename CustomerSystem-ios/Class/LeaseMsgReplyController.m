@@ -9,8 +9,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 #import "LeaseMsgReplyController.h"
-#import "EMCDDeviceManager.h"
-#import "EMCDDeviceManager+Media.h"
+#import "HDCDDeviceManager.h"
+#import "HDCDDeviceManager+Media.h"
 #import "FLTextView.h"
 #import "LeaveMsgAttatchmentView.h"
 #import "LeaveMsgDetailModel.h"
@@ -109,7 +109,7 @@ const NSInteger baseTag=123;
         NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
         NSString *fileName = [NSString stringWithFormat:@"%d%d",(int)time,x];
         
-        [[EMCDDeviceManager sharedInstance] asyncStartRecordingWithFileName:fileName
+        [[HDCDDeviceManager sharedInstance] asyncStartRecordingWithFileName:fileName
                                                                  completion:^(NSError *error)
          {
              if (error) {
@@ -122,7 +122,7 @@ const NSInteger baseTag=123;
 
 - (void)recordButtonTouchUpOutside
 {
-    [[EMCDDeviceManager sharedInstance] cancelCurrentRecording];
+    [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
     if ([self.recordView isKindOfClass:[DXRecordView class]]) {
         [(DXRecordView *)self.recordView recordButtonTouchUpOutside];
     }
@@ -137,7 +137,7 @@ const NSInteger baseTag=123;
     }
 
     __weak typeof(self) weakSelf = self;
-    [[EMCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
+    [[HDCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
         if (!error) {
             //            EMChatVoice *voice = [[EMChatVoice alloc] initWithFile:recordPath
             //                                                       displayName:@"audio"];
@@ -419,7 +419,7 @@ const NSInteger baseTag=123;
             [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
                 if (!error) {
                     NSString *toPath = [NSString stringWithFormat:@"%@/%ld.wav",NSTemporaryDirectory(),tap.view.tag];
-                    BOOL success = [[EMCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
+                    BOOL success = [[HDCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
                     if (success) {
                         [weakSelf playWithfilePath:toPath];
                     }

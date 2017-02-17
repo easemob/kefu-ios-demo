@@ -7,7 +7,7 @@
 //
 
 #import "EditViewController.h"
-
+#import "AppDelegate+HelpDesk.h"
 #import "LocalDefine.h"
 
 @interface EditViewController ()
@@ -74,8 +74,25 @@
     if ([_editField.text length] == 0) {
         _editField.text = _content;
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_SETTINGCHANGE object:@{@"type":_type, @"content":_editField.text}];
+    if (![_editField.text isEqualToString:_content]) {
+        if ([_type isEqualToString:@"appkey"]) {
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"修改appkey之后需要重启" preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            }]];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"重启" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+                lgM.appkey = _editField.text;
+                AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+                [appDelegate resetCustomerServiceSDK];
+            }]];
+            [self presentViewController:alertController animated:YES completion:nil];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_SETTINGCHANGE object:@{@"type":_type, @"content":_editField.text}];
+        }
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 @end

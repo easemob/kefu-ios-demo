@@ -17,22 +17,19 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "NSDate+Category.h"
 #import "HDMessageReadManager.h"
-#import "EaseEmotionManager.h"
-#import "EaseEmoji.h"
-#import "EaseEmotionEscape.h"
+#import "HDEmotionManager.h"
+#import "HDEmoji.h"
+#import "HDEmotionEscape.h"
 #import "HDCustomMessageCell.h"
 #import "UIImage+EMGIF.h"
 #import "HDLocalDefine.h"
 #import "HDSDKHelper.h"
-#import "HFileViewController.h"
 #import "HDBubbleView+Transform.h"
 #import "HDBubbleView+Evaluate.h"
 #import "SatisfactionViewController.h"
 #import "HConversation.h"
-#import "SCLoginManager.h"
+#import "HjudgeTextMessageSubType.h"
 #define KHintAdjustY    50
-#define kafterSale @"shouhou"
-#define kpreSale @"shouqian"
 #define IOS_VERSION [[UIDevice currentDevice] systemVersion]>=9.0
 
 @implementation EaseAtTarget
@@ -73,15 +70,13 @@
 @synthesize timeCellHeight = _timeCellHeight;
 @synthesize messageTimeIntervalTag = _messageTimeIntervalTag;
 
-- (instancetype)initWithConversationChatter:(NSString *)conversationChatter saleType:(HDemoSaleType)saleType{
+- (instancetype)initWithConversationChatter:(NSString *)conversationChatter {
     if ([conversationChatter length] == 0) {
         return nil;
     }
-    _saleType = saleType;
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         _conversation = [[HChatClient sharedClient].chat getConversation:conversationChatter];
-        [[HChatClient sharedClient].chat startPollingCname:conversationChatter];
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
         _deleteConversationIfNull = YES;
@@ -103,8 +98,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideImagePicker) name:@"hideImagePicker" object:nil];
     
     //Initialization
-    CGFloat chatbarHeight = [EaseChatToolbar defaultHeight];
-    self.chatToolbar = [[EaseChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - chatbarHeight, self.view.frame.size.width, chatbarHeight)];
+    CGFloat chatbarHeight = [HDChatToolbar defaultHeight];
+    self.chatToolbar = [[HDChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - chatbarHeight, self.view.frame.size.width, chatbarHeight)];
     self.chatToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;    
     
     //Initializa the gesture recognizer
@@ -119,7 +114,7 @@
     _messageQueue = dispatch_queue_create("hyphenate.com", NULL);
     
     //Register the delegate
-    [EMCDDeviceManager sharedInstance].delegate = self;
+    [HDCDDeviceManager sharedInstance].delegate = self;
     
     [[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
 
@@ -128,17 +123,17 @@
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
     
-    [[HDBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
-    [[HDBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
+    [[HDBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
+    [[HDBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
     
-    [[HDBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_full"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_003"]]];
-    [[HDBaseMessageCell appearance] setRecvMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing_full"],[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing003"]]];
+    [[HDBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_full"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_000"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_001"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_002"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_003"]]];
+    [[HDBaseMessageCell appearance] setRecvMessageVoiceAnimationImages:@[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing_full"],[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing000"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing001"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing002"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing003"]]];
     
     [[HDBaseMessageCell appearance] setAvatarSize:40.f];
     [[HDBaseMessageCell appearance] setAvatarCornerRadius:20.f];
     
-    [[EaseChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
-    
+    [[HDChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
+    [self setupEmotion];
     [self tableViewDidTriggerHeaderRefresh];
 }
 
@@ -153,17 +148,18 @@
 
 - (void)setupEmotion
 {
+   
     if ([self.dataSource respondsToSelector:@selector(emotionFormessageViewController:)]) {
         NSArray* emotionManagers = [self.dataSource emotionFormessageViewController:self];
         [self.faceView setEmotionManagers:emotionManagers];
     } else {
         NSMutableArray *emotions = [NSMutableArray array];
-        for (NSString *name in [EaseEmoji allEmoji]) {
-            EaseEmotion *emotion = [[EaseEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:name emotionOriginal:name emotionOriginalURL:@"" emotionType:EMEmotionDefault];
+        for (NSString *name in [HDEmoji allEmoji]) {
+            HDEmotion *emotion = [[HDEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:name emotionOriginal:name emotionOriginalURL:@"" emotionType:HDEmotionDefault];
             [emotions addObject:emotion];
         }
-        EaseEmotion *emotion = [emotions objectAtIndex:0];
-        EaseEmotionManager *manager= [[EaseEmotionManager alloc] initWithType:EMEmotionDefault emotionRow:3 emotionCol:7 emotions:emotions tagImage:[UIImage imageNamed:emotion.emotionId]];
+        HDEmotion *emotion = [emotions objectAtIndex:0];
+        HDEmotionManager *manager= [[HDEmotionManager alloc] initWithType:HDEmotionDefault emotionRow:3 emotionCol:7 emotions:emotions tagImage:[UIImage imageNamed:emotion.emotionId]];
         [self.faceView setEmotionManagers:@[manager]];
     }
 }
@@ -177,8 +173,8 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[HChatClient sharedClient].chat removeDelegate:self];
-    [[EMCDDeviceManager sharedInstance] stopPlaying];
-    [EMCDDeviceManager sharedInstance].delegate = nil;
+    [[HDCDDeviceManager sharedInstance] stopPlaying];
+    [HDCDDeviceManager sharedInstance].delegate = nil;
     
     if (_imagePicker){
         [_imagePicker dismissViewControllerAnimated:NO completion:nil];
@@ -202,8 +198,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [[HChatClient sharedClient].chat endPolling];
-    [[EMCDDeviceManager sharedInstance] disableProximitySensor];
+    [[HDCDDeviceManager sharedInstance] disableProximitySensor];
 }
 
 #pragma mark - getter
@@ -229,7 +224,7 @@
 
 #pragma mark - setter
 
-- (void)setChatToolbar:(EaseChatToolbar *)chatToolbar
+- (void)setChatToolbar:(HDChatToolbar *)chatToolbar
 {
     [_chatToolbar removeFromSuperview];
     
@@ -241,22 +236,22 @@
     CGRect tableFrame = self.tableView.frame;
     tableFrame.size.height = self.view.frame.size.height - _chatToolbar.frame.size.height;
     self.tableView.frame = tableFrame;
-    if ([chatToolbar isKindOfClass:[EaseChatToolbar class]]) {
-        [(EaseChatToolbar *)self.chatToolbar setDelegate:self];
-        self.chatBarMoreView = (EaseChatBarMoreView*)[(EaseChatToolbar *)self.chatToolbar moreView];
-        self.faceView = (EaseFaceView*)[(EaseChatToolbar *)self.chatToolbar faceView];
-        self.recordView = (EaseRecordView*)[(EaseChatToolbar *)self.chatToolbar recordView];
+    if ([chatToolbar isKindOfClass:[HDChatToolbar class]]) {
+        [(HDChatToolbar *)self.chatToolbar setDelegate:self];
+        self.chatBarMoreView = (HDChatBarMoreView*)[(HDChatToolbar *)self.chatToolbar moreView];
+        self.faceView = (HDFaceView*)[(HDChatToolbar *)self.chatToolbar faceView];
+        self.recordView = (HDRecordView*)[(HDChatToolbar *)self.chatToolbar recordView];
     }
 }
 
-- (void)setDataSource:(id<EaseMessageViewControllerDataSource>)dataSource
+- (void)setDataSource:(id<HDMessageViewControllerDataSource>)dataSource
 {
     _dataSource = dataSource;
     
     [self setupEmotion];
 }
 
-- (void)setDelegate:(id<EaseMessageViewControllerDelegate>)delegate
+- (void)setDelegate:(id<HDMessageViewControllerDelegate>)delegate
 {
     _delegate = delegate;
 }
@@ -316,9 +311,9 @@
 - (void)_stopAudioPlayingWithChangeCategory:(BOOL)isChange
 {
     //停止音频播放及播放动画
-    [[EMCDDeviceManager sharedInstance] stopPlaying];
-    [[EMCDDeviceManager sharedInstance] disableProximitySensor];
-    [EMCDDeviceManager sharedInstance].delegate = nil;
+    [[HDCDDeviceManager sharedInstance] stopPlaying];
+    [[HDCDDeviceManager sharedInstance] disableProximitySensor];
+    [HDCDDeviceManager sharedInstance].delegate = nil;
     
     //    MessageModel *playingModel = [self.EaseMessageReadManager stopMessageAudioModel];
     //    NSIndexPath *indexPath = nil;
@@ -344,7 +339,7 @@
     if ([compatiblePresets containsObject:AVAssetExportPresetHighestQuality]) {
         AVAssetExportSession *exportSession = [[AVAssetExportSession alloc]initWithAsset:avAsset
                                                                               presetName:AVAssetExportPresetHighestQuality];
-        NSString *mp4Path = [NSString stringWithFormat:@"%@/%d%d.mp4", [EMCDDeviceManager dataPath], (int)[[NSDate date] timeIntervalSince1970], arc4random() % 100000];
+        NSString *mp4Path = [NSString stringWithFormat:@"%@/%d%d.mp4", [HDCDDeviceManager dataPath], (int)[[NSDate date] timeIntervalSince1970], arc4random() % 100000];
         mp4Url = [NSURL fileURLWithPath:mp4Path];
         exportSession.outputURL = mp4Url;
         exportSession.shouldOptimizeForNetworkUse = YES;
@@ -440,9 +435,9 @@
 }
 
 - (void)_fileMessageCellSelected:(id<HDIMessageModel>)model{
-    HFileViewController *viewController = [[HFileViewController alloc] init];
-    viewController.model = model;
-    [self.navigationController pushViewController:viewController animated:YES];
+    if (_delegate && [_delegate respondsToSelector:@selector(messageViewController:fileMessageCellSelected:)]) {
+        [_delegate messageViewController:self fileMessageCellSelected:model];
+    }
 }
 
 - (void)_videoMessageCellSelected:(id<HDIMessageModel>)model
@@ -564,6 +559,7 @@
 
 - (void)_audioMessageCellSelected:(id<HDIMessageModel>)model
 {
+
     _scrollToBottomWhenAppear = NO;
     EMVoiceMessageBody *body = (EMVoiceMessageBody*)model.message.body;
     EMDownloadStatus downloadStatus = [body downloadStatus];
@@ -591,13 +587,13 @@
         if (isPrepare) {
             _isPlayingAudio = YES;
             __weak HDMessageViewController *weakSelf = self;
-            [[EMCDDeviceManager sharedInstance] enableProximitySensor];
-            [[EMCDDeviceManager sharedInstance] asyncPlayingWithPath:model.fileLocalPath completion:^(NSError *error) {
+            [[HDCDDeviceManager sharedInstance] enableProximitySensor];
+            [[HDCDDeviceManager sharedInstance] asyncPlayingWithPath:model.fileLocalPath completion:^(NSError *error) {
                 [[HDMessageReadManager defaultManager] stopMessageAudioModel];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakSelf.tableView reloadData];
                     weakSelf.isPlayingAudio = NO;
-                    [[EMCDDeviceManager sharedInstance] disableProximitySensor];
+                    [[HDCDDeviceManager sharedInstance] disableProximitySensor];
                 });
             }];
         }
@@ -728,7 +724,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id object = [self.dataArray objectAtIndex:indexPath.row];
-    
     //time cell
     if ([object isKindOfClass:[NSString class]]) {
         NSString *TimeCellIdentifier = [HDMessageTimeCell cellIdentifier];
@@ -771,7 +766,7 @@
                 }
                 
                 if (_dataSource && [_dataSource respondsToSelector:@selector(emotionURLFormessageViewController:messageModel:)]) {
-                    EaseEmotion *emotion = [_dataSource emotionURLFormessageViewController:self messageModel:model];
+                    HDEmotion *emotion = [_dataSource emotionURLFormessageViewController:self messageModel:model];
                     if (emotion) {
                         model.image = [UIImage sd_animatedGIFNamed:emotion.emotionOriginal];
                         model.fileURLPath = emotion.emotionOriginalURL;
@@ -793,7 +788,6 @@
             sendCell.selectionStyle = UITableViewCellSelectionStyleNone;
             sendCell.delegate = self;
         }
-        
         sendCell.model = model;
         return sendCell;
     }
@@ -972,7 +966,7 @@
     _scrollToBottomWhenAppear = NO;
 }
 
-#pragma mark - EMChatToolbarDelegate
+#pragma mark - HDChatToolbarDelegate
 
 - (void)chatToolbarDidChangeFrameToHeight:(CGFloat)toHeight
 {
@@ -986,7 +980,7 @@
     [self _scrollViewToBottom:NO];
 }
 
-- (void)inputTextViewWillBeginEditing:(EaseTextView *)inputTextView
+- (void)inputTextViewWillBeginEditing:(HDTextView *)inputTextView
 {
     if (_menuController == nil) {
         _menuController = [UIMenuController sharedMenuController];
@@ -1013,7 +1007,7 @@
                 if ([target.userId length] || [target.nickname length]) {
                     [strongSelf.atTargets addObject:target];
                     NSString *insertStr = [NSString stringWithFormat:@"%@ ", target.nickname ? target.nickname : target.userId];
-                    EaseChatToolbar *toolbar = (EaseChatToolbar*)strongSelf.chatToolbar;
+                    HDChatToolbar *toolbar = (HDChatToolbar*)strongSelf.chatToolbar;
                     NSMutableString *originStr = [toolbar.inputTextView.text mutableCopy];
                     NSUInteger insertLocation = location > originStr.length ? originStr.length : location;
                     [originStr insertString:insertStr atIndex:insertLocation];
@@ -1023,11 +1017,11 @@
                 }
             }
             else if (strongSelf) {
-                EaseChatToolbar *toolbar = (EaseChatToolbar*)strongSelf.chatToolbar;
+                HDChatToolbar *toolbar = (HDChatToolbar*)strongSelf.chatToolbar;
                 [toolbar.inputTextView becomeFirstResponder];
             }
         }];
-        EaseChatToolbar *toolbar = (EaseChatToolbar*)self.chatToolbar;
+        HDChatToolbar *toolbar = (HDChatToolbar*)self.chatToolbar;
         toolbar.inputTextView.text = [NSString stringWithFormat:@"%@@", toolbar.inputTextView.text];
         [toolbar.inputTextView resignFirstResponder];
         return YES;
@@ -1039,7 +1033,7 @@
 
 - (BOOL)didDeleteCharacterFromLocation:(NSUInteger)location
 {
-    EaseChatToolbar *toolbar = (EaseChatToolbar*)self.chatToolbar;
+    HDChatToolbar *toolbar = (HDChatToolbar*)self.chatToolbar;
     if ([toolbar.inputTextView.text length] == location + 1) {
         //delete last character
         NSString *inputText = toolbar.inputTextView.text;
@@ -1065,7 +1059,7 @@
 - (void)didSendText:(NSString *)text withExt:(NSDictionary*)ext
 {
     if ([ext objectForKey:EASEUI_EMOTION_DEFAULT_EXT]) {
-        EaseEmotion *emotion = [ext objectForKey:EASEUI_EMOTION_DEFAULT_EXT];
+        HDEmotion *emotion = [ext objectForKey:EASEUI_EMOTION_DEFAULT_EXT];
         if (self.dataSource && [self.dataSource respondsToSelector:@selector(emotionExtFormessageViewController:easeEmotion:)]) {
             NSDictionary *ext = [self.dataSource emotionExtFormessageViewController:self easeEmotion:emotion];
             [self sendTextMessage:emotion.emotionTitle withExt:ext];
@@ -1082,15 +1076,15 @@
 - (void)didStartRecordingVoiceAction:(UIView *)recordView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:EaseRecordViewTypeTouchDown];
+        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchDown];
     } else {
-        if ([self.recordView isKindOfClass:[EaseRecordView class]]) {
-            [(EaseRecordView *)self.recordView recordButtonTouchDown];
+        if ([self.recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)self.recordView recordButtonTouchDown];
         }
     }
     
     if ([self _canRecord]) {
-        EaseRecordView *tmpView = (EaseRecordView *)recordView;
+        HDRecordView *tmpView = (HDRecordView *)recordView;
         tmpView.center = self.view.center;
         [self.view addSubview:tmpView];
         [self.view bringSubviewToFront:recordView];
@@ -1098,7 +1092,7 @@
         NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
         NSString *fileName = [NSString stringWithFormat:@"%d%d",(int)time,x];
         
-        [[EMCDDeviceManager sharedInstance] asyncStartRecordingWithFileName:fileName completion:^(NSError *error)
+        [[HDCDDeviceManager sharedInstance] asyncStartRecordingWithFileName:fileName completion:^(NSError *error)
          {
              if (error) {
                  NSLog(@"%@",NSEaseLocalizedString(@"message.startRecordFail", @"failure to start recording"));
@@ -1109,12 +1103,12 @@
 
 - (void)didCancelRecordingVoiceAction:(UIView *)recordView
 {
-    [[EMCDDeviceManager sharedInstance] cancelCurrentRecording];
+    [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:EaseRecordViewTypeTouchUpOutside];
+        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpOutside];
     } else {
-        if ([self.recordView isKindOfClass:[EaseRecordView class]]) {
-            [(EaseRecordView *)self.recordView recordButtonTouchUpOutside];
+        if ([self.recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)self.recordView recordButtonTouchUpOutside];
         }
         [self.recordView removeFromSuperview];
     }
@@ -1123,15 +1117,15 @@
 - (void)didFinishRecoingVoiceAction:(UIView *)recordView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:EaseRecordViewTypeTouchUpInside];
+        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpInside];
     } else {
-        if ([self.recordView isKindOfClass:[EaseRecordView class]]) {
-            [(EaseRecordView *)self.recordView recordButtonTouchUpInside];
+        if ([self.recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)self.recordView recordButtonTouchUpInside];
         }
         [self.recordView removeFromSuperview];
     }
     __weak typeof(self) weakSelf = self;
-    [[EMCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
+    [[HDCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
         if (!error) {
             [weakSelf sendVoiceMessageWithLocalPath:recordPath duration:aDuration];
         }
@@ -1151,10 +1145,10 @@
 - (void)didDragInsideAction:(UIView *)recordView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:EaseRecordViewTypeDragInside];
+        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeDragInside];
     } else {
-        if ([self.recordView isKindOfClass:[EaseRecordView class]]) {
-            [(EaseRecordView *)self.recordView recordButtonDragInside];
+        if ([self.recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)self.recordView recordButtonDragInside];
         }
     }
 }
@@ -1162,17 +1156,17 @@
 - (void)didDragOutsideAction:(UIView *)recordView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:EaseRecordViewTypeDragOutside];
+        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeDragOutside];
     } else {
-        if ([self.recordView isKindOfClass:[EaseRecordView class]]) {
-            [(EaseRecordView *)self.recordView recordButtonDragOutside];
+        if ([self.recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)self.recordView recordButtonDragOutside];
         }
     }
 }
 
 #pragma mark - EaseChatBarMoreViewDelegate
 
-- (void)moreView:(EaseChatBarMoreView *)moreView didItemInMoreViewAtIndex:(NSInteger)index
+- (void)moreView:(HDChatBarMoreView *)moreView didItemInMoreViewAtIndex:(NSInteger)index
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectMoreView:AtIndex:)]) {
         [self.delegate messageViewController:self didSelectMoreView:moreView AtIndex:index];
@@ -1180,7 +1174,7 @@
     }
 }
 
-- (void)moreViewPhotoAction:(EaseChatBarMoreView *)moreView
+- (void)moreViewPhotoAction:(HDChatBarMoreView *)moreView
 {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
@@ -1193,7 +1187,7 @@
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:YES];
 }
 
-- (void)moreViewTakePicAction:(EaseChatBarMoreView *)moreView
+- (void)moreViewTakePicAction:(HDChatBarMoreView *)moreView
 {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
@@ -1209,17 +1203,16 @@
 #endif
 }
 
-- (void)moreViewLocationAction:(EaseChatBarMoreView *)moreView
+- (void)moreViewLocationAction:(HDChatBarMoreView *)moreView
 {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
-    
     HDLocationViewController *locationController = [[HDLocationViewController alloc] init];
     locationController.delegate = self;
     [self.navigationController pushViewController:locationController animated:YES];
 }
 
-- (void)moreViewAudioCallAction:(EaseChatBarMoreView *)moreView
+- (void)moreViewAudioCallAction:(HDChatBarMoreView *)moreView
 {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
@@ -1227,7 +1220,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CALL object:@{@"chatter":self.conversation.conversationId, @"type":[NSNumber numberWithInt:0]}];
 }
 
-- (void)moreViewVideoCallAction:(EaseChatBarMoreView *)moreView
+- (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView
 {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
@@ -1298,7 +1291,7 @@
 }
 
 
-#pragma mark - EMCDDeviceManagerProximitySensorDelegate
+#pragma mark - HDCDDeviceManagerProximitySensorDelegate
 
 - (void)proximitySensorChanged:(BOOL)isCloseToUser
 {
@@ -1309,7 +1302,7 @@
     } else {
         [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
         if (self.playingVoiceModel == nil) {
-            [[EMCDDeviceManager sharedInstance] disableProximitySensor];
+            [[HDCDDeviceManager sharedInstance] disableProximitySensor];
         }
     }
     [audioSession setActive:YES error:nil];
@@ -1392,7 +1385,7 @@
         }
         else{
             model = [[HDMessageModel alloc] initWithMessage:message];
-            model.avatarImage = [UIImage imageNamed:@"EaseUIResource.bundle/user"];
+            model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
             model.failImageName = @"imageDownloadFail";
         }
 
@@ -1513,7 +1506,7 @@
         arguments.sessionId = [ctrlArgs valueForKey:@"serviceSessionId"];
         HControlMessage *hcont = [HControlMessage new];
         hcont.arguments = arguments;
-        if ([HDBubbleView isTransferMessage:message]) {
+        if ([HjudgeTextMessageSubType isTransferMessage:message]) {
             //发送透传消息
             HMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId];
             [aHMessage addCompositeContent:hcont];
@@ -1598,44 +1591,20 @@
     }];
 }
 
-
-- (HVisitorInfo *)visitorInfo {
-    HVisitorInfo *visitor = [[HVisitorInfo alloc] init];
-    visitor.name = @"小明儿";
-    visitor.qq = @"12345678";
-    visitor.phone = @"13636362637";
-    visitor.companyName = @"环信";
-    visitor.nickName = [SCLoginManager shareLoginManager].nickname;
-    visitor.email = @"abv@126.com";
-    visitor.desc = @"环信移动客服";
-    return visitor;
-}
-
-- (NSString *)queueName {
-    NSString *queueName = nil;
-    switch (_saleType) {
-        case hPreSaleType:
-            queueName = kpreSale;
-            break;
-        case hAfterSaleType:
-            queueName = kafterSale;
-            break;
-        default:
-            break;
-    }
-    return queueName;
-}
-
 - (void)sendTextMessage:(NSString *)text withExt:(NSDictionary*)ext
 {
-    
     HMessage *message = [HDSDKHelper textHMessageFormatWithText:text to:self.conversation.conversationId];
-    [message addContent:[self visitorInfo]];
-    [message addContent:[[HAgentIdentityInfo alloc] initWithValue:@"123@126.com"]];
-    [message addContent:[[HQueueIdentityInfo alloc] initWithValue:[self queueName]]];
+    if (_visitorInfo) {
+        [message addContent:_visitorInfo];
+    }
+    if (_agent) {
+        [message addContent:_agent];
+    }
+    if (_queueInfo) {
+        [message addContent:_queueInfo];
+    }
     [self _sendMessage:message];
 }
-
 - (void)sendLocationMessageLatitude:(double)latitude
                           longitude:(double)longitude
                          andAddress:(NSString *)address
@@ -1733,7 +1702,7 @@
                     }
                     else{
                         model = [[HDMessageModel alloc] initWithMessage:message];
-                        model.avatarImage = [UIImage imageNamed:@"EaseUIResource.bundle/user"];
+                        model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
                         model.failImageName = @"imageDownloadFail";
                     }
                     
@@ -1758,7 +1727,7 @@
         }
         else{
             model = [[HDMessageModel alloc] initWithMessage:aMessage];
-            model.avatarImage = [UIImage imageNamed:@"EaseUIResource.bundle/user"];
+            model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
             model.failImageName = @"imageDownloadFail";
         }
         if (model) {

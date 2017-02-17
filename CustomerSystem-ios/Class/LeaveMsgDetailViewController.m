@@ -12,7 +12,7 @@
 #import "HDMessageReadManager.h"
 #import "LeaveMsgCell.h"
 #import "LeaveMsgDetailModel.h"
-#import "EMCDDeviceManager+Media.h"
+#import "HDCDDeviceManager+Media.h"
 #import "SCAudioPlay.h"
 #import "LeaveMsgAttatchmentView.h"
 #import <objc/runtime.h>
@@ -263,7 +263,7 @@
     [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
         if (!error) {
             NSString *toPath = [NSString stringWithFormat:@"%@/%d.wav",NSTemporaryDirectory(),123];
-            BOOL success = [[EMCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
+            BOOL success = [[HDCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
             if (success) {
                 [weakSelf playWithfilePath:toPath];
             }

@@ -22,7 +22,7 @@
 #define kEMMessageLocationHeight 95
 #define kEMMessageVoiceHeight 23
 
-extern CGFloat const EaseMessageCellPadding;
+extern CGFloat const HDMessageCellPadding;
 
 typedef enum{
     EaseMessageCellEvenVideoBubbleTap,

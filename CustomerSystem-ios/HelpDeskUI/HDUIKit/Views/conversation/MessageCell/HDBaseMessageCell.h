@@ -12,12 +12,12 @@
 
 #import "HDMessageCell.h"
 
-extern NSString *const EaseMessageCellIdentifierSendText;
-extern NSString *const EaseMessageCellIdentifierSendLocation;
-extern NSString *const EaseMessageCellIdentifierSendVoice;
-extern NSString *const EaseMessageCellIdentifierSendVideo;
-extern NSString *const EaseMessageCellIdentifierSendImage;
-extern NSString *const EaseMessageCellIdentifierSendFile;
+extern NSString *const HDMessageCellIdentifierSendText;
+extern NSString *const HDMessageCellIdentifierSendLocation;
+extern NSString *const HDMessageCellIdentifierSendVoice;
+extern NSString *const HDMessageCellIdentifierSendVideo;
+extern NSString *const HDMessageCellIdentifierSendImage;
+extern NSString *const HDMessageCellIdentifierSendFile;
 
 @interface HDBaseMessageCell : HDMessageCell
 {

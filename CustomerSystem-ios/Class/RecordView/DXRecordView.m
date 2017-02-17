@@ -11,8 +11,10 @@
   */
 
 #import "DXRecordView.h"
-#import "EMCDDeviceManager.h"
+#import "HDCDDeviceManager.h"
 #define kCoverTag 10210
+#define fKeyWindow [UIApplication sharedApplication].keyWindow
+
 @interface DXRecordView ()
 {
     NSTimer *_timer;
@@ -115,7 +117,7 @@
 -(void)setVoiceImage {
     _recordAnimationView.image = [UIImage imageNamed:@"VoiceSearchFeedback001"];
     double voiceSound = 0;
-    voiceSound = [[EMCDDeviceManager sharedInstance] emPeekRecorderVoiceMeter];
+    voiceSound = [[HDCDDeviceManager sharedInstance] emPeekRecorderVoiceMeter];
     if (0 < voiceSound <= 0.05) {
         [_recordAnimationView setImage:[UIImage imageNamed:@"VoiceSearchFeedback001"]];
     }else if (0.05<voiceSound<=0.10) {

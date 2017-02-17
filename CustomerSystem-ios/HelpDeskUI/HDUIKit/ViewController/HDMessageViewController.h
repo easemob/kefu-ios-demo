@@ -18,10 +18,10 @@
 #import "HDMessageModel.h"
 #import "HDBaseMessageCell.h"
 #import "HDMessageTimeCell.h"
-#import "EaseChatToolbar.h"
+#import "HDChatToolbar.h"
 #import "HDLocationViewController.h"
-#import "EMCDDeviceManager+Media.h"
-#import "EMCDDeviceManager+ProximitySensor.h"
+#import "HDCDDeviceManager+Media.h"
+#import "HDCDDeviceManager+ProximitySensor.h"
 #import "UIViewController+HUD.h"
 #import "HDSDKHelper.h"
 #import "SatisfactionViewController.h"
@@ -39,13 +39,16 @@ typedef NS_ENUM(NSInteger, HDemoSaleType){
 - (instancetype)initWithUserId:(NSString*)userId andNickname:(NSString*)nickname;
 @end
 
-typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
+typedef void(^HDSelectAtTargetCallback)(EaseAtTarget*);
 
 @class HDMessageViewController;
 
-@protocol EaseMessageViewControllerDelegate <NSObject>
+@protocol HDMessageViewControllerDelegate <NSObject>
 
 @optional
+
+//点击文件
+- (void)messageViewController:(HDMessageViewController *)viewController fileMessageCellSelected:(id<HDIMessageModel>)model;
 
 - (UITableViewCell *)messageViewController:(UITableView *)tableView
                        cellForMessageModel:(id<HDIMessageModel>)messageModel;
@@ -65,12 +68,12 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
     didSelectAvatarMessageModel:(id<HDIMessageModel>)messageModel;
 
 - (void)messageViewController:(HDMessageViewController *)viewController
-            didSelectMoreView:(EaseChatBarMoreView *)moreView
+            didSelectMoreView:(HDChatBarMoreView *)moreView
                       AtIndex:(NSInteger)index;
 
 - (void)messageViewController:(HDMessageViewController *)viewController
               didSelectRecordView:(UIView *)recordView
-                withEvenType:(EaseRecordViewType)type;
+                withEvenType:(HDRecordViewType)type;
 
 /*!
  @method
@@ -80,12 +83,12 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
  @result
  */
 - (void)messageViewController:(HDMessageViewController *)viewController
-               selectAtTarget:(EaseSelectAtTargetCallback)selectedCallback;
+               selectAtTarget:(HDSelectAtTargetCallback)selectedCallback;
 
 @end
 
 
-@protocol EaseMessageViewControllerDataSource <NSObject>
+@protocol HDMessageViewControllerDataSource <NSObject>
 
 @optional
 
@@ -117,21 +120,21 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 - (BOOL)isEmotionMessageFormessageViewController:(HDMessageViewController *)viewController
                                     messageModel:(id<HDIMessageModel>)messageModel;
 
-- (EaseEmotion*)emotionURLFormessageViewController:(HDMessageViewController *)viewController
+- (HDEmotion*)emotionURLFormessageViewController:(HDMessageViewController *)viewController
                                    messageModel:(id<HDIMessageModel>)messageModel;
 
 - (NSArray*)emotionFormessageViewController:(HDMessageViewController *)viewController;
 
 - (NSDictionary*)emotionExtFormessageViewController:(HDMessageViewController *)viewController
-                                        easeEmotion:(EaseEmotion*)easeEmotion;
+                                        easeEmotion:(HDEmotion*)easeEmotion;
 
 @end
 
-@interface HDMessageViewController : HDRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */EMCDDeviceManagerDelegate, EMChatToolbarDelegate, EaseChatBarMoreViewDelegate, EMLocationViewDelegate, EaseMessageCellDelegate,SatisfactionDelegate>
+@interface HDMessageViewController : HDRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */HDCDDeviceManagerDelegate,HDChatToolbarDelegate, HDChatBarMoreViewDelegate, EMLocationViewDelegate, EaseMessageCellDelegate,SatisfactionDelegate>
 
-@property (weak, nonatomic) id<EaseMessageViewControllerDelegate> delegate;
+@property (weak, nonatomic) id<HDMessageViewControllerDelegate> delegate;
 
-@property (weak, nonatomic) id<EaseMessageViewControllerDataSource> dataSource;
+@property (weak, nonatomic) id<HDMessageViewControllerDataSource> dataSource;
 
 @property(nonatomic,strong) HConversation *conversation;
 
@@ -150,11 +153,11 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 
 @property (strong, nonatomic) UIView *chatToolbar;
 
-@property(strong, nonatomic) EaseChatBarMoreView *chatBarMoreView;
+@property(strong, nonatomic) HDChatBarMoreView *chatBarMoreView;
 
-@property(strong, nonatomic) EaseFaceView *faceView;
+@property(strong, nonatomic) HDFaceView *faceView;
 
-@property(strong, nonatomic) EaseRecordView *recordView;
+@property(strong, nonatomic) HDRecordView *recordView;
 
 @property (strong, nonatomic) UIMenuController *menuController;
 
@@ -162,8 +165,13 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
+@property(nonatomic,strong) HVisitorInfo *visitorInfo; //访客信息
 
-- (instancetype)initWithConversationChatter:(NSString *)conversationChatter saleType:(HDemoSaleType)saleType;
+@property(nonatomic,strong) HAgentIdentityInfo *agent; //指定客服
+
+@property(nonatomic,strong) HQueueIdentityInfo *queueInfo; //指定技能组
+
+- (instancetype)initWithConversationChatter:(NSString *)conversationChatter;
 
 - (void)tableViewDidTriggerHeaderRefresh;
 

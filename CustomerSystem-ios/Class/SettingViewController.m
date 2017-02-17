@@ -58,12 +58,36 @@
 }
 
 - (void)setvalueWithDic:(NSDictionary *)dic {
-    _appkey = [dic valueForKey:@"appkey"];
-    _cname = [dic valueForKey:@"imservicenum"];
-    _tenantId = [dic valueForKey:@"tenantid"];
-    _projectId = [dic valueForKey:@"projectId"];
+    NSString *newAppkey = [dic valueForKey:@"appkey"];
+    if (![_appkey isEqualToString:newAppkey]) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"修改appkey之后需要重启" preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }]];
+        __weak typeof(self) weakSelf = self;
+        [alertController addAction:[UIAlertAction actionWithTitle:@"重启" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            _appkey = [dic valueForKey:@"appkey"];
+            _cname = [dic valueForKey:@"imservicenum"];
+            _tenantId = [dic valueForKey:@"tenantid"];
+            _projectId = [dic valueForKey:@"projectId"];
+            [weakSelf commitModify];
+        }]];
+        [self.tableView reloadData];
+        [self.navigationController popViewControllerAnimated:YES];
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+        _cname = [dic valueForKey:@"imservicenum"];
+        _tenantId = [dic valueForKey:@"tenantid"];
+        _projectId = [dic valueForKey:@"projectId"];
+        _lgM.cname = _cname;
+        _lgM.tenantId = _tenantId;
+        _lgM.projectId = _projectId;
+    }
+    
     [self.tableView reloadData];
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -79,7 +103,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 7;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -145,16 +169,6 @@
             NSString *fullVersion = [version stringByAppendingString:build];
             cell.textLabel.text = NSLocalizedString(@"setting.feedback", @"feedback");
             tempLabel.text = [NSString stringWithFormat:@"Version:%@",fullVersion];
-        }
-            break;
-            case 6:
-        {
-            UILabel *commit = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
-            commit.text = @"确认修改";
-            commit.textAlignment = NSTextAlignmentCenter;
-            commit.backgroundColor = [UIColor clearColor];
-            [cell.contentView addSubview:commit];
-            cell.accessoryType = UITableViewCellAccessoryNone;
         }
             break;
         default:
@@ -229,30 +243,12 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:nil];
         }
             break;
-            case 6:
-        {
-//            if ([_appkey isEqualToString:_lgM.appkey]) {
-//                UIAlertView *alert =[ [UIAlertView alloc] initWithTitle:@"提示" message:@"appkey未做修改" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-//                [alert show];
-//                return;
-//            }
-            UIAlertView *alert =[ [UIAlertView alloc] initWithTitle:@"提示" message:@"昵称只有在和appkey同时修改时才起作用,确认修改?" delegate:self cancelButtonTitle:@"暂不修改" otherButtonTitles:@"确认修改[需重启]", nil];
-            [alert show];
-            break;
-        }
         default:
             break;
     }
 }
 
 #pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex != alertView.cancelButtonIndex) { //修改
-         [self commitModify];
-    }
-}
 
 - (void)commitModify {
     _lgM.appkey = _appkey;

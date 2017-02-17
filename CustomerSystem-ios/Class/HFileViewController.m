@@ -40,8 +40,8 @@
 {
     if (_fileImageView == nil) {
         _fileImageView = [[UIImageView alloc] init];
-        _fileImageView.frame = CGRectMake((kScreenWidth - 120)/2, 100.f, 120.f, 120.f);
-        _fileImageView.image = [UIImage imageNamed:@"EaseUIResource.bundle/chat_item_file"];
+        _fileImageView.frame = CGRectMake((kHDScreenWidth - 120)/2, 100.f, 120.f, 120.f);
+        _fileImageView.image = [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_item_file"];
         _fileImageView.contentMode = UIViewContentModeScaleAspectFill;
         _fileImageView.layer.masksToBounds = YES;
     }
@@ -52,7 +52,7 @@
 {
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.frame = CGRectMake((kScreenWidth - 200.f)/2, CGRectGetMaxY(self.fileImageView.frame) + 10.f, 200.f, 20.f);
+        _nameLabel.frame = CGRectMake((kHDScreenWidth - 200.f)/2, CGRectGetMaxY(self.fileImageView.frame) + 10.f, 200.f, 20.f);
         _nameLabel.textColor = RGBACOLOR(26, 26, 26, 1);
         _nameLabel.font = [UIFont systemFontOfSize:17];
         _nameLabel.text = _model.fileName ? _model.fileName : @"";
@@ -78,7 +78,7 @@
 {
     if (_downloadButton == nil) {
         _downloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _downloadButton.frame = CGRectMake(0, CGRectGetMaxY(self.nameLabel.frame) + 20.f, kScreenWidth, 20.f);
+        _downloadButton.frame = CGRectMake(0, CGRectGetMaxY(self.nameLabel.frame) + 20.f, kHDScreenWidth, 20.f);
         [_downloadButton.titleLabel setFont:[UIFont systemFontOfSize:17.f]];
         [_downloadButton setTitleColor:RGBACOLOR(25, 163, 255, 1) forState:UIControlStateNormal];
         [_downloadButton addTarget:self action:@selector(downloadAction) forControlEvents:UIControlEventTouchUpInside];

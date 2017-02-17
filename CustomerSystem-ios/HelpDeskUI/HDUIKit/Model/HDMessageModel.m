@@ -12,7 +12,7 @@
 
 #import "HDMessageModel.h"
 #import "HDMessageCell.h"
-#import "EaseEmotionEscape.h"
+#import "HDEmotionEscape.h"
 #import "HDConvertToCommonEmoticonsHelper.h"
 
 @implementation HDMessageModel
@@ -25,8 +25,6 @@
         _message = message;
         _firstMessageBody = message.body;
         _isMediaPlaying = NO;
-        
-        
         _isSender = message.direction == HMessageDirectionSend ? YES : NO;
         
         if (!_isSender) {

@@ -11,7 +11,7 @@
  */
 
 #import "HDConvertToCommonEmoticonsHelper.h"
-#import "EaseEmoji.h"
+#import "HDEmoji.h"
 
 @implementation HDConvertToCommonEmoticonsHelper
 
@@ -19,7 +19,7 @@
 
 + (NSString *)convertToCommonEmoticons:(NSString *)text
 {
-    int allEmoticsCount = (int)[EaseEmoji allEmoji].count;
+    int allEmoticsCount = (int)[HDEmoji allEmoji].count;
     NSMutableString *retText = [[NSMutableString alloc] initWithString:text];
     for(int i=0; i<allEmoticsCount; ++i) {
         NSRange range;
@@ -284,7 +284,7 @@
     if ([text length] == 0) {
         return @"";
     }
-    int allEmoticsCount = (int)[[EaseEmoji allEmoji] count];
+    int allEmoticsCount = (int)[[HDEmoji allEmoji] count];
     NSMutableString *retText = [[NSMutableString alloc] initWithString:text];
     for(int i=0; i<allEmoticsCount; ++i) {
         NSRange range;

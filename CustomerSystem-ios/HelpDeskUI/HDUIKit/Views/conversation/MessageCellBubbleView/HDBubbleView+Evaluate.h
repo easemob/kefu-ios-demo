@@ -9,8 +9,6 @@
 #import "HDBubbleView.h"
 
 @interface HDBubbleView (Evaluate)
-//判断是否为评价消息
-+ (BOOL)isEvaluateMessage:(HMessage *)message;
 
 - (void)setupEvaluateBubbleView;
 

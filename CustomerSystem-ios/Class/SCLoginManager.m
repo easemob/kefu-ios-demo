@@ -23,26 +23,31 @@ static SCLoginManager *_manager = nil;
 - (void)setAppkey:(NSString *)appkey {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:appkey forKey:kAppKey];
+    [userDefaults synchronize];
 }
 
 - (void)setCname:(NSString *)cname {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:cname forKey:kCustomerName];
+    [userDefaults synchronize];
 }
 
 - (void)setTenantId:(NSString *)tenantId {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:tenantId forKey:kCustomerTenantId];
+    [userDefaults synchronize];
 }
 
 - (void)setNickname:(NSString *)nickname {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:nickname forKey:kCustomerNickname];
+    [userDefaults synchronize];
 }
 
 - (void)setProjectId:(NSString *)projectId {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:projectId forKey:kCustomerProjectId];
+    [userDefaults synchronize];
 }
 
 - (NSString *)appkey {
@@ -50,6 +55,7 @@ static SCLoginManager *_manager = nil;
     if ([apk length] == 0) {
         apk = kDefaultAppKey;
         [fUserDefaults setObject:apk forKey:kAppKey];
+        [fUserDefaults synchronize];
     }
     return apk;
 }
@@ -59,6 +65,7 @@ static SCLoginManager *_manager = nil;
     if ([im length] == 0) {
         im = kDefaultCustomerName;
         [fUserDefaults setObject:im forKey:kCustomerName];
+        [fUserDefaults synchronize];
     }
     return im;
 }
@@ -68,6 +75,7 @@ static SCLoginManager *_manager = nil;
     if ([tnickname length] == 0) {
         tnickname = kDefaultCustomerNickname;
         [fUserDefaults setObject:tnickname forKey:kCustomerNickname];
+        [fUserDefaults synchronize];
     }
     return tnickname;
 }
@@ -77,6 +85,7 @@ static SCLoginManager *_manager = nil;
     if ([ttenantId length] == 0) {
         ttenantId = kDefaultTenantId;
         [fUserDefaults setObject:ttenantId forKey:kCustomerTenantId];
+        [fUserDefaults synchronize];
     }
     return ttenantId;
 }
@@ -86,6 +95,7 @@ static SCLoginManager *_manager = nil;
     if ([tprojectId length] == 0) {
         tprojectId = kDefaultProjectId;
         [fUserDefaults setObject:tprojectId forKey:kCustomerProjectId];
+        [fUserDefaults synchronize];
     }
     return tprojectId;
 }

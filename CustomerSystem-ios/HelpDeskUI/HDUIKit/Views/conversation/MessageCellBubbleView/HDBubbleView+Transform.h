@@ -9,7 +9,6 @@
 #import "HDBubbleView.h"
 
 @interface HDBubbleView (Transform)
-+ (BOOL)isTransferMessage:(HMessage *)message;
 
 - (void)setupTransformBubbleView;
 

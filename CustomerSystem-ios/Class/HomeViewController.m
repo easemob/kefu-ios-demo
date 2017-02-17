@@ -7,20 +7,18 @@
 //
 
 #import "HomeViewController.h"
-
-//#import "EMIMHelper.h"
+#import "HDLeaveMsgViewController.h"
 #import "MallViewController.h"
 #import "SettingViewController.h"
-//#import "UIViewController+HUD.h"
-//#import "EMCDDeviceManager.h"
 #import "LocalDefine.h"
 #import "MoreChoiceView.h"
 #import "SCLoginManager.h"
 #import "MessageViewController.h"
 #import "HDMessageViewController.h"
-#import "ChatViewController.h"
+#import "HDChatViewController.h"
 #import "QRCodeViewController.h"
-
+#define kafterSale @"shouhou"
+#define kpreSale @"shouqian"
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
@@ -97,12 +95,26 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //    [self chatAction:nil];
 }
 
+
 - (void)chatAction:(NSNotification *)notification
 {
     //登录IM
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
     if ([[SCLoginManager shareLoginManager] loginKefuSDK]) {
-        ChatViewController *chat = [[ChatViewController alloc] initWithConversationChatter:lgM.cname saleType:[[notification.object objectForKey:kpreSell] boolValue]?hPreSaleType:hAfterSaleType];
+        NSString *queue = nil;
+        if ([notification.object objectForKey:kpreSell]) {
+            queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
+        }
+        HQueueIdentityInfo *queueIdentityInfo=nil;
+        if (queue) {
+            queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:queue];
+        }
+        HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
+        if (queue) {
+            chat.queueInfo = queueIdentityInfo;
+        }
+//        chat.agent = [[HAgentInfo alloc] initWithValue:@"123@126.com"]; 
+        chat.visitorInfo = [self visitorInfo];
         chat.commodityInfo = (NSDictionary *)notification.object;
         if ([notification.object objectForKey:kpreSell]) {
             chat.title =[[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
@@ -114,7 +126,17 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         NSLog(@"网络异常");
     }
 }
-
+- (HVisitorInfo *)visitorInfo {
+    HVisitorInfo *visitor = [[HVisitorInfo alloc] init];
+    visitor.name = @"小明儿";
+    visitor.qq = @"12345678";
+    visitor.phone = @"13636362637";
+    visitor.companyName = @"环信";
+    visitor.nickName = [SCLoginManager shareLoginManager].nickname;
+    visitor.email = @"abv@126.com";
+    visitor.desc = @"环信移动客服";
+    return visitor;
+}
 #pragma mark - UITabBarDelegate
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
@@ -235,9 +257,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     self.lastPlaySoundDate = [NSDate date];
     
     // 收到消息时，播放音频
-    [[EMCDDeviceManager sharedInstance] playNewMessageSound];
+    [[HDCDDeviceManager sharedInstance] playNewMessageSound];
     // 收到消息时，震动
-    [[EMCDDeviceManager sharedInstance] playVibration];
+    [[HDCDDeviceManager sharedInstance] playVibration];
 }
 
 - (void)_showNotificationWithMessage:(NSArray *)messages

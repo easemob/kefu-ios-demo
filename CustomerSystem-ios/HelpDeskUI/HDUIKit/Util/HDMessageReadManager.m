@@ -12,7 +12,7 @@
 
 #import "HDMessageReadManager.h"
 #import "UIImageView+EMWebCache.h"
-#import "EMCDDeviceManager.h"
+#import "HDCDDeviceManager.h"
 
 #define IMAGE_MAX_SIZE_5k 5120*2880
 
@@ -164,7 +164,7 @@ static HDMessageReadManager *detailInstance = nil;
             messageModel.isMediaPlaying = NO;
             self.audioMessageModel = nil;
             currentAudioModel = nil;
-            [[EMCDDeviceManager sharedInstance] stopPlaying];
+            [[HDCDDeviceManager sharedInstance] stopPlaying];
         }
         else {
             messageModel.isMediaPlaying = YES;
@@ -174,18 +174,20 @@ static HDMessageReadManager *detailInstance = nil;
             if (!messageModel.isMediaPlayed) {
                 messageModel.isMediaPlayed = YES;
                 HMessage *chatMessage = messageModel.message;
+                NSString *conversationId = [HChatClient sharedClient].chat.currentConversationId;
+                HConversation *conversation = [[HConversation alloc] initWithConversation:conversationId];
                 if (chatMessage.ext) {
                     NSMutableDictionary *dict = [chatMessage.ext mutableCopy];
                     if (![[dict objectForKey:@"isPlayed"] boolValue]) {
                         [dict setObject:@YES forKey:@"isPlayed"];
                         chatMessage.ext = dict;
-                        [[HChatClient sharedClient].chat updateMessage:chatMessage completion:nil];
+                        [conversation updateMessageChange:chatMessage error:nil];
                     }
                 } else {
                     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:chatMessage.ext];
                     [dic setObject:@YES forKey:@"isPlayed"];
                     chatMessage.ext = dic;
-                    [[HChatClient sharedClient].chat updateMessage:chatMessage completion:nil];
+                    [conversation updateMessageChange:chatMessage error:nil];
                 }
             }
         }

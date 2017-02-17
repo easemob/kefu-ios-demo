@@ -8,22 +8,7 @@
 
 #import "HDBubbleView+Transform.h"
 
-@implementation HDBubbleView (Transform) 
-+ (BOOL)isTransferMessage:(HMessage *)message
-{
-    NSString  *userName = [[HChatClient sharedClient] currentUsername];
-    BOOL isSender = [userName isEqualToString:message.from] ? YES : NO;
-    if ([message.ext objectForKey:kMesssageExtWeChat] && !isSender) {
-        NSDictionary *dic = [message.ext objectForKey:kMesssageExtWeChat];
-        if ([dic objectForKey:kMesssageExtWeChat_ctrlType] &&
-            [dic objectForKey:kMesssageExtWeChat_ctrlType] != [NSNull null] &&
-            [[dic objectForKey:kMesssageExtWeChat_ctrlType] isEqualToString:kMesssageExtWeChat_ctrlType_transferToKfHint]) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
+@implementation HDBubbleView (Transform)
 
 - (void)_setupTransformBubbleMarginConstraints {
     [self.marginConstraints removeAllObjects];

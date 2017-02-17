@@ -13,7 +13,7 @@
 
 #import <UIKit/UIKit.h>
 
-extern CGFloat const EaseMessageCellPadding;
+extern CGFloat const HDMessageCellPadding;
 
 extern NSString *const HRouterEventTapMenu; //选择菜单
 extern NSString *const HRouterEventTapTransform; //转人工
@@ -21,19 +21,19 @@ extern NSString *const HRouterEventTapEvaluate ; //评价
 
 extern NSString *const HRouterEventTextURLTapEventName;
 
-extern NSString *const EaseMessageCellIdentifierSendText;
-extern NSString *const EaseMessageCellIdentifierSendLocation;
-extern NSString *const EaseMessageCellIdentifierSendVoice;
-extern NSString *const EaseMessageCellIdentifierSendVideo;
-extern NSString *const EaseMessageCellIdentifierSendImage;
-extern NSString *const EaseMessageCellIdentifierSendFile;
+extern NSString *const HDMessageCellIdentifierSendText;
+extern NSString *const HDMessageCellIdentifierSendLocation;
+extern NSString *const HDMessageCellIdentifierSendVoice;
+extern NSString *const HDMessageCellIdentifierSendVideo;
+extern NSString *const HDMessageCellIdentifierSendImage;
+extern NSString *const HDMessageCellIdentifierSendFile;
 
-extern NSString *const EaseMessageCellIdentifierRecvText;
-extern NSString *const EaseMessageCellIdentifierRecvLocation;
-extern NSString *const EaseMessageCellIdentifierRecvVoice;
-extern NSString *const EaseMessageCellIdentifierRecvVideo;
-extern NSString *const EaseMessageCellIdentifierRecvImage;
-extern NSString *const EaseMessageCellIdentifierRecvFile;
+extern NSString *const HDMessageCellIdentifierRecvText;
+extern NSString *const HDMessageCellIdentifierRecvLocation;
+extern NSString *const HDMessageCellIdentifierRecvVoice;
+extern NSString *const HDMessageCellIdentifierRecvVideo;
+extern NSString *const HDMessageCellIdentifierRecvImage;
+extern NSString *const HDMessageCellIdentifierRecvFile;
 
 @interface HDBubbleView : UIView
 {

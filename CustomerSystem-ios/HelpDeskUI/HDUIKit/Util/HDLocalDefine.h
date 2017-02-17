@@ -13,6 +13,6 @@
 #ifndef HDLocalDefine_h
 #define HDLocalDefine_h
 
-#define NSEaseLocalizedString(key, comment) [[NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"EaseUIResource" withExtension:@"bundle"]] localizedStringForKey:(key) value:@"" table:nil]
+#define NSEaseLocalizedString(key, comment) [[NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"HelpDeskUIResource" withExtension:@"bundle"]] localizedStringForKey:(key) value:@"" table:nil]
 
 #endif /* HDLocalDefine_h */
