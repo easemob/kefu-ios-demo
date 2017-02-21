@@ -16,22 +16,21 @@
 
 ## 目录
 
-* [入门指南](#Getting_started_guide)
+* [入门指南](#Getting_started_guide)<br>
   1.[工程配置](#Guide_build) <br>
   2.[初始化](#Guide_init)<br>
   3.[注册](#Guide_register)<br>
   4.[登录](#Guide_login)<br>
   5.[退出](#Guide_logout)<br>
   6.[会话](#Guide_Chat)<br>
-  7.[日志](#Guide_Log)<br>
-  8.[登录状态](#Guide_Login_Status)<br>
-
+  7.[登录状态](#Guide_Login_Status)<br>
+* [高级选项](#Advanced_Option)<br>
 
 
 #### <A NAME="Guide_build"></A>工程配置，
- 1、在工程中导入 HelpDeskSDK 和 HelpDeskUI。【注意在导入的时候选择Create groups】
- 2、向Build Settings -> Linking -> Other Linker Flags 中增加-ObjC.
- 3、向Build Phases -> Link Binary With Libraries 中添加依赖库
+ 1、在工程中导入 HelpDeskSDK 和 HelpDeskUI。【注意在导入的时候选择Create groups】<br>
+ 2、向Build Settings -> Linking -> Other Linker Flags 中增加-ObjC.<br>
+ 3、向Build Phases -> Link Binary With Libraries 中添加依赖库<br>
     AudioToolbox.framework
     AVFoundation.framework
     libc++.dylib
@@ -39,12 +38,12 @@
     libstdc++.6.0.9.dylib
     libsqlite3.dylib
     (Xcode 7 及以上版本，后缀为tbd)
- 4、SDK 不支持 bitcode，在 Build Settings → Build Options → Enable Bitcode 中设置 NO。
- 5、在工程info.plist文件中 增加隐私权限
+ 4、SDK 不支持 bitcode，在 Build Settings → Build Options → Enable Bitcode 中设置 NO。<br>
+ 5、在工程info.plist文件中 增加隐私权限<br>
     Privacy - Photo Library Usage Description 需要访问您的相册
     Privacy - Microphone Usage Description 需要访问您的麦克风
     Privacy - Camera Usage Description 需要访问您的摄像机
- 6、在pch文件或全局.h文件中添加如下代码
+ 6、在pch文件或全局.h文件中添加如下代码<br>
    <code>
    #ifdef __OBJC__
    #import "helpdesk_sdk.h"
