@@ -31,7 +31,7 @@
  1、在工程中导入 HelpDeskSDK 和 HelpDeskUI。【注意在导入的时候选择Create groups】<br>
  2、向Build Settings -> Linking -> Other Linker Flags 中增加-ObjC.<br>
  3、向Build Phases -> Link Binary With Libraries 中添加依赖库<br>
-    ```
+ ```
     AudioToolbox.framework
     AVFoundation.framework
     libc++.dylib
@@ -39,16 +39,16 @@
     libstdc++.6.0.9.dylib
     libsqlite3.dylib
     (Xcode 7 及以上版本，后缀为tbd)
-    ```
+ ```
  4、SDK 不支持 bitcode，在 Build Settings → Build Options → Enable Bitcode 中设置 NO。<br>
- 5、在工程info.plist文件中 增加隐私权限<br>
-    ```
+ 5、在工程info.plist文件中 增加隐私权限 <br>
+ ```
     Privacy - Photo Library Usage Description 需要访问您的相册
     Privacy - Microphone Usage Description 需要访问您的麦克风
     Privacy - Camera Usage Description 需要访问您的摄像机
-    ```
+ ```
  6、在pch文件或全局.h文件中添加如下代码<br>
-   ```
+ ```
    #ifdef __OBJC__
    #import "helpdesk_sdk.h"
    #import "HelpDeskUI.h"
@@ -56,7 +56,7 @@
    ```
 
 #### <A NAME="Guide_init"></A>初始化
- ```
+```
  HOptions *option = [[HOptions alloc] init];
  option.appkey = @"Your appkey"; //(必填项)
  option.tenantId = @"Your tenantId";//(必填项)
