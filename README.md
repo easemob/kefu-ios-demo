@@ -41,7 +41,7 @@
     (Xcode 7 及以上版本，后缀为tbd)
     ```
  4、SDK 不支持 bitcode，在 Build Settings → Build Options → Enable Bitcode 中设置 NO。<br>
- 5、在工程info.plist文件中 增加隐私权限<br>
+ 5、在工程info.plist文件中 增加隐私权限 <br>
     ```
     Privacy - Photo Library Usage Description 需要访问您的相册
     Privacy - Microphone Usage Description 需要访问您的麦克风
