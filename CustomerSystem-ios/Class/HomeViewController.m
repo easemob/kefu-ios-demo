@@ -99,32 +99,38 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)chatAction:(NSNotification *)notification
 {
     //登录IM
-    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    if ([[SCLoginManager shareLoginManager] loginKefuSDK]) {
-        NSString *queue = nil;
-        if ([notification.object objectForKey:kpreSell]) {
-            queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
-        }
-        HQueueIdentityInfo *queueIdentityInfo=nil;
-        if (queue) {
-            queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:queue];
-        }
-        HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
-        if (queue) {
-            chat.queueInfo = queueIdentityInfo;
-        }
-//        chat.agent = [[HAgentInfo alloc] initWithValue:@"123@126.com"]; 
-        chat.visitorInfo = [self visitorInfo];
-        chat.commodityInfo = (NSDictionary *)notification.object;
-        if ([notification.object objectForKey:kpreSell]) {
-            chat.title =[[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+        if ([lgM loginKefuSDK]) {
+            NSString *queue = nil;
+            if ([notification.object objectForKey:kpreSell]) {
+                queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
+            }
+            HQueueIdentityInfo *queueIdentityInfo=nil;
+            if (queue) {
+                queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:queue];
+            }
+            HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
+            if (queue) {
+                chat.queueInfo = queueIdentityInfo;
+            }
+            //        chat.agent = [[HAgentInfo alloc] initWithValue:@"123@126.com"];
+            chat.visitorInfo = [self visitorInfo];
+            chat.commodityInfo = (NSDictionary *)notification.object;
+            if ([notification.object objectForKey:kpreSell]) {
+                chat.title =[[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
+            } else {
+                chat.title = [SCLoginManager shareLoginManager].cname;
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [self.navigationController pushViewController:chat animated:YES];
+            });
+           
         } else {
-            chat.title = [SCLoginManager shareLoginManager].cname;
+            NSLog(@"网络异常");
         }
-         [self.navigationController pushViewController:chat animated:YES];
-    } else {
-        NSLog(@"网络异常");
-    }
+    });
+    
 }
 - (HVisitorInfo *)visitorInfo {
     HVisitorInfo *visitor = [[HVisitorInfo alloc] init];

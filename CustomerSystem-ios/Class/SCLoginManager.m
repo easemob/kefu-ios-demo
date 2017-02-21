@@ -115,7 +115,8 @@ static SCLoginManager *_manager = nil;
     if (![self registerIMuser]) {
         return NO;
     }
-    HError *error = [self loginIM];
+    
+    HError *error = [[HChatClient sharedClient] loginWithUsername:self.username password:hxPassWord];
     if (!error) { //IM登录成功
         return YES;
     } else { //登录失败
@@ -125,12 +126,6 @@ static SCLoginManager *_manager = nil;
     return NO;
 }
 
-#pragma mark loginIM
-- (HError *)loginIM {
-    HError *error = nil;
-    error = [[HChatClient sharedClient] loginWithUsername:self.username password:hxPassWord];
-    return error;
-}
 
 //创建一个随机的用户名
 - (NSString *)getrandomUsername {

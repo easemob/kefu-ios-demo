@@ -110,7 +110,7 @@
         HVisitorTrack *vt = (HVisitorTrack *)[self trackOrOrder];
         [message addContent:vt];
     }
-    
+    [message addContent:self.visitorInfo];
     NSString *imageName = [info objectForKey:@"imageName"];
     NSMutableDictionary *ext = [message.ext mutableCopy];
     [ext setValue:imageName forKey:@"imageName"];

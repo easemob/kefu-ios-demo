@@ -2857,7 +2857,6 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrwb",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDesk_SDK/lib",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskSDK/lib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
@@ -2901,7 +2900,6 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrwb",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDesk_SDK/lib",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskSDK/lib",
 				);
 				ONLY_ACTIVE_ARCH = NO;

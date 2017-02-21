@@ -50,6 +50,7 @@
     if (initError) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"重要提示[初始化错误]" message:initError.errorDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
+        return;
     }
     [self registerEaseMobNotification];
 }
