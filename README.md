@@ -31,6 +31,7 @@
  1、在工程中导入 HelpDeskSDK 和 HelpDeskUI。【注意在导入的时候选择Create groups】<br>
  2、向Build Settings -> Linking -> Other Linker Flags 中增加-ObjC.<br>
  3、向Build Phases -> Link Binary With Libraries 中添加依赖库<br>
+    ```
     AudioToolbox.framework
     AVFoundation.framework
     libc++.dylib
@@ -38,21 +39,24 @@
     libstdc++.6.0.9.dylib
     libsqlite3.dylib
     (Xcode 7 及以上版本，后缀为tbd)
+    ```
  4、SDK 不支持 bitcode，在 Build Settings → Build Options → Enable Bitcode 中设置 NO。<br>
  5、在工程info.plist文件中 增加隐私权限<br>
+    ```
     Privacy - Photo Library Usage Description 需要访问您的相册
     Privacy - Microphone Usage Description 需要访问您的麦克风
     Privacy - Camera Usage Description 需要访问您的摄像机
+    ```
  6、在pch文件或全局.h文件中添加如下代码<br>
-   <code>
+   ```
    #ifdef __OBJC__
    #import "helpdesk_sdk.h"
    #import "HelpDeskUI.h"
    #endif
-   </code>
-
+   ```
 
 #### <A NAME="Guide_init"></A>初始化
+ ```
  HOptions *option = [[HOptions alloc] init];
  option.appkey = @"Your appkey"; //(必填项)
  option.tenantId = @"Your tenantId";//(必填项)
@@ -62,18 +66,19 @@
  HError *initError = [[HChatClient sharedClient] initializeSDKWithOptions:option];
  if (initError) { // 初始化错误
  }
-#### <A NAME="Guide_Log"></A>设置调试模式
+ ```
 
 #### <A NAME="Guide_register"></A>注册
 
 注册建议在服务端创建，而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器。
+```
 HError *error = [[HChatClient sharedClient] registerWithUsername:@"username" password:@"password"];
 error.code:
 HErrorNetworkUnavailable 网络不可用
 HErrorUserAlreadyExist 用户已存在
 HErrorUserAuthenticationFailed 无开放注册权限（后台管理界面设置[开放|授权]）
 HErrorUserIllegalArgument 用户名非法
-
+```
 #### <A NAME="Guide_login"></A>登录
 由于HChatClient有一个isLoggedInBefore(BOOL)，登录操作前可以先做个判断。
 ```
@@ -112,8 +117,6 @@ if(client.isLoggedInBefore){
 ```
 #### <A NAME="Guide_logout"></A>登出
 >登出后则无法收到客服发来的消息
-
-
 ```
 //参数为是否解绑推送的devicetoken
 HError *error = [[HChatClient sharedClient] logout:YES];
@@ -121,8 +124,6 @@ if (error) { //登出出错
 } else {//登出成功
 }
 ```
-
-
 ### <A NAME="Advanced_Option"></A>高级选项
 
 #### 添加网络监听,可以显示当前是否连接服务器
