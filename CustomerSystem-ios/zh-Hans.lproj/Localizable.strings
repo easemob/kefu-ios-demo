@@ -1,0 +1,179 @@
+/* 
+  Localizable.strings
+  ChatDemo-UI2.0
+
+  Created by dhcdht on 15-1-20.
+  Copyright (c) 2015年 dhcdht. All rights reserved.
+*/
+
+//other
+"search" = "搜索";
+"error" = "错误";
+"delete" = "删除";
+"copy" = "复制";
+"save" = "保存";
+
+"add" = "添加";
+"send" = "发送";
+"open" = "打开";
+"down" = "完成";
+"choose" = "选择";
+"accept" = "接受";
+"reject" = "拒绝";
+"retry" = "重试";
+"edit" = "编辑";
+
+"sendingApply" = "正在发送申请...";
+"acceptFail" = "接受失败";
+"rejectFail" = "拒绝失败";
+"refreshData" = "刷新数据...";
+"loadData" = "加载数据...";
+"saySomething" = "说点啥子吧";
+"searchResults" = "搜索结果";
+"doneWithCount" = "确定(%i)";
+"sureToDelete" = "请确定删除";
+"receiveCmd" = "有透传消息";
+"receiveMessage" = "您有一条新消息";
+"loginAtOtherDevice" = "你的账号已在其他地方登录";
+"loginUserRemoveFromServer" = "你的账号已被从服务器端移除";
+"appkeyError" = "appkey错误";
+
+//general
+"prompt" = "提示";
+"ok" = "确定";
+"cancel" = "取消";
+
+"receiveCmdMessage" = "透传消息";
+
+"setNickname" = "设置昵称";
+"customerChat" = "联系客服";
+"customerUser" = "IM服务号";
+"commonProblems" = "常见问题";
+"restart" = "重新启动";
+"restartInfo" = "配置信息需要重新启动才能生效";
+
+//app
+"AppName" = "客服Demo";
+
+//apns
+"apns.failToRegisterApns" = "注册推送失败";
+"apns.failToBindDeviceToken" = "消息推送与设备绑定失败";
+
+//login
+"login.beginAutoLogin" = "自动登录开始...";
+"login.endAutoLogin" = "自动登录结束...";
+"login.errorAutoLogin" = "自动登录失败.";
+
+//setting
+"setting.feedback" = "意见反馈";
+
+//title
+"title.customer" = "客服";
+"title.mall" = "商城";
+"title.setting" = "设置";
+"title.commodity" = "商品详情";
+"title.nickname" = "昵称";
+"title.satisfaction" = "满意度评价";
+"title.messagebox" = "留言箱";
+"title.leavemsg" = "留言";
+"title.leavemsgdetail" = "留言详情";
+"title.leavemsgsetting" = "留言设置";
+"title.reply" = "写评论";
+"title.projectId" = "留言ID";
+"title.tenantId" = "租户ID";
+
+//choice
+"choice.preSale" = "售前客服";
+"choice.afterSale" = "售后客服";
+
+//satisfaction
+"satisfaction.message" = "请对我的服务做出评价";
+"satisfaction.evaluate" = "立即评价";
+"satisfaction.evaluated" = "已评价";
+"satisfaction.nickname" = "客服昵称";
+"satisfaction.commit" = "提交";
+"satisfaction.alert" = "请先选择评星";
+
+//message
+"message.camera" = "相机";
+"message.image" = "图片";
+"message.location" = "位置";
+"message.voice" = "音频";
+"message.vidio" = "视频";
+"message.image1" = "[图片]";
+"message.location1" = "[位置]";
+"message.voice1" = "[音频]";
+"message.vidio1" = "[视频]";
+"message.beginReceiveOffine" = "开始接收离线消息";
+"message.endReceiveOffine" = "离线消息接收成功";
+"message.toolBar.inputPlaceHolder" = "输入新消息";
+"message.toolBar.record.upCancel" = " 手指上滑，取消发送 ";
+"message.toolBar.record.loosenCancel" = " 松开手指，取消发送 ";
+"message.toolBar.record.touch" = "按住说话";
+"message.toolBar.record.send" = "松开发送";
+
+"media.timeShort" = "录制时间过短";
+
+"message.downloadingAudio" = "正在下载语音，稍后点击";
+"message.downloadingVideo" = "正在获取视频...";
+"message.videoFail" = "视频获取失败!";
+"message.downloadingImage" = "正在获取大图...";
+"message.imageFail" = "大图获取失败!";
+"message.thumImageFail" = "缩略图获取失败!";
+"message.simulatorNotSupportCamera" = "模拟器不支持拍照";
+"message.simulatorNotSupportVideo" = "模拟器不支持录像";
+"message.startRecordFail" = "开始录音失败";
+"message.noMessage" = "消息已经清空";
+
+//reconnection
+"reconnection.ongoing" = "正在重连中...";
+"reconnection.fail" = "重连失败，稍候将继续重连";
+"reconnection.success" = "重连成功！";
+
+//location
+"location.messageType" = "位置信息";
+"location.fail" = "定位失败";
+"location.ongoning" = "正在定位...";
+
+//NSDateCategory
+"NSDateCategory.text1" = "1分钟内";
+"NSDateCategory.text2" = "%.f分钟前";
+"NSDateCategory.text3" = "%.f小时前";
+"NSDateCategory.text4" = "%.f天前";
+"NSDateCategory.text5" = "M月d日";
+"NSDateCategory.text6" = "%.f年前";
+"NSDateCategory.text7" = "昨天 %@";
+"NSDateCategory.text8" = "昨天HH:mm";
+"NSDateCategory.text9" = "凌晨hh:mm";
+"NSDateCategory.text10" = "上午hh:mm";
+"NSDateCategory.text11" = "下午hh:mm";
+"NSDateCategory.text12" = "晚上hh:mm";
+"NSDateCategory.text13" = "昨天HH:mm";
+"NSDateCategory.text14" = "今天 %@";
+
+//leaveMessage
+"leaveMessage.name" = "姓名";
+"leaveMessage.phone" = "电话";
+"leaveMessage.mail" = "邮箱";
+"leaveMessage.content" = "内容";
+"leaveMessage.leavemsg.sending" = "发送中...";
+"leaveMessage.leavesucceed" = "发送成功";
+"leaveMessage.leavefailed" = "发送失败";
+"leaveMessage.leavemsg.load" = "加载留言详情";
+"leaveMessage.leavemsg.loadsucceed" = "加载成功";
+"leaveMessage.leavemsg.loadfailed" = "加载失败";
+"leaveMessage.leavemsg.comment" = "评论";
+"leaveMessage.leavemsg.theme" = "主题:";
+"leaveMessage.leavemsg.nickname" = "访客昵称:";
+"leaveMessage.leavemsg.content" = "内容:";
+"leaveMessage.leavemsg.phone" = "手机:";
+"leaveMessage.leavemsg.qq" = "QQ:";
+"leaveMessage.leavemsg.weibo" = "微博:";
+"leaveMessage.leavemsg.mail" = "邮箱:";
+"leaveMessage.leavemsg.attachment" = "附件";
+"leaveMessage.leavemsg.reply" = "回复";
+"leaveMessage.leavemsg.addattachment" = "添加附件";
+"leaveMessage.leavemsg.replyempty" = "回复内容不能空";
+"leaveMessage.leavemsg.attachmentname" = "附件名称";
+"leaveMessage.leavemsg.uploadattachment" = "上传附件";
+"leaveMessage.leavemsg.uploadattachment.failed" = "上传附件失败";

@@ -1,0 +1,181 @@
+/* 
+  Localizable.strings
+  ChatDemo-UI2.0
+
+  Created by dhcdht on 15-1-20.
+  Copyright (c) 2015年 dhcdht. All rights reserved.
+*/
+
+
+//other
+"search" = "Search";
+"error" = "Error";
+"delete" = "Delete";
+"copy" = "Copy";
+"save" = "Save";
+
+"add" = "Add";
+"send" = "Send";
+"open" = "Open";
+"down" = "Down";
+"choose" = "Choose";
+"accept" = "Accept";
+"reject" = "Reject";
+"retry" = "Retry";
+"edit" = "Edit";
+
+"sendingApply" = "sending apply...";
+"acceptFail" = "accept failure";
+"rejectFail" = "reject failure";
+"refreshData" = "Refresh data...";
+"loadData" = "Load data...";
+"saySomething" = "Say somthing";
+"searchResults" = "The search results";
+"doneWithCount" = "Done(%i)";
+"sureToDelete" = "please make sure to delete";
+"receiveCmd" = "receive cmd message";
+"receiveMessage" = "you have a new message";
+"loginAtOtherDevice" = "your login account has been in other places";
+"loginUserRemoveFromServer" = "your account has been removed from the server side";
+"appkeyError" = "appkey error";
+
+//general
+"prompt" = "Prompt";
+"sure" = "OK";
+"cancel" = "Cancel";
+
+"receiveCmdMessage" = "Cmd Message";
+
+"setNickname" = "Nickname";
+"customerChat" = "Customer";
+"customerUser" = "IM Customer";
+"commonProblems" = "CommonProblems";
+"restart" = "Restart";
+"restartInfo" = "Configuration information need to reboot to take effect";
+
+//app
+"AppName" = "CustomerSystemDemo";
+
+//apns
+"apns.failToRegisterApns" = "Fail to register apns";
+"apns.failToBindDeviceToken" = "Fail to bind device token";
+
+//login
+"login.beginAutoLogin" = "Start automatic login...";
+"login.endAutoLogin" = "End automatic login...";
+"login.errorAutoLogin" = "Automatic logon failure.";
+
+//setting
+"setting.feedback" = "Feedback";
+
+//title
+"title.customer" = "Customer";
+"title.mall" = "Mall";
+"title.setting" = "Setting";
+"title.commodity" = "Commodity Info";
+"title.nickname" = "Nickname";
+"title.satisfaction" = "Satisfaction Evaluation";
+"title.messagebox" = "Message Box";
+"title.leavemsg" = "Leave Message";
+"title.leavemsgdetail" = "Leave Message Detail";
+"title.leavemsgsetting" = "Leave Message Setting";
+"title.reply" = "Reply";
+"title.projectId" = "ProjectID";
+"title.tenantId" = "TenantID";
+
+//choice
+"choice.preSale" = "Pre Sale";
+"choice.afterSale" = "After Sales";
+
+//satisfaction
+"satisfaction.message" ="please evaluate my service";
+"satisfaction.evaluate" = "Evaluate";
+"satisfaction.evaluated" = "Evaluated";
+"satisfaction.nickname" = "nickname";
+"satisfaction.commit" = "commit";
+"satisfaction.alert" = "please evaluate first";
+
+//message
+"message.camera" = "Camera";
+"message.image" = "Image";
+"message.location" = "Location";
+"message.voice" = "audio";
+"message.vidio" = "vidio";
+"message.image1" = "[image]";
+"message.location1" = "[location]";
+"message.voice1" = "[audio]";
+"message.vidio1" = "[vidio]";
+"message.beginReceiveOffine" = "begin to receive offline messages";
+"message.endReceiveOffine" = "end to receive offline messages";
+"message.toolBar.inputPlaceHolder" = "input a new message";
+"message.toolBar.record.upCancel" = " Fingers up slide, cancel sending ";
+"message.toolBar.record.loosenCancel" = " loosen the fingers, to cancel sending ";
+"message.toolBar.record.touch" = "hold down to talk";
+"message.toolBar.record.send" = "loosen to send";
+"DXMessageToolBarDelegate.record" = "hold down to talk";
+"DXMessageToolBarDelegate.send" = "loosen to send";
+"media.timeShort" = "record time too short";
+
+"message.downloadingAudio" = "downloading voice, click later";
+"message.downloadingVideo" = "downloading video...";
+"message.videoFail" = "video for failure!";
+"message.downloadingImage" = "downloading a image...";
+"message.imageFail" = "image for failure!";
+"message.thumImageFail" = "thumbnail for failure!";
+"message.simulatorNotSupportCamera" = "simulator does not support taking picture";
+"message.simulatorNotSupportVideo" = "simulator does not support vidio";
+"message.startRecordFail" = "failure to start recording";
+"message.noMessage" = "no messages";
+
+//reconnection
+"reconnection.ongoing" = "reconnecting...";
+"reconnection.fail" = "reconnection failure, later will continue to reconnection";
+"reconnection.success" = "reconnection successful！";
+
+//location
+"location.messageType" = "location message";
+"location.fail" = "locate failure";
+"location.ongoning" = "locating...";
+
+//NSDateCategory
+"NSDateCategory.text1" = "one minute";
+"NSDateCategory.text2" = "%.f minutes ago";
+"NSDateCategory.text3" = "%.f hours ago";
+"NSDateCategory.text4" = "%.f days ago";
+"NSDateCategory.text5" = "M-d";
+"NSDateCategory.text6" = "%.f years ago";
+"NSDateCategory.text7" = "M-d %@";
+"NSDateCategory.text8" = "M-d HH:mm";
+"NSDateCategory.text9" = "aa hh:mm";
+"NSDateCategory.text10" = "aa hh:mm";
+"NSDateCategory.text11" = "aa hh:mm";
+"NSDateCategory.text12" = "aa hh:mm";
+"NSDateCategory.text13" = "M-d HH:mm";
+"NSDateCategory.text14" = "today %@";
+
+//leaveMessage
+"leaveMessage.name" = "Name";
+"leaveMessage.phone" = "Phone";
+"leaveMessage.mail" = "Mail";
+"leaveMessage.content" = "Content";
+"leaveMessage.leavemsg.sending" = "Sending...";
+"leaveMessage.leavesucceed" = "Send succeed";
+"leaveMessage.leavefailed" = "Send failed";
+"leaveMessage.leavemsg.load" = "Loading...";
+"leaveMessage.leavemsg.loadsucceed" = "Load succeed";
+"leaveMessage.leavemsg.loadfailed" = "Load failed";
+"leaveMessage.leavemsg.comment" = "Comment";
+"leaveMessage.leavemsg.theme" = "Theme:";
+"leaveMessage.leavemsg.nickname" = "Nickname:";
+"leaveMessage.leavemsg.content" = "Content:";
+"leaveMessage.leavemsg.phone" = "Phone:";
+"leaveMessage.leavemsg.qq" = "QQ:";
+"leaveMessage.leavemsg.weibo" = "Weibo:";
+"leaveMessage.leavemsg.mail" = "Mail:";
+"leaveMessage.leavemsg.attachment" = "Attachment";
+"leaveMessage.leavemsg.reply" = "Reply";
+"leaveMessage.leavemsg.addattachment" = "Add Attachment";
+"leaveMessage.leavemsg.replyempty" = "Reply is empty";
+"leaveMessage.leavemsg.attachmentname" = "Attachment";
+"leaveMessage.leavemsg.uploadattachment" = "Upload attachment";
+"leaveMessage.leavemsg.uploadattachment.failed" = "Upload attachment failed";
