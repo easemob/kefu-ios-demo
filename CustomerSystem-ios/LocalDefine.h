@@ -25,17 +25,17 @@
 
 #define CHATVIEWBACKGROUNDCOLOR [UIColor colorWithRed:0.936 green:0.932 blue:0.907 alpha:1]
 
-#define kDefaultAppKey @"1124161024178184#kefuchannelapp29044"
-#define kDefaultCustomerName @"kefuchannelimid_008267"
-#define kDefaultCustomerNickname @"风口上的🐷"
-#define kDefaultTenantId @"29044"
-#define kDefaultProjectId @"306164"
+//#define kDefaultAppKey @"1124161024178184#kefuchannelapp29044"
+//#define kDefaultCustomerName @"kefuchannelimid_008267"
+//#define kDefaultCustomerNickname @"风口上的🐷"
+//#define kDefaultTenantId @"29044"
+//#define kDefaultProjectId @"306164"
 
-//#define kDefaultAppKey @"1141161024115978#kefuchannelapp29593"
-//#define kDefaultCustomerName @"kefuchannelimid_012680"
-//#define kDefaultCustomerNickname @"小明"
-//#define kDefaultTenantId @"29593"
-//#define kDefaultProjectId @"306713"
+#define kDefaultAppKey @"1141161024115978#kefuchannelapp29593"
+#define kDefaultCustomerName @"kefuchannelimid_012680"
+#define kDefaultCustomerNickname @"小明"
+#define kDefaultTenantId @"29593"
+#define kDefaultProjectId @"306713"
 
 #define kAppKey @"KF_appkey"
 #define kCustomerName @"KF_name"

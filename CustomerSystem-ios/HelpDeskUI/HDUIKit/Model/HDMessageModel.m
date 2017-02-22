@@ -36,7 +36,13 @@
             }
         } else {
             if (message.ext) {
-                _nickname = [[[message.ext objectForKey:@"weichat"] objectForKey:@"visitor"] objectForKey:@"userNickname"];
+                NSDictionary *weichat = [message.ext objectForKey:@"weichat"];
+                if (weichat) {
+                    if (![[weichat objectForKey:@"visitor"] isKindOfClass:[NSNull class]] && [weichat objectForKey:@"visitor"]) {
+                        _nickname = [[weichat objectForKey:@"visitor"] objectForKey:@"userNickname"];
+                    }
+                }
+                
             } else {
                 _nickname = message.from;
             }
