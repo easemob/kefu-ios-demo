@@ -41,7 +41,6 @@
 		D3394AEE1E548898009370BF /* HDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3394AED1E548898009370BF /* HDViewController.m */; };
 		D3394AF11E5562FE009370BF /* HDChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3394AF01E5562FE009370BF /* HDChatViewController.m */; };
 		D3394EA61E559A3F009370BF /* HFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3394EA51E559A3F009370BF /* HFileViewController.m */; };
-		D339597D1E56DC1F009370BF /* libhelpdesk_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D339597B1E56DC1F009370BF /* libhelpdesk_sdk.a */; };
 		D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D339953B1E000D5E00F7B71D /* QRCodeViewController.m */; };
 		D339953F1E000EDF00F7B71D /* ScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = D339953E1E000EDF00F7B71D /* ScanningView.m */; };
 		D33995421E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = D33995411E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m */; };
@@ -457,7 +456,6 @@
 		D33959771E56DC1F009370BF /* HVisitorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HVisitorInfo.h; sourceTree = "<group>"; };
 		D33959781E56DC1F009370BF /* HVisitorTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HVisitorTrack.h; sourceTree = "<group>"; };
 		D339597A1E56DC1F009370BF /* helpdesk_sdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helpdesk_sdk.h; sourceTree = "<group>"; };
-		D339597B1E56DC1F009370BF /* libhelpdesk_sdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libhelpdesk_sdk.a; sourceTree = "<group>"; };
 		D339953A1E000D5E00F7B71D /* QRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
 		D339953B1E000D5E00F7B71D /* QRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
 		D339953D1E000EDF00F7B71D /* ScanningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanningView.h; sourceTree = "<group>"; };
@@ -962,7 +960,6 @@
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
 				D3CB644D1E4888F30022A6BA /* libopencore-amrwb.a in Frameworks */,
 				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
-				D339597D1E56DC1F009370BF /* libhelpdesk_sdk.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1152,7 +1149,6 @@
 			isa = PBXGroup;
 			children = (
 				D339597A1E56DC1F009370BF /* helpdesk_sdk.h */,
-				D339597B1E56DC1F009370BF /* libhelpdesk_sdk.a */,
 			);
 			path = lib;
 			sourceTree = "<group>";
