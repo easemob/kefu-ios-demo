@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
     s.license      = "MIT"
     s.platform     = :ios, "8.0"
     s.author       = { "afanda" => "fan_apple1990@163.com" }
-    s.source       = { :git => "https://github.com/fanApple/HelpDeskSDK.git", :tag => s.version }
+    s.source       = { :git => "https://github.com/easemob/helpdeskdemo-ios.git", :tag => s.version }
     s.requires_arc = true
     s.source_files = "CustomerSystem-ios/HelpDeskSDK/include/*.{h,m}"
     s.resources    = "CustomerSystem-ios/HelpDeskSDK/lib/*.{a,h}"
