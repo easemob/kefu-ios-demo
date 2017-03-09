@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
-    s.name         = "HelpDeskSDK"
+    s.name         = "kefuSDK"
     s.version      = "1.0.0"
-    s.summary      = "环信 HelpDeskSDK"
+    s.summary      = "环信客服 SDK"
     s.homepage     = "https://github.com/easemob/helpdeskdemo-ios"
-    s.license      = "MIT"
+    s.license      = { :type => "MIT", :file => "LICENSE" }
     s.platform     = :ios, "8.0"
     s.author       = { "afanda" => "fan_apple1990@163.com" }
     s.source       = { :git => "https://github.com/easemob/helpdeskdemo-ios.git", :tag => s.version }
