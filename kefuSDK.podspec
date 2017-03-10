@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = "kefuSDK"
-    s.version      = "1.0.1"
+    s.version      = "1.0.2"
     s.summary      = "环信客服 SDK"
     s.homepage     = "https://github.com/easemob/helpdeskdemo-ios"
     s.license      = { :type => "MIT", :file => "LICENSE" }
