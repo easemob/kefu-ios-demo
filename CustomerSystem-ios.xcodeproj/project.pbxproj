@@ -401,6 +401,7 @@
 		D326F7CE1E02A6D8004FC028 /* IQUIView+IQKeyboardToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQUIView+IQKeyboardToolbar.h"; sourceTree = "<group>"; };
 		D326F7CF1E02A6D8004FC028 /* IQUIView+IQKeyboardToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQUIView+IQKeyboardToolbar.m"; sourceTree = "<group>"; };
 		D326F7D11E02A6D8004FC028 /* IQKeyboardManager.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IQKeyboardManager.bundle; sourceTree = "<group>"; };
+		D3379F1C1E725EBB000E67A9 /* helpdesk_sdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helpdesk_sdk.h; sourceTree = "<group>"; };
 		D33946EB1E54371C009370BF /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		D33946F01E54381B009370BF /* UIView+FLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FLExtension.h"; sourceTree = "<group>"; };
 		D33946F11E54381B009370BF /* UIView+FLExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FLExtension.m"; sourceTree = "<group>"; };
@@ -456,7 +457,6 @@
 		D33959761E56DC1F009370BF /* HTransferIndication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTransferIndication.h; sourceTree = "<group>"; };
 		D33959771E56DC1F009370BF /* HVisitorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HVisitorInfo.h; sourceTree = "<group>"; };
 		D33959781E56DC1F009370BF /* HVisitorTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HVisitorTrack.h; sourceTree = "<group>"; };
-		D339597A1E56DC1F009370BF /* helpdesk_sdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helpdesk_sdk.h; sourceTree = "<group>"; };
 		D339953A1E000D5E00F7B71D /* QRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
 		D339953B1E000D5E00F7B71D /* QRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
 		D339953D1E000EDF00F7B71D /* ScanningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanningView.h; sourceTree = "<group>"; };
@@ -1111,6 +1111,7 @@
 		D33959571E56DC1F009370BF /* include */ = {
 			isa = PBXGroup;
 			children = (
+				D3379F1C1E725EBB000E67A9 /* helpdesk_sdk.h */,
 				D33959581E56DC1F009370BF /* EMCmdMessageBody.h */,
 				D33959591E56DC1F009370BF /* EMCommonDefs.h */,
 				D339595A1E56DC1F009370BF /* EMFileMessageBody.h */,
@@ -1151,7 +1152,6 @@
 		D33959791E56DC1F009370BF /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				D339597A1E56DC1F009370BF /* helpdesk_sdk.h */,
 				D3641BA01E5EC526002288E3 /* libhelpdesk_sdk.a */,
 			);
 			path = lib;
