@@ -36,6 +36,7 @@
 #import "UIImageView+EMWebCache.h"
 #import "UIViewController+HUD.h"
 #import "UIViewController+DismissKeyboard.h"
+#import "UIResponder+HRouter.h"
 #import "HDLocalDefine.h"
 
 //Ext keyWord

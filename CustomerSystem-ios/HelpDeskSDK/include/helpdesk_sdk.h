@@ -9,7 +9,6 @@
 
 #ifndef helpdesk_sdk_h
 #define helpdesk_sdk_h
-
 #import "HChatClientDelegate.h"
 #import "HChatClient.h"
 #import "HOptions.h"
@@ -17,8 +16,6 @@
 #import "HMessage.h"
 #import "HMessage+Content.h"
 #import "HConversation.h"
-#import "UIResponder+HRouter.h"
-
 //body
 #import "EMTextMessageBody.h"
 #import "EMVideoMessageBody.h"
@@ -26,5 +23,4 @@
 #import "EMVoiceMessageBody.h"
 #import "EMLocationMessageBody.h"
 #import "EMCmdMessageBody.h"
-
 #endif /* helpdesk_sdk_h */
