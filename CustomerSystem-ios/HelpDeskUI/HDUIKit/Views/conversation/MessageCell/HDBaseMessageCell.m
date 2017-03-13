@@ -233,7 +233,6 @@
 - (void)setModel:(id<HDIMessageModel>)model
 {
     [super setModel:model];
-    
     if (model.avatarURLPath) {
         [self.avatarView sd_setImageWithURL:[NSURL URLWithString:model.avatarURLPath] placeholderImage:model.avatarImage];
     } else {

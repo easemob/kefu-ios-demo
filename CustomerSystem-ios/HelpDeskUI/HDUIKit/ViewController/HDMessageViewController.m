@@ -1380,11 +1380,30 @@
         
         //Construct message model
         id<HDIMessageModel> model = nil;
-        if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:modelForMessage:)]) {
+        //接收的消息不能设置头像
+        BOOL isSender = message.direction == HMessageDirectionSend;
+        if (isSender && _dataSource && [_dataSource respondsToSelector:@selector(messageViewController:modelForMessage:)]) {
             model = [_dataSource messageViewController:self modelForMessage:message];
         }
         else{
             model = [[HDMessageModel alloc] initWithMessage:message];
+            NSDictionary *weichat = [NSDictionary dictionary];
+            if ([message.ext objectForKey:@"weichat"]) {
+                weichat = [message.ext valueForKey:@"weichat"];
+            }
+            NSDictionary *agent = [NSDictionary dictionary];
+            if ([weichat objectForKey:@"agent"]) {
+                agent = [weichat valueForKey:@"agent"];
+            }
+            if ([[agent allKeys] containsObject:@"avatar"]) {
+                NSString *url = [agent valueForKey:@"avatar"];
+                if ([url hasPrefix:@"http"]) {
+                    model.avatarURLPath = [agent valueForKey:@"avatar"];
+                } else {
+                    model.avatarURLPath = [[@"https://kefu.easemob.com" stringByAppendingString:[agent valueForKey:@"avatar"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                }
+                
+            }
             model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
             model.failImageName = @"imageDownloadFail";
         }
