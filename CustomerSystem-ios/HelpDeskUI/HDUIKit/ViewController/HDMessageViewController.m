@@ -1397,12 +1397,13 @@
             }
             if ([[agent allKeys] containsObject:@"avatar"]) {
                 NSString *url = [agent valueForKey:@"avatar"];
-                if ([url hasPrefix:@"http"]) {
-                    model.avatarURLPath = [agent valueForKey:@"avatar"];
-                } else {
-                    model.avatarURLPath = [[@"https://kefu.easemob.com" stringByAppendingString:[agent valueForKey:@"avatar"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                if (![url isKindOfClass:[NSNull class]]) {
+                    if ([url hasPrefix:@"http"]) {
+                        model.avatarURLPath = [agent valueForKey:@"avatar"];
+                    } else {
+                        model.avatarURLPath = [[@"https://kefu.easemob.com" stringByAppendingString:[agent valueForKey:@"avatar"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                    }
                 }
-                
             }
             model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
             model.failImageName = @"imageDownloadFail";
