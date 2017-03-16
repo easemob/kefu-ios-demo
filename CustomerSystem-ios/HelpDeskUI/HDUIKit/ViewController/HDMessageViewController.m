@@ -171,8 +171,6 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[HChatClient sharedClient].chat removeDelegate:self];
     [[HDCDDeviceManager sharedInstance] stopPlaying];
     [HDCDDeviceManager sharedInstance].delegate = nil;
     
@@ -199,6 +197,8 @@
 {
     [super viewWillDisappear:animated];
     [[HDCDDeviceManager sharedInstance] disableProximitySensor];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[HChatClient sharedClient].chat removeDelegate:self];
 }
 
 #pragma mark - getter
