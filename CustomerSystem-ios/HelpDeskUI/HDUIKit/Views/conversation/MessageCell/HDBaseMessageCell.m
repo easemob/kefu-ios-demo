@@ -86,11 +86,14 @@
     switch (self.model.bodyType) {
         case EMMessageBodyTypeText:
         {
-            if ([self.model.message.ext objectForKey:@"msgtype"] || [HjudgeTextMessageSubType isTransferMessage:self.model.message] || [HjudgeTextMessageSubType  isEvaluateMessage:self.model.message]) {
-                [self removeConstraint:self.bubbleWithExtConstraint];
-                CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
+            NSDictionary *dic =[self.model.message.ext objectForKey:@"msgtype"];
+            if (dic || [HjudgeTextMessageSubType isTransferMessage:self.model.message] || [HjudgeTextMessageSubType  isEvaluateMessage:self.model.message]) {
+                if (![dic.allKeys containsObject:@"videoPlayback"] && ![dic.allKeys containsObject:@"liveStreamInvitation"]) {
+                    [self removeConstraint:self.bubbleWithExtConstraint];
+                    CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
                     self.bubbleWithExtConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + margin];
-                [self addConstraint:self.bubbleWithExtConstraint];
+                    [self addConstraint:self.bubbleWithExtConstraint];
+                }
             }
         }
             break;

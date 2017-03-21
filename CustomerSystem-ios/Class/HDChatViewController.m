@@ -46,6 +46,34 @@
     }
 }
 
+//请求视频通话
+- (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"邀请客服进行实时视频"];
+    HMessage *callMessage = [[HMessage alloc] initWithConversationID:[HChatClient sharedClient].chat.currentConversationId from:[HChatClient sharedClient].currentUsername to:[HChatClient sharedClient].chat.currentConversationId body:body];
+    [callMessage addAttributeDictionary:[self callExt]];
+    [callMessage addContent:[self visitorInfo]];
+    [self _sendMessage:callMessage];
+
+}
+
+- (NSDictionary *)callExt {
+    NSArray *appkeys = [[SCLoginManager shareLoginManager].appkey componentsSeparatedByString:@"#"];
+    NSDictionary *dic = @{
+                          @"type":@"rtcmedia/video",
+                          @"msgtype":@{
+                                  @"liveStreamInvitation":@{
+                                          @"msg": @"邀请客服进行实时视频",
+                                          @"orgName": appkeys[0],
+                                          @"appName": appkeys[1],
+                                          @"userName": [HChatClient sharedClient].currentUsername,
+                                          @"resource": @"mobile_mobile"
+                                          }
+                                  
+                                  },
+                          };
+    return dic;
+}
+
 - (HVisitorInfo *)visitorInfo {
     HVisitorInfo *visitor = [[HVisitorInfo alloc] init];
     visitor.name = @"小明儿";
@@ -131,6 +159,10 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - setup subviews

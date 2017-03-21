@@ -172,7 +172,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             case EMMessageBodyTypeText:
             {
                 NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
-                if (dic) {
+                if (dic ) {
                     if ([HjudgeTextMessageSubType isTrackMessage:model.message]) {
                         [_bubbleView setupTrackBubbleView];
                     }
@@ -181,6 +181,13 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     }
                     if ([HjudgeTextMessageSubType isMenuMessage:model.message]) {
                          [_bubbleView setupRobotMenuBubbleView];
+                    }
+                    
+                    if ([dic.allKeys containsObject:@"videoPlayback"] || [dic.allKeys containsObject:@"liveStreamInvitation"]) {
+                        [_bubbleView setupTextBubbleView];
+                        _bubbleView.textLabel.font = _messageTextFont;
+                        _bubbleView.textLabel.textColor = _messageTextColor;
+
                     }
                 } else if([HjudgeTextMessageSubType isTransferMessage:model.message]){
                     [_bubbleView setupTransformBubbleView];
@@ -344,7 +351,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             case EMMessageBodyTypeText:
             {
                 _detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
-                if ([model.message.ext objectForKey:@"msgtype"] || [HjudgeTextMessageSubType isTransferMessage:model.message] || [HjudgeTextMessageSubType isEvaluateMessage:model.message]) {
+                NSDictionary *msgtypeDic = [model.message.ext objectForKey:@"msgtype"];
+                if (msgtypeDic|| [HjudgeTextMessageSubType isTransferMessage:model.message] || [HjudgeTextMessageSubType isEvaluateMessage:model.message]) {
                     NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
                      NSDictionary *itemDic = [dic objectForKey:@"order"] ? [dic objectForKey:@"order"] : [dic objectForKey:@"track"];
                     if ([dic objectForKey:@"track"]) { //轨迹消息
@@ -395,12 +403,18 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             _bubbleView.evaluateTitle.attributedText = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
                         }
                     }
+                    if ([msgtypeDic.allKeys containsObject:@"videoPlayback"] || [msgtypeDic.allKeys containsObject:@"liveStreamInvitation"]) {
+                        NSString *content = model.text;
+                        _urlMatches = [_detector matchesInString:content options:0 range:NSMakeRange(0, content.length)];
+                        _bubbleView.textLabel.attributedText = [self highlightLinksWithIndex:0 attributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:self.messageTextFont]];
+                    }
                 } else {
                     NSString *content = model.text;
                     _urlMatches = [_detector matchesInString:content options:0 range:NSMakeRange(0, content.length)];
                     _bubbleView.textLabel.attributedText = [self highlightLinksWithIndex:0 attributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:self.messageTextFont]];
                     
                 }
+               
                 
             }
                 break;
@@ -568,6 +582,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         if ([dic objectForKey:@"choice"]) {
                              [_bubbleView updateRobotMenuMargin:_bubbleMargin];
                             [_bubbleView reloadData];
+                        }
+                        if ([dic objectForKey:@"videoPlayback"] || [dic objectForKey:@"liveStreamInvitation"]) {
+                             [_bubbleView updateTextMargin:_bubbleMargin];
                         }
                     } else if ([HjudgeTextMessageSubType isTransferMessage:_model.message]) {
                          [_bubbleView updateTransformMargin:_bubbleMargin];
@@ -841,6 +858,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     if ([dic objectForKey:@"order"]) {
                         cellIdentifier = HDMessageCellIdentifierSendOrder;
                     }
+                    if ([dic objectForKey:@"videoPlayback"] || [dic objectForKey:@"liveStreamInvitation"]) {
+                        cellIdentifier = HDMessageCellIdentifierSendText;
+                    }
                 } else {
                     cellIdentifier = HDMessageCellIdentifierSendText;
                 }
@@ -877,6 +897,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     }
                     if ([dic objectForKey:@"choice"]) {
                         cellIdentifier = HDMessageCellIdentifierRecvMenu;
+                    }
+                    if ([dic objectForKey:@"videoPlayback"] || [dic objectForKey:@"liveStreamInvitation"]) {
+                        cellIdentifier = HDMessageCellIdentifierRecvText;
                     }
                     
                 } else if ([HjudgeTextMessageSubType isTransferMessage:model.message]) {
@@ -945,7 +968,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
                 CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
                 height += (rect.size.height > 20 ? rect.size.height : 20) + 10;
-                if ([model.message.ext objectForKey:@"msgtype"]) {
+                NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
+                if (dic && ![dic objectForKey:@"videoPlayback"] && ![dic objectForKey:@"liveStreamInvitation"]) {
                     NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
                     if ([dic objectForKey:@"track"]) {
                         return 2*HDMessageCellPadding + kImageHeight + kTitleHeight + 20;
