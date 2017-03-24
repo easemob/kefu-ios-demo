@@ -11,7 +11,7 @@
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #ifdef __OBJC__
 #import "LocalDefine.h"
-#import "helpdesk_sdk.h"
+#import "helpdeskfull_sdk.h"
 #import "SCLoginManager.h"
 #import "SRRefreshView.h"
 #import "UIImageView+EMWebCache.h"

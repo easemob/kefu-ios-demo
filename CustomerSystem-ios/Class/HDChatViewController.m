@@ -53,7 +53,6 @@
     [callMessage addAttributeDictionary:[self callExt]];
     [callMessage addContent:[self visitorInfo]];
     [self _sendMessage:callMessage];
-
 }
 
 - (NSDictionary *)callExt {
@@ -66,7 +65,7 @@
                                           @"orgName": appkeys[0],
                                           @"appName": appkeys[1],
                                           @"userName": [HChatClient sharedClient].currentUsername,
-                                          @"resource": @"mobile_mobile"
+                                          @"resource": @"mobile"
                                           }
                                   
                                   },

@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HCallOptions.h"
 #import "HCallManagerDelegate.h"
 #import "HCallEnum.h"
+
 @interface HCall : NSObject
+
++ (instancetype)shareInstance;
 
 #pragma mark - Delegate
 /*!
@@ -41,33 +43,7 @@
  */
 - (void)removeDelegate:(id<HCallManagerDelegate>)aDelegate;
 
-#pragma mark - Options
 
-/*!
- *  \~chinese
- *  设置设置项
- *
- *  @param aOptions  设置项
- *
- *  \~english
- *  Set setting options
- *
- *  @param aOptions  Setting options
- */
-- (void)setCallOptions:(HCallOptions *)aOptions;
-
-/*!
- *  \~chinese
- *  获取设置项
- *
- *  @result 设置项
- *
- *  \~english
- *  Get setting options
- *
- *  @result Setting options
- */
-- (HCallOptions *)getCallOptions;
 
 #pragma mark - Make and Answer and End
 

@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import "EMCallRemoteView.h"
-
 @interface HCallRemoteView : EMCallRemoteView
 
 @end

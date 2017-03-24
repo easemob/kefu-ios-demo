@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "HCallLocalView.h"
 #import "HCallRemoteView.h"
-#import "HCallEnum.h"
+
 /*!
  *  \~chinese
  *  1v1会话

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "HCallEnum.h"
 #import "HCallSession.h"
 
 /*!

@@ -15,7 +15,6 @@
 + (BOOL)isMenuMessage:(HMessage *)message;      //菜单消息
 + (BOOL)isTransferMessage:(HMessage *)message;  //转接客服消息
 + (BOOL)isEvaluateMessage:(HMessage *)message;   //满意度评价消息
-+ (BOOL)isVideoPlayback:(HMessage *)message;    //视频结束通知消息
-+ (BOOL)isLiveStreamInvitation:(HMessage *)message; //访客请求进行视频聊天
+
 
 @end

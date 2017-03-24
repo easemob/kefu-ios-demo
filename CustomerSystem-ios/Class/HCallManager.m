@@ -45,14 +45,6 @@ static HCallManager *_manager = nil;
     _currentCallVC = nil;
     
     [[HChatClient sharedClient].call addDelegate:self delegateQueue:nil];
-    HCallOptions *options = nil;
-    options = [[HChatClient sharedClient].call getCallOptions];
-    options.isSendPushIfOffline = NO;
-    options.videoResolution = HCallVideoResolution640_480;
-    options.isFixedVideoResolution = YES;
-    [[HChatClient sharedClient].call setCallOptions:options];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(makeCall:) name:KNOTIFICATION_CALL object:nil];
 }
 
 
@@ -79,7 +71,6 @@ static HCallManager *_manager = nil;
     }
     
     @synchronized (self) {
-//        [self startCallTimer];
         self.currentSession = aSession;
         self.currentCallVC = [[HCallViewController alloc] initWithCallSession:self.currentSession];
         self.currentCallVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
@@ -99,15 +90,12 @@ static HCallManager *_manager = nil;
     if ([aSession.callId isEqualToString:self.currentSession.callId]) {
         [self.currentCallVC stateToConnected];
     }
-//    [self stopCallTimer];
 }
 
 //视频通话已经结束
 - (void)callDidEnd:(HCallSession *)aSession reason:(HCallEndReason)aReason error:(HError *)aError {
     NSLog(@"视频通话已经结束");
     if ([aSession.callId isEqualToString:self.currentSession.callId]) {
-        
-//        [self stopCallTimer];
         
         @synchronized (self) {
             self.currentSession = nil;
@@ -177,20 +165,6 @@ static HCallManager *_manager = nil;
     }
 }
 
-- (void)startCallTimer
-{
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:50 target:self selector:@selector(timeoutBeforeCallAnswered) userInfo:nil repeats:NO];
-}
-
-- (void)stopCallTimer
-{
-    if (self.timer == nil) {
-        return;
-    }
-    [self.timer invalidate];
-    self.timer = nil;
-}
-
 - (void)clearCurrentCallViewAndData
 {
     @synchronized (self) {
@@ -229,17 +203,10 @@ static HCallManager *_manager = nil;
     });
 }
 
-- (void)timeoutBeforeCallAnswered {
-    [self hangupCallWithReason:HCallEndReasonNoResponse];
-    
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"没有应答,已挂断" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [alertView show];
-}
 
 
 - (void)hangupCallWithReason:(HCallEndReason)aReason
 {
-//    [self stopCallTimer];
     
     if (self.currentSession) {
         [[HChatClient sharedClient].call endCall:self.currentSession.callId reason:aReason];

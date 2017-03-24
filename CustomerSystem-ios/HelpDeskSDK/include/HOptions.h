@@ -30,6 +30,7 @@
  */
 @property (nonatomic, assign) BOOL enableConsoleLog;
 
+
 /*!
  *  \~chinese
  *  租户ID
