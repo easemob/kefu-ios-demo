@@ -24,6 +24,19 @@
  */
 @property (nonatomic, strong, readonly) NSString *currentUsername;
 
+/**
+ 当前SDK 版本
+ */
+
+@property(nonatomic,copy) NSString *currentVersion;
+
+
+/**
+ 当前IM版本号
+ */
+
+@property(nonatomic,copy) NSString *imCurrentVersion;
+
 /*!
  *  \~chinese
  *  聊天模块

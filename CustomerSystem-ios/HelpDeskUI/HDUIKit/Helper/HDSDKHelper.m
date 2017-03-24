@@ -176,6 +176,7 @@ static HDSDKHelper *helper = nil;
     return message;
 }
 
+//构造地理位置消息
 + (HMessage *)locationHMessageWithLatitude:(double)latitude
                                      longitude:(double)longitude
                                        address:(NSString *)address

@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "HChatDelegate.h"
-#import "HChatDelegate.h"
 #import "HConversation.h"
 #import "HError.h"
 
@@ -22,7 +21,7 @@
 
 #pragma mark - 第二通道
 /**
- 开启第二通道
+ 开启第二通道,参数为会话ID
  */
 - (void)startPollingCname:(NSString *)cname;
 

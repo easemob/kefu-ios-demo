@@ -116,7 +116,6 @@
     //Register the delegate
     [HDCDDeviceManager sharedInstance].delegate = self;
     
-    [[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didBecomeActive)
@@ -184,6 +183,7 @@
 {
     [super viewWillAppear:animated];
     
+     [[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
 
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:NO];
     

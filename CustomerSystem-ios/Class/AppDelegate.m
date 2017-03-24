@@ -12,6 +12,7 @@
 #import "LocalDefine.h"
 #import "HomeViewController.h"
 #import "AppDelegate+HelpDesk.h"
+#import "HCallManager.h"
 
 @interface AppDelegate ()
 @end
@@ -26,7 +27,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     self.homeController = [[HomeViewController alloc] init];
-   // [self.homeController networkChanged:eEMConnectionDisconnected];
+    [[HCallManager sharedInstance] setMainViewController:self.homeController];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.homeController];
     [self configureNavigationController:navigationController];
     self.window.rootViewController = navigationController;
@@ -38,6 +39,15 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     //
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    if (_allowRotation == YES)
+    {
+        return UIInterfaceOrientationMaskAll;
+    } else {
+        return UIInterfaceOrientationMaskPortrait;
+    }
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification

@@ -23,6 +23,16 @@
 
 /*!
  *  \~chinese
+ *  控制台是否输出log, 默认为NO
+ *
+ *  \~english
+ *  Whether print log to console, default is NO
+ */
+@property (nonatomic, assign) BOOL enableConsoleLog;
+
+
+/*!
+ *  \~chinese
  *  租户ID
  *
  *  \~english

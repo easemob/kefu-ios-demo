@@ -17,5 +17,7 @@
 
 @property (strong, nonatomic) HomeViewController *homeController;
 
+@property(nonatomic,assign) BOOL allowRotation;
+
 @end
 
