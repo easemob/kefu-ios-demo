@@ -204,7 +204,7 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     }
     self.callSession.remoteVideoView.hidden = YES;
     self.callSession.remoteVideoView.backgroundColor = [UIColor clearColor];
-    self.callSession.remoteVideoView.scaleMode = HCallViewScaleModeAspectFill;
+    self.callSession.remoteVideoView.scaleMode = HCallViewScaleModeAspectFit;
     [self.view addSubview:self.callSession.remoteVideoView];
     [self.view sendSubviewToBack:self.callSession.remoteVideoView];
     
