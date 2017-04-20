@@ -37,18 +37,28 @@
     CGFloat margin = 10;
     CGFloat width = (_scrollView.frame.size.width - 3 * margin) / 2;
     CGFloat height = (_scrollView.frame.size.height - 3 * margin) / 2;
+    NSArray *imgUrls = @[
+                         @"http://o8ugkv090.bkt.clouddn.com/em_one.png",
+                         @"http://o8ugkv090.bkt.clouddn.com/em_two.png",
+                         @"http://o8ugkv090.bkt.clouddn.com/em_three.png",
+                         @"http://o8ugkv090.bkt.clouddn.com/em_four.png"
+                         ];
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(margin + i * (margin + width), margin + j * (margin + height), width, height)];
             button.tag = i * 2 + j;
-            NSString *imageName = [NSString stringWithFormat:@"mallImage%li", (long)button.tag];
-            [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+//            NSString *imageName = [NSString stringWithFormat:@"mallImage%li", (long)button.tag];
+            [button sd_setBackgroundImageWithURL:[NSURL URLWithString:imgUrls[button.tag]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"imageDownloadFail.png"]];
             [button addTarget:self action:@selector(mallImageAction:) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:button];
         }
     }
     
-    _infoArray = [NSArray arrayWithObjects:@{@"type":@"track", @"title":@"测试track1", @"imageName":@"mallImage0.png", @"desc":@"2015早春新款高腰复古牛仔裤", @"price":@"￥128", @"img_url":@"http://www.lagou.com/upload/indexPromotionImage/ff8080814cffb587014d09b2d7810206.png", @"item_url":@"http://www.easemob.com"}, @{@"type":@"order", @"title":@"测试order1", @"order_title":@"订单号：123456", @"imageName":@"mallImage1.png", @"desc":@"露肩名媛范套装", @"price":@"￥518", @"img_url":@"http://www.lagou.com/upload/indexPromotionImage/ff8080814cffb587014d09af023a0204.jpg", @"item_url":@"http://www.lagou.com/"}, @{@"type":@"track", @"title":@"测试track2", @"imageName":@"mallImage2.png", @"desc":@"假两件衬衣+V领毛衣上衣", @"price":@"￥235", @"img_url":@"https://www.baidu.com/img/bdlogo.png", @"item_url":@"http://www.baidu.com"}, @{@"type":@"order", @"title":@"测试order2", @"order_title":@"订单号：7890", @"imageName":@"mallImage3.png", @"desc":@"插肩棒球衫外套", @"price":@"￥162", @"img_url":@"https://www.baidu.com/img/bdlogo.png", @"item_url":@"http://www.baidu.com"}, nil];
+    _infoArray = [NSArray arrayWithObjects:@{
+    @"type":@"track", @"title":@"测试track1", @"desc":@"2015早春新款高腰复古牛仔裤", @"price":@"￥128", @"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_one.png", @"item_url":@"http://www.easemob.com"},
+  @{@"type":@"order", @"title":@"测试order1", @"order_title":@"订单号：123456", @"desc":@"露肩名媛范套装", @"price":@"￥518", @"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_two.png", @"item_url":@"http://www.lagou.com/"},
+  @{@"type":@"track", @"title":@"测试track2", @"desc":@"假两件衬衣+V领毛衣上衣", @"price":@"￥235", @"item_url":@"http://www.baidu.com",@"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_three.png"},
+  @{@"type":@"order", @"title":@"测试order2", @"order_title":@"订单号：7890", @"desc":@"插肩棒球衫外套", @"price":@"￥162", @"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_four.png", @"item_url":@"http://www.baidu.com"}, nil];
 }
 
 - (void)didReceiveMemoryWarning {

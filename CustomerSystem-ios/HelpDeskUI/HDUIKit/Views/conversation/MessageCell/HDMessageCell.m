@@ -363,18 +363,17 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         else{
                             _bubbleView.cusImageView.image = [UIImage imageNamed:@"imageDownloadFail.png"];
                         }
+                        NSString *url = [itemDic objectForKey:@"img_url"];
+                        [_bubbleView.cusImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"imageDownloadFail.png"]];
                         _bubbleView.trackTitleLabel.text = [itemDic objectForKey:@"title"];
                         _bubbleView.cusDescLabel.text = [itemDic objectForKey:@"desc"];
                         _bubbleView.cusPriceLabel.text = [itemDic objectForKey:@"price"];
                     }
                     if ([dic objectForKey:@"order"]) { //订单消息
-                        NSString *imageName = [model.message.ext objectForKey:@"imageName"];
-                        if ([imageName length] > 0) {
-                            _bubbleView.orderImageView.image = [UIImage imageNamed:imageName];
-                        }
-                        else{
-                            _bubbleView.orderImageView.image = [UIImage imageNamed:@"imageDownloadFail.png"];
-                        }
+                        NSString *url = [itemDic objectForKey:@"img_url"];
+                        
+                        [_bubbleView.orderImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"imageDownloadFail.png"]];
+                        
                         _bubbleView.orderTitleLabel.text = [itemDic objectForKey:@"title"];
                         _bubbleView.orderNoLabel.text = [itemDic objectForKey:@"order_title"];
                         _bubbleView.orderDescLabel.text = [itemDic objectForKey:@"desc"];
