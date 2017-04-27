@@ -98,10 +98,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)chatAction:(NSNotification *)notification
 {
+    BOOL shouqian = [[notification.object objectForKey:kpreSell] boolValue];
     //登录IM
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-        if ([lgM loginKefuSDK]) {
+        if ([lgM loginKefuSDK]/*[self loginKefuSDK:shouqian] 测试切换账号使用*/) {
             NSString *queue = nil;
             if ([notification.object objectForKey:kpreSell]) {
                 queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
@@ -118,7 +119,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             chat.visitorInfo = [self visitorInfo];
             chat.commodityInfo = (NSDictionary *)notification.object;
             if ([notification.object objectForKey:kpreSell]) {
-                chat.title =[[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
+                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
             } else {
                 chat.title = [SCLoginManager shareLoginManager].cname;
             }
@@ -132,6 +133,30 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     });
     
 }
+
+//登录IM【测试切换账号专用】
+- (BOOL)loginKefuSDK:(BOOL)isShouqian {
+    HChatClient *client = [HChatClient sharedClient];
+    if (client.isLoggedInBefore) {
+        [client logout:NO];
+    }
+    NSString *username = @"";
+    if (isShouqian) {
+        username = @"shouqian";
+    } else {
+        username = @"shouhou";
+    }
+    HError *error = [[HChatClient sharedClient] loginWithUsername:username password:hxPassWord];
+    if (!error) { //IM登录成功
+        return YES;
+    } else { //登录失败
+        NSLog(@"登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
+        return NO;
+    }
+    return NO;
+}
+
+
 - (HVisitorInfo *)visitorInfo {
     HVisitorInfo *visitor = [[HVisitorInfo alloc] init];
     visitor.name = @"小明儿";

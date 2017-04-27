@@ -43,7 +43,7 @@
     HOptions *option = [[HOptions alloc] init];
     option.appkey = lgM.appkey; 
     option.tenantId = lgM.tenantId;
-    option.enableConsoleLog = YES;
+//    option.enableConsoleLog = YES;
     option.apnsCertName = apnsCertName;
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
