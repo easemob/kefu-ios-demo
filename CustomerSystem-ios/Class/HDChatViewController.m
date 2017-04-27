@@ -37,7 +37,7 @@
     self.delegate = self;
     self.dataSource = self;
     self.visitorInfo = [self visitorInfo];
-//    [[HChatClient sharedClient].chat startPollingCname:self.conversation.conversationId];
+    [[HChatClient sharedClient].chat startPollingCname:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
     if ([_commodityInfo count] > 1) {
