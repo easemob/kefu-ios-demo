@@ -1252,7 +1252,8 @@
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
     for (HMessage *message in aCmdMessages) {
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
-            [self showHint:NSEaseLocalizedString(@"receiveCmd", @"receive cmd message")];
+            NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
+            NSLog(@"receive cmd message: %@", msg);
             break;
         }
     }
