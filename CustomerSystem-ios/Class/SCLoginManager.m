@@ -151,8 +151,19 @@ static SCLoginManager *_manager = nil;
     NSString *newUser = [self getrandomUsername];
     self.username = newUser;
     error = [[HChatClient sharedClient] registerWithUsername:newUser password:hxPassWord];
-    if (error &&  error.code != HErrorUserAlreadyExist) {
-        NSLog(@"注册失败;error code：%d,error description :%@",error.code,error.errorDescription);
+    if (error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error.code == HErrorUserAlreadyExist) {
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"注册账号已存在，请重试！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+                [alertView show];
+            }else if(error.code == 208){
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"无权限，请改为开放注册模式！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+                [alertView show];
+            }else{
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"网络异常，请重试！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+                [alertView show];
+            }
+        });
         return NO;
     }
     return YES;
