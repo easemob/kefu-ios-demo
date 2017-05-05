@@ -44,8 +44,9 @@
     [_preSaleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_preSaleButton setTitle:NSLocalizedString(@"choice.preSale", @"pre Sale") forState:UIControlStateNormal];
     [_preSaleButton addTarget:self action:@selector(preSellAction) forControlEvents:UIControlEventTouchUpInside];
-    [_preSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateNormal];
-    [_preSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department_select"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateHighlighted];
+    [_preSaleButton setBackgroundColor:RGBACOLOR(253, 103, 62, 2)];
+//    [_preSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateNormal];
+//    [_preSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department_select"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateHighlighted];
     _preSaleButton.frame = CGRectMake(10, 5, 120, 40);
     [_buttonView addSubview:_preSaleButton];
     
@@ -53,8 +54,9 @@
     [_afterSaleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_afterSaleButton setTitle:NSLocalizedString(@"choice.afterSale", @"after Sales") forState:UIControlStateNormal];
     [_afterSaleButton addTarget:self action:@selector(afterSaleAction) forControlEvents:UIControlEventTouchUpInside];
-    [_afterSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateNormal];
-    [_afterSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department_select"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateHighlighted];
+    [_afterSaleButton setBackgroundColor:RGBACOLOR(253, 103, 62, 2)];
+    //    [_afterSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateNormal];
+//    [_afterSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department_select"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateHighlighted];
     _afterSaleButton.frame = CGRectMake(10, CGRectGetMaxY(_preSaleButton.frame) + 10, 120, 40);
     [_buttonView addSubview:_afterSaleButton];
     

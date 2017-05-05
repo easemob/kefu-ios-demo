@@ -59,15 +59,17 @@
 {
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0)
     {
-        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(242, 83, 131, 1)];
+//        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(242, 83, 131, 1)];
+        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(253, 103, 62, 1)];
         [[UINavigationBar appearance] setTitleTextAttributes:
-        [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:21.0], NSFontAttributeName, nil]];
+        [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:20.0], NSFontAttributeName, nil]];
     }
     //设置7.0以下的导航栏
     if ([UIDevice currentDevice].systemVersion.floatValue < 7.0)
     {
         navigationController.navigationBar.barStyle = UIBarStyleDefault;
-        [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"titleBar"] forBarMetrics: UIBarMetricsDefault];
+                [navigationController.navigationBar setBackgroundColor:[UIColor colorWithRed:253 green:103 blue:62 alpha:1]];
+//        [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"titleBar"] forBarMetrics: UIBarMetricsDefault];
         [navigationController.navigationBar.layer setMasksToBounds:YES];
     }
     

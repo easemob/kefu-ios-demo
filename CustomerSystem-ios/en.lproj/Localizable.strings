@@ -70,7 +70,7 @@
 
 //title
 "title.customer" = "Customer";
-"title.mall" = "Mall";
+"title.mall" = "PingAnMall";
 "title.setting" = "Setting";
 "title.commodity" = "Commodity Info";
 "title.nickname" = "Nickname";

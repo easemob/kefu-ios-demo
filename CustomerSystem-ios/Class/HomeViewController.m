@@ -66,6 +66,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [chatButton setTitle:NSLocalizedString(@"customerChat", @"Customer") forState:UIControlStateNormal];
     [chatButton addTarget:self action:@selector(chatItemAction) forControlEvents:UIControlEventTouchUpInside];
     [chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [chatButton setFont:[UIFont systemFontOfSize:18]];
     _chatItem = [[UIBarButtonItem alloc] initWithCustomView:chatButton];
     self.navigationItem.rightBarButtonItem = _chatItem;
     
@@ -119,7 +120,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             chat.visitorInfo = [self visitorInfo];
             chat.commodityInfo = (NSDictionary *)notification.object;
             if ([notification.object objectForKey:kpreSell]) {
-                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
+                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"购买咨询":@"售后咨询";
             } else {
                 chat.title = [SCLoginManager shareLoginManager].cname;
             }
@@ -214,7 +215,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7)
     {
-        self.tabBar.tintColor = RGBACOLOR(242, 83, 131, 1);
+        self.tabBar.tintColor = RGBACOLOR(20, 122, 252, 1);
     }
     else{
         self.tabBar.tintColor = [UIColor colorWithWhite:1.0 alpha:0.8];
@@ -222,25 +223,25 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     _mallController = [[MallViewController alloc] initWithNibName:nil bundle:nil];
     _mallController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.mall", @"Mall") image:nil tag:0];
-    [_mallController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_mallHL"] withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_mall"]];
+    [_mallController.tabBarItem setFinishedSelectedImage:[[UIImage imageNamed:@"tabbar_mallHL"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] withFinishedUnselectedImage:[[UIImage imageNamed:@"tabbar_mall"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [self unSelectedTapTabBarItems:_mallController.tabBarItem];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
     _leaveMsgVC = [[MessageViewController alloc] initWithNibName:nil bundle:nil];
     _leaveMsgVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.messagebox", @"Message Box") image:nil tag:1];
-    [_leaveMsgVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_message_hl"] withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_message"]];
+    [_leaveMsgVC.tabBarItem setFinishedSelectedImage:[[UIImage imageNamed:@"tabbar_message_hl"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] withFinishedUnselectedImage:[[UIImage imageNamed:@"tabbar_message"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [self unSelectedTapTabBarItems:_leaveMsgVC.tabBarItem];
     [self selectedTapTabBarItems:_leaveMsgVC.tabBarItem];
     
     _settingController = [[SettingViewController alloc] initWithNibName:nil bundle:nil];
     _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:2];
-    [_settingController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_settingHL"]
-                         withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_setting"]];
+    [_settingController.tabBarItem setFinishedSelectedImage:[[UIImage imageNamed:@"tabbar_settingHL"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]  withFinishedUnselectedImage:[[UIImage imageNamed:@"tabbar_setting"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     _settingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self unSelectedTapTabBarItems:_settingController.tabBarItem];
     [self selectedTapTabBarItems:_settingController.tabBarItem];
     
     self.viewControllers = @[_mallController, _leaveMsgVC ,_settingController];
+    
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
     _choiceView = [[MoreChoiceView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
@@ -251,15 +252,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 -(void)unSelectedTapTabBarItems:(UITabBarItem *)tabBarItem
 {
     [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIFont systemFontOfSize:14], UITextAttributeFont,[UIColor grayColor],UITextAttributeTextColor,
+                                        [UIFont systemFontOfSize:13], UITextAttributeFont,[UIColor grayColor],UITextAttributeTextColor,
                                         nil] forState:UIControlStateNormal];
 }
 
 -(void)selectedTapTabBarItems:(UITabBarItem *)tabBarItem
 {
     [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIFont systemFontOfSize:14],
-                                        UITextAttributeFont,RGBACOLOR(242, 83, 131, 1),UITextAttributeTextColor,
+                                        [UIFont systemFontOfSize:13],
+                                        UITextAttributeFont,RGBACOLOR(20, 122, 252, 1),UITextAttributeTextColor,
                                         nil] forState:UIControlStateSelected];
 }
 
