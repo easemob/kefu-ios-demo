@@ -54,11 +54,12 @@
         }
     }
     
-    _infoArray = [NSArray arrayWithObjects:@{
-    @"type":@"track", @"title":@"测试track1", @"desc":@"2015早春新款高腰复古牛仔裤", @"price":@"￥128", @"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_one.png", @"item_url":@"http://www.easemob.com"},
-  @{@"type":@"order", @"title":@"测试order1", @"order_title":@"订单号：123456", @"desc":@"露肩名媛范套装", @"price":@"￥518", @"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_two.png", @"item_url":@"http://www.lagou.com/"},
-  @{@"type":@"track", @"title":@"测试track2", @"desc":@"假两件衬衣+V领毛衣上衣", @"price":@"￥235", @"item_url":@"http://www.baidu.com",@"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_three.png"},
-  @{@"type":@"order", @"title":@"测试order2", @"order_title":@"订单号：7890", @"desc":@"插肩棒球衫外套", @"price":@"￥162", @"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_four.png", @"item_url":@"http://www.baidu.com"}, nil];
+    _infoArray = [NSArray arrayWithObjects:
+  @{
+    @"type":@"track", @"title":@"测试track1", @"desc":@"2015早春新款高腰复古牛仔裤,2015早春新款高腰复古牛仔裤,2015早春新款高腰复古牛仔裤,2015早春新款高腰复古牛仔裤", @"price":@"￥128", @"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_one.png", @"item_url":@"http://www.easemob.com"},
+  @{@"type":@"order", @"title":@"测试order1", @"order_title":@"订单号：123456", @"desc":@"露肩名媛范套装,露肩名媛范套装,露肩名媛范套装,露肩名媛范套装", @"price":@"￥518", @"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_two.png", @"item_url":@"http://www.lagou.com/"},
+  @{@"type":@"track", @"title":@"测试track2", @"desc":@"假两件衬衣+V领毛衣上衣,假两件衬衣+V领毛衣上衣,假两件衬衣+V领毛衣上衣,", @"price":@"￥235", @"item_url":@"http://www.baidu.com",@"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_three.png"},
+  @{@"type":@"order", @"title":@"测试order2", @"order_title":@"订单号：7890", @"desc":@"插肩棒球衫外套,插肩棒球衫外套,插肩棒球衫外套,插肩棒球衫外套", @"price":@"￥162", @"img_url":@"http://o8ugkv090.bkt.clouddn.com/em_four.png", @"item_url":@"http://www.baidu.com"}, nil];
 }
 
 - (void)didReceiveMemoryWarning {
