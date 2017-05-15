@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HCallEnum.h"
 #import "EMCallLocalView.h"
 @interface HCallLocalView : EMCallLocalView
 

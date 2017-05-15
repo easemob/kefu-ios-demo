@@ -45,6 +45,10 @@
     option.tenantId = lgM.tenantId;
 //    option.enableConsoleLog = YES;
     option.apnsCertName = apnsCertName;
+    option.enableDnsConfig = NO;
+    option.restServer = @"a1-pa.easemob.com";
+    option.chatPort = 6717;
+    option.chatServer = @"im1-pa.easemob.com";
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {

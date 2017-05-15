@@ -203,7 +203,31 @@ static HCallManager *_manager = nil;
     });
 }
 
+- (void)answerCall:(NSString *)aCallId enableVideo:(BOOL)aEnableVideo{
+    if (!self.currentSession || ![self.currentSession.callId isEqualToString:aCallId]) {
+        return ;
+    }
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        HError *error = [[HChatClient sharedClient].call answerIncomingCall:weakSelf.currentSession.callId enableVoice:YES enableVideo:aEnableVideo];
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (error.code == HErrorNetworkUnavailable) {
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"当前网络不可用" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alertView show];
+                }
+                else{
+                    [weakSelf hangupCallWithReason:HCallEndReasonFailed];
+                }
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.currentCallVC didConnected];
+            });
+        }
+    });
 
+}
 
 - (void)hangupCallWithReason:(HCallEndReason)aReason
 {

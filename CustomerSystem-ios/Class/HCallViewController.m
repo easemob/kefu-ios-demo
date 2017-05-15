@@ -38,6 +38,8 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
 
 @property (nonatomic) int timeLength;
 @property (strong, nonatomic) NSTimer *timeTimer;
+@property (weak, nonatomic) IBOutlet UILabel *closeSelfVideoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *closeSelfVideoBtn;
 
 @end
 
@@ -61,6 +63,35 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     }
     
     return self;
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    if(self.callSession.remoteVideoView && self.closeSelfVideoBtn.hidden){
+        
+        if(self.nickNameLabel.hidden){
+            self.nickNameLabel.hidden = NO;
+            self.remindLabel.hidden = NO;
+            self.timeLabel.hidden = NO;
+            self.switchButton.hidden = NO;
+            self.micButton.hidden = NO;
+            self.voiceButton.hidden = NO;
+            self.videoButton.hidden = NO;
+            self.hangupButton.hidden = NO;
+            [self.callSession.remoteVideoView setScaleMode:EMCallViewScaleModeAspectFit];
+        }else{
+            self.nickNameLabel.hidden = YES;
+            self.remindLabel.hidden = YES;
+            self.timeLabel.hidden = YES;
+            self.switchButton.hidden = YES;
+            self.micButton.hidden = YES;
+            self.voiceButton.hidden = YES;
+            self.videoButton.hidden = YES;
+            self.hangupButton.hidden = YES;
+            [self.callSession.remoteVideoView setScaleMode:EMCallViewScaleModeAspectFill];
+        }
+    }
+    
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -92,6 +123,12 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     if (self.isDismissing) {
         return;
     }
+    HCallOptions * callOptions = [[HChatClient sharedClient].call getCallOptions];
+    callOptions.videoResolution = HCallVideoResolution640_480;
+    callOptions.isFixedVideoResolution = YES;
+    callOptions.minVideoKbps = 200;
+    [[HChatClient sharedClient].call setCallOptions:callOptions];
+    
     [self setup];
 }
 
@@ -108,7 +145,23 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
         default:
             break;
     }
+    self.closeSelfVideoLabel.hidden = NO;
+    self.closeSelfVideoBtn.hidden = NO;
+    self.closeSelfVideoBtn.selected = YES;
+    self.videoButton.selected = YES;
+    
 }
+
+- (IBAction)CloseSelfVideoBtnClicked:(id)sender {
+    if(self.closeSelfVideoBtn.selected){
+        self.closeSelfVideoBtn.selected = NO;
+        self.videoButton.selected = NO;
+    }else{
+        self.closeSelfVideoBtn.selected = YES;
+        self.videoButton.selected = YES;
+    }
+}
+
 
 //镜头转换、麦克风开关、喇叭开关、视频开关{tag:100、101、102、103}
 - (IBAction)BottomMenuClicked:(id)sender {
@@ -140,9 +193,11 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
         }
         case BottomMenuTagSwitchVideo: { //开关视频
             if (self.videoButton.selected) {
+                self.closeSelfVideoBtn.selected = NO;
                 [self.callSession pauseVideo];
             } else {
                 [self.callSession resumeVideo];
+                self.closeSelfVideoBtn.selected = YES;
             }
             break;
         }
@@ -164,7 +219,8 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
 
 //接受客服视频请求
 - (IBAction)acceptCallRequest:(id)sender {
-    [[HCallManager sharedInstance] answerCall:self.callSession.callId];
+//    [[HCallManager sharedInstance] answerCall:self.callSession.callId];
+    [[HCallManager sharedInstance] answerCall:self.callSession.callId enableVideo:(!self.closeSelfVideoBtn.selected)];
 }
 
 //通道已经建立
@@ -173,6 +229,8 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     [self setupRemoteVideoView];
     [self setupLocalVideoView];
 }
+
+
 //视频已经连通
 - (void)didConnected {
     [self remindVisitor:@"可以说话了"];
@@ -186,6 +244,11 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     self.hangupButton.hidden = NO;
     self.rejectButton.hidden = YES;
     self.acceptButton.hidden = YES;
+    
+    self.closeSelfVideoLabel.hidden = YES;
+    self.closeSelfVideoBtn.hidden = YES;
+    
+    
 }
 
 

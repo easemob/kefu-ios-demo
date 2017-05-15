@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HCallEnum.h"
+
 #import "HCallSession.h"
 
 /*!
@@ -59,6 +59,7 @@
  *  @param aSession
  */
 - (void)callDidAccept:(HCallSession *)aSession;
+
 
 /*!
  *  \~chinese

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8FD431831EC2F05600DAB7FA /* cb_green_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FD431811EC2F05600DAB7FA /* cb_green_off@2x.png */; };
+		8FD431841EC2F05600DAB7FA /* cb_green_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FD431821EC2F05600DAB7FA /* cb_green_on@2x.png */; };
+		8FD431961EC30D3700DAB7FA /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD431951EC30D3700DAB7FA /* CoreTelephony.framework */; };
 		8FE6CC571EBB3C1000E0E772 /* libhelpdeskfull_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE6CC561EBB3C1000E0E772 /* libhelpdeskfull_sdk.a */; };
 		8FE6CC591EBB5ED600E0E772 /* commodity.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FE6CC581EBB5ED600E0E772 /* commodity.png */; };
 		C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */; };
@@ -442,6 +445,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8FD431811EC2F05600DAB7FA /* cb_green_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cb_green_off@2x.png"; sourceTree = "<group>"; };
+		8FD431821EC2F05600DAB7FA /* cb_green_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cb_green_on@2x.png"; sourceTree = "<group>"; };
+		8FD4318A1EC3092E00DAB7FA /* HCall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCall.h; sourceTree = "<group>"; };
+		8FD4318B1EC3092E00DAB7FA /* HCallEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCallEnum.h; sourceTree = "<group>"; };
+		8FD4318C1EC3092E00DAB7FA /* HCallLocalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCallLocalView.h; sourceTree = "<group>"; };
+		8FD4318D1EC3092E00DAB7FA /* HCallManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCallManagerDelegate.h; sourceTree = "<group>"; };
+		8FD4318E1EC3092E00DAB7FA /* HCallOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCallOptions.h; sourceTree = "<group>"; };
+		8FD4318F1EC3092E00DAB7FA /* HCallRemoteView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCallRemoteView.h; sourceTree = "<group>"; };
+		8FD431901EC3092E00DAB7FA /* HCallSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCallSession.h; sourceTree = "<group>"; };
+		8FD431911EC3092E00DAB7FA /* HChatClient+call.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HChatClient+call.h"; sourceTree = "<group>"; };
+		8FD431921EC3099100DAB7FA /* EMCallEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMCallEnum.h; sourceTree = "<group>"; };
+		8FD431931EC3099100DAB7FA /* EMCallLocalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMCallLocalView.h; sourceTree = "<group>"; };
+		8FD431941EC3099100DAB7FA /* EMCallRemoteView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMCallRemoteView.h; sourceTree = "<group>"; };
+		8FD431951EC30D3700DAB7FA /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		8FE6CC561EBB3C1000E0E772 /* libhelpdeskfull_sdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libhelpdeskfull_sdk.a; sourceTree = "<group>"; };
 		8FE6CC581EBB5ED600E0E772 /* commodity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = commodity.png; path = home/commodity.png; sourceTree = "<group>"; };
 		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
@@ -468,16 +485,6 @@
 		D31A000E1E84FAB700A3EA61 /* HTransferIndication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTransferIndication.h; sourceTree = "<group>"; };
 		D31A000F1E84FAB700A3EA61 /* HVisitorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HVisitorInfo.h; sourceTree = "<group>"; };
 		D31A00101E84FAB700A3EA61 /* HVisitorTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HVisitorTrack.h; sourceTree = "<group>"; };
-		D31A00121E84FAB700A3EA61 /* EMCallEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCallEnum.h; sourceTree = "<group>"; };
-		D31A00131E84FAB700A3EA61 /* EMCallLocalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCallLocalView.h; sourceTree = "<group>"; };
-		D31A00141E84FAB700A3EA61 /* EMCallRemoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCallRemoteView.h; sourceTree = "<group>"; };
-		D31A00151E84FAB700A3EA61 /* HCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCall.h; sourceTree = "<group>"; };
-		D31A00161E84FAB700A3EA61 /* HCallEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCallEnum.h; sourceTree = "<group>"; };
-		D31A00171E84FAB700A3EA61 /* HCallLocalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCallLocalView.h; sourceTree = "<group>"; };
-		D31A00181E84FAB700A3EA61 /* HCallManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCallManagerDelegate.h; sourceTree = "<group>"; };
-		D31A00191E84FAB700A3EA61 /* HCallRemoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCallRemoteView.h; sourceTree = "<group>"; };
-		D31A001A1E84FAB700A3EA61 /* HCallSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCallSession.h; sourceTree = "<group>"; };
-		D31A001B1E84FAB700A3EA61 /* HChatClient+call.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HChatClient+call.h"; sourceTree = "<group>"; };
 		D31A001D1E84FE1E00A3EA61 /* helpdesk_sdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helpdesk_sdk.h; sourceTree = "<group>"; };
 		D31A001E1E8537D200A3EA61 /* helpdeskfull_sdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helpdeskfull_sdk.h; sourceTree = "<group>"; };
 		D31AFFF01E84FAB700A3EA61 /* EMCmdMessageBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCmdMessageBody.h; sourceTree = "<group>"; };
@@ -1139,6 +1146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FD431961EC30D3700DAB7FA /* CoreTelephony.framework in Frameworks */,
 				D3E4B4471E7AA41B004FEA49 /* libiconv.tbd in Frameworks */,
 				C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */,
 				C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */,
@@ -1185,16 +1193,17 @@
 		D31A00111E84FAB700A3EA61 /* includefull */ = {
 			isa = PBXGroup;
 			children = (
-				D31A00121E84FAB700A3EA61 /* EMCallEnum.h */,
-				D31A00131E84FAB700A3EA61 /* EMCallLocalView.h */,
-				D31A00141E84FAB700A3EA61 /* EMCallRemoteView.h */,
-				D31A00151E84FAB700A3EA61 /* HCall.h */,
-				D31A00161E84FAB700A3EA61 /* HCallEnum.h */,
-				D31A00171E84FAB700A3EA61 /* HCallLocalView.h */,
-				D31A00181E84FAB700A3EA61 /* HCallManagerDelegate.h */,
-				D31A00191E84FAB700A3EA61 /* HCallRemoteView.h */,
-				D31A001A1E84FAB700A3EA61 /* HCallSession.h */,
-				D31A001B1E84FAB700A3EA61 /* HChatClient+call.h */,
+				8FD431921EC3099100DAB7FA /* EMCallEnum.h */,
+				8FD431931EC3099100DAB7FA /* EMCallLocalView.h */,
+				8FD431941EC3099100DAB7FA /* EMCallRemoteView.h */,
+				8FD4318A1EC3092E00DAB7FA /* HCall.h */,
+				8FD4318B1EC3092E00DAB7FA /* HCallEnum.h */,
+				8FD4318C1EC3092E00DAB7FA /* HCallLocalView.h */,
+				8FD4318D1EC3092E00DAB7FA /* HCallManagerDelegate.h */,
+				8FD4318E1EC3092E00DAB7FA /* HCallOptions.h */,
+				8FD4318F1EC3092E00DAB7FA /* HCallRemoteView.h */,
+				8FD431901EC3092E00DAB7FA /* HCallSession.h */,
+				8FD431911EC3092E00DAB7FA /* HChatClient+call.h */,
 			);
 			path = includefull;
 			sourceTree = "<group>";
@@ -1320,6 +1329,8 @@
 		D333960F1E7BD0D9007B7A28 /* callIcons */ = {
 			isa = PBXGroup;
 			children = (
+				8FD431811EC2F05600DAB7FA /* cb_green_off@2x.png */,
+				8FD431821EC2F05600DAB7FA /* cb_green_on@2x.png */,
 				D33396101E7BD0D9007B7A28 /* camera.png */,
 				D33396111E7BD0D9007B7A28 /* camera@1.5x.png */,
 				D33396121E7BD0D9007B7A28 /* camera@2x.png */,
@@ -1553,6 +1564,7 @@
 		D35726071DE315640033D4E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8FD431951EC30D3700DAB7FA /* CoreTelephony.framework */,
 				D3E4B4371E7A930E004FEA49 /* AVFoundation.framework */,
 				D33946EB1E54371C009370BF /* libiconv.tbd */,
 				D363DD3B1DF6E9A900AC54D1 /* QuickLook.framework */,
@@ -2699,6 +2711,7 @@
 				EB4B06FA1AC685E900DCF67B /* tabbar_mall@2x.png in Resources */,
 				EB4B06CD1AC685E900DCF67B /* chat_location_detail_disclosureHL.png in Resources */,
 				EB4B06CC1AC685E900DCF67B /* chat_location_detail_disclosure@2x.png in Resources */,
+				8FD431831EC2F05600DAB7FA /* cb_green_off@2x.png in Resources */,
 				D333969C1E7BD0D9007B7A28 /* trash@3x.png in Resources */,
 				EB4B06BB1AC685E900DCF67B /* call_silence_h.png in Resources */,
 				EB4B06B51AC685E900DCF67B /* call_out.png in Resources */,
@@ -2837,6 +2850,7 @@
 				D333968E1E7BD0D9007B7A28 /* open@4x.png in Resources */,
 				EB4B06F21AC685E900DCF67B /* chat_sender_audio_playing_003@2x.png in Resources */,
 				D333969D1E7BD0D9007B7A28 /* trash@4x.png in Resources */,
+				8FD431841EC2F05600DAB7FA /* cb_green_on@2x.png in Resources */,
 				D333966C1E7BD0D9007B7A28 /* em_icon_speaker_normal.png in Resources */,
 				D33396A11E7BD0D9007B7A28 /* video@3x.png in Resources */,
 				D33396831E7BD0D9007B7A28 /* mic@1.5x.png in Resources */,

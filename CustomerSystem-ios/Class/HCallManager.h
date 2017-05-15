@@ -16,6 +16,7 @@
 + (instancetype)sharedInstance;
 
 - (void)answerCall:(NSString *)aCallId;
+- (void)answerCall:(NSString *)aCallId enableVideo:(BOOL)aEnableVideo;
 
 - (void)hangupCallWithReason:(HCallEndReason)aReason;
 
