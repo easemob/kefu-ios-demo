@@ -55,17 +55,23 @@ typedef NS_ENUM(NSInteger, HDAudioSession){
     }
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *wavFilePath = [[aFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"wav"];
-    if (![fileManager fileExistsAtPath:wavFilePath]) {
-        BOOL covertRet = [self convertAMR:aFilePath toWAV:wavFilePath];
-        if (!covertRet) {
-            if (completon) {
-                completon([NSError errorWithDomain:NSEaseLocalizedString(@"error.initRecorderFail", @"File format conversion failed")
-                                              code:HDErrorFileTypeConvertionFailure
-                                          userInfo:nil]);
+     //判断文件格式是否为AMR, 如果不是不需要转换
+    if ([HDVoiceConverter isAMRFile:aFilePath]) {
+        if (![fileManager fileExistsAtPath:wavFilePath]) {
+            BOOL covertRet = [self convertAMR:aFilePath toWAV:wavFilePath];
+            if (!covertRet) {
+                if (completon) {
+                    completon([NSError errorWithDomain:NSEaseLocalizedString(@"error.initRecorderFail", @"File format conversion failed")
+                                                  code:HDErrorFileTypeConvertionFailure
+                                              userInfo:nil]);
+                }
+                return ;
             }
-            return ;
         }
+    } else {
+        wavFilePath = aFilePath;
     }
+
     [HDAudioPlayerUtil asyncPlayingWithPath:wavFilePath
                                  completion:^(NSError *error)
      {

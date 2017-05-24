@@ -8,6 +8,10 @@
 
 #import "HDBubbleView+RobotMenu.h"
 
+@implementation HDMenuItem
+
+@end
+
 @implementation HDBubbleView (RobotMenu)
 
 - (void)_setupRobotMenuBubbleMarginConstraints {
@@ -56,7 +60,12 @@
         
     }
     cell.width = self.tableView.width;
-    cell.menu = self.options[indexPath.row];
+    if ([self isItems]) {
+        cell.item = self.options[indexPath.row];
+    } else {
+        cell.menu = self.options[indexPath.row];
+    }
+    
     return cell;
 }
 
@@ -74,13 +83,29 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
      NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
-    return [self.options[indexPath.row] boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height+5;
+    NSString *text = nil;
+    if ([self isItems]) {
+        text = ((HDMenuItem *)self.options[indexPath.row]).name;
+    } else {
+        text = self.options[indexPath.row];
+    }
+    return [text boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height+5;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSLog(@"success  success success ");
-    [self routerEventWithName:HRouterEventTapMenu userInfo:@{@"clickText":self.options[indexPath.row]}];
+    NSString *text= nil;
+    if ([self isItems]) {
+        text = ((HDMenuItem *)self.options[indexPath.row]).name;
+        [self routerEventWithName:HRouterEventTapMenu userInfo:@{
+                                                                 @"clickText":text,
+                                                                 @"menuId":((HDMenuItem *)self.options[indexPath.row]).menuId}];
+    } else {
+        text = self.options[indexPath.row];
+        [self routerEventWithName:HRouterEventTapMenu userInfo:@{@"clickText":self.options[indexPath.row]}];
+    }
+    
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -102,9 +127,17 @@
 }
 
 - (void)reloadData {
+    
     [self removeConstraints:self.marginConstraints];
     [self _setupRobotMenuBubbleConstraints];
     [self.tableView reloadData];
+}
+
+- (BOOL)isItems {
+    if (self.options.count>0 && [self.options.firstObject isKindOfClass:[HDMenuItem class]]) {
+        return YES;
+    }
+    return NO;
 }
 
 @end
@@ -130,6 +163,11 @@
     _menuLabel.textColor = [UIColor colorWithRed:242/255.0 green:83/255.0 blue:131/255.0 alpha:1];
     
     [self.contentView addSubview:_menuLabel];
+}
+
+- (void)setItem:(HDMenuItem *)item {
+    _menuLabel.text = item.name;
+    [_menuLabel sizeToFit];
 }
 
 - (void)setMenu:(NSString *)menu {

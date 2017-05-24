@@ -33,7 +33,7 @@
 
 @end
 
-@interface EMTextAttachment : NSTextAttachment
+@interface HDTextAttachment : NSTextAttachment
 
 @property(nonatomic, strong) NSString *imageName;
 

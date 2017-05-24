@@ -12,7 +12,7 @@
 
 #import "HDChineseToPinyin.h"
 
-NSString *FindLetter(int nCode)
+NSString *hdFindLetter(int nCode)
 {
 	NSString *strValue = @"";
 	switch(nCode) {
@@ -5810,7 +5810,7 @@ static char firstLetterArray[HANZI_COUNT] =
 "whxgzxwznnqzjzjjqjccchykxbzszcnjtllcqxynjnckycynccqnxyewyczdcjycchyjlbtzyycqwlpgpyllgktltlgkgqbgychj"
 "xy";
 
-char pinyinFirstLet(unsigned short hanzi) {
+char hdPinyinFirstLet(unsigned short hanzi) {
 	int index = hanzi - HANZI_START;
 	if (index >= 0 && index <= HANZI_COUNT) {
 		return firstLetterArray[index];
@@ -5821,7 +5821,7 @@ char pinyinFirstLet(unsigned short hanzi) {
 
 @implementation HDChineseToPinyin
 
-+ (NSString *) pinyinFromChineseString:(NSString *)string {
++ (NSString *) hdPinyinFromChineseString:(NSString *)string {
 	if(!string || ![string length]) return nil;
 	
 	NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding( kCFStringEncodingGB_18030_2000);
@@ -5845,7 +5845,7 @@ char pinyinFirstLet(unsigned short hanzi) {
         else
             nCode = (ucHigh - 0xa0) * 100 + ucLow - 0xa0;
 		
-		NSString *strRes = FindLetter(nCode);
+		NSString *strRes = hdFindLetter(nCode);
 		strValue = [strValue stringByAppendingString:strRes];
         i++;
     }	
@@ -5853,7 +5853,7 @@ char pinyinFirstLet(unsigned short hanzi) {
     ;
 }
 
-+ (char) sortSectionTitle:(NSString *)string {
++ (char) hdSortSectionTitle:(NSString *)string {
 	int cLetter = 0;
 	if( !string || 0 == [string length] )
 		cLetter = '#';
@@ -5862,7 +5862,7 @@ char pinyinFirstLet(unsigned short hanzi) {
 		   ([string characterAtIndex:0] > 96 && [string characterAtIndex:0] < 123) ) {
 			cLetter = [string characterAtIndex:0];
 		} else
-			cLetter = pinyinFirstLet((unsigned short)[string characterAtIndex:0]);
+			cLetter = hdPinyinFirstLet((unsigned short)[string characterAtIndex:0]);
 		
 		if(cLetter > 95)
 			cLetter -= 32;

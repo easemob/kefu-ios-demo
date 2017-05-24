@@ -15,8 +15,8 @@
 @interface HDCDDeviceManager (Microphone)
 
 // Check the availability for microphone
-- (BOOL)emCheckMicrophoneAvailability;
+- (BOOL)hdCheckMicrophoneAvailability;
 
 // Get the audio volumn (0~1)
-- (double)emPeekRecorderVoiceMeter;
+- (double)hdPeekRecorderVoiceMeter;
 @end

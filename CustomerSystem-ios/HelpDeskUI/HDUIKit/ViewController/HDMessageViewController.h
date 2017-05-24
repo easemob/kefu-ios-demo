@@ -22,24 +22,23 @@
 #import "HDLocationViewController.h"
 #import "HDCDDeviceManager+Media.h"
 #import "HDCDDeviceManager+ProximitySensor.h"
-#import "UIViewController+HUD.h"
+#import "UIViewController+HDHUD.h"
 #import "HDSDKHelper.h"
 #import "SatisfactionViewController.h"
-#import "HConversation.h"
 typedef NS_ENUM(NSInteger, HDemoSaleType){
     hPreSaleType=100,   //售前
     hAfterSaleType, //售后
     hSaleTypeNone   //其他
 };
 
-@interface EaseAtTarget : NSObject
+@interface HDAtTarget : NSObject
 @property (nonatomic, copy) NSString    *userId;
 @property (nonatomic, copy) NSString    *nickname;
 
 - (instancetype)initWithUserId:(NSString*)userId andNickname:(NSString*)nickname;
 @end
 
-typedef void(^HDSelectAtTargetCallback)(EaseAtTarget*);
+typedef void(^HDSelectAtTargetCallback)(HDAtTarget*);
 
 @class HDMessageViewController;
 
@@ -130,7 +129,7 @@ typedef void(^HDSelectAtTargetCallback)(EaseAtTarget*);
 
 @end
 
-@interface HDMessageViewController : HDRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */HDCDDeviceManagerDelegate,HDChatToolbarDelegate, HDChatBarMoreViewDelegate, EMLocationViewDelegate, EaseMessageCellDelegate,SatisfactionDelegate>
+@interface HDMessageViewController : HDRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */HDCDDeviceManagerDelegate,HDChatToolbarDelegate, HDChatBarMoreViewDelegate, EMLocationViewDelegate, HDMessageCellDelegate,SatisfactionDelegate>
 
 @property (weak, nonatomic) id<HDMessageViewControllerDelegate> delegate;
 
@@ -198,5 +197,8 @@ typedef void(^HDSelectAtTargetCallback)(EaseAtTarget*);
 -(void)showMenuViewController:(UIView *)showInView
                  andIndexPath:(NSIndexPath *)indexPath
                   messageType:(EMMessageBodyType)messageType;
+
+#warning 在继承这个方法的时候确保不要执行可能引起父类方法不能dealloc的代码
+- (void)backItemDidClicked;
 
 @end

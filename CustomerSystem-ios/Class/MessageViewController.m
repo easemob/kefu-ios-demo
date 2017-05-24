@@ -9,7 +9,7 @@
 #import "MessageViewController.h"
 #import "LeaveMsgDetailModel.h"
 #import "LeaveMsgCell.h"
-#import "HChatDelegate.h"
+//#import "HChatDelegate.h"
 //#import "EaseMob.h"
 //#import "SRRefreshView.h"
 //#import "ChatViewController.h"

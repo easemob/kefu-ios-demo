@@ -139,7 +139,7 @@
 -(void)setVoiceImage {
     _recordAnimationView.image = [UIImage imageNamed:[_voiceMessageAnimationImages objectAtIndex:0]];
     double voiceSound = 0;
-    voiceSound = [[HDCDDeviceManager sharedInstance] emPeekRecorderVoiceMeter];
+    voiceSound = [[HDCDDeviceManager sharedInstance] hdPeekRecorderVoiceMeter];
     int index = voiceSound*[_voiceMessageAnimationImages count];
     if (index >= [_voiceMessageAnimationImages count]) {
         _recordAnimationView.image = [UIImage imageNamed:[_voiceMessageAnimationImages lastObject]];

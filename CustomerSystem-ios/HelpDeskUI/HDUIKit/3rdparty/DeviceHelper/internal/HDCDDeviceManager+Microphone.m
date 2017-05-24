@@ -16,7 +16,7 @@
 @implementation HDCDDeviceManager (Microphone)
 
 // Check the availability for microphone
-- (BOOL)emCheckMicrophoneAvailability{
+- (BOOL)hdCheckMicrophoneAvailability{
     __block BOOL ret = NO;
     AVAudioSession *session = [AVAudioSession sharedInstance];
     if ([session respondsToSelector:@selector(requestRecordPermission:)]) {
@@ -31,7 +31,7 @@
 }
 
 // Get the audio volumn (0~1)
-- (double)emPeekRecorderVoiceMeter{
+- (double)hdPeekRecorderVoiceMeter{
     double ret = 0.0;
     if ([HDAudioRecorderUtil recorder].isRecording) {
         [[HDAudioRecorderUtil recorder] updateMeters];

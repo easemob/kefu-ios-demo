@@ -98,11 +98,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)chatAction:(NSNotification *)notification
 {
-    BOOL shouqian = [[notification.object objectForKey:kpreSell] boolValue];
+//    BOOL shouqian = [[notification.object objectForKey:kpreSell] boolValue];
     //登录IM
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         SCLoginManager *lgM = [SCLoginManager shareLoginManager];
         if ([lgM loginKefuSDK]/*[self loginKefuSDK:shouqian] 测试切换账号使用*/) {
+//            [self setPushOptions];
             NSString *queue = nil;
             if ([notification.object objectForKey:kpreSell]) {
                 queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
@@ -128,10 +129,20 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             });
            
         } else {
-            NSLog(@"网络异常");
+            NSLog(@"登录失败");
         }
     });
     
+}
+
+- (void)setPushOptions {
+    
+    if ([[SCLoginManager shareLoginManager] loginKefuSDK]) {
+        HPushOptions *hOptions = [[HChatClient sharedClient] getPushOptionsFromServerWithError:nil];
+        hOptions.displayStyle = HPushDisplayStyleMessageSummary;
+        HError *error =  [[HChatClient sharedClient] updatePushOptionsToServer:hOptions];
+        NSLog(@" error:%@",error.errorDescription);
+    }
 }
 
 //登录IM【测试切换账号专用】
@@ -295,7 +306,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)_showNotificationWithMessage:(NSArray *)messages
 {
-    HPushOptions *options = [[HChatClient sharedClient] getPushOptionsFromServerWithError:nil ];
+    HPushOptions *options = [[HChatClient sharedClient] hPushOptions];
     //发送本地推送
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     notification.fireDate = [NSDate date]; //触发通知的时间
@@ -303,11 +314,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     if (options.displayStyle == HPushDisplayStyleMessageSummary) {
         id<HDIMessageModel> messageModel  = messages.firstObject;
         NSString *messageStr = nil;
-        switch (messageModel.bodyType) {
+        switch (messageModel.body.type) {
             case EMMessageBodyTypeText:
             {
-                messageStr = ((EMTextMessageBody *)messageModel).text;
-            }
+                messageStr = ((EMTextMessageBody *)messageModel.body).text;
+             }
                 break;
             case EMMessageBodyTypeImage:
             {
@@ -332,7 +343,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 break;
         }
         
-        NSString *title = messageModel.message.from;
+        NSString *title = messageModel.from;
         notification.alertBody = [NSString stringWithFormat:@"%@:%@", title, messageStr];
     }
     else{

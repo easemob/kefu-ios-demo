@@ -46,6 +46,7 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     HCall *_callManager;
     AppDelegate *_appDelegate;
     DeviceOrientation _currentOrientation;
+    BOOL _videoing;
 }
 
 
@@ -117,7 +118,7 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     BottomMenuTag menuTag = btn.tag;
     switch (menuTag) {
         case BottomMenuTagSwitchCamera:{ //切换前后镜头
-            [self.callSession switchCameraPosition:btn.isSelected];
+            [self.callSession switchCameraPosition:!self.switchButton.selected];
             break;
         }
         case BottomMenuTagSwitchMic: { //开关麦克风
@@ -130,6 +131,7 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
         }
         case BottomMenuTagSwitchHorn: { //开关喇叭
             AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+            [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
             if (self.voiceButton.selected) {
                 [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideNone error:nil];
             }else {
@@ -152,6 +154,14 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     
 }
 
+//扬声器模式
+-(void)setAudioSessionSpeaker
+{
+    AVAudioSession *audioSession=[AVAudioSession sharedInstance];
+    //设置为播放
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+}
+
 //主动挂断视频通话
 - (IBAction)hangupCilcked:(id)sender {
     [_callManager endCall:self.callSession.callId reason:HCallEndReasonHangup];
@@ -172,20 +182,17 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     [self remindVisitor:@"已连接"];
     [self setupRemoteVideoView];
     [self setupLocalVideoView];
+    
 }
 //视频已经连通
 - (void)didConnected {
     [self remindVisitor:@"可以说话了"];
     self.timeLabel.hidden = NO;
-    if (self.callSession.type == HCallTypeVideo) {
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-        [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
-        [audioSession setActive:YES error:nil];
-    }
     self.timeLabel.hidden = NO;
     self.hangupButton.hidden = NO;
     self.rejectButton.hidden = YES;
     self.acceptButton.hidden = YES;
+    [self setAudioSessionSpeaker];
 }
 
 

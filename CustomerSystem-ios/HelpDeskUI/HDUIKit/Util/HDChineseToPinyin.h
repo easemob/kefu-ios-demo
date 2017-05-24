@@ -14,8 +14,8 @@
 
 @interface HDChineseToPinyin : NSObject
 
-+ (NSString *)pinyinFromChineseString:(NSString *)string;
++ (NSString *)hdPinyinFromChineseString:(NSString *)string;
 
-+ (char)sortSectionTitle:(NSString *)string; 
++ (char)hdSortSectionTitle:(NSString *)string;
 
 @end

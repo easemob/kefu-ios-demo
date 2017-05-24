@@ -619,7 +619,7 @@
                                                        usingBlock:^(id value, NSRange range, BOOL *stop)
                  {
                      if (value) {
-                         EMTextAttachment* attachment = (EMTextAttachment*)value;
+                         HDTextAttachment* attachment = (HDTextAttachment*)value;
                          NSString *str = [NSString stringWithFormat:@"%@",attachment.imageName];
                          [attStr replaceCharactersInRange:range withString:str];
                      }

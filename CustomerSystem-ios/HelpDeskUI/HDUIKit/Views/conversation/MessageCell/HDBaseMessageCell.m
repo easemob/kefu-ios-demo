@@ -11,8 +11,8 @@
  */
 
 #import "HDBaseMessageCell.h"
-#import "HjudgeTextMessageSubType.h"
-#import "UIImageView+EMWebCache.h"
+//#import "HjudgeTextMessageSubType.h"
+#import "UIImageView+WebCache.h"
 #import "HDBubbleView+Transform.h"
 #import "HDBubbleView+Evaluate.h"
 
@@ -88,6 +88,9 @@
         {
             NSDictionary *dic =[self.model.message.ext objectForKey:@"msgtype"];
             if (dic || [HjudgeTextMessageSubType isTransferMessage:self.model.message] || [HjudgeTextMessageSubType  isEvaluateMessage:self.model.message]) {
+                if (self.model.isSender && [HjudgeTextMessageSubType isMenuMessage:self.model.message]) {
+                    break;
+                }
                 if (![dic.allKeys containsObject:@"videoPlayback"] && ![dic.allKeys containsObject:@"liveStreamInvitation"]) {
                     [self removeConstraint:self.bubbleWithExtConstraint];
                     CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;

@@ -54,7 +54,7 @@
                 NSDictionary *msgDic = [self.message.ext objectForKey:@"msgtype"];
                 EMTextMessageBody *textBody = (EMTextMessageBody *)_firstMessageBody;
                 NSString *didReceiveText = [HDConvertToCommonEmoticonsHelper convertToSystemEmoticons:textBody.text];
-                if ([msgDic objectForKey:@"choice"]) {
+                if ([msgDic objectForKey:@"choice"] && !_isSender) {
                     didReceiveText = [HDMessageCell _getMessageContent:self.message];
                 }
                 self.text = didReceiveText;

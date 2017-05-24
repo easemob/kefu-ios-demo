@@ -117,7 +117,7 @@
 -(void)setVoiceImage {
     _recordAnimationView.image = [UIImage imageNamed:@"VoiceSearchFeedback001"];
     double voiceSound = 0;
-    voiceSound = [[HDCDDeviceManager sharedInstance] emPeekRecorderVoiceMeter];
+    voiceSound = [[HDCDDeviceManager sharedInstance] hdPeekRecorderVoiceMeter];
     if (0 < voiceSound <= 0.05) {
         [_recordAnimationView setImage:[UIImage imageNamed:@"VoiceSearchFeedback001"]];
     }else if (0.05<voiceSound<=0.10) {

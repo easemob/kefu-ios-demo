@@ -13,7 +13,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "HDLocationViewController.h"
-#import "UIViewController+HUD.h"
 #import "HDLocalDefine.h"
 
 static HDLocationViewController *defaultLocation = nil;

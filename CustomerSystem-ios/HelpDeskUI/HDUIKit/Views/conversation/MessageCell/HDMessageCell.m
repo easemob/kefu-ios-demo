@@ -23,10 +23,10 @@
 #import "HDBubbleView+Voice.h"
 #import "HDBubbleView+Video.h"
 #import "HDBubbleView+File.h"
-#import "UIImageView+EMWebCache.h"
+#import "UIImageView+WebCache.h"
 #import "HDEmotionEscape.h"
 #import "HDLocalDefine.h"
-#import "HjudgeTextMessageSubType.h"
+//#import "HjudgeTextMessageSubType.h"
 
 #define kImageWidth 40
 #define kImageHeight 70
@@ -179,8 +179,14 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     if ([HjudgeTextMessageSubType isOrderMessage:model.message]) {
                         [_bubbleView setupOrderBubbleView];
                     }
-                    if ([HjudgeTextMessageSubType isMenuMessage:model.message]) {
-                         [_bubbleView setupRobotMenuBubbleView];
+                    if ([HjudgeTextMessageSubType isMenuMessage:model.message] ) {
+                        if (model.isSender) {
+                            [_bubbleView setupTextBubbleView];
+                            _bubbleView.textLabel.font = _messageTextFont;
+                            _bubbleView.textLabel.textColor = _messageTextColor;
+                        } else {
+                            [_bubbleView setupRobotMenuBubbleView];
+                        }
                     }
                     
                     if ([dic.allKeys containsObject:@"videoPlayback"] || [dic.allKeys containsObject:@"liveStreamInvitation"]) {
@@ -380,15 +386,34 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         _bubbleView.orderPriceLabel.text = [itemDic objectForKey:@"price"];
                     }
                     if ([dic objectForKey:@"choice"]) { //机器人菜单
-                        NSDictionary *choiceDic = [dic objectForKey:@"choice"];
-                        NSArray *menu = [choiceDic objectForKey:@"list"];
-                        NSMutableArray *array = [NSMutableArray array];
-                        for (NSString *string in menu) {
-                            [array addObject:string];
+                        if (self.model.isSender) {
+                            NSString *content = model.text;
+                            _urlMatches = [_detector matchesInString:content options:0 range:NSMakeRange(0, content.length)];
+                            _bubbleView.textLabel.attributedText = [self highlightLinksWithIndex:0 attributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:self.messageTextFont]];
+                        } else {
+                            NSDictionary *choiceDic = [dic objectForKey:@"choice"];
+                            NSArray *menus = [NSArray array];
+                            NSMutableArray *array = [NSMutableArray array];
+                            menus = [choiceDic objectForKey:@"list"];
+                            for (NSString *string in menus) {
+                                [array addObject:string];
+                            }
+                            //机器人菜单更新
+                            if ([choiceDic.allKeys containsObject:@"items"]) {
+                                [array removeAllObjects];
+                                menus = [choiceDic objectForKey:@"items"];
+                                for (NSDictionary *itemDic in menus) {
+                                    HDMenuItem *item = [HDMenuItem new];
+                                    item.menuId = [itemDic valueForKey:@"id"];
+                                    item.name = [itemDic valueForKey:@"name"];
+                                    [array addObject:item];
+                                }
+                            }
+                            _bubbleView.options = array;
+                            _bubbleView.menuTitle = [choiceDic objectForKey:@"title"];
+                            [_bubbleView reloadData];
                         }
-                        _bubbleView.options = array;
-                        _bubbleView.menuTitle = [choiceDic objectForKey:@"title"];
-                        [_bubbleView reloadData];
+            
                     }
                     if ([HjudgeTextMessageSubType isTransferMessage:model.message]) {
                         _bubbleView.transTitle.attributedText = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
@@ -578,9 +603,13 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         if ([dic objectForKey:@"track"]) {
                             [_bubbleView updateTrackMargin:_bubbleMargin];
                         }
-                        if ([dic objectForKey:@"choice"]) {
-                             [_bubbleView updateRobotMenuMargin:_bubbleMargin];
-                            [_bubbleView reloadData];
+                        if ([dic objectForKey:@"choice"] ) {
+                            if (_model.isSender) {
+                                [_bubbleView updateTextMargin:_bubbleMargin];
+                            } else {
+                                [_bubbleView updateRobotMenuMargin:_bubbleMargin];
+                                [_bubbleView reloadData];
+                            }
                         }
                         if ([dic objectForKey:@"videoPlayback"] || [dic objectForKey:@"liveStreamInvitation"]) {
                              [_bubbleView updateTextMargin:_bubbleMargin];
@@ -894,7 +923,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     if ([dic objectForKey:@"order"]) {
                         cellIdentifier = HDMessageCellIdentifierRecvOrder;
                     }
-                    if ([dic objectForKey:@"choice"]) {
+                    if ([dic objectForKey:@"choice"] ) {
                         cellIdentifier = HDMessageCellIdentifierRecvMenu;
                     }
                     if ([dic objectForKey:@"videoPlayback"] || [dic objectForKey:@"liveStreamInvitation"]) {
@@ -954,10 +983,17 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         {
             NSDictionary *msgDic = [model.message.ext objectForKey:@"msgtype"];
             CGFloat tableWidth = 200-cell.bubbleMargin.left-cell.bubbleMargin.right;
-            if ([msgDic objectForKey:@"choice"]) { //机器人菜单
+            if ([msgDic objectForKey:@"choice"] && ! model.isSender) { //机器人菜单
                 NSDictionary *choiceDic = [msgDic objectForKey:@"choice"];
                 NSArray *menu = [choiceDic objectForKey:@"list"];
                 NSString *menuTitle = [choiceDic objectForKey:@"title"];
+                if ([choiceDic objectForKey:@"items"]) {
+                    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+                    for (NSDictionary *dic in [choiceDic objectForKey:@"items"]) {
+                        [arr addObject:[dic valueForKey:@"name"]];
+                    }
+                    menu = arr.copy;
+                }
                 height += [menuTitle boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
                 for (NSString *string in menu) {
                     height += [string boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
@@ -976,7 +1012,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     if ([dic objectForKey:@"order"]) {
                         return 2*HDMessageCellPadding + kImageHeight + 2*kTitleHeight + 20;
                     }
-                    if ([dic objectForKey:@"choice"]) {
+                    if ([dic objectForKey:@"choice"] && !model.isSender) {
                         return 2*HDMessageCellPadding + height + 20;
                     }
                 }
@@ -1064,12 +1100,21 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     NSString *content = @"";
     if ([message.ext objectForKey:@"msgtype"]) {
         NSDictionary *dic = [message.ext objectForKey:@"msgtype"];
-        if ([dic objectForKey:@"choice"]) {
+        if ([dic objectForKey:@"choice"] ) {
             NSDictionary *choice = [dic objectForKey:@"choice"];
             NSArray *menu = [choice objectForKey:@"list"];
             content = [choice objectForKey:@"title"];
-            for (NSString *string in menu) {
-                content = [content stringByAppendingString:[NSString stringWithFormat:@"\n%@",string]];
+            if (menu) {
+                for (NSString *string in menu) {
+                    content = [content stringByAppendingString:[NSString stringWithFormat:@"\n%@",string]];
+                }
+            }
+            
+            NSArray *items = [choice objectForKey:@"items"];
+            if (items) {
+                for (NSDictionary *item  in items) {
+                    content = [content stringByAppendingString:[NSString stringWithFormat:@"\n%@",[item valueForKey:@"name"]]];
+                }
             }
         }
     }

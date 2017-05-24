@@ -21,18 +21,16 @@
 #import "HDEmoji.h"
 #import "HDEmotionEscape.h"
 #import "HDCustomMessageCell.h"
-#import "UIImage+EMGIF.h"
+#import "UIImage+GIF.h"
 #import "HDLocalDefine.h"
 #import "HDSDKHelper.h"
 #import "HDBubbleView+Transform.h"
 #import "HDBubbleView+Evaluate.h"
 #import "SatisfactionViewController.h"
-#import "HConversation.h"
-#import "HjudgeTextMessageSubType.h"
 #define KHintAdjustY    50
 #define IOS_VERSION [[UIDevice currentDevice] systemVersion]>=9.0
 
-@implementation EaseAtTarget
+@implementation HDAtTarget
 - (instancetype)initWithUserId:(NSString*)userId andNickname:(NSString*)nickname
 {
     if (self = [super init]) {
@@ -43,7 +41,7 @@
 }
 @end
 
-@interface HDMessageViewController ()<EaseMessageCellDelegate,HChatDelegate,UIGestureRecognizerDelegate>
+@interface HDMessageViewController ()<HDMessageCellDelegate,HChatDelegate,UIGestureRecognizerDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
@@ -83,7 +81,7 @@
         _scrollToBottomWhenAppear = YES;
         _messsagesSource = [NSMutableArray array];
         HError *er = [HError new];
-        [_conversation markAllMessagesAsRead:&er];
+        [_conversation markMessagesAsReadWithConversationId:conversationChatter error:&er];
     }
     
     return self;
@@ -92,6 +90,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
+    [[HDSDKHelper shareHelper] setIsShowingimagePicker:NO];
+    if (self.scrollToBottomWhenAppear) {
+        [self _scrollViewToBottom:NO];
+    }
+    self.scrollToBottomWhenAppear = YES;
+    
     self.view.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -116,6 +122,7 @@
     //Register the delegate
     [HDCDDeviceManager sharedInstance].delegate = self;
     
+    [self setLeftBarBtnItem];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didBecomeActive)
@@ -136,6 +143,26 @@
     [self tableViewDidTriggerHeaderRefresh];
 }
 
+- (void)setLeftBarBtnItem {
+    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(backItemClicked) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    [self.navigationItem setLeftBarButtonItem:backItem];
+}
+
+- (void)backItemClicked {
+    [[HDCDDeviceManager sharedInstance] disableProximitySensor];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[HChatClient sharedClient].chat removeDelegate:self];
+    [self.navigationController popViewControllerAnimated:YES];
+    [self backItemDidClicked];
+}
+
+- (void)backItemDidClicked {
+    
+}
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
         if (touch.view.width == 200) {
@@ -147,7 +174,6 @@
 
 - (void)setupEmotion
 {
-   
     if ([self.dataSource respondsToSelector:@selector(emotionFormessageViewController:)]) {
         NSArray* emotionManagers = [self.dataSource emotionFormessageViewController:self];
         [self.faceView setEmotionManagers:emotionManagers];
@@ -182,23 +208,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-     [[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
-
-    [[HDSDKHelper shareHelper] setIsShowingimagePicker:NO];
-    
-    if (self.scrollToBottomWhenAppear) {
-        [self _scrollViewToBottom:NO];
-    }
-    self.scrollToBottomWhenAppear = YES;
 }
+
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [[HDCDDeviceManager sharedInstance] disableProximitySensor];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[HChatClient sharedClient].chat removeDelegate:self];
 }
 
 #pragma mark - getter
@@ -897,7 +913,7 @@
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:NO];
 }
 
-#pragma mark - EaseMessageCellDelegate
+#pragma mark - HDMessageCellDelegate
 
 - (void)messageCellSelected:(id<HDIMessageModel>)model
 {
@@ -1001,7 +1017,7 @@
     if ([self.delegate respondsToSelector:@selector(messageViewController:selectAtTarget:)]) {
         location += 1;
         __weak typeof(self) weakSelf = self;
-        [self.delegate messageViewController:self selectAtTarget:^(EaseAtTarget *target) {
+        [self.delegate messageViewController:self selectAtTarget:^(HDAtTarget *target) {
             __strong HDMessageViewController *strongSelf = weakSelf;
             if (strongSelf && target) {
                 if ([target.userId length] || [target.nickname length]) {
@@ -1041,7 +1057,7 @@
         if (range.location != NSNotFound) {
             if (location - range.location > 1) {
                 NSString *sub = [inputText substringWithRange:NSMakeRange(range.location + 1, location - range.location - 1)];
-                for (EaseAtTarget *target in self.atTargets) {
+                for (HDAtTarget *target in self.atTargets) {
                     if ([sub isEqualToString:target.userId] || [sub isEqualToString:target.nickname]) {
                         inputText = range.location > 0 ? [inputText substringToIndex:range.location] : @"";
                         toolbar.inputTextView.text = inputText;
@@ -1244,6 +1260,7 @@
 - (void)messagesDidReceive:(NSArray *)aMessages {
     for (HMessage *message in aMessages) {
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
+            [_conversation markAllMessagesAsRead:nil];
             [self addMessageToDataSource:message progress:nil];
         }
     }
@@ -1514,7 +1531,17 @@
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo {
     if ([eventName isEqualToString:HRouterEventTapMenu]) {
         NSString *text = [userInfo objectForKey:@"clickText"];
-        [self sendTextMessage:text];
+        NSDictionary *ext = nil;
+        if ([userInfo objectForKey:@"menuId"]) {
+            ext = @{
+                    @"msgtype":@{
+                        @"choice":@{
+                            @"menuid":[userInfo objectForKey:@"menuId"]
+                        }
+                    }
+                    };
+        }
+        [self sendTextMessage:text withExt:ext];
     }
     if ([eventName isEqualToString:HRouterEventTapTransform]) {
         if (_isSendingTransformMessage) return;
@@ -1585,11 +1612,12 @@
     _isSendingEvaluateMessage = NO;
     [self showHudInView:self.view hint:@"评价提交"];
     [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *aMessage, HError *aError) {
+        [self hideHud];
         if (!aError) {
             [weakself.tableView reloadData];
-            [weakself showHint:@"评价成功" duration:1];
+            [weakself showHint:@"评价成功"];
         } else {
-            [weakself showHint:@"评价失败" duration:1];
+            [weakself showHint:@"评价失败"];
         }
         [_conversation deleteMessageWithId:aMessage.messageId error:nil];
     }];
@@ -1623,6 +1651,9 @@
     }
     if (_queueInfo) {
         [message addContent:_queueInfo];
+    }
+    if (ext) {
+        [message addAttributeDictionary:ext];
     }
     [self _sendMessage:message];
 }

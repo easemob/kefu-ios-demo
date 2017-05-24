@@ -25,15 +25,15 @@
 extern CGFloat const HDMessageCellPadding;
 
 typedef enum{
-    EaseMessageCellEvenVideoBubbleTap,
-    EaseMessageCellEventLocationBubbleTap,
-    EaseMessageCellEventImageBubbleTap,
-    EaseMessageCellEventAudioBubbleTap,
-    EaseMessageCellEventFileBubbleTap,
-    EaseMessageCellEventCustomBubbleTap,
-}EaseMessageCellTapEventType;
+    HDMessageCellEvenVideoBubbleTap,
+    HDMessageCellEventLocationBubbleTap,
+    HDMessageCellEventImageBubbleTap,
+    HDMessageCellEventAudioBubbleTap,
+    HDMessageCellEventFileBubbleTap,
+    HDMessageCellEventCustomBubbleTap,
+}HDMessageCellTapEventType;
 
-@protocol EaseMessageCellDelegate;
+@protocol HDMessageCellDelegate;
 @interface HDMessageCell : UITableViewCell<HDIModelChatCell,UIGestureRecognizerDelegate>
 {
     UIButton *_statusButton;
@@ -45,7 +45,7 @@ typedef enum{
     NSLayoutConstraint *_statusWidthConstraint;
 }
 
-@property (weak, nonatomic) id<EaseMessageCellDelegate> delegate;
+@property (weak, nonatomic) id<HDMessageCellDelegate> delegate;
 
 @property (nonatomic, strong) UIActivityIndicatorView *activity;
 
@@ -113,7 +113,7 @@ typedef enum{
 
 @end
 
-@protocol EaseMessageCellDelegate <NSObject>
+@protocol HDMessageCellDelegate <NSObject>
 
 @optional
 

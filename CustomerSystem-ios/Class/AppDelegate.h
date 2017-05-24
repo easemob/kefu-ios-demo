@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "HomeViewController.h"
-#import "HChatClientDelegate.h"
+//#import "HChatClientDelegate.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, HChatClientDelegate>
 

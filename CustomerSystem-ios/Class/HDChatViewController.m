@@ -11,7 +11,7 @@
  */
 
 #import "HDChatViewController.h"
-#import "HVisitorTrack.h"
+//#import "HVisitorTrack.h"
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
 @interface HDChatViewController ()<UIAlertViewDelegate,HChatClientDelegate>
@@ -37,6 +37,7 @@
     self.delegate = self;
     self.dataSource = self;
     self.visitorInfo = [self visitorInfo];
+    NSLog(@"开启第二通道");
     [[HChatClient sharedClient].chat startPollingCname:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
@@ -152,12 +153,14 @@
 }
 
 - (void)dealloc{
+    NSLog(@"第二通道已经关闭");
     [[HChatClient sharedClient].chat endPolling];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -168,13 +171,6 @@
 
 - (void)_setupBarButtonItem
 {
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    backButton.accessibilityIdentifier = @"back";
-    [backButton setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
-    
     UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     clearButton.accessibilityIdentifier = @"clear_message";
     [clearButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
@@ -326,7 +322,10 @@
 
 #pragma mark - action
 
-- (void)backAction
+/**
+ 继承于父类，点击左上箭头离开聊天界面时执行。本方法禁止执行可能引起父类方法不能释放的代码。
+ */
+- (void)backItemDidClicked
 {
     if (self.deleteConversationIfNull) {
         //判断当前会话是否为空，若符合则删除该会话
@@ -335,8 +334,6 @@
             [[HChatClient sharedClient].chat deleteConversation:self.conversation.conversationId deleteMessages:NO];
         }
     }
-    
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

@@ -115,7 +115,11 @@ static SCLoginManager *_manager = nil;
     if (![self registerIMuser]) {
         return NO;
     }
+    return  [self login];
     
+}
+
+- (BOOL)login {
     HError *error = [[HChatClient sharedClient] loginWithUsername:self.username password:hxPassWord];
     if (!error) { //IM登录成功
         return YES;

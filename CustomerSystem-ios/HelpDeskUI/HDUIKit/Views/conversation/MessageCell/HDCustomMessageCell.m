@@ -12,8 +12,8 @@
 
 #import "HDCustomMessageCell.h"
 #import "HDBubbleView+Gif.h"
-#import "UIImageView+EMWebCache.h"
-#import "UIImage+EMGIF.h"
+#import "UIImageView+WebCache.h"
+#import "UIImage+GIF.h"
 #import "HDIMessageModel.h"
 
 @interface HDCustomMessageCell ()

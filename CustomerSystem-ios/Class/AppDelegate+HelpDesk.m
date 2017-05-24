@@ -20,13 +20,16 @@
     [self registerRemoteNotification];
     //初始化环信客服sdk
     [self initializeCustomerServiceSdk];
+    
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+    [audioSession setActive:YES error:nil];
     /*
      注册IM用户【注意:注册建议在服务端创建，而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器。】
      */
     // 注册环信监听
     [self setupNotifiers];
 }
-
 
 
 //初始化客服sdk
@@ -43,7 +46,7 @@
     HOptions *option = [[HOptions alloc] init];
     option.appkey = lgM.appkey; 
     option.tenantId = lgM.tenantId;
-    //option.enableConsoleLog = YES;
+    option.enableConsoleLog = YES;
     option.apnsCertName = apnsCertName;
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
@@ -53,7 +56,9 @@
         return;
     }
     [self registerEaseMobNotification];
+
 }
+
 
 //修改关联app后需要重新初始化
 - (void)resetCustomerServiceSDK {

@@ -12,7 +12,7 @@
 
 #import "HDCDDeviceManager+Remind.h"
 
-void EMSystemSoundFinishedPlayingCallback(SystemSoundID sound_id, void* user_data)
+void HDSystemSoundFinishedPlayingCallback(SystemSoundID sound_id, void* user_data)
 {
     AudioServicesDisposeSystemSoundID(sound_id);
 }
@@ -32,7 +32,7 @@ void EMSystemSoundFinishedPlayingCallback(SystemSoundID sound_id, void* user_dat
     AudioServicesAddSystemSoundCompletion(soundID,
                                           NULL, // uses the main run loop
                                           NULL, // uses kCFRunLoopDefaultMode
-                                          EMSystemSoundFinishedPlayingCallback, // the name of our custom callback function
+                                          HDSystemSoundFinishedPlayingCallback, // the name of our custom callback function
                                           NULL // for user data, but we don't need to do that in this case, so we just pass NULL
                                           );
     
@@ -47,7 +47,7 @@ void EMSystemSoundFinishedPlayingCallback(SystemSoundID sound_id, void* user_dat
     AudioServicesAddSystemSoundCompletion(kSystemSoundID_Vibrate,
                                           NULL, // uses the main run loop
                                           NULL, // uses kCFRunLoopDefaultMode
-                                          EMSystemSoundFinishedPlayingCallback, // the name of our custom callback function
+                                          HDSystemSoundFinishedPlayingCallback, // the name of our custom callback function
                                           NULL // for user data, but we don't need to do that in this case, so we just pass NULL
                                           );
     

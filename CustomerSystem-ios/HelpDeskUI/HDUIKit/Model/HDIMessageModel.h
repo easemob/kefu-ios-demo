@@ -23,7 +23,9 @@
 @property (strong, nonatomic, readonly) NSString *messageId;
 @property (nonatomic, readonly) HMessageStatus messageStatus;
 @property (nonatomic, readonly) EMMessageBodyType bodyType;
+@property (nonatomic,readonly) EMMessageBody *body;
 @property (nonatomic) BOOL isMessageRead;
+@property (nonatomic) NSString *from;
 // if the current login user is message sender
 @property (nonatomic) BOOL isSender;
 @property (strong, nonatomic) NSString *nickname;

@@ -43,7 +43,6 @@ static HCallManager *_manager = nil;
 {
     _currentSession = nil;
     _currentCallVC = nil;
-    
     [[HChatClient sharedClient].call addDelegate:self delegateQueue:nil];
 }
 
@@ -69,7 +68,6 @@ static HCallManager *_manager = nil;
     if (!isAppActivity) {
         [self showLocalNoti];
     }
-    
     @synchronized (self) {
         self.currentSession = aSession;
         self.currentCallVC = [[HCallViewController alloc] initWithCallSession:self.currentSession];

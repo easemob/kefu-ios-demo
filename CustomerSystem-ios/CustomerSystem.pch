@@ -11,14 +11,16 @@
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #ifdef __OBJC__
 #import "LocalDefine.h"
-#import "helpdeskfull_sdk.h"
+
+#import <HelpDesk/HelpDesk.h>
+#import "HelpDeskUI.h"
+
 #import "SCLoginManager.h"
 #import "SRRefreshView.h"
-#import "UIImageView+EMWebCache.h"
-#import "UIButton+EMWebCache.h"
+#import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
 #import "UIView+FLExtension.h"
 #import "NSObject+SCAdd.h"
-#import "HelpDeskUI.h"
 #import "UIBarButtonItem+KFAdd.h"
 #import "UIViewController+KFAdd.h"
 #import "IQKeyboardManager.h"

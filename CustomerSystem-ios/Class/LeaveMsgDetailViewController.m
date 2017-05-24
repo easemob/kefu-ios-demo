@@ -448,7 +448,7 @@
             [weakSelf.tableView reloadData];
             [weakSelf scrollViewToBottom:YES];
         } else {
-            [self showHint:@"回复失败，请稍后再试" duration:1];
+            [self showHint:@"回复失败，请稍后再试"];
         }
         
     }];

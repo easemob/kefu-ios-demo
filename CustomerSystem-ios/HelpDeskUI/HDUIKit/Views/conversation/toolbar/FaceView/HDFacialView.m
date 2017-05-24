@@ -50,7 +50,7 @@
 
 @end
 
-@protocol EaseCollectionViewCellDelegate
+@protocol HDCollectionViewCellDelegate
 
 @optional
 
@@ -58,24 +58,24 @@
 
 @end
 
-@interface EaseCollectionViewCell : UICollectionViewCell
+@interface HDCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, weak) id<EaseCollectionViewCellDelegate> delegate;
-@property (nonatomic, strong) UIButton *imageButton;
-@property (nonatomic, strong) HDEmotion *emotion;
+@property (nonatomic, weak) id<HDCollectionViewCellDelegate> delegate;
+@property (nonatomic, strong) UIButton *hdImageButton;
+@property (nonatomic, strong) HDEmotion *hdEmotion;
 
 @end
 
-@implementation EaseCollectionViewCell
+@implementation HDCollectionViewCell
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _imageButton.frame = self.bounds;
-        _imageButton.userInteractionEnabled = YES;
-        [self.contentView addSubview:_imageButton];
+        _hdImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _hdImageButton.frame = self.bounds;
+        _hdImageButton.userInteractionEnabled = YES;
+        [self.contentView addSubview:_hdImageButton];
     }
     return self;
 }
@@ -83,44 +83,44 @@
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-    _imageButton.frame = self.bounds;
+    _hdImageButton.frame = self.bounds;
 }
 
 - (void)setEmotion:(HDEmotion *)emotion
 {
-    _emotion = emotion;
+    _hdEmotion = emotion;
     if ([emotion isKindOfClass:[HDEmotion class]]) {
         if (emotion.emotionType == HDEmotionGif) {
-            [_imageButton setImage:[UIImage imageNamed:emotion.emotionThumbnail] withTitle:emotion.emotionTitle forState:UIControlStateNormal];
+            [_hdImageButton setImage:[UIImage imageNamed:emotion.emotionThumbnail] withTitle:emotion.emotionTitle forState:UIControlStateNormal];
         } else if (emotion.emotionType == HDEmotionPng) {
-            [_imageButton setImage:[UIImage imageNamed:emotion.emotionThumbnail] forState:UIControlStateNormal];
-            _imageButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-            [_imageButton setTitle:nil forState:UIControlStateNormal];
-            [_imageButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-            [_imageButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+            [_hdImageButton setImage:[UIImage imageNamed:emotion.emotionThumbnail] forState:UIControlStateNormal];
+            _hdImageButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+            [_hdImageButton setTitle:nil forState:UIControlStateNormal];
+            [_hdImageButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+            [_hdImageButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
         } else {
-            [_imageButton.titleLabel setFont:[UIFont fontWithName:@"AppleColorEmoji" size:29.0]];
-            [_imageButton setTitle:emotion.emotionThumbnail forState:UIControlStateNormal];
-            [_imageButton setImage:nil forState:UIControlStateNormal];
-            [_imageButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-            [_imageButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+            [_hdImageButton.titleLabel setFont:[UIFont fontWithName:@"AppleColorEmoji" size:29.0]];
+            [_hdImageButton setTitle:emotion.emotionThumbnail forState:UIControlStateNormal];
+            [_hdImageButton setImage:nil forState:UIControlStateNormal];
+            [_hdImageButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+            [_hdImageButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
         }
-        [_imageButton addTarget:self action:@selector(sendEmotion:) forControlEvents:UIControlEventTouchUpInside];
+        [_hdImageButton addTarget:self action:@selector(sendEmotion:) forControlEvents:UIControlEventTouchUpInside];
     } else {
-        [_imageButton setTitle:nil forState:UIControlStateNormal];
-        [_imageButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-        [_imageButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-        [_imageButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/faceDelete"] forState:UIControlStateNormal];
-        [_imageButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/faceDelete_select"] forState:UIControlStateHighlighted];
-        [_imageButton addTarget:self action:@selector(sendEmotion:) forControlEvents:UIControlEventTouchUpInside];
+        [_hdImageButton setTitle:nil forState:UIControlStateNormal];
+        [_hdImageButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [_hdImageButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [_hdImageButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/faceDelete"] forState:UIControlStateNormal];
+        [_hdImageButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/faceDelete_select"] forState:UIControlStateHighlighted];
+        [_hdImageButton addTarget:self action:@selector(sendEmotion:) forControlEvents:UIControlEventTouchUpInside];
     }
 }
 
 - (void)sendEmotion:(id)sender
 {
     if (_delegate) {
-        if ([_emotion isKindOfClass:[HDEmotion class]]) {
-            [_delegate didSendEmotion:_emotion];
+        if ([_hdEmotion isKindOfClass:[HDEmotion class]]) {
+            [_delegate didSendEmotion:_hdEmotion];
         } else {
             [_delegate didSendEmotion:nil];
         }
@@ -129,7 +129,7 @@
 
 @end
 
-@interface HDFacialView () <UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,EaseCollectionViewCellDelegate>
+@interface HDFacialView () <UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,HDCollectionViewCellDelegate>
 {
     CGFloat _itemWidth;
     CGFloat _itemHeight;
@@ -153,7 +153,7 @@
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
 
         _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-        [self.collectionView registerClass:[EaseCollectionViewCell class] forCellWithReuseIdentifier:@"collectionCell"];
+        [self.collectionView registerClass:[HDCollectionViewCell class] forCellWithReuseIdentifier:@"collectionCell"];
         [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FooterView"];
         _collectionView.backgroundColor = [UIColor clearColor];
         _collectionView.delegate = self;
@@ -191,7 +191,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* identify = @"collectionCell";
-    EaseCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
+    HDCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
     if (!cell) {
         
     }
@@ -274,7 +274,7 @@
     return YES;
 }
 
-#pragma makr - EaseCollectionViewCellDelegate
+#pragma makr - HDCollectionViewCellDelegate
 - (void)didSendEmotion:(HDEmotion *)emotion
 {
     if (emotion) {

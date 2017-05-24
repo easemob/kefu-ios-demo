@@ -18,6 +18,7 @@
 
 * [入门指南](#Getting_started_guide)<br>
   1.[工程配置](#Guide_build) <br>
+  2.[集成离线推送](#Guide_APNs) <br>
   2.[初始化](#Guide_init)<br>
   3.[注册](#Guide_register)<br>
   4.[登录](#Guide_login)<br>
@@ -27,34 +28,42 @@
 * [高级选项](#Advanced_Option)<br>
 
 
-#### <A NAME="Guide_build"></A>工程配置，
- 1、在工程中导入 HelpDeskSDK 和 HelpDeskUI。【注意在导入的时候选择Create groups】<br>
- 2、向Build Settings -> Linking -> Other Linker Flags 中增加-ObjC.<br>
- 3、向Build Phases -> Link Binary With Libraries 中添加依赖库<br>
- ```
-    AudioToolbox.framework
-    AVFoundation.framework
-    libc++.dylib
-    libz.dylib
-    libstdc++.6.0.9.dylib
-    libsqlite3.dylib
-    (Xcode 7 及以上版本，后缀为tbd)
- ```
- 4、SDK 不支持 bitcode，在 Build Settings → Build Options → Enable Bitcode 中设置 NO。<br>
- 5、在工程info.plist文件中 增加隐私权限 <br>
+#### <A NAME="Guide_build"></A>工程配置
+ 1、在工程中导入 HelpDesk.framework、Hyphenate.framework(包含实时音视频) 和 HelpDeskUI.【注意在导入的时候选择Create groups】<br>
+ 2、选中当前的TARGET,向General → Embedded Binaries 中添加以上两个依赖库. Linked Frameworks and Libraries 中会自动增加. <br>
+ 3、向Build Settings → Linking → Other Linker Flags 中增加-ObjC【注意区分大小写】. <br>
+ 4、在工程info.plist文件中 增加隐私权限 <br>
  ```
     Privacy - Photo Library Usage Description 需要访问您的相册
     Privacy - Microphone Usage Description 需要访问您的麦克风
     Privacy - Camera Usage Description 需要访问您的摄像机
  ```
- 6、在pch文件或全局.h文件中添加如下代码<br>
+ 5、在pch文件或全局.h文件中添加如下代码<br>
  ```
    #ifdef __OBJC__
-   #import "helpdesk_sdk.h"
+    #import <HelpDesk/HelpDesk.h>
    #import "HelpDeskUI.h"
    #endif
    ```
+#### <A NAME="Guide_APNs"></A>离线推送
+```
+    //注册APNs推送
+    [application registerForRemoteNotifications];
+    UIUserNotificationType notificationTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound |   UIUserNotificationTypeAlert;
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
+    [application registerUserNotificationSettings:settings];
+    //您注册了推送功能，iOS 会自动回调以下方法，得到 deviceToken，您需要将 deviceToken 传给 SDK。
+    // 将得到的deviceToken传给SDK
+    - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+        [[HChatClient sharedClient] bindDeviceToken:deviceToken];
+    }
 
+    // 注册deviceToken失败
+    - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+        NSLog(@"error -- %@",error);
+        //APNS 注册失败，一般是由于使用了通用证书或者是模拟器调试导致，请检查证书并用真机调试。此处是 iOS 系统报的错，如仍不能确定，请从网上查找相关资料。
+    }
+```
 #### <A NAME="Guide_init"></A>初始化
 ```
  HOptions *option = [[HOptions alloc] init];
