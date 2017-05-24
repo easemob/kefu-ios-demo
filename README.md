@@ -29,6 +29,7 @@
 
 
 #### <A NAME="Guide_build"></A>工程配置
+ 请先到http://www.easemob.com/download/cs 下载"iOS客服访客端SDK"
  1、在工程中导入 HelpDesk.framework、Hyphenate.framework(包含实时音视频) 和 HelpDeskUI.【注意在导入的时候选择Create groups】<br>
  2、选中当前的TARGET,向General → Embedded Binaries 中添加以上两个依赖库. Linked Frameworks and Libraries 中会自动增加. <br>
  3、向Build Settings → Linking → Other Linker Flags 中增加-ObjC【注意区分大小写】. <br>
