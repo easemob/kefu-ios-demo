@@ -142,6 +142,7 @@
 		D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D339953B1E000D5E00F7B71D /* QRCodeViewController.m */; };
 		D339953F1E000EDF00F7B71D /* ScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = D339953E1E000EDF00F7B71D /* ScanningView.m */; };
 		D33995421E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = D33995411E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m */; };
+		D3424F641ED81DAC007842E1 /* FixFopen.c in Sources */ = {isa = PBXBuildFile; fileRef = D3424F631ED81DAC007842E1 /* FixFopen.c */; };
 		D34743AE1DE6E38600F32D87 /* chatBar_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D34743AD1DE6E38600F32D87 /* chatBar_comment@2x.png */; };
 		D34743B11DE6E8EF00F32D87 /* SCLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D34743B01DE6E8EF00F32D87 /* SCLoginManager.m */; };
 		D34743B41DE6FF8C00F32D87 /* HDLeaveMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D34743B31DE6FF8C00F32D87 /* HDLeaveMsgViewController.m */; };
@@ -227,7 +228,6 @@
 		D3CB64941E4888F30022A6BA /* HDEmojiEmoticons.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63EE1E4888F30022A6BA /* HDEmojiEmoticons.m */; };
 		D3CB64951E4888F30022A6BA /* HDEmotionEscape.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63F01E4888F30022A6BA /* HDEmotionEscape.m */; };
 		D3CB64961E4888F30022A6BA /* HDEmotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63F21E4888F30022A6BA /* HDEmotionManager.m */; };
-		D3CB64971E4888F30022A6BA /* FixFopen.c in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63F31E4888F30022A6BA /* FixFopen.c */; };
 		D3CB64981E4888F30022A6BA /* HDChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63F51E4888F30022A6BA /* HDChineseToPinyin.m */; };
 		D3CB64991E4888F30022A6BA /* HDConvertToCommonEmoticonsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63F71E4888F30022A6BA /* HDConvertToCommonEmoticonsHelper.m */; };
 		D3CB649A1E4888F30022A6BA /* HDMessageReadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63FA1E4888F30022A6BA /* HDMessageReadManager.m */; };
@@ -639,6 +639,7 @@
 		D339953E1E000EDF00F7B71D /* ScanningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanningView.m; sourceTree = "<group>"; };
 		D33995401E0028BD00F7B71D /* UIBarButtonItem+KFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+KFAdd.h"; sourceTree = "<group>"; };
 		D33995411E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+KFAdd.m"; sourceTree = "<group>"; };
+		D3424F631ED81DAC007842E1 /* FixFopen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FixFopen.c; sourceTree = "<group>"; };
 		D34743AD1DE6E38600F32D87 /* chatBar_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatBar_comment@2x.png"; sourceTree = "<group>"; };
 		D34743AF1DE6E8EF00F32D87 /* SCLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLoginManager.h; sourceTree = "<group>"; };
 		D34743B01DE6E8EF00F32D87 /* SCLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginManager.m; sourceTree = "<group>"; };
@@ -817,7 +818,6 @@
 		D3CB63F01E4888F30022A6BA /* HDEmotionEscape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDEmotionEscape.m; sourceTree = "<group>"; };
 		D3CB63F11E4888F30022A6BA /* HDEmotionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDEmotionManager.h; sourceTree = "<group>"; };
 		D3CB63F21E4888F30022A6BA /* HDEmotionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDEmotionManager.m; sourceTree = "<group>"; };
-		D3CB63F31E4888F30022A6BA /* FixFopen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FixFopen.c; sourceTree = "<group>"; };
 		D3CB63F41E4888F30022A6BA /* HDChineseToPinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDChineseToPinyin.h; sourceTree = "<group>"; };
 		D3CB63F51E4888F30022A6BA /* HDChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDChineseToPinyin.m; sourceTree = "<group>"; };
 		D3CB63F61E4888F30022A6BA /* HDConvertToCommonEmoticonsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDConvertToCommonEmoticonsHelper.h; sourceTree = "<group>"; };
@@ -1841,9 +1841,9 @@
 		D3CB63DC1E4888F30022A6BA /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				D3424F631ED81DAC007842E1 /* FixFopen.c */,
 				D3CB63DD1E4888F30022A6BA /* Category */,
 				D3CB63EA1E4888F30022A6BA /* Emoji */,
-				D3CB63F31E4888F30022A6BA /* FixFopen.c */,
 				D3CB63F41E4888F30022A6BA /* HDChineseToPinyin.h */,
 				D3CB63F51E4888F30022A6BA /* HDChineseToPinyin.m */,
 				D3CB63F61E4888F30022A6BA /* HDConvertToCommonEmoticonsHelper.h */,
@@ -2793,6 +2793,7 @@
 				D3CB64531E4888F30022A6BA /* MJRefreshFooter.m in Sources */,
 				D32FBEBF1ED55E6C00BA68D7 /* UIView+WebCacheOperation.m in Sources */,
 				D3CB646A1E4888F30022A6BA /* MWZoomingScrollView.m in Sources */,
+				D3424F641ED81DAC007842E1 /* FixFopen.c in Sources */,
 				D32FBEB81ED55E6C00BA68D7 /* SDWebImageManager.m in Sources */,
 				D3CB64B41E4888F30022A6BA /* HDFaceView.m in Sources */,
 				D3CB648F1E4888F30022A6BA /* NSString+Valid.m in Sources */,
@@ -2856,7 +2857,6 @@
 				D3CB64481E4888F30022A6BA /* HDCDDeviceManagerBase.m in Sources */,
 				D326F7D21E02A6D8004FC028 /* IQNSArray+Sort.m in Sources */,
 				D3CB64441E4888F30022A6BA /* HDCDDeviceManager+Media.m in Sources */,
-				D3CB64971E4888F30022A6BA /* FixFopen.c in Sources */,
 				D3CB64A01E4888F30022A6BA /* HDCustomMessageCell.m in Sources */,
 				D3CB64461E4888F30022A6BA /* HDCDDeviceManager+ProximitySensor.m in Sources */,
 				D39E2EE41E7F7A7D0014FAE5 /* HCallManager.m in Sources */,
