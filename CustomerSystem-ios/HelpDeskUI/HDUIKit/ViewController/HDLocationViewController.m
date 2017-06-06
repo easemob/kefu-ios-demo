@@ -14,6 +14,7 @@
 #import <MapKit/MapKit.h>
 #import "HDLocationViewController.h"
 #import "HDLocalDefine.h"
+#import "CustomButton.h"
 
 static HDLocationViewController *defaultLocation = nil;
 
@@ -69,10 +70,16 @@ static HDLocationViewController *defaultLocation = nil;
 {
     [super viewDidLoad];
     
-    self.title = NSEaseLocalizedString(@"location.messageType", @"location message");
-    
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [backButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/back"] forState:UIControlStateNormal];
+    CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+    [backButton setTitle:NSEaseLocalizedString(@"location.messageType", @"location message") forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:22];
+    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
+    backButton.imageRect = CGRectMake(10, 10, 20, 18);
+    backButton.titleRect = CGRectMake(45, 10, 120, 18);
+    [self.view addSubview:backButton];
+    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
     [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
@@ -88,7 +95,8 @@ static HDLocationViewController *defaultLocation = nil;
         
         UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
         [sendButton setTitle:NSEaseLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
-        [sendButton setTitleColor:[UIColor colorWithRed:32 / 255.0 green:134 / 255.0 blue:158 / 255.0 alpha:1.0] forState:UIControlStateNormal];
+        sendButton.titleLabel.font = [UIFont systemFontOfSize:20];
+        [sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
         [sendButton addTarget:self action:@selector(sendLocation) forControlEvents:UIControlEventTouchUpInside];
         [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sendButton]];

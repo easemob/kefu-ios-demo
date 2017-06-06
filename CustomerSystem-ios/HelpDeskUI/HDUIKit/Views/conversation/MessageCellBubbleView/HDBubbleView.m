@@ -80,6 +80,12 @@ NSString *const HRouterEventTextURLTapEventName = @"HRouterEventTextURLTapEventN
     
     return _backgroundImageView;
 }
-
+// 删除轨迹消息
+- (void)sendDeleteTrackMsg:(UIButton *)button
+{
+    if ([self.delegate respondsToSelector:@selector(deleteTrackMessage:)]) {
+        [self.delegate deleteTrackMessage:button];
+    }
+}
 
 @end

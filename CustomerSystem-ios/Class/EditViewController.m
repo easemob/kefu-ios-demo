@@ -15,6 +15,7 @@
     UITextField *_editField;
     NSString *_type;
     NSString *_content;
+    NSString *_name;
 }
 
 @end
@@ -40,10 +41,18 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
+    
     self.view.backgroundColor = [UIColor colorWithRed:238 / 255.0 green:238 / 255.0 blue:243 / 255.0 alpha:1.0];
     
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+    [backButton setTitle:_type forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:18];
+    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    backButton.imageRect = CGRectMake(10, 10, 20, 18);
+    backButton.titleRect = CGRectMake(40, 10, 200, 18);
+    [self.view addSubview:backButton];
+    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 220, 40);
     [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
@@ -58,7 +67,10 @@
     _editField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _editField.returnKeyType = UIReturnKeyDone;
     _editField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+   
     [contentView addSubview:_editField];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,7 +87,7 @@
         _editField.text = _content;
     }
     if (![_editField.text isEqualToString:_content]) {
-        if ([_type isEqualToString:@"appkey"]) {
+        if ([_type isEqualToString:@"AppKey"]) {
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"修改appkey之后需要重启" preferredStyle:UIAlertControllerStyleAlert];
             [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {

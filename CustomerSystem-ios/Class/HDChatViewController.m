@@ -56,6 +56,13 @@
     [self _sendMessage:callMessage];
 }
 
+// 留言
+- (void)moreViewLeaveMessageAction:(HDChatBarMoreView *)moreView
+{
+    HDLeaveMsgViewController *leaveMsgVC = [[HDLeaveMsgViewController alloc] init];
+    [self.navigationController pushViewController:leaveMsgVC animated:YES];
+}
+
 - (NSDictionary *)callExt {
     NSArray *appkeys = [[SCLoginManager shareLoginManager].appkey componentsSeparatedByString:@"#"];
     NSDictionary *dic = @{
@@ -134,18 +141,36 @@
     if ([self isOrder]) {
         HOrderInfo *od  = (HOrderInfo *)[self trackOrOrder];
         [message addContent:od];
+        
+        [message addContent:self.visitorInfo];
+        NSString *imageName = [info objectForKey:@"imageName"];
+        NSMutableDictionary *ext = [message.ext mutableCopy];
+        [ext setValue:imageName forKey:@"imageName"];
+        message.ext = [ext copy];
+        [self _sendMessage:message];
+        
     } else {
         HVisitorTrack *vt = (HVisitorTrack *)[self trackOrOrder];
         [message addContent:vt];
+        
+        [message addContent:self.visitorInfo];
+        NSString *imageName = [info objectForKey:@"imageName"];
+        NSMutableDictionary *ext = [message.ext mutableCopy];
+        [ext setValue:imageName forKey:@"imageName"];
+        message.ext = [ext copy];
+        [self _insertTrackMessage:message];
     }
-    [message addContent:self.visitorInfo];
-    NSString *imageName = [info objectForKey:@"imageName"];
-    NSMutableDictionary *ext = [message.ext mutableCopy];
-    [ext setValue:imageName forKey:@"imageName"];
-    message.ext = [ext copy];
-    [self _sendMessage:message];
+
+    
 }
 
+
+- (void)_insertTrackMessage:(HMessage *)message
+{
+    message.status = HMessageStatusSuccessed;
+    [self addMessageToDataSource:message progress:nil];
+    [self.conversation insertMessage:message error:nil];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -171,9 +196,9 @@
 
 - (void)_setupBarButtonItem
 {
-    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
     clearButton.accessibilityIdentifier = @"clear_message";
-    [clearButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
+    [clearButton setImage:[UIImage imageNamed:@"hd_chat_delete_icon"] forState:UIControlStateNormal];
     [clearButton addTarget:self action:@selector(deleteAllMessages:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithCustomView:clearButton];
     
@@ -182,7 +207,7 @@
     [leaveMsgButton addTarget:self action:@selector(didPressedLeaveMsgButton) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leaveItem = [[UIBarButtonItem alloc] initWithCustomView:leaveMsgButton];
     
-    self.navigationItem.rightBarButtonItems = @[clearItem,leaveItem];
+    self.navigationItem.rightBarButtonItems = @[clearItem];
 }
 
 - (void)didPressedLeaveMsgButton {
@@ -252,15 +277,27 @@
 
 - (NSArray*)emotionFormessageViewController:(HDMessageViewController *)viewController
 {
-    NSMutableArray *emotions = [NSMutableArray array];
-    for (NSString *name in [HDEmoji allEmoji]) {
-        HDEmotion *emotion = [[HDEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:name emotionOriginal:name emotionOriginalURL:@"" emotionType:HDEmotionDefault];
-        [emotions addObject:emotion];
+    //添加表情数据源
+#pragma mark smallpngface
+    NSMutableArray *customEmotions = [NSMutableArray array];
+    NSMutableArray *customNameArr = [NSMutableArray arrayWithCapacity:0];
+    NSString *customName = nil;
+    for (int i=1; i<=35; i++) {
+        // 把自定义表情图片加到数组中
+        customName = [@"HelpDeskUIResource.bundle/e_e_" stringByAppendingString:[NSString stringWithFormat:@"%d",i]];
+        [customNameArr addObject:customName];
     }
-    HDEmotion *temp = [emotions objectAtIndex:0];
-    HDEmotionManager *managerDefault = [[HDEmotionManager alloc] initWithType:HDEmotionDefault emotionRow:3 emotionCol:7 emotions:emotions tagImage:[UIImage imageNamed:temp.emotionId]];
-    
-    return @[managerDefault];
+    int i = 0;
+    // 取出表情字符
+    for (NSString *name in [HDConvertToCommonEmoticonsHelper emotionsArray]) {
+        //initWithName是表情底部的显示名，可以传空， emotionId传表情名称  emotionThumbnail和emotionOriginal  是传表情字符对应的图片 在UI上显示
+        HDEmotion *emotion = [[HDEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:customNameArr[i] emotionOriginal:customNameArr[i] emotionOriginalURL:@"" emotionType:HDEmotionPng];
+        [customEmotions addObject:emotion];
+        i++;
+    }
+    HDEmotion *customTemp = [customEmotions objectAtIndex:0];
+    HDEmotionManager *customManagerDefault = [[HDEmotionManager alloc] initWithType:HDEmotionPng emotionRow:4 emotionCol:9 emotions:customEmotions tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
+    return @[customManagerDefault];
 }
 
 - (BOOL)isEmotionMessageFormessageViewController:(HDMessageViewController *)viewController

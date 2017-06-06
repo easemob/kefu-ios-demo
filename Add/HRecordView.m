@@ -1,0 +1,154 @@
+//
+//  HRecordView.m
+//  CustomerSystem-ios
+//
+//  Created by EaseMob on 17/6/2.
+//  Copyright © 2017年 easemob. All rights reserved.
+//
+
+#import "HRecordView.h"
+
+#define RecordViewHeight 140
+#define RecordButtonHeight 56
+#define PinRecord @"按住录音"
+#define EndOrSlide @"松开结束，手指上滑取消发送"
+#define CancelRecord @"松开手指，取消录音"
+#define TimeIsTooShort @"时间过短"
+#define NotStartedRecording @"还没有开始录音"
+
+@interface HRecordView ()
+{
+    NSString *_mark;
+}
+@property (nonatomic, strong) UIButton *recordButton;
+@property (nonatomic, strong) UILabel *recordLabel;
+
+@end
+
+@implementation HRecordView
+
+- (instancetype)initWithFrame:(CGRect)frame mark:(NSString *)mark
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // 监听录音时间过短
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ListenTime) name:@"TheRecordingTimeIsTooShort" object:nil];
+        // 监听录音没有开始
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ListenIsRecording) name:@"NotStartedRecording" object:nil];
+        
+        _mark = mark;
+        
+        [self setupSubviews];
+    }
+    return self;
+}
+
+- (void)setupSubviews
+{
+    if (_mark) {
+        self.frame = CGRectMake(0, self.frame.origin.y, kHDScreenWidth, RecordViewHeight);
+    } else {
+        self.frame = CGRectMake(0, 0, kHDScreenWidth, RecordViewHeight);
+    }
+    
+    // label
+    _recordLabel = [[UILabel alloc] initWithFrame:CGRectMake((kHDScreenWidth - kHDScreenWidth * 0.8)/2, 22, kHDScreenWidth * 0.8, 19)];
+    _recordLabel.text = PinRecord;
+    _recordLabel.font = [UIFont systemFontOfSize:18];
+    _recordLabel.textAlignment = NSTextAlignmentCenter;
+    _recordLabel.textColor = [UIColor grayColor];
+    [self addSubview:_recordLabel];
+    
+    // button
+    _recordButton = [[UIButton alloc] initWithFrame:CGRectMake(152, 53, RecordButtonHeight, RecordButtonHeight)];
+    _recordButton.centerX = _recordLabel.centerX;
+    [_recordButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_record_menu_mic_gray"] forState:UIControlStateNormal];
+    [_recordButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_record_menu_mic_recording"] forState:UIControlStateHighlighted];
+    [_recordButton addTarget:self action:@selector(recordButtonTouchDown) forControlEvents:UIControlEventTouchDown];
+    [_recordButton addTarget:self action:@selector(recordButtonTouchUpOutside) forControlEvents:UIControlEventTouchUpOutside];
+    [_recordButton addTarget:self action:@selector(recordButtonTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+    [_recordButton addTarget:self action:@selector(recordDragOutside) forControlEvents:UIControlEventTouchDragExit];
+    [_recordButton addTarget:self action:@selector(recordDragInside) forControlEvents:UIControlEventTouchDragEnter];
+    [self addSubview:_recordButton];
+}
+
+// 点触屏幕
+- (void)recordButtonTouchDown
+{
+    _recordLabel.text = EndOrSlide;
+    if (_delegate && [_delegate respondsToSelector:@selector(didHdStartRecordingVoiceAction:)]) {
+        [_delegate didHdStartRecordingVoiceAction:self.recordView];
+        
+    }
+}
+// 在控件之外触摸抬起事件
+- (void)recordButtonTouchUpOutside
+{
+    [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_mic_gray" andLabelText:PinRecord];
+    if (_delegate && [_delegate respondsToSelector:@selector(didHdCancelRecordingVoiceAction:)])
+    {
+        [_delegate didHdCancelRecordingVoiceAction:self.recordView];
+    }
+}
+// 在控件之内触摸抬起事件
+- (void)recordButtonTouchUpInside
+{
+    _recordLabel.text = PinRecord;
+    if ([self.delegate respondsToSelector:@selector(didHdFinishRecoingVoiceAction:)])
+    {
+        [self.delegate didHdFinishRecoingVoiceAction:self.recordView];
+    }
+    
+}
+// 当一次触摸从控件窗口内部拖动到外部时
+- (void)recordDragOutside
+{
+    [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_mic_cancel" andLabelText:CancelRecord];
+    if ([self.delegate respondsToSelector:@selector(didHdDragOutsideAction:)])
+    {
+        [self.delegate didHdDragOutsideAction:self.recordView];
+    }
+}
+// 当一次触摸从控件窗口之外拖动到内部时
+- (void)recordDragInside
+{
+    [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_mic_gray" andLabelText:EndOrSlide];
+    if ([self.delegate respondsToSelector:@selector(didHdDragInsideAction:)])
+    {
+        [self.delegate didHdDragInsideAction:self.recordView];
+    }
+}
+
+// 显示麦克风的View
+- (UIView *)recordView
+{
+    if (_recordView == nil) {
+        _recordView = [[HDRecordView alloc] initWithFrame:CGRectMake(90, 130, 60, 80)];
+    }
+    
+    return _recordView;
+}
+
+- (void)ListenTime
+{
+    [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_too_short" andLabelText:TimeIsTooShort];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_mic_gray" andLabelText:PinRecord];
+    });
+}
+
+- (void)ListenIsRecording
+{
+    [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_too_short" andLabelText:NotStartedRecording];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_mic_gray" andLabelText:PinRecord];
+    });
+}
+
+- (void)setButtonImage:(NSString *)imageName andLabelText:(NSString *)text;
+{
+    [_recordButton setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+    _recordLabel.text = text;
+}
+
+@end

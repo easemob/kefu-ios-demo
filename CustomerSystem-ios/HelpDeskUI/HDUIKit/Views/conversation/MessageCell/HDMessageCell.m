@@ -55,7 +55,7 @@ NSString *const HDMessageCellIdentifierSendVideo = @"HDMessageCellSendVideo";
 NSString *const HDMessageCellIdentifierSendImage = @"HDMessageCellSendImage";
 NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 
-@interface HDMessageCell()
+@interface HDMessageCell() <SendDeleteTrackMsgDelegate>
 {
     EMMessageBodyType _messageType;
 }
@@ -175,6 +175,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 if (dic ) {
                     if ([HjudgeTextMessageSubType isTrackMessage:model.message]) {
                         [_bubbleView setupTrackBubbleView];
+                        _bubbleView.delegate = self;
                     }
                     if ([HjudgeTextMessageSubType isOrderMessage:model.message]) {
                         [_bubbleView setupOrderBubbleView];
@@ -272,6 +273,14 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     }
     
     return YES;
+}
+// 删除轨迹消息
+- (void)deleteTrackMessage:(UIButton *)sendButton
+{
+    if ([self.deleteTrackMsgdelegate respondsToSelector:@selector(transmitDelegateTrackMessage:sendButton:)]) {
+        [self.deleteTrackMsgdelegate transmitDelegateTrackMessage:_model sendButton:sendButton];
+    }
+
 }
 
 #pragma mark - Setup Constraints
@@ -436,7 +445,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     NSString *content = model.text;
                     _urlMatches = [_detector matchesInString:content options:0 range:NSMakeRange(0, content.length)];
                     _bubbleView.textLabel.attributedText = [self highlightLinksWithIndex:0 attributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:self.messageTextFont]];
-                    
+                     
                 }
                
                 
@@ -994,6 +1003,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     }
                     menu = arr.copy;
                 }
+                
+                // 修改订单，轨迹类消息宽度
                 height += [menuTitle boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
                 for (NSString *string in menu) {
                     height += [string boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
@@ -1007,7 +1018,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 if (dic && ![dic objectForKey:@"videoPlayback"] && ![dic objectForKey:@"liveStreamInvitation"]) {
                     NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
                     if ([dic objectForKey:@"track"]) {
-                        return 2*HDMessageCellPadding + kImageHeight + kTitleHeight + 20;
+                        // 修改轨迹消息的高度
+                        return 2*HDMessageCellPadding + kImageHeight + kTitleHeight + 60;
                     }
                     if ([dic objectForKey:@"order"]) {
                         return 2*HDMessageCellPadding + kImageHeight + 2*kTitleHeight + 20;

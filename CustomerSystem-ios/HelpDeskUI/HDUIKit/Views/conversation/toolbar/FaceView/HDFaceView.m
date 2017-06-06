@@ -23,6 +23,7 @@
     UIScrollView *_bottomScrollView;
     NSInteger _currentSelectIndex;
     NSArray *_emotionManagers;
+    UIButton *_sendButton;
 }
 
 @property (nonatomic, strong) HDFacialView *facialView;
@@ -68,12 +69,12 @@
     [self addSubview:_bottomScrollView];
     [self _setupButtonScrollView];
     
-    UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    sendButton.frame = CGRectMake((kButtomNum-1)*CGRectGetWidth(_facialView.frame)/kButtomNum, CGRectGetMaxY(_facialView.frame), CGRectGetWidth(_facialView.frame)/kButtomNum, CGRectGetHeight(_bottomScrollView.frame));
-    [sendButton setBackgroundColor:[UIColor colorWithRed:30 / 255.0 green:167 / 255.0 blue:252 / 255.0 alpha:1.0]];
-    [sendButton setTitle:NSEaseLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
-    [sendButton addTarget:self action:@selector(sendFace) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:sendButton];
+    _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _sendButton.frame = CGRectMake((kButtomNum-1)*CGRectGetWidth(_facialView.frame)/kButtomNum, CGRectGetMaxY(_facialView.frame), CGRectGetWidth(_facialView.frame)/kButtomNum, CGRectGetHeight(_bottomScrollView.frame));
+    [_sendButton setBackgroundColor:RGBACOLOR(184, 22, 22, 1)];
+    [_sendButton setTitle:NSEaseLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
+    [_sendButton addTarget:self action:@selector(sendFace) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_sendButton];
 }
 
 - (void)_setupButtonScrollView
@@ -143,6 +144,7 @@
 #pragma mark - FacialViewDelegate
 
 -(void)selectedFacialView:(NSString*)str{
+//    [_sendButton setBackgroundColor:RGBACOLOR(184, 22, 22, 1)];
     if (_delegate) {
         [_delegate selectedFacialView:str isDelete:NO];
     }
@@ -156,6 +158,7 @@
 
 - (void)sendFace
 {
+//    [_sendButton setBackgroundColor:RGBACOLOR(216, 216, 216, 1)];
     if (_delegate) {
         [_delegate sendFace];
     }

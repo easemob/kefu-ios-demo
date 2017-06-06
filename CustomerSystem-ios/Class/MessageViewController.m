@@ -9,6 +9,7 @@
 #import "MessageViewController.h"
 #import "LeaveMsgDetailModel.h"
 #import "LeaveMsgCell.h"
+#import "LeaveMessageCell.h"
 //#import "HChatDelegate.h"
 //#import "EaseMob.h"
 //#import "SRRefreshView.h"
@@ -28,6 +29,8 @@
     BOOL        _hasMore;
     NSObject    *_refreshLock;
     BOOL        _isRefreshing;
+    UIView *_view;
+    UILabel *_hintLabel;
 }
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -51,8 +54,15 @@
     self.tableView.delegate = self;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.tableView addSubview:self.slimeView];
-    self.tableView.tableFooterView = [[UIView alloc] init];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    _view = [[UIView alloc] init];
+    _hintLabel = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2, 10, 100, 50)];
+    _hintLabel.textAlignment = NSTextAlignmentCenter;
+    _hintLabel.font = [UIFont systemFontOfSize:15];
+    _hintLabel.text = @"没有留言";
+    [_view addSubview:_hintLabel];
+    self.tableView.tableFooterView = _view;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.tableView.backgroundColor = RGBACOLOR(238, 238, 245, 1);
     
     _pageSize = 10;
@@ -65,7 +75,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
     [self registNotification];
 }
 
@@ -210,25 +220,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identify = @"MessageListCell";
+    static NSString *identify = @"LeaveMessage";
     if (indexPath.section == 0) {
-        LeaveMsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
+        LeaveMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
         if (cell == nil) {
-            cell = [[LeaveMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+            cell = [[LeaveMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
         }
-        
-        
-        LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row];
-        cell.name = [NSString stringWithFormat:@"ID: %@",comment.ticketId];
-        cell.placeholderImage = [UIImage imageNamed:@"customer"];
-        if (comment.attachments) {
-            cell.detailMsg = [NSString stringWithFormat:@"%@-[%@]",comment.content,NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment")];
-        } else {
-            cell.detailMsg = comment.content;
-        }
-        cell.time = [self dateformatWithTimeStr:comment.created_at];
-        cell.placeholderImage = [UIImage imageNamed:@"message_comment"];
-        cell.imageView.backgroundColor = RGBACOLOR(242, 83, 131, 1);
+        cell.leaveMessageModel = [self.dataArray objectAtIndex:indexPath.row];
+        cell.backgroundColor = [UIColor clearColor];
         return cell;
     }
     
@@ -308,6 +307,7 @@
         if (!error) { //请求成功
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
                 if (_page == 0) {
+                    _hintLabel.text = @"没有更多了";
                     [weakSelf.dataArray removeAllObjects];
                 }
                 _page ++ ;
@@ -332,6 +332,7 @@
         } else { //失败
             if (completion) {
                 completion(NO);
+                 _hintLabel.text = @"没有留言";
             }
         }
         _isRefreshing = NO;

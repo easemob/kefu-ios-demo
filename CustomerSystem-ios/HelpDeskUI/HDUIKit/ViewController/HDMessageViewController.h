@@ -25,6 +25,7 @@
 #import "UIViewController+HDHUD.h"
 #import "HDSDKHelper.h"
 #import "SatisfactionViewController.h"
+#import "HRecordView.h"
 typedef NS_ENUM(NSInteger, HDemoSaleType){
     hPreSaleType=100,   //售前
     hAfterSaleType, //售后
@@ -129,7 +130,7 @@ typedef void(^HDSelectAtTargetCallback)(HDAtTarget*);
 
 @end
 
-@interface HDMessageViewController : HDRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */HDCDDeviceManagerDelegate,HDChatToolbarDelegate, HDChatBarMoreViewDelegate, EMLocationViewDelegate, HDMessageCellDelegate,SatisfactionDelegate>
+@interface HDMessageViewController : HDRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */HDCDDeviceManagerDelegate,HDChatToolbarDelegate, HDChatBarMoreViewDelegate, EMLocationViewDelegate, HDMessageCellDelegate,SatisfactionDelegate, HRecordViewDelegate>
 
 @property (weak, nonatomic) id<HDMessageViewControllerDelegate> delegate;
 
@@ -158,9 +159,13 @@ typedef void(^HDSelectAtTargetCallback)(HDAtTarget*);
 
 @property(strong, nonatomic) HDRecordView *recordView;
 
+@property (strong, nonatomic) HRecordView *hrecordView;
+
 @property (strong, nonatomic) UIMenuController *menuController;
 
 @property (strong, nonatomic) NSIndexPath *menuIndexPath;
+
+@property (strong, nonatomic) NSIndexPath *snedButtonIndexPath;
 
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 

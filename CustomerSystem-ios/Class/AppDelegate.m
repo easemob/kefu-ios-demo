@@ -32,6 +32,11 @@
     [self configureNavigationController:navigationController];
     self.window.rootViewController = navigationController;
     
+    //添加自定义小表情
+#pragma mark smallpngface
+    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
+    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[HDConvertToCommonEmoticonsHelper emotionsDictionary]];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -59,7 +64,7 @@
 {
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0)
     {
-        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(242, 83, 131, 1)];
+        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(184, 22, 22, 1)];
         [[UINavigationBar appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:21.0], NSFontAttributeName, nil]];
     }

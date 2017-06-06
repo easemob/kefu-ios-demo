@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UIButton *preSaleButton;
 @property (nonatomic, strong) UIButton *afterSaleButton;
 @property (nonatomic, strong) UIView *buttonView;
+@property (nonatomic, strong) UIView *cutView;
 
 @end
 
@@ -39,24 +40,29 @@
     _buttonView.backgroundColor = [UIColor whiteColor];
     _buttonView.frame = CGRectMake(CGRectGetWidth(self.frame) - 150, 0, 140, 100);
     [self addSubview:_buttonView];
-    
+
     _preSaleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_preSaleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_preSaleButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_preSaleButton setTitle:NSLocalizedString(@"choice.preSale", @"pre Sale") forState:UIControlStateNormal];
     [_preSaleButton addTarget:self action:@selector(preSellAction) forControlEvents:UIControlEventTouchUpInside];
-    [_preSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateNormal];
-    [_preSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department_select"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateHighlighted];
+//    [_preSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateNormal];
+//    [_preSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department_select"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateHighlighted];
     _preSaleButton.frame = CGRectMake(10, 5, 120, 40);
     [_buttonView addSubview:_preSaleButton];
     
     _afterSaleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_afterSaleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_afterSaleButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_afterSaleButton setTitle:NSLocalizedString(@"choice.afterSale", @"after Sales") forState:UIControlStateNormal];
     [_afterSaleButton addTarget:self action:@selector(afterSaleAction) forControlEvents:UIControlEventTouchUpInside];
-    [_afterSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateNormal];
-    [_afterSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department_select"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateHighlighted];
+//    [_afterSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateNormal];
+//    [_afterSaleButton setBackgroundImage:[[UIImage imageNamed:@"button_demo_department_select"] stretchableImageWithLeftCapWidth:10 topCapHeight:5] forState:UIControlStateHighlighted];
     _afterSaleButton.frame = CGRectMake(10, CGRectGetMaxY(_preSaleButton.frame) + 10, 120, 40);
     [_buttonView addSubview:_afterSaleButton];
+    
+    _cutView = [[UIView alloc] init];
+    _cutView.backgroundColor = RGBACOLOR(184, 22, 22, 1);
+    _cutView.frame = CGRectMake(0, _buttonView.frame.size.height/2 - 0.5, _buttonView.frame.size.width, 1);
+    [_buttonView addSubview:_cutView];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideAction)];
     [self addGestureRecognizer:tap];

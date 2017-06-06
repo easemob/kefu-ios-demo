@@ -33,6 +33,13 @@ typedef enum{
     HDMessageCellEventCustomBubbleTap,
 }HDMessageCellTapEventType;
 
+
+@protocol TransmitDeleteTrackMsgDelegate <NSObject>
+
+- (void)transmitDelegateTrackMessage:(id<HDIMessageModel>)model sendButton:(UIButton *)sendButton;
+
+@end
+
 @protocol HDMessageCellDelegate;
 @interface HDMessageCell : UITableViewCell<HDIModelChatCell,UIGestureRecognizerDelegate>
 {
@@ -46,6 +53,8 @@ typedef enum{
 }
 
 @property (weak, nonatomic) id<HDMessageCellDelegate> delegate;
+
+@property (weak, nonatomic) id<TransmitDeleteTrackMsgDelegate> deleteTrackMsgdelegate;
 
 @property (nonatomic, strong) UIActivityIndicatorView *activity;
 

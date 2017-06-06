@@ -35,4 +35,6 @@ typedef enum{
 -(void)recordButtonDragInside;
 -(void)recordButtonDragOutside;
 
+- (void)stopTimeTimer;
+
 @end

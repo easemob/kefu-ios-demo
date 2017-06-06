@@ -150,7 +150,8 @@
     if (self) {
         _pageControl = [[UIPageControl alloc] init];
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+        // 改成水平排列
+        [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
 
         _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         [self.collectionView registerClass:[HDCollectionViewCell class] forCellWithReuseIdentifier:@"collectionCell"];
@@ -275,10 +276,12 @@
 }
 
 #pragma makr - HDCollectionViewCellDelegate
+//if判断里面加了png格式的发送
+#pragma mark smallpngface
 - (void)didSendEmotion:(HDEmotion *)emotion
 {
     if (emotion) {
-        if (emotion.emotionType == HDEmotionDefault) {
+        if (emotion.emotionType == HDEmotionDefault || emotion.emotionType == HDEmotionPng) {
             if (_delegate) {
                 [_delegate selectedFacialView:emotion.emotionId];
             }

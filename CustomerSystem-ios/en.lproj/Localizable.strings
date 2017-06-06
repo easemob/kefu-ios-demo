@@ -165,13 +165,14 @@
 "leaveMessage.leavemsg.loadsucceed" = "Load succeed";
 "leaveMessage.leavemsg.loadfailed" = "Load failed";
 "leaveMessage.leavemsg.comment" = "Comment";
-"leaveMessage.leavemsg.theme" = "Theme:";
+"leaveMessage.leavemsg.theme" = "Theme";
 "leaveMessage.leavemsg.nickname" = "Nickname:";
-"leaveMessage.leavemsg.content" = "Content:";
+"leaveMessage.leavemsg.content" = "Content";
 "leaveMessage.leavemsg.phone" = "Phone:";
 "leaveMessage.leavemsg.qq" = "QQ:";
 "leaveMessage.leavemsg.weibo" = "Weibo:";
-"leaveMessage.leavemsg.mail" = "Mail:";
+"leaveMessage.leavemsg.mail" = "Mail";
+"leaveMessage.leavemsg.time" = "Time";
 "leaveMessage.leavemsg.attachment" = "Attachment";
 "leaveMessage.leavemsg.reply" = "Reply";
 "leaveMessage.leavemsg.addattachment" = "Add Attachment";

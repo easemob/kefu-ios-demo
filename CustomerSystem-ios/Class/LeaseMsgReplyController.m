@@ -16,12 +16,13 @@
 #import "LeaveMsgDetailModel.h"
 #import "HDMessageReadManager.h"
 #import "MBProgressHUD+Add.h"
-#import "DXRecordView.h"
+#import "HDRecordView.h"
 #import "SCAudioPlay.h"
-
+#import "CustomButton.h"
+#import "HRecordView.h"
 #define kDefaultLeft 20
 const NSInteger baseTag=123;
-@interface LeaseMsgReplyController () <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LeaveMsgAttatchmentViewDelegate,SCAudioPlayDelegate>
+@interface LeaseMsgReplyController () <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LeaveMsgAttatchmentViewDelegate,SCAudioPlayDelegate, HRecordViewDelegate>
 
 @property (nonatomic, strong) FLTextView *textView;
 @property (nonatomic, strong) UIButton *addButton;
@@ -30,9 +31,12 @@ const NSInteger baseTag=123;
 @property (nonatomic, strong) UIScrollView *attchmentView;
 @property (nonatomic, strong) NSMutableArray *attachments;
 
-@property(nonatomic,strong) UIButton *recordBtn;
-
-@property(nonatomic,strong) DXRecordView *recordView;
+// 录音键盘切换按钮
+@property (nonatomic,strong) UIButton *recordChangeBtn;
+// 话筒view
+@property (nonatomic,strong) HDRecordView *recordView;
+// 录音按钮view
+@property (nonatomic, strong) HRecordView *recordButtonView;
 
 @end
 
@@ -40,7 +44,11 @@ const NSInteger baseTag=123;
 {
     LeaveMsgAttatchmentView *_currentAnimationView;
     SCAudioPlay *_audioPlayer;
+    HDRecordView *_tmpView;
+    CGFloat _boardHeight;
 }
+
+
 
 - (void)viewDidLoad
 {
@@ -51,91 +59,150 @@ const NSInteger baseTag=123;
     [self clearTempWav];
     [LeaseMsgReplyController resetFile]; //清除amr缓存
     
-    self.title = NSLocalizedString(@"title.reply", @"Reply");
-    self.view.backgroundColor = RGBACOLOR(238, 238, 245, 1);
+    self.view.backgroundColor = RGBACOLOR(255, 255, 255, 1);
     
     [self.view addSubview:self.textView];
     [self.view addSubview:self.addButton];
     [self.view addSubview:self.attchmentView];
     [self setupBarButtonItem];
+//    [_textView becomeFirstResponder];
+    [self.view addSubview:self.recordChangeBtn];
     
-    [self.view addSubview:self.recordBtn];
+    //增加监听，当键盘出现或改变时收出消息
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    //增加监听，当键退出时收出消息
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+//当键盘出现或改变时调用
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+
+    //获取键盘的高度
+    NSDictionary *userInfo = [aNotification userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];
+    _boardHeight = keyboardRect.size.height;
+    
+    [self move];
+}
+
+//当键盘退出时调用
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    [self hide];
 }
 
 - (UIView *)recordView
 {
     if (_recordView == nil) {
-        _recordView = [[DXRecordView alloc] initWithFrame:CGRectMake(90, 130, 140, 140)];
+        _recordView = [[HDRecordView alloc] initWithFrame:CGRectMake(90, 130, 60, 80)];
     }
     
     return _recordView;
 }
 
-- (UIButton *)recordBtn {
-    if (!_recordBtn) {
-        _recordBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _recordBtn.size = CGSizeMake(200, 40);
-        _recordBtn.center = CGPointMake(kScreenWidth/2, kScreenHeight-100);
-        _recordBtn.accessibilityIdentifier = @"record";
-        _recordBtn.titleLabel.font = [UIFont systemFontOfSize:15.0];
-        [_recordBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-        [_recordBtn setBackgroundImage:[[UIImage imageNamed:@"chatBar_recordBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
-        [_recordBtn setBackgroundImage:[[UIImage imageNamed:@"chatBar_recordSelectedBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateHighlighted];
-        [_recordBtn setTitle:kTouchToRecord forState:UIControlStateNormal];
-        [_recordBtn setTitle:kTouchToFinish forState:UIControlStateHighlighted];
-        [_recordBtn addTarget:self action:@selector(recordButtonTouchDown) forControlEvents:UIControlEventTouchDown];
-        [_recordBtn addTarget:self action:@selector(recordButtonTouchUpOutside) forControlEvents:UIControlEventTouchUpOutside];
-        [_recordBtn addTarget:self action:@selector(recordButtonTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-        [_recordBtn addTarget:self action:@selector(recordDragOutside) forControlEvents:UIControlEventTouchDragExit];
-        [_recordBtn addTarget:self action:@selector(recordDragInside) forControlEvents:UIControlEventTouchDragEnter];
+- (UIButton *)recordChangeBtn {
+    if (!_recordChangeBtn) {
+        _recordChangeBtn = [[UIButton alloc] init];
+        _recordChangeBtn.size = CGSizeMake(30, 30);
+        _recordChangeBtn.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 + 30, kScreenHeight - 90);
+        [_recordChangeBtn setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_comment_voice_btn_normal"] forState:UIControlStateNormal];
+        [_recordChangeBtn setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_keyboard_btn_normal"] forState:UIControlStateSelected];
+        [_recordChangeBtn addTarget:self action:@selector(recordChangButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 
     }
-    return _recordBtn;
+    return _recordChangeBtn;
 }
 
-#pragma mark - 录音
-- (void)recordButtonTouchDown
+// 修改 录音按钮的点击事件
+- (void)recordChangButtonAction:(id)sender
 {
-    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
-        [(DXRecordView *)self.recordView recordButtonTouchDown];
+    UIButton *button = (UIButton *)sender;
+    button.selected = !button.selected;
+
+    
+    if (button.selected) {
+        [self.textView resignFirstResponder];
+        
+        
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            _recordChangeBtn.originY = _recordChangeBtn.frame.origin.y - 140;
+            _addButton.originY = _addButton.frame.origin.y - 140;
+            self.recordButtonView = [[HRecordView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_recordChangeBtn.frame), kScreenWidth, 140) mark:@"leaveView"];
+            self.recordButtonView.delegate = self;
+            self.recordButtonView.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
+            [self.view addSubview:self.recordButtonView];
+            
+        } completion:^(BOOL finished) {
+            
+        }];
+    } else {
+        [self.textView becomeFirstResponder];
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [self move];
+            [_recordButtonView removeFromSuperview];
+            
+        } completion:^(BOOL finished) {
+            
+        }];
+        
+        
     }
     
+}
+
+// 录音
+#pragma mark - HRecordViewDelegate
+- (void)didHdStartRecordingVoiceAction:(UIView *)recordView
+{
+
+    if ([recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)recordView recordButtonTouchDown];
+        }
+    
+    
     if ([self _canRecord]) {
-        
-        self.recordView.center = CGPointMake(kScreenWidth/2, CGRectGetMaxY(_textView.frame)+50);
-        [self.view addSubview:self.recordView];
-        [self.view bringSubviewToFront:_recordView];
+        _tmpView = (HDRecordView *)recordView;
+        _tmpView.center = self.view.center;
+        [self.view addSubview:_tmpView];
+        [self.view bringSubviewToFront:recordView];
         int x = arc4random() % 100000;
         NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
         NSString *fileName = [NSString stringWithFormat:@"%d%d",(int)time,x];
         
-        [[HDCDDeviceManager sharedInstance] asyncStartRecordingWithFileName:fileName
-                                                                 completion:^(NSError *error)
+        [[HDCDDeviceManager sharedInstance] asyncStartRecordingWithFileName:fileName completion:^(NSError *error)
          {
              if (error) {
-                 NSLog(NSLocalizedString(@"message.startRecordFail", @"failure to start recording"));
+                 NSLog(@"%@",NSEaseLocalizedString(@"message.startRecordFail", @"failure to start recording"));
              }
          }];
     }
-
 }
 
-- (void)recordButtonTouchUpOutside
+- (void)didHdCancelRecordingVoiceAction:(UIView *)recordView
 {
     [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
-    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
-        [(DXRecordView *)self.recordView recordButtonTouchUpOutside];
+    if ([recordView isKindOfClass:[HDRecordView class]]) {
+        [(HDRecordView *)recordView recordButtonTouchUpOutside];
     }
-    [self.recordView removeFromSuperview];
+        [recordView removeFromSuperview];
+    
 }
 
-
-- (void)recordButtonTouchUpInside
+- (void)didHdFinishRecoingVoiceAction:(UIView *)recordView
 {
-    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
-        [(DXRecordView *)self.recordView recordButtonTouchUpInside];
+    if ([recordView isKindOfClass:[HDRecordView class]]) {
+        [(HDRecordView *)recordView recordButtonTouchUpInside];
     }
-
+    
     __weak typeof(self) weakSelf = self;
     [[HDCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
         if (!error) {
@@ -144,9 +211,9 @@ const NSInteger baseTag=123;
             //            voice.duration = aDuration;
             
             __weak typeof(self) weakSelf = self;
-//            MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment", "Upload attachment") toView:self.view];
-//            hud.layer.zPosition = 1.f;
-//            __weak MBProgressHUD *weakHud = hud;
+            //            MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment", "Upload attachment") toView:self.view];
+            //            hud.layer.zPosition = 1.f;
+            //            __weak MBProgressHUD *weakHud = hud;
             NSString *fileName =[[recordPath componentsSeparatedByString:@"/"] lastObject];
             
             NSData *data = [NSData dataWithContentsOfFile:recordPath];
@@ -172,38 +239,60 @@ const NSInteger baseTag=123;
                     
                 }
             }];
-
+            
         }else {
             [weakSelf showHudInView:self.view hint:NSLocalizedString(@"media.timeShort", @"The recording time is too short")];
-            self.recordBtn.enabled = NO;
+            self.recordChangeBtn.enabled = NO;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [weakSelf hideHud];
-                self.recordBtn.enabled = YES;
+                self.recordChangeBtn.enabled = YES;
             });
         }
     }];
-  
-    [self.recordView removeFromSuperview];
+    
+    [recordView removeFromSuperview];
+
 }
 
-- (void)recordDragOutside
+- (void)didHdDragOutsideAction:(UIView *)recordView
 {
-    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
-        [(DXRecordView *)self.recordView recordButtonDragOutside];
+    if ([recordView isKindOfClass:[HDRecordView class]]) {
+        [(HDRecordView *)recordView recordButtonDragInside];
     }
 }
 
-- (void)recordDragInside
+- (void)didHdDragInsideAction:(UIView *)recordView
 {
-    if ([self.recordView isKindOfClass:[DXRecordView class]]) {
-        [(DXRecordView *)self.recordView recordButtonDragInside];
+    if ([recordView isKindOfClass:[HDRecordView class]]) {
+        [(HDRecordView *)recordView recordButtonDragOutside];
     }
 }
+
+- (void)dealloc
+{
+    [[HDCDDeviceManager sharedInstance] stopPlaying];
+    [HDCDDeviceManager sharedInstance].delegate = nil;
+    
+    if (_imagePicker){
+        [_imagePicker dismissViewControllerAnimated:NO completion:nil];
+        _imagePicker = nil;
+    }
+}
+
+
 
 - (void)setupBarButtonItem
 {
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+    [backButton setTitle:NSLocalizedString(@"title.reply", @"Reply") forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:22];
+    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
+    backButton.imageRect = CGRectMake(10, 10, 20, 18);
+    backButton.titleRect = CGRectMake(45, 10, 120, 18);
+    [self.view addSubview:backButton];
+    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
     [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
@@ -221,11 +310,13 @@ const NSInteger baseTag=123;
 - (FLTextView *)textView
 {
     if (_textView == nil) {
-        _textView = [[FLTextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 124.f)];
+        _textView = [[FLTextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight * 0.5)];
         [_textView setPlaceholderText:[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"title.reply", @"Reply"),@"..."]];
         _textView.fontSize = 13.0;
+        _textView.font = [UIFont systemFontOfSize:18];
+        _textView.layer.borderColor = [UIColor clearColor].CGColor;
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_textView.frame), kScreenWidth, 0.5f)];
-        line.backgroundColor = [UIColor lightGrayColor];
+//        line.backgroundColor = [UIColor lightGrayColor];
         [self.view addSubview:line];
     }
     return _textView;
@@ -235,13 +326,9 @@ const NSInteger baseTag=123;
 {
     if (_addButton == nil) {
         _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _addButton.frame = CGRectMake(20.f,130 + 10.f, 98.f, 28.f);
-        [_addButton setTitle:NSLocalizedString(@"leaveMessage.leavemsg.addattachment", @"Add Attachment") forState:UIControlStateNormal];
-        [_addButton setTitleColor:RGBACOLOR(77, 178, 244, 1) forState:UIControlStateNormal];
-        _addButton.titleLabel.font = [UIFont systemFontOfSize:14.f];
-        _addButton.layer.borderColor = RGBACOLOR(77, 178, 244, 1).CGColor;
-        _addButton.layer.borderWidth = 1.f;
-        _addButton.layer.cornerRadius = 4.f;
+        _addButton.size = CGSizeMake(30, 30);
+        _addButton.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 - 10, kScreenHeight - 90);
+        [_addButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_attachment_btn_normal"] forState:UIControlStateNormal];
         [_addButton addTarget:self action:@selector(addAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _addButton;
@@ -268,7 +355,13 @@ const NSInteger baseTag=123;
 - (UIScrollView*)attchmentView
 {
     if (_attchmentView == nil) {
-        _attchmentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_addButton.frame), kScreenWidth, kScreenHeight - CGRectGetMaxY(_addButton.frame) - 64.f - 100.0)];
+        _attchmentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_textView.frame), kScreenWidth * 0.6, kScreenHeight - CGRectGetMaxY(_textView.frame)  - 200)];
+        _attchmentView.scrollEnabled = YES;
+        _attchmentView.showsHorizontalScrollIndicator = YES;
+        _attchmentView.showsVerticalScrollIndicator = NO;
+        
+        _attchmentView.alwaysBounceHorizontal = NO;
+        _attchmentView.directionalLockEnabled = YES;
     }
     return _attchmentView;
 }
@@ -489,6 +582,20 @@ const NSInteger baseTag=123;
         }
     }
 }
+
+- (void)move
+{
+    [self hide];
+    _recordChangeBtn.originY = _recordChangeBtn.frame.origin.y - _boardHeight + 50;
+    _addButton.originY = _addButton.frame.origin.y - _boardHeight + 50;
+}
+
+- (void)hide
+{
+    _recordChangeBtn.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 + 30, kScreenHeight - 90);
+    _addButton.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 - 10, kScreenHeight - 90);
+}
+
 @end
 
 

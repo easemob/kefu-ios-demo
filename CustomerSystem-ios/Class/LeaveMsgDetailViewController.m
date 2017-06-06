@@ -16,6 +16,7 @@
 #import "SCAudioPlay.h"
 #import "LeaveMsgAttatchmentView.h"
 #import <objc/runtime.h>
+#import "CustomButton.h"
 
 @interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate,SCAudioPlayDelegate,LeaseMsgReplyControllerDelegate,HChatDelegate>
 {
@@ -53,10 +54,10 @@
 {
     [super viewDidLoad];
     [self clearTempWav];
-    self.title = NSLocalizedString(@"title.leavemsgdetail", @"Leave Message Detail");
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         self.edgesForExtendedLayout =  UIRectEdgeNone;
     }
+    self.view.backgroundColor = [UIColor whiteColor];
     self.tableView.tableHeaderView = self.headerView;
     [self.view addSubview:self.replyButton];
     [self.view addSubview:self.tableView];
@@ -86,8 +87,16 @@
 
 - (void)setupBarButtonItem
 {
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+    [backButton setTitle:NSLocalizedString(@"title.leavemsgdetail", @"Leave Message Detail") forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:22];
+    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
+    backButton.imageRect = CGRectMake(10, 10, 20, 18);
+    backButton.titleRect = CGRectMake(45, 10, 120, 18);
+    [self.view addSubview:backButton];
+    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
     [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
@@ -126,9 +135,9 @@
     if (_replyButton == nil) {
         _replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _replyButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-        _replyButton.frame = CGRectMake(0, kScreenHeight - 50.f, kScreenWidth, 50.f);
-        [_replyButton setTitle:NSLocalizedString(@"leaveMessage.leavemsg.reply", @"Reply") forState:UIControlStateNormal];
-        [_replyButton setBackgroundColor:RGBACOLOR(242, 83, 131, 1)];
+        _replyButton.frame = CGRectMake(20, kScreenHeight - 50.f, kScreenWidth-40, 40.f);
+        [_replyButton setTitle:NSLocalizedString(@"leaveMessage.leavemsg.comment", @"comment") forState:UIControlStateNormal];
+        [_replyButton setBackgroundColor:RGBACOLOR(184, 22, 22, 1)];
         [_replyButton addTarget:self action:@selector(replyAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _replyButton;
@@ -181,7 +190,7 @@
             lineView.backgroundColor = RGBACOLOR(207, 210, 213, 0.7);
             [cell.contentView addSubview:lineView];
         }
-        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.textAlignment = NSTextAlignmentLeft;
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.comment", @"comment");
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;

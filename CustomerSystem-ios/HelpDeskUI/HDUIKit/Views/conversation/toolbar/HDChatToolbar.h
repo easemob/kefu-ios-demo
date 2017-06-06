@@ -52,6 +52,8 @@
 
 @property (strong, nonatomic) UIView *recordView;
 
+@property (strong, nonatomic) UIView *newRecordView;
+
 - (instancetype)initWithFrame:(CGRect)frame;
 
 /**

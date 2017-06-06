@@ -10,6 +10,7 @@
 #import "AppDelegate+HelpDesk.h"
 #import "EditViewController.h"
 #import "LocalDefine.h"
+#import "HDChatViewController.h"
 
 
 @interface SettingViewController ()<UIAlertViewDelegate>
@@ -118,8 +119,14 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        UILabel *contentLabel = nil;
+        if (indexPath.section ==3 || indexPath.section == 4) {
+            contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 10, tableView.frame.size.width - 100 - 20 - 30, 25)];
+        } else {
+            contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 10, tableView.frame.size.width - 100 - 20 - 30, 25)];
+        }
         
-        UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 10, tableView.frame.size.width - 100 - 20 - 30, 25)];
+
         contentLabel.font = [UIFont systemFontOfSize:17.0];
         contentLabel.textColor = [UIColor grayColor];
         contentLabel.tag = 99;
@@ -146,20 +153,20 @@
             break;
         case 2:
         {
-            cell.textLabel.text = NSLocalizedString(@"title.tenantId",@"tenantId");
-            tempLabel.text = _tenantId;
+            cell.textLabel.text = NSLocalizedString(@"setNickname", @"setNickname");
+            tempLabel.text = nil;
         }
             break;
         case 3:
         {
-            cell.textLabel.text = NSLocalizedString(@"title.projectId", @"projectId");
-            tempLabel.text = _projectId;
+            cell.textLabel.text = NSLocalizedString(@"title.tenantId",@"tenantId");
+            tempLabel.text = _tenantId;
         }
             break;
         case 4:
         {
-            cell.textLabel.text = NSLocalizedString(@"setNickname", @"setNickname");
-            tempLabel.text = _nickname;
+            cell.textLabel.text = NSLocalizedString(@"title.projectId", @"projectId");
+            tempLabel.text = _projectId;
         }
             break;
         case 5:
@@ -168,7 +175,7 @@
             NSString *build = [NSString stringWithFormat:@"(%@)",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
             NSString *fullVersion = [version stringByAppendingString:build];
             cell.textLabel.text = NSLocalizedString(@"setting.feedback", @"feedback");
-            tempLabel.text = [NSString stringWithFormat:@"Version:%@",fullVersion];
+//            tempLabel.text = [NSString stringWithFormat:@"Version:%@",fullVersion];
         }
             break;
         default:
@@ -205,42 +212,39 @@
     switch (section) {
         case 0:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"appkey" content:_appkey];
-            editController.title = @"Appkey";
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"AppKey" content:_appkey];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 1:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"cname" content:_cname];
-            editController.title = NSLocalizedString(@"customerUser", @"Customer");
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"IM服务号" content:_cname];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 2:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"tenantId" content:_tenantId];
-            editController.title = NSLocalizedString(@"title.tenantId",@"tenantId");
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"登录用户昵称" content:nil];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 3:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"projectId" content:_projectId];
-            editController.title = NSLocalizedString(@"title.projectId", @"projectId");
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"租户ID(TenantId)" content:_tenantId];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 4:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"nickname" content:_nickname];
-            editController.title = NSLocalizedString(@"setNickname", @"setNickname");
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"留言ID(ProjectId)" content:_projectId];
             [self.navigationController pushViewController:editController animated:YES];
         }
-            break;                             
+            break;
         case 5:
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:nil];
+            HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
+            [self.navigationController pushViewController:chat animated:YES];
+
         }
             break;
         default:

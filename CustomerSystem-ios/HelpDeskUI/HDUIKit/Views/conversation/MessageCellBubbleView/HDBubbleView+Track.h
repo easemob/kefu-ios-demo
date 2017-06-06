@@ -7,10 +7,10 @@
 //
 
 #import "HDBubbleView.h"
-
 @interface HDBubbleView (Track)
 
 - (void)setupTrackBubbleView;
 
 - (void)updateTrackMargin:(UIEdgeInsets)margin;
+
 @end

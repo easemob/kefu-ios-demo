@@ -28,6 +28,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     SettingViewController *_settingController;
     MessageViewController *_leaveMsgVC;
     UIBarButtonItem *_chatItem;
+    UIBarButtonItem *_leaveItem;
+    UIBarButtonItem *_settingleftItem;
+    UIBarButtonItem *_settingRightItem;
 }
 
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;
@@ -62,12 +65,28 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [self setupSubviews];
     self.selectedIndex = 0;
     
-    UIButton *chatButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 90, 44)];
-    [chatButton setTitle:NSLocalizedString(@"customerChat", @"Customer") forState:UIControlStateNormal];
+    UIButton *chatButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 17)];
+    [chatButton setBackgroundImage:[UIImage imageNamed:@"hd_chat_icon.png"] forState:UIControlStateNormal];
     [chatButton addTarget:self action:@selector(chatItemAction) forControlEvents:UIControlEventTouchUpInside];
-    [chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _chatItem = [[UIBarButtonItem alloc] initWithCustomView:chatButton];
     self.navigationItem.rightBarButtonItem = _chatItem;
+    
+    UIButton *setRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 17)];
+    [setRightButton setBackgroundImage:[UIImage imageNamed:@"hd_scan_icon.png"] forState:UIControlStateNormal];
+    [setRightButton addTarget:self action:@selector(scan) forControlEvents:UIControlEventTouchUpInside];
+    _settingRightItem = [[UIBarButtonItem alloc] initWithCustomView:setRightButton];
+    
+    UIButton *setLeftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [setLeftButton setTitle:@"设置" forState:UIControlStateNormal];
+    setLeftButton.titleLabel.font = [UIFont systemFontOfSize:18];
+    setLeftButton.userInteractionEnabled = NO;
+    _settingleftItem = [[UIBarButtonItem alloc] initWithCustomView:setLeftButton];
+    
+    UIButton *leaveButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [leaveButton setTitle:@"留言" forState:UIControlStateNormal];
+    leaveButton.titleLabel.font = [UIFont systemFontOfSize:18];
+    leaveButton.userInteractionEnabled = NO;
+    _leaveItem = [[UIBarButtonItem alloc] initWithCustomView:leaveButton];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
 }
@@ -120,9 +139,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             chat.visitorInfo = [self visitorInfo];
             chat.commodityInfo = (NSDictionary *)notification.object;
             if ([notification.object objectForKey:kpreSell]) {
-                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
+//                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
             } else {
-                chat.title = [SCLoginManager shareLoginManager].cname;
+//                chat.title = [SCLoginManager shareLoginManager].cname;
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                  [self.navigationController pushViewController:chat animated:YES];
@@ -184,16 +203,27 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     if (item.tag == 0) {
-        self.title = NSLocalizedString(@"title.mall", @"Mall");
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 97, 17)];//初始化图片视图控件
+        imageView.contentMode = UIViewContentModeScaleAspectFit;//设置内容样式,通过保持长宽比缩放内容适应视图的大小,任何剩余的区域的视图的界限是透明的。
+        UIImage *image = [UIImage imageNamed:@"hd_logo.png"];//初始化图像视图
+        [imageView setImage:image];
+        self.navigationItem.titleView = imageView;//设置导航栏的titleView为imageView
+        self.title = nil;
         self.navigationItem.rightBarButtonItem = _chatItem;
+        self.navigationItem.leftBarButtonItem = nil;
+
     }
     else if (item.tag == 1){
-        self.title = NSLocalizedString(@"title.messagebox", @"Message Box");
+        self.title = nil;
+        self.navigationItem.titleView = nil;
         self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.leftBarButtonItem = _leaveItem;
     }
     else if (item.tag == 2){
-        self.title = NSLocalizedString(@"title.setting", @"Setting");
-        self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTitle:@"扫一扫" titleColor:[UIColor whiteColor] selectedTitleColor:[UIColor lightGrayColor] target:self action:@selector(scan)];
+        self.title = nil;
+        self.navigationItem.titleView = nil;
+        self.navigationItem.rightBarButtonItem = _settingRightItem;
+        self.navigationItem.leftBarButtonItem = _settingleftItem;
     }
 }
 
@@ -225,7 +255,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7)
     {
-        self.tabBar.tintColor = RGBACOLOR(242, 83, 131, 1);
+        self.tabBar.tintColor = RGBACOLOR(184, 22, 22, 1);
     }
     else{
         self.tabBar.tintColor = [UIColor colorWithWhite:1.0 alpha:0.8];
@@ -233,20 +263,20 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     _mallController = [[MallViewController alloc] initWithNibName:nil bundle:nil];
     _mallController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.mall", @"Mall") image:nil tag:0];
-    [_mallController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_mallHL"] withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_mall"]];
+    [_mallController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_shop_select"] withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_shop_normal"]];
     [self unSelectedTapTabBarItems:_mallController.tabBarItem];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
     _leaveMsgVC = [[MessageViewController alloc] initWithNibName:nil bundle:nil];
     _leaveMsgVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.messagebox", @"Message Box") image:nil tag:1];
-    [_leaveMsgVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_message_hl"] withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_message"]];
+    [_leaveMsgVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_ticket_select"] withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_ticket_normal"]];
     [self unSelectedTapTabBarItems:_leaveMsgVC.tabBarItem];
     [self selectedTapTabBarItems:_leaveMsgVC.tabBarItem];
     
     _settingController = [[SettingViewController alloc] initWithNibName:nil bundle:nil];
     _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:2];
-    [_settingController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_settingHL"]
-                         withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_setting"]];
+    [_settingController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_setting_select"]
+                         withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_setting_normal"]];
     _settingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self unSelectedTapTabBarItems:_settingController.tabBarItem];
     [self selectedTapTabBarItems:_settingController.tabBarItem];
@@ -262,15 +292,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 -(void)unSelectedTapTabBarItems:(UITabBarItem *)tabBarItem
 {
     [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIFont systemFontOfSize:14], UITextAttributeFont,[UIColor grayColor],UITextAttributeTextColor,
+                                        [UIFont systemFontOfSize:10], UITextAttributeFont,[UIColor grayColor],UITextAttributeTextColor,
                                         nil] forState:UIControlStateNormal];
 }
 
 -(void)selectedTapTabBarItems:(UITabBarItem *)tabBarItem
 {
     [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIFont systemFontOfSize:14],
-                                        UITextAttributeFont,RGBACOLOR(242, 83, 131, 1),UITextAttributeTextColor,
+                                        [UIFont systemFontOfSize:10],
+                                        UITextAttributeFont,RGBACOLOR(184, 22, 22, 1),UITextAttributeTextColor,
                                         nil] forState:UIControlStateSelected];
 }
 

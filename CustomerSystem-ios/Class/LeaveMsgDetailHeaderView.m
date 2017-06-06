@@ -44,7 +44,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 8;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -65,34 +65,33 @@
     CGRect frame = tempLabel.frame;
     frame.size.height = [self tableView:tableView heightForRowAtIndexPath:indexPath];
     tempLabel.frame = frame;
+    tempLabel.textAlignment = NSTextAlignmentRight;
     tempLabel.numberOfLines = frame.size.height/15;
-    if (indexPath.row == 0) {
-        cell.textLabel.text = [NSString stringWithFormat:@"NO.%@",_msgDetailModel.comment.ticketId];
-        tempLabel.text = @"";
+   if (indexPath.row == 0) {
+        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.mail", @"Mail:");
+        tempLabel.text = _msgDetailModel.comment.creator.email;
     } else if (indexPath.row == 1) {
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.theme", @"theme:");
         tempLabel.text = _msgDetailModel.comment.subject;
     } else if (indexPath.row == 2) {
-        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.nickname", @"nickname:");
-        tempLabel.text = _msgDetailModel.comment.creator.name;
-    } else if (indexPath.row == 3) {
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.content", @"content:");
         tempLabel.text = _msgDetailModel.comment.content;
-    } else if (indexPath.row == 4) {
-        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.phone", @"phone:");
-        tempLabel.text = _msgDetailModel.comment.creator.phone;
-    } else if (indexPath.row == 5) {
-        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.qq", @"QQ:");
-        tempLabel.text = _msgDetailModel.comment.creator.qq;
-    } else if (indexPath.row == 6) {
-        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.weibo", @"Weibo:");
-        tempLabel.text = @"";
-    } else if (indexPath.row == 7) {
-        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.mail", @"Mail:");
-        tempLabel.text = _msgDetailModel.comment.creator.email;
+    } else if (indexPath.row == 3) {
+        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.time", @"Time:");
+        tempLabel.text = [self dateformatWithTimeStr:_msgDetailModel.comment.created_at];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (NSString *)dateformatWithTimeStr:(NSString *)time {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //输入格式
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+    NSDate *date = [dateFormatter dateFromString:time];
+    [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm"];
+    NSString *timeStr=[dateFormatter stringFromDate:date];
+    return timeStr;
 }
 
 #pragma mark - UITableViewDelegate
@@ -101,22 +100,14 @@
     CGRect rect = CGRectZero;
     NSString *text;
     if (_msgDetailModel) {
-        if (indexPath.row == 0) {
-            text = @"";
+       if (indexPath.row == 0) {
+            text = _msgDetailModel.comment.creator.email;
         } else if (indexPath.row == 1) {
             text = _msgDetailModel.comment.subject;
         } else if (indexPath.row == 2) {
-            text = _msgDetailModel.comment.creator.name;
-        } else if (indexPath.row == 3) {
             text = _msgDetailModel.comment.content;
-        } else if (indexPath.row == 4) {
-            text = _msgDetailModel.comment.creator.phone;
-        } else if (indexPath.row == 5) {
-            text = _msgDetailModel.comment.creator.qq;
-        } else if (indexPath.row == 6) {
-            text = @"";
-        } else if (indexPath.row == 7) {
-            text = _msgDetailModel.comment.creator.email;
+        } else if (indexPath.row == 3) {
+            text = _msgDetailModel.comment.created_at;
         }
         
         rect = [text boundingRectWithSize:CGSizeMake(tableView.frame.size.width - 120, MAXFLOAT)
@@ -125,8 +116,8 @@
                                   context:nil];
     }
     
-    if (rect.size.height < 227/8) {
-        return 227/8;
+    if (rect.size.height < 160/4) {
+        return 160/4;
     }
     
     return rect.size.height;
@@ -136,7 +127,7 @@
 {
     CGFloat height=0;
     [NSIndexPath indexPathForRow:0 inSection:0];
-    for (int i = 0; i < 8; i ++) {
+    for (int i = 0; i < 4; i ++) {
         height += [self tableView:self heightForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
     }
     return height;

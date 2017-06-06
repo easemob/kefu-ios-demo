@@ -18,8 +18,11 @@
 {
     NSTimer *_timer;
     UIImageView *_recordAnimationView;
-    UILabel *_textLabel;
+    UILabel *_timeLabel;
 }
+
+@property (nonatomic) int timeLength;
+@property (strong, nonatomic) NSTimer *timeTimer;
 
 @end
 
@@ -29,9 +32,9 @@
 {
     // UIAppearance Proxy Defaults
     HDRecordView *recordView = [self appearance];
-    recordView.voiceMessageAnimationImages = @[@"HelpDeskUIResource.bundle/VoiceSearchFeedback001",@"HelpDeskUIResource.bundle/VoiceSearchFeedback002",@"HelpDeskUIResource.bundle/VoiceSearchFeedback003",@"HelpDeskUIResource.bundle/VoiceSearchFeedback004",@"HelpDeskUIResource.bundle/VoiceSearchFeedback005",@"HelpDeskUIResource.bundle/VoiceSearchFeedback006",@"HelpDeskUIResource.bundle/VoiceSearchFeedback007",@"HelpDeskUIResource.bundle/VoiceSearchFeedback008",@"HelpDeskUIResource.bundle/VoiceSearchFeedback009",@"HelpDeskUIResource.bundle/VoiceSearchFeedback010",@"HelpDeskUIResource.bundle/VoiceSearchFeedback011",@"HelpDeskUIResource.bundle/VoiceSearchFeedback012",@"HelpDeskUIResource.bundle/VoiceSearchFeedback013",@"HelpDeskUIResource.bundle/VoiceSearchFeedback014",@"HelpDeskUIResource.bundle/VoiceSearchFeedback015",@"HelpDeskUIResource.bundle/VoiceSearchFeedback016",@"HelpDeskUIResource.bundle/VoiceSearchFeedback017",@"HelpDeskUIResource.bundle/VoiceSearchFeedback018",@"HelpDeskUIResource.bundle/VoiceSearchFeedback019",@"HelpDeskUIResource.bundle/VoiceSearchFeedback020"];
-    recordView.upCancelText = NSEaseLocalizedString(@"message.toolBar.record.upCancel", @"Fingers up slide, cancel sending");
-    recordView.loosenCancelText = NSEaseLocalizedString(@"message.toolBar.record.loosenCancel", @"loosen the fingers, to cancel sending");
+    recordView.voiceMessageAnimationImages = @[@"HelpDeskUIResource.bundle/hd_record_animate_1",@"HelpDeskUIResource.bundle/hd_record_animate_2",@"HelpDeskUIResource.bundle/hd_record_animate_3",@"HelpDeskUIResource.bundle/hd_record_animate_4",@"HelpDeskUIResource.bundle/hd_record_animate_5",@"HelpDeskUIResource.bundle/hd_record_animate_6",@"HelpDeskUIResource.bundle/hd_record_animate_7",@"HelpDeskUIResource.bundle/hd_record_animate_8",@"HelpDeskUIResource.bundle/hd_record_animate_9",@"HelpDeskUIResource.bundle/hd_record_animate_10",@"HelpDeskUIResource.bundle/hd_record_animate_11",@"HelpDeskUIResource.bundle/hd_record_animate_12",@"HelpDeskUIResource.bundle/hd_record_animate_13",@"HelpDeskUIResource.bundle/hd_record_animate_14"];
+//    recordView.upCancelText = NSEaseLocalizedString(@"message.toolBar.record.upCancel", @"Fingers up slide, cancel sending");
+//    recordView.loosenCancelText = NSEaseLocalizedString(@"message.toolBar.record.loosenCancel", @"loosen the fingers, to cancel sending");
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -46,25 +49,24 @@
         bgView.alpha = 0.6;
         [self addSubview:bgView];
         
-        _recordAnimationView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, self.bounds.size.width - 20, self.bounds.size.height - 30)];
-        _recordAnimationView.image = [UIImage imageNamed:@"HelpDeskUIResource.bundle/VoiceSearchFeedback001"];
+        _recordAnimationView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, self.bounds.size.width - 20, self.bounds.size.height - 30)];
+        _recordAnimationView.image = [UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_record_animate_1"];
         _recordAnimationView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:_recordAnimationView];
         
-        _textLabel = [[UILabel alloc] initWithFrame:CGRectMake(5,
-                                                               self.bounds.size.height - 30,
-                                                               self.bounds.size.width - 10,
-                                                               25)];
+        _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20,
+                                                               65,
+                                                               20,
+                                                               10)];
         
-        _textLabel.textAlignment = NSTextAlignmentCenter;
-        _textLabel.backgroundColor = [UIColor clearColor];
-        _textLabel.text = NSEaseLocalizedString(@"message.toolBar.record.upCancel", @"Fingers up slide, cancel sending");
-        [self addSubview:_textLabel];
-        _textLabel.font = [UIFont systemFontOfSize:13];
-        _textLabel.textColor = [UIColor whiteColor];
-        _textLabel.layer.cornerRadius = 5;
-        _textLabel.layer.borderColor = [[UIColor redColor] colorWithAlphaComponent:0.5].CGColor;
-        _textLabel.layer.masksToBounds = YES;
+        _timeLabel.textAlignment = NSTextAlignmentCenter;
+        _timeLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:_timeLabel];
+        _timeLabel.font = [UIFont systemFontOfSize:13];
+        _timeLabel.textColor = [UIColor whiteColor];
+        _timeLabel.layer.cornerRadius = 5;
+        _timeLabel.layer.borderColor = [[UIColor redColor] colorWithAlphaComponent:0.5].CGColor;
+        _timeLabel.layer.masksToBounds = YES;
     }
     return self;
 }
@@ -78,7 +80,7 @@
 - (void)setUpCancelText:(NSString *)upCancelText
 {
     _upCancelText = upCancelText;
-    _textLabel.text = _upCancelText;
+    _timeLabel.text = _upCancelText;
 }
 
 - (void)setLoosenCancelText:(NSString *)loosenCancelText
@@ -88,16 +90,33 @@
 
 -(void)recordButtonTouchDown
 {
-    [self addCover];
-    _textLabel.text = _upCancelText;
-    _textLabel.backgroundColor = [UIColor clearColor];
-    _timer = [NSTimer scheduledTimerWithTimeInterval:0.05
-                                              target:self
-                                            selector:@selector(setVoiceImage)
-                                            userInfo:nil
-                                             repeats:YES];
+    [self stopTimeTimer];
+    self.timeLength = 0;
+    self.timeTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timeTimerAction:) userInfo:nil repeats:YES];
     
 }
+
+- (void)timeTimerAction:(id)sender
+{
+    self.timeLength += 1;
+    int hour = self.timeLength / 3600;
+    int m = (self.timeLength - hour * 3600) / 60;
+    int s = self.timeLength - hour * 3600 - m * 60;
+    
+ 
+    _timeLabel.text = [NSString stringWithFormat:@"%i", s];
+    
+}
+
+- (void)stopTimeTimer
+{
+    if (self.timeTimer) {
+        [self.timeTimer invalidate];
+        self.timeTimer = nil;
+        _timeLabel.text = nil;
+    }
+}
+
 
 - (void)addCover {
     UIWindow *keyw = [UIApplication sharedApplication].keyWindow;
@@ -114,26 +133,26 @@
 }
 -(void)recordButtonTouchUpInside
 {
+    [self stopTimeTimer];
     [self removeCoverView];
-    [_timer invalidate];
 }
 
 -(void)recordButtonTouchUpOutside
 {
+    [self stopTimeTimer];
     [self removeCoverView];
-    [_timer invalidate];
 }
 
 -(void)recordButtonDragInside
 {
-    _textLabel.text = _upCancelText;
-    _textLabel.backgroundColor = [UIColor clearColor];
+//    _textLabel.text = _upCancelText;
+//    _textLabel.backgroundColor = [UIColor clearColor];
 }
 
 -(void)recordButtonDragOutside
 {
-    _textLabel.text = _loosenCancelText;
-    _textLabel.backgroundColor = [UIColor redColor];
+//    _textLabel.text = _loosenCancelText;
+//    _textLabel.backgroundColor = [UIColor redColor];
 }
 
 -(void)setVoiceImage {

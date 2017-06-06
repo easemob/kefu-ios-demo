@@ -17,6 +17,8 @@
 #import "HDEmotionEscape.h"
 #import "HDEmotionManager.h"
 #import "HDLocalDefine.h"
+#import "HRecordView.h"
+#import "HDEmotionEscape.h"
 
 @interface HDChatToolbar()<UITextViewDelegate, HDFaceDelegate>
 
@@ -42,7 +44,7 @@
 @synthesize faceView = _faceView;
 @synthesize moreView = _moreView;
 @synthesize recordView = _recordView;
-
+@synthesize newRecordView = _newRecordView;
 
 - (instancetype)initWithFrame:(CGRect)frame
 
@@ -108,7 +110,7 @@
     [_toolbarView addSubview:_toolbarBackgroundImageView];
     
     //input textview
-    _inputTextView = [[HDTextView alloc] initWithFrame:CGRectMake(self.horizontalPadding, self.verticalPadding, self.frame.size.width - self.verticalPadding * 2, self.frame.size.height - self.verticalPadding * 2)];
+    _inputTextView = [[HDTextView alloc] initWithFrame:CGRectMake(self.horizontalPadding, self.verticalPadding*2, self.frame.size.width - self.verticalPadding * 2, self.frame.size.height - self.verticalPadding * 2)];
     _inputTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _inputTextView.scrollEnabled = YES;
     _inputTextView.returnKeyType = UIReturnKeySend;
@@ -116,54 +118,38 @@
     _inputTextView.placeHolder = NSEaseLocalizedString(@"message.toolBar.inputPlaceHolder", @"input a new message");
     _inputTextView.delegate = self;
     _inputTextView.backgroundColor = [UIColor clearColor];
-    _inputTextView.layer.borderColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
-    _inputTextView.layer.borderWidth = 0.65f;
-    _inputTextView.layer.cornerRadius = 6.0f;
+//    _inputTextView.layer.borderColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
+//    _inputTextView.layer.borderWidth = 0.65f;
+//    _inputTextView.layer.cornerRadius = 6.0f;
+    
     _previousTextViewContentHeight = [self _getTextViewContentH:_inputTextView];
     [_toolbarView addSubview:_inputTextView];
     
     //change input type
     UIButton *styleChangeButton = [[UIButton alloc] init];
     styleChangeButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    [styleChangeButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_record"] forState:UIControlStateNormal];
-    [styleChangeButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_keyboard"] forState:UIControlStateSelected];
+    [styleChangeButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_voice_btn_normal"] forState:UIControlStateNormal];
+    [styleChangeButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_keyboard_btn_normal"] forState:UIControlStateSelected];
     [styleChangeButton addTarget:self action:@selector(styleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    
-    HDChatToolbarItem *styleItem = [[HDChatToolbarItem alloc] initWithButton:styleChangeButton withView:nil];
+    // 把录音按钮和自定义的录音按钮所在的控件newRecordView传进去，从而显示自己的view
+    HDChatToolbarItem *styleItem = [[HDChatToolbarItem alloc] initWithButton:styleChangeButton withView:self.newRecordView];
     [self setInputViewLeftItems:@[styleItem]];
-    
-    //record
-    self.recordButton = [[UIButton alloc] initWithFrame:self.inputTextView.frame];
-    self.recordButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
-    [self.recordButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [self.recordButton setBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_recordBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
-    [self.recordButton setBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_recordSelectedBg"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateHighlighted];
-    [self.recordButton setTitle:kTouchToRecord forState:UIControlStateNormal];
-    [self.recordButton setTitle:kTouchToFinish forState:UIControlStateHighlighted];
-    self.recordButton.hidden = YES;
-    [self.recordButton addTarget:self action:@selector(recordButtonTouchDown) forControlEvents:UIControlEventTouchDown];
-    [self.recordButton addTarget:self action:@selector(recordButtonTouchUpOutside) forControlEvents:UIControlEventTouchUpOutside];
-    [self.recordButton addTarget:self action:@selector(recordButtonTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-    [self.recordButton addTarget:self action:@selector(recordDragOutside) forControlEvents:UIControlEventTouchDragExit];
-    [self.recordButton addTarget:self action:@selector(recordDragInside) forControlEvents:UIControlEventTouchDragEnter];
-    self.recordButton.hidden = YES;
-    [self.toolbarView addSubview:self.recordButton];
     
     //emoji
     self.faceButton = [[UIButton alloc] init];
     self.faceButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_face"] forState:UIControlStateNormal];
-    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_faceSelected"] forState:UIControlStateHighlighted];
-    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_keyboard"] forState:UIControlStateSelected];
+    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_biaoqing_btn_normal"] forState:UIControlStateNormal];
+//    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_faceSelected"] forState:UIControlStateHighlighted];
+    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_keyboard_btn_normal"] forState:UIControlStateSelected];
     [self.faceButton addTarget:self action:@selector(faceButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     HDChatToolbarItem *faceItem = [[HDChatToolbarItem alloc] initWithButton:self.faceButton withView:self.faceView];
     
     //more
     self.moreButton = [[UIButton alloc] init];
     self.moreButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_more"] forState:UIControlStateNormal];
-    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_moreSelected"] forState:UIControlStateHighlighted];
-    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_keyboard"] forState:UIControlStateSelected];
+    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_type_select_btn_nor"] forState:UIControlStateNormal];
+//    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_moreSelected"] forState:UIControlStateHighlighted];
+    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_type_less_btn_nor"] forState:UIControlStateSelected];
     [self.moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     HDChatToolbarItem *moreItem = [[HDChatToolbarItem alloc] initWithButton:self.moreButton withView:self.moreView];
     
@@ -213,6 +199,17 @@
     return _moreView;
 }
 
+- (UIView *)newRecordView
+{
+    if (_newRecordView == nil) {
+        _newRecordView = [[HRecordView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_toolbarView.frame), self.frame.size.width, 80) mark:nil];
+        _newRecordView.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
+        _newRecordView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    }
+    
+    return _newRecordView;
+}
+
 #pragma mark - setter
 
 - (void)setDelegate:(id)delegate
@@ -238,6 +235,20 @@
         for (HDChatToolbarItem *item in self.rightItems) {
             if (item.button == self.moreButton) {
                 item.button2View = _moreView;
+                break;
+            }
+        }
+    }
+}
+
+- (void)setNewRecordView:(UIView *)newRecordView
+{
+    if ( _newRecordView!= newRecordView) {
+        _newRecordView = newRecordView;
+        
+        for (HDChatToolbarItem *item in self.leftItems) {
+            if (item.button == self.newRecordView) {
+                item.button2View = _newRecordView;
                 break;
             }
         }
@@ -512,9 +523,28 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+
+    
     if ([text isEqualToString:@"\n"]) {
         if ([self.delegate respondsToSelector:@selector(didSendText:)]) {
-            [self.delegate didSendText:textView.text];
+#pragma mark smallpngface
+            NSMutableString *attStr = [[NSMutableString alloc] initWithString:self.inputTextView.attributedText.string];
+            [_inputTextView.attributedText enumerateAttribute:NSAttachmentAttributeName
+                                                      inRange:NSMakeRange(0, self.inputTextView.attributedText.length)
+                                                      options:NSAttributedStringEnumerationReverse
+                                                   usingBlock:^(id value, NSRange range, BOOL *stop)
+             {
+                 if (value) {
+                     HDTextAttachment *attachment = (HDTextAttachment*)value;
+                     NSString *str = [NSString stringWithFormat:@"%@",attachment.imageName];
+                     
+                     NSLog(@"str----%@", str);
+                     
+                     [attStr replaceCharactersInRange:range withString:str];
+                 }
+             }];
+            
+            [self.delegate didSendText:attStr];
             self.inputTextView.text = @"";
             [self _willShowInputTextViewToHeight:[self _getTextViewContentH:self.inputTextView]];
         }
@@ -535,6 +565,8 @@
             return ![self.delegate didDeleteCharacterFromLocation:range.location];
         }
     }
+    
+    
     return YES;
 }
 
@@ -550,6 +582,7 @@
     NSString *chatText = self.inputTextView.text;
     
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:self.inputTextView.attributedText];
+    
     
     if (!isDelete && str.length > 0) {
         if (self.version >= 7.0) {
@@ -661,35 +694,41 @@
 
 #pragma mark - action
 
+// 修改 录音按钮的点击事件
 - (void)styleButtonAction:(id)sender
 {
     UIButton *button = (UIButton *)sender;
     button.selected = !button.selected;
-    if (button.selected) {
-        for (HDChatToolbarItem *item in self.rightItems) {
-            item.button.selected = NO;
+
+    
+    HDChatToolbarItem *styleItem = nil;
+    for (HDChatToolbarItem *item in self.leftItems) {
+        if (item.button == button){
+            styleItem = item;
+            continue;
         }
         
-        for (HDChatToolbarItem *item in self.leftItems) {
-            if (item.button != button) {
-                item.button.selected = NO;
-            }
-        }
-        
-        [self _willShowBottomView:nil];
-        
-        self.inputTextView.text = @"";
-        [self textViewDidChange:self.inputTextView];
-        [self.inputTextView resignFirstResponder];
+        item.button.selected = NO;
     }
-    else{
+    
+    for (HDChatToolbarItem *item in self.rightItems) {
+        item.button.selected = NO;
+    }
+    
+    if (button.selected) {
+        [self.inputTextView resignFirstResponder];
+        
+        [self _willShowBottomView:styleItem.button2View];
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.recordButton.hidden = button.selected;
+            self.inputTextView.hidden = !button.selected;
+        } completion:^(BOOL finished) {
+            
+        }];
+    } else {
         [self.inputTextView becomeFirstResponder];
     }
     
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.recordButton.hidden = !button.selected;
-        self.inputTextView.hidden = button.selected;
-    } completion:nil];
 }
 
 - (void)faceButtonAction:(id)sender
@@ -760,52 +799,12 @@
     }
 }
 
-- (void)recordButtonTouchDown
-{
-    if (_delegate && [_delegate respondsToSelector:@selector(didStartRecordingVoiceAction:)]) {
-        [_delegate didStartRecordingVoiceAction:self.recordView];
-    }
-}
-
-- (void)recordButtonTouchUpOutside
-{
-    if (_delegate && [_delegate respondsToSelector:@selector(didCancelRecordingVoiceAction:)])
-    {
-        [_delegate didCancelRecordingVoiceAction:self.recordView];
-    }
-}
-
-- (void)recordButtonTouchUpInside
-{
-    self.recordButton.enabled = NO;
-    if ([self.delegate respondsToSelector:@selector(didFinishRecoingVoiceAction:)])
-    {
-        [self.delegate didFinishRecoingVoiceAction:self.recordView];
-    }
-    self.recordButton.enabled = YES;
-}
-
-- (void)recordDragOutside
-{
-    if ([self.delegate respondsToSelector:@selector(didDragOutsideAction:)])
-    {
-        [self.delegate didDragOutsideAction:self.recordView];
-    }
-}
-
-- (void)recordDragInside
-{
-    if ([self.delegate respondsToSelector:@selector(didDragInsideAction:)])
-    {
-        [self.delegate didDragInsideAction:self.recordView];
-    }
-}
 
 #pragma mark - public
 
 + (CGFloat)defaultHeight
 {
-    return 5 * 2 + 36;
+    return 5 * 2 + 46;
 }
 
 - (BOOL)endEditing:(BOOL)force

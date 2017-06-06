@@ -21,34 +21,44 @@
     [self.marginConstraints addObject:orderTitleMarginLeftConstraint];
     [self.marginConstraints addObject:orderTitleMarginRightConstraint];
     
-    //orderNo
-    NSLayoutConstraint *orderNoMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5];
-    NSLayoutConstraint *orderNoMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *orderNoMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    [self.marginConstraints addObject:orderNoMarginTopConstraint];
-    [self.marginConstraints addObject:orderNoMarginLeftConstraint];
-    [self.marginConstraints addObject:orderNoMarginRightConstraint];
+    
+    // orderBgView
+    NSLayoutConstraint *orderBgViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderBgView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0];
+    NSLayoutConstraint *orderBgViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderBgView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:5.0];
+    NSLayoutConstraint *orderBgViewRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderBgView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-10.0];
+    NSLayoutConstraint *orderBgViewBottomhtConstraint = [NSLayoutConstraint constraintWithItem:self.orderBgView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0];
+    [self.marginConstraints addObject:orderBgViewTopConstraint];
+    [self.marginConstraints addObject:orderBgViewLeftConstraint];
+    [self.marginConstraints addObject:orderBgViewRightConstraint];
+    [self.marginConstraints addObject:orderBgViewBottomhtConstraint];
     
     //cusImageView
-    NSLayoutConstraint *orderImageViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderNoLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0];
-    
-    NSLayoutConstraint *orderImageViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
+    NSLayoutConstraint *orderImageViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeTop multiplier:1.0 constant:5.0];
+    NSLayoutConstraint *orderImageViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
     NSLayoutConstraint *orderImageViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.orderImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
     [self.marginConstraints addObject:orderImageViewTopConstraint];
     [self.marginConstraints addObject:orderImageViewLeftConstraint];
     [self.marginConstraints addObject:orderImageViewBottomConstraint];
     
+    //orderNo
+    NSLayoutConstraint *orderNoMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeTop multiplier:1.0 constant:5];
+    NSLayoutConstraint *orderNoMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:5.0];
+    NSLayoutConstraint *orderNoMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
+    [self.marginConstraints addObject:orderNoMarginTopConstraint];
+    [self.marginConstraints addObject:orderNoMarginLeftConstraint];
+    [self.marginConstraints addObject:orderNoMarginRightConstraint];
+    
     //desc
-    NSLayoutConstraint *orderDescTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderNoLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:self.margin.top];
+    NSLayoutConstraint *orderDescTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderNoLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:15.0];
     NSLayoutConstraint *orderDescLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderImageView attribute:NSLayoutAttributeRight multiplier:1 constant:5.0];
-    NSLayoutConstraint *orderDescRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1 constant:-self.margin.right];
+    NSLayoutConstraint *orderDescRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-self.margin.right];
     
     [self.marginConstraints addObject:orderDescTopConstraint];
     [self.marginConstraints addObject:orderDescLeftConstraint];
     [self.marginConstraints addObject:orderDescRightConstraint];
     
     //price
-    NSLayoutConstraint *orderPriceBottomConstraimt = [NSLayoutConstraint constraintWithItem:self.orderPriceLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1 constant:-self.margin.bottom];
+    NSLayoutConstraint *orderPriceBottomConstraimt = [NSLayoutConstraint constraintWithItem:self.orderPriceLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeBottom multiplier:1 constant:-self.margin.bottom];
     
     [self.marginConstraints addObject:orderPriceBottomConstraimt];
     
@@ -73,37 +83,42 @@
 
 - (void)setupOrderBubbleView {
     
+    self.orderBgView = [[UIView alloc] init];
+    self.orderBgView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.orderBgView.backgroundColor = [UIColor whiteColor];
+    [self.backgroundImageView addSubview:self.orderBgView];
+    
     self.orderTitleLabel = [[UILabel alloc] init];
     self.orderTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.orderTitleLabel.backgroundColor = [UIColor clearColor];
     self.orderTitleLabel.font = [UIFont systemFontOfSize:13];
-    [self.backgroundImageView addSubview:self.orderTitleLabel];
+    [self.orderBgView addSubview:self.orderTitleLabel];
     
     self.orderNoLabel = [[UILabel alloc] init];
     self.orderNoLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.orderNoLabel.backgroundColor = [UIColor clearColor];
-    self.orderNoLabel.font = [UIFont systemFontOfSize:13];
-    [self.backgroundImageView addSubview:self.orderNoLabel];
+    self.orderNoLabel.font = [UIFont systemFontOfSize:10];
+    [self.orderBgView addSubview:self.orderNoLabel];
     
     self.orderImageView = [[UIImageView alloc] init];
     self.orderImageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.orderImageView.backgroundColor = [UIColor clearColor];
     self.orderImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.backgroundImageView addSubview:self.orderImageView];
+    [self.orderBgView addSubview:self.orderImageView];
     
     self.orderDescLabel = [[UILabel alloc] init];
     self.orderDescLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.orderDescLabel.backgroundColor = [UIColor clearColor];
     self.orderDescLabel.font = [UIFont systemFontOfSize:13];
     self.orderDescLabel.numberOfLines = 2;
-    [self.backgroundImageView addSubview:self.orderDescLabel];
+    [self.orderBgView addSubview:self.orderDescLabel];
     
     self.orderPriceLabel = [[UILabel alloc] init];
     self.orderPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.orderPriceLabel.backgroundColor = [UIColor clearColor];
     self.orderPriceLabel.font = [UIFont systemFontOfSize:15];
     self.orderPriceLabel.textColor = [UIColor redColor];
-    [self.backgroundImageView addSubview:self.orderPriceLabel];
+    [self.orderBgView addSubview:self.orderPriceLabel];
     [self _setupOrderBubbleConstraints];
 }
 

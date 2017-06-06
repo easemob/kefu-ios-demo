@@ -79,8 +79,8 @@
 "title.leavemsgdetail" = "留言详情";
 "title.leavemsgsetting" = "留言设置";
 "title.reply" = "写评论";
-"title.projectId" = "留言ID";
-"title.tenantId" = "租户ID";
+"title.projectId" = "留言ID(ProjectId)";
+"title.tenantId" = "租户ID(Tenantld)";
 
 //choice
 "choice.preSale" = "售前客服";
@@ -163,13 +163,14 @@
 "leaveMessage.leavemsg.loadsucceed" = "加载成功";
 "leaveMessage.leavemsg.loadfailed" = "加载失败";
 "leaveMessage.leavemsg.comment" = "评论";
-"leaveMessage.leavemsg.theme" = "主题:";
+"leaveMessage.leavemsg.theme" = "主题";
 "leaveMessage.leavemsg.nickname" = "访客昵称:";
-"leaveMessage.leavemsg.content" = "内容:";
+"leaveMessage.leavemsg.content" = "详细信息";
 "leaveMessage.leavemsg.phone" = "手机:";
 "leaveMessage.leavemsg.qq" = "QQ:";
 "leaveMessage.leavemsg.weibo" = "微博:";
-"leaveMessage.leavemsg.mail" = "邮箱:";
+"leaveMessage.leavemsg.mail" = "邮箱";
+"leaveMessage.leavemsg.time" = "时间";
 "leaveMessage.leavemsg.attachment" = "附件";
 "leaveMessage.leavemsg.reply" = "回复";
 "leaveMessage.leavemsg.addattachment" = "添加附件";

@@ -41,12 +41,16 @@
 }
 @end
 
-@interface HDMessageViewController ()<HDMessageCellDelegate,HChatDelegate,UIGestureRecognizerDelegate>
+@interface HDMessageViewController ()<HDMessageCellDelegate,HChatDelegate,UIGestureRecognizerDelegate,TransmitDeleteTrackMsgDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
     UILongPressGestureRecognizer *_lpgr;
+    UITapGestureRecognizer *_tpgr;
     NSMutableArray *_atTargets;
+    
+    HDRecordView *_tmpView;
+    
     dispatch_queue_t _messageQueue;
     BOOL _isSendingTransformMessage; //正在发送转人工消息
     BOOL _isSendingEvaluateMessage;//点击立即评价按钮
@@ -117,6 +121,11 @@
     _lpgr.minimumPressDuration = 0.5;
     [self.tableView addGestureRecognizer:_lpgr];
     
+//    // 单击的 Recognizer
+//    _tpgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
+//    _tpgr.numberOfTapsRequired = 1; // 单击
+//    [self.tableView addGestureRecognizer:_tpgr];
+    
     _messageQueue = dispatch_queue_create("hyphenate.com", NULL);
     
     //Register the delegate
@@ -143,9 +152,58 @@
     [self tableViewDidTriggerHeaderRefresh];
 }
 
+- (void)handleSingleTapFrom:(UITapGestureRecognizer *)recognizer
+{
+    CGPoint location = [recognizer locationInView:self.tableView];
+    NSIndexPath * indexPath = [self.tableView indexPathForRowAtPoint:location];
+    _menuIndexPath = indexPath;
+}
+
+//- (void)handleLongPress:(UILongPressGestureRecognizer *)recognizer
+//{
+//    if (recognizer.state == UIGestureRecognizerStateBegan && [self.dataArray count] > 0)
+//    {
+//        CGPoint location = [recognizer locationInView:self.tableView];
+//        NSIndexPath * indexPath = [self.tableView indexPathForRowAtPoint:location];
+//        
+//        NSLog(@"indexPathDelete--%ld", indexPath.row);
+//        BOOL canLongPress = NO;
+//        if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:canLongPressRowAtIndexPath:)]) {
+//            canLongPress = [_dataSource messageViewController:self
+//                                   canLongPressRowAtIndexPath:indexPath];
+//        }
+//        
+//        if (!canLongPress) {
+//            return;
+//        }
+//        
+//        if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:didLongPressRowAtIndexPath:)]) {
+//            [_dataSource messageViewController:self
+//                    didLongPressRowAtIndexPath:indexPath];
+//        }
+//        else{
+//            id object = [self.dataArray objectAtIndex:indexPath.row];
+//            if (![object isKindOfClass:[NSString class]]) {
+//                HDMessageCell *cell = (HDMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+//                [cell becomeFirstResponder];
+//                _menuIndexPath = indexPath;
+//                [self showMenuViewController:cell.bubbleView andIndexPath:indexPath messageType:cell.model.bodyType];
+//            }
+//        }
+//    }
+//}
+
 - (void)setLeftBarBtnItem {
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+    [backButton setTitle:self.conversation.conversationId forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:18];
+    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
+    backButton.imageRect = CGRectMake(10, 10, 20, 18);
+    backButton.titleRect = CGRectMake(35, 10, 230, 18);
+    [self.view addSubview:backButton];
+    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 260, 40);
     [backButton addTarget:self action:@selector(backItemClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
@@ -159,9 +217,6 @@
     [self backItemDidClicked];
 }
 
-- (void)backItemDidClicked {
-    
-}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
@@ -174,18 +229,42 @@
 
 - (void)setupEmotion
 {
+    // 如果子类中实现了代理方法，就显示子类中的，如果没有显示就显示父类中的
     if ([self.dataSource respondsToSelector:@selector(emotionFormessageViewController:)]) {
         NSArray* emotionManagers = [self.dataSource emotionFormessageViewController:self];
         [self.faceView setEmotionManagers:emotionManagers];
     } else {
-        NSMutableArray *emotions = [NSMutableArray array];
-        for (NSString *name in [HDEmoji allEmoji]) {
-            HDEmotion *emotion = [[HDEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:name emotionOriginal:name emotionOriginalURL:@"" emotionType:HDEmotionDefault];
-            [emotions addObject:emotion];
+        // 系统默认表情
+//        NSMutableArray *emotions = [NSMutableArray array];
+//        for (NSString *name in [HDEmoji allEmoji]) {
+//            HDEmotion *emotion = [[HDEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:name emotionOriginal:name emotionOriginalURL:@"" emotionType:HDEmotionDefault];
+//            [emotions addObject:emotion];
+//        }
+//        HDEmotion *emotion = [emotions objectAtIndex:0];
+//        HDEmotionManager *manager= [[HDEmotionManager alloc] initWithType:HDEmotionDefault emotionRow:3 emotionCol:7 emotions:emotions tagImage:[UIImage imageNamed:emotion.emotionId]];
+    
+        // 添加自定义表情
+#pragma mark smallpngface
+        NSMutableArray *customEmotions = [NSMutableArray array];
+        NSMutableArray *customNameArr = [NSMutableArray arrayWithCapacity:0];
+        NSString *customName = nil;
+        for (int i=1; i<=35; i++) {
+            // 把自定义表情图片加到数组中
+            customName = [@"HelpDeskUIResource.bundle/e_e_" stringByAppendingString:[NSString stringWithFormat:@"%d",i]];
+            [customNameArr addObject:customName];
         }
-        HDEmotion *emotion = [emotions objectAtIndex:0];
-        HDEmotionManager *manager= [[HDEmotionManager alloc] initWithType:HDEmotionDefault emotionRow:3 emotionCol:7 emotions:emotions tagImage:[UIImage imageNamed:emotion.emotionId]];
-        [self.faceView setEmotionManagers:@[manager]];
+        int i = 0;
+        // 取出表情字符
+        for (NSString *name in [HDConvertToCommonEmoticonsHelper emotionsArray]) {
+            //initWithName是表情底部的显示名，可以传空， emotionId传表情名称  emotionThumbnail和emotionOriginal  是传表情字符对应的图片 在UI上显示
+            HDEmotion *emotion = [[HDEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:customNameArr[i] emotionOriginal:customNameArr[i] emotionOriginalURL:@"" emotionType:HDEmotionPng];
+            [customEmotions addObject:emotion];
+            i++;
+        }
+        HDEmotion *customTemp = [customEmotions objectAtIndex:0];
+        HDEmotionManager *customManagerDefault = [[HDEmotionManager alloc] initWithType:HDEmotionPng emotionRow:4 emotionCol:9 emotions:customEmotions tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
+        // 只添加自定义表情到数组中，UI上只显示自定义表情
+        [self.faceView setEmotionManagers:@[customManagerDefault]];
     }
 }
 
@@ -256,7 +335,10 @@
         [(HDChatToolbar *)self.chatToolbar setDelegate:self];
         self.chatBarMoreView = (HDChatBarMoreView*)[(HDChatToolbar *)self.chatToolbar moreView];
         self.faceView = (HDFaceView*)[(HDChatToolbar *)self.chatToolbar faceView];
-        self.recordView = (HDRecordView*)[(HDChatToolbar *)self.chatToolbar recordView];
+        // 初始化录音按钮所在的view
+        self.hrecordView = (HRecordView *)[(HDChatToolbar *)self.chatToolbar newRecordView];
+        // 添加代理
+        self.hrecordView.delegate = self;
     }
 }
 
@@ -697,6 +779,8 @@
     {
         CGPoint location = [recognizer locationInView:self.tableView];
         NSIndexPath * indexPath = [self.tableView indexPathForRowAtPoint:location];
+        
+        NSLog(@"indexPathDelete--%ld", indexPath.row);
         BOOL canLongPress = NO;
         if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:canLongPressRowAtIndexPath:)]) {
             canLongPress = [_dataSource messageViewController:self
@@ -803,10 +887,81 @@
             sendCell = [[HDBaseMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier model:model];
             sendCell.selectionStyle = UITableViewCellSelectionStyleNone;
             sendCell.delegate = self;
+            // 删除轨迹消息代理
+            sendCell.deleteTrackMsgdelegate = self;
         }
         sendCell.model = model;
         return sendCell;
     }
+}
+
+
+// 删除轨迹消息代理方法
+- (void)transmitDelegateTrackMessage:(id<HDIMessageModel>)model sendButton:(UIButton *)sendButton
+{
+    // 取出父类，找到按钮所在的cell
+    UIView *view = [[[sendButton superview] superview] superview];
+    HDBaseMessageCell *cell = (HDBaseMessageCell *)[view superview];
+    // 取到cell所对应的indePath
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    NSLog(@"view--%@ indexPath--%@", view,indexPath);
+    // 传给全局变量，根据indexPath移除cell
+    self.snedButtonIndexPath = indexPath;
+    // 发送轨迹消息
+    [self _sendTrackMessage:model.message];
+    
+    // 删除对应的消息
+    [self deleteTrackMessage:model];
+
+    
+}
+
+- (void)_sendTrackMessage:(HMessage *)message
+{
+
+    __weak typeof(self) weakself = self;
+    
+    [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *message, HError *error) {
+        if (!error) {
+            [weakself _refreshAfterSentMessage:message];
+        }
+        else {
+            [weakself.tableView reloadData];
+        }
+    }];
+    
+}
+
+- (void)deleteTrackMessage:(id<HDIMessageModel>)trackModel
+{
+    if (self.snedButtonIndexPath && self.snedButtonIndexPath.row > 0) {
+        id<HDIMessageModel> model = trackModel;
+        NSMutableIndexSet *indexs = [NSMutableIndexSet indexSetWithIndex:self.snedButtonIndexPath.row];
+        NSMutableArray *indexPaths = [NSMutableArray arrayWithObjects:self.snedButtonIndexPath, nil];
+        
+        [self.conversation deleteMessageWithId:model.message.messageId error:nil];
+        [self.messsagesSource removeObject:model.message];
+        
+        if (self.snedButtonIndexPath.row - 1 >= 0) {
+            id nextMessage = nil;
+            id prevMessage = [self.dataArray objectAtIndex:(self.snedButtonIndexPath.row - 1)];
+            if (self.snedButtonIndexPath.row + 1 < [self.dataArray count]) {
+                nextMessage = [self.dataArray objectAtIndex:(self.snedButtonIndexPath.row + 1)];
+            }
+            if ((!nextMessage || [nextMessage isKindOfClass:[NSString class]]) && [prevMessage isKindOfClass:[NSString class]]) {
+                [indexs addIndex:self.snedButtonIndexPath.row - 1];
+                [indexPaths addObject:[NSIndexPath indexPathForRow:(self.snedButtonIndexPath.row - 1) inSection:0]];
+            }
+        }
+        
+        [self.dataArray removeObjectsAtIndexes:indexs];
+        [self.tableView beginUpdates];
+        [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+    }
+    
+    self.snedButtonIndexPath = nil;
 }
 
 #pragma mark - Table view delegate
@@ -1089,20 +1244,22 @@
     }
 }
 
-- (void)didStartRecordingVoiceAction:(UIView *)recordView
+
+#pragma mark - HRecordViewDelegate
+- (void)didHdStartRecordingVoiceAction:(UIView *)recordView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchDown];
     } else {
-        if ([self.recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)self.recordView recordButtonTouchDown];
+        if ([recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)recordView recordButtonTouchDown];
         }
     }
     
     if ([self _canRecord]) {
-        HDRecordView *tmpView = (HDRecordView *)recordView;
-        tmpView.center = self.view.center;
-        [self.view addSubview:tmpView];
+        _tmpView = (HDRecordView *)recordView;
+        _tmpView.center = self.view.center;
+        [self.view addSubview:_tmpView];
         [self.view bringSubviewToFront:recordView];
         int x = arc4random() % 100000;
         NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
@@ -1117,28 +1274,31 @@
     }
 }
 
-- (void)didCancelRecordingVoiceAction:(UIView *)recordView
+- (void)didHdCancelRecordingVoiceAction:(UIView *)recordView
 {
     [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpOutside];
     } else {
-        if ([self.recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)self.recordView recordButtonTouchUpOutside];
+        if ([recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)recordView recordButtonTouchUpOutside];
         }
-        [self.recordView removeFromSuperview];
+        [recordView removeFromSuperview];
+        
     }
+    
 }
 
-- (void)didFinishRecoingVoiceAction:(UIView *)recordView
+- (void)didHdFinishRecoingVoiceAction:(UIView *)recordView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpInside];
     } else {
-        if ([self.recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)self.recordView recordButtonTouchUpInside];
+        if ([recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)recordView recordButtonTouchUpInside];
         }
-        [self.recordView removeFromSuperview];
+        [recordView removeFromSuperview];
+        
     }
     __weak typeof(self) weakSelf = self;
     [[HDCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
@@ -1158,27 +1318,29 @@
     }];
 }
 
-- (void)didDragInsideAction:(UIView *)recordView
+- (void)didHdDragOutsideAction:(UIView *)recordView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeDragInside];
     } else {
-        if ([self.recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)self.recordView recordButtonDragInside];
+        if ([recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)recordView recordButtonDragInside];
         }
     }
 }
 
-- (void)didDragOutsideAction:(UIView *)recordView
+- (void)didHdDragInsideAction:(UIView *)recordView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeDragOutside];
     } else {
-        if ([self.recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)self.recordView recordButtonDragOutside];
+        if ([recordView isKindOfClass:[HDRecordView class]]) {
+            [(HDRecordView *)recordView recordButtonDragOutside];
         }
     }
 }
+
+
 
 #pragma mark - EaseChatBarMoreViewDelegate
 
@@ -1242,6 +1404,13 @@
     [self.chatToolbar endEditing:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CALL object:@{@"chatter":self.conversation.conversationId, @"type":[NSNumber numberWithInt:1]}];
+}
+
+- (void)moreViewLeaveMessageAction:(HDChatBarMoreView *)moreView
+{
+    // Hide the keyboard
+    [self.chatToolbar endEditing:YES];
+    
 }
 
 #pragma mark - EMLocationViewDelegate

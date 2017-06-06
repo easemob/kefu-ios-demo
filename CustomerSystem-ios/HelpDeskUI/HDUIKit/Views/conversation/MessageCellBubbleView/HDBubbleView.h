@@ -35,11 +35,20 @@ extern NSString *const HDMessageCellIdentifierRecvVideo;
 extern NSString *const HDMessageCellIdentifierRecvImage;
 extern NSString *const HDMessageCellIdentifierRecvFile;
 
+// 删除轨迹消息协议
+@protocol SendDeleteTrackMsgDelegate <NSObject>
+
+- (void)deleteTrackMessage:(UIButton *)sendButton;
+
+@end
+
 @interface HDBubbleView : UIView
 {
     UIEdgeInsets _margin;
     CGFloat _fileIconSize;
 }
+
+@property (nonatomic, weak) id<SendDeleteTrackMsgDelegate> delegate;
 
 @property (nonatomic) BOOL isSender;
 
@@ -53,11 +62,14 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 @property (strong, nonatomic) UILabel *textLabel;
 
 //track views 【track 属于text消息，包含在消息扩展中的msgtype -> track 键】
+@property (strong, nonatomic) UIView *trackBgView;
 @property (strong, nonatomic) UILabel *trackTitleLabel;          //标题
 @property (strong, nonatomic) UIImageView *cusImageView;    //图片
 @property (strong, nonatomic) UILabel *cusDescLabel;             //商品描述
 @property (strong, nonatomic) UILabel *cusPriceLabel;            //商品价格
+@property (strong, nonatomic) UIButton *sendButton;            //发送按钮
 //order views 【order 属于text消息，包含在消息扩展中的msgtype -> order 键】
+@property (strong, nonatomic) UIView *orderBgView;
 @property(nonatomic,strong) UILabel *orderTitleLabel;        //订单
 @property(nonatomic,strong) UILabel *orderNoLabel;      //订单号
 @property(nonatomic,strong) UIImageView *orderImageView;//订单展示图

@@ -12,4 +12,6 @@
 
 @property (strong, nonatomic) NSDictionary *commodityInfo;
 
+@property (assign, nonatomic) NSInteger tag;
+
 @end
