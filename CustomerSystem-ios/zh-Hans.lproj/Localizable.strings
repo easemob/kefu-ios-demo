@@ -39,9 +39,9 @@
 "appkeyError" = "appkey错误";
 
 //general
-"prompt" = "提示";
+"prompta" = "提示";
 "ok" = "确定";
-"cancel" = "取消";
+"cancela" = "取消";
 
 "receiveCmdMessage" = "透传消息";
 
@@ -107,12 +107,11 @@
 "message.beginReceiveOffine" = "开始接收离线消息";
 "message.endReceiveOffine" = "离线消息接收成功";
 "message.toolBar.inputPlaceHolder" = "输入新消息";
-"message.toolBar.record.upCancel" = " 手指上滑，取消发送 ";
-"message.toolBar.record.loosenCancel" = " 松开手指，取消发送 ";
-"message.toolBar.record.touch" = "按住说话";
+"message.toolBar.record.loosenCancel" = " 松开手指，取消录音 ";
+"message.toolBar.record.touch" = "按住录音";
 "message.toolBar.record.send" = "松开发送";
 
-"media.timeShort" = "录制时间过短";
+"media.timeShort" = "时间过短";
 
 "message.downloadingAudio" = "正在下载语音，稍后点击";
 "message.downloadingVideo" = "正在获取视频...";
@@ -178,3 +177,62 @@
 "leaveMessage.leavemsg.attachmentname" = "附件名称";
 "leaveMessage.leavemsg.uploadattachment" = "上传附件";
 "leaveMessage.leavemsg.uploadattachment.failed" = "上传附件失败";
+
+// new
+"Header.image" = "em_main_introduce_zh";
+
+"em_example1_text" = "古驰亮色夹克";
+"em_example2_text" = "铂金女士手提袋";
+"em_example3_text" = "缪缪女士高跟鞋";
+"em_example4_text" = "卡地亚的一块手表";
+
+"em_example1_text_description" = "11月销量: 3399";
+"em_example2_text_description" = "11月销量: 20";
+"em_example3_text_description" = "11月销量: 435";
+"em_example4_text_description" = "11月销量: 10";
+
+"attach_picture" = "相册";
+"attach_take_pic" = "拍照";
+"attach_call_video" = "发起视频";
+"attach_location" = "位置";
+"leave_title" = "留言";
+
+"recording_description" = "松开结束，手指上滑取消发送";
+"not_start_recording" = "还没开始录音";
+
+"leave_content" = "输入留言";
+"new_leave_item_hint_text" = "必填";
+
+"ticket_name" = "名字";
+"ticket_phone" = "电话";
+"ticket_email" = "邮箱";
+"ticket_theme" = "主题";
+"ticket_detail" = "详细信息";
+
+"new_leave_send_success" = "提交成功";
+"new_leave_send_descriptionOne" = "感谢您的留言!";
+"new_leave_send_descriptionTwo" = "我们将在第一时间对您进行答复，请耐心等待";
+"send_failure_please" = "发送失败";
+"recorder_video_processing" = "发送中...";
+"message_content_beyond_limit" = "长度受限";
+"click_load_beyond_limit" = "长度受限";
+
+"customernumber" = "IM服务号";
+"login_user_nick" = "登录用户昵称";
+"set_tenantId" = "租户ID(TenantId)";
+"set_leave_messageid" = "留言ID(projectId)";
+
+"restarta" = "重启";
+"app_key_modifya" = "修改appkey之后需要重启";
+
+"em_example1_text_detail" = "product_details_zh_";
+
+"em_chat_I_focus" = "我正在看";
+
+"order_number" = "订单号:";
+
+"load_more" = "点击加载更多";
+"no_more" = "没有更多了";
+"no_leave_message" = "没有留言";
+
+

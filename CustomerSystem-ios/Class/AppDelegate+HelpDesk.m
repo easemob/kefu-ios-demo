@@ -44,6 +44,7 @@
     //注册kefu_sdk
     SCLoginManager *lgM = [SCLoginManager shareLoginManager]; //
     HOptions *option = [[HOptions alloc] init];
+    
     option.appkey = lgM.appkey; 
     option.tenantId = lgM.tenantId;
     option.enableConsoleLog = YES;

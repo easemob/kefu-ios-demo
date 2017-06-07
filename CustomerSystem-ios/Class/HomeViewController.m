@@ -77,13 +77,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     _settingRightItem = [[UIBarButtonItem alloc] initWithCustomView:setRightButton];
     
     UIButton *setLeftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [setLeftButton setTitle:@"设置" forState:UIControlStateNormal];
+    [setLeftButton setTitle:NSLocalizedString(@"title.setting", @"Setting") forState:UIControlStateNormal];
     setLeftButton.titleLabel.font = [UIFont systemFontOfSize:18];
     setLeftButton.userInteractionEnabled = NO;
     _settingleftItem = [[UIBarButtonItem alloc] initWithCustomView:setLeftButton];
     
     UIButton *leaveButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [leaveButton setTitle:@"留言" forState:UIControlStateNormal];
+    [leaveButton setTitle:NSLocalizedString(@"leave_title", @"Note") forState:UIControlStateNormal];
     leaveButton.titleLabel.font = [UIFont systemFontOfSize:18];
     leaveButton.userInteractionEnabled = NO;
     _leaveItem = [[UIBarButtonItem alloc] initWithCustomView:leaveButton];

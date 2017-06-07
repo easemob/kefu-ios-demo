@@ -40,9 +40,9 @@
 "appkeyError" = "appkey error";
 
 //general
-"prompt" = "Prompt";
+"prompta" = "Prompt";
 "sure" = "OK";
-"cancel" = "Cancel";
+"cancela" = "Cancel";
 
 "receiveCmdMessage" = "Cmd Message";
 
@@ -71,8 +71,8 @@
 //title
 "title.customer" = "Customer";
 "title.mall" = "Mall";
-"title.setting" = "Setting";
-"title.commodity" = "Commodity Info";
+"title.setting" = "Set";
+"title.commodity" = "Detail";
 "title.nickname" = "Nickname";
 "title.satisfaction" = "Satisfaction Evaluation";
 "title.messagebox" = "Message Box";
@@ -108,7 +108,6 @@
 "message.beginReceiveOffine" = "begin to receive offline messages";
 "message.endReceiveOffine" = "end to receive offline messages";
 "message.toolBar.inputPlaceHolder" = "input a new message";
-"message.toolBar.record.upCancel" = " Fingers up slide, cancel sending ";
 "message.toolBar.record.loosenCancel" = " loosen the fingers, to cancel sending ";
 "message.toolBar.record.touch" = "hold down to talk";
 "message.toolBar.record.send" = "loosen to send";
@@ -180,3 +179,59 @@
 "leaveMessage.leavemsg.attachmentname" = "Attachment";
 "leaveMessage.leavemsg.uploadattachment" = "Upload attachment";
 "leaveMessage.leavemsg.uploadattachment.failed" = "Upload attachment failed";
+
+// new
+"Header.image" = "em_main_introduce";
+"em_example1_text" = "Crackie leather bomber";
+"em_example2_text" = "Birkin Bag";
+"em_example3_text" = "Jeffrey campbell duice pump";
+"em_example4_text" = "Cartier";
+
+"em_example1_text_description" = "November sales: 3399";
+"em_example2_text_description" = "November sales: 20";
+"em_example3_text_description" = "November sales: 435";
+"em_example4_text_description" = "November sales: 10";
+
+"attach_picture" = "Picture";
+"attach_take_pic" = "Capture";
+"attach_call_video" = "Call Video";
+"attach_location" = "Location";
+"leave_title" = "Note";
+
+"recording_description" = "Release to end, finger up to cancel sending";
+"not_start_recording" = "Didn't start the recording";
+
+"leave_content" = "Input content";
+"new_leave_item_hint_text" = "Required";
+
+"ticket_name" = "Name";
+"ticket_phone" = "Phone";
+"ticket_email" = "Email";
+"ticket_theme" = "Theme";
+"ticket_detail" = "Detail";
+
+"new_leave_send_success" = "Submit successful";
+"new_leave_send_descriptionOne" = "Thank you for your leave message.";
+"new_leave_send_descriptionTwo" = "We will give you a response at the first time.";
+"send_failure_please" = "Send failure";
+"recorder_video_processing" = "processing...";
+"message_content_beyond_limit" = "The message content beyond the limit";
+
+"customernumber" = "IM service No.";
+"login_user_nick" = "User Nick";
+"set_tenantId" = "TenantId";
+"set_leave_messageid" = "Leave Message ID";
+
+"restarta" = "Restart";
+"app_key_modifya" = "Appkey modify Need Restart";
+
+"em_example1_text_detail" = "product_details_";
+"em_chat_I_focus" = "I focus on";
+
+"order_number" = "Order number:";
+
+"load_more" = "Click to load more";
+"no_more" = "NO More";
+"no_leave_message" = "NO Leave Message";
+
+

@@ -110,7 +110,7 @@
     self.orderDescLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.orderDescLabel.backgroundColor = [UIColor clearColor];
     self.orderDescLabel.font = [UIFont systemFontOfSize:13];
-    self.orderDescLabel.numberOfLines = 2;
+    self.orderDescLabel.numberOfLines = 3;
     [self.orderBgView addSubview:self.orderDescLabel];
     
     self.orderPriceLabel = [[UILabel alloc] init];

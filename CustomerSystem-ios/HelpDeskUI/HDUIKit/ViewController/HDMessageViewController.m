@@ -51,6 +51,8 @@
     
     HDRecordView *_tmpView;
     
+    UIView *_tempRecordView;
+    
     dispatch_queue_t _messageQueue;
     BOOL _isSendingTransformMessage; //正在发送转人工消息
     BOOL _isSendingEvaluateMessage;//点击立即评价按钮
@@ -121,11 +123,6 @@
     _lpgr.minimumPressDuration = 0.5;
     [self.tableView addGestureRecognizer:_lpgr];
     
-//    // 单击的 Recognizer
-//    _tpgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
-//    _tpgr.numberOfTapsRequired = 1; // 单击
-//    [self.tableView addGestureRecognizer:_tpgr];
-    
     _messageQueue = dispatch_queue_create("hyphenate.com", NULL);
     
     //Register the delegate
@@ -151,47 +148,6 @@
     [self setupEmotion];
     [self tableViewDidTriggerHeaderRefresh];
 }
-
-- (void)handleSingleTapFrom:(UITapGestureRecognizer *)recognizer
-{
-    CGPoint location = [recognizer locationInView:self.tableView];
-    NSIndexPath * indexPath = [self.tableView indexPathForRowAtPoint:location];
-    _menuIndexPath = indexPath;
-}
-
-//- (void)handleLongPress:(UILongPressGestureRecognizer *)recognizer
-//{
-//    if (recognizer.state == UIGestureRecognizerStateBegan && [self.dataArray count] > 0)
-//    {
-//        CGPoint location = [recognizer locationInView:self.tableView];
-//        NSIndexPath * indexPath = [self.tableView indexPathForRowAtPoint:location];
-//        
-//        NSLog(@"indexPathDelete--%ld", indexPath.row);
-//        BOOL canLongPress = NO;
-//        if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:canLongPressRowAtIndexPath:)]) {
-//            canLongPress = [_dataSource messageViewController:self
-//                                   canLongPressRowAtIndexPath:indexPath];
-//        }
-//        
-//        if (!canLongPress) {
-//            return;
-//        }
-//        
-//        if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:didLongPressRowAtIndexPath:)]) {
-//            [_dataSource messageViewController:self
-//                    didLongPressRowAtIndexPath:indexPath];
-//        }
-//        else{
-//            id object = [self.dataArray objectAtIndex:indexPath.row];
-//            if (![object isKindOfClass:[NSString class]]) {
-//                HDMessageCell *cell = (HDMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-//                [cell becomeFirstResponder];
-//                _menuIndexPath = indexPath;
-//                [self showMenuViewController:cell.bubbleView andIndexPath:indexPath messageType:cell.model.bodyType];
-//            }
-//        }
-//    }
-//}
 
 - (void)setLeftBarBtnItem {
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
@@ -769,7 +725,12 @@
 -(void)keyBoardHidden:(UITapGestureRecognizer *)tapRecognizer
 {
     if (tapRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.chatToolbar endEditing:YES];
+        // 解决还在录音的问题
+        if(self.hrecordView){
+            
+        } else {
+            [self.chatToolbar endEditing:YES];
+        }
     }
 }
 
@@ -1248,6 +1209,7 @@
 #pragma mark - HRecordViewDelegate
 - (void)didHdStartRecordingVoiceAction:(UIView *)recordView
 {
+    _tempRecordView = recordView;
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchDown];
     } else {

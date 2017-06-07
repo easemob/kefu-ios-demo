@@ -89,10 +89,10 @@
     if (![_editField.text isEqualToString:_content]) {
         if ([_type isEqualToString:@"AppKey"]) {
             
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"修改appkey之后需要重启" preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"app_key_modifya", @"Appkey modify Need Restart") preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancela", @"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             }]];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"重启" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"restarta", @"Restart") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
                 SCLoginManager *lgM = [SCLoginManager shareLoginManager];
                 lgM.appkey = _editField.text;
                 AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;

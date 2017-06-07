@@ -236,7 +236,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"loadMoreCell"];
     }
     
-    cell.textLabel.text = @"点击加载更多";
+    cell.textLabel.text = NSLocalizedString(@"load_more", @"Click to load more");
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     
     return cell;
@@ -291,7 +291,6 @@
 }
 
 #pragma mark - private
-
 - (void)loadAndRefreshDataWithCompletion:(void (^)(BOOL success))completion
 {
     @synchronized (self) {
@@ -307,7 +306,7 @@
         if (!error) { //请求成功
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
                 if (_page == 0) {
-                    _hintLabel.text = @"没有更多了";
+                    _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");
                     [weakSelf.dataArray removeAllObjects];
                 }
                 _page ++ ;
@@ -332,7 +331,7 @@
         } else { //失败
             if (completion) {
                 completion(NO);
-                 _hintLabel.text = @"没有留言";
+                 _hintLabel.text = NSLocalizedString(@"no_leave_message", @"NO Leave Message");
             }
         }
         _isRefreshing = NO;

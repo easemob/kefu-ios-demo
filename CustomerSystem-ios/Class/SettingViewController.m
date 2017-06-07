@@ -61,12 +61,12 @@
 - (void)setvalueWithDic:(NSDictionary *)dic {
     NSString *newAppkey = [dic valueForKey:@"appkey"];
     if (![_appkey isEqualToString:newAppkey]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"修改appkey之后需要重启" preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt")  message:NSLocalizedString(@"app_key_modifya", @"Appkey modify Need Restart") preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancela", @"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             
         }]];
         __weak typeof(self) weakSelf = self;
-        [alertController addAction:[UIAlertAction actionWithTitle:@"重启" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"restarta", @"Restart") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             _appkey = [dic valueForKey:@"appkey"];
             _cname = [dic valueForKey:@"imservicenum"];
             _tenantId = [dic valueForKey:@"tenantid"];
@@ -218,25 +218,25 @@
             break;
         case 1:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"IM服务号" content:_cname];
+            EditViewController *editController = [[EditViewController alloc] initWithType:NSLocalizedString(@"customernumber", @"IM service No.") content:_cname];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 2:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"登录用户昵称" content:nil];
+            EditViewController *editController = [[EditViewController alloc] initWithType:NSLocalizedString(@"login_user_nick", @"User Nick") content:nil];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 3:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"租户ID(TenantId)" content:_tenantId];
+            EditViewController *editController = [[EditViewController alloc] initWithType:NSLocalizedString(@"set_tenantId", @"TenantId") content:_tenantId];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 4:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"留言ID(ProjectId)" content:_projectId];
+            EditViewController *editController = [[EditViewController alloc] initWithType:NSLocalizedString(@"set_leave_messageid", @"Leave Message ID") content:_projectId];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;

@@ -36,8 +36,6 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     beforeLabel.font = [UIFont systemFontOfSize:15];
     
     UILabel *lateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(beforeLabel.frame), y + 4, kScreenWidth - CGRectGetMaxX(beforeLabel.frame) - 20, 40)];
-    NSLog(@"123--%@", _leaveMessageArray[i]);
-    
     lateLabel.text = _leaveMessageArray[i];
     lateLabel.textColor = [UIColor grayColor];
     lateLabel.font = [UIFont systemFontOfSize:15];
@@ -56,7 +54,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
-    [backButton setTitle:@"留言" forState:UIControlStateNormal];
+    [backButton setTitle:NSLocalizedString(@"leave_title", @"Note") forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:22];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
@@ -68,34 +66,34 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(2*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self hideHud];
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(2*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self hideHud];
+//        [self.navigationController popToRootViewControllerAnimated:YES];
+//    });
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth/2 - 30, kScreenHeight/6, 60, 60)];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth/2 - 30, kScreenHeight/7, 60, 60)];
     [button setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_icon_leave_suc"] forState:UIControlStateNormal];
     [self.view addSubview:button];
     
     UILabel *commitLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(button.frame) + 30, kScreenWidth, 30)];
-    commitLabel.text = @"提交成功";
+    commitLabel.text = NSLocalizedString(@"new_leave_send_success", @"Submit successful");
     commitLabel.font = [UIFont systemFontOfSize:20];
     commitLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:commitLabel];
     
     UILabel *thankLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(commitLabel.frame) + 10, kScreenWidth, 20)];
-    thankLabel.text = @"感谢您的留言! 我们将在第一时间对";
+    thankLabel.text = NSLocalizedString(@"new_leave_send_descriptionOne", @"Thank you for your leave message.");
     thankLabel.font = [UIFont systemFontOfSize:15];
     thankLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:thankLabel];
     
     UILabel *thankLabelOther = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(thankLabel.frame) + 5, kScreenWidth, 20)];
-    thankLabelOther.text = @"您进行答复,请耐心等待!";
+    thankLabelOther.text = NSLocalizedString(@"new_leave_send_descriptionTwo", @"We will give you a response at the first time.");
     thankLabelOther.font = [UIFont systemFontOfSize:15];
     thankLabelOther.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:thankLabelOther];
     
-    NSArray *placeholders = @[@"姓名",@"电话",@"邮箱",@"主题",@"详细信息"];
+    NSArray *placeholders = @[NSLocalizedString(@"ticket_name", @"Name"),NSLocalizedString(@"ticket_phone", @"Phone"),NSLocalizedString(@"ticket_email", @"Email"),NSLocalizedString(@"ticket_theme", @"Theme"),NSLocalizedString(@"ticket_detail", @"Detail")];
     for (int i=0; i<5; i++) {
         [self createTextfieldWithY:CGRectGetMaxY(thankLabelOther.frame) + 10 +60*i placeholder:placeholders[i] tag:i+NSTextFieldTagName number:i];
     }

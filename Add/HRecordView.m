@@ -7,14 +7,13 @@
 //
 
 #import "HRecordView.h"
-
 #define RecordViewHeight 140
 #define RecordButtonHeight 56
-#define PinRecord @"按住录音"
-#define EndOrSlide @"松开结束，手指上滑取消发送"
-#define CancelRecord @"松开手指，取消录音"
-#define TimeIsTooShort @"时间过短"
-#define NotStartedRecording @"还没有开始录音"
+#define PinRecord NSEaseLocalizedString(@"message.toolBar.record.touch", @"hold down to talk")
+#define EndOrSlide NSEaseLocalizedString(@"message.toolBar.record.upCancel", @"Release to end")
+#define CancelRecord NSEaseLocalizedString(@"message.toolBar.record.loosenCancel", @" loosen the fingers, to cancel sending ")
+#define TimeIsTooShort NSEaseLocalizedString(@"media.timeShort", @"record time too short")
+#define NotStartedRecording NSEaseLocalizedString(@"not_start_recording", @"Didn't start the recording")
 
 @interface HRecordView ()
 {
@@ -52,9 +51,9 @@
     }
     
     // label
-    _recordLabel = [[UILabel alloc] initWithFrame:CGRectMake((kHDScreenWidth - kHDScreenWidth * 0.8)/2, 22, kHDScreenWidth * 0.8, 19)];
+    _recordLabel = [[UILabel alloc] initWithFrame:CGRectMake((kHDScreenWidth - kHDScreenWidth * 0.9)/2, 22, kHDScreenWidth * 0.9, 19)];
     _recordLabel.text = PinRecord;
-    _recordLabel.font = [UIFont systemFontOfSize:18];
+    _recordLabel.font = [UIFont systemFontOfSize:16];
     _recordLabel.textAlignment = NSTextAlignmentCenter;
     _recordLabel.textColor = [UIColor grayColor];
     [self addSubview:_recordLabel];

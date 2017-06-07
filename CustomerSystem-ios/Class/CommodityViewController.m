@@ -30,7 +30,7 @@
     
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
-    [backButton setTitle:@"商品详情" forState:UIControlStateNormal];
+    [backButton setTitle:NSLocalizedString(@"title.commodity", @"Detail") forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:22];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
@@ -39,11 +39,6 @@
     [self.view addSubview:backButton];
     backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
     
-//    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-//    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
-//    [backButton setTitle:@"商品详情" forState:UIControlStateNormal];
-//    backButton.imageEdgeInsets = UIEdgeInsetsMake(0, -30, 0, 30);
-//    backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 30, 0, -30);
     [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
@@ -56,7 +51,7 @@
     _scrollView.backgroundColor = [UIColor clearColor];
     _scrollView.scrollEnabled = YES;
     // [NSString stringWithFormat:@"em_example_image_%d", (int)button.tag + 1  product_details_1_zh.png
-    UIImage *commodityImage = [UIImage imageNamed:[NSString stringWithFormat:@"product_details_%ld_zh", self.tag + 1]];
+    UIImage *commodityImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@%ld",NSLocalizedString(@"em_example1_text_detail", @"em_example_image_"), self.tag + 1]];
     CGFloat height = (commodityImage.size.height / commodityImage.size.width) * _scrollView.frame.size.width;
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _scrollView.frame.size.width, height)];
     imageView.image = commodityImage;
@@ -72,7 +67,7 @@
     
     CustomButton * messageButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [messageButton setImage:[UIImage imageNamed:@"hd_chat_icon_red"] forState:UIControlStateNormal];
-    [messageButton setTitle:@"联系客服" forState:UIControlStateNormal];
+    [messageButton setTitle:NSLocalizedString(@"customerChat", @"Customer") forState:UIControlStateNormal];
     messageButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [messageButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [messageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];

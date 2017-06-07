@@ -10,7 +10,7 @@
 #import "LeaveMsgDetailModel.h"
 #define SubjectFont [UIFont systemFontOfSize:18]
 #define DetailsFont [UIFont systemFontOfSize:14]
-#define TimeFont [UIFont systemFontOfSize:18]
+#define TimeFont [UIFont systemFontOfSize:15]
 @interface LeaveMessageCell ()
 // 主题
 @property (nonatomic, weak) UILabel *subjectLabel;
@@ -64,12 +64,12 @@
 - (void)setLeaveMessageModel:(LeaveMsgCommentModel *)leaveMessageModel
 {
     _leaveMessageModel = leaveMessageModel;
-    self.subjectLabel.text = [NSString stringWithFormat:@"主题:%@",leaveMessageModel.subject];
+    self.subjectLabel.text = [NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"ticket_theme", @"Theme"),leaveMessageModel.subject];
     
     if (leaveMessageModel.attachments) {
-        self.detailsLabel.text = [NSString stringWithFormat:@"内容:%@-[%@]",leaveMessageModel.content,NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment")];
+        self.detailsLabel.text = [NSString stringWithFormat:@"%@:%@-[%@]",NSLocalizedString(@"leaveMessage.content", @"Content"),leaveMessageModel.content,NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment")];
     } else {
-        self.detailsLabel.text = [NSString stringWithFormat:@"内容:%@",leaveMessageModel.content];
+        self.detailsLabel.text = [NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"leaveMessage.content", @"Content"),leaveMessageModel.content];
     }
     self.timeLabel.text = [self dateformatWithTimeStr:leaveMessageModel.created_at];
 }

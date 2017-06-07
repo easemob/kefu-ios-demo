@@ -297,7 +297,6 @@ const NSInteger baseTag=123;
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
     
-    
     UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     [sendButton setTitle:NSLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
     [sendButton addTarget:self action:@selector(sendAction) forControlEvents:UIControlEventTouchUpInside];

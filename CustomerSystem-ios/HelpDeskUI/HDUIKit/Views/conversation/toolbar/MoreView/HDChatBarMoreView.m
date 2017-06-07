@@ -104,7 +104,7 @@
     [_scrollview addSubview:_photoButton];
     
     _photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _photoLabel.text = @"相册";
+    _photoLabel.text = NSLocalizedString(@"attach_picture", @"Picture");
     _photoLabel.font = [UIFont systemFontOfSize:10];
     _photoLabel.textAlignment = UITextAlignmentCenter;
     _photoLabel.textColor = [UIColor blackColor];
@@ -120,7 +120,7 @@
     [_scrollview addSubview:_takePicButton];
     
     _takeLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE * 1, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _takeLabel.text = @"拍摄";
+    _takeLabel.text = NSLocalizedString(@"attach_picture", @"Image");
     _takeLabel.font = [UIFont systemFontOfSize:10];
     _takeLabel.textAlignment = UITextAlignmentCenter;
     _takeLabel.textColor = [UIColor blackColor];
@@ -146,7 +146,7 @@
     [_scrollview addSubview:_videoCallButton];
     
     _videoCallLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets * 3 + CHAT_BUTTON_SIZE * 2, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _videoCallLabel.text = @"实时视频";
+    _videoCallLabel.text = NSLocalizedString(@"attach_call_video", @"Call Video");
     _videoCallLabel.font = [UIFont systemFontOfSize:10];
     _videoCallLabel.textAlignment = UITextAlignmentCenter;
     _videoCallLabel.textColor = [UIColor blackColor];
@@ -161,7 +161,7 @@
     [_scrollview addSubview:_locationButton];
     
     _locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets * 4 + CHAT_BUTTON_SIZE * 3, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _locationLabel.text = @"位置";
+    _locationLabel.text = NSLocalizedString(@"attach_location", @"Location");
     _locationLabel.font = [UIFont systemFontOfSize:10];
     _locationLabel.textAlignment = UITextAlignmentCenter;
     _locationLabel.textColor = [UIColor blackColor];
@@ -177,7 +177,7 @@
     [_scrollview addSubview:_leaveMessageButton];
     
     _leaveMessageLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets, 10 * 2 + CHAT_BUTTON_SIZE*2 + 15, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _leaveMessageLabel.text = @"留言";
+    _leaveMessageLabel.text = NSLocalizedString(@"leave_title", @"Note");
     _leaveMessageLabel.font = [UIFont systemFontOfSize:10];
     _leaveMessageLabel.textAlignment = UITextAlignmentCenter;
     _leaveMessageLabel.textColor = [UIColor blackColor];

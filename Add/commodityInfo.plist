@@ -4,41 +4,41 @@
 <array>
 	<dict>
 		<key>name</key>
-		<string>古驰亮色夹克</string>
+		<string>em_example1_text</string>
 		<key>money</key>
 		<string>¥8000</string>
 		<key>novemberSales</key>
-		<string>月销量: 3399</string>
+		<string>em_example1_text_description</string>
 		<key>originalPrice</key>
 		<string>¥12000</string>
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>缪缪女士高跟鞋</string>
+		<string>em_example3_text</string>
 		<key>money</key>
 		<string>¥5400</string>
 		<key>novemberSales</key>
-		<string>月销量: 435</string>
+		<string>em_example3_text_description</string>
 		<key>originalPrice</key>
 		<string>¥6000</string>
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>铂金女士手提袋</string>
+		<string>em_example2_text</string>
 		<key>money</key>
 		<string>¥15800</string>
 		<key>novemberSales</key>
-		<string>月销量: 20</string>
+		<string>em_example2_text_description</string>
 		<key>originalPrice</key>
 		<string>¥160000</string>
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>卡地亚的一块手表</string>
+		<string>em_example4_text</string>
 		<key>money</key>
 		<string>¥160000</string>
 		<key>novemberSales</key>
-		<string>月销量: 10</string>
+		<string>em_example4_text_description</string>
 		<key>originalPrice</key>
 		<string>¥165000</string>
 	</dict>

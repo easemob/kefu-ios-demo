@@ -128,7 +128,7 @@
     self.sendButton.backgroundColor = RGBACOLOR(209, 224, 224, 1);
     self.sendButton.layer.cornerRadius = 10;
     [self.sendButton addTarget:self action:@selector(sendDeleteTrackMsg:) forControlEvents:UIControlEventTouchUpInside];
-    [self.sendButton setTitle:NSEaseLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
+    [self.sendButton setTitle:NSLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
     [self.backgroundImageView addSubview:self.sendButton];
     
     
