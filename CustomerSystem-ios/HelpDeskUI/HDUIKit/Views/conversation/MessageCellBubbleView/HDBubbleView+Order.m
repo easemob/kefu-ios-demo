@@ -49,7 +49,7 @@
     [self.marginConstraints addObject:orderNoMarginRightConstraint];
     
     //desc
-    NSLayoutConstraint *orderDescTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderNoLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:15.0];
+    NSLayoutConstraint *orderDescTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderNoLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:8.0];
     NSLayoutConstraint *orderDescLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderImageView attribute:NSLayoutAttributeRight multiplier:1 constant:5.0];
     NSLayoutConstraint *orderDescRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-self.margin.right];
     

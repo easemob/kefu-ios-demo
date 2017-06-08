@@ -14,7 +14,6 @@
 
 #import <HelpDesk/HelpDesk.h>
 #import "HelpDeskUI.h"
-
 #import "SCLoginManager.h"
 #import "SRRefreshView.h"
 #import "UIImageView+WebCache.h"
@@ -23,7 +22,6 @@
 #import "NSObject+SCAdd.h"
 #import "UIBarButtonItem+KFAdd.h"
 #import "UIViewController+KFAdd.h"
-#import "IQKeyboardManager.h"
 #import "CustomButton.h"
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width

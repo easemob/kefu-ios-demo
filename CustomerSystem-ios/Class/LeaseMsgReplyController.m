@@ -370,7 +370,7 @@ const NSInteger baseTag=123;
 - (void)sendAction
 {
     if (_textView.text.length == 0 && _attachments.count == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"leaveMessage.leavemsg.replyempty", @"Reply is empty") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"leaveMessage.leavemsg.replyempty", @"Reply is empty") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
         [alertView show];
         return;
     }
@@ -585,8 +585,8 @@ const NSInteger baseTag=123;
 - (void)move
 {
     [self hide];
-    _recordChangeBtn.originY = _recordChangeBtn.frame.origin.y - _boardHeight + 50;
-    _addButton.originY = _addButton.frame.origin.y - _boardHeight + 50;
+    _recordChangeBtn.originY = _recordChangeBtn.frame.origin.y - _boardHeight;
+    _addButton.originY = _addButton.frame.origin.y - _boardHeight;
 }
 
 - (void)hide

@@ -23,6 +23,7 @@
 
 @property (nonatomic) int timeLength;
 @property (strong, nonatomic) NSTimer *timeTimer;
+@property (strong, nonatomic) NSTimer *timerView;
 
 @end
 
@@ -92,11 +93,16 @@
 {
     [self stopTimeTimer];
     self.timeLength = 0;
-    self.timeTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timeTimerAction:) userInfo:nil repeats:YES];
+    self.timeTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timeTimerAction) userInfo:nil repeats:YES];
+    _timerView = [NSTimer scheduledTimerWithTimeInterval:0.05
+                                     target:self
+                                   selector:@selector(setVoiceImage)
+                                   userInfo:nil
+                                    repeats:YES];
     
 }
 
-- (void)timeTimerAction:(id)sender
+- (void)timeTimerAction
 {
     self.timeLength += 1;
     int hour = self.timeLength / 3600;
@@ -135,12 +141,14 @@
 {
     [self stopTimeTimer];
     [self removeCoverView];
+    [_timerView invalidate];
 }
 
 -(void)recordButtonTouchUpOutside
 {
     [self stopTimeTimer];
     [self removeCoverView];
+    [_timerView invalidate];
 }
 
 -(void)recordButtonDragInside

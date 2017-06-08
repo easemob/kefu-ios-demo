@@ -538,8 +538,6 @@
                      HDTextAttachment *attachment = (HDTextAttachment*)value;
                      NSString *str = [NSString stringWithFormat:@"%@",attachment.imageName];
                      
-                     NSLog(@"str----%@", str);
-                     
                      [attStr replaceCharactersInRange:range withString:str];
                  }
              }];

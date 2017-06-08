@@ -93,8 +93,8 @@
     backButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
-    backButton.imageRect = CGRectMake(10, 10, 20, 18);
-    backButton.titleRect = CGRectMake(45, 10, 180, 18);
+    backButton.imageRect = CGRectMake(10, 10, 20, 20);
+    backButton.titleRect = CGRectMake(45, 10, 200, 20);
     [self.view addSubview:backButton];
     backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
     [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];

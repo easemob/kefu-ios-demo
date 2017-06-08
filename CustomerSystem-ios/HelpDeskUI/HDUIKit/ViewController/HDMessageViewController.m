@@ -50,9 +50,7 @@
     NSMutableArray *_atTargets;
     
     HDRecordView *_tmpView;
-    
-    UIView *_tempRecordView;
-    
+    NSString *_isClickBackgroud;
     dispatch_queue_t _messageQueue;
     BOOL _isSendingTransformMessage; //正在发送转人工消息
     BOOL _isSendingEvaluateMessage;//点击立即评价按钮
@@ -102,6 +100,8 @@
     if (self.scrollToBottomWhenAppear) {
         [self _scrollViewToBottom:NO];
     }
+    
+    _isClickBackgroud = nil;
     self.scrollToBottomWhenAppear = YES;
     
     self.view.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
@@ -109,10 +109,12 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideImagePicker) name:@"hideImagePicker" object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatToolbarState) name:@"ChatToolbarState" object:nil];
+    
     //Initialization
     CGFloat chatbarHeight = [HDChatToolbar defaultHeight];
     self.chatToolbar = [[HDChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - chatbarHeight, self.view.frame.size.width, chatbarHeight)];
-    self.chatToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;    
+    self.chatToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     //Initializa the gesture recognizer
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyBoardHidden:)];
@@ -147,6 +149,11 @@
     [[HDChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
     [self setupEmotion];
     [self tableViewDidTriggerHeaderRefresh];
+}
+
+- (void)ChatToolbarState
+{
+    [self.chatToolbar endEditing:YES];
 }
 
 - (void)setLeftBarBtnItem {
@@ -238,6 +245,7 @@
         [_imagePicker dismissViewControllerAnimated:NO completion:nil];
         _imagePicker = nil;
     }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -367,7 +375,7 @@
     //停止音频播放及播放动画
     [[HDCDDeviceManager sharedInstance] stopPlaying];
     [[HDCDDeviceManager sharedInstance] disableProximitySensor];
-    [HDCDDeviceManager sharedInstance].delegate = nil;
+    [HDCDDeviceManager sharedInstance].delegate = self;
     
     //    MessageModel *playingModel = [self.EaseMessageReadManager stopMessageAudioModel];
     //    NSIndexPath *indexPath = nil;
@@ -722,11 +730,13 @@
 
 #pragma mark - GestureRecognizer
 
+
+// 要解决这里点击背景的问题，键盘不编辑的问题
 -(void)keyBoardHidden:(UITapGestureRecognizer *)tapRecognizer
 {
     if (tapRecognizer.state == UIGestureRecognizerStateEnded) {
         // 解决还在录音的问题
-        if(self.hrecordView){
+        if(_isClickBackgroud){
             
         } else {
             [self.chatToolbar endEditing:YES];
@@ -1207,9 +1217,9 @@
 
 
 #pragma mark - HRecordViewDelegate
+// 点触录音按钮开始录音的代理方法
 - (void)didHdStartRecordingVoiceAction:(UIView *)recordView
 {
-    _tempRecordView = recordView;
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchDown];
     } else {
@@ -1234,8 +1244,9 @@
              }
          }];
     }
+    _isClickBackgroud = @"Yes";
 }
-
+// 在控件之外触摸抬起事件的代理方法
 - (void)didHdCancelRecordingVoiceAction:(UIView *)recordView
 {
     [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
@@ -1249,10 +1260,13 @@
         
     }
     
+    _isClickBackgroud = nil;
+    
 }
-
+// 在控件之内触摸抬起事件的代理方法
 - (void)didHdFinishRecoingVoiceAction:(UIView *)recordView
 {
+    _isClickBackgroud = nil;
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpInside];
     } else {
@@ -1278,8 +1292,10 @@
             });
         }
     }];
+    _isClickBackgroud = nil;
 }
 
+// 当一次触摸从控件窗口内部拖动到外部时的代理方法
 - (void)didHdDragOutsideAction:(UIView *)recordView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
@@ -1289,8 +1305,9 @@
             [(HDRecordView *)recordView recordButtonDragInside];
         }
     }
+    _isClickBackgroud = @"Yes";
 }
-
+// 当一次触摸从控件窗口之外拖动到内部时的代理方法
 - (void)didHdDragInsideAction:(UIView *)recordView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
@@ -1300,6 +1317,7 @@
             [(HDRecordView *)recordView recordButtonDragOutside];
         }
     }
+    _isClickBackgroud = @"Yes";
 }
 
 

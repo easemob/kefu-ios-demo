@@ -212,34 +212,35 @@
     switch (section) {
         case 0:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:@"AppKey" content:_appkey];
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"appkey" content:_appkey];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 1:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:NSLocalizedString(@"customernumber", @"IM service No.") content:_cname];
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"cname" content:_cname];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 2:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:NSLocalizedString(@"login_user_nick", @"User Nick") content:nil];
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"nickname" content:_nickname];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 3:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:NSLocalizedString(@"set_tenantId", @"TenantId") content:_tenantId];
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"tenantId" content:_tenantId];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         case 4:
         {
-            EditViewController *editController = [[EditViewController alloc] initWithType:NSLocalizedString(@"set_leave_messageid", @"Leave Message ID") content:_projectId];
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"projectId" content:_projectId];
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
+
         case 5:
         {
             HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
@@ -275,6 +276,8 @@
         NSDictionary *dic = (NSDictionary *)object;
         NSString *type = [dic objectForKey:@"type"];
         NSString *content = [dic objectForKey:@"content"];
+        NSLog(@"content--%@",content);
+        
         if ([type isEqualToString:@"appkey"]) {
             _appkey = content;
             _lgM.appkey = content;

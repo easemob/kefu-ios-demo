@@ -59,7 +59,7 @@
     _hintLabel = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2, 10, 100, 50)];
     _hintLabel.textAlignment = NSTextAlignmentCenter;
     _hintLabel.font = [UIFont systemFontOfSize:15];
-    _hintLabel.text = @"没有留言";
+    _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");
     [_view addSubview:_hintLabel];
     self.tableView.tableFooterView = _view;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;

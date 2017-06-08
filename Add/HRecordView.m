@@ -71,7 +71,7 @@
     [self addSubview:_recordButton];
 }
 
-// 点触屏幕
+// 点触录音按钮开始录音
 - (void)recordButtonTouchDown
 {
     _recordLabel.text = EndOrSlide;

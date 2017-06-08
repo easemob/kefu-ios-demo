@@ -19,13 +19,18 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 
 
 
-@interface HDLeaveMsgViewController ()<UITextFieldDelegate>
+@interface HDLeaveMsgViewController ()<UITextFieldDelegate, UITextViewDelegate>
 
 {
     UIView *_bottomView;
+    UIView *_textFView;
+    UIWindow *_window;
+    UITextField *_textField;
+    CGFloat _boardHeight;
 }
 
 @property (nonatomic, strong) FLTextView *textView;
+
 
 @end
 
@@ -40,8 +45,10 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     
     NSArray *placeholders = @[NSLocalizedString(@"ticket_name", @"Name"),NSLocalizedString(@"ticket_phone", @"Phone"),NSLocalizedString(@"ticket_email", @"Email"),NSLocalizedString(@"ticket_theme", @"Theme")];
     for (int i=0; i<4; i++) {
-        [self createTextfieldWithY:CGRectGetMaxY(self.textView.frame) +60*i placeholder:placeholders[i] tag:i+NSTextFieldTagName];
+        [self createTextfieldWithY:30 +60*i placeholder:placeholders[i] tag:i+NSTextFieldTagName];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChatToolbarState" object:nil];
 }
 
 - (FLTextView *)textView
@@ -49,7 +56,9 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     if (_textView == nil) {
         _textView = [[FLTextView alloc] initWithFrame:CGRectMake(0, 60, kScreenWidth, kScreenHeight * 0.4)];
         [_textView setPlaceholderText:[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"leave_content",@"Input content"),@"..."]];
+        _textView.delegate = self;
         _textView.fontSize = 16.0;
+        _textView.returnKeyType = UIReturnKeyDone;
         _textView.font = [UIFont systemFontOfSize:18];
         _textView.layer.borderColor = [UIColor clearColor].CGColor;
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_textView.frame), kScreenWidth, 0.5f)];
@@ -64,10 +73,11 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     beforeLabel.text = [NSString stringWithFormat:@"%@:", placeholder];
     beforeLabel.font = [UIFont systemFontOfSize:15];
     
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(beforeLabel.frame) + 5, y, kScreenWidth-160, 40)];
-    textField.font = [UIFont systemFontOfSize:15];
+    _textField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(beforeLabel.frame) + 5, y, kScreenWidth-160, 40)];
+    _textField.delegate = self;
+    _textField.font = [UIFont systemFontOfSize:15];
 
-    UILabel *lateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(textField.frame), y + 4, 70, 30)];
+    UILabel *lateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_textField.frame), y + 4, 70, 30)];
     lateLabel.text = NSLocalizedString(@"new_leave_item_hint_text", @"Required");
     lateLabel.textColor = [UIColor grayColor];
     lateLabel.font = [UIFont systemFontOfSize:15];
@@ -76,19 +86,33 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     line.backgroundColor = [UIColor blackColor];
     
     if (tag == NSTextFieldTagTel) {
-        textField.keyboardType = UIKeyboardTypeNumberPad;
+        _textField.keyboardType = UIKeyboardTypeNumberPad;
     }
     
-    textField.tag = tag;
-    textField.delegate = self;
-    [self.view addSubview:beforeLabel];
-    [self.view addSubview:lateLabel];
-    [self.view addSubview:line];
-    [self.view addSubview:textField];
+    _textField.tag = tag;
+    _textField.delegate = self;
+    [_textFView addSubview:beforeLabel];
+    [_textFView addSubview:lateLabel];
+    [_textFView addSubview:line];
+    [_textFView addSubview:_textField];
+    
+    [self.view bringSubviewToFront:_textFView];
 }
+
 
 - (void)leaveMessage {
     [self.view endEditing:YES];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        CGRect frame = _textFView.frame;
+        
+        frame.origin.y = CGRectGetMaxY(self.textView.frame);
+        
+        _textFView.frame = frame;
+        
+    }];
+    
     NSString *name = ((UITextField *)[self.view viewWithTag:NSTextFieldTagName]).text;
     NSString *tel = ((UITextField *)[self.view viewWithTag:NSTextFieldTagTel]).text;
     NSString *mail = ((UITextField *)[self.view viewWithTag:NSTextFieldTagMail]).text;
@@ -101,7 +125,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 //    [parameters setObject:content.length>0 ? content:@"" forKey:@"content"];
     
     if (([name isEqualToString:@""] || [tel isEqualToString:@""] || [mail isEqualToString:@""] || [subject isEqualToString:@""] || [content isEqualToString:@""])) {
-        [self showHudInView:self.view hint:@"请填写信息"];
+        [self showHudInView:self.view hint:NSLocalizedString(@"Please_fill_out_the_information", @"Add information")];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self hideHud];
         });
@@ -155,6 +179,25 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 
 }
 
+// 结束编辑
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView
+
+{
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        CGRect frame = _textFView.frame;
+        
+        frame.origin.y = CGRectGetMaxY(self.textView.frame) + _boardHeight;
+        
+        _textFView.frame = frame;
+        
+    }];
+    
+    return YES;
+
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if (textField.tag == NSTextFieldTagTel && ![string isEqualToString:@""]) {
         if (textField.text.length >=20) {
@@ -163,6 +206,20 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
             return NO;
         }
     }
+    return YES;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+        [UIView animateWithDuration:0.3 animations:^{
+            
+            CGRect frame = _textFView.frame;
+            
+            frame.origin.y = 150;
+            
+            _textFView.frame = frame;
+            
+        }];
     return YES;
 }
 
@@ -182,17 +239,23 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
     
-    _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 50, kScreenWidth, 50)];
-    _bottomView.backgroundColor = [UIColor grayColor];
-    [self.view addSubview:_bottomView];
-    UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth - 50, 0, 50, 50)];
+    
+    _textFView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.textView.frame), kScreenWidth, kScreenHeight -CGRectGetMaxY(self.textView.frame) - 50)];
+    //    self.textFiledView.backgroundColor = [UIColor redColor];
+    [self.view addSubview:_textFView];
+    
+//    _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 50, kScreenWidth, 50)];
+//    _bottomView.backgroundColor = [UIColor grayColor];
+//    [self.view addSubview:_bottomView];
+    
+    UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     [sendButton setTitle:NSLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [sendButton addTarget:self action:@selector(leaveMessage) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *sendItem = [[UIBarButtonItem alloc] initWithCustomView:sendButton];
+    [self.navigationItem setRightBarButtonItem:sendItem];
     
-
-    [_bottomView addSubview:sendButton];
-    
+//    [_bottomView addSubview:sendButton];
     
 }
 

@@ -64,7 +64,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     [self setupSubviews];
     self.selectedIndex = 0;
-    
+    // 解决第一次启动app 设置导航titleView不显示的问题
+    [self setNavTitleView];
     UIButton *chatButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 17)];
     [chatButton setBackgroundImage:[UIImage imageNamed:@"hd_chat_icon.png"] forState:UIControlStateNormal];
     [chatButton addTarget:self action:@selector(chatItemAction) forControlEvents:UIControlEventTouchUpInside];
@@ -89,6 +90,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     _leaveItem = [[UIBarButtonItem alloc] initWithCustomView:leaveButton];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
+}
+
+- (void)setNavTitleView
+{
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 97, 17)];//初始化图片视图控件
+    imageView.contentMode = UIViewContentModeScaleAspectFit;//设置内容样式,通过保持长宽比缩放内容适应视图的大小,任何剩余的区域的视图的界限是透明的。
+    UIImage *image = [UIImage imageNamed:@"hd_logo.png"];//初始化图像视图
+    [imageView setImage:image];
+    self.navigationItem.titleView = imageView;
 }
 
 - (void)didReceiveMemoryWarning
@@ -203,15 +213,10 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     if (item.tag == 0) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 97, 17)];//初始化图片视图控件
-        imageView.contentMode = UIViewContentModeScaleAspectFit;//设置内容样式,通过保持长宽比缩放内容适应视图的大小,任何剩余的区域的视图的界限是透明的。
-        UIImage *image = [UIImage imageNamed:@"hd_logo.png"];//初始化图像视图
-        [imageView setImage:image];
-        self.navigationItem.titleView = imageView;//设置导航栏的titleView为imageView
+        [self setNavTitleView];
         self.title = nil;
         self.navigationItem.rightBarButtonItem = _chatItem;
         self.navigationItem.leftBarButtonItem = nil;
-
     }
     else if (item.tag == 1){
         self.title = nil;
