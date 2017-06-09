@@ -306,7 +306,7 @@
         if (!error) { //请求成功
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
                 if (_page == 0) {
-                    _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");
+//                    _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");
                     [weakSelf.dataArray removeAllObjects];
                 }
                 _page ++ ;
@@ -331,7 +331,7 @@
         } else { //失败
             if (completion) {
                 completion(NO);
-                 _hintLabel.text = NSLocalizedString(@"no_leave_message", @"NO Leave Message");
+//                 _hintLabel.text = NSLocalizedString(@"no_leave_message", @"NO Leave Message");
             }
         }
         _isRefreshing = NO;

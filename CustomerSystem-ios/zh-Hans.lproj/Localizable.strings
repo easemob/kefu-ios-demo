@@ -238,6 +238,32 @@
 "Please_fill_out_the_information" = "请填写信息";
 
 "easemob_cs_title" = "环信商城客服";
+"em_chat_invite_video_call" = "邀请客服进行实时视频";
+"have_connected_with" = "已经和对方建立连接，等待对方接受……";
+"In_the_call" = "视频通话中…";
+
+"video_call_hang_up" = "挂断";
+
+"the_other_party_no_response" = "对方没有响应";
+"the_other_party_refuses_to" = "对方拒接";
+"the_other_is_busy" = "对方正忙...";
+"the_connection_fails" = "连接失败";
+"the_function_is_not_supported" = "功能不支持";
+"each_other_offline" = "对方离线";
+
+"the_network_is_not_available" = "当前网络不可用";
+
+"the_voiceof_the_service_was_suspended" = "客服语音已经中断...";
+"the_voice_of_the_service_has_been_reconnection" = "客服语音已经重连";
+"the_video_of_the_service_was_suspended" = "客服视频已经中断...";
+"the_video_of_the_service_has_been_reconnection" = "客服视频已经重连";
+"are_making_video_calls_and_customer_service" = "正在与客服进行视频通话";
+"the_current_network_is_not_stable" = "当前网络不稳定";
+"the_current_network_has_been_interrupted" = "当前网络已经中断";
+
+"to_evaluate" = "去评价";
+
+
 
 
 

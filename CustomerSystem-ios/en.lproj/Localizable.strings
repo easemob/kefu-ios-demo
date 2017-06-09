@@ -234,4 +234,31 @@
 "no_more" = "NO More";
 "no_leave_message" = "NO Leave Message";
 
+"Please_fill_out_the_information" = "Add information";
+
+"easemob_cs_title" = "EasemobMall Customer Service";
+"em_chat_invite_video_call" = "Invite customer service making a video call";
+"have_connected_with" = "Connected to the peer and waiting for the peer to accept";
+"In_the_call" = "In the call..";
+
+"video_call_hang_up" = "Hang Up";
+
+"the_other_party_no_response" = "The other party no response";
+"the_other_party_refuses_to" = "The other party refuses to";
+"the_other_is_busy" = "The other is busy...";
+"the_connection_fails" = "The connection fails";
+"the_function_is_not_supported" = "The function is not supported";
+"each_other_offline" = "Each other offline";
+
+"the_network_is_not_available" = "The network is not available";
+
+"the_voiceof_the_service_was_suspended" = "The voice of the service was suspended...";
+"the_voice_of_the_service_has_been_reconnection" = "The voice of the service has been reconnection";
+"the_video_of_the_service_was_suspended" = "The video of the service was suspended...";
+"the_video_of_the_service_has_been_reconnection" = "The video of the service has been reconnection";
+"are_making_video_calls_and_customer_service" = "Are making video calls and customer service";
+"the_current_network_is_not_stable" = "The current network is not stable";
+"the_current_network_has_been_interrupted" = "The current network has been interrupted";
+
+"to_evaluate" = "To evaluate";
 

@@ -430,8 +430,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer];
                     }
                     if ([HjudgeTextMessageSubType isEvaluateMessage:model.message]) {
-                        if ([model.text isEqualToString:@""]) {
-                            _bubbleView.evaluateTitle.attributedText = [[NSAttributedString alloc] initWithString:@"请对我的服务做出评价"];
+                        if ([model.text isEqualToString:@""]) { 
+                            _bubbleView.evaluateTitle.attributedText = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"satisfaction.message", @"please evaluate my service")];
                         } else  {
                             _bubbleView.evaluateTitle.attributedText = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
                         }

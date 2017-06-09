@@ -58,7 +58,6 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
         _callSession = aCallSession;
         _isDismissing = NO;
         _hangupButton.hidden = YES;
-        _timeLabel.hidden = YES;
     }
     
     return self;
@@ -95,9 +94,17 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     }
     [self setup];
 }
-
 - (void)setup {
-    self.nickNameLabel.text = self.callSession.remoteName;
+    [self.rejectButton setTitle:NSLocalizedString(@"reject", @"Reject") forState:UIControlStateNormal];
+    [self.acceptButton setTitle:NSLocalizedString(@"accept", @"Accept") forState:UIControlStateNormal];
+    [self.hangupButton setTitle:NSLocalizedString(@"video_call_hang_up", @"Hang Up") forState:UIControlStateNormal];
+    
+    self.switchButton.hidden = YES;
+    self.micButton.hidden = YES;
+    self.voiceButton.hidden = YES;
+    self.videoButton.hidden = YES;
+    
+    self.nickNameLabel.text = NSLocalizedString(@"easemob_cs_title", @"EasemobMall Customer Service");
     switch (self.callSession.type) {
         case HCallTypeVoice: {
             self.videoButton.enabled = NO;
@@ -179,16 +186,28 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
 
 //通道已经建立
 - (void)stateToConnected {
-    [self remindVisitor:@"已连接"];
+    [self remindVisitor:NSLocalizedString(@"have_connected_with", @"Invite customer service making a video call")];
+    self.timeLabel.numberOfLines = 2;
+    self.timeLabel.text = self.callSession.remoteName;
+    NSLog(@"name--%@", self.callSession.remoteName);
     [self setupRemoteVideoView];
     [self setupLocalVideoView];
     
 }
-//视频已经连通
+//视频已经连通 
 - (void)didConnected {
-    [self remindVisitor:@"可以说话了"];
+    [self remindVisitor:NSLocalizedString(@"In_the_call", @"In the call..")];
     self.timeLabel.hidden = NO;
-    self.timeLabel.hidden = NO;
+    
+    self.switchButton.hidden = NO;
+    self.micButton.hidden = NO;
+    self.voiceButton.hidden = NO;
+    self.videoButton.hidden = NO;
+    
+    if (self.timeLength <= 0) {
+        [self startRecordTime];
+    }
+    
     self.hangupButton.hidden = NO;
     self.rejectButton.hidden = YES;
     self.acceptButton.hidden = YES;
@@ -199,9 +218,7 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
 //设置客服视频窗口
 - (void)setupRemoteVideoView
 {
-    if (self.timeLength <= 0) {
-        [self startRecordTime];
-    }
+
     
     CGRect frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     if (self.callSession.remoteVideoView != nil) {
@@ -262,26 +279,24 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     }
 }
 
-
-
 //数据传输状态改变
 - (void)setStatusWithStatus:(HCallStreamingStatus)status {
     NSString *remind = @"";
     switch (status) {
         case HCallStreamStatusVoicePause: { //语音中断
-            remind = @"客服语音已经中断...";
+            remind = NSLocalizedString(@"the_voiceof_the_service_was_suspended", @"The voice of the service was suspended...");
             break;
         }
         case HCallStreamStatusVoiceResume: { //语音重连
-            remind = @"客服语音已经重连";
+            remind = NSLocalizedString(@"the_voice_of_the_service_has_been_reconnection", @"The voice of the service has been reconnection");
             break;
         }
         case HCallStreamStatusVideoPause: { //视频中断
-            remind = @"客服视频已经中断...";
+            remind = NSLocalizedString(@"the_video_of_the_service_was_suspended", @"The video of the service was suspended...");
             break;
         }
         case HCallStreamStatusVideoResume: { //视频重连
-            remind = @"客服视频已经重连";
+            remind = NSLocalizedString(@"the_video_of_the_service_has_been_reconnection", @"The video of the service has been reconnection");
             break;
         }
         default:
@@ -295,15 +310,15 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     NSString *remind = @"";
     switch (status) {
         case HCallNetworkStatusNormal: { //网络正常
-            remind = @"正在与客服进行视频通话";
+            remind = NSLocalizedString(@"are_making_video_calls_and_customer_service", @"Are making video calls and customer service");
             break;
         }
         case HCallNetworkStatusUnstable: { //网络不稳定
-            remind = @"当前网络不稳定";
+            remind = NSLocalizedString(@"the_current_network_is_not_stable", @"The current network is not stable");
             break;
         }
         case HCallNetworkStatusNoData: { //网络连接中断
-            remind = @"当前网络已经中断";
+            remind = NSLocalizedString(@"the_current_network_has_been_interrupted", @"The current network has been interrupted");
             break;
         }
         default:
@@ -327,6 +342,7 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
 
 //private
 - (void)remindVisitor:(NSString *)remind {
+    self.remindLabel.numberOfLines = 3;
     self.remindLabel.text = remind;
 }
 

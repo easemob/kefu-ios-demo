@@ -105,32 +105,32 @@ static HCallManager *_manager = nil;
             switch (aReason) {
                 case HCallEndReasonNoResponse:
                 {
-                    reasonStr = @"对方没有响应";
+                    reasonStr = NSLocalizedString(@"the_other_party_no_response", @"The other party no response");
                 }
                     break;
                 case HCallEndReasonDecline:
                 {
-                    reasonStr = @"对方拒接";
+                    reasonStr = NSLocalizedString(@"the_other_party_refuses_to", @"The other party refuses to");
                 }
                     break;
                 case HCallEndReasonBusy:
                 {
-                    reasonStr = @"对方正忙...";
+                    reasonStr = NSLocalizedString(@"the_other_is_busy", @"The other is busy...");
                 }
                     break;
                 case HCallEndReasonFailed:
                 {
-                    reasonStr = @"连接失败";
+                    reasonStr = NSLocalizedString(@"the_connection_fails", @"The connection fails");
                 }
                     break;
                 case HCallEndReasonUnsupported:
                 {
-                    reasonStr = @"功能不支持";
+                    reasonStr = NSLocalizedString(@"the_function_is_not_supported", @"The function is not supported");
                 }
                     break;
                 case HCallEndReasonRemoteOffline:
                 {
-                    reasonStr = @"对方离线";
+                    reasonStr = NSLocalizedString(@"each_other_offline", @"Each other offline");
                 }
                     break;
                 default:
@@ -138,11 +138,11 @@ static HCallManager *_manager = nil;
             }
             
             if (aError) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:aError.errorDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"Error") message:aError.errorDescription delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
                 [alertView show];
             }
             else{
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:reasonStr delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:reasonStr delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
                 [alertView show];
             }
         }
@@ -186,7 +186,7 @@ static HCallManager *_manager = nil;
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (error.code == HErrorNetworkUnavailable) {
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"当前网络不可用" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"the_network_is_not_available", @"The network is not available") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"Ok") otherButtonTitles:nil, nil];
                     [alertView show];
                 }
                 else{

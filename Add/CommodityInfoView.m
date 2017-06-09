@@ -12,6 +12,7 @@
 @interface CommodityInfoView ()
 {
     NSInteger _tagNumber;
+    CGRect _frame;
 }
 @property (nonatomic, strong) UILabel *name;
 @property (nonatomic, strong) UILabel *money;
@@ -40,17 +41,21 @@
 - (void)setUIWidth:(CGFloat)width height:(CGFloat)height tagNum:(NSInteger)tag
 {
     CGFloat space = 5;
-    self.name = [[UILabel alloc] initWithFrame:CGRectMake(space, 0, width*0.7, height*0.8)];
+    self.name = [[UILabel alloc] initWithFrame:CGRectMake(space, 0, width*0.6, height*0.8)];
     self.name.text = NSLocalizedString([_comDataSource[tag] objectForKey:@"name"], @"em_example1_text");
-    self.name.numberOfLines = 0;
+    self.name.numberOfLines = 2;
     self.name.lineBreakMode = UILineBreakModeCharacterWrap;
-    self.name.font = [UIFont systemFontOfSize:14];
+    self.name.font = [UIFont systemFontOfSize:13];
     self.name.textAlignment = NSTextAlignmentLeft;
     [self addSubview:self.name];
-    
-    self.money = [[UILabel alloc] initWithFrame:CGRectMake(width - width/3 - space, space + 5, width*0.3, height/3)];
+    if (tag == 3) {
+        _frame = CGRectMake(width - width/3.5 - space*4, space + 5, width*0.35, height/3);
+    } else {
+        _frame = CGRectMake(width - width/3 - space, space + 5, width*0.3, height/3);
+    }
+    self.money = [[UILabel alloc] initWithFrame:_frame];
     self.money.text = [_comDataSource[tag] objectForKey:@"money"];
-    self.money.font = [UIFont systemFontOfSize:13];
+    self.money.font = [UIFont systemFontOfSize:12];
     self.money.textAlignment = NSTextAlignmentRight;
     self.money.textColor = [UIColor redColor];
     [self addSubview:self.money];

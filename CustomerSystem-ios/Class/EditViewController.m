@@ -103,7 +103,19 @@
 
 - (void)saveButton
 {
-    [self back];
+    [self.view endEditing:YES];
+    if ([_editField.text length] == 0) {
+        _editField.text = _content;
+    }
+    if (![_editField.text isEqualToString:_content]) {
+        if ([_type isEqualToString:@"appkey"]) {
+            [self restarTheApp];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_SETTINGCHANGE object:@{@"type":_type, @"content":_editField.text}];
+            NSLog(@"text---%@", _editField.text);
+        }
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -120,24 +132,27 @@
         _editField.text = _content;
     }
     if (![_editField.text isEqualToString:_content]) {
-        if ([_type isEqualToString:@"AppKey"]) {
-            
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"app_key_modifya", @"Appkey modify Need Restart") preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancela", @"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            }]];
-            [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"restarta", @"Restart") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-                lgM.appkey = _editField.text;
-                AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-                [appDelegate resetCustomerServiceSDK];
-            }]];
-            [self presentViewController:alertController animated:YES completion:nil];
+        if ([_type isEqualToString:@"appkey"]) {
+            [self restarTheApp];
         } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_SETTINGCHANGE object:@{@"type":_type, @"content":_editField.text}];
-            NSLog(@"text---%@", _editField.text);
+
         }
     }
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)restarTheApp
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"app_key_modifya", @"Appkey modify Need Restart") preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancela", @"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"restarta", @"Restart") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+        lgM.appkey = _editField.text;
+        AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+        [appDelegate resetCustomerServiceSDK];
+    }]];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 -(void)keyBoardHidden:(UITapGestureRecognizer *)tapRecognizer

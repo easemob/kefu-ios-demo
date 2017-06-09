@@ -122,7 +122,7 @@
 - (UIView *)recordView
 {
     if (_recordView == nil) {
-        _recordView = [[HDRecordView alloc] initWithFrame:CGRectMake(90, 130, 60, 80)];
+        _recordView = [[HDRecordView alloc] initWithFrame:CGRectMake(90, kScreenHeight/2 - 40, 60, 80)];
     }
     
     return _recordView;

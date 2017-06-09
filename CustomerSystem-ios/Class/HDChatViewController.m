@@ -49,7 +49,7 @@
 
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
-    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"邀请客服进行实时视频"];
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:NSLocalizedString(@"em_chat_invite_video_call", @"nvite customer service making a video call")];
     HMessage *callMessage = [[HMessage alloc] initWithConversationID:[HChatClient sharedClient].chat.currentConversationId from:[HChatClient sharedClient].currentUsername to:[HChatClient sharedClient].chat.currentConversationId body:body];
     [callMessage addAttributeDictionary:[self callExt]];
     [callMessage addContent:[self visitorInfo]];
@@ -393,7 +393,7 @@
         }
     }
     else if ([sender isKindOfClass:[UIButton class]]){
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"sureToDelete", @"please make sure to delete") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"OK"), nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"sureToDelete", @"please make sure to delete") delegate:self cancelButtonTitle:NSLocalizedString(@"cancela", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"OK"), nil];
         [alertView show];
     }
 }

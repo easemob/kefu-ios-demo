@@ -47,7 +47,7 @@
     [self.evaluateButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     self.evaluateButton.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:167.0/255.0 blue:252.0/255.0 alpha:1.0];
     self.evaluateButton.layer.cornerRadius = 5.f;
-    [self.evaluateButton setTitle:@"去评价" forState:UIControlStateNormal];
+    [self.evaluateButton setTitle:NSLocalizedString(@"to_evaluate", @"To evaluate") forState:UIControlStateNormal];
     [self.evaluateButton addTarget:self action:@selector(evaluateAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundImageView addSubview:self.evaluateButton];
     

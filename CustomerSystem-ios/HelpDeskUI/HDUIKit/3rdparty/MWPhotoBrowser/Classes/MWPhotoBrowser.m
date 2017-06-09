@@ -1476,7 +1476,7 @@
                     // Old handling of activities with action sheet
                     if ([MFMailComposeViewController canSendMail]) {
                         _actionsSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                               cancelButtonTitle:NSEaseLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
+                                                               cancelButtonTitle:NSEaseLocalizedString(@"Cancela", nil) destructiveButtonTitle:nil
                                                                otherButtonTitles:NSEaseLocalizedString(@"Save", nil), NSEaseLocalizedString(@"Copy", nil), NSEaseLocalizedString(@"Email", nil), nil];
                     } else {
                         _actionsSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self

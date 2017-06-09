@@ -31,9 +31,10 @@
 //#define kDefaultTenantId @"29044"
 //#define kDefaultProjectId @"306164"
 
+
 #define kDefaultAppKey @"1141161024115978#kefuchannelapp29593"
 #define kDefaultCustomerName @"kefuchannelimid_012680"
-#define kDefaultCustomerNickname @"小明"
+#define kDefaultCustomerNickname @""
 #define kDefaultTenantId @"29593"
 #define kDefaultProjectId @"306713"
 

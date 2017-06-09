@@ -62,7 +62,7 @@
     NSString *newAppkey = [dic valueForKey:@"appkey"];
     if (![_appkey isEqualToString:newAppkey]) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt")  message:NSLocalizedString(@"app_key_modifya", @"Appkey modify Need Restart") preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancela", @"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancela", @"Ca ncel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             
         }]];
         __weak typeof(self) weakSelf = self;
@@ -154,7 +154,7 @@
         case 2:
         {
             cell.textLabel.text = NSLocalizedString(@"setNickname", @"setNickname");
-            tempLabel.text = nil;
+            tempLabel.text = _nickname;
         }
             break;
         case 3:
