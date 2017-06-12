@@ -49,6 +49,7 @@ const NSInteger baseTag=123;
     SCAudioPlay *_audioPlayer;
     HDRecordView *_tmpView;
     CGFloat _boardHeight;
+    BOOL _status;
 }
 
 
@@ -69,7 +70,7 @@ const NSInteger baseTag=123;
     [self.view addSubview:self.attchmentView];
     [self setupBarButtonItem];
     
-    self.maskingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    self.maskingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 140)];
     self.maskingView.backgroundColor = [UIColor clearColor];
     self.maskingView.tag = 33;
     
@@ -132,6 +133,7 @@ const NSInteger baseTag=123;
 // 修改 录音按钮的点击事件
 - (void)recordChangButtonAction:(id)sender
 {
+//    _status = YES;
     UIButton *button = (UIButton *)sender;
     button.selected = !button.selected;
 
@@ -197,7 +199,7 @@ const NSInteger baseTag=123;
 
 - (void)didHdCancelRecordingVoiceAction:(UIView *)recordView
 {
-    [self.view sendSubviewToBack:self.maskingView];
+//    [self.view sendSubviewToBack:self.maskingView];
     self.maskingView  = [self.view viewWithTag:33];
     [self.maskingView removeFromSuperview];
     [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
@@ -336,6 +338,7 @@ const NSInteger baseTag=123;
 
 - (UIButton*)addButton
 {
+    
     if (_addButton == nil) {
         _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _addButton.size = CGSizeMake(30, 30);
@@ -404,7 +407,8 @@ const NSInteger baseTag=123;
 //添加图片
 - (void)addAction
 {
-    [_textView endEditing:YES];
+    [_recordButtonView removeFromSuperview];
+    
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
@@ -462,6 +466,7 @@ const NSInteger baseTag=123;
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 #pragma mark - LeaveMsgAttatchmentViewDelegate
@@ -598,8 +603,12 @@ const NSInteger baseTag=123;
 - (void)move
 {
     [self hide];
+
     _recordChangeBtn.originY = _recordChangeBtn.frame.origin.y - _boardHeight;
     _addButton.originY = _addButton.frame.origin.y - _boardHeight;
+
+    
+    
 }
 
 - (void)hide
