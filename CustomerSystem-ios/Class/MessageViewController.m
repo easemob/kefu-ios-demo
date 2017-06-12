@@ -76,6 +76,7 @@
 {
     [super viewWillAppear:animated];
     
+    [self reloadLeaveMsgList];
     [self registNotification];
 }
 

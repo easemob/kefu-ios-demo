@@ -262,3 +262,7 @@
 
 "to_evaluate" = "To evaluate";
 
+"contact_name" = "Contact Name";
+"contact_phone" = "Contact Phone";
+"contact_email" = "Contact Email";
+

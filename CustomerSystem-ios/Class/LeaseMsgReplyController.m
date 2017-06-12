@@ -38,6 +38,9 @@ const NSInteger baseTag=123;
 // 录音按钮view
 @property (nonatomic, strong) HRecordView *recordButtonView;
 
+
+@property (nonatomic,strong) UIView *maskingView;
+
 @end
 
 @implementation LeaseMsgReplyController
@@ -65,7 +68,11 @@ const NSInteger baseTag=123;
     [self.view addSubview:self.addButton];
     [self.view addSubview:self.attchmentView];
     [self setupBarButtonItem];
-//    [_textView becomeFirstResponder];
+    
+    self.maskingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    self.maskingView.backgroundColor = [UIColor clearColor];
+    self.maskingView.tag = 33;
+    
     [self.view addSubview:self.recordChangeBtn];
     
     //增加监听，当键盘出现或改变时收出消息
@@ -163,7 +170,8 @@ const NSInteger baseTag=123;
 #pragma mark - HRecordViewDelegate
 - (void)didHdStartRecordingVoiceAction:(UIView *)recordView
 {
-
+    [self.view bringSubviewToFront:self.maskingView];
+    
     if ([recordView isKindOfClass:[HDRecordView class]]) {
             [(HDRecordView *)recordView recordButtonTouchDown];
         }
@@ -189,6 +197,9 @@ const NSInteger baseTag=123;
 
 - (void)didHdCancelRecordingVoiceAction:(UIView *)recordView
 {
+    [self.view sendSubviewToBack:self.maskingView];
+    self.maskingView  = [self.view viewWithTag:33];
+    [self.maskingView removeFromSuperview];
     [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
     if ([recordView isKindOfClass:[HDRecordView class]]) {
         [(HDRecordView *)recordView recordButtonTouchUpOutside];
@@ -199,6 +210,8 @@ const NSInteger baseTag=123;
 
 - (void)didHdFinishRecoingVoiceAction:(UIView *)recordView
 {
+    self.maskingView  = [self.view viewWithTag:33];
+    [self.maskingView removeFromSuperview];
     if ([recordView isKindOfClass:[HDRecordView class]]) {
         [(HDRecordView *)recordView recordButtonTouchUpInside];
     }
@@ -473,12 +486,12 @@ const NSInteger baseTag=123;
     CGFloat height = 20;
     NSInteger index = 0;
     for (LeaveMsgAttachmentModel *attachment in self.attachments) {
-        if (left + [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10] > kScreenWidth) {
+        if (left + [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth*0.6 - kDefaultLeft - 10] > kScreenWidth*0.6) {
             left = kDefaultLeft;
             height += 50;
         }
         
-        LeaveMsgAttatchmentView *attatchmentView = [[LeaveMsgAttatchmentView alloc] initWithFrame:CGRectMake(left, height, [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10], 30) edit:YES model:attachment];
+        LeaveMsgAttatchmentView *attatchmentView = [[LeaveMsgAttatchmentView alloc] initWithFrame:CGRectMake(left, height, [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth*0.6 - kDefaultLeft - 10], 30) edit:YES model:attachment];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAttatchmentAction:)];
         tap.delegate = attatchmentView;
         tap.cancelsTouchesInView = NO;
@@ -487,9 +500,9 @@ const NSInteger baseTag=123;
         attatchmentView.tag = index+baseTag;
         [_attchmentView addSubview:attatchmentView];
         index ++;
-        left += [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth - kDefaultLeft - 10] + kDefaultLeft + 10;
+        left += [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth*0.6 - kDefaultLeft - 10] + kDefaultLeft + 10;
     }
-    [_attchmentView setContentSize:CGSizeMake(kScreenWidth, height + 30.f)];
+    [_attchmentView setContentSize:CGSizeMake(kScreenWidth*0.6, height + 30.f)];
 }
 
 #pragma mark - action

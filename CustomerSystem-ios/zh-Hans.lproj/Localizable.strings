@@ -263,7 +263,9 @@
 
 "to_evaluate" = "去评价";
 
-
+"contact_name" = "联系人姓名";
+"contact_phone" = "联系人电话";
+"contact_email" = "联系人邮箱";
 
 
 
