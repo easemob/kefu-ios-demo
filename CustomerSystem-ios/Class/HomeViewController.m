@@ -17,6 +17,7 @@
 #import "HDMessageViewController.h"
 #import "HDChatViewController.h"
 #import "QRCodeViewController.h"
+#import "HConversationsViewController.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
@@ -25,10 +26,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 @interface HomeViewController () <UIAlertViewDelegate,HChatDelegate>
 {
     MallViewController *_mallController;
-    SettingViewController *_settingController;
     MessageViewController *_leaveMsgVC;
+    HConversationsViewController *_conversationsVC;
+    SettingViewController *_settingController;
     UIBarButtonItem *_chatItem;
     UIBarButtonItem *_leaveItem;
+    UIBarButtonItem *_conversationItem;
     UIBarButtonItem *_settingleftItem;
     UIBarButtonItem *_settingRightItem;
 }
@@ -71,6 +74,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [chatButton addTarget:self action:@selector(chatItemAction) forControlEvents:UIControlEventTouchUpInside];
     _chatItem = [[UIBarButtonItem alloc] initWithCustomView:chatButton];
     self.navigationItem.rightBarButtonItem = _chatItem;
+    
+    //“会话”
+    UIButton *converationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [converationBtn setTitle:NSLocalizedString(@"title.conversationTitle", @"conversationList") forState:UIControlStateNormal];
+    converationBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    _conversationItem = [[UIBarButtonItem alloc] initWithCustomView:converationBtn];
     
     UIButton *setRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 17)];
     [setRightButton setBackgroundImage:[UIImage imageNamed:@"hd_scan_icon.png"] forState:UIControlStateNormal];
@@ -223,8 +232,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         self.navigationItem.titleView = nil;
         self.navigationItem.rightBarButtonItem = nil;
         self.navigationItem.leftBarButtonItem = _leaveItem;
+    } else if (item.tag == 2) {
+        self.title = nil;
+        self.navigationItem.titleView = nil;
+        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.leftBarButtonItem = _conversationItem;
     }
-    else if (item.tag == 2){
+    else if (item.tag == 3){
         self.title = nil;
         self.navigationItem.titleView = nil;
         self.navigationItem.rightBarButtonItem = _settingRightItem;
@@ -265,28 +279,36 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     else{
         self.tabBar.tintColor = [UIColor colorWithWhite:1.0 alpha:0.8];
     }
-    
+    //商城
     _mallController = [[MallViewController alloc] initWithNibName:nil bundle:nil];
     _mallController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.mall", @"Mall") image:nil tag:0];
     [_mallController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_shop_select"] withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_shop_normal"]];
     [self unSelectedTapTabBarItems:_mallController.tabBarItem];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
+    //留言
     _leaveMsgVC = [[MessageViewController alloc] initWithNibName:nil bundle:nil];
     _leaveMsgVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.messagebox", @"Message Box") image:nil tag:1];
     [_leaveMsgVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_ticket_select"] withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_ticket_normal"]];
     [self unSelectedTapTabBarItems:_leaveMsgVC.tabBarItem];
     [self selectedTapTabBarItems:_leaveMsgVC.tabBarItem];
     
+    //会话列表
+    _conversationsVC = [[HConversationsViewController alloc] init];
+    _conversationsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"会话" image:nil tag:2];
+    [self unSelectedTapTabBarItems:_conversationsVC.tabBarItem];
+    [self selectedTapTabBarItems:_conversationsVC.tabBarItem];
+    
+    //设置
     _settingController = [[SettingViewController alloc] initWithNibName:nil bundle:nil];
-    _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:2];
+    _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:3];
     [_settingController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_setting_select"]
                          withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_setting_normal"]];
     _settingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self unSelectedTapTabBarItems:_settingController.tabBarItem];
     [self selectedTapTabBarItems:_settingController.tabBarItem];
     
-    self.viewControllers = @[_mallController, _leaveMsgVC ,_settingController];
+    self.viewControllers = @[_mallController, _leaveMsgVC ,_conversationsVC,_settingController];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
     _choiceView = [[MoreChoiceView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];

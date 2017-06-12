@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-
+//LITE
+//#import <HyphenateLite/EMMessageBody.h>
+//#import <HyphenateLite/EMTextMessageBody.h>
+//#import <HyphenateLite/EMVideoMessageBody.h>
+//#import <HyphenateLite/EMImageMessageBody.h>
+//#import <HyphenateLite/EMVoiceMessageBody.h>
+//#import <HyphenateLite/EMLocationMessageBody.h>
+//#import <HyphenateLite/EMCmdMessageBody.h>
+//#import <HyphenateLite/HyphenateLite.h>
+//FULL
 #import <Hyphenate/EMMessageBody.h>
 #import <Hyphenate/EMTextMessageBody.h>
 #import <Hyphenate/EMVideoMessageBody.h>

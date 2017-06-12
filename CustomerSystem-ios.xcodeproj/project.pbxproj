@@ -15,7 +15,6 @@
 		D26BF6901EDEB3BA007A0775 /* em_example_image_4.png in Resources */ = {isa = PBXBuildFile; fileRef = D26BF68A1EDEB3BA007A0775 /* em_example_image_4.png */; };
 		D26BF6911EDEB3BA007A0775 /* em_main_introduce_en.png in Resources */ = {isa = PBXBuildFile; fileRef = D26BF68B1EDEB3BA007A0775 /* em_main_introduce_en.png */; };
 		D26BF6921EDEB3BA007A0775 /* em_main_introduce_zh.png in Resources */ = {isa = PBXBuildFile; fileRef = D26BF68C1EDEB3BA007A0775 /* em_main_introduce_zh.png */; };
-		D26BF6931EDEB78B007A0775 /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D26BF6841EDEB008007A0775 /* Hyphenate.framework */; };
 		D26BF6A31EDECD86007A0775 /* product_details_zh_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D26BF69F1EDECD85007A0775 /* product_details_zh_1.png */; };
 		D26BF6A41EDECD86007A0775 /* product_details_zh_3.png in Resources */ = {isa = PBXBuildFile; fileRef = D26BF6A01EDECD86007A0775 /* product_details_zh_3.png */; };
 		D26BF6A51EDECD86007A0775 /* product_details_zh_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D26BF6A11EDECD86007A0775 /* product_details_zh_2.png */; };
@@ -175,7 +174,10 @@
 		D355795E1EE94A9A00F6B54E /* HConversationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D355795D1EE94A9A00F6B54E /* HConversationsViewController.m */; };
 		D35579631EE94BF900F6B54E /* HConversationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D35579621EE94BF900F6B54E /* HConversationTableViewCell.m */; };
 		D355796A1EE9517E00F6B54E /* DXTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = D35579691EE9517E00F6B54E /* DXTipView.m */; };
-		D355796C1EE952CE00F6B54E /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D355796B1EE952CE00F6B54E /* HelpDesk.framework */; };
+		D362E5691EEE4BA0009BF38A /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D362E5681EEE4BA0009BF38A /* HelpDesk.framework */; };
+		D362E56A1EEE4BA6009BF38A /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D362E5681EEE4BA0009BF38A /* HelpDesk.framework */; };
+		D362E56B1EEE4BA6009BF38A /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D362E5681EEE4BA0009BF38A /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D362E56D1EEE4CAB009BF38A /* default_customer_avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D362E56C1EEE4CAB009BF38A /* default_customer_avatar@2x.png */; };
 		D37315831E52A5D00043ED32 /* HelpDeskUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */; };
 		D39E2EE41E7F7A7D0014FAE5 /* HCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D39E2EE31E7F7A7D0014FAE5 /* HCallManager.m */; };
 		D39E2EE81E7F7BB10014FAE5 /* HCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D39E2EE61E7F7BB10014FAE5 /* HCallViewController.m */; };
@@ -294,11 +296,8 @@
 		D3DEAA191DED66240081B654 /* chatBar_recordSelectedBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DEAA181DED66240081B654 /* chatBar_recordSelectedBg@2x.png */; };
 		D3DEAA1F1DED78D00081B654 /* SCAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DEAA1E1DED78D00081B654 /* SCAudioPlay.m */; };
 		D3E235791EE9663C00A4CFC5 /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E235781EE9663C00A4CFC5 /* Hyphenate.framework */; };
-		D3E2357B1EE9664F00A4CFC5 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E2357A1EE9664F00A4CFC5 /* HelpDesk.framework */; };
 		D3E2357C1EE9665200A4CFC5 /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E235781EE9663C00A4CFC5 /* Hyphenate.framework */; };
 		D3E2357D1EE9665200A4CFC5 /* Hyphenate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D3E235781EE9663C00A4CFC5 /* Hyphenate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D3E2357F1EE9665500A4CFC5 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E2357A1EE9664F00A4CFC5 /* HelpDesk.framework */; };
-		D3E235801EE9665500A4CFC5 /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D3E2357A1EE9664F00A4CFC5 /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D3E4B4471E7AA41B004FEA49 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D33946EB1E54371C009370BF /* libiconv.tbd */; };
 		EB395DFF1A8F0AC40083B659 /* MallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB395DFE1A8F0AC40083B659 /* MallViewController.m */; };
 		EB395E021A8F0C8D0083B659 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB395E011A8F0C8D0083B659 /* SettingViewController.m */; };
@@ -479,7 +478,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D3E235801EE9665500A4CFC5 /* HelpDesk.framework in Embed Frameworks */,
+				D362E56B1EEE4BA6009BF38A /* HelpDesk.framework in Embed Frameworks */,
 				D3E2357D1EE9665200A4CFC5 /* Hyphenate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -490,7 +489,6 @@
 /* Begin PBXFileReference section */
 		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		D26BF6841EDEB008007A0775 /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hyphenate.framework; path = "/Users/FXN/环信移动客服/kefu-ios-demo/Hyphenate.framework"; sourceTree = "<absolute>"; };
 		D26BF6871EDEB3BA007A0775 /* em_example_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_1.png; sourceTree = "<group>"; };
 		D26BF6881EDEB3BA007A0775 /* em_example_image_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_3.png; sourceTree = "<group>"; };
 		D26BF6891EDEB3BA007A0775 /* em_example_image_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_2.png; sourceTree = "<group>"; };
@@ -700,7 +698,8 @@
 		D35579621EE94BF900F6B54E /* HConversationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HConversationTableViewCell.m; sourceTree = "<group>"; };
 		D35579681EE9517E00F6B54E /* DXTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXTipView.h; sourceTree = "<group>"; };
 		D35579691EE9517E00F6B54E /* DXTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXTipView.m; sourceTree = "<group>"; };
-		D355796B1EE952CE00F6B54E /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HelpDesk.framework; path = "/Users/FXN/环信移动客服/kefu-ios-demo/CustomerSystem-ios/HelpDeskDynamicSDK/HelpDesk.framework"; sourceTree = "<absolute>"; };
+		D362E5681EEE4BA0009BF38A /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
+		D362E56C1EEE4CAB009BF38A /* default_customer_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_customer_avatar@2x.png"; sourceTree = "<group>"; };
 		D363DD3B1DF6E9A900AC54D1 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HelpDeskUIResource.bundle; sourceTree = "<group>"; };
 		D39AD9091DFAA6BE00895FCF /* CustomerSystem-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ios.entitlements"; sourceTree = "<group>"; };
@@ -947,7 +946,6 @@
 		D3DEAA1D1DED78D00081B654 /* SCAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAudioPlay.h; sourceTree = "<group>"; };
 		D3DEAA1E1DED78D00081B654 /* SCAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAudioPlay.m; sourceTree = "<group>"; };
 		D3E235781EE9663C00A4CFC5 /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hyphenate.framework; sourceTree = "<group>"; };
-		D3E2357A1EE9664F00A4CFC5 /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
 		D3E4B4371E7A930E004FEA49 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		EB395DFD1A8F0AC40083B659 /* MallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MallViewController.h; sourceTree = "<group>"; };
@@ -1139,16 +1137,14 @@
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
 				EB62E4511A8E2DA000705655 /* libxml2.dylib in Frameworks */,
-				D355796C1EE952CE00F6B54E /* HelpDesk.framework in Frameworks */,
+				D362E5691EEE4BA0009BF38A /* HelpDesk.framework in Frameworks */,
 				EB62E44F1A8E2D9900705655 /* libz.dylib in Frameworks */,
 				D3E2357C1EE9665200A4CFC5 /* Hyphenate.framework in Frameworks */,
 				EB62E44D1A8E2D9300705655 /* CFNetwork.framework in Frameworks */,
 				D3AA4B251ED45B7300B5C509 /* hdlibopencore-amrnb.a in Frameworks */,
 				EB62E44B1A8E2D8D00705655 /* AddressBook.framework in Frameworks */,
 				EB62E4491A8E2D8700705655 /* libiconv.dylib in Frameworks */,
-				D3E2357F1EE9665500A4CFC5 /* HelpDesk.framework in Frameworks */,
 				D3E235791EE9663C00A4CFC5 /* Hyphenate.framework in Frameworks */,
-				D26BF6931EDEB78B007A0775 /* Hyphenate.framework in Frameworks */,
 				EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */,
 				EB62E4431A8E2D7300705655 /* SystemConfiguration.framework in Frameworks */,
 				EB62E4411A8E2D6B00705655 /* libresolv.dylib in Frameworks */,
@@ -1156,7 +1152,7 @@
 				EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */,
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
-				D3E2357B1EE9664F00A4CFC5 /* HelpDesk.framework in Frameworks */,
+				D362E56A1EEE4BA6009BF38A /* HelpDesk.framework in Frameworks */,
 				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1238,7 +1234,7 @@
 		D30153741ECC0E55002A2EA8 /* HelpDeskDynamicSDK */ = {
 			isa = PBXGroup;
 			children = (
-				D3E2357A1EE9664F00A4CFC5 /* HelpDesk.framework */,
+				D362E5681EEE4BA0009BF38A /* HelpDesk.framework */,
 			);
 			path = HelpDeskDynamicSDK;
 			sourceTree = "<group>";
@@ -2191,6 +2187,7 @@
 		EB4B05F61AC685E900DCF67B /* chatListCell */ = {
 			isa = PBXGroup;
 			children = (
+				D362E56C1EEE4CAB009BF38A /* default_customer_avatar@2x.png */,
 				EB4B05F71AC685E900DCF67B /* customer@2x.png */,
 				EB4B05F81AC685E900DCF67B /* people@2x.png */,
 			);
@@ -2767,6 +2764,7 @@
 				EB4B06FD1AC685E900DCF67B /* tabbar_settingHL@2x.png in Resources */,
 				EB4B06811AC685E900DCF67B /* 58.png in Resources */,
 				EB4B06A21AC685E900DCF67B /* VoiceSearchFeedback011@2x.png in Resources */,
+				D362E56D1EEE4CAB009BF38A /* default_customer_avatar@2x.png in Resources */,
 				D26BF6921EDEB3BA007A0775 /* em_main_introduce_zh.png in Resources */,
 				EB4B06E21AC685E900DCF67B /* chat_receiver_audio_playing001@2x.png in Resources */,
 				D33396711E7BD0D9007B7A28 /* img@1.5x.png in Resources */,

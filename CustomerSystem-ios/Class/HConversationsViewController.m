@@ -7,22 +7,35 @@
 //
 
 #import "HConversationsViewController.h"
+#import "HConversationTableViewCell.h"
+#import "HDChatViewController.h"
 
-@interface HConversationsViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HConversationsViewController ()<UITableViewDelegate,UITableViewDataSource,SRRefreshDelegate>
 
 @property(nonatomic,strong) UITableView *tableView;
 
 @property(nonatomic,strong) NSMutableArray *dataSource;
 
+@property (nonatomic, strong) SRRefreshView *slimeView;
 @end
 
 @implementation HConversationsViewController
+{
+    BOOL _isLoading;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"会话";
     [self.view addSubview:self.tableView];
+    [self.tableView addSubview:self.slimeView];
+    [self getData];
+}
+
+- (void)getData {
+    NSArray *hConversations = [[HChatClient sharedClient].chat loadAllConversations];
+    self.dataSource = hConversations.mutableCopy;
+    [self.tableView reloadData];
 }
 
 - (NSMutableArray *)dataSource {
@@ -32,27 +45,86 @@
     return _dataSource;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataSource.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HConversationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (cell == nil) {
+        cell = [[HConversationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
+    cell.model = self.dataSource[indexPath.row];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    HConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
+    HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:conversation.conversationId];
+    [self.navigationController pushViewController:chat animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - slimeRefresh delegate
+//加载更多
+- (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
+{
+    [self getData];
+    if ([_slimeView loading]) {
+        [_slimeView endRefresh];
+    }
+}
+
+#pragma mark - scrollView delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (_slimeView) {
+        [_slimeView scrollViewDidScroll];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (_slimeView) {
+        [_slimeView scrollViewDidEndDraging];
+    }
+}
+
+#pragma mark - UI
+- (SRRefreshView *)slimeView
+{
+    if (_slimeView == nil) {
+        _slimeView = [[SRRefreshView alloc] init];
+        _slimeView.delegate = self;
+        _slimeView.upInset = 0;
+        _slimeView.slimeMissWhenGoingBack = YES;
+        _slimeView.slime.bodyColor = [UIColor grayColor];
+        _slimeView.slime.skinColor = [UIColor grayColor];
+        _slimeView.slime.lineWith = 1;
+        _slimeView.slime.shadowBlur = 4;
+        _slimeView.slime.shadowColor = [UIColor grayColor];
+    }
+    
+    return _slimeView;
+}
 
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.rowHeight = 60;
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.tableFooterView = [UIView new];
     }
     return _tableView;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dataSource.count;
+#pragma mark - dealloc
+
+- (void)dealloc {
+    _slimeView.delegate = nil;
 }
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return nil;
-}
-
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

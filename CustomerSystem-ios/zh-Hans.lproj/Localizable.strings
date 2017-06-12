@@ -70,6 +70,7 @@
 //title
 "title.customer" = "客服";
 "title.mall" = "商城";
+"title.conversationTitle" = "会话";
 "title.setting" = "设置";
 "title.commodity" = "商品详情";
 "title.nickname" = "昵称";

@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "HError.h"
-
-
 /*
  *  \~chinese
  *  消息搜索方向
@@ -22,6 +20,18 @@ typedef enum{
     HMessageSearchDirectionDown        /*! \~chinese 向下搜索 \~english Search newer messages */
 } HMessageSearchDirection;
 
+@interface OfficialItem : NSObject
+
+@property(nonatomic,copy) NSString *avatarUrl;      //头像url
+@property(nonatomic,copy) NSString *officialName;   //名字
+
+@end
+
+typedef NS_ENUM(NSUInteger, HConversationType) {
+    HConversationTypeCUSTOM=0, //普通类型
+    HConversationTypeSYSTEM, //营销类型
+};
+
 @interface HConversation : NSObject
 
 /*!
@@ -32,6 +42,18 @@ typedef enum{
  *  Unique identifier of conversation
  */
 @property (nonatomic, copy, readonly) NSString *conversationId;
+
+/**
+    会话类型【普通会话、营销会话】
+ */
+@property(nonatomic,assign,readonly) HConversationType conversationType;
+
+/**
+    当conversationType为HConverstionTypeSYSTEM时这个属性才有值
+ */
+@property(nonatomic,strong,readonly) OfficialItem *item;
+
+
 /*!
  *  \~chinese
  *   会话未读消息数量
