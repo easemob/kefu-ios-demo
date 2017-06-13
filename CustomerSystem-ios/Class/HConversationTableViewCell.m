@@ -56,10 +56,9 @@
     _contentLabel.font = [UIFont systemFontOfSize:12.0];
     [self.contentView addSubview:_contentLabel];
     
-    _tipView = [[DXTipView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_headerImageView.frame) - 15, 5, 30, 20)];
+    _tipView = [[DXTipView alloc] initWithFrame:CGRectMake(kScreenWidth-kMargin-30, CGRectGetMaxY(_timeLabel.frame)+5, 20, 20)];
     _tipView.tipNumber = nil;
     [self.contentView addSubview:_tipView];
-    [self.contentView bringSubviewToFront:_tipView];
 }
 
 - (void)layoutSubviews {
@@ -87,7 +86,7 @@
     
     [_headerImageView sd_setImageWithURL:[NSURL URLWithString:model.item.avatarUrl] placeholderImage:[UIImage imageNamed:@"default_customer_avatar"]];
     NSString *name = model.conversationId;
-    if (model.conversationType == HConversationTypeSYSTEM) {
+    if (model.conversationType == HConversationTypeCUSTOM) {
         name = model.item.officialName;
     }
     _titleLabel.text = name;
@@ -104,6 +103,18 @@
         {
             EMTextMessageBody *body = (EMTextMessageBody*)model.latestMessage.body;
             content = body.text;
+            if ([HjudgeTextMessageSubType isMenuMessage:model.latestMessage]) {
+                content = @"评价消息";
+            }
+            if ([HjudgeTextMessageSubType isOrderMessage:model.latestMessage]) {
+                content = @"订单消息";
+            }
+            if ([HjudgeTextMessageSubType isTrackMessage:model.latestMessage]) {
+                content = @"轨迹消息";
+            }
+            if ([HjudgeTextMessageSubType isEvaluateMessage:model.latestMessage]) {
+                content = @"评价消息";
+            }
             break;
         }
         case EMMessageBodyTypeImage: {

@@ -10,4 +10,6 @@
 
 @interface HConversationsViewController : UIViewController
 
+- (void)refreshData;
+
 @end

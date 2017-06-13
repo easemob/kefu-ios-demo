@@ -10,11 +10,11 @@
 #import "HConversationTableViewCell.h"
 #import "HDChatViewController.h"
 
-@interface HConversationsViewController ()<UITableViewDelegate,UITableViewDataSource,SRRefreshDelegate>
+@interface HConversationsViewController ()<UITableViewDelegate,UITableViewDataSource,SRRefreshDelegate,HDChatViewControllerDelegate>
 
 @property(nonatomic,strong) UITableView *tableView;
 
-@property(nonatomic,strong) NSMutableArray *dataSource;
+@property(nonatomic,strong) NSArray *dataSource;
 
 @property (nonatomic, strong) SRRefreshView *slimeView;
 @end
@@ -29,16 +29,10 @@
     // Do any additional setup after loading the view.
     [self.view addSubview:self.tableView];
     [self.tableView addSubview:self.slimeView];
-    [self getData];
+    [self refreshData];
 }
 
-- (void)getData {
-    NSArray *hConversations = [[HChatClient sharedClient].chat loadAllConversations];
-    self.dataSource = hConversations.mutableCopy;
-    [self.tableView reloadData];
-}
-
-- (NSMutableArray *)dataSource {
+- (NSArray *)dataSource {
     if (_dataSource == nil) {
         _dataSource = [NSMutableArray arrayWithCapacity:0];
     }
@@ -60,15 +54,60 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     HConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
     HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:conversation.conversationId];
+    chat.backDelegate = self;
     [self.navigationController pushViewController:chat animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma 删除会话
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) { //删除
+        NSArray *datas = self.dataSource;
+        HConversation *conv = [datas objectAtIndex:indexPath.row];
+        BOOL delete = [[HChatClient sharedClient].chat deleteConversation:conv.conversationId deleteMessages:YES];
+        if (delete) {
+            [self refreshData];
+        }
+    }
+}
+
+#pragma mark - refreshData
+
+- (void)refreshData {
+    NSArray *hConversations = [[HChatClient sharedClient].chat loadAllConversations];
+    long badgeValue = 0;
+    for (HConversation *conv in hConversations) {
+        badgeValue += conv.unreadMessagesCount;
+    }
+    NSString *badge = nil;
+    if (badgeValue == 0) {
+        badge = nil;
+    } else {
+        badge = [NSString stringWithFormat:@"%ld",badgeValue];
+        if (badgeValue > 99) {
+            badge = @"99+";
+        }
+    }
+    self.tabBarItem.badgeValue = badge;
+    self.dataSource = hConversations;
+    [self.tableView reloadData];
+}
+
+#pragma mark - chatViewControllerDelegate
+
+- (void)backToConversationListWithConversation:(HConversation *)conversation {
+    [self refreshData];
 }
 
 #pragma mark - slimeRefresh delegate
 //加载更多
 - (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
 {
-    [self getData];
+    [self refreshData];
     if ([_slimeView loading]) {
         [_slimeView endRefresh];
     }

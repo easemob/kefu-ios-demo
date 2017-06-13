@@ -28,8 +28,8 @@ typedef enum{
 @end
 
 typedef NS_ENUM(NSUInteger, HConversationType) {
-    HConversationTypeCUSTOM=0, //普通类型
-    HConversationTypeSYSTEM, //营销类型
+    HConversationTypeSYSTEM=0, //普通类型
+    HConversationTypeCUSTOM, //营销类型
 };
 
 @interface HConversation : NSObject

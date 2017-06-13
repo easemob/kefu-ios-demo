@@ -13,9 +13,17 @@
 #define KNOTIFICATIONNAME_DELETEALLMESSAGE @"RemoveAllMessages"
 #import "HDMessageViewController.h"
 
+@protocol HDChatViewControllerDelegate <NSObject>
+
+//在聊天界面点击返回按钮回到会话列表界面
+- (void)backToConversationListWithConversation:(HConversation *)conversation;
+
+@end
+
 @interface HDChatViewController : HDMessageViewController <HDMessageViewControllerDelegate, HDMessageViewControllerDataSource>
 
 @property (strong, nonatomic) NSDictionary *commodityInfo; //商品信息
+@property(nonatomic,weak) id<HDChatViewControllerDelegate> backDelegate; //
 
 
 - (void)showMenuViewController:(UIView *)showInView
