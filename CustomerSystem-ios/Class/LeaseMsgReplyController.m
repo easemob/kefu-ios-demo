@@ -405,8 +405,10 @@ const NSInteger baseTag=123;
 //添加图片
 - (void)addAction
 {
+    _recordChangeBtn.selected = NO;
     [_recordButtonView removeFromSuperview];
-    
+    _recordChangeBtn.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 + 30, kScreenHeight - 90);
+    _addButton.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 - 10, kScreenHeight - 90);
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
