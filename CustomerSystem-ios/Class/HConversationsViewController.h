@@ -10,6 +10,7 @@
 
 @interface HConversationsViewController : UIViewController
 
+//刷新会话列表
 - (void)refreshData;
 
 @end
