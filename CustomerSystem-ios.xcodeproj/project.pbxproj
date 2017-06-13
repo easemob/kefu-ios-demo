@@ -162,6 +162,8 @@
 		D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D339953B1E000D5E00F7B71D /* QRCodeViewController.m */; };
 		D339953F1E000EDF00F7B71D /* ScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = D339953E1E000EDF00F7B71D /* ScanningView.m */; };
 		D33995421E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = D33995411E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m */; };
+		D342787A1EEFC54700DFEA4E /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D362E5681EEE4BA0009BF38A /* HelpDesk.framework */; };
+		D342787B1EEFC54700DFEA4E /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D362E5681EEE4BA0009BF38A /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D34743AE1DE6E38600F32D87 /* chatBar_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D34743AD1DE6E38600F32D87 /* chatBar_comment@2x.png */; };
 		D34743B11DE6E8EF00F32D87 /* SCLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D34743B01DE6E8EF00F32D87 /* SCLoginManager.m */; };
 		D34743B41DE6FF8C00F32D87 /* HDLeaveMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D34743B31DE6FF8C00F32D87 /* HDLeaveMsgViewController.m */; };
@@ -174,9 +176,6 @@
 		D355795E1EE94A9A00F6B54E /* HConversationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D355795D1EE94A9A00F6B54E /* HConversationsViewController.m */; };
 		D35579631EE94BF900F6B54E /* HConversationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D35579621EE94BF900F6B54E /* HConversationTableViewCell.m */; };
 		D355796A1EE9517E00F6B54E /* DXTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = D35579691EE9517E00F6B54E /* DXTipView.m */; };
-		D362E5691EEE4BA0009BF38A /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D362E5681EEE4BA0009BF38A /* HelpDesk.framework */; };
-		D362E56A1EEE4BA6009BF38A /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D362E5681EEE4BA0009BF38A /* HelpDesk.framework */; };
-		D362E56B1EEE4BA6009BF38A /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D362E5681EEE4BA0009BF38A /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D362E56D1EEE4CAB009BF38A /* default_customer_avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D362E56C1EEE4CAB009BF38A /* default_customer_avatar@2x.png */; };
 		D37315831E52A5D00043ED32 /* HelpDeskUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */; };
 		D39E2EE41E7F7A7D0014FAE5 /* HCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D39E2EE31E7F7A7D0014FAE5 /* HCallManager.m */; };
@@ -478,7 +477,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D362E56B1EEE4BA6009BF38A /* HelpDesk.framework in Embed Frameworks */,
+				D342787B1EEFC54700DFEA4E /* HelpDesk.framework in Embed Frameworks */,
 				D3E2357D1EE9665200A4CFC5 /* Hyphenate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -1137,7 +1136,7 @@
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
 				EB62E4511A8E2DA000705655 /* libxml2.dylib in Frameworks */,
-				D362E5691EEE4BA0009BF38A /* HelpDesk.framework in Frameworks */,
+				D342787A1EEFC54700DFEA4E /* HelpDesk.framework in Frameworks */,
 				EB62E44F1A8E2D9900705655 /* libz.dylib in Frameworks */,
 				D3E2357C1EE9665200A4CFC5 /* Hyphenate.framework in Frameworks */,
 				EB62E44D1A8E2D9300705655 /* CFNetwork.framework in Frameworks */,
@@ -1152,7 +1151,6 @@
 				EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */,
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
-				D362E56A1EEE4BA6009BF38A /* HelpDesk.framework in Frameworks */,
 				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2538,6 +2536,7 @@
 				TargetAttributes = {
 					EB62E1F81A8DD92D00705655 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 499WYUV8Q2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -3171,7 +3170,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3185,7 +3184,7 @@
 					"${PROJECT_DIR}/**",
 				);
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3222,7 +3221,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3236,7 +3235,7 @@
 					"${PROJECT_DIR}/**",
 				);
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

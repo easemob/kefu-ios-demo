@@ -44,11 +44,11 @@
     //注册kefu_sdk
     SCLoginManager *lgM = [SCLoginManager shareLoginManager]; //
     HOptions *option = [[HOptions alloc] init];
-    
     option.appkey = lgM.appkey; 
     option.tenantId = lgM.tenantId;
     option.enableConsoleLog = YES;
     option.apnsCertName = apnsCertName;
+//    option.kefuRestServer = @"https://sandbox.easemob.com";
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {

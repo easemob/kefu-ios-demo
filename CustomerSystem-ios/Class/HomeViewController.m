@@ -23,7 +23,7 @@
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HChatDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HChatDelegate,HDChatViewControllerDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -151,6 +151,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:queue];
             }
             HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
+            chat.backDelegate = self;
             if (queue) {
                 chat.queueInfo = queueIdentityInfo;
             }
@@ -173,8 +174,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
 }
 
+#pragma mark - chatViewControllerDelegate
+- (void)backToConversationListWithConversation:(HConversation *)conversation {
+    [_conversationsVC refreshData];
+}
+
 - (void)setPushOptions {
-    
+
     if ([[SCLoginManager shareLoginManager] loginKefuSDK]) {
         HPushOptions *hOptions = [[HChatClient sharedClient] getPushOptionsFromServerWithError:nil];
         hOptions.displayStyle = HPushDisplayStyleMessageSummary;
@@ -296,6 +302,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     //会话列表
     _conversationsVC = [[HConversationsViewController alloc] init];
     _conversationsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"会话" image:nil tag:2];
+    [_conversationsVC viewDidLoad];
     [self unSelectedTapTabBarItems:_conversationsVC.tabBarItem];
     [self selectedTapTabBarItems:_conversationsVC.tabBarItem];
     
@@ -453,6 +460,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         [self _playSoundAndVibration];
     }
 #endif
+    [_conversationsVC refreshData];
 }
 
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
