@@ -76,7 +76,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     self.navigationItem.rightBarButtonItem = _chatItem;
     
     //“会话”
-    UIButton *converationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    UIButton *converationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
+    
     [converationBtn setTitle:NSLocalizedString(@"title.conversationTitle", @"conversationList") forState:UIControlStateNormal];
     converationBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     _conversationItem = [[UIBarButtonItem alloc] initWithCustomView:converationBtn];
@@ -287,8 +288,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     }
     //商城
     _mallController = [[MallViewController alloc] initWithNibName:nil bundle:nil];
-    _mallController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.mall", @"Mall") image:nil tag:0];
-    [_mallController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_shop_select"] withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_shop_normal"]];
+    _mallController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.mall", @"Mall") image:[[UIImage imageNamed:@"em_nav_shop_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal ]selectedImage:[UIImage imageNamed:@"em_nav_shop_select"]];
+    _mallController.tabBarItem.tag = 0;
+
     [self unSelectedTapTabBarItems:_mallController.tabBarItem];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
@@ -301,7 +303,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     //会话列表
     _conversationsVC = [[HConversationsViewController alloc] init];
-    _conversationsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"会话" image:nil tag:2];
+    _conversationsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.conversationTitle", @"conversationList") image:[UIImage imageNamed:@"list"] selectedImage:[UIImage imageNamed:@"list2"]];
+    _conversationsVC.tabBarItem.tag = 2;
     [_conversationsVC viewDidLoad];
     [self unSelectedTapTabBarItems:_conversationsVC.tabBarItem];
     [self selectedTapTabBarItems:_conversationsVC.tabBarItem];
