@@ -68,13 +68,12 @@ const NSInteger baseTag=123;
     [self.view addSubview:self.textView];
     [self.view addSubview:self.addButton];
     [self.view addSubview:self.attchmentView];
+    [self.view addSubview:self.recordChangeBtn];
     [self setupBarButtonItem];
     
-    self.maskingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 140)];
+    self.maskingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 200)];
     self.maskingView.backgroundColor = [UIColor clearColor];
     self.maskingView.tag = 33;
-    
-    [self.view addSubview:self.recordChangeBtn];
     
     //增加监听，当键盘出现或改变时收出消息
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -171,7 +170,7 @@ const NSInteger baseTag=123;
 // 录音
 #pragma mark - HRecordViewDelegate
 - (void)didHdStartRecordingVoiceAction:(UIView *)recordView
-{
+{   [self.view addSubview:self.maskingView];
     [self.view bringSubviewToFront:self.maskingView];
     
     if ([recordView isKindOfClass:[HDRecordView class]]) {
@@ -199,7 +198,6 @@ const NSInteger baseTag=123;
 
 - (void)didHdCancelRecordingVoiceAction:(UIView *)recordView
 {
-//    [self.view sendSubviewToBack:self.maskingView];
     self.maskingView  = [self.view viewWithTag:33];
     [self.maskingView removeFromSuperview];
     [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];

@@ -75,13 +75,19 @@
         tempLabel.text = _msgDetailModel.comment.subject;
     } else if (indexPath.row == 2) {
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.content", @"content:");
+        
+        NSLog(@"content--%@",_msgDetailModel.comment.content);
         NSString *name = [_msgDetailModel.comment.content stringByReplacingOccurrencesOfString:@"联系人姓名"withString:@"Contact Name"];
         NSString *phone = [name stringByReplacingOccurrencesOfString:@"联系人电话"withString:@"Contact Phone"];
         NSString *mail = [phone stringByReplacingOccurrencesOfString:@"联系人邮箱"withString:@"Contact Email"];
         
+        NSLog(@"mail--%@",mail);
+        
         NSString *nameStr = [mail stringByReplacingOccurrencesOfString:@"Contact Name" withString:NSLocalizedString(@"contact_name", @"Contact_Name")];
         NSString *phoneStr = [nameStr stringByReplacingOccurrencesOfString:@"Contact Phone" withString:NSLocalizedString(@"contact_phone", @"Contact_Phone")];
         NSString *mailStr = [phoneStr stringByReplacingOccurrencesOfString:@"Contact Email" withString:NSLocalizedString(@"contact_email", @"Contact_Email")];
+        
+        NSLog(@"mailStr--%@",mailStr);
         
         tempLabel.text = mailStr;
     } else if (indexPath.row == 3) {

@@ -9,11 +9,11 @@
 #import "HRecordView.h"
 #define RecordViewHeight 140
 #define RecordButtonHeight 56
-#define PinRecord NSEaseLocalizedString(@"message.toolBar.record.touch", @"hold down to talk")
-#define EndOrSlide NSEaseLocalizedString(@"message.toolBar.record.upCancel", @"Release to end")
-#define CancelRecord NSEaseLocalizedString(@"message.toolBar.record.loosenCancel", @" loosen the fingers, to cancel sending ")
-#define TimeIsTooShort NSEaseLocalizedString(@"media.timeShort", @"record time too short")
-#define NotStartedRecording NSEaseLocalizedString(@"not_start_recording", @"Didn't start the recording")
+#define PinRecord NSLocalizedString(@"message.toolBar.record.touch", @"hold down to talk")
+#define EndOrSlide NSLocalizedString(@"recording_description", @"Release to end, finger up to cancel sending")
+#define CancelRecord NSLocalizedString(@"message.toolBar.record.loosenCancel", @" loosen the fingers, to cancel sending ")
+#define TimeIsTooShort NSLocalizedString(@"media.timeShort", @"record time too short")
+#define NotStartedRecording NSLocalizedString(@"not_start_recording", @"Didn't start the recording")
 
 @interface HRecordView ()
 {
@@ -32,8 +32,8 @@
     if (self) {
         // 监听录音时间过短
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ListenTime) name:@"TheRecordingTimeIsTooShort" object:nil];
-        // 监听录音没有开始
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ListenIsRecording) name:@"NotStartedRecording" object:nil];
+//        // 监听录音没有开始
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ListenIsRecording) name:@"NotStartedRecording" object:nil];
         
         _mark = mark;
         
@@ -51,9 +51,9 @@
     }
     
     // label
-    _recordLabel = [[UILabel alloc] initWithFrame:CGRectMake((kHDScreenWidth - kHDScreenWidth * 0.9)/2, 22, kHDScreenWidth * 0.9, 19)];
+    _recordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, kHDScreenWidth, 19)];
     _recordLabel.text = PinRecord;
-    _recordLabel.font = [UIFont systemFontOfSize:16];
+    _recordLabel.font = [UIFont systemFontOfSize:15];
     _recordLabel.textAlignment = NSTextAlignmentCenter;
     _recordLabel.textColor = [UIColor grayColor];
     [self addSubview:_recordLabel];
@@ -136,13 +136,13 @@
     });
 }
 
-- (void)ListenIsRecording
-{
-    [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_too_short" andLabelText:NotStartedRecording];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_mic_gray" andLabelText:PinRecord];
-    });
-}
+//- (void)ListenIsRecording
+//{
+//    [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_too_short" andLabelText:NotStartedRecording];
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_mic_gray" andLabelText:PinRecord];
+//    });
+//}
 
 - (void)setButtonImage:(NSString *)imageName andLabelText:(NSString *)text;
 {
