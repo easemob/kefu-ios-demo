@@ -76,8 +76,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     self.navigationItem.rightBarButtonItem = _chatItem;
     
     //“会话”
-    UIButton *converationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
-    
+    UIButton *converationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+    converationBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [converationBtn setTitle:NSLocalizedString(@"title.conversationTitle", @"conversationList") forState:UIControlStateNormal];
     converationBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     _conversationItem = [[UIBarButtonItem alloc] initWithCustomView:converationBtn];

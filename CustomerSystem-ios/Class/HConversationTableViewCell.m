@@ -104,16 +104,16 @@
             EMTextMessageBody *body = (EMTextMessageBody*)model.latestMessage.body;
             content = body.text;
             if ([HjudgeTextMessageSubType isMenuMessage:model.latestMessage]) {
-                content = @"评价消息";
+                content = @"[机器人菜单]";
             }
             if ([HjudgeTextMessageSubType isOrderMessage:model.latestMessage]) {
-                content = @"订单消息";
+                content = @"[订单消息]";
             }
             if ([HjudgeTextMessageSubType isTrackMessage:model.latestMessage]) {
-                content = @"轨迹消息";
+                content = @"[轨迹消息]";
             }
             if ([HjudgeTextMessageSubType isEvaluateMessage:model.latestMessage]) {
-                content = @"评价消息";
+                content = @"[评价邀请]";
             }
             break;
         }

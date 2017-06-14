@@ -71,7 +71,7 @@
 //title
 "title.customer" = "Customer";
 "title.mall" = "Mall";
-"title.conversationTitle" = "ConversationList";
+"title.conversationTitle" = "Conversation";
 "title.setting" = "Set";
 "title.commodity" = "Detail";
 "title.nickname" = "Nickname";
