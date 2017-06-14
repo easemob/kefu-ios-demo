@@ -81,7 +81,7 @@
 - (void)textChanged:(NSNotification *)notification {
     if (self.text.length >_maxNoOfWords && notification.object == self) {
         self.text = [self.text substringToIndex:_maxNoOfWords];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"字数超出限制" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"message_content_beyond_limit", @"The message content beyond the limit") delegate:nil cancelButtonTitle:NSLocalizedString(@"know_the", @"Know The") otherButtonTitles:nil, nil];
         [alert show];
     }
     [self layoutUI];

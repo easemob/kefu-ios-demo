@@ -95,6 +95,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
         [_textView setPlaceholderText:[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"leave_content",@"Input content"),@"..."]];
         _textView.delegate = self;
         _textView.fontSize = 16.0;
+        _textView.returnKeyType = UIReturnKeyDone;
         _textView.font = [UIFont systemFontOfSize:16];
         _textView.layer.borderColor = [UIColor clearColor].CGColor;
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_textView.frame), kScreenWidth, 0.5f)];
@@ -270,7 +271,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-        [_textFView endEditing:YES];
+        [_textView endEditing:YES];
         return NO;
     }
     
@@ -298,18 +299,18 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     _textFView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_textFView];
     
-//    _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 50, kScreenWidth, 50)];
-//    _bottomView.backgroundColor = [UIColor grayColor];
-//    [self.view addSubview:_bottomView];
+    _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 50, kScreenWidth, 50)];
+    _bottomView.backgroundColor = RGBACOLOR(184, 22, 22, 1);
+    [self.view addSubview:_bottomView];
     
-    UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth - 50, 0, 50, 50)];
     [sendButton setTitle:NSLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [sendButton addTarget:self action:@selector(leaveMessage) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *sendItem = [[UIBarButtonItem alloc] initWithCustomView:sendButton];
-    [self.navigationItem setRightBarButtonItem:sendItem];
+//    UIBarButtonItem *sendItem = [[UIBarButtonItem alloc] initWithCustomView:sendButton];
+//    [self.navigationItem setRightBarButtonItem:sendItem];
     
-//    [_bottomView addSubview:sendButton];
+    [_bottomView addSubview:sendButton];
     
 }
 

@@ -17,7 +17,9 @@
 #import "HDBubbleView+Evaluate.h"
 
 @interface HDBaseMessageCell()
-
+{
+    SCLoginManager *_lgM;
+}
 @property (strong, nonatomic) UILabel *nameLabel;
 
 @property (nonatomic) NSLayoutConstraint *avatarWidthConstraint;
@@ -68,7 +70,7 @@
         _nameLabel.font = _messageNameFont;
         _nameLabel.textColor = _messageNameColor;
         [self.contentView addSubview:_nameLabel];
-        
+        _lgM = [SCLoginManager shareLoginManager];
         [self configureLayoutConstraintsWithModel:model];
         
         if ([UIDevice currentDevice].systemVersion.floatValue == 7.0) {
@@ -245,7 +247,8 @@
         self.avatarView.image = model.avatarImage;
     }
     if (![model.nickname isKindOfClass:[NSNull class]]) {
-        _nameLabel.text = model.nickname;
+//        _nameLabel.text = model.nickname;
+        _nameLabel.text = _lgM.nickname;
     }
     if (self.model.isSender) {
         _hasRead.hidden = YES;

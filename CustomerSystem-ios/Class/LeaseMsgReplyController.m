@@ -73,8 +73,9 @@ const NSInteger baseTag=123;
     
     self.maskingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 200)];
     self.maskingView.backgroundColor = [UIColor clearColor];
+    self.maskingView.userInteractionEnabled = YES;
     self.maskingView.tag = 33;
-    
+
     //增加监听，当键盘出现或改变时收出消息
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -86,12 +87,12 @@ const NSInteger baseTag=123;
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
 }
 
 //当键盘出现或改变时调用
 - (void)keyboardWillShow:(NSNotification *)aNotification
 {
-
     //获取键盘的高度
     NSDictionary *userInfo = [aNotification userInfo];
     NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
@@ -116,6 +117,19 @@ const NSInteger baseTag=123;
     return _recordView;
 }
 
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (![self.view viewWithTag:33]) {
+        if (_recordButtonView) {
+            [self.recordButtonView removeFromSuperview];
+            self.recordChangeBtn.selected = NO;
+            [self.textView endEditing:YES];
+            [self restoreButton];
+        }
+    }
+}
+
 - (UIButton *)recordChangeBtn {
     if (!_recordChangeBtn) {
         _recordChangeBtn = [[UIButton alloc] init];
@@ -132,7 +146,7 @@ const NSInteger baseTag=123;
 // 修改 录音按钮的点击事件
 - (void)recordChangButtonAction:(id)sender
 {
-//    _status = YES;
+
     UIButton *button = (UIButton *)sender;
     button.selected = !button.selected;
 
@@ -144,6 +158,7 @@ const NSInteger baseTag=123;
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _recordChangeBtn.originY = _recordChangeBtn.frame.origin.y - 140;
             _addButton.originY = _addButton.frame.origin.y - 140;
+            _attchmentView.originY = _attchmentView.frame.origin.y - 140;
             self.recordButtonView = [[HRecordView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_recordChangeBtn.frame), kScreenWidth, 140) mark:@"leaveView"];
             self.recordButtonView.delegate = self;
             self.recordButtonView.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
@@ -322,16 +337,30 @@ const NSInteger baseTag=123;
 - (FLTextView *)textView
 {
     if (_textView == nil) {
-        _textView = [[FLTextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight * 0.5)];
+        _textView = [[FLTextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight * 0.3)];
         [_textView setPlaceholderText:[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"title.reply", @"Reply"),@"..."]];
         _textView.fontSize = 13.0;
         _textView.font = [UIFont systemFontOfSize:18];
         _textView.layer.borderColor = [UIColor clearColor].CGColor;
+        _textView.returnKeyType = UIReturnKeyDone;
+        _textView.delegate = self;
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_textView.frame), kScreenWidth, 0.5f)];
 //        line.backgroundColor = [UIColor lightGrayColor];
         [self.view addSubview:line];
     }
     return _textView;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"]) {
+        [self restoreButton];
+        [self.recordButtonView removeFromSuperview];
+        self.recordChangeBtn.selected = NO;
+        [_textView endEditing:YES];
+        return NO;
+    }
+    return YES;
 }
 
 - (UIButton*)addButton
@@ -368,12 +397,9 @@ const NSInteger baseTag=123;
 - (UIScrollView*)attchmentView
 {
     if (_attchmentView == nil) {
-        _attchmentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_textView.frame), kScreenWidth * 0.6, kScreenHeight - CGRectGetMaxY(_textView.frame)  - 200)];
-        _attchmentView.scrollEnabled = YES;
-        _attchmentView.showsHorizontalScrollIndicator = YES;
-        _attchmentView.showsVerticalScrollIndicator = NO;
-        
-        _attchmentView.alwaysBounceHorizontal = NO;
+        _attchmentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 170, kScreenWidth * 0.6, 100)];
+        _attchmentView.showsVerticalScrollIndicator = YES;
+        _attchmentView.indicatorStyle = UIScrollViewIndicatorStyleDefault;
         _attchmentView.directionalLockEnabled = YES;
     }
     return _attchmentView;
@@ -407,8 +433,7 @@ const NSInteger baseTag=123;
 {
     _recordChangeBtn.selected = NO;
     [_recordButtonView removeFromSuperview];
-    _recordChangeBtn.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 + 30, kScreenHeight - 90);
-    _addButton.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 - 10, kScreenHeight - 90);
+    [self restoreButton];
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
@@ -488,7 +513,7 @@ const NSInteger baseTag=123;
     }
     
     CGFloat left = kDefaultLeft;
-    CGFloat height = 20;
+    CGFloat height = 10;
     NSInteger index = 0;
     for (LeaveMsgAttachmentModel *attachment in self.attachments) {
         if (left + [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth*0.6 - kDefaultLeft - 10] > kScreenWidth*0.6) {
@@ -507,7 +532,7 @@ const NSInteger baseTag=123;
         index ++;
         left += [LeaveMsgAttatchmentView widthForName:attachment.name maxWidth:kScreenWidth*0.6 - kDefaultLeft - 10] + kDefaultLeft + 10;
     }
-    [_attchmentView setContentSize:CGSizeMake(kScreenWidth*0.6, height + 30.f)];
+    [_attchmentView setContentSize:CGSizeMake(kScreenWidth*0.6, height + 10.f)];
 }
 
 #pragma mark - action
@@ -603,18 +628,46 @@ const NSInteger baseTag=123;
 - (void)move
 {
     [self hide];
-
     _recordChangeBtn.originY = _recordChangeBtn.frame.origin.y - _boardHeight;
     _addButton.originY = _addButton.frame.origin.y - _boardHeight;
-
-    
-    
+    [self scrollViewAsTheKeyboardMove];
 }
 
 - (void)hide
 {
     _recordChangeBtn.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 + 30, kScreenHeight - 90);
     _addButton.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 - 10, kScreenHeight - 90);
+    [self scrollViewAsTheButtonMove];
+}
+
+- (void)restoreButton
+{
+    _recordChangeBtn.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 + 30, kScreenHeight - 90);
+    _addButton.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 - 10, kScreenHeight - 90);
+    [self scrollViewFrame];
+    
+}
+
+
+- (void)scrollViewAsTheButtonMove
+{
+    [self scrollViewFrame];
+}
+
+- (void)scrollViewAsTheKeyboardMove
+{
+    _attchmentView.originY = _attchmentView.frame.origin.y - _boardHeight;
+}
+
+- (void)scrollViewHide
+{
+    [self scrollViewFrame];
+}
+
+- (void)scrollViewFrame
+{
+    _attchmentView.originX = 0;
+    _attchmentView.originY = kScreenHeight - 170;
 }
 
 @end

@@ -269,5 +269,8 @@
 "contact_phone" = "联系人电话";
 "contact_email" = "联系人邮箱";
 
+"message_content_beyond_limit" = "字数超过限制";
+"know_the" = "知道了";
+
 
 

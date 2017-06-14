@@ -59,7 +59,7 @@
     _hintLabel = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2, 10, 100, 50)];
     _hintLabel.textAlignment = NSTextAlignmentCenter;
     _hintLabel.font = [UIFont systemFontOfSize:15];
-    _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");
+//    _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");
     [_view addSubview:_hintLabel];
     self.tableView.tableFooterView = _view;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -304,10 +304,11 @@
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgm = [SCLoginManager shareLoginManager];
     [[HLeaveMsgManager shareInstance] asyncGetMessagesWithTenantId:lgm.tenantId projectId:lgm.projectId cname:lgm.cname page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
+        
         if (!error) { //请求成功
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
                 if (_page == 0) {
-//                    _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");
+                    
                     [weakSelf.dataArray removeAllObjects];
                 }
                 _page ++ ;
@@ -330,15 +331,26 @@
                 completion(YES);
             }
         } else { //失败
+            [weakSelf.dataArray removeAllObjects];
+            [weakSelf.tableView reloadData];
+            
             if (completion) {
                 completion(NO);
-//                 _hintLabel.text = NSLocalizedString(@"no_leave_message", @"NO Leave Message");
-                [weakSelf.dataArray removeAllObjects];
-                [weakSelf.tableView reloadData];
+
+                
             }
         }
         _isRefreshing = NO;
+        
+        if ([weakSelf.dataArray count] == 0) {
+            _hintLabel.text = NSLocalizedString(@"no_leave_message", @"NO Leave Message");
+        } else {
+            _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");
+        }
+        
     }];
+    
+
 }
 
 

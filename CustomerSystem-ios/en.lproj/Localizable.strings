@@ -267,3 +267,5 @@
 "contact_phone" = "Contact Phone";
 "contact_email" = "Contact Email";
 
+"message_content_beyond_limit" = "The message content beyond the limit";
+"know_the" = "Know The";
