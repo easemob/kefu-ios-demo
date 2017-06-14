@@ -23,7 +23,7 @@
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HChatDelegate,HDChatViewControllerDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HChatDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -49,6 +49,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     if (self) {
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated ];
+    [_conversationsVC refreshData];
 }
 
 - (void)viewDidLoad
@@ -152,7 +157,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:queue];
             }
             HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
-            chat.backDelegate = self;
             if (queue) {
                 chat.queueInfo = queueIdentityInfo;
             }
@@ -173,11 +177,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         }
     });
     
-}
-
-#pragma mark - chatViewControllerDelegate
-- (void)backToConversationListWithConversation:(HConversation *)conversation {
-    [_conversationsVC refreshData];
 }
 
 - (void)setPushOptions {

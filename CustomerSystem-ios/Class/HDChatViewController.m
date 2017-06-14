@@ -373,10 +373,6 @@
         }
     }
     
-    if (_backDelegate && [_backDelegate respondsToSelector:@selector(backToConversationListWithConversation:)]) {
-        [_backDelegate backToConversationListWithConversation:self.conversation];
-    }
-    
 }
 
 

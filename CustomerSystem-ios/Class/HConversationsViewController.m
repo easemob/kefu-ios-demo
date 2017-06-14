@@ -10,7 +10,7 @@
 #import "HConversationTableViewCell.h"
 #import "HDChatViewController.h"
 
-@interface HConversationsViewController ()<UITableViewDelegate,UITableViewDataSource,SRRefreshDelegate,HDChatViewControllerDelegate>
+@interface HConversationsViewController ()<UITableViewDelegate,UITableViewDataSource,SRRefreshDelegate>
 
 @property(nonatomic,strong) UITableView *tableView;
 
@@ -54,7 +54,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     HConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
     HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:conversation.conversationId];
-    chat.backDelegate = self;
     [self.navigationController pushViewController:chat animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -97,11 +96,6 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - chatViewControllerDelegate
-
-- (void)backToConversationListWithConversation:(HConversation *)conversation {
-    [self refreshData];
-}
 
 #pragma mark - slimeRefresh delegate
 //加载更多
