@@ -23,7 +23,7 @@
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HChatDelegate,HDChatViewControllerDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HChatDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -51,6 +51,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated ];
+    [_conversationsVC refreshData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -76,8 +81,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     self.navigationItem.rightBarButtonItem = _chatItem;
     
     //“会话”
-    UIButton *converationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
-    
+    UIButton *converationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+    converationBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [converationBtn setTitle:NSLocalizedString(@"title.conversationTitle", @"conversationList") forState:UIControlStateNormal];
     converationBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     _conversationItem = [[UIBarButtonItem alloc] initWithCustomView:converationBtn];
@@ -152,7 +157,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:queue];
             }
             HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
-            chat.backDelegate = self;
             if (queue) {
                 chat.queueInfo = queueIdentityInfo;
             }
@@ -173,11 +177,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         }
     });
     
-}
-
-#pragma mark - chatViewControllerDelegate
-- (void)backToConversationListWithConversation:(HConversation *)conversation {
-    [_conversationsVC refreshData];
 }
 
 - (void)setPushOptions {

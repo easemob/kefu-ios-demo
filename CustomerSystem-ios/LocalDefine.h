@@ -46,6 +46,12 @@
 //#define kDefaultTenantId @"28237"
 //#define kDefaultProjectId @"437101"
 
+//sandbox_yuzhao
+//#define kDefaultAppKey @"1104161223178990#kefuchannelapp5324"
+//#define kDefaultCustomerName @"kefuchannelimid_717892"
+//#define kDefaultCustomerNickname @"风口上的猪"
+//#define kDefaultTenantId @"5324"
+//#define kDefaultProjectId @"89328"
 
 #define kAppKey @"KF_appkey"
 #define kCustomerName @"KF_name"
