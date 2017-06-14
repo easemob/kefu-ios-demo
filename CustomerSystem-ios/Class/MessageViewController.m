@@ -333,6 +333,8 @@
             if (completion) {
                 completion(NO);
 //                 _hintLabel.text = NSLocalizedString(@"no_leave_message", @"NO Leave Message");
+                [weakSelf.dataArray removeAllObjects];
+                [weakSelf.tableView reloadData];
             }
         }
         _isRefreshing = NO;
