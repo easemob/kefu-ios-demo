@@ -84,11 +84,8 @@
         _tipView.tipNumber = string;
     }
     
-    [_headerImageView sd_setImageWithURL:[NSURL URLWithString:model.item.avatarUrl] placeholderImage:[UIImage imageNamed:@"default_customer_avatar"]];
+    [_headerImageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"default_customer_avatar"]];
     NSString *name = model.conversationId;
-    if (model.conversationType == HConversationTypeCUSTOM) {
-        name = model.item.officialName;
-    }
     _titleLabel.text = name;
     NSString *timeDes = @"";
     if (model.latestMessage.body != nil) {

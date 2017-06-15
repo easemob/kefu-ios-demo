@@ -32,18 +32,18 @@
 //#define kDefaultTenantId @"29593"
 //#define kDefaultProjectId @"306713"
 
-#define kDefaultAppKey @"1109170214115812#kefuchannelapp2155"
-#define kDefaultCustomerName @"kefuchannelimid_101289"
-#define kDefaultCustomerNickname @"昵称"
-#define kDefaultTenantId @"2155"
-#define kDefaultProjectId @"56107"
+//#define kDefaultAppKey @"1109170214115812#kefuchannelapp2155"
+//#define kDefaultCustomerName @"kefuchannelimid_101289"
+//#define kDefaultCustomerNickname @"昵称"
+//#define kDefaultTenantId @"2155"
+//#define kDefaultProjectId @"56107"
 
 //mine
-//#define kDefaultAppKey @"1124161024178184#kefuchannelapp29044"
-//#define kDefaultCustomerName @"kefuchannelimid_008267"
-//#define kDefaultCustomerNickname @"风口上的🐷"
-//#define kDefaultTenantId @"29044"
-//#define kDefaultProjectId @"306164"
+#define kDefaultAppKey @"1124161024178184#kefuchannelapp29044"
+#define kDefaultCustomerName @"kefuchannelimid_008267"
+#define kDefaultCustomerNickname @"风口上的🐷"
+#define kDefaultTenantId @"29044"
+#define kDefaultProjectId @"306164"
 
 //sandbox
 //#define kDefaultAppKey @"1146170602115135#kefuchannelapp28237"
