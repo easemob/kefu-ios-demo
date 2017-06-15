@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -47,7 +47,7 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tdf-LH-PIM">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tdf-LH-PIM">
                     <rect key="frame" x="30" y="656" width="120" height="40"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -90,7 +90,7 @@
                         <action selector="rejectCallRequest:" destination="-1" eventType="touchUpInside" id="taH-Is-F3O"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ott-8F-HZL">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ott-8F-HZL">
                     <rect key="frame" x="264" y="656" width="120" height="40"/>
                     <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -338,16 +338,6 @@
                     <exclude reference="zhg-ZR-cPX"/>
                 </mask>
                 <mask key="constraints">
-                    <exclude reference="692-AC-r9B"/>
-                    <exclude reference="Ezg-52-986"/>
-                    <exclude reference="Inu-p1-bxo"/>
-                    <exclude reference="KXq-mk-kjb"/>
-                    <exclude reference="Nxv-Tj-9ZD"/>
-                    <exclude reference="5KF-GS-J6M"/>
-                    <exclude reference="EMh-Ri-nbT"/>
-                    <exclude reference="Jbo-w0-F0p"/>
-                    <exclude reference="voz-6l-Xsf"/>
-                    <exclude reference="xUp-1B-vd4"/>
                     <exclude reference="7v6-4F-6aj"/>
                     <exclude reference="8MF-z6-Jku"/>
                     <exclude reference="Kud-3p-JfQ"/>
@@ -356,11 +346,6 @@
                     <exclude reference="XdS-Pm-yT5"/>
                     <exclude reference="bYL-sa-kuG"/>
                     <exclude reference="vMC-WR-JAn"/>
-                    <exclude reference="0GC-FK-Gwh"/>
-                    <exclude reference="37M-uL-ckN"/>
-                    <exclude reference="QPB-Qj-4hg"/>
-                    <exclude reference="Xvx-e8-Ygg"/>
-                    <exclude reference="yiO-zk-9gY"/>
                     <exclude reference="8YB-Hg-bQ9"/>
                     <exclude reference="9vJ-rS-3aT"/>
                     <exclude reference="BpE-Ul-Ubf"/>
@@ -401,11 +386,25 @@
                     <exclude reference="aVN-eX-fOg"/>
                     <exclude reference="rA7-Pq-ipB"/>
                     <exclude reference="tTE-qB-bgu"/>
+                    <exclude reference="692-AC-r9B"/>
+                    <exclude reference="Ezg-52-986"/>
+                    <exclude reference="KXq-mk-kjb"/>
+                    <exclude reference="Nxv-Tj-9ZD"/>
+                    <exclude reference="Inu-p1-bxo"/>
+                    <exclude reference="5KF-GS-J6M"/>
+                    <exclude reference="EMh-Ri-nbT"/>
+                    <exclude reference="Jbo-w0-F0p"/>
+                    <exclude reference="voz-6l-Xsf"/>
+                    <exclude reference="xUp-1B-vd4"/>
+                    <exclude reference="0GC-FK-Gwh"/>
+                    <exclude reference="37M-uL-ckN"/>
+                    <exclude reference="QPB-Qj-4hg"/>
+                    <exclude reference="Xvx-e8-Ygg"/>
+                    <exclude reference="yiO-zk-9gY"/>
                 </mask>
             </variation>
             <variation key="heightClass=compact">
                 <mask key="constraints">
-                    <include reference="KXq-mk-kjb"/>
                     <include reference="7v6-4F-6aj"/>
                     <include reference="8MF-z6-Jku"/>
                     <include reference="R4i-0B-k6J"/>
@@ -432,6 +431,7 @@
                     <include reference="26G-dr-rid"/>
                     <include reference="9zI-oc-4w6"/>
                     <include reference="aVN-eX-fOg"/>
+                    <include reference="KXq-mk-kjb"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular">
@@ -441,24 +441,10 @@
                     <include reference="zhg-ZR-cPX"/>
                 </mask>
                 <mask key="constraints">
-                    <include reference="692-AC-r9B"/>
-                    <include reference="Ezg-52-986"/>
-                    <include reference="Inu-p1-bxo"/>
-                    <include reference="Nxv-Tj-9ZD"/>
-                    <include reference="5KF-GS-J6M"/>
-                    <include reference="EMh-Ri-nbT"/>
-                    <include reference="Jbo-w0-F0p"/>
-                    <include reference="voz-6l-Xsf"/>
-                    <include reference="xUp-1B-vd4"/>
                     <include reference="Kud-3p-JfQ"/>
                     <include reference="NF7-D9-l1X"/>
                     <include reference="XdS-Pm-yT5"/>
                     <include reference="vMC-WR-JAn"/>
-                    <include reference="0GC-FK-Gwh"/>
-                    <include reference="37M-uL-ckN"/>
-                    <include reference="QPB-Qj-4hg"/>
-                    <include reference="Xvx-e8-Ygg"/>
-                    <include reference="yiO-zk-9gY"/>
                     <include reference="KSO-fj-Q1u"/>
                     <include reference="VO7-U3-EMU"/>
                     <include reference="qTU-YU-IRK"/>
@@ -477,6 +463,20 @@
                     <include reference="BPC-ha-cCi"/>
                     <include reference="rA7-Pq-ipB"/>
                     <include reference="tTE-qB-bgu"/>
+                    <include reference="692-AC-r9B"/>
+                    <include reference="Ezg-52-986"/>
+                    <include reference="Nxv-Tj-9ZD"/>
+                    <include reference="Inu-p1-bxo"/>
+                    <include reference="5KF-GS-J6M"/>
+                    <include reference="EMh-Ri-nbT"/>
+                    <include reference="Jbo-w0-F0p"/>
+                    <include reference="voz-6l-Xsf"/>
+                    <include reference="xUp-1B-vd4"/>
+                    <include reference="0GC-FK-Gwh"/>
+                    <include reference="37M-uL-ckN"/>
+                    <include reference="QPB-Qj-4hg"/>
+                    <include reference="Xvx-e8-Ygg"/>
+                    <include reference="yiO-zk-9gY"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="-307" y="-43"/>

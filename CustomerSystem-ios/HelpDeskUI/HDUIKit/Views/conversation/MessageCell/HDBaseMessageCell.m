@@ -238,18 +238,37 @@
 
 #pragma mark - setter
 
-- (void)setModel:(id<HDIMessageModel>)model
+- (void)avatarViewImage:(id<HDIMessageModel>)model
 {
-    [super setModel:model];
     if (model.avatarURLPath) {
         [self.avatarView sd_setImageWithURL:[NSURL URLWithString:model.avatarURLPath] placeholderImage:model.avatarImage];
     } else {
         self.avatarView.image = model.avatarImage;
     }
-    if (![model.nickname isKindOfClass:[NSNull class]]) {
-//        _nameLabel.text = model.nickname;
+}
+
+- (void)setModel:(id<HDIMessageModel>)model
+{
+    [super setModel:model];
+//    if (model.avatarURLPath) {
+//        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:model.avatarURLPath] placeholderImage:model.avatarImage];
+//    } else {
+//        self.avatarView.image = model.avatarImage;
+//    }
+//    if (![model.nickname isKindOfClass:[NSNull class]]) {
+////        _nameLabel.text = model.nickname;
+//        _nameLabel.text = _lgM.nickname;
+//    }
+    
+    if (self.model.isSender) {
         _nameLabel.text = _lgM.nickname;
+        [self avatarViewImage:model];
+
+    } else {
+        _nameLabel.text = @"";
+        [self avatarViewImage:model];
     }
+    
     if (self.model.isSender) {
         _hasRead.hidden = YES;
         switch (self.model.messageStatus) {

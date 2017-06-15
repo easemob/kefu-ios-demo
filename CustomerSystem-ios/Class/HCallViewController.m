@@ -58,6 +58,8 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
         _callSession = aCallSession;
         _isDismissing = NO;
         _hangupButton.hidden = YES;
+        _acceptButton.hidden = YES;
+        _rejectButton.hidden = YES;
     }
     
     return self;
@@ -181,24 +183,32 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
 
 //接受客服视频请求
 - (IBAction)acceptCallRequest:(id)sender {
+    self.timeLabel.hidden = YES;
+    self.timeLabel.text = @"";
     [[HCallManager sharedInstance] answerCall:self.callSession.callId];
 }
 
 //通道已经建立
 - (void)stateToConnected {
-    [self remindVisitor:NSLocalizedString(@"have_connected_with", @"Invite customer service making a video call")];
+    
     self.timeLabel.numberOfLines = 2;
     self.timeLabel.text = self.callSession.remoteName;
     NSLog(@"name--%@", self.callSession.remoteName);
     [self setupRemoteVideoView];
     [self setupLocalVideoView];
     
+    [self remindVisitor:NSLocalizedString(@"have_connected_with", @"Invite customer service making a video call")];
+   
+    if (self.remindLabel) {
+        self.acceptButton.hidden = NO;
+        self.rejectButton.hidden = NO;
+    }
 }
 //视频已经连通 
 - (void)didConnected {
-    [self remindVisitor:NSLocalizedString(@"In_the_call", @"In the call..")];
-    self.timeLabel.hidden = NO;
-    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.timeLabel.hidden = NO;
+    });
     self.switchButton.hidden = NO;
     self.micButton.hidden = NO;
     self.voiceButton.hidden = NO;
@@ -212,14 +222,13 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     self.rejectButton.hidden = YES;
     self.acceptButton.hidden = YES;
     [self setAudioSessionSpeaker];
+    [self remindVisitor:NSLocalizedString(@"In_the_call", @"In the call..")];
 }
 
 
 //设置客服视频窗口
 - (void)setupRemoteVideoView
 {
-
-    
     CGRect frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     if (self.callSession.remoteVideoView != nil) {
         self.callSession.remoteVideoView.frame = frame;
