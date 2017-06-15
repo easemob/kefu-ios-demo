@@ -22,7 +22,7 @@
 #import "HRecordView.h"
 #define kDefaultLeft 20
 const NSInteger baseTag=123;
-@interface LeaseMsgReplyController () <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LeaveMsgAttatchmentViewDelegate,SCAudioPlayDelegate, HRecordViewDelegate>
+@interface LeaseMsgReplyController () <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LeaveMsgAttatchmentViewDelegate,SCAudioPlayDelegate, HRecordViewDelegate, HDCDDeviceManagerDelegate>
 
 @property (nonatomic, strong) FLTextView *textView;
 @property (nonatomic, strong) UIButton *addButton;
@@ -185,7 +185,9 @@ const NSInteger baseTag=123;
 // 录音
 #pragma mark - HRecordViewDelegate
 - (void)didHdStartRecordingVoiceAction:(UIView *)recordView
-{   [self.view addSubview:self.maskingView];
+{
+    [self _stopAudioPlayingWithChangeCategory];
+    [self.view addSubview:self.maskingView];
     [self.view bringSubviewToFront:self.maskingView];
     
     if ([recordView isKindOfClass:[HDRecordView class]]) {
@@ -298,8 +300,7 @@ const NSInteger baseTag=123;
 
 - (void)dealloc
 {
-    [[HDCDDeviceManager sharedInstance] stopPlaying];
-    [HDCDDeviceManager sharedInstance].delegate = nil;
+    [self _stopAudioPlayingWithChangeCategory];
     
     if (_imagePicker){
         [_imagePicker dismissViewControllerAnimated:NO completion:nil];
@@ -321,7 +322,7 @@ const NSInteger baseTag=123;
     backButton.titleRect = CGRectMake(45, 10, 120, 18);
     [self.view addSubview:backButton];
     backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
-    [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
     
@@ -332,6 +333,11 @@ const NSInteger baseTag=123;
     [self.navigationItem setRightBarButtonItem:sendItem];
 }
 
+- (void)back
+{
+    [self _stopAudioPlayingWithChangeCategory];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 #pragma mark - getter
 
 - (FLTextView *)textView
@@ -409,6 +415,7 @@ const NSInteger baseTag=123;
 
 - (void)sendAction
 {
+    [self _stopAudioPlayingWithChangeCategory];
     if (_textView.text.length == 0 && _attachments.count == 0) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"leaveMessage.leavemsg.replyempty", @"Reply is empty") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
         [alertView show];
@@ -434,6 +441,7 @@ const NSInteger baseTag=123;
     _recordChangeBtn.selected = NO;
     [_recordButtonView removeFromSuperview];
     [self restoreButton];
+    [self _stopAudioPlayingWithChangeCategory];
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
@@ -668,6 +676,18 @@ const NSInteger baseTag=123;
 {
     _attchmentView.originX = 0;
     _attchmentView.originY = kScreenHeight - 170;
+}
+
+
+- (void)_stopAudioPlayingWithChangeCategory
+{
+    //停止音频播放及播放动画
+    if (_audioPlayer.isPlaying) {
+        [_audioPlayer stopSound];
+    }
+    if (_audioPlayer.attatchmentView != nil) {
+        [_audioPlayer.attatchmentView stopAnimating];
+    }
 }
 
 @end

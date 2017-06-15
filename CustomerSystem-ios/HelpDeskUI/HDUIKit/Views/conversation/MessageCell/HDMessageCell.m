@@ -1009,7 +1009,13 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 for (NSString *string in menu) {
                     height += [string boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
                 }
-                return 2*HDMessageCellPadding + height + 20;
+                
+                if ([[menu lastObject] isEqualToString:@"转人工客服"]) {
+                   return [self robotMenuHeightMenu:menu height:height EqualNine:30 greaterTen:70 greaterFifteen:90];
+                } else {
+                    return [self robotMenuHeightMenu:menu height:height EqualNine:20 greaterTen:50 greaterFifteen:70];
+                }
+
             } else { //其他消息【订单、轨迹、富文本】
                 NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
                 CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
@@ -1132,5 +1138,19 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     }
     return content;
 }
+
++ (CGFloat)robotMenuHeightMenu:(NSArray *)menu height:(CGFloat)height  EqualNine:(CGFloat)EqualNine greaterTen:(CGFloat)greaterTen greaterFifteen:(CGFloat)greaterFifteen
+{
+    if([menu count] == 9){
+        return 2*HDMessageCellPadding + height + EqualNine;
+    } else if ([menu count] > 10 && [menu count] <= 15){
+        return 2*HDMessageCellPadding + height + greaterTen;
+    } else if([menu count] > 15){
+        return 2*HDMessageCellPadding + height + greaterFifteen;
+    } else {
+        return 2*HDMessageCellPadding + height + 20;
+    }
+}
+
 
 @end

@@ -14,6 +14,7 @@
 //#import "HVisitorTrack.h"
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
+#import "HDMessageReadManager.h"
 @interface HDChatViewController ()<UIAlertViewDelegate,HChatClientDelegate>
 {
     UIMenuItem *_copyMenuItem;
@@ -49,6 +50,7 @@
 
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
+    [self stopAudioPlayingWithChangeCategory:YES];
     EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:NSLocalizedString(@"em_chat_invite_video_call", @"nvite customer service making a video call")];
     HMessage *callMessage = [[HMessage alloc] initWithConversationID:[HChatClient sharedClient].chat.currentConversationId from:[HChatClient sharedClient].currentUsername to:[HChatClient sharedClient].chat.currentConversationId body:body];
     [callMessage addAttributeDictionary:[self callExt]];
@@ -59,6 +61,7 @@
 // 留言
 - (void)moreViewLeaveMessageAction:(HDChatBarMoreView *)moreView
 {
+    [self stopAudioPlayingWithChangeCategory:YES];
     HDLeaveMsgViewController *leaveMsgVC = [[HDLeaveMsgViewController alloc] init];
     [self.navigationController pushViewController:leaveMsgVC animated:YES];
 }
@@ -468,4 +471,27 @@
     [self.menuController setTargetRect:showInView.frame inView:showInView.superview];
     [self.menuController setMenuVisible:YES animated:YES];
 }
+
+- (void)stopAudioPlayingWithChangeCategory:(BOOL)isChange
+{
+    //停止音频播放及播放动画
+    [[HDCDDeviceManager sharedInstance] stopPlaying];
+    [[HDCDDeviceManager sharedInstance] disableProximitySensor];
+    [HDCDDeviceManager sharedInstance].delegate = self;
+    
+    HDMessageModel *playingModel = [[HDMessageReadManager defaultManager] stopMessageAudioModel];
+    NSIndexPath *indexPath = nil;
+    if (playingModel) {
+        indexPath = [NSIndexPath indexPathForRow:[self.dataArray indexOfObject:playingModel] inSection:0];
+    }
+    
+    if (indexPath) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView beginUpdates];
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [self.tableView endUpdates];
+        });
+    }
+}
+
 @end

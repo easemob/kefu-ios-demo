@@ -137,6 +137,12 @@
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackground)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
     [[HDBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
     [[HDBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
     
@@ -377,19 +383,19 @@
     [[HDCDDeviceManager sharedInstance] disableProximitySensor];
     [HDCDDeviceManager sharedInstance].delegate = self;
     
-    //    MessageModel *playingModel = [self.EaseMessageReadManager stopMessageAudioModel];
-    //    NSIndexPath *indexPath = nil;
-    //    if (playingModel) {
-    //        indexPath = [NSIndexPath indexPathForRow:[self.dataSource indexOfObject:playingModel] inSection:0];
-    //    }
-    //
-    //    if (indexPath) {
-    //        dispatch_async(dispatch_get_main_queue(), ^{
-    //            [self.tableView beginUpdates];
-    //            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    //            [self.tableView endUpdates];
-    //        });
-    //    }
+        HDMessageModel *playingModel = [[HDMessageReadManager defaultManager] stopMessageAudioModel];
+        NSIndexPath *indexPath = nil;
+        if (playingModel) {
+            indexPath = [NSIndexPath indexPathForRow:[self.dataArray indexOfObject:playingModel] inSection:0];
+        }
+    
+        if (indexPath) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView beginUpdates];
+                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                [self.tableView endUpdates];
+            });
+        }
 }
 
 - (NSURL *)_convert2Mp4:(NSURL *)movUrl
@@ -664,6 +670,13 @@
         }
     }
 }
+
+// app进入后台停止语音播放
+- (void)appDidEnterBackground
+{
+    [self _stopAudioPlayingWithChangeCategory:YES];
+}
+
 
 #pragma mark - pivate data
 
@@ -1220,6 +1233,7 @@
 // 点触录音按钮开始录音的代理方法
 - (void)didHdStartRecordingVoiceAction:(UIView *)recordView
 {
+    [self _stopAudioPlayingWithChangeCategory:YES];
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchDown];
     } else {
@@ -1337,6 +1351,8 @@
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
     
+    [self _stopAudioPlayingWithChangeCategory:YES];
+    
     // Pop image picker
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
@@ -1349,6 +1365,8 @@
 {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
+    
+    [self _stopAudioPlayingWithChangeCategory:YES];
     
 #if TARGET_IPHONE_SIMULATOR
     [self showHint:NSEaseLocalizedString(@"message.simulatorNotSupportCamera", @"simulator does not support taking picture")];
@@ -1365,6 +1383,8 @@
 {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
+    
+    [self _stopAudioPlayingWithChangeCategory:YES];
     HDLocationViewController *locationController = [[HDLocationViewController alloc] init];
     locationController.delegate = self;
     [self.navigationController pushViewController:locationController animated:YES];
@@ -1375,6 +1395,8 @@
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
     
+    [self _stopAudioPlayingWithChangeCategory:YES];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CALL object:@{@"chatter":self.conversation.conversationId, @"type":[NSNumber numberWithInt:0]}];
 }
 
@@ -1383,6 +1405,8 @@
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
     
+    [self _stopAudioPlayingWithChangeCategory:YES];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CALL object:@{@"chatter":self.conversation.conversationId, @"type":[NSNumber numberWithInt:1]}];
 }
 
@@ -1390,6 +1414,7 @@
 {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
+    [self _stopAudioPlayingWithChangeCategory:YES];
     
 }
 

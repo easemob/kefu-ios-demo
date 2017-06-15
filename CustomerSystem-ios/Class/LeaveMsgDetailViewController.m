@@ -97,9 +97,15 @@
     backButton.titleRect = CGRectMake(45, 10, 200, 20);
     [self.view addSubview:backButton];
     backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
-    [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton addTarget:self action:@selector(backBtnItem) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
+}
+
+- (void)backBtnItem
+{
+    [self _stopAudioPlayingWithChangeCategory];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - getter
@@ -162,6 +168,7 @@
 
 - (void)replyAction
 {
+    [self _stopAudioPlayingWithChangeCategory];
     LeaseMsgReplyController *replyController = [[LeaseMsgReplyController alloc] init];
     replyController.delegate = self;
     [self.navigationController pushViewController:replyController animated:YES];
@@ -533,6 +540,17 @@
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:path]) {
         [fm removeItemAtPath:path error:nil];
+    }
+}
+
+- (void)_stopAudioPlayingWithChangeCategory
+{
+    //停止音频播放及播放动画
+    if (_audioPlayer.isPlaying) {
+        [_audioPlayer stopSound];
+    }
+    if (_audioPlayer.attatchmentView != nil) {
+        [_audioPlayer.attatchmentView stopAnimating];
     }
 }
 

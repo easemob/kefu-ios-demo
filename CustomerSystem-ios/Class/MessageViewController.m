@@ -344,6 +344,7 @@
         
         if ([weakSelf.dataArray count] == 0) {
             _hintLabel.text = NSLocalizedString(@"no_leave_message", @"NO Leave Message");
+            
         } else {
             _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");
         }
