@@ -88,6 +88,11 @@ const NSInteger baseTag=123;
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackgroundLeaseMsgReply)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
 }
 
 //当键盘出现或改变时调用
@@ -106,6 +111,11 @@ const NSInteger baseTag=123;
 - (void)keyboardWillHide:(NSNotification *)aNotification
 {
     [self hide];
+}
+
+- (void)appDidEnterBackgroundLeaseMsgReply
+{
+    [self _stopAudioPlayingWithChangeCategory];
 }
 
 - (UIView *)recordView

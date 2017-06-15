@@ -66,6 +66,17 @@
     [self loadLeaveMessageDetail];
     [self loadLeaveMessageAllComments];
     [self registNotification];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackgroundLeaseMsgDetail)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
+}
+
+- (void)appDidEnterBackgroundLeaseMsgDetail
+{
+    [self _stopAudioPlayingWithChangeCategory];
 }
 
 - (void)registNotification
