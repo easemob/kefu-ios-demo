@@ -81,6 +81,9 @@
     _editField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _editField.returnKeyType = UIReturnKeyDone;
     _editField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    if ([_type isEqualToString:@"projectId"]) {
+        _editField.keyboardType = UIKeyboardTypeNumberPad;
+    }
     _editField.delegate = self;
     [contentView addSubview:_editField];
     

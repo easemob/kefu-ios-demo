@@ -17,7 +17,6 @@
 #import "HDMessageViewController.h"
 #import "HDChatViewController.h"
 #import "QRCodeViewController.h"
-#import "HConversationsViewController.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
@@ -27,7 +26,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
-    HConversationsViewController *_conversationsVC;
     SettingViewController *_settingController;
     UIBarButtonItem *_chatItem;
     UIBarButtonItem *_leaveItem;
@@ -49,11 +47,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     if (self) {
     }
     return self;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated ];
-    [_conversationsVC refreshData];
 }
 
 - (void)viewDidLoad
@@ -299,15 +292,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [_leaveMsgVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_ticket_select"] withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_ticket_normal"]];
     [self unSelectedTapTabBarItems:_leaveMsgVC.tabBarItem];
     [self selectedTapTabBarItems:_leaveMsgVC.tabBarItem];
-    
-    //会话列表
-    _conversationsVC = [[HConversationsViewController alloc] init];
-    _conversationsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.conversationTitle", @"conversationList") image:[UIImage imageNamed:@"list"] selectedImage:[UIImage imageNamed:@"list2"]];
-    _conversationsVC.tabBarItem.tag = 2;
-    [_conversationsVC viewDidLoad];
-    [self unSelectedTapTabBarItems:_conversationsVC.tabBarItem];
-    [self selectedTapTabBarItems:_conversationsVC.tabBarItem];
-    
     //设置
     _settingController = [[SettingViewController alloc] initWithNibName:nil bundle:nil];
     _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:3];
@@ -317,7 +301,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [self unSelectedTapTabBarItems:_settingController.tabBarItem];
     [self selectedTapTabBarItems:_settingController.tabBarItem];
     
-    self.viewControllers = @[_mallController, _leaveMsgVC ,_conversationsVC,_settingController];
+    self.viewControllers = @[_mallController, _leaveMsgVC ,_settingController];
     [self selectedTapTabBarItems:_mallController.tabBarItem];
     
     _choiceView = [[MoreChoiceView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
@@ -462,7 +446,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         [self _playSoundAndVibration];
     }
 #endif
-    [_conversationsVC refreshData];
 }
 
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
