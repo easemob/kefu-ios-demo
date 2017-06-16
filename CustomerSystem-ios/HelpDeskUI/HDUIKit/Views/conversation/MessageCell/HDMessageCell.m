@@ -1009,11 +1009,12 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 for (NSString *string in menu) {
                     height += [string boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
                 }
-                
-                if ([[menu lastObject] isEqualToString:@"转人工客服"]) {
-                   return [self robotMenuHeightMenu:menu height:height EqualNine:30 greaterTen:70 greaterFifteen:90];
+                if ([[menu lastObject] isEqualToString:@"转人工客服"] || ([[menu lastObject] isEqualToString:@"返回上一级"] && ![[menu objectAtIndex:([menu count] - 2)] isEqualToString:@"转人工客服"])) {
+                   return [self robotMenuHeightMenu:menu height:height lessNine:10 equalNine:30 greaterTen:60 greaterFifteen:80 greaterTwenty:90];
+                } else if([[menu lastObject] isEqualToString:@"返回上一级"] && [[menu objectAtIndex:([menu count] - 2)] isEqualToString:@"转人工客服"]) {
+                    return [self robotMenuHeightMenu:menu height:height lessNine:10 equalNine:30 greaterTen:60 greaterFifteen:80 greaterTwenty:100];
                 } else {
-                    return [self robotMenuHeightMenu:menu height:height EqualNine:20 greaterTen:50 greaterFifteen:70];
+                    return [self robotMenuHeightMenu:menu height:height lessNine:0 equalNine:30 greaterTen:60 greaterFifteen:80 greaterTwenty:90];
                 }
 
             } else { //其他消息【订单、轨迹、富文本】
@@ -1139,16 +1140,18 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     return content;
 }
 
-+ (CGFloat)robotMenuHeightMenu:(NSArray *)menu height:(CGFloat)height  EqualNine:(CGFloat)EqualNine greaterTen:(CGFloat)greaterTen greaterFifteen:(CGFloat)greaterFifteen
++ (CGFloat)robotMenuHeightMenu:(NSArray *)menu height:(CGFloat)height lessNine:(CGFloat)lessNine equalNine:(CGFloat)equalNine greaterTen:(CGFloat)greaterTen greaterFifteen:(CGFloat)greaterFifteen greaterTwenty:(CGFloat)greaterTwenty
 {
-    if([menu count] == 9){
-        return 2*HDMessageCellPadding + height + EqualNine;
-    } else if ([menu count] > 10 && [menu count] <= 15){
+    if([menu count] >= 5 && [menu count] <= 9){
+        return 2*HDMessageCellPadding + height + equalNine;
+    } else if ([menu count] >= 10 && [menu count] <= 15){
         return 2*HDMessageCellPadding + height + greaterTen;
-    } else if([menu count] > 15){
+    } else if([menu count] > 15 && [menu count] < 20){
         return 2*HDMessageCellPadding + height + greaterFifteen;
+    }else if([menu count] >= 20){
+        return 2*HDMessageCellPadding + height + greaterTwenty;
     } else {
-        return 2*HDMessageCellPadding + height + 20;
+        return 2*HDMessageCellPadding + height + lessNine;
     }
 }
 

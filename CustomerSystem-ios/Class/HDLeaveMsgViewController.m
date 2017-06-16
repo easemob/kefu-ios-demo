@@ -242,6 +242,19 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     return YES;
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    if (textField.tag == 2) {
+        [self textFViewMove:0];
+    } else if (textField.tag == 3) {
+       [self textFViewMove:36];
+    } else if (textField.tag == 4){
+       [self textFViewMove:76];
+    }
+    
+    return YES;
+}
+
 - (void)textFViewMove:(CGFloat)distance
 {
     [UIView animateWithDuration:0.3 animations:^{
