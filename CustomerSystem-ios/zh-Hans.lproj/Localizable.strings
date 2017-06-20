@@ -64,6 +64,9 @@
 "login.endAutoLogin" = "自动登录结束...";
 "login.errorAutoLogin" = "自动登录失败.";
 
+"login..." = "登录中...";
+"loginSuccess" = "登录成功";
+"loginFailure" = "登录失败";
 //setting
 "setting.feedback" = "意见反馈";
 
@@ -224,8 +227,6 @@
 "set_tenantId" = "租户ID(TenantId)";
 "set_leave_messageid" = "留言ID(projectId)";
 
-"restarta" = "重启";
-"app_key_modifya" = "修改appkey之后需要重启";
 
 "em_example1_text_detail" = "product_details_zh_";
 

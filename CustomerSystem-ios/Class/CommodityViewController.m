@@ -74,7 +74,7 @@
     messageButton.imageRect = CGRectMake(15, footerView.height/3, footerView.height/3, footerView.height/3);
     messageButton.titleRect = CGRectMake(40, footerView.height/4, 100, footerView.height/2);
     [self.view addSubview:messageButton];
-    messageButton.frame = CGRectMake(0, 0, 180, footerView.height/1.5);
+    messageButton.frame = CGRectMake(0, 0, 200, footerView.height/1.5);
     [footerView addSubview:messageButton];
     [messageButton addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
     

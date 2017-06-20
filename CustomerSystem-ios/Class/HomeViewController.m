@@ -40,6 +40,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 @end
 
 @implementation HomeViewController
+{
+    BOOL isLogin;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -137,6 +140,10 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
 //    BOOL shouqian = [[notification.object objectForKey:kpreSell] boolValue];
     //登录IM
+    if (isLogin == YES) {
+        return;
+    }
+    isLogin = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         SCLoginManager *lgM = [SCLoginManager shareLoginManager];
         if ([lgM loginKefuSDK]/*[self loginKefuSDK:shouqian] 测试切换账号使用*/) {
@@ -164,12 +171,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             dispatch_async(dispatch_get_main_queue(), ^{
                  [self.navigationController pushViewController:chat animated:YES];
             });
-           
         } else {
             NSLog(@"登录失败");
         }
     });
-    
+    isLogin = NO;
 }
 
 - (void)setPushOptions {

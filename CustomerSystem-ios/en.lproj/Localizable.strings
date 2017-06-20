@@ -65,6 +65,10 @@
 "login.endAutoLogin" = "End automatic login...";
 "login.errorAutoLogin" = "Automatic logon failure.";
 
+"login..." = "login...";
+"loginSuccess" = "login success";
+"loginFail" = "login fail";
+
 //setting
 "setting.feedback" = "Feedback";
 
@@ -223,8 +227,6 @@
 "set_tenantId" = "TenantId";
 "set_leave_messageid" = "Leave Message ID";
 
-"restarta" = "Restart";
-"app_key_modifya" = "Appkey modify Need Restart";
 
 "em_example1_text_detail" = "product_details_";
 "em_chat_I_focus" = "I focus on";

@@ -60,20 +60,37 @@
 
 }
 
+- (NSString *)getUserToken {
+    EMClient *client = [EMClient sharedClient];
+    NSString *userToken = nil;
+    SEL selector = NSSelectorFromString(@"getUserToken:");
+    if ([client respondsToSelector:selector]) {
+        IMP imp = [client methodForSelector:selector];
+        NSString *(*func)(id, SEL, NSNumber *) = (void *)imp;
+        userToken = func(client, selector, @(NO));
+    }
+    return userToken;
+}
+
 
 //修改关联app后需要重新初始化
 - (void)resetCustomerServiceSDK {
     //如果在登录状态,账号要退出
     HChatClient *client = [HChatClient sharedClient];
-    if (client.isLoggedInBefore) {
-        HError *error = [client logout:YES];
-        if (error) {
-            NSLog(@"error.code:%u,error.errorDescription :%@",error.code,error.errorDescription);
-        } else {
-            exit(0);
-        }
+    HError *error = [client logout:NO];
+    if (error != nil) {
+        NSLog(@"登出出错:%@",error.errorDescription);
+    }
+    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    EMClient *clit = [EMClient sharedClient];
+#warning "changeAppkey 为内部方法，不建议使用"
+    EMError *er = [clit changeAppkey:lgM.appkey];
+    if (er == nil) {
+        [SVProgressHUD showSuccessWithStatus:@"appkey 已更新"];
+        [SVProgressHUD dismissWithDelay:1.0];
+        NSLog(@"appkey 已更新");
     } else {
-        exit(0);
+        NSLog(@"appkey 更新失败,请手动重启");
     }
 }
 

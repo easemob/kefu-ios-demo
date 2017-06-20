@@ -113,7 +113,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     UILabel *lateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_textFieldOne.frame), y + 4, 70, 30)];
     lateLabel.text = NSLocalizedString(@"new_leave_item_hint_text", @"Required");
     lateLabel.textColor = [UIColor grayColor];
-    lateLabel.textAlignment = UITextAlignmentRight;
+    lateLabel.textAlignment = NSTextAlignmentRight;
     lateLabel.font = [UIFont systemFontOfSize:15];
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(20, y + 32, kScreenWidth - 40, 1.f)];
@@ -225,13 +225,13 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 {
     if (textField.returnKeyType == UIReturnKeyNext) {
         if (textField.tag == 1) {
-            [self textFViewMove:36];
+            [self textFViewMove:40];
             [_textFieldTwo becomeFirstResponder];
         } else if (textField.tag == 2) {
-            [self textFViewMove:76];
+            [self textFViewMove:90];
              [_textFieldThree becomeFirstResponder];
         } else if (textField.tag == 3) {
-            [self textFViewMove:130];
+            [self textFViewMove:140];
              [_textFieldFour becomeFirstResponder];
         }
         
@@ -239,6 +239,19 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
         [self textFViewMove:0];
         [_textFieldFour endEditing:YES];
        }
+    return YES;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    if (textField.tag == 2) {
+        [self textFViewMove:0];
+    } else if (textField.tag == 3) {
+        [self textFViewMove:50];
+    } else if (textField.tag == 4){
+        [self textFViewMove:100];
+    }
+    
     return YES;
 }
 

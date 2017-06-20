@@ -181,6 +181,11 @@
 		D362EBA71EF26A5000512197 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D362EBA61EF26A5000512197 /* HelpDesk.framework */; };
 		D362EBA81EF26CC000512197 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D362EBA61EF26A5000512197 /* HelpDesk.framework */; };
 		D362EBA91EF26CC000512197 /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D362EBA61EF26A5000512197 /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D366CAA71EF8CC3E00899143 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = D366CA9E1EF8CC3E00899143 /* SVIndefiniteAnimatedView.m */; };
+		D366CAA81EF8CC3E00899143 /* SVProgressAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = D366CAA01EF8CC3E00899143 /* SVProgressAnimatedView.m */; };
+		D366CAA91EF8CC3E00899143 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D366CAA21EF8CC3E00899143 /* SVProgressHUD.bundle */; };
+		D366CAAA1EF8CC3E00899143 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D366CAA41EF8CC3E00899143 /* SVProgressHUD.m */; };
+		D366CAAB1EF8CC3E00899143 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D366CAA61EF8CC3E00899143 /* SVRadialGradientLayer.m */; };
 		D37315831E52A5D00043ED32 /* HelpDeskUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */; };
 		D39E2EE41E7F7A7D0014FAE5 /* HCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D39E2EE31E7F7A7D0014FAE5 /* HCallManager.m */; };
 		D39E2EE81E7F7BB10014FAE5 /* HCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D39E2EE61E7F7BB10014FAE5 /* HCallViewController.m */; };
@@ -704,6 +709,16 @@
 		D362E56C1EEE4CAB009BF38A /* default_customer_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_customer_avatar@2x.png"; sourceTree = "<group>"; };
 		D362EBA61EF26A5000512197 /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
 		D363DD3B1DF6E9A900AC54D1 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		D366CA9D1EF8CC3E00899143 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		D366CA9E1EF8CC3E00899143 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		D366CA9F1EF8CC3E00899143 /* SVProgressAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressAnimatedView.h; sourceTree = "<group>"; };
+		D366CAA01EF8CC3E00899143 /* SVProgressAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressAnimatedView.m; sourceTree = "<group>"; };
+		D366CAA11EF8CC3E00899143 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
+		D366CAA21EF8CC3E00899143 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		D366CAA31EF8CC3E00899143 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		D366CAA41EF8CC3E00899143 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		D366CAA51EF8CC3E00899143 /* SVRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRadialGradientLayer.h; sourceTree = "<group>"; };
+		D366CAA61EF8CC3E00899143 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
 		D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HelpDeskUIResource.bundle; sourceTree = "<group>"; };
 		D39AD9091DFAA6BE00895FCF /* CustomerSystem-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ios.entitlements"; sourceTree = "<group>"; };
 		D39E2EE21E7F7A7D0014FAE5 /* HCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCallManager.h; sourceTree = "<group>"; };
@@ -1530,6 +1545,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D366CA9C1EF8CC3E00899143 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				D366CA9D1EF8CC3E00899143 /* SVIndefiniteAnimatedView.h */,
+				D366CA9E1EF8CC3E00899143 /* SVIndefiniteAnimatedView.m */,
+				D366CA9F1EF8CC3E00899143 /* SVProgressAnimatedView.h */,
+				D366CAA01EF8CC3E00899143 /* SVProgressAnimatedView.m */,
+				D366CAA11EF8CC3E00899143 /* SVProgressHUD-Prefix.pch */,
+				D366CAA21EF8CC3E00899143 /* SVProgressHUD.bundle */,
+				D366CAA31EF8CC3E00899143 /* SVProgressHUD.h */,
+				D366CAA41EF8CC3E00899143 /* SVProgressHUD.m */,
+				D366CAA51EF8CC3E00899143 /* SVRadialGradientLayer.h */,
+				D366CAA61EF8CC3E00899143 /* SVRadialGradientLayer.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
 		D3AA4B121ED45B7300B5C509 /* HDVoiceConvert */ = {
 			isa = PBXGroup;
 			children = (
@@ -2105,6 +2137,7 @@
 		D3D1BB321DE844BC004B3557 /* 3rdparty */ = {
 			isa = PBXGroup;
 			children = (
+				D366CA9C1EF8CC3E00899143 /* SVProgressHUD */,
 				D33946FF1E54392E009370BF /* SlimeRefresh */,
 			);
 			name = 3rdparty;
@@ -2732,6 +2765,7 @@
 				EB4B06F21AC685E900DCF67B /* chat_sender_audio_playing_003@2x.png in Resources */,
 				D333969D1E7BD0D9007B7A28 /* trash@4x.png in Resources */,
 				D20066431EF23274005B558D /* em_nav_shop_normal@3x.png in Resources */,
+				D366CAA91EF8CC3E00899143 /* SVProgressHUD.bundle in Resources */,
 				D20066581EF23274005B558D /* product_details_4.png in Resources */,
 				D333966C1E7BD0D9007B7A28 /* em_icon_speaker_normal.png in Resources */,
 				D33396A11E7BD0D9007B7A28 /* video@3x.png in Resources */,
@@ -2863,6 +2897,7 @@
 				D3CB648F1E4888F30022A6BA /* NSString+Valid.m in Sources */,
 				D34D6CEA1DEC08CA0099EE23 /* LeaveMsgDetailHeaderView.m in Sources */,
 				D3CB64691E4888F30022A6BA /* MWTapDetectingView.m in Sources */,
+				D366CAAA1EF8CC3E00899143 /* SVProgressHUD.m in Sources */,
 				D3CB64671E4888F30022A6BA /* MWPhotoBrowser.m in Sources */,
 				D32FBEB91ED55E6C00BA68D7 /* SDWebImagePrefetcher.m in Sources */,
 				D200660D1EF23239005B558D /* CommodityInfoView.m in Sources */,
@@ -2906,6 +2941,7 @@
 				D3CB64651E4888F30022A6BA /* MWGridViewController.m in Sources */,
 				D3CB64841E4888F30022A6BA /* PSTCollectionViewUpdateItem.m in Sources */,
 				D3CB649A1E4888F30022A6BA /* HDMessageReadManager.m in Sources */,
+				D366CAAB1EF8CC3E00899143 /* SVRadialGradientLayer.m in Sources */,
 				D32FBEB71ED55E6C00BA68D7 /* SDWebImageDownloaderOperation.m in Sources */,
 				D339470A1E54392E009370BF /* SRSlimeView.m in Sources */,
 				D34743B11DE6E8EF00F32D87 /* SCLoginManager.m in Sources */,
@@ -2919,6 +2955,7 @@
 				D3CB64481E4888F30022A6BA /* HDCDDeviceManagerBase.m in Sources */,
 				D3CB64441E4888F30022A6BA /* HDCDDeviceManager+Media.m in Sources */,
 				D3CB64971E4888F30022A6BA /* FixFopen.c in Sources */,
+				D366CAA81EF8CC3E00899143 /* SVProgressAnimatedView.m in Sources */,
 				D3CB64A01E4888F30022A6BA /* HDCustomMessageCell.m in Sources */,
 				D3CB64461E4888F30022A6BA /* HDCDDeviceManager+ProximitySensor.m in Sources */,
 				D39E2EE41E7F7A7D0014FAE5 /* HCallManager.m in Sources */,
@@ -2983,6 +3020,7 @@
 				D32FBEB41ED55E6C00BA68D7 /* SDWebImageCompat.m in Sources */,
 				EB395E021A8F0C8D0083B659 /* SettingViewController.m in Sources */,
 				D3D1BB4C1DE84928004B3557 /* NSDateFormatter+Category.m in Sources */,
+				D366CAA71EF8CC3E00899143 /* SVIndefiniteAnimatedView.m in Sources */,
 				D3CB64661E4888F30022A6BA /* MWPhoto.m in Sources */,
 				D3DEAA1F1DED78D00081B654 /* SCAudioPlay.m in Sources */,
 				D3CB64541E4888F30022A6BA /* MJRefreshHeader.m in Sources */,

@@ -58,8 +58,6 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
         _callSession = aCallSession;
         _isDismissing = NO;
         _hangupButton.hidden = YES;
-        _acceptButton.hidden = YES;
-        _rejectButton.hidden = YES;
     }
     
     return self;
@@ -100,11 +98,7 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     [self.rejectButton setTitle:NSLocalizedString(@"reject", @"Reject") forState:UIControlStateNormal];
     [self.acceptButton setTitle:NSLocalizedString(@"accept", @"Accept") forState:UIControlStateNormal];
     [self.hangupButton setTitle:NSLocalizedString(@"video_call_hang_up", @"Hang Up") forState:UIControlStateNormal];
-    
-    self.switchButton.hidden = YES;
-    self.micButton.hidden = YES;
-    self.voiceButton.hidden = YES;
-    self.videoButton.hidden = YES;
+
     
     self.nickNameLabel.text = NSLocalizedString(@"easemob_cs_title", @"EasemobMall Customer Service");
     switch (self.callSession.type) {
@@ -190,7 +184,6 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
 
 //通道已经建立
 - (void)stateToConnected {
-    
     self.timeLabel.numberOfLines = 2;
     self.timeLabel.text = self.callSession.remoteName;
     NSLog(@"name--%@", self.callSession.remoteName);
@@ -199,28 +192,17 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
     
     [self remindVisitor:NSLocalizedString(@"have_connected_with", @"Invite customer service making a video call")];
    
-    if (self.remindLabel) {
-        self.acceptButton.hidden = NO;
-        self.rejectButton.hidden = NO;
-    }
 }
 //视频已经连通 
 - (void)didConnected {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.timeLabel.hidden = NO;
-    });
-    self.switchButton.hidden = NO;
-    self.micButton.hidden = NO;
-    self.voiceButton.hidden = NO;
-    self.videoButton.hidden = NO;
+    NSLog(@"视频已经联通");
+    self.timeLabel.hidden = NO;
     
     if (self.timeLength <= 0) {
         [self startRecordTime];
     }
     
     self.hangupButton.hidden = NO;
-    self.rejectButton.hidden = YES;
-    self.acceptButton.hidden = YES;
     [self setAudioSessionSpeaker];
     [self remindVisitor:NSLocalizedString(@"In_the_call", @"In the call..")];
 }
@@ -352,6 +334,7 @@ typedef NS_ENUM(NSUInteger, DeviceOrientation) {
 //private
 - (void)remindVisitor:(NSString *)remind {
     self.remindLabel.numberOfLines = 3;
+    NSLog(@"提示语：%@",remind);
     self.remindLabel.text = remind;
 }
 

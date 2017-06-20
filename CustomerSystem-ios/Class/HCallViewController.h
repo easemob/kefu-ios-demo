@@ -2,7 +2,7 @@
 //  HCallViewController.h
 //  CustomerSystem-ios
 //
-//  Created by __阿彤木_ on 3/20/17.
+//  Created by afanda on 3/20/17.
 //  Copyright © 2017 easemob. All rights reserved.
 //
 

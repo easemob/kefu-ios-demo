@@ -572,6 +572,26 @@
  */
 - (void)getLogFilesPathWithCompletion:(void (^)(NSString *aPath, EMError *aError))aCompletionBlock;
 
+
+#pragma mark - Change AppKey
+
+/*!
+ *  \~chinese
+ *  修改appkey
+ *
+ *  @param aAppkey  appkey
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  change appkey
+ *
+ *  @param aAppkey  appkey
+ *
+ *  @result Error
+ */
+- (EMError *)changeAppkey:(NSString *)aAppkey;
+
 #pragma mark - iOS
 
 /*!
