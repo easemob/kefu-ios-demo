@@ -93,22 +93,22 @@
 }
 
 #pragma mark - action
-- (void)afterSaleAction
+- (void)preSellAction
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:@{@"counselor":@"counselor"}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:@{@"counselor":@"投资顾问"}];
     self.hidden = YES;
 }
 
-- (void)preSellAction
+- (void)afterSaleAction
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:@{@"service":@"service"}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:@{@"service":@"统一联络中心客服组"}];
     self.hidden = YES;
 }
 
 - (void)addAction
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:@{@"manager":
-                                                                                               @"manager"}];
+                                                                                               @"华北区客户经理1部"}];
     self.hidden = YES;
 }
 

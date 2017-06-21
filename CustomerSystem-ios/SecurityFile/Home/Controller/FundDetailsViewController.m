@@ -56,7 +56,7 @@
     footerView.alpha = 1;
     [self.view addSubview:footerView];
     
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 1, kScreenWidth, 1)];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
     line.backgroundColor = RGBACOLOR(222, 222, 222, 1);
     [footerView addSubview:line];
     

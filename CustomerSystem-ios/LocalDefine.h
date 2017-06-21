@@ -32,11 +32,11 @@
 //#define kDefaultTenantId @"29593"
 //#define kDefaultProjectId @"306713"
 
-#define kDefaultAppKey @"1109170214115812#kefuchannelapp2155"
-#define kDefaultCustomerName @"kefuchannelimid_101289"
-#define kDefaultCustomerNickname @"昵称"
-#define kDefaultTenantId @"2155"
-#define kDefaultProjectId @"56107"
+#define kDefaultAppKey @"1112170601178557#kefuchannelapp42373"
+#define kDefaultCustomerName @"kefuchannelimid_105424"
+#define kDefaultCustomerNickname @"客户"
+#define kDefaultTenantId @"42373"
+#define kDefaultProjectId @"1799113"
 
 
 //#define kDefaultAppKey @"1161161202178010#kefuchannelapp7038"

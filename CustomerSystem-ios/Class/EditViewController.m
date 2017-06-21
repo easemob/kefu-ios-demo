@@ -46,7 +46,7 @@
     self.view.backgroundColor = [UIColor colorWithRed:238 / 255.0 green:238 / 255.0 blue:243 / 255.0 alpha:1.0];
     
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
-    [backButton setImage:[UIImage imageNamed:@"shape"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
     NSString *name = nil;
     if ([_type isEqualToString:@"appkey"]) {
         name = @"AppKey";

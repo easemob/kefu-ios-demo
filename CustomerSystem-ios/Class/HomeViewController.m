@@ -174,12 +174,19 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //            //        chat.agent = [[HAgentInfo alloc] initWithValue:@"123@126.com"];
 //            chat.visitorInfo = [self visitorInfo];
 //            chat.commodityInfo = (NSDictionary *)notification.object;
-            if ([[notification.object objectForKey:@"counselor"] isEqualToString:@"counselor"]) {
-                chat.title = @"找客服";
-            } else if ([[notification.object objectForKey:@"service"] isEqualToString:@"service"]){
-                chat.title = @"找顾投";
-            } else {
-                chat.title = @"找客户经理";
+            HQueueIdentityInfo *queueIdentityInfo=nil;
+            if ([[notification.object objectForKey:@"counselor"] isEqualToString:@"投资顾问"]) {
+                chat.title = @"投顾";
+                queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:@"投资顾问"];
+                chat.queueInfo = queueIdentityInfo;
+            } else if ([[notification.object objectForKey:@"service"] isEqualToString:@"统一联络中心客服组"]){
+                chat.title = @"客服";
+                queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:@"统一联络中心客服组"];
+                chat.queueInfo = queueIdentityInfo;
+            } else if([[notification.object objectForKey:@"manager"] isEqualToString:@"华北区客户经理1部"]){
+                chat.title = @"客户经理";
+                queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:@"华北区客户经理1部"];
+                chat.queueInfo = queueIdentityInfo;
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                  [self.navigationController pushViewController:chat animated:YES];
