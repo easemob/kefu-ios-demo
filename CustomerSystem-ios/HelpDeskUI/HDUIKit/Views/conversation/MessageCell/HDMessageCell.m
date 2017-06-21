@@ -387,12 +387,14 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     if ([dic objectForKey:@"order"]) { //订单消息
                         NSString *url = [itemDic objectForKey:@"img_url"];
                         
-                        [_bubbleView.orderImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"imageDownloadFail.png"]];
-                        
-                        _bubbleView.orderTitleLabel.text = [itemDic objectForKey:@"title"];
-                        _bubbleView.orderNoLabel.text = [itemDic objectForKey:@"order_title"];
-                        _bubbleView.orderDescLabel.text = [itemDic objectForKey:@"desc"];
-                        _bubbleView.orderPriceLabel.text = [itemDic objectForKey:@"price"];
+//                        [_bubbleView.orderImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"imageDownloadFail.png"]];
+
+                        _bubbleView.orderTitleLabel.text = [NSString stringWithFormat:@"%@(%@)",[itemDic objectForKey:@"title"],[itemDic objectForKey:@"order_title"]];
+//                        _bubbleView.orderNoLabel.text = [itemDic objectForKey:@"order_title"];
+//                        _bubbleView.orderDescLabel.text = [itemDic objectForKey:@"desc"];
+                        NSString *str = [[itemDic objectForKey:@"price"] stringByReplacingOccurrencesOfString:@"+" withString:@""];
+                        _bubbleView.orderDescLabel.text = str;
+                        _bubbleView.orderPriceLabel.text = str;
                     }
                     if ([dic objectForKey:@"choice"]) { //机器人菜单
                         if (self.model.isSender) {

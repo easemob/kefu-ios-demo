@@ -27,10 +27,12 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     self.homeController = [[HomeViewController alloc] init];
+    
     [[HCallManager sharedInstance] setMainViewController:self.homeController];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.homeController];
     [self configureNavigationController:navigationController];
     self.window.rootViewController = navigationController;
+    
     
     //添加自定义小表情
 #pragma mark smallpngface
@@ -64,9 +66,9 @@
 {
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0)
     {
-        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(184, 22, 22, 1)];
+        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(46, 50, 66, 1)];
         [[UINavigationBar appearance] setTitleTextAttributes:
-        [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:21.0], NSFontAttributeName, nil]];
+        [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HiraKakuProN-W3" size:20.0], NSFontAttributeName, nil]];
     }
     //设置7.0以下的导航栏
     if ([UIDevice currentDevice].systemVersion.floatValue < 7.0)

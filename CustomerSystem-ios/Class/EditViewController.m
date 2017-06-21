@@ -46,7 +46,7 @@
     self.view.backgroundColor = [UIColor colorWithRed:238 / 255.0 green:238 / 255.0 blue:243 / 255.0 alpha:1.0];
     
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
-    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"shape"] forState:UIControlStateNormal];
     NSString *name = nil;
     if ([_type isEqualToString:@"appkey"]) {
         name = @"AppKey";
@@ -85,7 +85,7 @@
     [contentView addSubview:_editField];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 114, kScreenWidth, 50)];
-    view.backgroundColor = RGBACOLOR(184, 22, 22, 1);
+    view.backgroundColor = RGBACOLOR(46, 50, 66, 1);
     [self.view addSubview:view];
     
     UIButton *saveButton = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth - 45, 5, 40, 40)];

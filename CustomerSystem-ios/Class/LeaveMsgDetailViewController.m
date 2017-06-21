@@ -99,7 +99,7 @@
 - (void)setupBarButtonItem
 {
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
-    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"Path"] forState:UIControlStateNormal];
     [backButton setTitle:NSLocalizedString(@"title.leavemsgdetail", @"Leave Message Detail") forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

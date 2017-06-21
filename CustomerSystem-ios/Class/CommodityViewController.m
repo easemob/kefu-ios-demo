@@ -29,7 +29,7 @@
     // Do any additional setup after loading the view.
     
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
-    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"Path"] forState:UIControlStateNormal];
     [backButton setTitle:NSLocalizedString(@"title.commodity", @"Detail") forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:22];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -83,6 +83,8 @@
     [footerView addSubview:button];
     [self.view bringSubviewToFront:footerView];
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

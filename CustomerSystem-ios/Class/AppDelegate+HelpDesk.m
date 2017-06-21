@@ -57,6 +57,9 @@
         return;
     }
     [self registerEaseMobNotification];
+    
+    
+
 
 }
 

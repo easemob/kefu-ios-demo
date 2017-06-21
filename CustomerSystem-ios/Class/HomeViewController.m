@@ -18,6 +18,11 @@
 #import "HDChatViewController.h"
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
+
+#import "HomePageViewController.h"
+#import "MarketViewController.h"
+#import "InformationViewController.h"
+
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
@@ -29,6 +34,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     MessageViewController *_leaveMsgVC;
     HConversationsViewController *_conversationsVC;
     SettingViewController *_settingController;
+    
+    // 证券VC
+    HomePageViewController *_homePageController;
+    MarketViewController *_marketController;
+    InformationViewController *_informationController;
+    
     UIBarButtonItem *_chatItem;
     UIBarButtonItem *_leaveItem;
     UIBarButtonItem *_conversationItem;
@@ -65,7 +76,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     self.tabBarController.hidesBottomBarWhenPushed = YES;
-    self.title = NSLocalizedString(@"title.mall", @"Mall");
+    self.title = @"首页";
     
 #warning 把self注册为SDK的delegate
     [self registerNotifications];
@@ -73,9 +84,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [self setupSubviews];
     self.selectedIndex = 0;
     // 解决第一次启动app 设置导航titleView不显示的问题
-    [self setNavTitleView];
-    UIButton *chatButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 17)];
-    [chatButton setBackgroundImage:[UIImage imageNamed:@"hd_chat_icon.png"] forState:UIControlStateNormal];
+//    [self setNavTitleView];  hd_chat_icon.png
+    UIButton *chatButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 17)];
+    [chatButton setBackgroundImage:[UIImage imageNamed:@"GroupWrite"] forState:UIControlStateNormal];
     [chatButton addTarget:self action:@selector(chatItemAction) forControlEvents:UIControlEventTouchUpInside];
     _chatItem = [[UIBarButtonItem alloc] initWithCustomView:chatButton];
     self.navigationItem.rightBarButtonItem = _chatItem;
@@ -107,14 +118,14 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
 }
 
-- (void)setNavTitleView
-{
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 97, 17)];//初始化图片视图控件
-    imageView.contentMode = UIViewContentModeScaleAspectFit;//设置内容样式,通过保持长宽比缩放内容适应视图的大小,任何剩余的区域的视图的界限是透明的。
-    UIImage *image = [UIImage imageNamed:@"hd_logo.png"];//初始化图像视图
-    [imageView setImage:image];
-    self.navigationItem.titleView = imageView;
-}
+//- (void)setNavTitleView
+//{
+//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 97, 17)];//初始化图片视图控件
+//    imageView.contentMode = UIViewContentModeScaleAspectFit;//设置内容样式,通过保持长宽比缩放内容适应视图的大小,任何剩余的区域的视图的界限是透明的。
+//    UIImage *image = [UIImage imageNamed:@"hd_logo.png"];//初始化图像视图
+//    [imageView setImage:image];
+//    self.navigationItem.titleView = imageView;
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -148,25 +159,27 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         SCLoginManager *lgM = [SCLoginManager shareLoginManager];
         if ([lgM loginKefuSDK]/*[self loginKefuSDK:shouqian] 测试切换账号使用*/) {
 //            [self setPushOptions];
-            NSString *queue = nil;
-            if ([notification.object objectForKey:kpreSell]) {
-                queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
-            }
-            HQueueIdentityInfo *queueIdentityInfo=nil;
-            if (queue) {
-                queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:queue];
-            }
+//            NSString *queue = nil;
+//            if ([notification.object objectForKey:kpreSell]) {
+//                queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
+//            }
+//            HQueueIdentityInfo *queueIdentityInfo=nil;
+//            if (queue) {
+//                queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:queue];
+//            }
             HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
-            if (queue) {
-                chat.queueInfo = queueIdentityInfo;
-            }
-            //        chat.agent = [[HAgentInfo alloc] initWithValue:@"123@126.com"];
-            chat.visitorInfo = [self visitorInfo];
-            chat.commodityInfo = (NSDictionary *)notification.object;
-            if ([notification.object objectForKey:kpreSell]) {
-//                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
+//            if (queue) {
+//                chat.queueInfo = queueIdentityInfo;
+//            }
+//            //        chat.agent = [[HAgentInfo alloc] initWithValue:@"123@126.com"];
+//            chat.visitorInfo = [self visitorInfo];
+//            chat.commodityInfo = (NSDictionary *)notification.object;
+            if ([[notification.object objectForKey:@"counselor"] isEqualToString:@"counselor"]) {
+                chat.title = @"找客服";
+            } else if ([[notification.object objectForKey:@"service"] isEqualToString:@"service"]){
+                chat.title = @"找顾投";
             } else {
-//                chat.title = [SCLoginManager shareLoginManager].cname;
+                chat.title = @"找客户经理";
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                  [self.navigationController pushViewController:chat animated:YES];
@@ -176,7 +189,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             NSLog(@"登录失败");
         }
     });
-    
+
 }
 
 - (void)setPushOptions {
@@ -228,28 +241,23 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     if (item.tag == 0) {
-        [self setNavTitleView];
-        self.title = nil;
+//        [self setNavTitleView];
+        self.title = @"首页";
         self.navigationItem.rightBarButtonItem = _chatItem;
         self.navigationItem.leftBarButtonItem = nil;
     }
     else if (item.tag == 1){
-        self.title = nil;
+        self.title = @"行情";
         self.navigationItem.titleView = nil;
         self.navigationItem.rightBarButtonItem = nil;
-        self.navigationItem.leftBarButtonItem = _leaveItem;
+        self.navigationItem.leftBarButtonItem = nil;
     } else if (item.tag == 2) {
-        self.title = nil;
+        self.title = @"资讯";
         self.navigationItem.titleView = nil;
         self.navigationItem.rightBarButtonItem = nil;
-        self.navigationItem.leftBarButtonItem = _conversationItem;
+        self.navigationItem.leftBarButtonItem = nil;
     }
-    else if (item.tag == 3){
-        self.title = nil;
-        self.navigationItem.titleView = nil;
-        self.navigationItem.rightBarButtonItem = _settingRightItem;
-        self.navigationItem.leftBarButtonItem = _settingleftItem;
-    }
+
 }
 
 - (void)scan {
@@ -285,40 +293,36 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     else{
         self.tabBar.tintColor = [UIColor colorWithWhite:1.0 alpha:0.8];
     }
-    //商城
-    _mallController = [[MallViewController alloc] initWithNibName:nil bundle:nil];
-    _mallController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.mall", @"Mall") image:[[UIImage imageNamed:@"em_nav_shop_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal ]selectedImage:[UIImage imageNamed:@"em_nav_shop_select"]];
-    _mallController.tabBarItem.tag = 0;
 
-    [self unSelectedTapTabBarItems:_mallController.tabBarItem];
-    [self selectedTapTabBarItems:_mallController.tabBarItem];
+    //首页
+    _homePageController = [[HomePageViewController alloc] initWithNibName:nil bundle:nil];
     
-    //留言
-    _leaveMsgVC = [[MessageViewController alloc] initWithNibName:nil bundle:nil];
-    _leaveMsgVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.messagebox", @"Message Box") image:nil tag:1];
-    [_leaveMsgVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_ticket_select"] withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_ticket_normal"]];
-    [self unSelectedTapTabBarItems:_leaveMsgVC.tabBarItem];
-    [self selectedTapTabBarItems:_leaveMsgVC.tabBarItem];
+    // 处理图片被渲染
+    UIImage *image = [UIImage imageNamed:@"home_hl"];
+    image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    //会话列表
-    _conversationsVC = [[HConversationsViewController alloc] init];
-    _conversationsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.conversationTitle", @"conversationList") image:[UIImage imageNamed:@"list"] selectedImage:[UIImage imageNamed:@"list2"]];
-    _conversationsVC.tabBarItem.tag = 2;
-    [_conversationsVC viewDidLoad];
-    [self unSelectedTapTabBarItems:_conversationsVC.tabBarItem];
-    [self selectedTapTabBarItems:_conversationsVC.tabBarItem];
+    _homePageController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页" image:nil tag:0];
+    [_homePageController.tabBarItem setFinishedSelectedImage:image withFinishedUnselectedImage:[UIImage imageNamed:@"home"]];
+    [self unSelectedTapTabBarItems:_homePageController.tabBarItem];
+    [self selectedTapTabBarItems:_homePageController.tabBarItem];
     
-    //设置
-    _settingController = [[SettingViewController alloc] initWithNibName:nil bundle:nil];
-    _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:3];
-    [_settingController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_setting_select"]
-                         withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_setting_normal"]];
-    _settingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    [self unSelectedTapTabBarItems:_settingController.tabBarItem];
-    [self selectedTapTabBarItems:_settingController.tabBarItem];
+    //行情
+    _marketController = [[MarketViewController alloc] initWithNibName:nil bundle:nil];
+    _marketController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"行情" image:nil tag:1];
+    [_marketController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"market_hl"] withFinishedUnselectedImage:[UIImage imageNamed:@"market"]];
+    [self unSelectedTapTabBarItems:_marketController.tabBarItem];
+    [self selectedTapTabBarItems:_marketController.tabBarItem];
     
-    self.viewControllers = @[_mallController, _leaveMsgVC ,_conversationsVC,_settingController];
-    [self selectedTapTabBarItems:_mallController.tabBarItem];
+    //资讯
+    _informationController = [[InformationViewController alloc] init];
+    _informationController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"资讯" image:nil tag:2];
+    [_informationController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"Information_hl"] withFinishedUnselectedImage:[UIImage imageNamed:@"Information"]];
+    [self unSelectedTapTabBarItems:_informationController.tabBarItem];
+    [self selectedTapTabBarItems:_informationController.tabBarItem];
+
+    
+    self.viewControllers = @[_homePageController, _marketController ,_informationController];
+    [self selectedTapTabBarItems:_homePageController.tabBarItem];
     
     _choiceView = [[MoreChoiceView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
     _choiceView.hidden = YES;

@@ -26,6 +26,7 @@
 #import "HDSDKHelper.h"
 #import "SatisfactionViewController.h"
 #import "HRecordView.h"
+#import "HotFundModel.h"
 typedef NS_ENUM(NSInteger, HDemoSaleType){
     hPreSaleType=100,   //售前
     hAfterSaleType, //售后
@@ -174,6 +175,8 @@ typedef void(^HDSelectAtTargetCallback)(HDAtTarget*);
 @property(nonatomic,strong) HAgentIdentityInfo *agent; //指定客服
 
 @property(nonatomic,strong) HQueueIdentityInfo *queueInfo; //指定技能组
+
+@property(nonatomic, strong) HotFundModel *model;
 
 - (instancetype)initWithConversationChatter:(NSString *)conversationChatter;
 

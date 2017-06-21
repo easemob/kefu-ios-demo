@@ -225,13 +225,13 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 {
     if (textField.returnKeyType == UIReturnKeyNext) {
         if (textField.tag == 1) {
-            [self textFViewMove:36];
+            [self textFViewMove:46];
             [_textFieldTwo becomeFirstResponder];
         } else if (textField.tag == 2) {
-            [self textFViewMove:76];
+            [self textFViewMove:86];
              [_textFieldThree becomeFirstResponder];
         } else if (textField.tag == 3) {
-            [self textFViewMove:130];
+            [self textFViewMove:140];
              [_textFieldFour becomeFirstResponder];
         }
         
@@ -247,9 +247,9 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     if (textField.tag == 2) {
         [self textFViewMove:0];
     } else if (textField.tag == 3) {
-       [self textFViewMove:36];
+       [self textFViewMove:46];
     } else if (textField.tag == 4){
-       [self textFViewMove:76];
+       [self textFViewMove:86];
     }
     
     return YES;
@@ -313,7 +313,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     [self.view addSubview:_textFView];
     
     _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 50, kScreenWidth, 50)];
-    _bottomView.backgroundColor = RGBACOLOR(184, 22, 22, 1);
+    _bottomView.backgroundColor = RGBACOLOR(46, 50, 66, 1);
     [self.view addSubview:_bottomView];
     
     UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth - 50, 0, 50, 50)];

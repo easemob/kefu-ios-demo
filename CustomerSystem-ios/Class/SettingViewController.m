@@ -11,6 +11,7 @@
 #import "EditViewController.h"
 #import "LocalDefine.h"
 #import "HDChatViewController.h"
+#import "QRCodeViewController.h"
 
 
 @interface SettingViewController ()<UIAlertViewDelegate>
@@ -32,6 +33,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setupBarButtonItem];
+    
     _lgM = [SCLoginManager shareLoginManager];
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7)
     {
@@ -48,6 +52,38 @@
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
     [self initializePropertys];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingChange:) name:KNOTIFICATION_SETTINGCHANGE object:nil];
+}
+
+
+- (void)setupBarButtonItem
+{
+    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    [backButton setImage:[UIImage imageNamed:@"Path"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    [self.navigationItem setLeftBarButtonItem:backItem];
+    
+    UIButton *scanButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 17)];
+    [scanButton setImage:[UIImage imageNamed:@"scan_code"] forState:UIControlStateNormal];
+    [scanButton addTarget:self action:@selector(scan) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *scanItem = [[UIBarButtonItem alloc] initWithCustomView:scanButton];
+    [self.navigationItem setRightBarButtonItem:scanItem];
+    
+}
+
+- (void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)scan {
+    QRCodeViewController *qrcodeVC = [[QRCodeViewController alloc] init];
+    qrcodeVC.qrBlock = ^(NSDictionary *dic) {
+        if (dic) {
+            [self setvalueWithDic:dic];
+        }
+    };
+    [self.navigationController pushViewController:qrcodeVC animated:YES];
 }
 
 - (void)initializePropertys {
@@ -243,8 +279,8 @@
 
         case 5:
         {
-            HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
-            [self.navigationController pushViewController:chat animated:YES];
+//            HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
+//            [self.navigationController pushViewController:chat animated:YES];
 
         }
             break;

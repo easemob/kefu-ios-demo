@@ -75,6 +75,17 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 @property(nonatomic,strong) UIImageView *orderImageView;//订单展示图
 @property(nonatomic,strong) UILabel *orderDescLabel;         //订单描述
 @property(nonatomic,strong) UILabel *orderPriceLabel;        //订单价格
+
+@property(nonatomic,strong) UIView *horizontalLine;
+@property(nonatomic,strong) UILabel *addLabel;
+@property(nonatomic,strong) UILabel *riseLeftLabel;
+@property(nonatomic,strong) UILabel *typeLeftLabel;
+@property(nonatomic,strong) UIView *verticalLine;
+@property(nonatomic,strong) UILabel *unitLabel;
+@property(nonatomic,strong) UILabel *riseRightLabel;
+@property(nonatomic,strong) UILabel *typeRightLabel;
+
+
 //robotMenu
 @property(nonatomic,strong) UITableView *tableView;     //菜单
 @property(nonatomic,strong) NSArray *options;           //菜单选项

@@ -163,16 +163,18 @@
 }
 
 - (void)setLeftBarBtnItem {
-    CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
-    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
-    [backButton setTitle:self.conversation.conversationId forState:UIControlStateNormal];
-    backButton.titleLabel.font = [UIFont systemFontOfSize:18];
-    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
-    backButton.imageRect = CGRectMake(10, 10, 20, 18);
-    backButton.titleRect = CGRectMake(35, 10, 230, 18);
-    [self.view addSubview:backButton];
-    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 260, 40);
+//    CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
+//    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+//    [backButton setTitle:self.conversation.conversationId forState:UIControlStateNormal];
+//    backButton.titleLabel.font = [UIFont systemFontOfSize:18];
+//    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
+//    backButton.imageRect = CGRectMake(10, 10, 20, 18);
+//    backButton.titleRect = CGRectMake(35, 10, 230, 18);
+//    [self.view addSubview:backButton];
+//    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 260, 40);
+    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    [backButton setImage:[UIImage imageNamed:@"Path"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backItemClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
@@ -1686,6 +1688,9 @@
     
     [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *message, HError *error) {
         if (!error) {
+            
+            message.status = HMessageStatusSuccessed;
+            
             [weakself _refreshAfterSentMessage:message];
         }
         else {

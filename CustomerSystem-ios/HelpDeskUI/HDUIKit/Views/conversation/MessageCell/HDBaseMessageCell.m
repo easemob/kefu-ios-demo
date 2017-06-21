@@ -247,6 +247,8 @@
     }
 }
 
+
+
 - (void)setModel:(id<HDIMessageModel>)model
 {
     [super setModel:model];
@@ -256,17 +258,19 @@
 //        self.avatarView.image = model.avatarImage;
 //    }
 //    if (![model.nickname isKindOfClass:[NSNull class]]) {
-////        _nameLabel.text = model.nickname;
-//        _nameLabel.text = _lgM.nickname;
+//        _nameLabel.text = model.nickname;
+////        _nameLabel.text = _lgM.nickname;
 //    }
-    
+
     if (self.model.isSender) {
         _nameLabel.text = _lgM.nickname;
-        [self avatarViewImage:model];
-
+//        [self avatarViewImage:model];
+        self.avatarView.image = [UIImage imageNamed:@"123.jpg"];
+        
     } else {
-        _nameLabel.text = @"";
-        [self avatarViewImage:model];
+        _nameLabel.text = @"客服";
+//        [self avatarViewImage:model];
+        self.avatarView.image = [UIImage imageNamed:@"kefu"];
     }
     
     if (self.model.isSender) {

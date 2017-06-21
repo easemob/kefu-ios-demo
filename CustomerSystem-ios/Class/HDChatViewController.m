@@ -46,6 +46,30 @@
         [self sendCommodityMessageWithInfo:_commodityInfo];
         _commodityInfo = nil;
     }
+    
+    NSLog(@"model--%@",self.model);
+    
+    if (self.model) {
+        [self sendFundMessage];
+        self.model = nil;
+    }
+    
+}
+
+- (void)sendFundMessage
+{
+    HMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
+    HOrderInfo *ord = [HOrderInfo new];
+    ord.title = self.model.name;
+    ord.orderTitle = self.model.number;
+    ord.price = self.model.rise;
+    ord.desc = self.model.netValue;
+    ord.imageUrl = nil;
+    ord.itemUrl = nil;
+    [message addContent:ord];
+
+    [self _sendMessage:message];
+        
 }
 
 //请求视频通话
@@ -199,9 +223,9 @@
 
 - (void)_setupBarButtonItem
 {
-    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
+    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     clearButton.accessibilityIdentifier = @"clear_message";
-    [clearButton setImage:[UIImage imageNamed:@"hd_chat_delete_icon"] forState:UIControlStateNormal];
+    [clearButton setImage:[UIImage imageNamed:@"Page"] forState:UIControlStateNormal];
     [clearButton addTarget:self action:@selector(deleteAllMessages:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithCustomView:clearButton];
     
