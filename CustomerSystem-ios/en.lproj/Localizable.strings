@@ -65,6 +65,9 @@
 "login.endAutoLogin" = "End automatic login...";
 "login.errorAutoLogin" = "Automatic logon failure.";
 
+"login..." = "login...";
+"loginFail" = "login fail";
+
 //setting
 "setting.feedback" = "Feedback";
 

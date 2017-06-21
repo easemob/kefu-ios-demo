@@ -23,6 +23,7 @@
 #import "UIBarButtonItem+KFAdd.h"
 #import "UIViewController+KFAdd.h"
 #import "CustomButton.h"
+#import "SVProgressHUD.h"
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height

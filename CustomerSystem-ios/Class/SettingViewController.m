@@ -61,21 +61,13 @@
 - (void)setvalueWithDic:(NSDictionary *)dic {
     NSString *newAppkey = [dic valueForKey:@"appkey"];
     if (![_appkey isEqualToString:newAppkey]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt")  message:NSLocalizedString(@"app_key_modifya", @"Appkey modify Need Restart") preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancela", @"Ca ncel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            
-        }]];
-        __weak typeof(self) weakSelf = self;
-        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"restarta", @"Restart") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            _appkey = [dic valueForKey:@"appkey"];
-            _cname = [dic valueForKey:@"imservicenum"];
-            _tenantId = [dic valueForKey:@"tenantid"];
-            _projectId = [dic valueForKey:@"projectId"];
-            [weakSelf commitModify];
-        }]];
+        _appkey = [dic valueForKey:@"appkey"];
+        _cname = [dic valueForKey:@"imservicenum"];
+        _tenantId = [dic valueForKey:@"tenantid"];
+        _projectId = [dic valueForKey:@"projectId"];
+        [self commitModify];
         [self.tableView reloadData];
         [self.navigationController popViewControllerAnimated:YES];
-        [self presentViewController:alertController animated:YES completion:nil];
     } else {
         _cname = [dic valueForKey:@"imservicenum"];
         _tenantId = [dic valueForKey:@"tenantid"];
@@ -175,7 +167,7 @@
             NSString *build = [NSString stringWithFormat:@"(%@)",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
             NSString *fullVersion = [version stringByAppendingString:build];
             cell.textLabel.text = NSLocalizedString(@"setting.feedback", @"feedback");
-//            tempLabel.text = [NSString stringWithFormat:@"Version:%@",fullVersion];
+            tempLabel.text = [NSString stringWithFormat:@"Version:%@",fullVersion];
         }
             break;
         default:
@@ -243,8 +235,18 @@
 
         case 5:
         {
-            HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
-            [self.navigationController pushViewController:chat animated:YES];
+            [SVProgressHUD showWithStatus:NSLocalizedString(@"login...", @"登录")];
+            SCLoginManager *lgm = [SCLoginManager shareLoginManager];
+            if ([lgm loginKefuSDK]) {
+                [SVProgressHUD dismiss];
+                HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
+                [self.navigationController pushViewController:chat animated:YES];
+            } else {
+                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"loginFail", @"login fail")];
+                [SVProgressHUD dismissWithDelay:1.0];
+            }
+            
+            
 
         }
             break;

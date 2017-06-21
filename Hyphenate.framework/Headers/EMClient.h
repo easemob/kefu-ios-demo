@@ -634,6 +634,25 @@
  */
 - (void)application:(id)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
 
+#pragma mark - Change AppKey
+
+/*!
+ *  \~chinese
+ *  修改appkey
+ *
+ *  @param aAppkey  appkey
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  change appkey
+ *
+ *  @param aAppkey  appkey
+ *
+ *  @result Error
+ */
+- (EMError *)changeAppkey:(NSString *)aAppkey;
+
 #pragma mark - EM_DEPRECATED_IOS 3.2.3
 
 /*!

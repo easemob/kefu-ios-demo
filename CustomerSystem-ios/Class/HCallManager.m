@@ -2,7 +2,7 @@
 //  HCallManager.m
 //  CustomerSystem-ios
 //
-//  Created by __阿彤木_ on 3/20/17.
+//  Created by afanda on 3/20/17.
 //  Copyright © 2017 easemob. All rights reserved.
 //
 
@@ -73,11 +73,7 @@ static HCallManager *_manager = nil;
         self.currentCallVC = [[HCallViewController alloc] initWithCallSession:self.currentSession];
         self.currentCallVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.currentCallVC) {
-                [self.mainViewController presentViewController:self.currentCallVC animated:NO completion:nil];
-            }
-        });
+        
     }
     
 }
@@ -87,6 +83,11 @@ static HCallManager *_manager = nil;
     NSLog(@"视频通话通道建立完成");
     if ([aSession.callId isEqualToString:self.currentSession.callId]) {
         [self.currentCallVC stateToConnected];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.currentCallVC) {
+                [self.mainViewController presentViewController:self.currentCallVC animated:NO completion:nil];
+            }
+        });
     }
 }
 

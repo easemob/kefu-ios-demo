@@ -81,6 +81,9 @@
     _editField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _editField.returnKeyType = UIReturnKeyDone;
     _editField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    if ([_type isEqualToString:@"projectId"] || [_type isEqualToString:@"tenantId"]) {
+        _editField.keyboardType = UIKeyboardTypeNumberPad;
+    }
     _editField.delegate = self;
     [contentView addSubview:_editField];
     
@@ -143,16 +146,10 @@
 
 - (void)restarTheApp
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"app_key_modifya", @"Appkey modify Need Restart") preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancela", @"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-    }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"restarta", @"Restart") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-        lgM.appkey = _editField.text;
-        AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-        [appDelegate resetCustomerServiceSDK];
-    }]];
-    [self presentViewController:alertController animated:YES completion:nil];
+    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    lgM.appkey = _editField.text;
+    AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate resetCustomerServiceSDK];
 }
 
 -(void)keyBoardHidden:(UITapGestureRecognizer *)tapRecognizer
