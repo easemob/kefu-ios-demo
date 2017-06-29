@@ -105,6 +105,7 @@
     self.scrollToBottomWhenAppear = YES;
     
     self.view.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideImagePicker) name:@"hideImagePicker" object:nil];
@@ -143,8 +144,9 @@
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
     
-    [[HDBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
-    [[HDBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
+    [[HDBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"Rectangle_white"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
+//    [[HDBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"sendBubble"] stretchableImageWithLeftCapWidth:0 topCapHeight:35]];
+    [[HDBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"Rectangle_gray"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
     
     [[HDBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_full"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_000"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_001"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_002"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_003"]]];
     [[HDBaseMessageCell appearance] setRecvMessageVoiceAnimationImages:@[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing_full"],[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing000"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing001"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing002"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing003"]]];
@@ -177,7 +179,9 @@
     [backButton setImage:[UIImage imageNamed:@"Path"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backItemClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = -15;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
 }
 
 - (void)backItemClicked {
@@ -1688,8 +1692,24 @@
     
     [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *message, HError *error) {
         if (!error) {
+            EMMessageBody *msgBody = message.body;
+            switch (msgBody.type) {
+
+                case EMMessageBodyTypeVoice:
+                {
+                    // 音频sdk会自动下载
+                    EMVoiceMessageBody *body = (EMVoiceMessageBody *)msgBody;
+                    NSLog(@"音频remote路径 -- %@"      ,body.remotePath);
+                    NSLog(@"音频local路径 -- %@"       ,body.localPath); // 需要使用sdk提供的下载方法后才会存在（音频会自动调用）
+                    NSLog(@"音频的secret -- %@"        ,body.secretKey);
+                    NSLog(@"音频文件大小 -- %lld"       ,body.fileLength);
+
+                }
+                    break;
+                default:
+                    break;
+            }
             
-            message.status = HMessageStatusSuccessed;
             
             [weakself _refreshAfterSentMessage:message];
         }

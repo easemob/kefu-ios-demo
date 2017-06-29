@@ -34,6 +34,21 @@
     self.window.rootViewController = navigationController;
     
     
+    NSArray *windows = [[UIApplication sharedApplication] windows];
+    
+    for(UIWindow *window in windows) {
+        
+        if(window.rootViewController == nil){
+            
+            UIViewController* vc = [[UIViewController alloc]initWithNibName:nil bundle:nil];
+            
+            window.rootViewController = vc;
+            
+        }
+        
+    }
+    
+    
     //添加自定义小表情
 #pragma mark smallpngface
     [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
@@ -66,9 +81,12 @@
 {
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0)
     {
-        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(46, 50, 66, 1)];
+        // Courier-Bold  Helvetica
+        [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(61, 67, 83, 1)];
+        // 关闭导航半透明
+        [[UINavigationBar appearance] setTranslucent:NO];
         [[UINavigationBar appearance] setTitleTextAttributes:
-        [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HiraKakuProN-W3" size:20.0], NSFontAttributeName, nil]];
+        [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"Courier-Bold" size:19.0], NSFontAttributeName, nil]];
     }
     //设置7.0以下的导航栏
     if ([UIDevice currentDevice].systemVersion.floatValue < 7.0)

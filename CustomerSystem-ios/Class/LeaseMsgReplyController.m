@@ -110,6 +110,11 @@ const NSInteger baseTag=123;
 //当键盘退出时调用
 - (void)keyboardWillHide:(NSNotification *)aNotification
 {
+    if (_recordButtonView) {
+        [self.recordButtonView removeFromSuperview];
+        self.recordChangeBtn.selected = NO;
+        [self.textView endEditing:YES];
+    }
     [self hide];
 }
 

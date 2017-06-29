@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = RGBACOLOR(222, 222, 222, 1);
+    self.view.backgroundColor = RGBACOLOR(247, 247, 247, 1);
     [self setupBarButtonItem];
     [self setUI];
 }
@@ -29,7 +29,9 @@
     [backButton setImage:[UIImage imageNamed:@"Path"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = -15;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
 }
 
 - (void)back
@@ -43,40 +45,64 @@
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     [self.view addSubview:scrollView];
     
-    UIImageView *imageVC = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 580)];
+    UIImageView *imageVC = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight * 0.813)];
     imageVC.image = [UIImage imageNamed:@"Rectangle"];
     [scrollView addSubview:imageVC];
-    
+
     scrollView.contentSize = CGSizeMake(kScreenWidth, CGRectGetMaxY(imageVC.frame) + 50);
     scrollView.showsHorizontalScrollIndicator = NO;
     
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 59, self.view.frame.size.width, 59)];
     footerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     footerView.backgroundColor = [UIColor whiteColor];
-    footerView.alpha = 1;
     [self.view addSubview:footerView];
     
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
-    line.backgroundColor = RGBACOLOR(222, 222, 222, 1);
-    [footerView addSubview:line];
+    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.5)];
+    topLine.backgroundColor = RGBACOLOR(196, 196, 196, 1);
+    [footerView addSubview:topLine];
     
-    
-    CustomButton * messageButton = [CustomButton buttonWithType:UIButtonTypeCustom];
-    [messageButton setImage:[UIImage imageNamed:@"Group"] forState:UIControlStateNormal];
-    [messageButton setTitle:NSLocalizedString(@"customerChat", @"Customer") forState:UIControlStateNormal];
-    messageButton.titleLabel.font = [UIFont systemFontOfSize:18];
-    [messageButton setTitleColor:RGBACOLOR(237, 96, 88, 1) forState:UIControlStateNormal];
-//    [messageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    messageButton.imageRect = CGRectMake(15, footerView.height/3, footerView.height/3 + 5 , footerView.height/3);
-    messageButton.titleRect = CGRectMake(40, footerView.height/4, 110, footerView.height/2);
-    [self.view addSubview:messageButton];
-    messageButton.frame = CGRectMake(0, 0, 180, footerView.height/1.5);
+    UIButton * messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    messageButton.frame = CGRectMake(0, 0.5, kScreenWidth * 0.392, 58.5);
+    messageButton.backgroundColor = RGBACOLOR(255, 255, 255, 1);
     [footerView addSubview:messageButton];
+    
+    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(24, 20, 26, 21)];
+    image.image = [UIImage imageNamed:@"Group"];
+    [messageButton addSubview:image];
+    
+    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(image.frame) + 14.5, 22, 62, 18)];
+    name.font = [UIFont systemFontOfSize:15];
+    name.text = @"立即咨询";
+    [name setTextColor:RGBACOLOR(255, 118, 116, 1)];
+    [messageButton addSubview:name];
+    [footerView addSubview:messageButton];
+    
+    UILabel *investLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(messageButton.frame), 0.5, kScreenWidth * 0.309, 58.5)];
+    investLabel.text = @"定投";
+    investLabel.font = [UIFont systemFontOfSize:15];
+    investLabel.textAlignment = NSTextAlignmentCenter;
+    investLabel.textColor = RGBACOLOR(100, 100, 100, 1);
+    investLabel.backgroundColor = RGBACOLOR(221, 221, 221, 1);
+    [footerView addSubview:investLabel];
+    
+    UILabel *buyLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(investLabel.frame), 0, kScreenWidth - kScreenWidth * 0.392 - kScreenWidth * 0.309, 59)];
+    buyLabel.text = @"购买";
+    buyLabel.font = [UIFont systemFontOfSize:15];
+    buyLabel.textAlignment = NSTextAlignmentCenter;
+    buyLabel.textColor = RGBACOLOR(255, 118, 116, 1);
+    [footerView addSubview:buyLabel];
+    
+    UIView *beforeLine = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(messageButton.frame), 0, 0.5, 59)];
+    beforeLine.backgroundColor = RGBACOLOR(180, 180, 180, 1);
+    [footerView addSubview:beforeLine];
+    
+    UIView *afterLine = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(investLabel.frame), 0, 0.5, 59)];
+    afterLine.backgroundColor = RGBACOLOR(180, 180, 180, 1);
+    [footerView addSubview:afterLine];
+    
     [messageButton addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.width - (footerView.height/3) * 2, footerView.height/3, footerView.height/3, footerView.height/3)];
-    [button setImage:[UIImage imageNamed:@"hd_icon_like_gray"] forState:UIControlStateNormal];
-    [footerView addSubview:button];
+    
     [self.view bringSubviewToFront:footerView];
 }
 
@@ -85,8 +111,10 @@
     
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
     if ([lgM loginKefuSDK]/*[self loginKefuSDK:shouqian] 测试切换账号使用*/) {
-        HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:[SCLoginManager shareLoginManager].cname];
+        HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:@"kefuchannelimid_472701"];
         chat.model = self.model;
+        HQueueIdentityInfo *queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:@"投资顾问"];
+        chat.queueInfo = queueIdentityInfo;
         chat.title = @"投资顾问";
         [self.navigationController pushViewController:chat animated:YES];
     } else {

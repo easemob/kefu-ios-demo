@@ -58,6 +58,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 @interface HDMessageCell() <SendDeleteTrackMsgDelegate>
 {
     EMMessageBodyType _messageType;
+
 }
 
 @property (nonatomic) NSLayoutConstraint *statusWidthConstraint;
@@ -71,6 +72,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 {
     NSDataDetector *_detector;
     NSArray *_urlMatches;
+    
 }
 
 @synthesize statusButton = _statusButton;
@@ -1038,9 +1040,37 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     }
                 }
                 if ([HjudgeTextMessageSubType isTransferMessage:model.message]) {
-                    height += [model.text boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
+                    
                     height += 50;
                     return height;
+//                    NSString *text = nil;
+//                    EMMessageBody *msgBody = model.message.body;
+//                    switch (msgBody.type) {
+//                        case EMMessageBodyTypeText:
+//                        {
+//                            // 收到的文字消息
+//                            EMTextMessageBody *textBody = (EMTextMessageBody *)msgBody;
+//                            text = textBody.text;
+//                        }
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                    
+//                    height += [text boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
+//                    
+//
+//                    if (model.message.ext) {
+//                        if ([text length] >13) {
+//                            return height/2 + 90;
+//                        } else {
+//                            height += 50;
+//                            return height;
+//                        }
+//                    } else {
+//                        height += 50;
+//                        return height;
+//                    }
                 }
                 if ([HjudgeTextMessageSubType isEvaluateMessage:model.message]) {
                     height += [model.text boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;

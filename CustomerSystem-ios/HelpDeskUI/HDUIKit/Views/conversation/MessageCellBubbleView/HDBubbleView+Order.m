@@ -33,18 +33,10 @@
     [self.marginConstraints addObject:orderTitleMarginRightConstraint];
     
     
-//    //orderNo
-//    NSLayoutConstraint *orderNoMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-//    NSLayoutConstraint *orderNoMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderTitleLabel attribute:NSLayoutAttributeRight multiplier:1.0 constant:1];
-//    NSLayoutConstraint *orderNoMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-//    [self.marginConstraints addObject:orderNoMarginTopConstraint];
-//    [self.marginConstraints addObject:orderNoMarginLeftConstraint];
-//    [self.marginConstraints addObject:orderNoMarginRightConstraint];
-    
     //horizontalLine
     NSLayoutConstraint *horizontalLineoMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.horizontalLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5];
-    NSLayoutConstraint *horizontalLineMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.horizontalLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
-    NSLayoutConstraint *horizontalLineMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.horizontalLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
+    NSLayoutConstraint *horizontalLineMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.horizontalLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
+    NSLayoutConstraint *horizontalLineMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.horizontalLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
     [self.marginConstraints addObject:horizontalLineoMarginTopConstraint];
     [self.marginConstraints addObject:horizontalLineMarginLeftConstraint];
     [self.marginConstraints addObject:horizontalLineMarginRightConstraint];
@@ -60,8 +52,8 @@
     
     //addLabel
     NSLayoutConstraint *addLabelMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.addLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    NSLayoutConstraint *addLabelMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.addLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:20];
-    NSLayoutConstraint *addLabelMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.addLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-20];
+    NSLayoutConstraint *addLabelMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.addLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
+    NSLayoutConstraint *addLabelMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.addLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-16];
     [self.marginConstraints addObject:addLabelMarginTopConstraint];
     [self.marginConstraints addObject:addLabelMarginLeftConstraint];
     [self.marginConstraints addObject:addLabelMarginRightConstraint];
@@ -69,7 +61,7 @@
     
     //desc
     NSLayoutConstraint *orderDescTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.addLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
-    NSLayoutConstraint *orderDescLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeLeft multiplier:1 constant:20];
+    NSLayoutConstraint *orderDescLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeLeft multiplier:1 constant:self.margin.left];
     NSLayoutConstraint *orderDescRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeLeft multiplier:1 constant:-15];
     [self.marginConstraints addObject:orderDescTopConstraint];
     [self.marginConstraints addObject:orderDescLeftConstraint];
@@ -77,7 +69,7 @@
     
     //typeLeftLabel
     NSLayoutConstraint *typeLeftLabelTopConstraint = [NSLayoutConstraint constraintWithItem:self.typeLeftLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderDescLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
-    NSLayoutConstraint *typeLeftLabelLeftConstraint = [NSLayoutConstraint constraintWithItem:self.typeLeftLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeLeft multiplier:1 constant:20];
+    NSLayoutConstraint *typeLeftLabelLeftConstraint = [NSLayoutConstraint constraintWithItem:self.typeLeftLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeLeft multiplier:1 constant:self.margin.left];
     NSLayoutConstraint *typeLeftLabelRightConstraint = [NSLayoutConstraint constraintWithItem:self.typeLeftLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeLeft multiplier:1 constant:-20];
     NSLayoutConstraint *typeLeftLabeBottomConstraint = [NSLayoutConstraint constraintWithItem:self.typeLeftLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeBottom multiplier:1 constant:-10];
     [self.marginConstraints addObject:typeLeftLabelTopConstraint];
@@ -87,24 +79,24 @@
     
     //unitLabel
     NSLayoutConstraint *unitLabelTopConstraint = [NSLayoutConstraint constraintWithItem:self.unitLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.addLabel attribute:NSLayoutAttributeTop multiplier:1 constant:0];
-    NSLayoutConstraint *unitLabelLeftConstraint = [NSLayoutConstraint constraintWithItem:self.unitLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeRight multiplier:1 constant:20.0];
-    NSLayoutConstraint *unitLabelRightConstraint = [NSLayoutConstraint constraintWithItem:self.unitLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-10];
+    NSLayoutConstraint *unitLabelLeftConstraint = [NSLayoutConstraint constraintWithItem:self.unitLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeRight multiplier:1 constant:20];
+    NSLayoutConstraint *unitLabelRightConstraint = [NSLayoutConstraint constraintWithItem:self.unitLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1 constant:0];
     [self.marginConstraints addObject:unitLabelTopConstraint];
     [self.marginConstraints addObject:unitLabelLeftConstraint];
     [self.marginConstraints addObject:unitLabelRightConstraint];
     
     //price
     NSLayoutConstraint *orderPriceLabelTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderPriceLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderDescLabel attribute:NSLayoutAttributeTop multiplier:1 constant:0];
-    NSLayoutConstraint *orderPriceLabelLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderPriceLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeRight multiplier:1 constant:20.0];
-    NSLayoutConstraint *orderPriceLabelRightConstraint = [NSLayoutConstraint constraintWithItem:self.unitLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-10];
+    NSLayoutConstraint *orderPriceLabelLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderPriceLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeRight multiplier:1 constant:20];
+    NSLayoutConstraint *orderPriceLabelRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderPriceLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-10];
     [self.marginConstraints addObject:orderPriceLabelTopConstraint];
     [self.marginConstraints addObject:orderPriceLabelLeftConstraint];
     [self.marginConstraints addObject:orderPriceLabelRightConstraint];
     
     //typeRightLabel
     NSLayoutConstraint *typeRightLabelTopConstraint = [NSLayoutConstraint constraintWithItem:self.typeRightLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.typeLeftLabel attribute:NSLayoutAttributeTop multiplier:1 constant:0];
-    NSLayoutConstraint *typeRightLabelLeftConstraint = [NSLayoutConstraint constraintWithItem:self.typeRightLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeRight multiplier:1 constant:20.0];
-    NSLayoutConstraint *typeRightLabelRightConstraint = [NSLayoutConstraint constraintWithItem:self.typeRightLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-10];
+    NSLayoutConstraint *typeRightLabelLeftConstraint = [NSLayoutConstraint constraintWithItem:self.typeRightLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.verticalLine attribute:NSLayoutAttributeRight multiplier:1 constant:20];
+    NSLayoutConstraint *typeRightLabelRightConstraint = [NSLayoutConstraint constraintWithItem:self.typeRightLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-5];
     NSLayoutConstraint *typeRightLabelBottomConstraint = [NSLayoutConstraint constraintWithItem:self.typeRightLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeBottom multiplier:1 constant:-10];
     [self.marginConstraints addObject:typeRightLabelTopConstraint];
     [self.marginConstraints addObject:typeRightLabelLeftConstraint];
@@ -122,8 +114,8 @@
 //    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.orderTitleLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:60]];
 //    [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:20]];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.horizontalLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.horizontalLine attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:220]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.horizontalLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0.5]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.horizontalLine attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:224]];
     
     [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.addLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:10]];
     
@@ -132,9 +124,10 @@
     
     [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.typeLeftLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:10]];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.verticalLine attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.verticalLine attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0.5]];
     
-    [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.unitLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:10]];
+    [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.unitLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:11]];
+//        [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.unitLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:71]];
     
     [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.orderPriceLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
     
@@ -164,7 +157,7 @@
     
     self.orderBgView = [[UIView alloc] init];
     self.orderBgView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.orderBgView.backgroundColor = RGBACOLOR(243, 243, 243, 1);
+    self.orderBgView.backgroundColor = RGBACOLOR(255, 255, 255, 1);
     [self.backgroundImageView addSubview:self.orderBgView];
     
     self.orderTitleLabel = [[UILabel alloc] init];
@@ -188,7 +181,8 @@
     self.addLabel = [[UILabel alloc] init];
     self.addLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.addLabel.backgroundColor = [UIColor clearColor];
-    self.addLabel.font = [UIFont systemFontOfSize:8];
+    self.addLabel.font = [UIFont systemFontOfSize:9];
+    self.addLabel.textColor = RGBACOLOR(171, 171, 171, 1);
     self.addLabel.text = @"日涨跌篇 (06-16)";
     [self.orderBgView addSubview:self.addLabel];
     
@@ -196,14 +190,15 @@
     self.orderDescLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.orderDescLabel.backgroundColor = [UIColor clearColor];
     self.orderDescLabel.font = [UIFont systemFontOfSize:22];
-    [self.orderDescLabel setTextColor:[UIColor redColor]];
+    [self.orderDescLabel setTextColor:RGBACOLOR(288, 91, 91, 1)];
     [self.orderBgView addSubview:self.orderDescLabel];
     
     self.typeLeftLabel = [[UILabel alloc] init];
     self.typeLeftLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.typeLeftLabel.backgroundColor = [UIColor clearColor];
-    self.typeLeftLabel.font = [UIFont systemFontOfSize:8];
+    self.typeLeftLabel.font = [UIFont systemFontOfSize:9];
     self.typeLeftLabel.text = @"基金类型  股票型";
+    self.typeLeftLabel.textColor = RGBACOLOR(171, 171, 171, 1);
     [self.orderBgView addSubview:self.typeLeftLabel];
     
     self.verticalLine = [[UIView alloc] init];
@@ -214,22 +209,24 @@
     self.unitLabel = [[UILabel alloc] init];
     self.unitLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.unitLabel.backgroundColor = [UIColor clearColor];
-    self.unitLabel.font = [UIFont systemFontOfSize:8];
+    self.unitLabel.font = [UIFont systemFontOfSize:9];
     self.unitLabel.text = @"单位净值 (06-16)";
+    self.unitLabel.textColor = RGBACOLOR(171, 171, 171, 1);
     [self.orderBgView addSubview:self.unitLabel];
     
     self.orderPriceLabel = [[UILabel alloc] init];
     self.orderPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.orderPriceLabel.backgroundColor = [UIColor clearColor];
     self.orderPriceLabel.font = [UIFont systemFontOfSize:22];
-    [self.orderPriceLabel setTextColor:[UIColor redColor]];
+    [self.orderPriceLabel setTextColor:RGBACOLOR(288, 91, 91, 1)];
     [self.orderBgView addSubview:self.orderPriceLabel];
     
     self.typeRightLabel = [[UILabel alloc] init];
     self.typeRightLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.typeRightLabel.backgroundColor = [UIColor clearColor];
-    self.typeRightLabel.font = [UIFont systemFontOfSize:8];
+    self.typeRightLabel.font = [UIFont systemFontOfSize:9];
     self.typeRightLabel.text = @"基金类型  股票型";
+    self.typeRightLabel.textColor = RGBACOLOR(171, 171, 171, 1);
     [self.orderBgView addSubview:self.typeRightLabel];
 
     [self _setupOrderBubbleConstraints];

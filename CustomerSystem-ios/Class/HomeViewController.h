@@ -24,4 +24,6 @@ static NSString *g_cname = nil;
 
 //- (void)networkChanged:(EMConnectionState)connectionState;
 
+- (void)resignWindow;
+
 @end

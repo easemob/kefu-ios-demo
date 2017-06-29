@@ -28,23 +28,23 @@
         [self.contentView addSubview:self.nameLabel];
         
         UILabel *numberLabel = [[UILabel alloc] init];
-        numberLabel.font = [UIFont systemFontOfSize:10];
+        numberLabel.font = [UIFont systemFontOfSize:12];
         numberLabel.textAlignment = NSTextAlignmentLeft;
-        [numberLabel setTextColor:[UIColor grayColor]];
+        [numberLabel setTextColor:RGBACOLOR(98, 98, 98, 1)];
         self.numberLabel = numberLabel;
         [self.contentView addSubview:self.numberLabel];
         
         UILabel *netValueLabel = [[UILabel alloc] init];
-        netValueLabel.font = [UIFont systemFontOfSize:16];
+        netValueLabel.font = [UIFont systemFontOfSize:17];
         netValueLabel.textAlignment = NSTextAlignmentCenter;
-        [netValueLabel setTextColor:[UIColor redColor]];
+        [netValueLabel setTextColor:RGBACOLOR(255, 91, 91, 1)];
         self.netValueLabel = netValueLabel;
         [self.contentView addSubview:self.netValueLabel];
         
         UILabel *riseLabel = [[UILabel alloc] init];
-        riseLabel.font = [UIFont systemFontOfSize:16];
+        riseLabel.font = [UIFont systemFontOfSize:17];
         riseLabel.textAlignment = NSTextAlignmentCenter;
-        [riseLabel setTextColor:[UIColor redColor]];
+        [riseLabel setTextColor:RGBACOLOR(255, 91, 91, 1)];
         self.riseLabel = riseLabel;
         [self.contentView addSubview:self.riseLabel];
     }
@@ -70,10 +70,10 @@
 
 - (void)layoutSubviews
 {
-    self.nameLabel.frame = CGRectMake(10, 10, self.size.width*0.4, self.size.height/2);
-    self.numberLabel.frame = CGRectMake(10, CGRectGetMaxY(self.nameLabel.frame), self.size.width/4, self.size.height/4);
-    self.netValueLabel.frame = CGRectMake(CGRectGetMaxX(self.nameLabel.frame), (self.size.height - self.size.height/3)/2, self.size.width * 0.3, self.size.height/3);
-    self.riseLabel.frame = CGRectMake(CGRectGetMaxX(self.netValueLabel.frame), self.netValueLabel.frame.origin.y, self.size.width * 0.3, self.size.height/3);
+    self.nameLabel.frame = CGRectMake(18, 14, 160, 17);
+    self.numberLabel.frame = CGRectMake(18, CGRectGetMaxY(self.nameLabel.frame) + 7, 50, 14);
+    self.netValueLabel.frame = CGRectMake(CGRectGetMaxX(self.nameLabel.frame) + kScreenWidth * 0.024, 24, 60, 17);
+    self.riseLabel.frame = CGRectMake(kScreenWidth - kScreenWidth*0.053 - 63, 24, 63, 17);
 }
 
 - (void)setHotFundModel:(HotFundModel *)hotFundModel

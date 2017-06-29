@@ -110,17 +110,20 @@
     [_toolbarView addSubview:_toolbarBackgroundImageView];
     
     //input textview
-    _inputTextView = [[HDTextView alloc] initWithFrame:CGRectMake(self.horizontalPadding, self.verticalPadding*2, self.frame.size.width - self.verticalPadding * 2, self.frame.size.height - self.verticalPadding * 2)];
+    _inputTextView = [[HDTextView alloc] initWithFrame:CGRectMake(self.horizontalPadding, self.verticalPadding*2, self.frame.size.width - self.verticalPadding * 2 - 15, self.frame.size.height - self.verticalPadding * 4)];
+    _inputTextView.backgroundColor = RGBACOLOR(3, 3, 3, 0.09);
     _inputTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _inputTextView.scrollEnabled = YES;
     _inputTextView.returnKeyType = UIReturnKeySend;
     _inputTextView.enablesReturnKeyAutomatically = YES; // UITextView内部判断send按钮是否可以用
-    _inputTextView.placeHolder = NSEaseLocalizedString(@"message.toolBar.inputPlaceHolder", @"input a new message");
+//    _inputTextView.placeHolder = NSEaseLocalizedString(@"message.toolBar.inputPlaceHolder", @"input a new message");
     _inputTextView.delegate = self;
-    _inputTextView.backgroundColor = [UIColor clearColor];
+//    _inputTextView.backgroundColor = [UIColor clearColor];
 //    _inputTextView.layer.borderColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
 //    _inputTextView.layer.borderWidth = 0.65f;
 //    _inputTextView.layer.cornerRadius = 6.0f;
+    _inputTextView.clipsToBounds = YES;
+    _inputTextView.layer.cornerRadius = 5;
     
     _previousTextViewContentHeight = [self _getTextViewContentH:_inputTextView];
     [_toolbarView addSubview:_inputTextView];
@@ -128,8 +131,8 @@
     //change input type
     UIButton *styleChangeButton = [[UIButton alloc] init];
     styleChangeButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    [styleChangeButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_voice_btn_normal"] forState:UIControlStateNormal];
-    [styleChangeButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_keyboard_btn_normal"] forState:UIControlStateSelected];
+    [styleChangeButton setImage:[UIImage imageNamed:@"audio"] forState:UIControlStateNormal];
+    [styleChangeButton setImage:[UIImage imageNamed:@"keyboard"] forState:UIControlStateSelected];
     [styleChangeButton addTarget:self action:@selector(styleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     // 把录音按钮和自定义的录音按钮所在的控件newRecordView传进去，从而显示自己的view
     HDChatToolbarItem *styleItem = [[HDChatToolbarItem alloc] initWithButton:styleChangeButton withView:self.newRecordView];
@@ -138,18 +141,18 @@
     //emoji
     self.faceButton = [[UIButton alloc] init];
     self.faceButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_biaoqing_btn_normal"] forState:UIControlStateNormal];
+    [self.faceButton setImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
 //    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_faceSelected"] forState:UIControlStateHighlighted];
-    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_keyboard_btn_normal"] forState:UIControlStateSelected];
+    [self.faceButton setImage:[UIImage imageNamed:@"keyboard"] forState:UIControlStateSelected];
     [self.faceButton addTarget:self action:@selector(faceButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     HDChatToolbarItem *faceItem = [[HDChatToolbarItem alloc] initWithButton:self.faceButton withView:self.faceView];
     
     //more
     self.moreButton = [[UIButton alloc] init];
     self.moreButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_type_select_btn_nor"] forState:UIControlStateNormal];
+    [self.moreButton setImage:[UIImage imageNamed:@"plus"] forState:UIControlStateNormal];
 //    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/chatBar_moreSelected"] forState:UIControlStateHighlighted];
-    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_type_less_btn_nor"] forState:UIControlStateSelected];
+    [self.moreButton setImage:[UIImage imageNamed:@"-"] forState:UIControlStateSelected];
     [self.moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     HDChatToolbarItem *moreItem = [[HDChatToolbarItem alloc] initWithButton:self.moreButton withView:self.moreView];
     
@@ -294,7 +297,7 @@
                 }
                 
                 if (itemFrame.size.width == 0) {
-                    itemFrame.size.width = itemFrame.size.height;
+                    itemFrame.size.width = itemFrame.size.height - 15;
                 }
                 
                 itemFrame.origin.x = oX;
@@ -347,7 +350,7 @@
                     }
                     
                     if (itemFrame.size.width == 0) {
-                        itemFrame.size.width = itemFrame.size.height;
+                        itemFrame.size.width = itemFrame.size.height - 20;
                     }
                     
                     oMaxX -= itemFrame.size.width;

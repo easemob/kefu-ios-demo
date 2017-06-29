@@ -12,15 +12,19 @@
 - (void)_setupEvaluateBubbleMarginConstraints {
     [self.marginConstraints removeAllObjects];
     
-    NSLayoutConstraint *transTitleMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *transTitleMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
+    NSLayoutConstraint *transTitleMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.right];
+    NSLayoutConstraint *transTitleMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.right];
     NSLayoutConstraint *transTitleMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
     [self.marginConstraints addObject:transTitleMarginTopConstraint];
     [self.marginConstraints addObject:transTitleMarginLeftConstraint];
     [self.marginConstraints addObject:transTitleMarginRightConstraint];
     
-    NSLayoutConstraint *transButtonMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom- 10];
+    NSLayoutConstraint *transButtonMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.right];
+    NSLayoutConstraint *transButtonMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.right];
+    NSLayoutConstraint *transButtonMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
     [self.marginConstraints addObject:transButtonMarginBottomConstraint];
+    [self.marginConstraints addObject:transButtonMarginLeftConstraint];
+    [self.marginConstraints addObject:transButtonMarginRightConstraint];
     
     [self addConstraints:self.marginConstraints];
 }
@@ -28,7 +32,7 @@
 - (void)_setupEvaluateBubbleConstraints {
     [self _setupEvaluateBubbleMarginConstraints];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:100]];
+//    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:100]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:50]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
 }
@@ -43,9 +47,9 @@
     
     self.evaluateButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.evaluateButton.translatesAutoresizingMaskIntoConstraints = NO;
-    self.evaluateButton.titleLabel.font = [UIFont systemFontOfSize:13.0];
+    self.evaluateButton.titleLabel.font = [UIFont systemFontOfSize:17.0];
     [self.evaluateButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    self.evaluateButton.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:167.0/255.0 blue:252.0/255.0 alpha:1.0];
+    self.evaluateButton.backgroundColor = RGBACOLOR(242, 94, 91, 1);
     self.evaluateButton.layer.cornerRadius = 5.f;
     [self.evaluateButton setTitle:NSLocalizedString(@"to_evaluate", @"To evaluate") forState:UIControlStateNormal];
     [self.evaluateButton addTarget:self action:@selector(evaluateAction:) forControlEvents:UIControlEventTouchUpInside];

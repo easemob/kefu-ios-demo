@@ -57,17 +57,22 @@
 
 - (void)setupBarButtonItem
 {
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 9.3, 18.4)];
     [backButton setImage:[UIImage imageNamed:@"Path"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveLeftSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveLeftSpacer.width = 2;
+    self.navigationItem.leftBarButtonItems = @[nagetiveLeftSpacer,backItem];
     
-    UIButton *scanButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 17)];
+    UIButton *scanButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 18, 16)];
     [scanButton setImage:[UIImage imageNamed:@"scan_code"] forState:UIControlStateNormal];
     [scanButton addTarget:self action:@selector(scan) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *scanItem = [[UIBarButtonItem alloc] initWithCustomView:scanButton];
-    [self.navigationItem setRightBarButtonItem:scanItem];
+//    [self.navigationItem setRightBarButtonItem:scanItem];
+    UIBarButtonItem *nagetiveRightSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveRightSpacer.width = -6;
+    self.navigationItem.rightBarButtonItems = @[nagetiveRightSpacer,scanItem];
     
 }
 

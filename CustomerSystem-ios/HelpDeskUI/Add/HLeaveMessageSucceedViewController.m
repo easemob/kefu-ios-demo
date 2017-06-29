@@ -53,25 +53,28 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 {
     
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
-    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"Path"] forState:UIControlStateNormal];
     [backButton setTitle:NSLocalizedString(@"leave_title", @"Note") forState:UIControlStateNormal];
-    backButton.titleLabel.font = [UIFont systemFontOfSize:22];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:17];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
-    backButton.imageRect = CGRectMake(10, 10, 20, 18);
-    backButton.titleRect = CGRectMake(45, 10, 120, 18);
+    backButton.imageRect = CGRectMake(18, 10, 9.3, 18.4);
+    backButton.titleRect = CGRectMake(35, 10.5, 200, 18);
     [self.view addSubview:backButton];
     backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
     [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = -15;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
+
     
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(2*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [self hideHud];
 //        [self.navigationController popToRootViewControllerAnimated:YES];
 //    });
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth/2 - 30, kScreenHeight/7, 60, 60)];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth/2 - 30, 30, 60, 60)];
     [button setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_icon_leave_suc"] forState:UIControlStateNormal];
     [self.view addSubview:button];
     

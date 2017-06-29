@@ -265,7 +265,7 @@
     if (self.model.isSender) {
         _nameLabel.text = _lgM.nickname;
 //        [self avatarViewImage:model];
-        self.avatarView.image = [UIImage imageNamed:@"123.jpg"];
+        self.avatarView.image = [UIImage imageNamed:@"kehu"];
         
     } else {
         _nameLabel.text = @"客服";

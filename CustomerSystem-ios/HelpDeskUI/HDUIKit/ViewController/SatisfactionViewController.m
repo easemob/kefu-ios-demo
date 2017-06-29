@@ -50,10 +50,12 @@
 - (void)setupBarButtonItem
 {
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"Path"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = -15;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
 }
 
 #pragma mark - getter
@@ -130,7 +132,7 @@
         [_commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _commitBtn.frame = CGRectMake(20, CGRectGetMaxY(_textView.frame) + kViewSpace, kHDScreenWidth - 40, 40);
         _commitBtn.layer.cornerRadius = 5.f;
-        [_commitBtn setBackgroundColor:RGBACOLOR(36, 149, 207, 1)];
+        [_commitBtn setBackgroundColor:RGBACOLOR(242, 94, 91, 1)];
         [_commitBtn addTarget:self action:@selector(commit) forControlEvents:UIControlEventTouchUpInside];
     }
     return _commitBtn;

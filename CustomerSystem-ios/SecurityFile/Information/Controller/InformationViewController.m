@@ -14,20 +14,21 @@
 
 @implementation InformationViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 110)];
     [self.view addSubview:scrollView];
     
-    UIImageView *imageVC = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 580)];
+    UIImageView *imageVC = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight * 0.902)];
     imageVC.image = [UIImage imageNamed:@"img6"];
     [scrollView addSubview:imageVC];
     
     scrollView.contentSize = CGSizeMake(kScreenWidth, CGRectGetMaxY(imageVC.frame) + 50);
     scrollView.showsHorizontalScrollIndicator = NO;
+    
 }
 
 - (void)didReceiveMemoryWarning {

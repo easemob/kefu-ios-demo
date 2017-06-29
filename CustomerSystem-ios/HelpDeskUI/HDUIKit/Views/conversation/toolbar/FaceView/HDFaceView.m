@@ -71,7 +71,7 @@
     
     _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _sendButton.frame = CGRectMake((kButtomNum-1)*CGRectGetWidth(_facialView.frame)/kButtomNum, CGRectGetMaxY(_facialView.frame), CGRectGetWidth(_facialView.frame)/kButtomNum, CGRectGetHeight(_bottomScrollView.frame));
-    [_sendButton setBackgroundColor:RGBACOLOR(184, 22, 22, 1)];
+    [_sendButton setBackgroundColor:RGBACOLOR(242, 94, 91, 1)];
     [_sendButton setTitle:NSEaseLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
     [_sendButton addTarget:self action:@selector(sendFace) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_sendButton];

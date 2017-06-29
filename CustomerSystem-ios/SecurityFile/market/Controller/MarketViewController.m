@@ -20,7 +20,7 @@
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 110)];
     [self.view addSubview:scrollView];
     
-    UIImageView *imageVC = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 600)];
+    UIImageView *imageVC = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight * 0.874)];
     imageVC.image = [UIImage imageNamed:@"img5"];
     [scrollView addSubview:imageVC];
     

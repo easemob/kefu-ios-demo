@@ -223,18 +223,22 @@
 
 - (void)_setupBarButtonItem
 {
-    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 18.3, 21)];
     clearButton.accessibilityIdentifier = @"clear_message";
     [clearButton setImage:[UIImage imageNamed:@"Page"] forState:UIControlStateNormal];
     [clearButton addTarget:self action:@selector(deleteAllMessages:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithCustomView:clearButton];
+    
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = - 6;
+    self.navigationItem.rightBarButtonItems = @[nagetiveSpacer,clearItem];
     
     UIButton *leaveMsgButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     [leaveMsgButton setImage:[UIImage imageNamed:@"chatBar_comment"]forState:UIControlStateNormal];
     [leaveMsgButton addTarget:self action:@selector(didPressedLeaveMsgButton) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leaveItem = [[UIBarButtonItem alloc] initWithCustomView:leaveMsgButton];
     
-    self.navigationItem.rightBarButtonItems = @[clearItem];
+//    self.navigationItem.rightBarButtonItems = @[clearItem];
 }
 
 - (void)didPressedLeaveMsgButton {
