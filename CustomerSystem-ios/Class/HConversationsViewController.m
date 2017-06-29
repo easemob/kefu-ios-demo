@@ -67,7 +67,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) { //删除
         NSArray *datas = self.dataSource;
         HConversation *conv = [datas objectAtIndex:indexPath.row];
-        BOOL delete = [[HChatClient sharedClient].chat deleteConversation:conv.conversationId deleteMessages:YES];
+        BOOL delete = [[HChatClient sharedClient].chat deleteConversation:conv.conversationId deleteMessages:NO];
         if (delete) {
             [self refreshData];
         }
@@ -143,7 +143,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-44) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = 60;

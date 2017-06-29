@@ -164,7 +164,7 @@
                 NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMesssageExtWeChat_ctrlArgs]];
                 ControlType *type = [[ControlType alloc] initWithValue:@"enquiry"];
                 ControlArguments *arguments = [ControlArguments new];
-                arguments.identity = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_serviceSessionId];
+                arguments.sessionId = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_serviceSessionId];
                 arguments.inviteId = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_inviteId];
                 arguments.detail = self.textView.text;
                 arguments.summary = [NSString stringWithFormat:@"%d",(int)(_starRateView.scorePercent*5)];
