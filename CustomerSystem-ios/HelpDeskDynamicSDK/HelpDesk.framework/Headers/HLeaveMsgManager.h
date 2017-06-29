@@ -12,6 +12,9 @@
 
 +(instancetype)shareInstance;
 
+//留言附件地址
+
+@property(nonatomic,copy) NSString *serverUrl;
 
 /*
  @method

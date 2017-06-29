@@ -68,15 +68,16 @@
         [self commitModify];
         [self.tableView reloadData];
         [self.navigationController popViewControllerAnimated:YES];
-    } else {
-        _cname = [dic valueForKey:@"imservicenum"];
-        _tenantId = [dic valueForKey:@"tenantid"];
-        _projectId = [dic valueForKey:@"projectId"];
-        _lgM.cname = _cname;
-        _lgM.tenantId = _tenantId;
-        _lgM.projectId = _projectId;
     }
-    
+    if (![_tenantId isEqualToString:[dic valueForKey:@"tenantId"]]) {
+        _tenantId = [dic valueForKey:@"tenantid"];
+        _lgM.tenantId = _tenantId;
+        [[HChatClient  sharedClient] changeTenantId:_tenantId];
+    }
+    _cname = [dic valueForKey:@"imservicenum"];
+    _projectId = [dic valueForKey:@"projectId"];
+    _lgM.cname = _cname;
+    _lgM.projectId = _projectId;
     [self.tableView reloadData];
 }
 

@@ -15,7 +15,7 @@
 -(instancetype) initWithObject:(NSMutableDictionary *)obj;
 @end
 
-@interface RobotMenuItem : NSObject 
+@interface HRobotMenuInfoHRobotMenuInfoMenuItem : NSObject
 @property (nonatomic) NSString * identity;
 @property (nonatomic) NSString * name;
 

@@ -1036,7 +1036,6 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     }
                 }
                 if ([HjudgeTextMessageSubType isTransferMessage:model.message]) {
-                    height += [model.text boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
                     height += 50;
                     return height;
                 }

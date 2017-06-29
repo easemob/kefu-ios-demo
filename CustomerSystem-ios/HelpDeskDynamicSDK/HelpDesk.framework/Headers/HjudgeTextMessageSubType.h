@@ -15,7 +15,5 @@
 + (BOOL)isMenuMessage:(HMessage *)message;      //菜单消息
 + (BOOL)isTransferMessage:(HMessage *)message;  //转接客服消息
 + (BOOL)isEvaluateMessage:(HMessage *)message;  //满意度评价消息
-+ (BOOL)isOfficialMessage:(HMessage *)message;  //客服营销消息
-+ (NSString *)getOfficialWithHMessage:(HMessage *)message; //获取officialId
 
 @end

@@ -113,10 +113,11 @@
     if (![_editField.text isEqualToString:_content]) {
         if ([_type isEqualToString:@"appkey"]) {
             [self restarTheApp];
-        } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_SETTINGCHANGE object:@{@"type":_type, @"content":_editField.text}];
-            NSLog(@"text---%@", _editField.text);
+        } else if([_type isEqualToString:@"tenantId"]) {
+            [self changeTenantId];
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_SETTINGCHANGE object:@{@"type":_type, @"content":_editField.text}];
+            NSLog(@"text---%@", _editField.text);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -134,13 +135,6 @@
     if ([_editField.text length] == 0) {
         _editField.text = _content;
     }
-    if (![_editField.text isEqualToString:_content]) {
-        if ([_type isEqualToString:@"appkey"]) {
-            [self restarTheApp];
-        } else {
-
-        }
-    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -150,6 +144,13 @@
     lgM.appkey = _editField.text;
     AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     [appDelegate resetCustomerServiceSDK];
+}
+
+- (void)changeTenantId {
+    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    lgM.tenantId = _editField.text;
+    NSLog(@"new tenantId :%@",lgM.tenantId);
+    [[HChatClient sharedClient] changeTenantId:lgM.tenantId];
 }
 
 -(void)keyBoardHidden:(UITapGestureRecognizer *)tapRecognizer

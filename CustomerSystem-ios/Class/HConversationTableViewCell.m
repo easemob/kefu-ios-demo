@@ -49,7 +49,7 @@
     _titleLabel.textColor = RGBACOLOR(0x1a, 0x1a, 0x1a, 1);
     [self.contentView addSubview:_titleLabel];
     
-    _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_titleLabel.frame), CGRectGetMaxY(_titleLabel.frame)+5, self.frame.size.width - CGRectGetMaxX(_headerImageView.frame) - kMargin, 12)];
+    _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_titleLabel.frame), CGRectGetMaxY(_titleLabel.frame)+5, self.frame.size.width - CGRectGetMaxX(_headerImageView.frame) - CGRectGetWidth(_titleLabel.frame), 12)];
     _contentLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _contentLabel.backgroundColor = [UIColor clearColor];
     _contentLabel.textColor = RGBACOLOR(0x99, 0x99, 0x99, 1);
@@ -83,9 +83,12 @@
         }
         _tipView.tipNumber = string;
     }
+    [_headerImageView sd_setImageWithURL:[NSURL URLWithString:model.item.avatarUrl] placeholderImage:[UIImage imageNamed:@"default_customer_avatar"]];
     
-    [_headerImageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"default_customer_avatar"]];
     NSString *name = model.conversationId;
+    if (model.conversationType == HConversationTypeCUSTOM) {
+        name = model.item.officialName;
+    }
     _titleLabel.text = name;
     NSString *timeDes = @"";
     if (model.latestMessage.body != nil) {

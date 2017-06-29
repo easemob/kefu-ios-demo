@@ -48,7 +48,7 @@
     option.tenantId = lgM.tenantId;
     option.enableConsoleLog = YES;
     option.apnsCertName = apnsCertName;
-//    option.kefuRestServer = @"https://sandbox.easemob.com";
+//    option.kefuRestServer = @"https://sandbox6.kefu.easemob.com";
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {
@@ -70,9 +70,9 @@
             NSLog(@"登出出错:%@",error.errorDescription);
     }
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    EMClient *clit = [EMClient sharedClient];
+    HChatClient *clit = [HChatClient sharedClient];
     #warning "changeAppkey 为内部方法，不建议使用"
-    EMError *er = [clit changeAppkey:lgM.appkey];
+    HError *er = [clit changeAppkey:lgM.appkey];
     if (er == nil) {
         [SVProgressHUD showSuccessWithStatus:@"appkey 已更新"];
         [SVProgressHUD dismissWithDelay:1.0];

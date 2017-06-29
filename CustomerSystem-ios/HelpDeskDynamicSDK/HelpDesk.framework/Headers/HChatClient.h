@@ -352,4 +352,33 @@
  */
 - (void)applicationWillEnterForeground:(id)aApplication;
 
+
+#pragma mark - Change AppKey
+
+/*!
+ *  \~chinese
+ *  修改appkey
+ *
+ *  @param aAppkey  appkey
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  change appkey
+ *
+ *  @param aAppkey  appkey
+ *
+ *  @result Error
+ */
+- (HError *)changeAppkey:(NSString *)appkey;
+
+
+/**
+ 改变tenantId
+
+ @param tenantId
+ @return error
+ */
+- (void)changeTenantId:(NSString *)tenantId;
+
 @end

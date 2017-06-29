@@ -107,6 +107,7 @@ const NSInteger baseTag=123;
     [self move];
 }
 
+
 //当键盘退出时调用
 - (void)keyboardWillHide:(NSNotification *)aNotification
 {

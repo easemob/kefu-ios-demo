@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 
 {
     UIView *_bottomView;
-    UIView *_textFView;
+    UIView *_backView;
     UIWindow *_window;
     UITextField *_textFieldOne;
     UITextField *_textFieldTwo;
@@ -38,10 +38,16 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 @end
 
 @implementation HDLeaveMsgViewController
+{
+    UITextField *_currentTextField;
+    CGFloat     _keyboardHeight;
+    CGFloat     _duration;  //动画时间
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self addNoti];
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupBarButtonItem];
     [self setTextFiledFarme];
@@ -62,7 +68,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     _textFieldOne.returnKeyType = UIReturnKeyNext;
     _textFieldOne.font = [UIFont systemFontOfSize:15];
     _textFieldOne.tag = 1;
-    [_textFView addSubview:_textFieldOne];
+    [_backView addSubview:_textFieldOne];
     
     _textFieldTwo = [[UITextField alloc] initWithFrame:CGRectMake(75, 50, kScreenWidth-160, 40)];
     _textFieldTwo.delegate = self;
@@ -70,21 +76,21 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     _textFieldTwo.font = [UIFont systemFontOfSize:15];
     _textFieldTwo.tag = 2;
 
-    [_textFView addSubview:_textFieldTwo];
+    [_backView addSubview:_textFieldTwo];
     
     _textFieldThree = [[UITextField alloc] initWithFrame:CGRectMake(75, 100, kScreenWidth-160, 40)];
     _textFieldThree.delegate = self;
     _textFieldThree.returnKeyType = UIReturnKeyNext;
     _textFieldThree.font = [UIFont systemFontOfSize:15];
     _textFieldThree.tag = 3;
-    [_textFView addSubview:_textFieldThree];
+    [_backView addSubview:_textFieldThree];
     
     _textFieldFour = [[UITextField alloc] initWithFrame:CGRectMake(75, 150, kScreenWidth-160, 40)];
     _textFieldFour.delegate = self;
     _textFieldFour.returnKeyType = UIReturnKeyDone;
     _textFieldFour.font = [UIFont systemFontOfSize:15];
     _textFieldFour.tag = 4;
-    [_textFView addSubview:_textFieldFour];
+    [_backView addSubview:_textFieldFour];
     
 }
 
@@ -120,12 +126,12 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     line.backgroundColor = [UIColor blackColor];
     
 
-    [_textFView addSubview:beforeLabel];
-    [_textFView addSubview:lateLabel];
-    [_textFView addSubview:line];
+    [_backView addSubview:beforeLabel];
+    [_backView addSubview:lateLabel];
+    [_backView addSubview:line];
 
     
-    [self.view bringSubviewToFront:_textFView];
+    [self.view bringSubviewToFront:_backView];
 }
 
 
@@ -134,11 +140,11 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     
     [UIView animateWithDuration:0.3 animations:^{
         
-        CGRect frame = _textFView.frame;
+        CGRect frame = _backView.frame;
         
         frame.origin.y = CGRectGetMaxY(self.textView.frame);
         
-        _textFView.frame = frame;
+        _backView.frame = frame;
         
     }];
     
@@ -225,18 +231,14 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 {
     if (textField.returnKeyType == UIReturnKeyNext) {
         if (textField.tag == 1) {
-            [self textFViewMove:90];
             [_textFieldTwo becomeFirstResponder];
         } else if (textField.tag == 2) {
-            [self textFViewMove:76];
              [_textFieldThree becomeFirstResponder];
         } else if (textField.tag == 3) {
-            [self textFViewMove:140];
              [_textFieldFour becomeFirstResponder];
         }
         
     } else {
-        [self textFViewMove:0];
         [_textFieldFour endEditing:YES];
        }
     return YES;
@@ -244,43 +246,29 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    if (textField.tag == 2) {
-        [self textFViewMove:0];
-    } else if (textField.tag == 3) {
-       [self textFViewMove:50];
-    } else if (textField.tag == 4){
-       [self textFViewMove:100];
-    }
+    _currentTextField = textField;  //当前焦点所在textField
+    [self layoutKeyboard];
     
     return YES;
 }
 
-- (void)textFViewMove:(CGFloat)distance
-{
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        CGRect frame = _textFView.frame;
-        
-        frame.origin.y = CGRectGetMaxY(self.textView.frame) - distance;
-        
-        _textFView.frame = frame;
-        
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    [self resetBackView];
+}
+
+- (void)layoutKeyboard {
+    CGRect crtRect = [_backView convertRect:_currentTextField.frame toView:self.view];
+    
+    CGFloat offset = self.view.size.height - CGRectGetMaxY(crtRect) - _keyboardHeight;
+    
+    //将视图上移计算好的偏移
+    CGFloat oy = _backView.originY+ offset;
+    [UIView animateWithDuration:_duration animations:^{
+        _backView.frame = CGRectMake(0.0f, oy, _backView.frame.size.width, _backView.frame.size.height);
     }];
 }
 
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        CGRect frame = _textFView.frame;
-        
-        frame.origin.y = CGRectGetMaxY(self.textView.frame);
-        
-        _textFView.frame = frame;
-        
-    }];
-    return YES;
-}
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
@@ -308,9 +296,9 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     [self.navigationItem setLeftBarButtonItem:backItem];
     
     
-    _textFView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.textView.frame), kScreenWidth, kScreenHeight -CGRectGetMaxY(self.textView.frame) - 140)];
-    _textFView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_textFView];
+    _backView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.textView.frame), kScreenWidth, kScreenHeight -CGRectGetMaxY(self.textView.frame) - 140)];
+    _backView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_backView];
     
     _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 50, kScreenWidth, 50)];
     _bottomView.backgroundColor = RGBACOLOR(184, 22, 22, 1);
@@ -327,8 +315,36 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     
 }
 
+- (void)addNoti {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    
+    _keyboardHeight = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
+    
+    _duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    [self layoutKeyboard];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    [self resetBackView];
+}
+
+- (void)resetBackView {
+    _backView.frame = CGRectMake(0, CGRectGetMaxY(self.textView.frame), kScreenWidth, kScreenHeight -CGRectGetMaxY(self.textView.frame) - 140);
+}
 
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

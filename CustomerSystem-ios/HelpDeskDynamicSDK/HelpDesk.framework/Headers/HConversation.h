@@ -20,6 +20,21 @@ typedef enum{
     HMessageSearchDirectionDown        /*! \~chinese 向下搜索 \~english Search newer messages */
 } HMessageSearchDirection;
 
+@interface OfficialItem : NSObject
+//official
+@property(nonatomic,copy) NSString *avatarUrl;      //头像url
+@property(nonatomic,copy) NSString *officialName;   //名字
+//marketing
+@property(nonatomic,copy) NSString *marketingId;
+@property(nonatomic,copy) NSString *groupName;  //指定技能组
+@property(nonatomic,copy) NSString *userName;   //指定客服
+
+@end
+
+typedef NS_ENUM(NSUInteger, HConversationType) {
+    HConversationTypeSYSTEM=0, //普通类型
+    HConversationTypeCUSTOM, //官方类型
+};
 
 @interface HConversation : NSObject
 
@@ -31,6 +46,16 @@ typedef enum{
  *  Unique identifier of conversation
  */
 @property (nonatomic, copy, readonly) NSString *conversationId;
+
+/**
+    会话类型【普通会话、官方会话】
+ */
+@property(nonatomic,assign,readonly) HConversationType conversationType;
+
+/**
+    当conversationType为HConverstionTypeCUSTOM时这个属性才有值
+ */
+@property(nonatomic,strong,readonly) OfficialItem *item;
 
 
 /*!
