@@ -142,11 +142,11 @@
 
 
 - (NSString *)stringFromTimeInterval:(NSTimeInterval)timeInterval {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:MM"];
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeInterval/1000.0];
-    NSString *dateString = [formatter stringFromDate:date];
-    return dateString;
+    NSDateFormatter *matter = [[NSDateFormatter alloc] init];
+    matter.dateFormat =@"YYYY-MM-dd HH:mm";
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:(long long)timeInterval/1000];
+    NSString *timeStr = [matter stringFromDate:date];
+    return timeStr;
 }
 
 - (void)awakeFromNib {

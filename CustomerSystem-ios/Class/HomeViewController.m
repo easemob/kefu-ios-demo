@@ -151,9 +151,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         return;
     }
     isLogin = YES;
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"Contacting...", @"连接客服")];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-        if ([lgM loginKefuSDK]/*[self loginKefuSDK:shouqian] 测试切换账号使用*/) {
+        if ([lgM loginKefuSDK]/*[self loginKefuSDK:shouqian]测试切换账号使用*/ ) {
+            
 //            [self setPushOptions];
             NSString *queue = nil;
             if ([notification.object objectForKey:kpreSell]) {
@@ -176,10 +178,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //                chat.title = [SCLoginManager shareLoginManager].cname;
             }
             dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
                  [self.navigationController pushViewController:chat animated:YES];
             });
            
         } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"loginFail", @"login fail")];
+                [SVProgressHUD dismissWithDelay:1.0];
+            });
             NSLog(@"登录失败");
         }
     });
@@ -203,12 +210,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     if (client.isLoggedInBefore) {
         [client logout:NO];
     }
+    
     NSString *username = @"";
     if (isShouqian) {
         username = @"shouqian";
     } else {
         username = @"shouhou";
     }
+    //用户没有注册的请注意注册
+//    [[HChatClient sharedClient] registerWithUsername:username password:hxPassWord];
     HError *error = [[HChatClient sharedClient] loginWithUsername:username password:hxPassWord];
     if (!error) { //IM登录成功
         return YES;
@@ -462,6 +472,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 */
 // 收到消息回调
 - (void)messagesDidReceive:(NSArray *)aMessages {
+    if ([self isNotificationMessage:aMessages.firstObject]) {
+        return;
+    }
 #if !TARGET_IPHONE_SIMULATOR
     BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
     if (!isAppActivity) {
@@ -478,6 +491,23 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
         NSLog(@"receive cmd message: %@", msg);
     }
+}
+
+- (BOOL)isNotificationMessage:(HMessage *)message {
+    if (message.ext == nil) { //没有扩展
+        return NO;
+    }
+    NSDictionary *weichat = [message.ext objectForKey:kMesssageExtWeChat];
+    if (weichat == nil || weichat.count == 0 ) {
+        return NO;
+    }
+    if ([weichat objectForKey:@"notification"] != nil && ![[weichat objectForKey:@"notification"] isKindOfClass:[NSNull class]]) {
+        BOOL isNotification = [[weichat objectForKey:@"notification"] boolValue];
+        if (isNotification) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 

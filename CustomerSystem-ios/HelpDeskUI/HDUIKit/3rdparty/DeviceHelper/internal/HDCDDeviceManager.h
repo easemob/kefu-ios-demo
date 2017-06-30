@@ -10,8 +10,8 @@
  * from Hyphenate Inc.
  */
 
-#ifndef ChatDemo_UI2_0_EMCDDeviceManager_h
-#define ChatDemo_UI2_0_EMCDDeviceManager_h
+#ifndef HDCDDeviceManager_h
+#define HDCDDeviceManager_h
 
 #import "HDCDDeviceManager+Media.h"
 #import "HDCDDeviceManager+Remind.h"

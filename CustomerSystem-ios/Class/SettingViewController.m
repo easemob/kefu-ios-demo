@@ -236,18 +236,23 @@
 
         case 5:
         {
-            [SVProgressHUD showWithStatus:NSLocalizedString(@"login...", @"登录")];
+            [SVProgressHUD showWithStatus:NSLocalizedString(@"Contacting...", @"连接客服")];
             SCLoginManager *lgm = [SCLoginManager shareLoginManager];
-            if ([lgm loginKefuSDK]) {
-                [SVProgressHUD dismiss];
-                HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
-                [self.navigationController pushViewController:chat animated:YES];
-            } else {
-                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"loginFail", @"login fail")];
-                [SVProgressHUD dismissWithDelay:1.0];
-            }
-            
-            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                if ([lgm loginKefuSDK]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
+                        HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
+                        [self.navigationController pushViewController:chat animated:YES];
+                    });
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"loginFail", @"login fail")];
+                        [SVProgressHUD dismissWithDelay:1.0];
+                    });
+                }
+
+            });
 
         }
             break;

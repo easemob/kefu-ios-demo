@@ -64,8 +64,8 @@
 "login.endAutoLogin" = "自动登录结束...";
 "login.errorAutoLogin" = "自动登录失败.";
 
-"login..." = "登录中..";
-"loginFail" = "登录失败";
+"Contacting..." = "联系客服中...";
+"loginFail" = "联系客服失败,请重试...";
 
 //setting
 "setting.feedback" = "意见反馈";
