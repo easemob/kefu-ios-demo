@@ -1020,7 +1020,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             } else { //其他消息【订单、轨迹、富文本】
                 NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
                 CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
-                height += (rect.size.height > 20 ? rect.size.height : 20) + 10;
+                height += (rect.size.height > 20 ? rect.size.height : 20) + 20;
                 NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
                 if (dic && ![dic objectForKey:@"videoPlayback"] && ![dic objectForKey:@"liveStreamInvitation"]) {
                     NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];

@@ -26,11 +26,11 @@
 #define CHATVIEWBACKGROUNDCOLOR [UIColor colorWithRed:0.936 green:0.932 blue:0.907 alpha:1]
 
 //default
-//#define kDefaultAppKey @"1141161024115978#kefuchannelapp29593"
-//#define kDefaultCustomerName @"kefuchannelimid_012680"
-//#define kDefaultCustomerNickname @"环信客服"
-//#define kDefaultTenantId @"29593"
-//#define kDefaultProjectId @"306713"
+#define kDefaultAppKey @"1141161024115978#kefuchannelapp29593"
+#define kDefaultCustomerName @"kefuchannelimid_012680"
+#define kDefaultCustomerNickname @"环信客服"
+#define kDefaultTenantId @"29593"
+#define kDefaultProjectId @"306713"
 
 
 //#define kDefaultAppKey @"1109170214115812#kefuchannelapp2155"
@@ -55,11 +55,17 @@
 //#define kDefaultProjectId @"437101"
 
 //sandbox_yuzhao
-#define kDefaultAppKey @"1104161223178990#kefuchannelapp5324"
-#define kDefaultCustomerName @"kefuchannelimid_717892"
-#define kDefaultCustomerNickname @"肖申克的救赎"
-#define kDefaultTenantId @"5324"
-#define kDefaultProjectId @"89328"
+//#define kDefaultAppKey @"1104161223178990#kefuchannelapp5324"
+//#define kDefaultCustomerName @"kefuchannelimid_717892"
+//#define kDefaultCustomerNickname @"肖申克的救赎"
+//#define kDefaultTenantId @"5324"
+//#define kDefaultProjectId @"89328"
+//
+//#define kDefaultAppKey @"1137170609115102#kefuchannelapp28243"
+//#define kDefaultCustomerName @"kefuchannelimid_239718"
+//#define kDefaultCustomerNickname @"飞翔的小鸟"
+//#define kDefaultTenantId @"28243"
+//#define kDefaultProjectId @"1000"
 
 #define kAppKey @"KF_appkey"
 #define kCustomerName @"KF_name"

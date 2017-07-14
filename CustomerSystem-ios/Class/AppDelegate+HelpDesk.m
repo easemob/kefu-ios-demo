@@ -49,6 +49,12 @@
     option.enableConsoleLog = YES;
     option.apnsCertName = apnsCertName;
 //    option.kefuRestServer = @"https://sandbox6.kefu.easemob.com";
+//    option.kefuRestServer = @"http://vpc10.kefu.easemob.com";
+//    option.enableDnsConfig = NO;
+//    option.restServer = @"124.207.9.210";
+//    option.chatPort = 443;
+//    option.chatServer = @"124.207.9.210";
+//    option.kefuRestServer = @"http://118.192.134.212";
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {
