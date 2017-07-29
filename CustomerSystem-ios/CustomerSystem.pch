@@ -12,8 +12,9 @@
 #ifdef __OBJC__
 #import "LocalDefine.h"
 
-#import <HelpDesk/HelpDesk.h>
+#import <HelpDeskLite/HelpDeskLite.h>
 #import "HelpDeskUI.h"
+
 #import "SCLoginManager.h"
 #import "SRRefreshView.h"
 #import "UIImageView+WebCache.h"
@@ -43,6 +44,13 @@
 #define kMesssageExtWeChat_ctrlArgs_detail @"detail"
 #define kMesssageExtWeChat_ctrlArgs_summary @"summary"
 
-
+#pragma mark - 三方音视频
+#import "EMediaManager.h"
+#import "EMediaEntities.h"
+#import "EMCallLocalView.h"
+#import "EMCallRemoteView.h"
+#import "HDCallLocalView.h"
+#import "HDCallRemoteView.h"
+#import "HDCallManager.h"
 
 #endif

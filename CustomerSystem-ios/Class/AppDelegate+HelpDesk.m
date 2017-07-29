@@ -46,9 +46,9 @@
     HOptions *option = [[HOptions alloc] init];
     option.appkey = lgM.appkey; 
     option.tenantId = lgM.tenantId;
-    option.enableConsoleLog = YES;
+//    option.enableConsoleLog = YES;
     option.apnsCertName = apnsCertName;
-//    option.kefuRestServer = @"https://sandbox6.kefu.easemob.com";
+    option.kefuRestServer = @"https://snapshots.kefu.easemob.com";
 //    option.kefuRestServer = @"http://vpc10.kefu.easemob.com";
 //    option.enableDnsConfig = NO;
 //    option.restServer = @"124.207.9.210";

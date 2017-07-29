@@ -56,7 +56,13 @@
     [callMessage addAttributeDictionary:[self callExt]];
     [callMessage addContent:[self visitorInfo]];
     [self _sendMessage:callMessage];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1.0*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [[HDCallManager sharedInstance] receiveAticket:[MockData getTestTicket]];
+//    });
+
 }
+
 
 // 留言
 - (void)moreViewLeaveMessageAction:(HDChatBarMoreView *)moreView

@@ -488,8 +488,18 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
     for (HMessage *message in aCmdMessages) {
-        NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
-        NSLog(@"receive cmd message: %@", msg);
+        NSLog(@"receive cmd message: %@", message.ext);
+        NSString *ticket = @"";
+        NSDictionary *msgTypeDic = [message.ext objectForKey:@"msgtype"];
+        NSDictionary *sendVisitorTicket = @{};
+        if (msgTypeDic) {
+            sendVisitorTicket = [msgTypeDic objectForKey:@"sendVisitorTicket"];
+        }
+        if (sendVisitorTicket) {
+            ticket = [sendVisitorTicket objectForKey:@"ticket"];
+        }
+        [[HDCallManager sharedInstance] receiveAticket:ticket];
+        
     }
 }
 

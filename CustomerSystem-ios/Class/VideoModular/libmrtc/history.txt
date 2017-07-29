@@ -1,0 +1,207 @@
+20170721
+========
+
+rtccore commit 00df9e937b78dbdb0d34f2b7d5f0cb0121587a2f 
+rtc-ios commit a002d18d90f386977a185f24dc2c72bc22e121ea 
+
+core: 
+	(none)
+iOS: 
+	support notice poor quality
+	support extension
+	support reconnect
+
+
+20170710
+========
+
+rtccore commit 00df9e937b78dbdb0d34f2b7d5f0cb0121587a2f 
+rtc-ios commit bd80bcf421433367686115b3f905138088469460 
+
+core: comment out [expect video sender]
+iOS: support multi-party video by EMediaManager
+
+
+20170411
+========
+
+rtccore commit 9e8255308fa014a895b68ca6b4cfeabaef9c7b48 
+rtc-ios commit 15c6f18404e309448a4d9e05165e3d983cf36181 
+
+fix scale mode issue for previewDirectly=false
+Bitcode remove the i386 platform
+
+
+20170220
+========
+
+rtccore commit c23c4602ebe468593acef45bba442b70a7ba2512 
+rtc-ios commit 9aece89c81b4affba7970ef0479e28cb079b6035 (unchange)
+
+codec_database.cc  Restore to webrtc version
+1.A key frame request is sent when the record is opened. 
+2The two sides of the video recording to solve static black cannot play or not recorded content.
+modify the maximum key frame interval from 3000 to 150
+
+
+
+20170113
+========
+
+rtccore commit d002bd7da0c39329545b49ffbb6fede794e52b56 
+rtc-ios commit 9aece89c81b4affba7970ef0479e28cb079b6035 
+
+fix openH264 crashing on iOS arm64
+fix iOS setCategory stop unexpectedly app audio
+
+
+
+20161015
+========
+
+rtccore commit 5e6a37174f35740eeadaa3ec44d5f00d30f4d728 
+rtc-ios commit 2e73bb8e8ea57f35e2846c986c68c735123bb067 (unchange)
+
+At the start of every two seconds to send a key frame, send up to 3. 2.Solve the old and new version of the lost key frame
+
+
+20161012
+========
+
+rtccore commit 476626f67d330c177527a74d871db676e278e412 (unchange)
+rtc-ios commit 2e73bb8e8ea57f35e2846c986c68c735123bb067
+
+support count recv video frames
+
+20161010
+========
+
+rtccore commit 476626f67d330c177527a74d871db676e278e412 (unchange)
+rtc-ios commit 42317a60fb70c69399c8a0919be93479376de4a0
+
+fix no max video kbps when callee
+
+
+20161008
+========
+
+rtccore commit 476626f67d330c177527a74d871db676e278e412
+rtc-ios commit 3c75701eecffaddbbbd0d8a21ef20ca9a3d74491
+
+close camera when stop capture or disable video
+
+
+20160926
+========
+
+rtccore commit f0351b6789378159cbb3a30f672e4ebc914fc9b3
+rtc-ios commit 15697f79bfa2b9a8fa87b4bf4c189dbdb778a1cd
+
+add rtc obj to global array, for fixing reference issue
+add setDefaultCameraPosition
+
+
+20160921
+========
+
+rtccore commit 0e12e54ae12fa857fdf60e5cad90e025e437cacd
+rtc-ios commit da459f38ad9851a82d4583e21bb6b364d5e29463
+
+enable H264 when init recoder
+Received the first key frame to start recording
+
+
+20160918
+========
+
+rtccore commit 0e15d7de801f312b4be4b263baedf566a435d3bf
+rtc-ios commit 62a512681859e07f4f2cefdd691270d1c5efb6b9
+
+add bytes to report string
+
+
+20160912
+========
+
+rtccore commit 0e15d7de801f312b4be4b263baedf566a435d3bf
+rtc-ios commit 6e9f2488cd60a8de07516755d0ba0559f921db21
+
+check hangup when execute in _workQueue
+
+
+20160901
+========
+
+rtccore commit 0e15d7de801f312b4be4b263baedf566a435d3bf
+rtc-ios commit 8a4ccfd5585de5dd1e43249e7cd1551901b27d86
+
+always add VideoTrack
+support beauty
+
+
+
+20160805
+========
+rtccore commit cafe80ec0fa1824b421a3c667fc4b0d15237ccbe
+rtc-ios commit d47abbebabdf0fcd0dbaeff64a1915981fc58f94
+
+change call view scale mode names
+move scale mode to view property
+
+
+20160803
+========
+rtccore commit cafe80ec0fa1824b421a3c667fc4b0d15237ccbe
+rtc-ios commit 46a2303e9cdc7d8b898ed499f71c3a5948e11743
+
+support changing pranswer ssrc
+change default resolution to 352x288
+add codec to report string
+support aspect mode
+ios support 720p
+
+
+20160722
+========
+rtccore commit c6636ce3b294d2b1ba24dfbd0ead0df3a42efd67
+rtc-ios commit bacf362fcfd856fd1e88413717ba6aa699e9cad5
+
+ios support 720p
+fix error stat bitrate
+Repair broken network can not back out ondisconnect
+support local pcm callback
+fix hangup crash
+
+
+20160718
+========
+rtccore commit 8fdcc543f75c2d5a3c8d007fa17ad21dd8d9f3b6
+rtc-ios commit aef747bed7034067888abda17539f52621cdad19
+
+support local pcm callback
+remove ios video toolbox
+fix hangup crash: lock _startThread
+Close stun ping time-out caused by broken network can not be used
+add openh264 support
+
+
+20160623
+========
+commit 9b0e6908f3512caa909c4d1393a30f14f2a3c7f9
+change stats format; support start/stop capture video
+remove capptureSession from LocalVideoView.h
+add disconnect callback; print more log;
+
+
+20160324
+========
+iOS arm64 release 版
+commit 6dc14e07b22ce2e49f8c0c213786ac5b6b3c81a1
+禁止proto buffer，避免出现以下冲突
+
+libc++abi.dylib: terminating with uncaught exception of type google::protobuf::FatalException: This program was compiled against version 2.5.0 of the Protocol Buffer runtime library, which is not compatible with the installed version (2.6.1).  Contact the program author for an update.  If you compiled the program yourself, make sure that your headers are from the same version of Protocol Buffers as your link-time library.  (Version verification failed in "gen/protoc_out/webrtc/call/rtc_event_log.pb.cc".)
+
+20160321
+========
+初始发布 iOS arm64 release 版
+commit bf507dcad4de92300bc056575958d9d545b30959
