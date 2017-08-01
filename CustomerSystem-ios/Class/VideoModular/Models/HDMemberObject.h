@@ -19,6 +19,7 @@
 typedef void(^tapBlock)(HVideoItem *videoItem);
 @interface HDMemberObject : NSObject
 @property(nonatomic,strong) NSString *memberName;
+@property(nonatomic,strong) NSString *agentName;
 @property(nonatomic,assign) BOOL isFull;
 @property (nonatomic, strong) EMediaStream * normalStream;
 @property (nonatomic, strong) EMediaStream * deskTopStream;

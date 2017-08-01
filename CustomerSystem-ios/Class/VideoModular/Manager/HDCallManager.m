@@ -17,6 +17,7 @@
 {
     NSMutableDictionary *_memberObjDic;
     BOOL _inSession; //是否在会话中
+    BOOL _acceptTicket; //是否正在处理ticket
     NSMutableArray <HDMemberObject *> *_cacheMembers;  //未接受的时候存储
 }
 static HDCallManager *_manager = nil;
@@ -36,6 +37,7 @@ static HDCallManager *_manager = nil;
         _memberObjDic = [NSMutableDictionary dictionaryWithCapacity:0];
         _cacheMembers = [NSMutableArray arrayWithCapacity:0];
         _inSession = NO;
+        _acceptTicket = NO;
     }
     return self;
 }
@@ -45,6 +47,7 @@ static HDCallManager *_manager = nil;
     _currentCallVC = nil;
     _currentSession = nil;
     _inSession = NO;
+    _acceptTicket = NO;
     [_memberObjDic removeAllObjects];
     [_cacheMembers removeAllObjects];
 }
@@ -53,17 +56,25 @@ static HDCallManager *_manager = nil;
     _inSession = YES;
 }
 
-- (void)receiveAticket:(NSString *)ticket {
+- (void)receiveVideoRequestExtension:(NSDictionary *)extension {
+    NSString *  ticket = [extension objectForKey:@"ticket"];
+    NSString *name = [extension objectForKey:@"nickname"];
+    [self receiveAticket:ticket name:name];
+}
+
+- (void)receiveAticket:(NSString *)ticket name:(NSString *)name {
     if (_inSession == YES) { //正在视频...
         return;
     }
+    _acceptTicket = YES;
     EMediaSession *session =  [[EMediaManager shared]
                                newSessionWithTicket:ticket
-                               extension:@""
+                               extension:[self getExt]
                                delegate:self
                                delegateQueue:dispatch_get_main_queue()];
     
     HDCallViewController *callVC = [[HDCallViewController alloc] initWithSession:session];
+    callVC.nickname = name;
     callVC.modalPresentationStyle = UIModalPresentationFullScreen;
     self.currentCallVC = callVC;
     self.currentSession = session;
@@ -72,12 +83,13 @@ static HDCallManager *_manager = nil;
             if (error == nil) {
                 [self.rootViewController presentViewController:self.currentCallVC animated:NO completion:nil];
             } else {
+                _inSession = NO;
+                _acceptTicket = NO;
                 NSLog(@"error###description:%@",error.errorDescription);
             }
         }];
     }
 }
-
 
 #pragma mark - EMediaSessionDelegate
 /**
@@ -86,6 +98,8 @@ static HDCallManager *_manager = nil;
 - (void)onEMediaSession:(EMediaSession *) session joinMember:(EMediaMember *) member {
     NSLog(@"成员进来:%@",member.memberName);
     HDMemberObject *item = [self getMemberObjWithMemberName:member.memberName];
+    NSDictionary *ext = [self dictWithString:member.extension];
+    item.agentName = [ext objectForKey:@"nickname"];
     [_memberObjDic setObject:item forKey:member.memberName];
 }
 
@@ -148,10 +162,23 @@ static HDCallManager *_manager = nil;
 /**
  自己的视频被动关闭
  1、网络原因
- 2、被踢
+ 2、其他平台登录
+ 3、被踢
  */
-- (void)onEMediaSession:(EMediaSession *) session passiveCloseReason:(int) reason desc:(NSString*)desc {
-    
+- (void)onEMediaSession:(EMediaSession *) session passiveCloseReason:(EMediaErrorCode) reason desc:(NSString*)desc {
+    NSString *tip = @"";
+    switch (reason) {
+        case EMEDIA_ERROR_REASON_DISMISS:
+        {
+            tip = @"对方挂断了视频通话";
+            break;
+        }
+        default:
+            tip = @"视频通话已经结束";
+            break;
+    }
+    [_currentCallVC showHint:tip];
+    [self exitSession];
 }
 
 
@@ -272,6 +299,42 @@ static HDCallManager *_manager = nil;
         return;
     }
     [_currentCallVC layoutVideosWithMembers:arr];
+}
+
+#pragma mark - private
+
+- (NSString *)getExt {
+    NSDictionary *ext = @{
+                          @"identity": @"visitor",
+                          @"nickname": [SCLoginManager shareLoginManager].nickname
+                          };
+    
+    return [self dictionaryToJson:ext];
+}
+
+- (NSString*)dictionaryToJson:(NSDictionary *)dic
+{
+    NSError *parseError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
+- (NSDictionary *)dictWithString:(NSString *)string
+{
+    if (string && 0 != string.length)
+    {
+        NSError *error;
+        NSData *jsonData = [string dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+        if (error)
+        {
+            NSLog(@"json解析失败：%@", error);
+            return nil;
+        }
+        return jsonDict;
+    }
+    
+    return nil;
 }
 
 

@@ -74,7 +74,7 @@ typedef void (^EMediaIdBlockType)(id obj, EMediaError * error);
  1、网络原因
  2、被踢
  */
-- (void)onEMediaSession:(EMediaSession *) session passiveCloseReason:(int) reason desc:(NSString*)desc;
+- (void)onEMediaSession:(EMediaSession *) session passiveCloseReason:(EMediaErrorCode) reason desc:(NSString*)desc;
 
 
 /**

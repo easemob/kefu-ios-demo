@@ -1679,6 +1679,20 @@
 
 - (void)_sendMessage:(HMessage *)message
 {
+    NSMutableDictionary *weichat = ((NSDictionary *)[message.ext objectForKey:@"weichat"]).mutableCopy;
+    NSMutableDictionary *visitorDic = @{}.mutableCopy;
+    if (weichat) {
+        visitorDic = ((NSDictionary *)[weichat objectForKey:@"visitor"]).mutableCopy;
+        if (visitorDic) {
+            [visitorDic addEntriesFromDictionary:@{@"tags":@[@"vip1",@"vip2"]}];
+        }
+    }
+    [weichat addEntriesFromDictionary:@{@"visitor":visitorDic}];
+    NSMutableDictionary *ext = message.ext.mutableCopy;
+    [ext addEntriesFromDictionary:@{@"weichat":weichat}];
+//    visitor
+    [message addAttributeDictionary:ext];
+    
     [self addMessageToDataSource:message
                         progress:nil];
     

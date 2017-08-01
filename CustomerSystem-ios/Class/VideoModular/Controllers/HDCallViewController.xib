@@ -106,7 +106,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NhA-cy-0Gy">
                     <rect key="frame" x="0.0" y="320" width="320" height="110"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="环信商城客服" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDH-wD-hLA">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="昵称" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDH-wD-hLA">
                             <rect key="frame" x="27" y="20" width="280" height="20"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -164,7 +164,6 @@
                     <state key="normal" image="power.png"/>
                     <connections>
                         <action selector="hungupBtnClicked:" destination="-1" eventType="touchUpInside" id="vkV-n0-oSb"/>
-                        <action selector="rejectBtnClicked:" destination="-1" eventType="touchUpInside" id="4eQ-3T-o9f"/>
                     </connections>
                 </button>
             </subviews>

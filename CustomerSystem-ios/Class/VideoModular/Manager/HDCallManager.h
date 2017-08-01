@@ -21,7 +21,8 @@
 
 + (instancetype)sharedInstance;
 
-- (void)receiveAticket:(NSString *)ticket;
+
+- (void)receiveVideoRequestExtension:(NSDictionary *)extension;
 
 - (void)exitSession;
 
@@ -37,5 +38,10 @@
 
 //设置扬声器
 - (void)setSpeakEnable:(BOOL)enable;
+
+
+
+
+- (NSString *)getExt;
 
 @end

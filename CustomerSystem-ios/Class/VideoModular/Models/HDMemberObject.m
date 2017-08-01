@@ -68,10 +68,14 @@
         self.remoteVideoItem.backView.delegate = target;
         [self.remoteVideoItem.backView addSubviewRestoreBtn];
         [self.remoteVideoItem.backView addSubviewNameLabel];
-        self.remoteVideoItem.backView.nameLabel.text = self.memberName;
         [self addGes];
     }
     return self;
+}
+
+- (void)setAgentName:(NSString *)agentName {
+    _agentName = agentName;
+    self.remoteVideoItem.backView.nameLabel.text = self.agentName;
 }
 
 - (void)setTapBlock:(tapBlock)tapBlock {

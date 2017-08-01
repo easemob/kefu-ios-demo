@@ -489,16 +489,32 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
     for (HMessage *message in aCmdMessages) {
         NSLog(@"receive cmd message: %@", message.ext);
-        NSString *ticket = @"";
+        NSString *ticket = nil;
         NSDictionary *msgTypeDic = [message.ext objectForKey:@"msgtype"];
         NSDictionary *sendVisitorTicket = @{};
         if (msgTypeDic) {
             sendVisitorTicket = [msgTypeDic objectForKey:@"sendVisitorTicket"];
         }
         if (sendVisitorTicket) {
+            [[HDCallManager sharedInstance] receiveVideoRequestExtension:sendVisitorTicket];
+        }
+        
+        if (sendVisitorTicket) {
             ticket = [sendVisitorTicket objectForKey:@"ticket"];
         }
-        [[HDCallManager sharedInstance] receiveAticket:ticket];
+        if (ticket) { //是视频邀请的消息
+            
+#if !TARGET_IPHONE_SIMULATOR
+            BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
+            if (!isAppActivity) {
+                [self showVideoLocalNoti:message];
+            }else {
+                [self _playSoundAndVibration];
+            }
+#endif
+            [_conversationsVC refreshData];
+        }
+       
         
     }
 }
@@ -518,6 +534,35 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         }
     }
     return NO;
+}
+
+- (void)showVideoLocalNoti:(HMessage *)message {
+    HPushOptions *options = [[HChatClient sharedClient] hPushOptions];
+    //发送本地推送
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    notification.fireDate = [NSDate date]; //触发通知的时间
+    
+    if (options.displayStyle == HPushDisplayStyleMessageSummary) {
+        NSString *messageStr = @"邀请您加入视频通话";
+        
+        NSString *title = message.from;
+        notification.alertBody = [NSString stringWithFormat:@"%@:%@", title, messageStr];
+    }
+    else{
+        notification.alertBody = NSLocalizedString(@"receiveMessage", @"you have a new message");
+    }
+    
+#warning 去掉注释会显示[本地]开头, 方便在开发中区分是否为本地推送
+    //notification.alertBody = [[NSString alloc] initWithFormat:@"[本地]%@", notification.alertBody];
+    
+    notification.alertAction = NSLocalizedString(@"open", @"Open");
+    notification.timeZone = [NSTimeZone defaultTimeZone];
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    //发送通知
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+    NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = ++badge;
 }
 
 

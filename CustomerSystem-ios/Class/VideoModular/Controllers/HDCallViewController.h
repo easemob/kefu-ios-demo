@@ -10,6 +10,9 @@
 #import "HDMemberObject.h"
 
 @interface HDCallViewController : UIViewController
+
+@property(nonatomic,strong) NSString *nickname;
+
 - (instancetype)initWithSession:(EMediaSession *)session;
 
 - (void)addStreamWithHDMemberObj:(HDMemberObject *)obj;

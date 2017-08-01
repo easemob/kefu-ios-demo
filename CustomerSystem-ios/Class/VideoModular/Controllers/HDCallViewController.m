@@ -47,6 +47,9 @@
     //计时
     NSTimer *_timer;
     int _timeLength;
+    //响应
+    NSCondition *_condition;
+    BOOL _isOperate; //访客是否操作
 }
 
 - (instancetype)initWithSession:(EMediaSession *)session {
@@ -54,6 +57,7 @@
     self = [super initWithNibName:xib bundle:nil];
     if (self) {
         _currentSession = session;
+        _isOperate = NO;
     }
     return self;
 }
@@ -61,10 +65,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    // 收到消息时，播放音频
-    [[HDCDDeviceManager sharedInstance] playNewMessageSound];
-    // 收到消息时，震动
-    [[HDCDDeviceManager sharedInstance] playVibration];
+    //屏幕常亮
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+    _inviterLabel.text = _nickname;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        _condition = [[NSCondition alloc] init];
+        [_condition lock];
+        [_condition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:60]];
+        if (_isOperate == NO) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showHint:@"长时间未接听,挂断"];
+                [[HDCallManager sharedInstance] exitSession];
+            });
+        }
+    });
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
 }
 
 #pragma mark - videoView
@@ -73,7 +93,7 @@
     _localBackView = [[HDCallBackView alloc] initWithFrame:CGRectMake(0, 0, KWH, KWH)];
     [_localBackView addSubviewRestoreBtn];
     [_localBackView addSubviewNameLabel];
-    _localBackView.nameLabel.text = @"我是一只丑小鸭";
+    _localBackView.nameLabel.text = [SCLoginManager shareLoginManager].nickname;
     _localBackView.delegate = self;
     _localView = [[EMCallLocalView alloc] initWithFrame:_localBackView.bounds];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(localViewClicked)];
@@ -102,25 +122,26 @@
 
 
 #pragma mark BottomMenu
-
+//旋转摄像头
 - (IBAction)switchBtnClicked:(id)sender {
     UIButton *btn = sender;
     _switchBtn.selected = !btn.selected;
     [[EMediaManager shared] switchCamera];
 }
+//开关mic
 - (IBAction)micBtnClicked:(id)sender {
     UIButton *btn = sender;
     _micBtn.selected = !btn.selected;
     [[EMediaManager shared] setMuteEnabled:_micBtn.selected];
 }
 
-
+//开关喇叭
 - (IBAction)voiceBtnClicked:(id)sender {
     UIButton *btn = sender;
     _voiceBtn.selected = !btn.selected;
     [[HDCallManager sharedInstance] setSpeakEnable:!_voiceBtn.selected];
 }
-
+//开关自己视频
 - (IBAction)videoBtnClicked:(id)sender {
     UIButton *btn = sender;
     _videoBtn.selected = !btn.selected;
@@ -128,6 +149,8 @@
 }
 //拒绝
 - (IBAction)rejectBtnClicked:(id)sender {
+    _isOperate = YES;
+    [_condition signal];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[HDCallManager sharedInstance] exit:_currentSession onDone:^(id obj, EMediaError *error) {
             if (error == nil) {
@@ -152,6 +175,8 @@
 
 //接受视频邀请
 - (IBAction)acceptBtnClicked:(id)sender {
+    _isOperate = YES;
+    [_condition signal];
     _acceptBtn.hidden = YES;
     [self setAudioSessionSpeaker];
     CGPoint center = _rejectBtn.center;
@@ -258,15 +283,13 @@
 }
 
 
-
-
 #pragma mark - private
 
 - (EMediaPublishConfiguration *)getcConfig {
     EMediaPublishConfiguration *config = [[EMediaPublishConfiguration alloc] init];
     config.videoOff = NO;
     config.mute = NO;
-    config.extension = @"";
+    config.extension = [[HDCallManager sharedInstance] getExt];
     return config;
 }
 
