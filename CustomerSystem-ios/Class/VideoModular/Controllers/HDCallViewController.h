@@ -21,4 +21,5 @@
 
 - (void)showOneVideoBackView:(HDCallBackView *)backView;
 
+- (void)passiveCloseSessionTip:(NSString *)tip;
 @end

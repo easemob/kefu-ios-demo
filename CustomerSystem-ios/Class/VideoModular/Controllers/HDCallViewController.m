@@ -78,6 +78,7 @@
                 [[HDCallManager sharedInstance] exitSession];
             });
         }
+        [_condition unlock];
     });
     
 }
@@ -149,8 +150,10 @@
 }
 //拒绝
 - (IBAction)rejectBtnClicked:(id)sender {
+    [_condition lock];
     _isOperate = YES;
     [_condition signal];
+    [_condition unlock];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[HDCallManager sharedInstance] exit:_currentSession onDone:^(id obj, EMediaError *error) {
             if (error == nil) {
@@ -175,8 +178,10 @@
 
 //接受视频邀请
 - (IBAction)acceptBtnClicked:(id)sender {
-    _isOperate = YES;
+    [_condition lock];
     [_condition signal];
+    _isOperate = YES;
+    [_condition unlock];
     _acceptBtn.hidden = YES;
     [self setAudioSessionSpeaker];
     CGPoint center = _rejectBtn.center;
@@ -299,6 +304,18 @@
     AVAudioSession *audioSession=[AVAudioSession sharedInstance];
     //设置为播放
     [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+}
+
+- (void)passiveCloseSessionTip:(NSString *)tip {
+    [self showHint:tip];
+    _isOperate = YES;
+    _condition = nil;
+}
+
+- (void)dealloc {
+    
+    NSLog(@"qqqqqq\nqqqqqqq\nqqqqqq dealloc");
+    _condition = nil;
 }
 
 /*

@@ -177,7 +177,7 @@ static HDCallManager *_manager = nil;
             tip = @"视频通话已经结束";
             break;
     }
-    [_currentCallVC showHint:tip];
+    [_currentCallVC passiveCloseSessionTip:tip];
     [self exitSession];
 }
 
