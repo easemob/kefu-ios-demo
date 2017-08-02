@@ -309,12 +309,10 @@
 - (void)passiveCloseSessionTip:(NSString *)tip {
     [self showHint:tip];
     _isOperate = YES;
-    _condition = nil;
+    [_condition  signal];
 }
 
 - (void)dealloc {
-    
-    NSLog(@"qqqqqq\nqqqqqqq\nqqqqqq dealloc");
     _condition = nil;
 }
 
