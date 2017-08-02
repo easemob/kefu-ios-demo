@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "HDCallViewController.h"
 #define KWH kScreenWidth/2
-#import "MockData.h"
 
 @interface HDCallManager : NSObject<EMediaSessionDelegate,HDCallBackViewDelegate>
 

@@ -55,7 +55,7 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
     hud.margin = 10.f;
     hud.yOffset = 180;
     hud.removeFromSuperViewOnHide = YES;
-    [hud hide:YES afterDelay:2];
+    [hud hide:YES afterDelay:1.0];
 }
 
 - (void)showHint:(NSString *)hint duration:(NSTimeInterval)duration

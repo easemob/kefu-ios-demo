@@ -49,7 +49,8 @@
 //    option.enableConsoleLog = YES;
     option.apnsCertName = apnsCertName;
 //    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
-    option.kefuRestServer = @"https://snapshots.kefu.easemob.com";
+//    option.kefuRestServer = @"https://snapshots.kefu.easemob.com";
+    option.kefuRestServer = @"https://pinganpoc.kefu.easemob.com";
 //    option.kefuRestServer = @"http://vpc10.kefu.easemob.com";
 //    option.enableDnsConfig = NO;
 //    option.restServer = @"124.207.9.210";

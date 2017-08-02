@@ -185,7 +185,6 @@
 		D358B1221F2B1AC2001DB745 /* HDCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D358B1041F2B1AC2001DB745 /* HDCallViewController.xib */; };
 		D358B1231F2B1AC2001DB745 /* history.txt in Resources */ = {isa = PBXBuildFile; fileRef = D358B1071F2B1AC2001DB745 /* history.txt */; };
 		D358B1251F2B1AC2001DB745 /* HDCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D358B1141F2B1AC2001DB745 /* HDCallManager.m */; };
-		D358B1261F2B1AC2001DB745 /* MockData.m in Sources */ = {isa = PBXBuildFile; fileRef = D358B1161F2B1AC2001DB745 /* MockData.m */; };
 		D358B1271F2B1AC2001DB745 /* HDMemberObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D358B1191F2B1AC2001DB745 /* HDMemberObject.m */; };
 		D358B1281F2B1AC2001DB745 /* HDCallBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = D358B11C1F2B1AC2001DB745 /* HDCallBackView.m */; };
 		D358B1291F2B1AC2001DB745 /* HDCallLocalView.m in Sources */ = {isa = PBXBuildFile; fileRef = D358B11E1F2B1AC2001DB745 /* HDCallLocalView.m */; };
@@ -743,8 +742,6 @@
 		D358B1111F2B1AC2001DB745 /* libmrtc-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libmrtc-universal.a"; sourceTree = "<group>"; };
 		D358B1131F2B1AC2001DB745 /* HDCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCallManager.h; sourceTree = "<group>"; };
 		D358B1141F2B1AC2001DB745 /* HDCallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallManager.m; sourceTree = "<group>"; };
-		D358B1151F2B1AC2001DB745 /* MockData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockData.h; sourceTree = "<group>"; };
-		D358B1161F2B1AC2001DB745 /* MockData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockData.m; sourceTree = "<group>"; };
 		D358B1181F2B1AC2001DB745 /* HDMemberObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMemberObject.h; sourceTree = "<group>"; };
 		D358B1191F2B1AC2001DB745 /* HDMemberObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMemberObject.m; sourceTree = "<group>"; };
 		D358B11B1F2B1AC2001DB745 /* HDCallBackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCallBackView.h; sourceTree = "<group>"; };
@@ -1670,8 +1667,6 @@
 			children = (
 				D358B1131F2B1AC2001DB745 /* HDCallManager.h */,
 				D358B1141F2B1AC2001DB745 /* HDCallManager.m */,
-				D358B1151F2B1AC2001DB745 /* MockData.h */,
-				D358B1161F2B1AC2001DB745 /* MockData.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -3148,7 +3143,6 @@
 				D339470A1E54392E009370BF /* SRSlimeView.m in Sources */,
 				D34743B11DE6E8EF00F32D87 /* SCLoginManager.m in Sources */,
 				D3CB64AA1E4888F30022A6BA /* HDBubbleView+Text.m in Sources */,
-				D358B1261F2B1AC2001DB745 /* MockData.m in Sources */,
 				D3CE33271F0610FA00A9649E /* CommodityInfoView.m in Sources */,
 				D3D1BB421DE8478C004B3557 /* LeaveMsgDetailModel.m in Sources */,
 				D3CB644E1E4888F30022A6BA /* MBProgressHUD+Add.m in Sources */,
