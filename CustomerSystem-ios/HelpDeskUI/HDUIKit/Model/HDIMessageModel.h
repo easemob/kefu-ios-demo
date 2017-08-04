@@ -55,6 +55,9 @@
 @property (strong, nonatomic) NSString *fileURLPath;
 @property (strong, nonatomic) NSString *thumbnailFileURLPath;
 
+//图文消息
+@property(nonatomic,assign) BOOL isArticle; //是否是图文消息
+
 - (instancetype)initWithMessage:(HMessage *)message;
 
 @end

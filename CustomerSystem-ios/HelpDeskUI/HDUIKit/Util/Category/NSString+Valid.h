@@ -16,4 +16,6 @@
 
 - (BOOL)isChinese;
 
++ (CGRect)rectOfString:(NSString *)string fontSize:(CGFloat)fontSize size:(CGSize)size;
+
 @end

@@ -11,7 +11,7 @@
  */
 
 #import "HDMessageCell.h"
-
+#import "HDArticleDataControl.h"
 #import "HDBubbleView+Text.h"
 #import "HDBubbleView+Image.h"
 #import "HDBubbleView+Track.h"
@@ -23,6 +23,7 @@
 #import "HDBubbleView+Voice.h"
 #import "HDBubbleView+Video.h"
 #import "HDBubbleView+File.h"
+#import "HDBubbleView+Article.h"
 #import "UIImageView+WebCache.h"
 #import "HDEmotionEscape.h"
 #import "HDLocalDefine.h"
@@ -38,6 +39,7 @@ NSString *const HDMessageCellIdentifierRecvText = @"HDMessageCellRecvText";
 NSString *const HDMessageCellIdentifierRecvTrack = @"HDMessageCellRecvTrack";
 NSString *const HDMessageCellIdentifierRecvOrder = @"HDMessageCellRecvOrder";
 NSString *const HDMessageCellIdentifierRecvMenu = @"HDMessageCellRecvMenu";
+NSString *const HDMessageCellIdentifierRecvArticle = @"HDMessageCellRecvArticle";
 NSString *const HDMessageCellIdentifierRecvTransform = @"HDMessageCellRecvTransform";
 NSString *const HDMessageCellIdentifierRecvEvaluate = @"HDMessageCellRecvEvaluate";
 NSString *const HDMessageCellIdentifierRecvLocation = @"HDMessageCellRecvLocation";
@@ -84,7 +86,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     HDMessageCell *cell = [self appearance];
     cell.statusSize = 20;
     cell.activitySize = 20;
-    cell.bubbleMaxWidth = 200;
+    cell.bubbleMaxWidth = 400;
     cell.leftBubbleMargin = UIEdgeInsetsMake(8, 15, 8, 10);
     cell.rightBubbleMargin = UIEdgeInsetsMake(8, 10, 8, 15);
     cell.bubbleMargin = UIEdgeInsetsMake(8, 0, 8, 0);
@@ -138,17 +140,26 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     _statusButton.hidden = YES;
     [self.contentView addSubview:_statusButton];
     
-    _bubbleView = [[HDBubbleView alloc] initWithMargin:isSender?_rightBubbleMargin:_leftBubbleMargin isSender:isSender];
-    _bubbleView.translatesAutoresizingMaskIntoConstraints = NO;
-    _bubbleView.backgroundColor = [UIColor clearColor];
-    [self.contentView addSubview:_bubbleView];
+    UIEdgeInsets edge = isSender?_rightBubbleMargin:_leftBubbleMargin;
+    if (model.isArticle) {
+        edge = UIEdgeInsetsMake(8, 10, 8, 10);
+    }
     
-    _avatarView = [[UIImageView alloc] init];
-    _avatarView.translatesAutoresizingMaskIntoConstraints = NO;
-    _avatarView.backgroundColor = [UIColor clearColor];
-    _avatarView.clipsToBounds = YES;
-    _avatarView.userInteractionEnabled = YES;
-    [self.contentView addSubview:_avatarView];
+    _bubbleView = [[HDBubbleView alloc] initWithMargin:edge isSender:model.isSender];
+    _bubbleView.translatesAutoresizingMaskIntoConstraints = NO;
+    _bubbleView.backgroundColor = [UIColor blueColor];
+    [self.contentView addSubview:_bubbleView];
+    if (!model.isArticle) {
+        _avatarView = [[UIImageView alloc] init];
+        _avatarView.translatesAutoresizingMaskIntoConstraints = NO;
+        _avatarView.backgroundColor = [UIColor clearColor];
+        _avatarView.clipsToBounds = YES;
+        _avatarView.userInteractionEnabled = YES;
+        [self.contentView addSubview:_avatarView];
+    } else {
+        self.bubbleMaxWidth = 400;
+    }
+    
     
     _hasRead = [[UILabel alloc] init];
     _hasRead.translatesAutoresizingMaskIntoConstraints = NO;
@@ -188,6 +199,10 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         } else {
                             [_bubbleView setupRobotMenuBubbleView];
                         }
+                    }
+                    
+                    if ([HDArticleDataControl isArticleMessage:model.message]) {
+                        [_bubbleView setupArticleuBubbleView];
                     }
                     
                     if ([dic.allKeys containsObject:@"videoPlayback"] || [dic.allKeys containsObject:@"liveStreamInvitation"]) {
@@ -347,11 +362,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 - (void)_updateBubbleMaxWidthConstraint
 {
     [self removeConstraint:self.bubbleMaxWidthConstraint];
-//    self.bubbleMaxWidthConstraint.active = NO;
     
     self.bubbleMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.bubbleMaxWidth];
     [self addConstraint:self.bubbleMaxWidthConstraint];
-//    self.bubbleMaxWidthConstraint.active = YES;
 }
 
 #pragma mark - setter
@@ -367,9 +380,19 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             {
                 _detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
                 NSDictionary *msgtypeDic = [model.message.ext objectForKey:@"msgtype"];
-                if (msgtypeDic|| [HjudgeTextMessageSubType isTransferMessage:model.message] || [HjudgeTextMessageSubType isEvaluateMessage:model.message]) {
+                if (msgtypeDic|| [HjudgeTextMessageSubType isTransferMessage:model.message] || [HjudgeTextMessageSubType isEvaluateMessage:model.message] || [HDArticleDataControl isArticleMessage:model.message]) {
                     NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
                      NSDictionary *itemDic = [dic objectForKey:@"order"] ? [dic objectForKey:@"order"] : [dic objectForKey:@"track"];
+                    if ([dic objectForKey:@"articles"]) {
+                        NSArray *articles = [dic objectForKey:@"articles"];
+                        NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+                        for (NSDictionary *articleDic in articles) {
+                            HDSubItem *item = [[HDSubItem alloc] initWithDictionary:articleDic];
+                            [arr addObject:item];
+                        }
+                        _bubbleView.subModels = arr.copy;
+                        [_bubbleView reloadArticleData];
+                    }
                     if ([dic objectForKey:@"track"]) { //轨迹消息
                         NSString *imageName = [model.message.ext objectForKey:@"imageName"];
                         if ([imageName length] > 0) {
@@ -620,6 +643,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                                 [_bubbleView reloadData];
                             }
                         }
+                        if([HDArticleDataControl isArticleMessage:_model.message]) {
+                            [_bubbleView updateArticleMargin:UIEdgeInsetsMake(8, 10, 8, 10)];
+                        }
                         if ([dic objectForKey:@"videoPlayback"] || [dic objectForKey:@"liveStreamInvitation"]) {
                              [_bubbleView updateTextMargin:_bubbleMargin];
                         }
@@ -627,7 +653,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                          [_bubbleView updateTransformMargin:_bubbleMargin];
                     } else if ([HjudgeTextMessageSubType isEvaluateMessage:_model.message]) {
                         [_bubbleView updateEvaluateMargin:_bubbleMargin];
-                    }else {
+                    } else {
                          [_bubbleView updateTextMargin:_bubbleMargin];
                     }
                 }
@@ -935,6 +961,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     if ([dic objectForKey:@"choice"] ) {
                         cellIdentifier = HDMessageCellIdentifierRecvMenu;
                     }
+                    if ([dic objectForKey:@"articles"]) {
+                        cellIdentifier = HDMessageCellIdentifierRecvArticle;
+                    }
                     if ([dic objectForKey:@"videoPlayback"] || [dic objectForKey:@"liveStreamInvitation"]) {
                         cellIdentifier = HDMessageCellIdentifierRecvText;
                     }
@@ -980,9 +1009,6 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     
     HDMessageCell *cell = [self appearance];
     CGFloat bubbleMaxWidth = cell.bubbleMaxWidth;
-    if ([UIDevice currentDevice].systemVersion.floatValue == 7.0) {
-        bubbleMaxWidth = 200;
-    }
     bubbleMaxWidth -= (cell.leftBubbleMargin.left + cell.leftBubbleMargin.right + cell.rightBubbleMargin.left + cell.rightBubbleMargin.right)/2;
     
     CGFloat height = HDMessageCellPadding + cell.bubbleMargin.top + cell.bubbleMargin.bottom;
@@ -1017,6 +1043,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     return [self robotMenuHeightMenu:menu height:height lessNine:0 equalNine:30 greaterTen:60 greaterFifteen:80 greaterTwenty:90];
                 }
 
+            } else if([msgDic objectForKey:@"articles"]) {
+                NSArray *articles = [msgDic objectForKey:@"articles"];
+                return [self getArticleCellHeight:articles];
             } else { //其他消息【订单、轨迹、富文本】
                 NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
                 CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
@@ -1111,6 +1140,30 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     model.cellHeight = height;
     
     return height;
+}
+
++ (CGFloat)getArticleCellHeight:(NSArray *)subs {
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+    for (NSDictionary *articleDic in subs) {
+        HDSubItem *item = [[HDSubItem alloc] initWithDictionary:articleDic];
+        [arr addObject:item];
+    }
+    if (arr.count == 1) {
+        HDSubItem *item = [arr firstObject];
+
+        CGSize size = CGSizeMake(kScreenWidth-2*kLeftMargin - 2*40, MAXFLOAT);
+        CGFloat titleH = [NSString rectOfString:item.title fontSize:kTitleFontSize size:size].size.height;
+        CGFloat timeH = 12;
+        CGFloat imageH = 180;
+        CGFloat digistH = [NSString rectOfString:item.digest fontSize:10 size:size].size.height;
+        if (digistH>40) {
+            digistH = 40;
+        }
+        CGFloat h = titleH+timeH+imageH+digistH+44+2*kTopMargin;
+        return h;
+    } else {
+        return 200+(arr.count-1)*70;
+    }
 }
 
 + (NSString*)_getMessageContent:(HMessage*)message

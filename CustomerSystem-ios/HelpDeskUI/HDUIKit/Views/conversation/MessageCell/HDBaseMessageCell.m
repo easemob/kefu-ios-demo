@@ -63,13 +63,14 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier model:model];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        
-        _nameLabel = [[UILabel alloc] init];
-        _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _nameLabel.backgroundColor = [UIColor clearColor];
-        _nameLabel.font = _messageNameFont;
-        _nameLabel.textColor = _messageNameColor;
-        [self.contentView addSubview:_nameLabel];
+        if (!model.isArticle) {
+            _nameLabel = [[UILabel alloc] init];
+            _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
+            _nameLabel.backgroundColor = [UIColor clearColor];
+            _nameLabel.font = _messageNameFont;
+            _nameLabel.textColor = _messageNameColor;
+            [self.contentView addSubview:_nameLabel];
+        }
         _lgM = [SCLoginManager shareLoginManager];
         [self configureLayoutConstraintsWithModel:model];
         
@@ -85,6 +86,12 @@
 {
     [super layoutSubviews];
     _bubbleView.backgroundImageView.image = self.model.isSender ? self.sendBubbleBackgroundImage : self.recvBubbleBackgroundImage;
+    if (self.model.isArticle) {
+        _bubbleView.backgroundImageView.image = nil;
+        _bubbleView.backgroundImageView.layer.borderWidth = 0.5;
+        _bubbleView.backgroundImageView.layer.cornerRadius = 5;
+        _bubbleView.backgroundImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    }
     switch (self.model.bodyType) {
         case EMMessageBodyTypeText:
         {
@@ -150,11 +157,23 @@
 
 - (void)configureLayoutConstraintsWithModel:(id<HDIMessageModel>)model
 {
-    if (model.isSender) {
-        [self configureSendLayoutConstraints];
+    if (model.isArticle) {
+        [self configArticleConstraints];
     } else {
-        [self configureRecvLayoutConstraints];
+        if (model.isSender) {
+            [self configureSendLayoutConstraints];
+        } else {
+            [self configureRecvLayoutConstraints];
+        }
     }
+}
+
+- (void)configArticleConstraints {
+    //bubble view
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:HDMessageCellPadding]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:HDMessageCellPadding]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:400.0]];
 }
 
 - (void)configureSendLayoutConstraints

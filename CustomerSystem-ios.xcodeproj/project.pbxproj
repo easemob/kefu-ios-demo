@@ -51,6 +51,7 @@
 		D2769D271B9052D7003D9E3D /* button_demo_department@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2769D251B9052D7003D9E3D /* button_demo_department@2x.png */; };
 		D2769D281B9052D7003D9E3D /* button_demo_department_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2769D261B9052D7003D9E3D /* button_demo_department_select@2x.png */; };
 		D298641D1EE3A89700AF4A4C /* LeaveMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D298641C1EE3A89700AF4A4C /* LeaveMessageCell.m */; };
+		D32772321F33270D0059F1BB /* HDArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D32772311F33270D0059F1BB /* HDArticleView.m */; };
 		D32FBEB01ED55E6C00BA68D7 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D32FBE901ED55E6C00BA68D7 /* LICENSE */; };
 		D32FBEB11ED55E6C00BA68D7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D32FBE911ED55E6C00BA68D7 /* README.md */; };
 		D32FBEB21ED55E6C00BA68D7 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = D32FBE941ED55E6C00BA68D7 /* NSData+ImageContentType.m */; };
@@ -182,6 +183,8 @@
 		D366CAEE1EF925FD00899143 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D366CAE81EF925FD00899143 /* SVProgressHUD.m */; };
 		D366CAEF1EF925FD00899143 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D366CAEA1EF925FD00899143 /* SVRadialGradientLayer.m */; };
 		D37315831E52A5D00043ED32 /* HelpDeskUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */; };
+		D373491F1F3482C700FAE588 /* HDArticleDataControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D373491E1F3482C700FAE588 /* HDArticleDataControl.m */; };
+		D37983E91F31E45700E9E4EB /* HDBubbleView+Article.m in Sources */ = {isa = PBXBuildFile; fileRef = D37983E81F31E45700E9E4EB /* HDBubbleView+Article.m */; };
 		D39E2EE41E7F7A7D0014FAE5 /* HCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D39E2EE31E7F7A7D0014FAE5 /* HCallManager.m */; };
 		D39E2EE81E7F7BB10014FAE5 /* HCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D39E2EE61E7F7BB10014FAE5 /* HCallViewController.m */; };
 		D39E2EE91E7F7BB10014FAE5 /* HCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D39E2EE71E7F7BB10014FAE5 /* HCallViewController.xib */; };
@@ -545,6 +548,8 @@
 		D27967A51BDF33D200842C28 /* CustomerSystem.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerSystem.pch; sourceTree = "<group>"; };
 		D298641B1EE3A89700AF4A4C /* LeaveMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaveMessageCell.h; sourceTree = "<group>"; };
 		D298641C1EE3A89700AF4A4C /* LeaveMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaveMessageCell.m; sourceTree = "<group>"; };
+		D32772301F33270D0059F1BB /* HDArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDArticleView.h; sourceTree = "<group>"; };
+		D32772311F33270D0059F1BB /* HDArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDArticleView.m; sourceTree = "<group>"; };
 		D32FBE901ED55E6C00BA68D7 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		D32FBE911ED55E6C00BA68D7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D32FBE931ED55E6C00BA68D7 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -719,6 +724,10 @@
 		D366CAE91EF925FD00899143 /* SVRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRadialGradientLayer.h; sourceTree = "<group>"; };
 		D366CAEA1EF925FD00899143 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
 		D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HelpDeskUIResource.bundle; sourceTree = "<group>"; };
+		D373491D1F3482C700FAE588 /* HDArticleDataControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDArticleDataControl.h; sourceTree = "<group>"; };
+		D373491E1F3482C700FAE588 /* HDArticleDataControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDArticleDataControl.m; sourceTree = "<group>"; };
+		D37983E71F31E45700E9E4EB /* HDBubbleView+Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HDBubbleView+Article.h"; sourceTree = "<group>"; };
+		D37983E81F31E45700E9E4EB /* HDBubbleView+Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HDBubbleView+Article.m"; sourceTree = "<group>"; };
 		D39AD9091DFAA6BE00895FCF /* CustomerSystem-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ios.entitlements"; sourceTree = "<group>"; };
 		D39E2EE21E7F7A7D0014FAE5 /* HCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCallManager.h; sourceTree = "<group>"; };
 		D39E2EE31E7F7A7D0014FAE5 /* HCallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCallManager.m; sourceTree = "<group>"; };
@@ -1980,10 +1989,12 @@
 		D3CB63FB1E4888F30022A6BA /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				D3CB63FC1E4888F30022A6BA /* HDLocationViewController.h */,
-				D3CB63FD1E4888F30022A6BA /* HDLocationViewController.m */,
+				D373491D1F3482C700FAE588 /* HDArticleDataControl.h */,
+				D373491E1F3482C700FAE588 /* HDArticleDataControl.m */,
 				D3CB63FE1E4888F30022A6BA /* HDMessageViewController.h */,
 				D3CB63FF1E4888F30022A6BA /* HDMessageViewController.m */,
+				D3CB63FC1E4888F30022A6BA /* HDLocationViewController.h */,
+				D3CB63FD1E4888F30022A6BA /* HDLocationViewController.m */,
 				D3CB64001E4888F30022A6BA /* HDRefreshTableViewController.h */,
 				D3CB64011E4888F30022A6BA /* HDRefreshTableViewController.m */,
 				D3CB64021E4888F30022A6BA /* HDViewController.h */,
@@ -2032,6 +2043,12 @@
 			children = (
 				D3CB64101E4888F30022A6BA /* HDBubbleView+Evaluate.h */,
 				D3CB64111E4888F30022A6BA /* HDBubbleView+Evaluate.m */,
+				D32772301F33270D0059F1BB /* HDArticleView.h */,
+				D32772311F33270D0059F1BB /* HDArticleView.m */,
+				D37983E71F31E45700E9E4EB /* HDBubbleView+Article.h */,
+				D37983E81F31E45700E9E4EB /* HDBubbleView+Article.m */,
+				D3CB641C1E4888F30022A6BA /* HDBubbleView+RobotMenu.h */,
+				D3CB641D1E4888F30022A6BA /* HDBubbleView+RobotMenu.m */,
 				D3CB64121E4888F30022A6BA /* HDBubbleView+File.h */,
 				D3CB64131E4888F30022A6BA /* HDBubbleView+File.m */,
 				D3CB64141E4888F30022A6BA /* HDBubbleView+Gif.h */,
@@ -2042,8 +2059,6 @@
 				D3CB64191E4888F30022A6BA /* HDBubbleView+Location.m */,
 				D3CB641A1E4888F30022A6BA /* HDBubbleView+Order.h */,
 				D3CB641B1E4888F30022A6BA /* HDBubbleView+Order.m */,
-				D3CB641C1E4888F30022A6BA /* HDBubbleView+RobotMenu.h */,
-				D3CB641D1E4888F30022A6BA /* HDBubbleView+RobotMenu.m */,
 				D3CB641E1E4888F30022A6BA /* HDBubbleView+Text.h */,
 				D3CB641F1E4888F30022A6BA /* HDBubbleView+Text.m */,
 				D3CB64201E4888F30022A6BA /* HDBubbleView+Track.h */,
@@ -3006,6 +3021,7 @@
 				D3CB64451E4888F30022A6BA /* HDCDDeviceManager+Microphone.m in Sources */,
 				D3CB64521E4888F30022A6BA /* MJRefreshComponent.m in Sources */,
 				D3CB64A11E4888F30022A6BA /* HDMessageCell.m in Sources */,
+				D37983E91F31E45700E9E4EB /* HDBubbleView+Article.m in Sources */,
 				D3CB64941E4888F30022A6BA /* HDEmojiEmoticons.m in Sources */,
 				D3CB64561E4888F30022A6BA /* MJRefreshAutoNormalFooter.m in Sources */,
 				D3D1BB451DE84862004B3557 /* LeaveMsgCell.m in Sources */,
@@ -3021,6 +3037,7 @@
 				D3394EA61E559A3F009370BF /* HFileViewController.m in Sources */,
 				D3CB64921E4888F30022A6BA /* UIViewController+HDHUD.m in Sources */,
 				D3CB64AB1E4888F30022A6BA /* HDBubbleView+Track.m in Sources */,
+				D32772321F33270D0059F1BB /* HDArticleView.m in Sources */,
 				D3CB64421E4888F30022A6BA /* HDAudioPlayerUtil.m in Sources */,
 				D3CB64631E4888F30022A6BA /* MWCaptionView.m in Sources */,
 				D3CB64861E4888F30022A6BA /* PSTGridLayoutItem.m in Sources */,
@@ -3031,6 +3048,7 @@
 				D32FBEB61ED55E6C00BA68D7 /* SDWebImageDownloader.m in Sources */,
 				D3CB649C1E4888F30022A6BA /* HDMessageViewController.m in Sources */,
 				D298641D1EE3A89700AF4A4C /* LeaveMessageCell.m in Sources */,
+				D373491F1F3482C700FAE588 /* HDArticleDataControl.m in Sources */,
 				D3CB64801E4888F30022A6BA /* PSTCollectionViewData.m in Sources */,
 				D39E2EE81E7F7BB10014FAE5 /* HCallViewController.m in Sources */,
 				D33946F21E54381B009370BF /* UIView+FLExtension.m in Sources */,

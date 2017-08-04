@@ -47,8 +47,9 @@ NSString *const HRouterEventTextURLTapEventName = @"HRouterEventTextURLTapEventN
     if (self) {
         _isSender = isSender;
         _margin = margin;
-        
         _marginConstraints = [NSMutableArray array];
+        [self addSubview:self.backgroundImageView];
+        [self _setupBackgroundImageViewConstraints];
     }
     
     return self;
@@ -73,9 +74,6 @@ NSString *const HRouterEventTextURLTapEventName = @"HRouterEventTextURLTapEventN
         _backgroundImageView = [[UIImageView alloc] init];
         _backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
         _backgroundImageView.userInteractionEnabled = YES;
-        _backgroundImageView.backgroundColor = [UIColor clearColor];
-        [self addSubview:_backgroundImageView];
-        [self _setupBackgroundImageViewConstraints];
     }
     
     return _backgroundImageView;

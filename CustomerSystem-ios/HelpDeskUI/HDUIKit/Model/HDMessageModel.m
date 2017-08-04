@@ -27,7 +27,12 @@
         _firstMessageBody = message.body;
         _isMediaPlaying = NO;
         _isSender = message.direction == HMessageDirectionSend ? YES : NO;
-        
+        NSDictionary *msgtypeDic = [message.ext objectForKey:@"msgtype"];
+        if (msgtypeDic) {
+            if ([msgtypeDic objectForKey:@"articles"]) {
+                _isArticle = YES;
+            }
+        }
         if (!_isSender) {
             NSString *kefu = [[[message.ext objectForKey:@"weichat"] objectForKey:@"agent"] objectForKey:@"userNickname"];
             if (kefu) {

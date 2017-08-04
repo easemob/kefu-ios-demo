@@ -11,7 +11,7 @@
  */
 
 #import <UIKit/UIKit.h>
-
+#import "HDArticleDataControl.h"
 #import "HDIModelChatCell.h"
 #import "HDIMessageModel.h"
 

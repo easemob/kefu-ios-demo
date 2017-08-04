@@ -7,6 +7,7 @@
 //
 
 #import "HConversationTableViewCell.h"
+#import "HDArticleDataControl.h"
 #define kHeadImageViewLeft 10.f
 #define kHeadImageViewTop 10.f
 #define kHeadImageViewWidth 40.f
@@ -115,6 +116,9 @@
             if ([HjudgeTextMessageSubType isEvaluateMessage:model.latestMessage]) {
                 content = @"[评价邀请]";
             }
+            if ([HDArticleDataControl isArticleMessage:model.latestMessage]) {
+                content = @"[图文消息]";
+            }
             break;
         }
         case EMMessageBodyTypeImage: {
@@ -139,6 +143,7 @@
     NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:_contentLabel.font]];
     _contentLabel.attributedText = attributedString;
 }
+
 
 
 - (NSString *)stringFromTimeInterval:(NSTimeInterval)timeInterval {

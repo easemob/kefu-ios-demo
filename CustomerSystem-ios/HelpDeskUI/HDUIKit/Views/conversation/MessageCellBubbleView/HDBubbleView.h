@@ -12,7 +12,7 @@
 
 
 #import <UIKit/UIKit.h>
-
+#import "HDArticleView.h"
 extern CGFloat const HDMessageCellPadding;
 
 extern NSString *const HRouterEventTapMenu; //选择菜单
@@ -79,6 +79,12 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 @property(nonatomic,strong) UITableView *tableView;     //菜单
 @property(nonatomic,strong) NSArray *options;           //菜单选项
 @property(nonatomic,strong) NSString *menuTitle;
+
+//article Message
+@property(nonatomic,strong) HDArticleView *articleView;
+//@property(nonatomic,strong) id titleModel;  //第一个cell
+@property(nonatomic,strong) NSArray *subModels; //子菜单的models
+
 
 //transform
 @property(nonatomic,strong) UILabel *transTitle; //机器人回复文字

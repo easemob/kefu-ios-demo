@@ -127,7 +127,6 @@
 }
 
 - (void)reloadData {
-    
     [self removeConstraints:self.marginConstraints];
     [self _setupRobotMenuBubbleConstraints];
     [self.tableView reloadData];
