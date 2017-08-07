@@ -306,6 +306,7 @@
 		D3D1BB421DE8478C004B3557 /* LeaveMsgDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D1BB411DE8478C004B3557 /* LeaveMsgDetailModel.m */; };
 		D3D1BB451DE84862004B3557 /* LeaveMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D1BB441DE84862004B3557 /* LeaveMsgCell.m */; };
 		D3D1BB4C1DE84928004B3557 /* NSDateFormatter+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D1BB4B1DE84928004B3557 /* NSDateFormatter+Category.m */; };
+		D3D87C141F3847C300FB7C84 /* HArticleWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D87C131F3847C300FB7C84 /* HArticleWebViewController.m */; };
 		D3DEAA171DED661E0081B654 /* chatBar_recordBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DEAA161DED661E0081B654 /* chatBar_recordBg@2x.png */; };
 		D3DEAA191DED66240081B654 /* chatBar_recordSelectedBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DEAA181DED66240081B654 /* chatBar_recordSelectedBg@2x.png */; };
 		D3DEAA1F1DED78D00081B654 /* SCAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DEAA1E1DED78D00081B654 /* SCAudioPlay.m */; };
@@ -977,6 +978,8 @@
 		D3D1BB441DE84862004B3557 /* LeaveMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaveMsgCell.m; sourceTree = "<group>"; };
 		D3D1BB4A1DE84928004B3557 /* NSDateFormatter+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+Category.h"; sourceTree = "<group>"; };
 		D3D1BB4B1DE84928004B3557 /* NSDateFormatter+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+Category.m"; sourceTree = "<group>"; };
+		D3D87C121F3847C300FB7C84 /* HArticleWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HArticleWebViewController.h; sourceTree = "<group>"; };
+		D3D87C131F3847C300FB7C84 /* HArticleWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HArticleWebViewController.m; sourceTree = "<group>"; };
 		D3DEAA161DED661E0081B654 /* chatBar_recordBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatBar_recordBg@2x.png"; sourceTree = "<group>"; };
 		D3DEAA181DED66240081B654 /* chatBar_recordSelectedBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatBar_recordSelectedBg@2x.png"; sourceTree = "<group>"; };
 		D3DEAA1D1DED78D00081B654 /* SCAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAudioPlay.h; sourceTree = "<group>"; };
@@ -2001,6 +2004,8 @@
 				D3394AED1E548898009370BF /* HDViewController.m */,
 				D3394AE31E54868D009370BF /* SatisfactionViewController.h */,
 				D3394AE41E54868D009370BF /* SatisfactionViewController.m */,
+				D3D87C121F3847C300FB7C84 /* HArticleWebViewController.h */,
+				D3D87C131F3847C300FB7C84 /* HArticleWebViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2974,6 +2979,7 @@
 				D3CB64831E4888F30022A6BA /* PSTCollectionViewLayout.m in Sources */,
 				D3CB64AF1E4888F30022A6BA /* HDBubbleView.m in Sources */,
 				D3CB648E1E4888F30022A6BA /* NSDateFormatter+Category.m in Sources */,
+				D3D87C141F3847C300FB7C84 /* HArticleWebViewController.m in Sources */,
 				D3CB64A41E4888F30022A6BA /* HDBubbleView+File.m in Sources */,
 				D34D6CED1DEC12850099EE23 /* LeaveMsgAttatchmentView.m in Sources */,
 				D3CB645A1E4888F30022A6BA /* MJRefreshBackStateFooter.m in Sources */,

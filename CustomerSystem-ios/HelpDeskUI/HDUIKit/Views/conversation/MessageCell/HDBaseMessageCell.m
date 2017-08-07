@@ -89,6 +89,7 @@
     if (self.model.isArticle) {
         _bubbleView.backgroundImageView.image = nil;
         _bubbleView.backgroundImageView.layer.borderWidth = 0.5;
+        _bubbleView.backgroundImageView.layer.masksToBounds = YES;
         _bubbleView.backgroundImageView.layer.cornerRadius = 5;
         _bubbleView.backgroundImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     }
@@ -98,6 +99,9 @@
             NSDictionary *dic =[self.model.message.ext objectForKey:@"msgtype"];
             if (dic || [HjudgeTextMessageSubType isTransferMessage:self.model.message] || [HjudgeTextMessageSubType  isEvaluateMessage:self.model.message]) {
                 if (self.model.isSender && [HjudgeTextMessageSubType isMenuMessage:self.model.message]) {
+                    break;
+                }
+                if (self.model.isArticle) {
                     break;
                 }
                 if (![dic.allKeys containsObject:@"videoPlayback"] && ![dic.allKeys containsObject:@"liveStreamInvitation"]) {
@@ -173,7 +177,7 @@
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:HDMessageCellPadding]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:HDMessageCellPadding]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:400.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kScreenWidth - 20]];
 }
 
 - (void)configureSendLayoutConstraints

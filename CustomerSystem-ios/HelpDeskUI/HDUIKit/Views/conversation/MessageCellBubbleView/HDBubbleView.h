@@ -18,6 +18,7 @@ extern CGFloat const HDMessageCellPadding;
 extern NSString *const HRouterEventTapMenu; //选择菜单
 extern NSString *const HRouterEventTapTransform; //转人工
 extern NSString *const HRouterEventTapEvaluate ; //评价
+extern NSString *const HRouterEventTapArticle; //图文消息
 
 extern NSString *const HRouterEventTextURLTapEventName;
 

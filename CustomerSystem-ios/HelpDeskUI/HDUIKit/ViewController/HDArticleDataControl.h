@@ -13,6 +13,10 @@
 #define kTopMargin 10
 #define kLeftMargin 10
 #define kTitleImageHeight 180
+#define kTitleFontSize 15
+#define kTimeFontSize 10
+#define kDigistFontSize 10
+#define kMarginNormal 10
 
 
 @interface HDArticleDataControl : NSObject

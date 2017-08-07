@@ -22,6 +22,7 @@
 #import "HDBubbleView+Track.h"
 
 NSString *const HRouterEventTapMenu = @"HRouterEventTapMenu";
+NSString *const HRouterEventTapArticle = @"HRouterEventTapArticle";
 NSString *const HRouterEventTapTransform = @"HRouterEventTapTransform";
 NSString *const HRouterEventTapEvaluate = @"HRouterEventTapEvaluate";
 NSString *const HRouterEventTextURLTapEventName = @"HRouterEventTextURLTapEventName";

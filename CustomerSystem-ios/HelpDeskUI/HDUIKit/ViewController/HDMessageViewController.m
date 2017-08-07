@@ -27,6 +27,7 @@
 #import "HDBubbleView+Transform.h"
 #import "HDBubbleView+Evaluate.h"
 #import "SatisfactionViewController.h"
+#import "HArticleWebViewController.h"
 #define KHintAdjustY    50
 #define IOS_VERSION [[UIDevice currentDevice] systemVersion]>=9.0
 
@@ -189,7 +190,7 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
-        if (touch.view.width == 200) {
+        if (touch.view.width == 200 || touch.view.tag == 1990) {
             return NO;
         }
     }
@@ -1716,6 +1717,15 @@
                     };
         }
         [self sendTextMessage:text withExt:ext];
+    }
+    if ([eventName isEqualToString:HRouterEventTapArticle]) { //图文消息
+        if (_menuController.menuVisible) {
+            [_menuController setMenuVisible:NO animated:YES];
+            return;
+        }
+        HArticleWebViewController *articleVC = [[HArticleWebViewController alloc] init];
+        articleVC.url = [userInfo objectForKey:@"url"];
+        [self.navigationController pushViewController:articleVC animated:YES];
     }
     if ([eventName isEqualToString:HRouterEventTapTransform]) {
         if (_isSendingTransformMessage) return;

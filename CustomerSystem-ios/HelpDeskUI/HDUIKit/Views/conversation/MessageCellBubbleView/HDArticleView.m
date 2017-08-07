@@ -24,6 +24,7 @@
         self.tableView.autoresizingMask=UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         self.tableView.scrollEnabled = NO;
         self.tableView.allowsSelection = YES;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         [self addSubview:_tableView];
@@ -51,6 +52,14 @@
         return cell;
     }
     return nil;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (_delegate && [_delegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) {
+        [_delegate articleTableView:tableView didSelectRowAtIndexPath:indexPath];
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

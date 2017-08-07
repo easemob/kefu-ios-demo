@@ -9,14 +9,20 @@
 #import <UIKit/UIKit.h>
 
 @protocol HDArticleViewDelegate <NSObject>
+@optional
 
 - (NSInteger)articleViewNumberOfSectionsInTableView:(UITableView *)tableView;
+
+@required
 
 - (NSInteger)articleViewTableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section ;
 
 - (UITableViewCell *)articleViewTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 - (CGFloat)articleTableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+
+- (void)articleTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+
 
 @end
 
