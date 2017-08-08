@@ -44,6 +44,8 @@
 @property (nonatomic, copy) NSString *errorDescription;
 
 
+#pragma mark - Internal SDK
+
 /*!
  *  \~chinese 
  *  初始化错误实例

@@ -26,15 +26,19 @@
 #import "EMImageMessageBody.h"
 #import "EMVoiceMessageBody.h"
 #import "EMVideoMessageBody.h"
+#import "EMCursorResult.h"
+
 
 @class EMError;
 
 /*!
  *  \~chinese
  *  聊天相关操作
+ *  目前消息都是从DB中加载，沒有從server端加载
  *
  *  \~english
  *  Operations of chat
+ *  Current message are loaded from local database, not from server
  */
 @protocol IEMChatManager <NSObject>
 
@@ -53,7 +57,7 @@
  *  Add delegate
  *
  *  @param aDelegate  Delegate
- *  @param aQueue     The queue of call delegate method
+ *  @param aQueue     (optional) The queue of calling delegate methods. Pass in nil to run on main thread.
  */
 - (void)addDelegate:(id<EMChatManagerDelegate>)aDelegate
       delegateQueue:(dispatch_queue_t)aQueue;
@@ -80,7 +84,7 @@
  *  @result 会话列表<EMConversation>
  *
  *  \~english
- *  Get all conversations, by loading conversations from DB if not exist in memory
+ *  Get all conversations from local databse. Will load conversations from cache first, otherwise local database
  *
  *  @result Conversation list<EMConversation>
  */
@@ -97,10 +101,10 @@
  *  @result 会话对象
  *
  *  \~english
- *  Get a conversation
+ *  Get a conversation from local database
  *
  *  @param aConversationId  Conversation id
- *  @param aType            Conversation type
+ *  @param aType            Conversation type (Must be specified)
  *  @param aIfCreate        Whether create conversation if not exist
  *
  *  @result Conversation
@@ -118,11 +122,11 @@
  *  @param aCompletionBlock     完成的回调
  *
  *  \~english
- *  Delete a conversation
+ *  Delete a conversation from local database
  *
  *  @param aConversationId      Conversation id
- *  @param aIsDeleteMessages    Whether delete messages
- *  @param aCompletionBlock     The callback block of completion
+ *  @param aIsDeleteMessages    if delete messages
+ *  @param aCompletionBlock     The callback of completion block
  *
  */
 - (void)deleteConversation:(NSString *)aConversationId
@@ -142,7 +146,7 @@
  *
  *  @param aConversations       Conversation list<EMConversation>
  *  @param aIsDeleteMessages    Whether delete messages
- *  @param aCompletionBlock     The callback block of completion
+ *  @param aCompletionBlock     The callback of completion block
  *
  */
 - (void)deleteConversations:(NSArray *)aConversations
@@ -158,10 +162,10 @@
  *
  *
  *  \~english
- *  Import multiple conversations to DB
+ *  Import multiple conversations to local database
  *
- *  @param aConversations   Conversation list<EMConversation>
- *  @param aCompletionBlock The callback block of completion
+ *  @param aConversations       Conversation list<EMConversation>
+ *  @param aCompletionBlock     The callback of completion block
  *
  */
 - (void)importConversations:(NSArray *)aConversations
@@ -171,14 +175,14 @@
 
 /*!
  *  \~chinese
- *  获取消息附件路径, 存在这个路径的文件，删除会话时会被删除
+ *  获取消息附件路径，存在这个路径的文件，删除会话时会被删除
  *
  *  @param aConversationId  会话ID
  *
  *  @result 附件路径
  *
  *  \~english
- *  Get message attachment local path for the conversation. Delete the conversation will also delete the files under the file path.
+ *  Get message attachment local path for the conversation. Delete the conversation will also delete the files under the file path
  *
  *  @param aConversationId  Conversation id
  *
@@ -194,10 +198,10 @@
  *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Import multiple messages
+ *  Import multiple messages to local database
  *
- *  @param aMessages        Message list<EMMessage>
- *  @param aCompletionBlock The callback block of completion
+ *  @param aMessages            Message list<EMMessage>
+ *  @param aCompletionBlock     The callback of completion block
  *
  */
 - (void)importMessages:(NSArray *)aMessages
@@ -211,10 +215,10 @@
  *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Update message
+ *  Update a message in local database. latestMessage of the conversation and other properties will be updated accordingly. messageId of the message cannot be updated
  *
- *  @param aMessage         Message
- *  @param aSuccessBlock    The callback block of completion
+ *  @param aMessage             Message
+ *  @param aCompletionBlock     The callback of completion block
  *
  */
 - (void)updateMessage:(EMMessage *)aMessage
@@ -232,13 +236,32 @@
  *  \~english
  *  Send read acknowledgement for message
  *
+ *  @param aMessage             Message instance
+ *  @param aCompletionBlock     The callback of completion block
+ *
+ */
+- (void)sendMessageReadAck:(EMMessage *)aMessage
+                completion:(void (^)(EMMessage *aMessage, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  撤回消息
+ *
+ *  异步方法
+ *
+ *  @param aMessage             消息
+ *  @param aCompletionBlock     完成的回调
+ *
+ *  \~english
+ *  Recall a message
+ *
  *
  *  @param aMessage             Message instance
  *  @param aCompletionBlock     The callback block of completion
  *
  */
-- (void)sendMessageReadAck:(EMMessage *)aMessage
-                     completion:(void (^)(EMMessage *aMessage, EMError *aError))aCompletionBlock;
+- (void)recallMessage:(EMMessage *)aMessage
+           completion:(void (^)(EMMessage *aMessage, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -251,10 +274,9 @@
  *  \~english
  *  Send a message
  *
- *
- *  @param aMessage            Message instance
- *  @param aProgressBlock      The block of attachment upload progress
- *  @param aCompletionBlock    The block of send complete
+ *  @param aMessage             Message instance
+ *  @param aProgressBlock       The block of attachment upload progress in percentage, 0~100.
+ *  @param aCompletionBlock     The callback of completion block
  */
 - (void)sendMessage:(EMMessage *)aMessage
            progress:(void (^)(int progress))aProgressBlock
@@ -271,13 +293,13 @@
  *  \~english
  *  Resend Message
  *
- *  @param aMessage         Message instance
- *  @param aProgressBlock   The callback block of attachment upload progress
- *  @param aCompletionBlock The callback block of send complete
+ *  @param aMessage             Message instance
+ *  @param aProgressBlock       The callback block of attachment upload progress
+ *  @param aCompletionBlock     The callback of completion block
  */
 - (void)resendMessage:(EMMessage *)aMessage
-                  progress:(void (^)(int progress))aProgressBlock
-                completion:(void (^)(EMMessage *message, EMError *error))aCompletionBlock;
+             progress:(void (^)(int progress))aProgressBlock
+           completion:(void (^)(EMMessage *message, EMError *error))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -288,11 +310,12 @@
  *  @param aCompletionBlock    下载完成回调block
  *
  *  \~english
- *  Download message thumbnail (thumbnail of image message or first frame of video image), SDK downloads thumbails automatically, no need to download thumbail manually unless automatic download failed.
+ *  Manual download the message thumbnail (thumbnail of image message or first frame of video image).
+ *  SDK handles the thumbnail downloading automatically, no need to download thumbnail manually unless automatic download failed.
  *
- *  @param aMessage            Message instance
- *  @param aProgressBlock      The callback block of attachment download progress
- *  @param aCompletionBlock    The callback block of download complete
+ *  @param aMessage             Message instance
+ *  @param aProgressBlock       The callback block of attachment download progress
+ *  @param aCompletionBlock     The callback of completion block
  */
 - (void)downloadMessageThumbnail:(EMMessage *)aMessage
                         progress:(void (^)(int progress))aProgressBlock
@@ -309,16 +332,73 @@
  *  @param aCompletionBlock    下载完成回调block
  *
  *  \~english
- *  Download message attachment(voice, video, image or file), SDK downloads attachment automatically, no need to download attachment manually unless automatic download failed
+ *  Download message attachment (voice, video, image or file). SDK handles attachment downloading automatically, no need to download attachment manually unless automatic download failed
  *
- *
- *  @param aMessage            Message instance
- *  @param aProgressBlock      The callback block of attachment download progress
- *  @param aCompletionBlock    The callback block of download complete
+ *  @param aMessage             Message object
+ *  @param aProgressBlock       The callback block of attachment download progress
+ *  @param aCompletionBlock     The callback of completion block
  */
 - (void)downloadMessageAttachment:(EMMessage *)aMessage
                          progress:(void (^)(int progress))aProgressBlock
                        completion:(void (^)(EMMessage *message, EMError *error))aCompletionBlock;
+
+
+
+/**
+ *  \~chinese
+ *  @param  aConversationId     要获取漫游消息的Conversation id
+ *  @param  aConversationType   要获取漫游消息的Conversation type
+ *  @param  aStartMessageId     参考起始消息的ID
+ *  @param  aPageSize           获取消息条数
+ *  @param  pError              错误信息
+ *
+ *  @return     获取的消息结果
+ *
+ *
+ *  \~english
+ *  Fetch conversation roam messages from server.
+ 
+ *  @param aConversationId      The conversation id which select to fetch roam message.
+ *  @param aConversationType    The conversation type which select to fetch roam message.
+ *  @param aStartMessageId      The start search roam message, if empty start from the server leastst message.
+ *  @param aPageSize            The page size.
+ *  @param pError               EMError used for output.
+ *
+ *  @return    The result
+ */
+- (EMCursorResult *)fetchHistoryMessagesFromServer:(NSString *)aConversationId
+                                  conversationType:(EMConversationType)aConversationType
+                                    startMessageId:(NSString *)aStartMessageId
+                                          pageSize:(int)aPageSize
+                                             error:(EMError **)pError;
+
+
+/**
+ *  \~chinese
+ *
+ *  异步方法
+ *
+ *  @param  aConversationId     要获取漫游消息的Conversation id
+ *  @param  aConversationType   要获取漫游消息的Conversation type
+ *  @param  aStartMessageId     参考起始消息的ID
+ *  @param  aPageSize           获取消息条数
+ *  @param  aCompletionBlock    获取消息结束的callback
+ *
+ *
+ *  \~english
+ *  Fetch conversation roam messages from server.
+ 
+ *  @param aConversationId      The conversation id which select to fetch roam message.
+ *  @param aConversationType    The conversation type which select to fetch roam message.
+ *  @param aStartMessageId      The start search roam message, if empty start from the server leastst message.
+ *  @param aPageSize            The page size.
+ *  @param aCompletionBlock     The callback block of fetch complete
+ */
+- (void)asyncFetchHistoryMessagesFromServer:(NSString *)aConversationId
+                           conversationType:(EMConversationType)aConversationType
+                             startMessageId:(NSString *)aStartMessageId
+                                   pageSize:(int)aPageSize
+                                 complation:(void (^)(EMCursorResult *aResult, EMError *aError))aCompletionBlock;
 
 #pragma mark - EM_DEPRECATED_IOS 3.2.3
 

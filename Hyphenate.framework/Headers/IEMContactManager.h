@@ -43,7 +43,7 @@
  *  Add delegate
  *
  *  @param aDelegate  Delegate
- *  @param aQueue     The queue of call delegate method
+ *  @param aQueue     (optional) The queue of calling delegate methods. Pass in nil to run on main thread.
  */
 - (void)addDelegate:(id<EMContactManagerDelegate>)aDelegate
       delegateQueue:(dispatch_queue_t)aQueue;
@@ -61,6 +61,9 @@
  */
 - (void)removeDelegate:(id)aDelegate;
 
+
+#pragma mark - Contact Operations
+
 /*!
  *  \~chinese
  *  获取本地存储的所有好友
@@ -68,26 +71,25 @@
  *  @result 好友列表<NSString>
  *
  *  \~english
- *  Get all contacts
+ *  Get all contacts from local database
  *
- *  @result Contact list<EMGroup>
+ *  @result Contact list<String>
  */
 - (NSArray *)getContacts;
 
 /*!
  *  \~chinese
- *  从本地获取黑名单列表
+ *  从服务器获取所有的好友
  *
- *  @result 黑名单列表<NSString>
+ *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Get the blacklist of blocked users
+ *  Get all contacts from the server
  *
- *  @result Blacklist<EMGroup>
+ *  @param aCompletionBlock The callback block of completion
+ *
  */
-- (NSArray *)getBlackList;
-
-#pragma mark - Sync method
+- (void)getContactsFromServerWithCompletion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -127,12 +129,32 @@
  *  Synchronization method will block the current thread
  *
  *  @param aUsername  The user to add
- *  @param aMessage   Invitation message
+ *  @param aMessage   (optional) Invitation message. Pass in nil to ignore.
  *
  *  @return Error
  */
 - (EMError *)addContact:(NSString *)aUsername
                 message:(NSString *)aMessage;
+
+/*!
+ *  \~chinese
+ *  添加好友
+ *
+ *  @param aUsername        要添加的用户
+ *  @param aMessage         邀请信息
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Add a contact
+ *
+ *  @param aUsername        The user to be added
+ *  @param aMessage         Friend request message
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)addContact:(NSString *)aUsername
+           message:(NSString *)aMessage
+        completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -150,13 +172,98 @@
  *
  *  Synchronization method will block the current thread
  *
- *  @param aUsername The user to delete
- *  @param aIsDeleteConversation Delete the conversation or not
+ *  @param aUsername                The user to delete
+ *  @param aIsDeleteConversation    If to keep the assoicated conversation and messages
  *
  *  @return Error
  */
 - (EMError *)deleteContact:(NSString *)aUsername
-          isDeleteConversation:(BOOL)aIsDeleteConversation;
+      isDeleteConversation:(BOOL)aIsDeleteConversation;
+
+/*!
+ *  \~chinese
+ *  删除好友
+ *
+ *  @param aUsername                要删除的好友
+ *  @param aIsDeleteConversation    是否删除会话
+ *  @param aCompletionBlock         完成的回调
+ *
+ *  \~english
+ *  Delete a contact
+ *
+ *  @param aUsername                The user to be deleted
+ *  @param aIsDeleteConversation    Delete the conversation or not
+ *  @param aCompletionBlock         The callback block of completion
+ *
+ */
+- (void)deleteContact:(NSString *)aUsername
+ isDeleteConversation:(BOOL)aIsDeleteConversation
+           completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  同意加好友的申请
+ *
+ *  @param aUsername        申请者
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Apporove a friend request
+ *
+ *  @param aUsername        User who initiated the friend request
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)approveFriendRequestFromUser:(NSString *)aUsername
+                          completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  拒绝加好友的申请
+ *
+ *  @param aUsername        申请者
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Decline a friend request
+ *
+ *  @param aUsername        User who initiated the friend request
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)declineFriendRequestFromUser:(NSString *)aUsername
+                          completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
+
+
+#pragma mark - Blacklist Operations
+
+/*!
+ *  \~chinese
+ *  从本地获取黑名单列表
+ *
+ *  @result 黑名单列表<NSString>
+ *
+ *  \~english
+ *  Get the blacklist of blocked users from local database
+ *
+ *  @result Blacklist<NSString> blacklist usernames
+ */
+- (NSArray *)getBlackList;
+
+/*!
+ *  \~chinese
+ *  从服务器获取黑名单列表
+ *
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Get the blacklist from the server
+ *
+ *  @param aCompletionBlock The callback block of completion
+ *
+ *  @result aList<NSString> blacklist usernames
+ */
+- (void)getBlackListFromServerWithCompletion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -173,7 +280,7 @@
  *
  *  Synchronization method will block the current thread
  *
- *  @param pError Error
+ *  @param pError   Error
  *
  *  @return Blacklist<NSString>
  */
@@ -205,6 +312,23 @@
 
 /*!
  *  \~chinese
+ *  将用户加入黑名单
+ *
+ *  @param aUsername        要加入黑命单的用户
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Add a user to blacklist
+ *
+ *  @param aUsername        Block user
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)addUserToBlackList:(NSString *)aUsername
+                completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
  *  将用户移出黑名单
  *
  *  同步方法，会阻塞当前线程
@@ -223,6 +347,23 @@
  *  @return Error
  */
 - (EMError *)removeUserFromBlackList:(NSString *)aUsername;
+
+/*!
+ *  \~chinese
+ *  将用户移出黑名单
+ *
+ *  @param aUsername        要移出黑命单的用户
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Remove a user from blacklist
+ *
+ *  @param aUsername        Unblock user
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)removeUserFromBlackList:(NSString *)aUsername
+                     completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -270,143 +411,43 @@
  */
 - (EMError *)declineInvitationForUsername:(NSString *)aUsername;
 
-#pragma mark - Async method
+#pragma mark - Other platform
 
 /*!
  *  \~chinese
- *  从服务器获取所有的好友
+ *  获取当前账号在其他平台(Windows或者Web)登录的id列表
+ *  id使用方法类似于好友username
+ *
+ *  @param pError   错误信息
+ *
+ *  @return     id列表
+ *
+ *  \~english
+ *  Get the id list of the current account on another platform (Windows or Web)
+ *  Id usage is similar to friend username
+ *
+ *  @param pError   Error
+ *
+ *  @return     id list
+ *
+ */
+- (NSArray *)getSelfIdsOnOtherPlatformWithError:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  获取当前账号在其他平台(Windows或者Web)登录的id列表
+ *  id使用方法类似于好友username
  *
  *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Get all contacts from the server
+ *  Get the id list of the current account on another platform (Windows or Web)
+ *  Id usage is similar to friend username
  *
  *  @param aCompletionBlock The callback block of completion
  *
  */
-- (void)getContactsFromServerWithCompletion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  添加好友
- *
- *  @param aUsername        要添加的用户
- *  @param aMessage         邀请信息
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Add a contact
- *
- *  @param aUsername        The user to be added
- *  @param aMessage         Friend request message
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)addContact:(NSString *)aUsername
-           message:(NSString *)aMessage
-        completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  删除好友
- *
- *  @param aUsername                要删除的好友
- *  @param aIsDeleteConversation    是否删除会话
- *  @param aCompletionBlock         完成的回调
- *
- *  \~english
- *  Delete a contact
- *
- *  @param aUsername                The user to be deleted
- *  @param aIsDeleteConversation    Delete the conversation or not
- *  @param aCompletionBlock         The callback block of completion
- *
- */
-- (void)deleteContact:(NSString *)aUsername
-     isDeleteConversation:(BOOL)aIsDeleteConversation
-           completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  从服务器获取黑名单列表
- *
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Get the blacklist from the server
- *
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)getBlackListFromServerWithCompletion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  将用户加入黑名单
- *
- *  @param aUsername        要加入黑命单的用户
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Add a user to blacklist
- *
- *  @param aUsername        Block user
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)addUserToBlackList:(NSString *)aUsername
-                completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  将用户移出黑名单
- *
- *  @param aUsername        要移出黑命单的用户
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Remove a user from blacklist
- *
- *  @param aUsername        Unblock user
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)removeUserFromBlackList:(NSString *)aUsername
-                     completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  同意加好友的申请
- *
- *  @param aUsername        申请者
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Apporove a friend request
- *
- *  @param aUsername        User who initiated the friend request
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)approveFriendRequestFromUser:(NSString *)aUsername
-                          completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  拒绝加好友的申请
- *
- *  @param aUsername        申请者
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Decline a friend request
- *
- *  @param aUsername        User who initiated the friend request
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)declineFriendRequestFromUser:(NSString *)aUsername
-                          completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
+- (void)getSelfIdsOnOtherPlatformWithCompletion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
 
 #pragma mark - EM_DEPRECATED_IOS 3.2.3
 

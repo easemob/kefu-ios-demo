@@ -26,8 +26,8 @@
 typedef enum{
     EMChatroomPermissionTypeNone   = -1,    /*! \~chinese 未知 \~english Unknown */
     EMChatroomPermissionTypeMember = 0,     /*! \~chinese 普通成员 \~english Normal member */
-    EMChatroomPermissionTypeAdmin,          /*! \~chinese 群组管理员 \~english Group admin */
-    EMChatroomPermissionTypeOwner,          /*! \~chinese 群主 \~english Group owner  */
+    EMChatroomPermissionTypeAdmin,          /*! \~chinese 聊天室管理员 \~english Chatroom admin */
+    EMChatroomPermissionTypeOwner,          /*! \~chinese 聊天室拥有者 \~english Chatroom owner  */
 }EMChatroomPermissionType;
 
 
@@ -80,7 +80,16 @@ typedef enum{
 
 /*!
  *  \~chinese
- *  聊天室的管理者，拥有群的最高权限，需要获取群详情
+ *  聊天室的公告，需要获取聊天室公告
+ *
+ *  \~english
+ *  Announcement of chat room
+ */
+@property (nonatomic, copy, readonly) NSString *announcement;
+
+/*!
+ *  \~chinese
+ *  聊天室的管理者，拥有聊天室的最高权限，需要获取聊天室详情
  *
  *
  *  \~english
@@ -91,7 +100,7 @@ typedef enum{
 
 /*!
  *  \~chinese
- *  聊天室的成员列表，需要获取聊天室详情
+ *  聊天室的成员列表，需要通过分页获取聊天室成员列表接口加载
  *
  *  \~english
  *  List of members in the chat room
@@ -100,7 +109,7 @@ typedef enum{
 
 /*!
  *  \~chinese
- *  聊天室的黑名单，需要先调用获取群黑名单方法
+ *  聊天室的黑名单，需要先调用获取聊天室黑名单方法
  *
  *  需要owner权限才能查看，非owner返回nil
  *

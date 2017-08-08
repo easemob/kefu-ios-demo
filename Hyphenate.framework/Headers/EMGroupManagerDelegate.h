@@ -28,6 +28,7 @@ typedef enum{
 }EMGroupLeaveReason;
 
 @class EMGroup;
+@class EMGroupSharedFile;
 
 /*!
  *  \~chinese
@@ -320,6 +321,54 @@ typedef enum{
  */
 - (void)userDidLeaveGroup:(EMGroup *)aGroup
                      user:(NSString *)aUsername;
+
+/*!
+ *  \~chinese
+ *  群公告有更新
+ *
+ *  @param aGroup           群组
+ *  @param aAnnouncement    群公告
+ *
+ *  \~english
+ *  Delegate method will be invoked when a user update the announcement from a group.
+ *
+ *  @param aGroup           Group
+ *  @param aAnnouncement    Announcement
+ */
+- (void)groupAnnouncementDidUpdate:(EMGroup *)aGroup
+                      announcement:(NSString *)aAnnouncement;
+
+/*!
+ *  \~chinese
+ *  有用户上传群共享文件
+ *
+ *  @param aGroup       群组
+ *  @param aSharedFile  共享文件
+ *
+ *  \~english
+ *  Delegate method will be invoked when a user upload share file to a group.
+ *
+ *  @param aGroup       Group
+ *  @param aSharedFile  Share File
+ */
+- (void)groupFileListDidUpdate:(EMGroup *)aGroup
+               addedSharedFile:(EMGroupSharedFile *)aSharedFile;
+
+/*!
+ *  \~chinese
+ *  有用户删除群共享文件
+ *
+ *  @param aGroup       群组
+ *  @param aFileId      共享文件ID
+ *
+ *  \~english
+ *  Delegate method will be invoked when a user remove share file from a group.
+ *
+ *  @param aGroup       Group
+ *  @param aFileId      File ID
+ */
+- (void)groupFileListDidUpdate:(EMGroup *)aGroup
+             removedSharedFile:(NSString *)aFileId;
 
 #pragma mark - Deprecated methods
 

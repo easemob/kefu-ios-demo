@@ -23,25 +23,25 @@
  *  \~english
  *  Chat type
  */
-typedef enum{
+typedef enum {
     EMChatTypeChat   = 0,   /*! \~chinese 单聊消息 \~english one to one chat type */
     EMChatTypeGroupChat,    /*! \~chinese 群聊消息 \~english Group chat type */
     EMChatTypeChatRoom,     /*! \~chinese 聊天室消息 \~english Chatroom chat type */
-}EMChatType;
+} EMChatType;
 
 /*!
  *  \~chinese
  *  消息发送状态
  *
  *  \~english
- *   Message Status
+ *   Message delivery status
  */
-typedef enum{
+typedef enum {
     EMMessageStatusPending  = 0,    /*! \~chinese 发送未开始 \~english Pending */
     EMMessageStatusDelivering,      /*! \~chinese 正在发送 \~english Delivering */
-    EMMessageStatusSuccessed,       /*! \~chinese 发送成功 \~english Successed */
+    EMMessageStatusSucceed,       /*! \~chinese 发送成功 \~english Succeed */
     EMMessageStatusFailed,          /*! \~chinese 发送失败 \~english Failed */
-}EMMessageStatus;
+} EMMessageStatus;
 
 /*!
  *  \~chinese
@@ -50,10 +50,10 @@ typedef enum{
  *  \~english
  *  Message direction
  */
-typedef enum{
+typedef enum {
     EMMessageDirectionSend = 0,    /*! \~chinese 发送的消息 \~english Send */
     EMMessageDirectionReceive,     /*! \~chinese 接收的消息 \~english Receive */
-}EMMessageDirection;
+} EMMessageDirection;
 
 /*!
  *  \~chinese
@@ -69,7 +69,7 @@ typedef enum{
  *  消息的唯一标识符
  *
  *  \~english
- *  Unique identifier of message
+ *  Unique identifier of the message
  */
 @property (nonatomic, copy) NSString *messageId;
 
@@ -78,7 +78,7 @@ typedef enum{
  *  所属会话的唯一标识符
  *
  *  \~english
- *  Unique identifier of message's conversation
+ *  Unique identifier of conversation, the message's container object
  */
 @property (nonatomic, copy) NSString *conversationId;
 
@@ -87,7 +87,7 @@ typedef enum{
  *  消息的方向
  *
  *  \~english
- *  Message direction
+ *  Message delivery direction
  */
 @property (nonatomic) EMMessageDirection direction;
 
@@ -114,7 +114,7 @@ typedef enum{
  *  时间戳，服务器收到此消息的时间
  *
  *  \~english
- *  Timestamp, the time of server received this message
+ *  Timestamp, the time of server received the message
  */
 @property (nonatomic) long long timestamp;
 
@@ -123,7 +123,7 @@ typedef enum{
  *  客户端发送/收到此消息的时间
  *
  *  \~english
- *  The time of client send/receive the message
+ *  The time of client sends/receives the message
  */
 @property (nonatomic) long long localTime;
 
@@ -141,7 +141,7 @@ typedef enum{
  *  消息状态
  *
  *  \~english
- *  Message status
+ *  Message delivery status
  */
 @property (nonatomic) EMMessageStatus status;
 
@@ -150,7 +150,7 @@ typedef enum{
  *  已读回执是否已发送/收到, 对于发送方表示是否已经收到已读回执，对于接收方表示是否已经发送已读回执
  *
  *  \~english
- *  Whether read acknowledgement has been sent or received, it indicates whether the sender has received a message read acknowledgement, or whether the recipient has sent a message read acknowledgement
+ *  Acknowledge if the message is read by the receipient. It indicates whether the sender has received a message read acknowledgement; or whether the recipient has sent a message read acknowledgement
  */
 @property (nonatomic) BOOL isReadAcked;
 
@@ -159,7 +159,7 @@ typedef enum{
  *  送达回执是否已发送/收到，对于发送方表示是否已经收到送达回执，对于接收方表示是否已经发送送达回执，如果EMOptions设置了enableDeliveryAck，SDK收到消息后会自动发送送达回执
  *
  *  \~english
- *  Whether delivery acknowledgement has been sent or received, it indicates whether the sender has received a message deliver acknowledgement, or whether the recipient has sent a message deliver acknowledgement, SDK will automatically send delivery acknowledgement if EMOptions is set to enableDeliveryAck
+ *  Acknowledge if the message is delivered. It indicates whether the sender has received a message deliver acknowledgement; or whether the recipient has sent a message deliver acknowledgement. SDK will automatically send delivery acknowledgement if EMOptions is set to enableDeliveryAck
  */
 @property (nonatomic) BOOL isDeliverAcked;
 
@@ -188,9 +188,9 @@ typedef enum{
  *  Key值类型必须是NSString, Value值类型必须是NSString或者 NSNumber类型的 BOOL, int, unsigned in, long long, double.
  *
  *  \~english
- *  Message extention
+ *  Message extension
  *
- *  Key type must be NSString, Value type must be NSString, int, unsigned in, long long, or double. Please use NSNumber (@YES or @NO) instead of BOOL.
+ *  Key type must be NSString. Value type must be NSString, or NSNumber object (including int, unsigned in, long long, double, use NSNumber (@YES/@NO) instead of BOOL).
  */
 @property (nonatomic, copy) NSDictionary *ext;
 
@@ -210,8 +210,8 @@ typedef enum{
  *  Initialize a message instance
  *
  *  @param aConversationId  Conversation id
- *  @param aFrom            The sender
- *  @param aTo              The receiver
+ *  @param aFrom            Sender
+ *  @param aTo              Receiver
  *  @param aBody            Message body
  *  @param aExt             Message extention
  *

@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 
 #import "EMClientDelegate.h"
+#import "EMMultiDevicesDelegate.h"
 #import "EMOptions.h"
 #import "EMPushOptions.h"
 #import "EMError.h"
@@ -16,6 +17,8 @@
 #import "IEMContactManager.h"
 #import "IEMGroupManager.h"
 #import "IEMChatroomManager.h"
+
+#import "EMDeviceConfig.h"
 
 /*!
  *  SDK Client
@@ -93,7 +96,7 @@
  *  聊天室模块
  *
  *  \~english 
- *  Chat room Management
+ *  Chat Room Management
  */
 @property (nonatomic, strong, readonly) id<IEMChatroomManager> roomManager;
 
@@ -102,7 +105,9 @@
  *  SDK是否自动登录上次登录的账号
  *
  *  \~english
- *  If SDK will automatically log into with previously logged in session
+ *  If SDK will automatically log into with previously logged in session. If the current login failed, then isAutoLogin attribute will be reset to NO, you need to set it back to YES in order to allow automatic login
+ *  1. password changed
+ *  2. deactivate, forced logout, etc
  */
 @property (nonatomic, readonly) BOOL isAutoLogin;
 
@@ -133,6 +138,7 @@
  */
 + (instancetype)sharedClient;
 
+
 #pragma mark - Delegate
 
 /*!
@@ -146,7 +152,7 @@
  *  Add delegate
  *
  *  @param aDelegate  Delegate
- *  @param aQueue     The queue of calling delegate methods
+ *  @param aQueue     (optional) The queue of calling delegate methods. Pass in nil to run on main thread. 
  */
 - (void)addDelegate:(id<EMClientDelegate>)aDelegate
       delegateQueue:(dispatch_queue_t)aQueue;
@@ -164,6 +170,35 @@
  */
 - (void)removeDelegate:(id)aDelegate;
 
+/*!
+ *  \~chinese
+ *  注册多设备回调代理
+ *
+ *  @param aDelegate  要添加的代理
+ *  @param aQueue     执行代理方法的队列
+ *
+ *  \~english
+ *  Add multi-device delegate
+ *
+ *  @param aDelegate  Delegate
+ *  @param aQueue     The queue of calling delegate methods
+ */
+- (void)addMultiDevicesDelegate:(id<EMMultiDevicesDelegate>)aDelegate
+                  delegateQueue:(dispatch_queue_t)aQueue;
+
+/*!
+ *  \~chinese
+ *  移除多设备回调代理
+ *
+ *  @param aDelegate  要移除的代理
+ *
+ *  \~english
+ *  Remove multi devices delegate
+ *
+ *  @param aDelegate  Delegate
+ */
+- (void)removeMultiDevicesDelegate:(id<EMMultiDevicesDelegate>)aDelegate;
+
 #pragma mark - Initialize SDK
 
 /*!
@@ -177,13 +212,34 @@
  *  \~english 
  *  Initialize the SDK
  *  
- *  @param aOptions  SDK setting options
+ *  @param aOptions SDK setting options
  *
  *  @result Error
  */
 - (EMError *)initializeSDKWithOptions:(EMOptions *)aOptions;
 
-#pragma mark - Register
+
+#pragma mark - Change AppKey
+
+/*!
+ *  \~chinese
+ *  修改appkey，注意只有在未登录状态才能修改appkey
+ *
+ *  @param aAppkey  appkey
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Change appkey. Can only change appkey when the user is logged out
+ *
+ *  @param aAppkey  appkey
+ *
+ *  @result Error
+ */
+- (EMError *)changeAppkey:(NSString *)aAppkey;
+
+
+#pragma mark - User Registeration
 
 /*!
  *  \~chinese
@@ -199,7 +255,7 @@
  *  \~english
  *  Register a new IM user
  *
- *  To enhance the reliability, registering new IM user through REST API from backend is highly recommended
+ *  To ensure good reliability, registering new IM user via REST API from developer backend is highly recommended
  *
  *  @param aUsername  Username
  *  @param aPassword  Password
@@ -222,16 +278,17 @@
  *  \~english
  *  Register a new IM user
  *
- *  To enhance the reliability, recommend register new IM user via backend using REST API
+ *  To ensure good reliability, registering new IM user via REST API from developer backend is highly recommended
  *
  *  @param aUsername        Username
  *  @param aPassword        Password
- *  @param aCompletionBlock The callback block of completion
+ *  @param aCompletionBlock The callback of completion block
  *
  */
 - (void)registerWithUsername:(NSString *)aUsername
                     password:(NSString *)aPassword
                   completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
+
 
 #pragma mark - Login
 
@@ -272,7 +329,7 @@
  *
  *  @param aUsername        Username
  *  @param aPassword        Password
- *  @param aCompletionBlock The callback block of completion
+ *  @param aCompletionBlock The callback of completion block
  *
  */
 - (void)loginWithUsername:(NSString *)aUsername
@@ -291,7 +348,7 @@
  *  @result 错误信息
  *
  *  \~english
- *  Login with token, does not support automatic login
+ *  Login with token. Does not support automatic login
  *
  *  Synchronization method will block the current thread
  *
@@ -312,11 +369,11 @@
  *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Login with token, does not support automatic login
+ *  Login with token. Does not support automatic login
  *
  *  @param aUsername        Username
  *  @param aToken           Token
- *  @param aCompletionBlock The callback block of completion
+ *  @param aCompletionBlock The callback of completion block
  *
  */
 - (void)loginWithUsername:(NSString *)aUsername
@@ -358,14 +415,14 @@
  *  \~english
  *  Logout
  *
- *  @param aIsUnbindDeviceToken Unbind device token to disable the Apple Push Notification Service
- *  @param aCompletionBlock The callback block of completion
+ *  @param aIsUnbindDeviceToken     Unbind device token to disable the Apple Push Notification Service
+ *  @param aCompletionBlock         The callback of completion block
  *
  */
 - (void)logout:(BOOL)aIsUnbindDeviceToken
     completion:(void (^)(EMError *aError))aCompletionBlock;
 
-#pragma mark - Apns
+#pragma mark - APNs
 
 /*!
  *  \~chinese
@@ -378,7 +435,7 @@
  *  @result 错误信息
  *
  *  \~english
- *  Device token binding is required for enabling Apple Push Notification Service
+ *  Device token binding is required to enable Apple Push Notification Service
  *
  *  Synchronization method will block the current thread
  *
@@ -398,8 +455,8 @@
  *  \~english
  *  Device token binding is required to enable Apple push notification service
  *
- *  @param aDeviceToken     Device token to bind
- *  @param aCompletionBlock The callback block of completion
+ *  @param aDeviceToken         Device token to bind
+ *  @param aCompletionBlock     The callback block of completion
  */
 - (void)registerForRemoteNotificationsWithDeviceToken:(NSData *)aDeviceToken
                                            completion:(void (^)(EMError *aError))aCompletionBlock;
@@ -472,7 +529,7 @@
  *  \~english
  *  Get Apple Push Notification Service options from the server
  *
- *  @param aCompletionBlock The callback block of completion
+ *  @param aCompletionBlock The callback of completion block
  */
 - (void)getPushNotificationOptionsFromServerWithCompletion:(void (^)(EMPushOptions *aOptions, EMError *aError))aCompletionBlock;
 
@@ -532,9 +589,9 @@
  *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Upload log to server
+ *  Upload debugging log to server
  *
- *  @param aCompletionBlock The callback block of completion
+ *  @param aCompletionBlock     The callback of completion block
  */
 - (void)uploadDebugLogToServerWithCompletion:(void (^)(EMError *aError))aCompletionBlock;
 
@@ -549,7 +606,7 @@
  *  @result 文件路径
  *
  *  \~english
- *  Compress the log file into a .gz file, return to the gz file path. It is strongly recommended that you remove the gz file after the method completes.
+ *  Compress the log file into a .gz file and return the gz file path. Recommend delete the gz file if file is no longer used
  *
  *  Synchronization method will block the current thread
  *
@@ -566,11 +623,157 @@
  *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Compress the log file into a .gz file, return to the gz file path. It is strongly recommended that you remove the gz file after the method completes.
+ *  Compress the log file into a .gz file and return the gz file path. Recommend delete the gz file if file is no longer used
  *
- *  @param aCompletionBlock The callback block of completion
+ *  @param aCompletionBlock     The callback of completion block
  */
 - (void)getLogFilesPathWithCompletion:(void (^)(NSString *aPath, EMError *aError))aCompletionBlock;
+
+#pragma mark - Multi Devices
+
+/*!
+ *  \~chinese
+ *  从服务器获取所有已经登录的设备信息
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aUsername        用户名
+ *  @param aPassword        密码
+ *  @param pError           错误信息
+ *
+ *  @result 所有已经登录的设备信息<EMDeviceConfig>
+ *
+ *  \~english
+ *  Get all the device information <EMDeviceConfig> that logged in to the server
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aUsername        Username
+ *  @param aPassword        Password
+ *  @param pError           Error
+ *
+ *  @result Information of logged in device <EMDeviceConfig>
+ */
+- (NSArray *)getLoggedInDevicesFromServerWithUsername:(NSString *)aUsername
+                                             password:(NSString *)aPassword
+                                                error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  从服务器获取所有已经登录的设备信息
+ *
+ *  @param aUsername        用户名
+ *  @param aPassword        密码
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Get all the device information <EMDeviceConfig> that logged in to the server
+ *
+ *  @param aUsername        Username
+ *  @param aPassword        Password
+ *  @param aCompletionBlock The callback block of completion
+ *
+ *  @result aList           Information of logged in device <EMDeviceConfig>
+ */
+- (void)getLoggedInDevicesFromServerWithUsername:(NSString *)aUsername
+                                        password:(NSString *)aPassword
+                                      completion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  强制指定的设备退出
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aDevice          设备信息
+ *  @param aUsername        用户名
+ *  @param aPassword        密码
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Force logout the specified device
+ *
+ *  device information can be obtained from getLoggedInDevicesFromServerWithUsername:password:error:
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aDevice          device information <EMDeviceConfig>
+ *  @param aUsername        Username
+ *  @param aPassword        Password
+ *
+ *  @result Error
+ */
+- (EMError *)kickDevice:(EMDeviceConfig *)aDevice
+               username:(NSString *)aUsername
+               password:(NSString *)aPassword;
+
+/*!
+ *  \~chinese
+ *  强制指定的设备退出
+ *
+ *  @param aDevice          设备信息
+ *  @param aUsername        用户名
+ *  @param aPassword        密码
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Force logout the specified device
+ *
+ *  device information can be obtained from getLoggedInDevicesFromServerWithUsername:password:error:
+ *
+ *  @param aDevice          device information <EMDeviceConfig>
+ *  @param aUsername        Username
+ *  @param aPassword        Password
+ *  @param aCompletionBlock The callback block of completion
+ */
+- (void)kickDevice:(EMDeviceConfig *)aDevice
+          username:(NSString *)aUsername
+          password:(NSString *)aPassword
+        completion:(void (^)(EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  强制所有的登录设备退出
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aUsername        用户名
+ *  @param aPassword        密码
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Force logout all logged in device for the specified user
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aUsername        Username
+ *  @param aPassword        Password
+ *
+ *  @result Error
+ */
+- (EMError *)kickAllDevicesWithUsername:(NSString *)aUsername
+                               password:(NSString *)aPassword;
+
+/*!
+ *  \~chinese
+ *  强制所有的登录设备退出
+ *
+ *  @param aUsername        用户名
+ *  @param aPassword        密码
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Force all logged in device to logout.
+ *
+ *  @param aUsername        Username
+ *  @param aPassword        Password
+ *  @param aCompletionBlock The callback block of completion
+ */
+- (void)kickAllDevicesWithUsername:(NSString *)aUsername
+                          password:(NSString *)aPassword
+                        completion:(void (^)(EMError *aError))aCompletionBlock;
 
 #pragma mark - iOS
 
@@ -613,7 +816,7 @@
  *  @param aApplication  UIApplication
  *
  *  \~english
- *  Re-connect to server when app enters foreground
+ *  Reconnect to server when app enters foreground
  *
  *  @param aApplication  UIApplication
  */
@@ -627,31 +830,12 @@
  *  @param userInfo     推送内容
  *
  *  \~english
- *  Need to call this method when APP receive APNs in foreground
+ *  Invoked when receiving APNs in foreground
  *
  *  @param application  UIApplication
  *  @param userInfo     Push content
  */
 - (void)application:(id)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
-
-#pragma mark - Change AppKey
-
-/*!
- *  \~chinese
- *  修改appkey
- *
- *  @param aAppkey  appkey
- *
- *  @result 错误信息
- *
- *  \~english
- *  change appkey
- *
- *  @param aAppkey  appkey
- *
- *  @result Error
- */
-- (EMError *)changeAppkey:(NSString *)aAppkey;
 
 #pragma mark - EM_DEPRECATED_IOS 3.2.3
 
@@ -770,7 +954,7 @@
  *  \~english
  *  Set display name for push notification
  *
- *  @param aDisplayName        Push Notification display name
+ *  @param aNickname        Push Notification display name
  *  @param aSuccessBlock    The callback block of success
  *  @param aFailureBlock    The callback block of failure
  *

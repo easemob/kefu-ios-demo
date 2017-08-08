@@ -21,14 +21,15 @@
  *  附件下载状态
  *
  *  \~english
- *  Message attachment download status
+ *  File downloading status
  */
-typedef enum{
+typedef enum {
     EMDownloadStatusDownloading   = 0,  /*! \~chinese 正在下载 \~english Downloading */
-    EMDownloadStatusSuccessed,          /*! \~chinese 下载成功 \~english Successed */
+    EMDownloadStatusSucceed,            /*! \~chinese 下载成功 \~english Succeed */
     EMDownloadStatusFailed,             /*! \~chinese 下载失败 \~english Failed */
     EMDownloadStatusPending,            /*! \~chinese 准备下载 \~english Pending */
-}EMDownloadStatus;
+    EMDownloadStatusSuccessed=EMDownloadStatusSucceed,   /*! \~chinese 旧版 \~english legacy */
+} EMDownloadStatus;
 
 /*!
  *  \~chinese
@@ -89,7 +90,7 @@ typedef enum{
  *  附件的下载状态
  *
  *  \~english
- *  Download status of attachment
+ *  Downloading status of attachment
  */
 @property (nonatomic) EMDownloadStatus downloadStatus;
 

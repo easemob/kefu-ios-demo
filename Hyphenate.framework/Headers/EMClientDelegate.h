@@ -21,10 +21,10 @@
  *  \~english 
  *  Network Connection Status
  */
-typedef enum{
+typedef enum {
     EMConnectionConnected = 0,  /*! *\~chinese 已连接 *\~english Connected */
-    EMConnectionDisconnected,   /*! *\~chinese 未连接 *\~english Not connected */
-}EMConnectionState;
+    EMConnectionDisconnected,   /*! *\~chinese 未连接 *\~english Disconnected */
+} EMConnectionState;
 
 @class EMError;
 
@@ -50,7 +50,7 @@ typedef enum{
  *  @param aConnectionState 当前状态
  *
  *  \~english
- *  Delegate method will be invoked when server connection state has changed
+ *  Invoked when server connection state has changed
  *
  *  @param aConnectionState Current state
  */
@@ -63,7 +63,7 @@ typedef enum{
  *  @param aError 错误信息
  *
  *  \~english
- *  Delegate method will be invoked when auto login is completed
+ *  Invoked when auto login is completed
  *
  *  @param aError Error
  */
@@ -74,7 +74,7 @@ typedef enum{
  *  当前登录账号在其它设备登录时会接收到此回调
  *
  *  \~english
- *  Delegate method will be invoked when current IM account logged into another device
+ *  Invoked when current IM account logged into another device
  */
 - (void)userAccountDidLoginFromOtherDevice;
 
@@ -83,7 +83,7 @@ typedef enum{
  *  当前登录账号已经被从服务器端删除时会收到该回调
  *
  *  \~english
- *  Delegate method will be invoked when current IM account is removed from server
+ *  Invoked when current IM account is removed from server
  */
 - (void)userAccountDidRemoveFromServer;
 
@@ -92,9 +92,22 @@ typedef enum{
  *  服务被禁用
  *
  *  \~english
- *  User is forbidden
+ *  Delegate method will be invoked when User is forbidden
  */
 - (void)userDidForbidByServer;
+
+/*!
+ *  \~chinese
+ *  当前登录账号被强制退出时会收到该回调，有以下原因：
+ *    1.密码被修改；
+ *    2.登陆设备数过多；
+ *
+ *  \~english
+ *  Delegate method will be invoked when current IM account is forced to logout with the following reasons:
+ *    1. The password is modified
+ *    2. Logged in too many devices
+ */
+- (void)userAccountDidForcedToLogout:(EMError *)aError;
 
 #pragma mark - Deprecated methods
 

@@ -69,6 +69,15 @@ typedef enum{
 
 /*!
  *  \~chinese
+ *  群组的公告，需要获取群公告
+ *
+ *  \~english
+ *  Announcement of the group
+ */
+@property (nonatomic, copy, readonly) NSString *announcement;
+
+/*!
+ *  \~chinese
  *  群组属性配置，需要获取群详情
  *
  *  \~english
@@ -134,6 +143,15 @@ typedef enum{
  *  Need owner's authority to access, return nil if user is not the group owner.
  */
 @property (nonatomic, strong, readonly) NSArray *muteList;
+
+/*!
+ *  \~chinese
+ *  群共享文件列表
+ *
+ *  \~english
+ *  List of shared file
+ */
+@property (nonatomic, strong, readonly) NSArray *sharedFileList;
 
 /*!
  *  \~chinese

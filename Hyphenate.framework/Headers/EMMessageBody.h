@@ -22,7 +22,7 @@
  *  \~english
  *  Message body type
  */
-typedef enum{
+typedef enum {
     EMMessageBodyTypeText   = 1,    /*! \~chinese 文本类型 \~english Text */
     EMMessageBodyTypeImage,         /*! \~chinese 图片类型 \~english Image */
     EMMessageBodyTypeVideo,         /*! \~chinese 视频类型 \~english Video */
@@ -30,7 +30,7 @@ typedef enum{
     EMMessageBodyTypeVoice,         /*! \~chinese 语音类型 \~english Voice */
     EMMessageBodyTypeFile,          /*! \~chinese 文件类型 \~english File */
     EMMessageBodyTypeCmd,           /*! \~chinese 命令类型 \~english Command */
-}EMMessageBodyType;
+} EMMessageBodyType;
 
 /*!
  *  \~chinese 

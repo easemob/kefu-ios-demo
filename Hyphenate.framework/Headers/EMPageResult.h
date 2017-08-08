@@ -19,7 +19,7 @@
  *  分段结果
  *
  *  \~english
- *  Subsection result
+ *  Sub-section result
  */
 @interface EMPageResult : NSObject
 

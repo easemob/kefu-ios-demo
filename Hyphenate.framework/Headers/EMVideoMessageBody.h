@@ -17,7 +17,7 @@
 #import "EMFileMessageBody.h"
 
 /*!
- *  \~chinese 
+ *  \~chinese
  *  视频消息体
  *
  *  \~english
@@ -36,7 +36,7 @@
 
 /*!
  *  \~chinese
- *   缩略图的本地路径
+ *  缩略图的本地路径
  *
  *  \~english
  *  Local path of thumbnail
@@ -48,7 +48,7 @@
  *  缩略图在服务器的路径
  *
  *  \~english
- *  Server path of thumbnail
+ *  Server url path of thumbnail
  */
 @property (nonatomic, copy) NSString *thumbnailRemotePath;
 

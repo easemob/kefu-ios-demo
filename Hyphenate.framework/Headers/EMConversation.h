@@ -23,10 +23,10 @@
  *  \~english
  *  Conversation type
  */
-typedef enum{
-    EMConversationTypeChat  = 0,    /*! \~chinese 单聊会话 \~english one to one chat room type */
-    EMConversationTypeGroupChat,    /*! \~chinese 群聊会话 \~english Group chat room type */
-    EMConversationTypeChatRoom      /*! \~chinese 聊天室会话 \~english Chatroom chat room type */
+typedef enum {
+    EMConversationTypeChat  = 0,    /*! \~chinese 单聊会话 \~english one-to-one chat */
+    EMConversationTypeGroupChat,    /*! \~chinese 群聊会话 \~english group chat  */
+    EMConversationTypeChatRoom      /*! \~chinese 聊天室会话 \~english chat room  */
 } EMConversationType;
 
 /*
@@ -36,7 +36,7 @@ typedef enum{
  *  \~english
  *  Message search direction
  */
-typedef enum{
+typedef enum {
     EMMessageSearchDirectionUp  = 0,    /*! \~chinese 向上搜索 \~english Search older messages */
     EMMessageSearchDirectionDown        /*! \~chinese 向下搜索 \~english Search newer messages */
 } EMMessageSearchDirection;
@@ -55,10 +55,18 @@ typedef enum{
 
 /*!
  *  \~chinese
- *  会话唯一标识
+ *  会话ID
+ *  对于单聊类型，会话ID同时也是对方用户的名称。
+ *  对于群聊类型，会话ID同时也是对方群组的ID，并不同于群组的名称。
+ *  对于聊天室类型，会话ID同时也是聊天室的ID，并不同于聊天室的名称。
+ *  对于HelpDesk类型，会话ID与单聊类型相同，是对方用户的名称。
  *
  *  \~english
- *  Unique identifier of conversation
+ *  conversation ID
+ *  For single chat，conversation ID is to chat user's name
+ *  For group chat, conversation ID is groupID(), different with getGroupName()
+ *  For chat room, conversation ID is chatroom ID, different with chat room name()
+ *  For help desk, it is same with single chat, conversationID is also chat user's name
  */
 @property (nonatomic, copy, readonly) NSString *conversationId;
 
@@ -73,10 +81,10 @@ typedef enum{
 
 /*!
  *  \~chinese
- *   会话未读消息数量
+ *  对话中未读取的消息数量
  *
  *  \~english
- *  Count of unread messages
+ *  unread message count
  */
 @property (nonatomic, assign, readonly) int unreadMessagesCount;
 
@@ -100,13 +108,30 @@ typedef enum{
 
 /*!
  *  \~chinese
+ *  收到的对方发送的最后一条消息，也是会话里的最新消息
+ *
+ *  @result 消息实例
+ *
+ *  \~english
+ *  Get last received message
+ *
+ *  @result Message instance
+ */
+- (EMMessage *)lastReceivedMessage;
+
+/*!
+ *  \~chinese
  *  插入一条消息，消息的conversationId应该和会话的conversationId一致，消息会被插入DB，并且更新会话的latestMessage等属性
+ *  insertMessage 会更新对应Conversation里的latestMessage
+ *  Method EMConversation insertMessage:error: = EMChatManager importMsessage:completion: + update conversation latest message
  *
  *  @param aMessage 消息实例
  *  @param pError   错误信息
  *
  *  \~english
- *  Insert a message to a conversation. ConversationId of the message should be the same as conversationId of the conversation in order to insert the message into the conversation correctly.
+ *  Insert a message to a conversation in local database and SDK will update the last message automatically
+ *  ConversationId of the message should be the same as conversationId of the conversation in order to insert the message into the conversation correctly. The inserting message will be inserted based on timestamp.
+ *  Method EMConversation insertMessage:error: = EMChatManager importMsessage:completion: + update conversation latest message
  *
  *  @param aMessage Message
  *  @param pError   Error
@@ -122,7 +147,7 @@ typedef enum{
  *  @param pError   错误信息
  *
  *  \~english
- *  Insert a message to the end of a conversation. ConversationId of the message should be the same as conversationId of the conversation in order to insert the message into the conversation correctly.
+ *  Insert a message to the end of a conversation in local database. ConversationId of the message should be the same as conversationId of the conversation in order to insert the message into the conversation correctly.
  *
  *  @param aMessage Message
  *  @param pError   Error
@@ -141,7 +166,7 @@ typedef enum{
  *  \~english
  *  Delete a message
  *
- *  @param aMessageId   MessageId of the message to be deleted
+ *  @param aMessageId   Id of the message to be deleted
  *  @param pError       Error
  *
  */
@@ -150,24 +175,27 @@ typedef enum{
 
 /*!
  *  \~chinese
- *  删除该会话所有消息
+ *  删除该会话所有消息，同时清除内存和数据库中的消息
+ *
  *  @param pError       错误信息
  *
  *  \~english
- *  Delete all message of a conversation
+ *  Delete all messages of the conversation from memory cache and local database
+ *
  *  @param pError       Error
  */
 - (void)deleteAllMessages:(EMError **)pError;
 
 /*!
  *  \~chinese
- *  更新一条消息，不能更新消息ID，消息更新后，会话的latestMessage等属性进行相应更新
+ *  更新本地的消息，不能更新消息ID，消息更新后，会话的latestMessage等属性进行相应更新
  *
  *  @param aMessage 要更新的消息
  *  @param pError   错误信息
  *
  *  \~english
- *  Update a local message, conversation's latestMessage and other properties will be updated accordingly. Please note that messageId can not be updated.
+ *  Use this method to update a message in local database. Changing properties will affect data in database
+ *  LatestMessage of the conversation and other properties will be updated accordingly. messageId of the message cannot be updated
  *
  *  @param aMessage Message
  *  @param pError   Error
@@ -200,12 +228,15 @@ typedef enum{
  *  @param pError   错误信息
  *
  *  \~english
- *  Mark all message as read
+ *  Mark all messages as read
  *
  *  @param pError   Error
  *
  */
 - (void)markAllMessagesAsRead:(EMError **)pError;
+
+
+#pragma mark - Load Messages Methods
 
 /*!
  *  \~chinese
@@ -226,21 +257,6 @@ typedef enum{
 
 /*!
  *  \~chinese
- *  收到的对方发送的最后一条消息
- *
- *  @result 消息实例
- *
- *  \~english
- *  Get last received message
- *
- *  @result Message instance
- */
-- (EMMessage *)lastReceivedMessage;
-
-#pragma mark - Async method
-
-/*!
- *  \~chinese
  *  从数据库获取指定数量的消息，取到的消息按时间排序，并且不包含参考的消息，如果参考消息的ID为空，则从最新消息取
  *
  *  @param aMessageId       参考消息的ID
@@ -249,12 +265,14 @@ typedef enum{
  *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Load messages from a specified message, returning messages are sorted by receiving timestamp. If the aMessageId is nil, return the latest received messages.
+ *  Load messages starting from the specified message id from local database. Returning messages are sorted by receiving timestamp based on EMMessageSearchDirection. If the aMessageId is nil, will return starting from the latest message
  *
- *  @param aMessageId       Reference message's ID
- *  @param aCount           Count of messages to load
- *  @param aDirection       Message search direction
- *  @param aCompletionBlock The callback block of completion
+ *  @param aMessageId       Start loading messages from the specified message id
+ *  @param aCount           Max number of messages to load
+ *  @param aDirection       Message search direction. 
+                            EMMessageSearchDirectionUp: get aCount of messages before aMessageId; 
+                            EMMessageSearchDirectionDown: get aCount of messages after aMessageId
+ *  @param aCompletionBlock The callback of completion block
  *
  */
 - (void)loadMessagesStartFromId:(NSString *)aMessageId
@@ -274,14 +292,16 @@ typedef enum{
  *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Load messages with specified type, returning messages are sorted by receiving timestamp. If reference timestamp is negative, load from the latest messages; if message count is negative, count deal with 1 and load one message that meet the condition.
+ *  Load messages with specified message type from local database. Returning messages are sorted by receiving timestamp based on EMMessageSearchDirection.
  *
  *  @param aType            Message type to load
- *  @param aTimestamp       Reference timestamp
- *  @param aLimit           Count of messages to load
- *  @param aUsername        Message sender (optional)
+ *  @param aTimestamp       load based on reference timestamp. If aTimestamp=-1, will load from the most recent (the latest) message
+ *  @param aCount           Max number of messages to load. if aCount<0, will be handled as count=1
+ *  @param aUsername        Message sender (optional). Use aUsername=nil to ignore
  *  @param aDirection       Message search direction
- *  @param aCompletionBlock The callback block of completion
+                            EMMessageSearchDirectionUp: get aCount of messages before aMessageId;
+                            EMMessageSearchDirectionDown: get aCount of messages after aMessageId
+ *  @param aCompletionBlock The callback of completion block
  *
  */
 - (void)loadMessagesWithType:(EMMessageBodyType)aType
@@ -303,14 +323,16 @@ typedef enum{
  *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Load messages with specified keyword, returning messages are sorted by receiving timestamp. If reference timestamp is negative, load from the latest messages; if message count is negative, count deal with 1 and load one message that meet the condition.
+ *  Load messages with specified keyword from local database, returning messages are sorted by receiving timestamp based on EMMessageSearchDirection. If reference timestamp is negative, load from the latest messages; if message count is negative, will be handled as count=1
  *
- *  @param aKeywords        Search content, will ignore it if it's empty
- *  @param aTimestamp       Reference timestamp
- *  @param aCount           Count of messages to load
- *  @param aSender          Message sender (optional)
+ *  @param aKeyword         Search keyword. aKeyword=nil to ignore
+ *  @param aTimestamp       load based on reference timestamp. If aTimestamp=-1, will load from the most recent (the latest) message
+ *  @param aCount           Max number of messages to load
+ *  @param aSender          Message sender (optional). Pass nil to ignore
  *  @param aDirection       Message search direction
- *  @param aCompletionBlock The callback block of completion
+                            EMMessageSearchDirectionUp: get aCount of messages before aMessageId;
+                            EMMessageSearchDirectionDown: get aCount of messages after aMessageId *  ----
+ *  @param aCompletionBlock The callback of completion block
  *
  */
 - (void)loadMessagesWithKeyword:(NSString*)aKeyword
@@ -330,18 +352,19 @@ typedef enum{
  *  @param aCompletionBlock 完成的回调
  *
  *  \~english
- *  Load messages within specified time range, retruning messages are sorted by receiving timestamp
+ *  Load messages within specified time range from local database. Returning messages are sorted by sending timestamp
  *
- *  @param aStartTimestamp  Start time's timestamp in miliseconds
- *  @param aEndTimestamp    End time's timestamp in miliseconds
- *  @param aCount           Message search direction
- *  @param aCompletionBlock The callback block of completion
+ *  @param aStartTimestamp  Starting timestamp in miliseconds
+ *  @param aEndTimestamp    Ending timestamp in miliseconds
+ *  @param aCount           Max number of messages to load
+ *  @param aCompletionBlock The callback of completion block
  *
  */
 - (void)loadMessagesFrom:(long long)aStartTimestamp
                       to:(long long)aEndTimestamp
                    count:(int)aCount
               completion:(void (^)(NSArray *aMessages, EMError *aError))aCompletionBlock;
+
 
 #pragma mark - Deprecated methods
 

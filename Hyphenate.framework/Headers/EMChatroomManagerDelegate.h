@@ -173,6 +173,22 @@ typedef enum{
                       newOwner:(NSString *)aNewOwner
                       oldOwner:(NSString *)aOldOwner;
 
+/*!
+ *  \~chinese
+ *  聊天室公告有更新
+ *
+ *  @param aChatroom        聊天室
+ *  @param aAnnouncement    公告
+ *
+ *  \~english
+ *  Announcement is updated
+ *
+ *  @param aChatroom        Chatroom
+ *  @param aAnnouncement    Announcement
+ */
+- (void)chatroomAnnouncementDidUpdate:(EMChatroom *)aChatroom
+                         announcement:(NSString *)aAnnouncement;
+
 #pragma mark - Deprecated methods
 
 /*!

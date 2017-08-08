@@ -1,15 +1,15 @@
 /*!
  *  \~chinese 
- *  @header EMCursorResult.h
- *  @abstract 分段结果
- *  @author Hyphenate
- *  @version 3.00
+ *  @header     EMCursorResult.h
+ *  @abstract   分段结果
+ *  @author     Hyphenate
+ *  @version    3.00
  *
  *  \~english
- *  @header EMCursorResult.h
- *  @abstract Subsection result
- *  @author Hyphenate
- *  @version 3.00
+ *  @header     EMCursorResult.h
+ *  @abstract   Subsection result
+ *  @author     Hyphenate
+ *  @version    3.00
  */
 
 #import <Foundation/Foundation.h>
@@ -19,7 +19,7 @@
  *  分段结果
  *
  *  \~english
- *  Subsection result
+ *  Sub-section result
  */
 @interface EMCursorResult : NSObject
 

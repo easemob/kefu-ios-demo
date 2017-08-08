@@ -15,7 +15,7 @@
  *  聊天室的最大成员数(3 - 2000，默认是200)
  *
  *  \~english
- *  The chat room capacity (3-2000, the default is 200)
+ *  The max chat room capacity (3-2000, the default is 200)
  */
 @property (nonatomic) NSInteger maxUsersCount;
 

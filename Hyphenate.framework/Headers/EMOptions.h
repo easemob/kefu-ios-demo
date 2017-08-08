@@ -110,7 +110,7 @@ typedef enum {
  *  是否允许聊天室Owner离开, 默认为YES
  *
  *  \~english
- *  Whether chat room's owner can leave the chat room, default is YES.
+ *  if allow chat room's owner can leave the chat room, default is YES.
  */
 @property (nonatomic, assign) BOOL isChatroomOwnerLeaveAllowed;
 

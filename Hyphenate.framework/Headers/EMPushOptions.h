@@ -29,8 +29,7 @@
  *  \~english 
  *  Display style of push message
  */
-typedef enum
-{
+typedef enum {
     EMPushDisplayStyleSimpleBanner = 0, /*! 
                                          *  \~chinese
                                          *  简单显示"您有一条新消息"
@@ -45,7 +44,7 @@ typedef enum
                                          *  \~english 
                                          *  Show message's content
                                          */
-}EMPushDisplayStyle;
+} EMPushDisplayStyle;
 
 /*!
  *  \~chinese 
@@ -54,11 +53,11 @@ typedef enum
  *  \~english 
  *  Status of Push Notification no-disturb setting
  */
-typedef enum{
+typedef enum {
     EMPushNoDisturbStatusDay = 0,   /*! \~chinese 全天免打扰 \~english The whole day */
     EMPushNoDisturbStatusCustom,    /*! \~chinese 自定义时间段免打扰 \~english User defined period */
     EMPushNoDisturbStatusClose,     /*! \~chinese 关闭免打扰 \~english Close no-disturb mode */
-}EMPushNoDisturbStatus;
+} EMPushNoDisturbStatus;
 
 /*!
  *  \~chinese 

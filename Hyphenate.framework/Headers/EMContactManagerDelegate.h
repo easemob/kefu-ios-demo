@@ -1,15 +1,15 @@
 /*!
  *  \~chinese
- *  @header EMContactManagerDelegate.h
- *  @abstract 此协议定义了好友相关的回调
- *  @author Hyphenate
- *  @version 3.00
+ *  @header     EMContactManagerDelegate.h
+ *  @abstract   此协议定义了好友相关的回调
+ *  @author     Hyphenate
+ *  @version    3.00
  *
  *  \~english
- *  @header EMContactManagerDelegate.h
- *  @abstract This protocol defined the callbacks of contact
- *  @author Hyphenate
- *  @version 3.00
+ *  @header     EMContactManagerDelegate.h
+ *  @abstract   The protocol of contact callbacks definitions
+ *  @author     Hyphenate
+ *  @version    3.00
  */
 
 #import <Foundation/Foundation.h>
@@ -21,7 +21,7 @@
  *  好友相关的回调
  *
  *  \~english
- *  Callbacks of contact
+ *  Contact related callbacks
  */
 @protocol EMContactManagerDelegate <NSObject>
 
@@ -34,10 +34,11 @@
  *  @param aUsername   用户B
  *
  *  \~english
- *  Delegate method will be invoked is a friend request is approved.
+ *  Delegate method will be invoked if a friend request is approved
  *   
  *  User A will receive this callback after user B approved user A's friend request
- *  @param aUsername   User who approves the friend's request
+ *
+ *  @param aUsername   User who approves a friend's request
  */
 - (void)friendRequestDidApproveByUser:(NSString *)aUsername;
 
@@ -52,7 +53,7 @@
  *
  *  User A will receive this callback after user B declined user A's friend request
  *
- *  @param aUsername   User who declined the friend's request
+ *  @param aUsername   User who declined a friend's request
  */
 - (void)friendRequestDidDeclineByUser:(NSString *)aUsername;
 
@@ -63,12 +64,11 @@
  *  @param aUsername   用户B
  *
  *  \~english
- 
  *  Delegate method will be invoked if user is removed as a contact by another user
  *
- *  User A，B will receive this callback after User B unfriended with user A
+ *  User A and B both will receive this callback after User B unfriended user A
  *
- *  @param aUsername   User who unfriended the cureent user
+ *  @param aUsername   User who unfriended the current user
  */
 - (void)friendshipDidRemoveByUser:(NSString *)aUsername;
 
@@ -95,9 +95,9 @@
  *  @param aMessage    好友邀请信息
  *
  *  \~english
- *  Delegate method will be invoked when user receives a friend request
+ *  Delegate method will be invoked when a user received a friend request
  *
- *  User A will receive this callback when receiving a friend request from user B
+ *  User A will receive this callback when received a friend request from user B
  *
  *  @param aUsername   Friend request sender
  *  @param aMessage    Friend request message
@@ -114,7 +114,7 @@
  *  @param aUsername   用户B
  *
  *  \~english
- *  User A will receive this callback after user B agreed user A's add-friend invitation
+ *  User A will receive this callback after user B accepted user A's friend request
  *
  *  @param aUsername   User B
  */

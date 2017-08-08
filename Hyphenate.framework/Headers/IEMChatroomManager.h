@@ -48,7 +48,7 @@
  *  Add delegate
  *
  *  @param aDelegate  Delegate
- *  @param aQueue     The queue of call delegate method
+ *  @param aQueue     (optional) The queue of calling delegate methods. Pass in nil to run on main thread.
  */
 - (void)addDelegate:(id<EMChatroomManagerDelegate>)aDelegate
       delegateQueue:(dispatch_queue_t)aQueue;
@@ -495,6 +495,44 @@
                                  pageNumber:(NSInteger)aPageNum
                                    pageSize:(NSInteger)aPageSize
                                  completion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  获取聊天室公告
+ *
+ *  @param aChatroomId      聊天室ID
+ *  @param pError           错误信息
+ *
+ *  @return    聊天室公告
+ *
+ *  \~english
+ *  Get the announcement of chatroom from the server
+ *
+ *  @param aChatroomId      Chatroom id
+ *  @param pError           error
+ *
+ *  @return    The announcement of chatroom
+ */
+- (NSString *)getChatroomAnnouncementWithId:(NSString *)aChatroomId
+                                      error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  获取聊天室公告
+ *
+ *  @param aChatroomId      聊天室ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Get the announcement of chatroom from the server
+ *
+ *  @param aChatroomId      Chatroom id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)getChatroomAnnouncementWithId:(NSString *)aChatroomId
+                           completion:(void (^)(NSString *aAnnouncement, EMError *aError))aCompletionBlock;
 
 #pragma mark - Edit
 
@@ -987,6 +1025,51 @@
 - (void)unmuteMembers:(NSArray *)aMembers
          fromChatroom:(NSString *)aChatroomId
            completion:(void (^)(EMChatroom *aChatroom, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  修改聊天室公告，需要Owner / Admin权限
+ *
+ *  @param aChatroomId      聊天室ID
+ *  @param aAnnouncement    群公告
+ *  @param pError           错误信息
+ *
+ *  @result    聊天室实例
+ *
+ *  \~english
+ *  Change the announcement of chatroom, need Owner / Admin permissions
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aChatroomId      Chatroom id
+ *  @param aAnnouncement    announcement of chatroom
+ *  @param pError           error
+ *
+ *  @result    Chatroom instance
+ */
+- (EMChatroom *)updateChatroomAnnouncementWithId:(NSString *)aChatroomId
+                                    announcement:(NSString *)aAnnouncement
+                                           error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  修改聊天室公告，需要Owner / Admin权限
+ *
+ *  @param aChatroomId      聊天室ID
+ *  @param aAnnouncement    群公告
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Change the announcement of chatroom, need Owner / Admin permissions
+ *
+ *  @param aChatroomId      Chatroom id
+ *  @param aAnnouncement    announcement of chatroom
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)updateChatroomAnnouncementWithId:(NSString *)aChatroomId
+                            announcement:(NSString *)aAnnouncement
+                              completion:(void (^)(EMChatroom *aChatroom, EMError *aError))aCompletionBlock;
 
 #pragma mark - EM_DEPRECATED_IOS 3.3.0
 

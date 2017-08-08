@@ -67,4 +67,13 @@ typedef enum{
  */
 @property (nonatomic) BOOL IsInviteNeedConfirm;
 
+/*!
+ *  \~chinese
+ *  扩展信息
+ *
+ *  \~english
+ *  Extended of the group
+ */
+@property (nonatomic, strong) NSString *ext;
+
 @end

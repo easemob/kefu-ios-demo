@@ -52,7 +52,7 @@
  *  @param aMessages  消息列表<EMMessage>
  *
  *  \~english
- *  Delegate method will be invoked when receiving new messages
+ *  Invoked when receiving new messages
  *
  *  @param aMessages  Receivecd message list<EMMessage>
  */
@@ -65,7 +65,7 @@
  *  @param aCmdMessages  Cmd消息列表<EMMessage>
  *
  *  \~english
- *  Delegate method will be invoked when receiving command messages
+ *  Invoked when receiving command messages
  *
  *  @param aCmdMessages  Command message list<EMMessage>
  */
@@ -78,7 +78,7 @@
  *  @param aMessages  已读消息列表<EMMessage>
  *
  *  \~english
- *   Delegate method will be invoked when receiving read acknowledgements for message list
+ *  Invoked when receiving read acknowledgement in message list
  *
  *  @param aMessages  Acknowledged message list<EMMessage>
  */
@@ -91,11 +91,24 @@
  *  @param aMessages  送达消息列表<EMMessage>
  *
  *  \~english
- * Delegate method will be invoked when receiving deliver acknowledgements for message list
+ *  Invoked when receiving delivered acknowledgement in message list
  *
  *  @param aMessages  Acknowledged message list<EMMessage>
  */
 - (void)messagesDidDeliver:(NSArray *)aMessages;
+
+/*!
+ *  \~chinese
+ *  收到消息撤回
+ *
+ *  @param aMessages  撤回消息列表<EMMessage>
+ *
+ *  \~english
+ * Delegate method will be invoked when receiving recall for message list
+ *
+ *  @param aMessages  Recall message list<EMMessage>
+ */
+- (void)messagesDidRecall:(NSArray *)aMessages;
 
 /*!
  *  \~chinese
@@ -105,7 +118,7 @@
  *  @param aError    出错信息
  *
  *  \~english
- *  Delegate method will be invoked when message status has changed
+ *  Invoked when message status has changed
  *
  *  @param aMessage  Message whose status has changed
  *  @param aError    Error info
@@ -121,7 +134,7 @@
  *  @param aError    错误信息
  *
  *  \~english
- *  Delegate method will be invoked when message attachment status has changed
+ *  Invoked when message attachment status has changed
  *
  *  @param aMessage  Message attachment status has changed
  *  @param aError    Error
