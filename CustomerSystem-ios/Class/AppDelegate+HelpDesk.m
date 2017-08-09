@@ -164,6 +164,7 @@
 - (void)appWillResignActiveNotif:(NSNotification*)notif
 {
  //   [[EaseMob sharedInstance] applicationWillResignActive:notif.object];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"closeRecording" object:nil];
 }
 
 - (void)appDidReceiveMemoryWarning:(NSNotification*)notif

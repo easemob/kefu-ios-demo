@@ -111,6 +111,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideImagePicker) name:@"hideImagePicker" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatToolbarState) name:@"ChatToolbarState" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeRecording) name:@"closeRecording" object:nil];
     
     //Initialization
     CGFloat chatbarHeight = [HDChatToolbar defaultHeight];
@@ -678,6 +679,13 @@
     [self _stopAudioPlayingWithChangeCategory:YES];
 }
 
+#pragma cancelRecording Animal
+- (void)closeRecording
+{
+    if(self.recordView){
+        [self didHdCancelRecordingVoiceAction:self.recordView];
+    }
+}
 
 #pragma mark - pivate data
 
