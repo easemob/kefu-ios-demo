@@ -7,7 +7,7 @@
 //
 
 #import "CommodityInfoView.h"
-#import "MallViewController.h"
+
 
 @interface CommodityInfoView ()
 {

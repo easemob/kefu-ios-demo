@@ -20,7 +20,7 @@
 #import "HDMessageCell.h"
 #import "HDBaseMessageCell.h"
 #import "HDBubbleView.h"
-
+#import "CustomButton.h"
 
 #import "HDChineseToPinyin.h"
 #import "HDEmoji.h"
@@ -38,6 +38,7 @@
 #import "UIViewController+DismissKeyboard.h"
 #import "UIResponder+HRouter.h"
 #import "HDLocalDefine.h"
+
 
 //Ext keyWord
 #define kMesssageExtWeChat @"weichat"
@@ -58,6 +59,8 @@
 
 #define kHDScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kHDScreenHeight [UIScreen mainScreen].bounds.size.height
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
 #define fHDUserDefaults [NSUserDefaults standardUserDefaults]
 
 @interface HelpDeskUI : NSObject
