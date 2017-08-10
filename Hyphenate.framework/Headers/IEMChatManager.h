@@ -26,8 +26,6 @@
 #import "EMImageMessageBody.h"
 #import "EMVoiceMessageBody.h"
 #import "EMVideoMessageBody.h"
-#import "EMCursorResult.h"
-
 
 @class EMError;
 
@@ -245,26 +243,6 @@
 
 /*!
  *  \~chinese
- *  撤回消息
- *
- *  异步方法
- *
- *  @param aMessage             消息
- *  @param aCompletionBlock     完成的回调
- *
- *  \~english
- *  Recall a message
- *
- *
- *  @param aMessage             Message instance
- *  @param aCompletionBlock     The callback block of completion
- *
- */
-- (void)recallMessage:(EMMessage *)aMessage
-           completion:(void (^)(EMMessage *aMessage, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
  *  发送消息
  *
  *  @param aMessage         消息
@@ -341,64 +319,6 @@
 - (void)downloadMessageAttachment:(EMMessage *)aMessage
                          progress:(void (^)(int progress))aProgressBlock
                        completion:(void (^)(EMMessage *message, EMError *error))aCompletionBlock;
-
-
-
-/**
- *  \~chinese
- *  @param  aConversationId     要获取漫游消息的Conversation id
- *  @param  aConversationType   要获取漫游消息的Conversation type
- *  @param  aStartMessageId     参考起始消息的ID
- *  @param  aPageSize           获取消息条数
- *  @param  pError              错误信息
- *
- *  @return     获取的消息结果
- *
- *
- *  \~english
- *  Fetch conversation roam messages from server.
- 
- *  @param aConversationId      The conversation id which select to fetch roam message.
- *  @param aConversationType    The conversation type which select to fetch roam message.
- *  @param aStartMessageId      The start search roam message, if empty start from the server leastst message.
- *  @param aPageSize            The page size.
- *  @param pError               EMError used for output.
- *
- *  @return    The result
- */
-- (EMCursorResult *)fetchHistoryMessagesFromServer:(NSString *)aConversationId
-                                  conversationType:(EMConversationType)aConversationType
-                                    startMessageId:(NSString *)aStartMessageId
-                                          pageSize:(int)aPageSize
-                                             error:(EMError **)pError;
-
-
-/**
- *  \~chinese
- *
- *  异步方法
- *
- *  @param  aConversationId     要获取漫游消息的Conversation id
- *  @param  aConversationType   要获取漫游消息的Conversation type
- *  @param  aStartMessageId     参考起始消息的ID
- *  @param  aPageSize           获取消息条数
- *  @param  aCompletionBlock    获取消息结束的callback
- *
- *
- *  \~english
- *  Fetch conversation roam messages from server.
- 
- *  @param aConversationId      The conversation id which select to fetch roam message.
- *  @param aConversationType    The conversation type which select to fetch roam message.
- *  @param aStartMessageId      The start search roam message, if empty start from the server leastst message.
- *  @param aPageSize            The page size.
- *  @param aCompletionBlock     The callback block of fetch complete
- */
-- (void)asyncFetchHistoryMessagesFromServer:(NSString *)aConversationId
-                           conversationType:(EMConversationType)aConversationType
-                             startMessageId:(NSString *)aStartMessageId
-                                   pageSize:(int)aPageSize
-                                 complation:(void (^)(EMCursorResult *aResult, EMError *aError))aCompletionBlock;
 
 #pragma mark - EM_DEPRECATED_IOS 3.2.3
 

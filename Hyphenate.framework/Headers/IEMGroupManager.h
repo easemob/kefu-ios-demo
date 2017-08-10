@@ -98,18 +98,18 @@
 
 /*!
  *  \~chinese
- *  按数目从服务器获取自己加入的群组
+ *  从服务器获取指定数目的群组
  *
  *  同步方法，会阻塞当前线程
  *
- *  @param aPageNum  获取自己加入群的cursor，首次调用传空
+ *  @param aPageNum  获取公开群的cursor，首次调用传空
  *  @param aPageSize 期望返回结果的数量, 如果 < 0 则一次返回所有结果
  *  @param pError    出错信息
  *
  *  @return 群组列表<EMGroup>
  *
  *  \~english
- *  Get pagesize number group you joined from the server.
+ *  Get pagesize number group from server.
  *
  *  Synchronization method will block the current thread
  *
@@ -125,14 +125,14 @@
 
 /*!
  *  \~chinese
- *  按数目从服务器获取自己加入的群组
+ *  从服务器获取所有的群组
  *
- *  @param aPageNum  获取自己加入群的cursor，首次调用传空
+ *  @param aPageNum  获取公开群的cursor，首次调用传空
  *  @param aPageSize 期望返回结果的数量, 如果 < 0 则一次返回所有结果
  *  @param aCompletionBlock      完成的回调
  *
  *  \~english
- *  Get pagesize number group you joined from the server.
+ *  Get all the groups from server
  *
  *  @param aPageNum             Page number
  *  @param aPageSize            Page size

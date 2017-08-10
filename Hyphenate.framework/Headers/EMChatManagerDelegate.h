@@ -99,19 +99,6 @@
 
 /*!
  *  \~chinese
- *  收到消息撤回
- *
- *  @param aMessages  撤回消息列表<EMMessage>
- *
- *  \~english
- * Delegate method will be invoked when receiving recall for message list
- *
- *  @param aMessages  Recall message list<EMMessage>
- */
-- (void)messagesDidRecall:(NSArray *)aMessages;
-
-/*!
- *  \~chinese
  *  消息状态发生变化
  *
  *  @param aMessage  状态发生变化的消息

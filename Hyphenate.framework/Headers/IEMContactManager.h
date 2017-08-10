@@ -73,7 +73,7 @@
  *  \~english
  *  Get all contacts from local database
  *
- *  @result Contact list<String>
+ *  @result Contact list<EMGroup>
  */
 - (NSArray *)getContacts;
 
@@ -410,44 +410,6 @@
  *                           completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
  */
 - (EMError *)declineInvitationForUsername:(NSString *)aUsername;
-
-#pragma mark - Other platform
-
-/*!
- *  \~chinese
- *  获取当前账号在其他平台(Windows或者Web)登录的id列表
- *  id使用方法类似于好友username
- *
- *  @param pError   错误信息
- *
- *  @return     id列表
- *
- *  \~english
- *  Get the id list of the current account on another platform (Windows or Web)
- *  Id usage is similar to friend username
- *
- *  @param pError   Error
- *
- *  @return     id list
- *
- */
-- (NSArray *)getSelfIdsOnOtherPlatformWithError:(EMError **)pError;
-
-/*!
- *  \~chinese
- *  获取当前账号在其他平台(Windows或者Web)登录的id列表
- *  id使用方法类似于好友username
- *
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Get the id list of the current account on another platform (Windows or Web)
- *  Id usage is similar to friend username
- *
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)getSelfIdsOnOtherPlatformWithCompletion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
 
 #pragma mark - EM_DEPRECATED_IOS 3.2.3
 

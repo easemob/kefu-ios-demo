@@ -10,8 +10,9 @@
 		8F1281CA1F39D9BA00E872CA /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281C91F39D9BA00E872CA /* HelpDesk.framework */; };
 		8F1281CB1F39D9C700E872CA /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281C91F39D9BA00E872CA /* HelpDesk.framework */; };
 		8F1281CC1F39D9C700E872CA /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281C91F39D9BA00E872CA /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8F1281CF1F39DCAC00E872CA /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281CD1F39DB4100E872CA /* Hyphenate.framework */; };
-		8F1281D01F39DCAC00E872CA /* Hyphenate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281CD1F39DB4100E872CA /* Hyphenate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F1281E71F3B2C8900E872CA /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281E61F3B2C8900E872CA /* Hyphenate.framework */; };
+		8F1281E81F3B2CA100E872CA /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281E61F3B2C8900E872CA /* Hyphenate.framework */; };
+		8F1281E91F3B2CA100E872CA /* Hyphenate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281E61F3B2C8900E872CA /* Hyphenate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */; };
 		C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A61CC7495E00211B1B /* libc++.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
@@ -493,7 +494,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8F1281CC1F39D9C700E872CA /* HelpDesk.framework in Embed Frameworks */,
-				8F1281D01F39DCAC00E872CA /* Hyphenate.framework in Embed Frameworks */,
+				8F1281E91F3B2CA100E872CA /* Hyphenate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -502,7 +503,7 @@
 
 /* Begin PBXFileReference section */
 		8F1281C91F39D9BA00E872CA /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
-		8F1281CD1F39DB4100E872CA /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hyphenate.framework; sourceTree = "<group>"; };
+		8F1281E61F3B2C8900E872CA /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hyphenate.framework; sourceTree = "<group>"; };
 		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		D20066121EF23274005B558D /* em_example_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_1.png; sourceTree = "<group>"; };
@@ -1181,7 +1182,7 @@
 				EB62E44B1A8E2D8D00705655 /* AddressBook.framework in Frameworks */,
 				EB62E4491A8E2D8700705655 /* libiconv.dylib in Frameworks */,
 				EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */,
-				8F1281CF1F39DCAC00E872CA /* Hyphenate.framework in Frameworks */,
+				8F1281E81F3B2CA100E872CA /* Hyphenate.framework in Frameworks */,
 				EB62E4431A8E2D7300705655 /* SystemConfiguration.framework in Frameworks */,
 				8F1281CB1F39D9C700E872CA /* HelpDesk.framework in Frameworks */,
 				EB62E4411A8E2D6B00705655 /* libresolv.dylib in Frameworks */,
@@ -1190,6 +1191,7 @@
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
 				8F1281CA1F39D9BA00E872CA /* HelpDesk.framework in Frameworks */,
+				8F1281E71F3B2C8900E872CA /* Hyphenate.framework in Frameworks */,
 				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1550,7 +1552,7 @@
 		D35726071DE315640033D4E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8F1281CD1F39DB4100E872CA /* Hyphenate.framework */,
+				8F1281E61F3B2C8900E872CA /* Hyphenate.framework */,
 				D3E4B4371E7A930E004FEA49 /* AVFoundation.framework */,
 				D33946EB1E54371C009370BF /* libiconv.tbd */,
 				D363DD3B1DF6E9A900AC54D1 /* QuickLook.framework */,

@@ -18,7 +18,7 @@
 		</data>
 		<key>Headers/EMCallManagerDelegate.h</key>
 		<data>
-		QXh0b9dVoQOZCnufpbUFQBoJ5HY=
+		B10evY/TusOasln/wFdTf9pXpjg=
 		</data>
 		<key>Headers/EMCallOptions.h</key>
 		<data>
@@ -34,11 +34,11 @@
 		</data>
 		<key>Headers/EMChatManagerDelegate.h</key>
 		<data>
-		P6Dc9U4wnAP0w3MmdM/tnLKloSs=
+		M3M1XSUumDTViEuBmGxbYAX4n1I=
 		</data>
 		<key>Headers/EMChatroom.h</key>
 		<data>
-		7RhQwPTD8dDXaEohFKbQ3lcJt5g=
+		HAXT29obYC704rqyW6NQ379d9QM=
 		</data>
 		<key>Headers/EMChatroomManagerDelegate.h</key>
 		<data>
@@ -98,7 +98,7 @@
 		</data>
 		<key>Headers/EMErrorCode.h</key>
 		<data>
-		rNxK7XSDhpFNKTiZ4/mGaGRx8mM=
+		P6SIqfVf+FCfcWuBCEqN7ed9usU=
 		</data>
 		<key>Headers/EMFileMessageBody.h</key>
 		<data>
@@ -186,7 +186,7 @@
 		</data>
 		<key>Headers/IEMChatManager.h</key>
 		<data>
-		qbXNXHtUwXehpI9Fx/OV5KjA580=
+		rnGFGfVDyAAPKXqwbsu07+Comls=
 		</data>
 		<key>Headers/IEMChatroomManager.h</key>
 		<data>
@@ -194,11 +194,11 @@
 		</data>
 		<key>Headers/IEMContactManager.h</key>
 		<data>
-		6kHYzeJ4NODHPxaFOzBdlNUz+uc=
+		3oTN8qu5g9DjoQevvpcv0Lg8E/4=
 		</data>
 		<key>Headers/IEMGroupManager.h</key>
 		<data>
-		Mt9B5YY0eHz9KJ+aOseeITbkmv8=
+		SYI6M5bOwEAylwdKrvHep2uKJp0=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -248,11 +248,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			QXh0b9dVoQOZCnufpbUFQBoJ5HY=
+			B10evY/TusOasln/wFdTf9pXpjg=
 			</data>
 			<key>hash2</key>
 			<data>
-			fyuOKH0J0MeQPFM7ec4n98PD1Xp+eI01+HSkJFLvewI=
+			nFEsUqOJ3mlaxKz8OcGAhimXqXptux64Xd8xzXpJWm8=
 			</data>
 		</dict>
 		<key>Headers/EMCallOptions.h</key>
@@ -292,22 +292,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			P6Dc9U4wnAP0w3MmdM/tnLKloSs=
+			M3M1XSUumDTViEuBmGxbYAX4n1I=
 			</data>
 			<key>hash2</key>
 			<data>
-			/DwL/bmYMG7+mvK2eopUXa8GBhYk/VE1/bEvOZMcWL0=
+			iLc9/aIxgyl0tA8J4xrpjH27v8fCPaiDeUm1RxOkuaU=
 			</data>
 		</dict>
 		<key>Headers/EMChatroom.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7RhQwPTD8dDXaEohFKbQ3lcJt5g=
+			HAXT29obYC704rqyW6NQ379d9QM=
 			</data>
 			<key>hash2</key>
 			<data>
-			fZKpHhuUm3Vw1pd5W1oUjISZhBQVzJdYMPMCwd2f+kg=
+			Kf2C2O3TougFtnm5040e6yCQJ70K0EFXE9jHYM2sq2A=
 			</data>
 		</dict>
 		<key>Headers/EMChatroomManagerDelegate.h</key>
@@ -468,11 +468,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			rNxK7XSDhpFNKTiZ4/mGaGRx8mM=
+			P6SIqfVf+FCfcWuBCEqN7ed9usU=
 			</data>
 			<key>hash2</key>
 			<data>
-			gFXibZl73tY/x42H/MJ7dswDL4vDkcWTY/UVi7gP2AM=
+			ZFOyQKJisNlcxYr1/DTphJXcELxWZu/mLtZhHRghNL0=
 			</data>
 		</dict>
 		<key>Headers/EMFileMessageBody.h</key>
@@ -710,11 +710,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			qbXNXHtUwXehpI9Fx/OV5KjA580=
+			rnGFGfVDyAAPKXqwbsu07+Comls=
 			</data>
 			<key>hash2</key>
 			<data>
-			xGLRW2Sap1sSVMxglyKM69Sch+13hZXLOTSxf5aHLQE=
+			CEz4ymb/45IrCPdp8w87JguQRPnNHPbfakwrk72C4f8=
 			</data>
 		</dict>
 		<key>Headers/IEMChatroomManager.h</key>
@@ -732,22 +732,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6kHYzeJ4NODHPxaFOzBdlNUz+uc=
+			3oTN8qu5g9DjoQevvpcv0Lg8E/4=
 			</data>
 			<key>hash2</key>
 			<data>
-			oM8NKQIC2dIqbobmeckZ4XRUHhTjkYF3JPtzGWAWK/4=
+			B+fU7haQKS22JVKVn8XJnN432m/+nrcxVRyVXb3VFz0=
 			</data>
 		</dict>
 		<key>Headers/IEMGroupManager.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Mt9B5YY0eHz9KJ+aOseeITbkmv8=
+			SYI6M5bOwEAylwdKrvHep2uKJp0=
 			</data>
 			<key>hash2</key>
 			<data>
-			t4nWR8P6veBb+shCXFsUnX1ZQoHRm1xBgpRbd9U3zto=
+			AoFCEyBJjwfj5Mj6Jddg4u9RoLDWgNB+FpowD0YX9vc=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

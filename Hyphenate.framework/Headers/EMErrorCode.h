@@ -61,7 +61,6 @@ typedef enum{
     EMErrorMessageIncludeIllegalContent,      /*! \~chinese 消息内容包含不合法信息 \~english Message contains invalid content */
     EMErrorMessageTrafficLimit,              /*! \~chinese 单位时间发送消息超过上限 \~english Unit time to send messages over the upper limit */
     EMErrorMessageEncryption,                /*! \~chinese 加密错误 \~english Encryption error */
-    EMErrorMessageRecallTimeLimit,           /*! \~chinese 消息撤回超过时间限制 \~english Unit time to send recall for message over the time limit */
     
     EMErrorGroupInvalidId = 600,             /*! \~chinese 群组ID无效 \~english Group Id is invalid */
     EMErrorGroupAlreadyJoined,               /*! \~chinese 已加入群组 \~english User already joined the group */
