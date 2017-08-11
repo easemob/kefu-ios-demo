@@ -116,6 +116,11 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 @property (strong, nonatomic) UILabel *fileNameLabel;
 @property (strong, nonatomic) UILabel *fileSizeLabel;
 
+//form
+@property (strong, nonatomic) UIImageView *formIconView;
+@property (strong, nonatomic) UILabel *formTitleLabel;
+@property (strong, nonatomic) UILabel *formDescLabel;
+
 - (instancetype)initWithMargin:(UIEdgeInsets)margin
                       isSender:(BOOL)isSender;
 

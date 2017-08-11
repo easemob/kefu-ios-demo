@@ -104,6 +104,14 @@
                 if (self.model.isArticle) {
                     break;
                 }
+                if([HjudgeTextMessageSubType isFormMessage:self.model.message]){
+                    [self removeConstraint:self.bubbleWithExtConstraint];
+                    CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
+                    self.bubbleWithExtConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + margin];
+                    [self addConstraint:self.bubbleWithExtConstraint];
+                    break;
+                }
+                    
                 if (![dic.allKeys containsObject:@"videoPlayback"] && ![dic.allKeys containsObject:@"liveStreamInvitation"]) {
                     [self removeConstraint:self.bubbleWithExtConstraint];
                     CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;

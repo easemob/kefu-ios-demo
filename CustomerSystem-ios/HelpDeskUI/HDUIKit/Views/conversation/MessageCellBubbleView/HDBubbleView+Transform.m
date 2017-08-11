@@ -21,8 +21,8 @@
     [self.marginConstraints addObject:transTitleMarginRightConstraint];
     
     NSLayoutConstraint *transButtonMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.transformButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom- 10];
-    [self.marginConstraints addObject:transButtonMarginBottomConstraint];
     
+    [self.marginConstraints addObject:transButtonMarginBottomConstraint];
     [self addConstraints:self.marginConstraints];
 }
 

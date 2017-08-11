@@ -150,7 +150,7 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
 /*!
  *  \~chinese
  *  将指定会话消息设置为已读
- *
+ *  已过时，请使用 markAllMessagesAsRead
  *  @param conversationId 指定的会话
  *  @param pError       错误信息
  *
@@ -161,7 +161,7 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
  *  @param pError       Error
  *
  */
-- (void)markMessagesAsReadWithConversationId:(NSString *)conversationId error:(HError **)pError;
+- (void)markMessagesAsReadWithConversationId:(NSString *)conversationId error:(HError **)pError __attribute__((deprecated("已过期")));
 
 /*!
  *  \~chinese
@@ -259,7 +259,7 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
                        count:(int)aCount
                     fromUser:(NSString*)aUsername
              searchDirection:(HMessageSearchDirection)aDirection
-                  completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
+                  completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock __attribute__((deprecated("已过期")));
 /*!
  *  \~chinese
  *  从数据库获取包含指定内容的消息，取到的消息按时间排序，如果参考的时间戳为负数，则从最新消息向前取，如果aCount小于等于0当作1处理
@@ -287,7 +287,7 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
                           count:(int)aCount
                        fromUser:(NSString*)aSender
                 searchDirection:(HMessageSearchDirection)aDirection
-                     completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
+                     completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock __attribute__((deprecated("已过期")));
 
 /*!
  *  \~chinese
@@ -323,4 +323,17 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
  *  @result Message instance
  */
 - (HMessage *)lastReceivedMessage;
+
+/*!
+ *  \~chinese
+ *  该会话的最后一条消息
+ *
+ *  @result 消息实例
+ *
+ *  \~english
+ *  Get lastest message
+ *
+ *  @result Message instance
+ */
+- (HMessage *)latestMessage;
 @end

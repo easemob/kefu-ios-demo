@@ -105,7 +105,7 @@
  *  \~english
  *  Whether has connected to chat server
  */
-@property (nonatomic, readonly) BOOL isConnected;
+@property (nonatomic, readonly) BOOL isConnected __attribute__((deprecated("已过期")));
 
 /*!
  *  \~chinese
@@ -380,5 +380,11 @@
  @return error
  */
 - (void)changeTenantId:(NSString *)tenantId;
+
+/**
+ * 获取当前客服服务器地址 host
+ *
+ */
+- (NSString *)kefuRestServer;
 
 @end

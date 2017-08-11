@@ -23,6 +23,7 @@
 #import "HDBubbleView+Voice.h"
 #import "HDBubbleView+Video.h"
 #import "HDBubbleView+File.h"
+#import "HDBubbleView+Form.h"
 #import "HDBubbleView+Article.h"
 #import "UIImageView+WebCache.h"
 #import "HDEmotionEscape.h"
@@ -47,6 +48,7 @@ NSString *const HDMessageCellIdentifierRecvVoice = @"HDMessageCellRecvVoice";
 NSString *const HDMessageCellIdentifierRecvVideo = @"HDMessageCellRecvVideo";
 NSString *const HDMessageCellIdentifierRecvImage = @"HDMessageCellRecvImage";
 NSString *const HDMessageCellIdentifierRecvFile = @"HDMessageCellRecvFile";
+NSString *const HDMessageCellIdentifierRecvForm = @"HDMessageCelRecvForm";
 
 NSString *const HDMessageCellIdentifierSendText = @"HDMessageCellSendText";
 NSString *const HDMessageCellIdentifierSendTrack = @"HDMessageCellSendTrack";
@@ -56,6 +58,7 @@ NSString *const HDMessageCellIdentifierSendVoice = @"HDMessageCellSendVoice";
 NSString *const HDMessageCellIdentifierSendVideo = @"HDMessageCellSendVideo";
 NSString *const HDMessageCellIdentifierSendImage = @"HDMessageCellSendImage";
 NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
+
 
 @interface HDMessageCell() <SendDeleteTrackMsgDelegate>
 {
@@ -104,6 +107,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     cell.messageFileNameFont = [UIFont systemFontOfSize:13];
     cell.messageFileSizeColor = [UIColor grayColor];
     cell.messageFileSizeFont = [UIFont systemFontOfSize:11];
+    cell.messageFormDescSizeFont = [UIFont systemFontOfSize:11];
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
@@ -211,11 +215,17 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         _bubbleView.textLabel.textColor = _messageTextColor;
 
                     }
+                    if([HjudgeTextMessageSubType isFormMessage:model.message]){
+                        [_bubbleView setupFormBubbleView];
+                        _bubbleView.formTitleLabel.font = _messageFileNameFont;
+                        _bubbleView.formTitleLabel.textColor = _messageFileNameColor;
+                        _bubbleView.formDescLabel.font = _messageFileSizeFont;
+                    }
                 } else if([HjudgeTextMessageSubType isTransferMessage:model.message]){
                     [_bubbleView setupTransformBubbleView];
                 } else if ([HjudgeTextMessageSubType isEvaluateMessage:model.message]){
                     [_bubbleView setupEvaluateBubbleView];
-                }else {
+                }else{
                     [_bubbleView setupTextBubbleView];
                     _bubbleView.textLabel.font = _messageTextFont;
                     _bubbleView.textLabel.textColor = _messageTextColor;
@@ -445,7 +455,17 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             _bubbleView.menuTitle = [choiceDic objectForKey:@"title"];
                             [_bubbleView reloadData];
                         }
+                        
             
+                    }
+                    if([HjudgeTextMessageSubType isFormMessage:model.message]){
+                        NSDictionary *msgTypeDic = [model.message.ext objectForKey:@"msgtype"];
+                        _bubbleView.formIconView.image = [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_item_form"];
+                        _bubbleView.formTitleLabel.text = @"点击填写表单";
+                        
+                        @try {
+                            _bubbleView.formDescLabel.text = [[msgTypeDic objectForKey:@"html"] objectForKey:@"desc"];
+                        } @catch (NSException *ignored) {}
                     }
                     if ([HjudgeTextMessageSubType isTransferMessage:model.message]) {
                         _bubbleView.transTitle.attributedText = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
@@ -464,7 +484,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         _urlMatches = [_detector matchesInString:content options:0 range:NSMakeRange(0, content.length)];
                         _bubbleView.textLabel.attributedText = [self highlightLinksWithIndex:0 attributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:self.messageTextFont]];
                     }
-                } else {
+                } else{
                     NSString *content = model.text;
                     _urlMatches = [_detector matchesInString:content options:0 range:NSMakeRange(0, content.length)];
                     _bubbleView.textLabel.attributedText = [self highlightLinksWithIndex:0 attributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:self.messageTextFont]];
@@ -649,11 +669,14 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         if ([dic objectForKey:@"videoPlayback"] || [dic objectForKey:@"liveStreamInvitation"]) {
                              [_bubbleView updateTextMargin:_bubbleMargin];
                         }
+                        if([HjudgeTextMessageSubType isFormMessage:_model.message]){
+                            [_bubbleView updateFormMargin:_bubbleMargin];
+                        }
                     } else if ([HjudgeTextMessageSubType isTransferMessage:_model.message]) {
                          [_bubbleView updateTransformMargin:_bubbleMargin];
                     } else if ([HjudgeTextMessageSubType isEvaluateMessage:_model.message]) {
                         [_bubbleView updateEvaluateMargin:_bubbleMargin];
-                    } else {
+                    } else{
                          [_bubbleView updateTextMargin:_bubbleMargin];
                     }
                 }
@@ -780,6 +803,15 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         _bubbleView.fileSizeLabel.textColor = _messageFileSizeColor;
     }
 }
+
+-(void)setMessageFormDescSizeFont:(UIFont *)messageFormDescSizeFont
+{
+    _messageFormDescSizeFont = messageFormDescSizeFont;
+    if (_bubbleView.formDescLabel) {
+        _bubbleView.formDescLabel.font = _messageFormDescSizeFont;
+    }
+}
+
 
 #pragma mark - action
 
@@ -967,12 +999,14 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     if ([dic objectForKey:@"videoPlayback"] || [dic objectForKey:@"liveStreamInvitation"]) {
                         cellIdentifier = HDMessageCellIdentifierRecvText;
                     }
-                    
+                    if([HjudgeTextMessageSubType isFormMessage:model.message]){
+                        cellIdentifier = HDMessageCellIdentifierRecvForm;
+                    }
                 } else if ([HjudgeTextMessageSubType isTransferMessage:model.message]) {
                     cellIdentifier = HDMessageCellIdentifierRecvTransform;
                 } else if ([HjudgeTextMessageSubType isEvaluateMessage:model.message]) {
                     cellIdentifier = HDMessageCellIdentifierRecvEvaluate;
-                }else {
+                } else{
                     cellIdentifier = HDMessageCellIdentifierRecvText;
                 }
             }
@@ -1045,34 +1079,44 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             } else if([msgDic objectForKey:@"articles"]) {
                 NSArray *articles = [msgDic objectForKey:@"articles"];
                 return [self getArticleCellHeight:articles];
-            } else { //其他消息【订单、轨迹、富文本】
-                NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
-                CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
-                height += (rect.size.height > 20 ? rect.size.height : 20) + 20;
-                NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
-                if (dic && ![dic objectForKey:@"videoPlayback"] && ![dic objectForKey:@"liveStreamInvitation"]) {
-                    NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
-                    if ([dic objectForKey:@"track"]) {
+            } else if (msgDic && ![msgDic objectForKey:@"videoPlayback"] && ![msgDic objectForKey:@"liveStreamInvitation"]) {
+//                    NSDictionary *dic = [model.message.ext objectForKey:@"msgtype"];
+                    if ([msgDic objectForKey:@"track"]) {
                         // 修改轨迹消息的高度
                         return 2*HDMessageCellPadding + kImageHeight + kTitleHeight + 60;
                     }
-                    if ([dic objectForKey:@"order"]) {
+                    if ([msgDic objectForKey:@"order"]) {
                         return 2*HDMessageCellPadding + kImageHeight + 2*kTitleHeight + 20;
                     }
-                    if ([dic objectForKey:@"choice"] && !model.isSender) {
+                    if ([msgDic objectForKey:@"choice"] && !model.isSender) {
                         return 2*HDMessageCellPadding + height + 20;
                     }
-                }
-                if ([HjudgeTextMessageSubType isTransferMessage:model.message]) {
+                    if([HjudgeTextMessageSubType isFormMessage:model.message]){
+
+                        height += (kImageHeight + kTitleHeight);
+                        return height;
+                    }
+                
+                
+             }else if ([HjudgeTextMessageSubType isTransferMessage:model.message]) {
+                 NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
+                 CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
+                 height += (rect.size.height > 20 ? rect.size.height : 20) + 20;
                     height += 50;
                     return height;
-                }
-                if ([HjudgeTextMessageSubType isEvaluateMessage:model.message]) {
+             }else if ([HjudgeTextMessageSubType isEvaluateMessage:model.message]) {
+                 NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
+                 CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
+                 height += (rect.size.height > 20 ? rect.size.height : 20) + 20;
                     height += [model.text boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
                     height += 50;
                     return height;
-                }
-            }
+             }else{
+                    NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
+                    CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
+                    height += (rect.size.height > 20 ? rect.size.height : 20) + 20;
+                    return height;
+             }
             
         }
             break;

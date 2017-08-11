@@ -110,6 +110,8 @@ typedef enum{
 
 @property (nonatomic) UIColor *messageFileSizeColor UI_APPEARANCE_SELECTOR; //default [UIColor grayColor];
 
+@property (nonatomic) UIFont *messageFormDescSizeFont UI_APPEARANCE_SELECTOR; // default [UIFont systemFontOfSize11];
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
               reuseIdentifier:(NSString *)reuseIdentifier
                         model:(id<HDIMessageModel>)model;

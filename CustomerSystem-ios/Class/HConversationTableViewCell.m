@@ -119,6 +119,9 @@
             if ([HDArticleDataControl isArticleMessage:model.latestMessage]) {
                 content = @"[图文消息]";
             }
+            if ([HjudgeTextMessageSubType isFormMessage:model.latestMessage]) {
+                content = @"[表单消息]";
+            }
             break;
         }
         case EMMessageBodyTypeImage: {

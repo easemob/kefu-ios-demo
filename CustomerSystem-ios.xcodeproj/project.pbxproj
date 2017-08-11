@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8F1281CA1F39D9BA00E872CA /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281C91F39D9BA00E872CA /* HelpDesk.framework */; };
-		8F1281CB1F39D9C700E872CA /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281C91F39D9BA00E872CA /* HelpDesk.framework */; };
-		8F1281CC1F39D9C700E872CA /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281C91F39D9BA00E872CA /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F1281E71F3B2C8900E872CA /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281E61F3B2C8900E872CA /* Hyphenate.framework */; };
 		8F1281E81F3B2CA100E872CA /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281E61F3B2C8900E872CA /* Hyphenate.framework */; };
 		8F1281E91F3B2CA100E872CA /* Hyphenate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F1281E61F3B2C8900E872CA /* Hyphenate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F1281F41F3C535A00E872CA /* HDBubbleView+Form.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */; };
+		8F6ACB241F3DA97A00A5622B /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6ACB231F3DA97A00A5622B /* HelpDesk.framework */; };
+		8F6ACB251F3DA98100A5622B /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6ACB231F3DA97A00A5622B /* HelpDesk.framework */; };
+		8F6ACB261F3DA98100A5622B /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6ACB231F3DA97A00A5622B /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */; };
 		C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A61CC7495E00211B1B /* libc++.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
@@ -493,7 +494,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8F1281CC1F39D9C700E872CA /* HelpDesk.framework in Embed Frameworks */,
+				8F6ACB261F3DA98100A5622B /* HelpDesk.framework in Embed Frameworks */,
 				8F1281E91F3B2CA100E872CA /* Hyphenate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -502,8 +503,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8F1281C91F39D9BA00E872CA /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
 		8F1281E61F3B2C8900E872CA /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hyphenate.framework; sourceTree = "<group>"; };
+		8F1281F21F3C535A00E872CA /* HDBubbleView+Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HDBubbleView+Form.h"; sourceTree = "<group>"; };
+		8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HDBubbleView+Form.m"; sourceTree = "<group>"; };
+		8F6ACB231F3DA97A00A5622B /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
 		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		D20066121EF23274005B558D /* em_example_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_1.png; sourceTree = "<group>"; };
@@ -1176,6 +1179,7 @@
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
 				EB62E4511A8E2DA000705655 /* libxml2.dylib in Frameworks */,
+				8F6ACB241F3DA97A00A5622B /* HelpDesk.framework in Frameworks */,
 				EB62E44F1A8E2D9900705655 /* libz.dylib in Frameworks */,
 				EB62E44D1A8E2D9300705655 /* CFNetwork.framework in Frameworks */,
 				D3AA4B251ED45B7300B5C509 /* hdlibopencore-amrnb.a in Frameworks */,
@@ -1184,14 +1188,13 @@
 				EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */,
 				8F1281E81F3B2CA100E872CA /* Hyphenate.framework in Frameworks */,
 				EB62E4431A8E2D7300705655 /* SystemConfiguration.framework in Frameworks */,
-				8F1281CB1F39D9C700E872CA /* HelpDesk.framework in Frameworks */,
 				EB62E4411A8E2D6B00705655 /* libresolv.dylib in Frameworks */,
 				EB62E43F1A8E2D6200705655 /* CoreLocation.framework in Frameworks */,
 				EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */,
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
-				8F1281CA1F39D9BA00E872CA /* HelpDesk.framework in Frameworks */,
 				8F1281E71F3B2C8900E872CA /* Hyphenate.framework in Frameworks */,
+				8F6ACB251F3DA98100A5622B /* HelpDesk.framework in Frameworks */,
 				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1264,7 +1267,7 @@
 		D30153741ECC0E55002A2EA8 /* HelpDeskDynamicSDK */ = {
 			isa = PBXGroup;
 			children = (
-				8F1281C91F39D9BA00E872CA /* HelpDesk.framework */,
+				8F6ACB231F3DA97A00A5622B /* HelpDesk.framework */,
 			);
 			path = HelpDeskDynamicSDK;
 			sourceTree = "<group>";
@@ -1524,7 +1527,7 @@
 			isa = PBXGroup;
 			children = (
 				D355795F1EE94BAE00F6B54E /* Controllers */,
-				D35579601EE94BC100F6B54E /* Viwes */,
+				D35579601EE94BC100F6B54E /* Views */,
 			);
 			name = ConversationList;
 			sourceTree = "<group>";
@@ -1538,7 +1541,7 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		D35579601EE94BC100F6B54E /* Viwes */ = {
+		D35579601EE94BC100F6B54E /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				D35579681EE9517E00F6B54E /* DXTipView.h */,
@@ -1546,7 +1549,7 @@
 				D35579611EE94BF900F6B54E /* HConversationTableViewCell.h */,
 				D35579621EE94BF900F6B54E /* HConversationTableViewCell.m */,
 			);
-			name = Viwes;
+			name = Views;
 			sourceTree = "<group>";
 		};
 		D35726071DE315640033D4E3 /* Frameworks */ = {
@@ -2074,6 +2077,8 @@
 				D3CB64251E4888F30022A6BA /* HDBubbleView+Video.m */,
 				D3CB64261E4888F30022A6BA /* HDBubbleView+Voice.h */,
 				D3CB64271E4888F30022A6BA /* HDBubbleView+Voice.m */,
+				8F1281F21F3C535A00E872CA /* HDBubbleView+Form.h */,
+				8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */,
 				D3CB64281E4888F30022A6BA /* HDBubbleView.h */,
 				D3CB64291E4888F30022A6BA /* HDBubbleView.m */,
 			);
@@ -3023,6 +3028,7 @@
 				D3CB64871E4888F30022A6BA /* PSTGridLayoutRow.m in Sources */,
 				D3AA4B231ED45B7300B5C509 /* hdwav.mm in Sources */,
 				D32FBEBA1ED55E6C00BA68D7 /* UIButton+WebCache.m in Sources */,
+				8F1281F41F3C535A00E872CA /* HDBubbleView+Form.m in Sources */,
 				D3CB647F1E4888F30022A6BA /* PSTCollectionViewController.m in Sources */,
 				D3CB64451E4888F30022A6BA /* HDCDDeviceManager+Microphone.m in Sources */,
 				D3CB64521E4888F30022A6BA /* MJRefreshComponent.m in Sources */,

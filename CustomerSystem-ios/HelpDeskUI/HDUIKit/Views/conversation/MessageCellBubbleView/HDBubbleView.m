@@ -20,6 +20,7 @@
 #import "HDBubbleView+Video.h"
 #import "HDBubbleView+File.h"
 #import "HDBubbleView+Track.h"
+#import "HDBubbleView+Form.h"
 
 NSString *const HRouterEventTapMenu = @"HRouterEventTapMenu";
 NSString *const HRouterEventTapArticle = @"HRouterEventTapArticle";
