@@ -290,11 +290,11 @@
             if (chatItem.button) {
                 CGRect itemFrame = chatItem.button.frame;
                 if (itemFrame.size.height == 0) {
-                    itemFrame.size.height = itemHeight;
+                    itemFrame.size.height = itemHeight - 10;
                 }
                 
                 if (itemFrame.size.width == 0) {
-                    itemFrame.size.width = itemFrame.size.height;
+                    itemFrame.size.width = itemFrame.size.height - 5;
                 }
                 
                 itemFrame.origin.x = oX;
@@ -343,15 +343,15 @@
                 if (chatItem.button) {
                     CGRect itemFrame = chatItem.button.frame;
                     if (itemFrame.size.height == 0) {
-                        itemFrame.size.height = itemHeight;
+                        itemFrame.size.height = itemHeight - 10;
                     }
                     
                     if (itemFrame.size.width == 0) {
-                        itemFrame.size.width = itemFrame.size.height;
+                        itemFrame.size.width = itemFrame.size.height - 5;
                     }
                     
                     oMaxX -= itemFrame.size.width;
-                    itemFrame.origin.x = oMaxX;
+                    itemFrame.origin.x = oMaxX - 3;
                     itemFrame.origin.y = (self.toolbarView.frame.size.height - itemFrame.size.height) / 2;
                     chatItem.button.frame = itemFrame;
                     oMaxX -= self.horizontalPadding;
@@ -810,6 +810,9 @@
     BOOL result = [super endEditing:force];
     
     for (HDChatToolbarItem *item in self.rightItems) {
+        item.button.selected = NO;
+    }
+    for (HDChatToolbarItem *item in self.leftItems) {
         item.button.selected = NO;
     }
     [self _willShowBottomView:nil];

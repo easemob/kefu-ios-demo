@@ -216,7 +216,7 @@
 
 "new_leave_send_success" = "Submit successful";
 "new_leave_send_descriptionOne" = "Thank you for your leave message.";
-"new_leave_send_descriptionTwo" = "We will give you a response at the first time.";
+"new_leave_send_descriptionTwo" = "We will give you a response at the first time!";
 "send_failure_please" = "Send failure";
 "recorder_video_processing" = "processing...";
 "message_content_beyond_limit" = "The message content beyond the limit";

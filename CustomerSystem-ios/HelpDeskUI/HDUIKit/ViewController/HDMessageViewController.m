@@ -55,6 +55,7 @@
     dispatch_queue_t _messageQueue;
     BOOL _isSendingTransformMessage; //正在发送转人工消息
     BOOL _isSendingEvaluateMessage;//点击立即评价按钮
+    NSString *_converID;
 }
 
 @property (strong, nonatomic) id<HDIMessageModel> playingVoiceModel;
@@ -80,6 +81,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         _conversation = [[HChatClient sharedClient].chat getConversation:conversationChatter];
+        _converID = conversationChatter;
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
         _deleteConversationIfNull = YES;
@@ -167,17 +169,20 @@
 - (void)setLeftBarBtnItem {
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
-    [backButton setTitle:self.conversation.conversationId forState:UIControlStateNormal];
+    [backButton setTitle:_converID forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
-    backButton.imageRect = CGRectMake(10, 10, 20, 18);
-    backButton.titleRect = CGRectMake(35, 10, 230, 18);
+    backButton.imageRect = CGRectMake(10, 6.5, 16, 16);
+    backButton.titleRect = CGRectMake(28, 0, 230, 29);
     [self.view addSubview:backButton];
-    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 260, 40);
+    backButton.frame = CGRectMake(0, 0, 260, 29);
+    
     [backButton addTarget:self action:@selector(backItemClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = - 16;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
 }
 
 - (void)backItemClicked {

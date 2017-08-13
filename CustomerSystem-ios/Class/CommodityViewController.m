@@ -31,21 +31,23 @@
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
     [backButton setTitle:NSLocalizedString(@"title.commodity", @"Detail") forState:UIControlStateNormal];
-    backButton.titleLabel.font = [UIFont systemFontOfSize:22];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:19];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
-    backButton.imageRect = CGRectMake(10, 10, 20, 18);
-    backButton.titleRect = CGRectMake(45, 10, 120, 18);
+    backButton.imageRect = CGRectMake(10, 6.5, 16, 16);
+    backButton.titleRect = CGRectMake(28, 0, 83, 29);
     [self.view addSubview:backButton];
-    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
+    backButton.frame = CGRectMake(0, 0, 120, 29);
     
     [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = - 16;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
     
     // 不设置自动偏移
     self.automaticallyAdjustsScrollViewInsets = NO;
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height - 50)];
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 50)];
     _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:_scrollView];
     _scrollView.backgroundColor = [UIColor clearColor];
@@ -55,7 +57,7 @@
     CGFloat height = (commodityImage.size.height / commodityImage.size.width) * _scrollView.frame.size.width;
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _scrollView.frame.size.width, height)];
     imageView.image = commodityImage;
-    _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, height + 50);
+    _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, height);
     [_scrollView addSubview:imageView];
     
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
@@ -68,7 +70,7 @@
     CustomButton * messageButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [messageButton setImage:[UIImage imageNamed:@"hd_chat_icon_red"] forState:UIControlStateNormal];
     [messageButton setTitle:NSLocalizedString(@"customerChat", @"Customer") forState:UIControlStateNormal];
-    messageButton.titleLabel.font = [UIFont systemFontOfSize:18];
+    messageButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [messageButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [messageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     messageButton.imageRect = CGRectMake(15, footerView.height/3, footerView.height/3, footerView.height/3);

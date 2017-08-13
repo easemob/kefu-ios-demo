@@ -215,8 +215,8 @@
 "ticket_detail" = "详细信息";
 
 "new_leave_send_success" = "提交成功";
-"new_leave_send_descriptionOne" = "感谢您的留言!";
-"new_leave_send_descriptionTwo" = "我们将在第一时间对您进行答复，请耐心等待";
+"new_leave_send_descriptionOne" = "感谢您的留言.";
+"new_leave_send_descriptionTwo" = "我们将在第一时间对您进行答复，请耐心等待!";
 "send_failure_please" = "发送失败";
 "recorder_video_processing" = "发送中...";
 "message_content_beyond_limit" = "长度受限";

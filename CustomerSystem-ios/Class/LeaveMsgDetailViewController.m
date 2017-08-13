@@ -101,16 +101,19 @@
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
     [backButton setTitle:NSLocalizedString(@"title.leavemsgdetail", @"Leave Message Detail") forState:UIControlStateNormal];
-    backButton.titleLabel.font = [UIFont systemFontOfSize:20];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:19];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
-    backButton.imageRect = CGRectMake(10, 10, 20, 20);
-    backButton.titleRect = CGRectMake(45, 10, 200, 20);
+    backButton.imageRect = CGRectMake(10, 6.5, 16, 16);
+    backButton.titleRect = CGRectMake(28, 0, 103, 29);
     [self.view addSubview:backButton];
-    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
+    backButton.frame = CGRectMake(0, 0, 140, 29);
+    
     [backButton addTarget:self action:@selector(backBtnItem) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = -16;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
 }
 
 - (void)backBtnItem
