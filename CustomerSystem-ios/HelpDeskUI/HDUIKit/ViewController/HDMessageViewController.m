@@ -1494,10 +1494,6 @@
     }
 }
 
-//消息状态发生变化
-- (void)messageStatusDidChange:(HMessage *)aMessage error:(HError *)aError {
-     [self _updateMessageStatus:aMessage];
-}
 
 - (void)messageAttachmentStatusDidChange:(HMessage *)aMessage error:(HError *)aError {
     if (!aError) {
@@ -1996,40 +1992,5 @@
     }
 }
 
-- (void)_updateMessageStatus:(HMessage *)aMessage
-{
-    BOOL isChatting = [aMessage.conversationId isEqualToString:self.conversation.conversationId];
-    if (aMessage && isChatting) {
-        id<HDIMessageModel> model = nil;
-        if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:modelForMessage:)]) {
-            model = [_dataSource messageViewController:self modelForMessage:aMessage];
-        }
-        else{
-            model = [[HDMessageModel alloc] initWithMessage:aMessage];
-            model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
-            model.failImageName = @"imageDownloadFail";
-        }
-        if (model) {
-            __block NSUInteger index = NSNotFound;
-            [self.dataArray enumerateObjectsUsingBlock:^(HDMessageModel *model, NSUInteger idx, BOOL *stop){
-                if ([model conformsToProtocol:@protocol(HDIMessageModel)]) {
-                    if ([aMessage.messageId isEqualToString:model.message.messageId])
-                    {
-                        index = idx;
-                        *stop = YES;
-                    }
-                }
-            }];
-            
-            if (index != NSNotFound)
-            {
-                [self.dataArray replaceObjectAtIndex:index withObject:model];
-                [self.tableView beginUpdates];
-                [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                [self.tableView endUpdates];
-            }
-        }
-    }
-}
 
 @end
