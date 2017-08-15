@@ -76,11 +76,12 @@
     self.formTitleLabel.font = [UIFont systemFontOfSize:12];
     [self.backgroundImageView addSubview:self.formTitleLabel];
     
+    [self.backgroundImageView setTag:1991];
+    
     self.formDescLabel = [[UILabel alloc] init];
     self.formDescLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.formDescLabel.backgroundColor = [UIColor clearColor];
     [self.backgroundImageView addSubview:self.formDescLabel];
-    
     [self _setupFormBubbleConstraints];
 }
 

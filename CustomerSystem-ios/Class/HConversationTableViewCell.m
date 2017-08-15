@@ -106,21 +106,20 @@
             content = body.text;
             if ([HjudgeTextMessageSubType isMenuMessage:model.latestMessage]) {
                 content = @"[机器人菜单]";
-            }
-            if ([HjudgeTextMessageSubType isOrderMessage:model.latestMessage]) {
+            }else if ([HjudgeTextMessageSubType isOrderMessage:model.latestMessage]) {
                 content = @"[订单消息]";
-            }
-            if ([HjudgeTextMessageSubType isTrackMessage:model.latestMessage]) {
+            }else if ([HjudgeTextMessageSubType isTrackMessage:model.latestMessage]) {
                 content = @"[轨迹消息]";
-            }
-            if ([HjudgeTextMessageSubType isEvaluateMessage:model.latestMessage]) {
+            }else if ([HjudgeTextMessageSubType isEvaluateMessage:model.latestMessage]) {
                 content = @"[评价邀请]";
-            }
-            if ([HDArticleDataControl isArticleMessage:model.latestMessage]) {
+            }else if ([HDArticleDataControl isArticleMessage:model.latestMessage]) {
                 content = @"[图文消息]";
-            }
-            if ([HjudgeTextMessageSubType isFormMessage:model.latestMessage]) {
+            }else if ([HjudgeTextMessageSubType isFormMessage:model.latestMessage]) {
                 content = @"[表单消息]";
+            }else{
+                NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:_contentLabel.font]];
+                _contentLabel.attributedText = attributedString;
+                return;
             }
             break;
         }
@@ -143,8 +142,9 @@
         default:
             break;
     }
-    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:_contentLabel.font]];
-    _contentLabel.attributedText = attributedString;
+    NSMutableAttributedString * attStr = [[NSMutableAttributedString alloc]initWithString:content];
+    _contentLabel.attributedText = attStr;
+    
 }
 
 

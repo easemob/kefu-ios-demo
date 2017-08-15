@@ -294,6 +294,10 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     }
     
     if (_model.bodyType == EMMessageBodyTypeText) {
+        if (touch.view.tag == 1991) {
+            return YES; // tag in Cell+Form.h
+        }
+        
         return NO;
     }
     
@@ -830,6 +834,11 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         }
         switch (_model.bodyType) {
             case EMMessageBodyTypeText: {
+                if([HjudgeTextMessageSubType isFormMessage:_model.message]){
+                    if ([_delegate respondsToSelector:@selector(messageCellSelected:)]) {
+                        [_delegate messageCellSelected:_model];
+                    }
+                }
                 
             }
                 break;

@@ -387,4 +387,10 @@
  */
 - (NSString *)kefuRestServer;
 
+/**
+ * 获取IM用户的token
+ *
+ */
+- (NSString *) getUserToken;
+
 @end

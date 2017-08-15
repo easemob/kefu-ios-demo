@@ -28,6 +28,7 @@
 #import "HDBubbleView+Evaluate.h"
 #import "SatisfactionViewController.h"
 #import "HArticleWebViewController.h"
+#import "HFormWebViewController.h"
 #define KHintAdjustY    50
 #define IOS_VERSION [[UIDevice currentDevice] systemVersion]>=9.0
 
@@ -195,6 +196,12 @@
             return NO;
         }
     }
+    
+    if(touch.view.tag == 1991){
+        return NO; //tag in Cell+Form.h
+    }
+    
+    
     return YES;
 }
 
@@ -565,6 +572,22 @@
             [weakSelf showHint:NSEaseLocalizedString(@"message.videoFail", @"video for failure!")];
         }
     }];
+}
+
+- (void) _formMessageCellSelected:(id<HDIMessageModel>)model
+{
+    HFormWebViewController *formVC = [[HFormWebViewController alloc]init];
+    NSDictionary *htmlDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"html"];
+    NSString *strUrl = [htmlDic objectForKey:@"url"];
+    formVC.url = strUrl;
+//    formVC.view.originY = kScreenHeight - 64;
+    [self presentViewController:formVC animated:YES completion:nil];
+    
+//    [self.view addSubview:formVC.view];
+//    [UIView animateWithDuration:0.25 animations:^{
+//        formVC.view.originY = 0;
+//    }];
+    
 }
 
 - (void)_imageMessageCellSelected:(id<HDIMessageModel>)model
@@ -1066,6 +1089,13 @@
 - (void)messageCellSelected:(id<HDIMessageModel>)model
 {
     switch (model.bodyType) {
+        case EMMessageBodyTypeText:
+        {
+            if([HjudgeTextMessageSubType isFormMessage:model.message]){
+                [self _formMessageCellSelected:model];
+            }
+        }
+            break;
         case EMMessageBodyTypeImage:
         {
             _scrollToBottomWhenAppear = NO;
