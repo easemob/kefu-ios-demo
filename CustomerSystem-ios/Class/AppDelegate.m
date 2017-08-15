@@ -67,6 +67,8 @@
         [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(184, 22, 22, 1)];
         [[UINavigationBar appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:21.0], NSFontAttributeName, nil]];
+        // 关闭导航半透明
+        [[UINavigationBar appearance] setTranslucent:NO];
     }
     //设置7.0以下的导航栏
     if ([UIDevice currentDevice].systemVersion.floatValue < 7.0)

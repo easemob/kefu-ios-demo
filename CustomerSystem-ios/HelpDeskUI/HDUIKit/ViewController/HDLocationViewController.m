@@ -73,16 +73,19 @@ static HDLocationViewController *defaultLocation = nil;
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
     [backButton setTitle:NSEaseLocalizedString(@"location.messageType", @"location message") forState:UIControlStateNormal];
-    backButton.titleLabel.font = [UIFont systemFontOfSize:20];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:19];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
-    backButton.imageRect = CGRectMake(10, 10, 20, 18);
-    backButton.titleRect = CGRectMake(45, 10, 160, 18);
+    backButton.imageRect = CGRectMake(10, 6.5, 16, 16);
+    backButton.titleRect = CGRectMake(28, 0, 83, 29);
     [self.view addSubview:backButton];
-    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
+    backButton.frame = CGRectMake(0, 0, 120, 29);
+    
     [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = -16;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
     
     _mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     _mapView.delegate = self;
@@ -95,11 +98,14 @@ static HDLocationViewController *defaultLocation = nil;
         
         UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
         [sendButton setTitle:NSEaseLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
-        sendButton.titleLabel.font = [UIFont systemFontOfSize:20];
+        sendButton.titleLabel.font = [UIFont systemFontOfSize:19];
         [sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
         [sendButton addTarget:self action:@selector(sendLocation) forControlEvents:UIControlEventTouchUpInside];
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sendButton]];
+        UIBarButtonItem *sendItem = [[UIBarButtonItem alloc] initWithCustomView:sendButton];
+        UIBarButtonItem *sendNagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        sendNagetiveSpacer.width = - 18;
+        self.navigationItem.rightBarButtonItems = @[sendNagetiveSpacer,sendItem];
         self.navigationItem.rightBarButtonItem.enabled = NO;
         
         [self startLocation];

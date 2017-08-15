@@ -51,31 +51,33 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 
 - (void)setupBarButtonItem
 {
-    
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
     [backButton setTitle:NSLocalizedString(@"leave_title", @"Note") forState:UIControlStateNormal];
-    backButton.titleLabel.font = [UIFont systemFontOfSize:22];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:19];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
-    backButton.imageRect = CGRectMake(10, 10, 20, 18);
-    backButton.titleRect = CGRectMake(45, 10, 120, 18);
+    backButton.imageRect = CGRectMake(10, 6.5, 16, 16);
+    backButton.titleRect = CGRectMake(28, 0, 83, 29);
     [self.view addSubview:backButton];
-    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 160, 40);
+    backButton.frame = CGRectMake(0, 0, 120, 29);
+    
     [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = -16;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
     
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(2*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [self hideHud];
 //        [self.navigationController popToRootViewControllerAnimated:YES];
 //    });
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth/2 - 30, kScreenHeight/7, 60, 60)];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth/2 - 30, kScreenHeight/7 - 60, 60, 60)];
     [button setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_icon_leave_suc"] forState:UIControlStateNormal];
     [self.view addSubview:button];
     
-    UILabel *commitLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(button.frame) + 30, kScreenWidth, 30)];
+    UILabel *commitLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(button.frame) + 20, kScreenWidth, 30)];
     commitLabel.text = NSLocalizedString(@"new_leave_send_success", @"Submit successful");
     commitLabel.font = [UIFont systemFontOfSize:20];
     commitLabel.textAlignment = NSTextAlignmentCenter;
@@ -95,7 +97,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     
     NSArray *placeholders = @[NSLocalizedString(@"ticket_name", @"Name"),NSLocalizedString(@"ticket_phone", @"Phone"),NSLocalizedString(@"ticket_email", @"Email"),NSLocalizedString(@"ticket_theme", @"Theme"),NSLocalizedString(@"ticket_detail", @"Detail")];
     for (int i=0; i<5; i++) {
-        [self createTextfieldWithY:CGRectGetMaxY(thankLabelOther.frame) + 10 +60*i placeholder:placeholders[i] tag:i+NSTextFieldTagName number:i];
+        [self createTextfieldWithY:CGRectGetMaxY(thankLabelOther.frame) + 10 +50*i placeholder:placeholders[i] tag:i+NSTextFieldTagName number:i];
     }
     
 }

@@ -34,6 +34,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     UIBarButtonItem *_conversationItem;
     UIBarButtonItem *_settingleftItem;
     UIBarButtonItem *_settingRightItem;
+    UIWindow *_window;
 }
 
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;
@@ -70,6 +71,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     self.tabBarController.hidesBottomBarWhenPushed = YES;
     self.title = NSLocalizedString(@"title.mall", @"Mall");
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignWindowClick) name:@"resignWindow" object:nil];
+    
 #warning 把self注册为SDK的delegate
     [self registerNotifications];
     
@@ -82,6 +85,19 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [chatButton addTarget:self action:@selector(chatItemAction) forControlEvents:UIControlEventTouchUpInside];
     _chatItem = [[UIBarButtonItem alloc] initWithCustomView:chatButton];
     self.navigationItem.rightBarButtonItem = _chatItem;
+    
+    UIImageView *triangleView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 8)];
+    triangleView.image = [UIImage imageNamed:@"Triangle"];
+    if (kScreenWidth <= 320) {
+        _window = [[UIWindow alloc]initWithFrame:CGRectMake(kScreenWidth - 32, 56, 15, 8)];
+    } else if(kScreenWidth > 320) {
+        _window = [[UIWindow alloc]initWithFrame:CGRectMake(kScreenWidth - 37, 56, 15, 8)];
+    }
+    
+    _window.windowLevel = UIWindowLevelAlert+1;
+    _window.backgroundColor = [UIColor clearColor];
+    _window.hidden = YES;
+    [_window addSubview:triangleView];
     
     //“会话”
     UIButton *converationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
@@ -136,12 +152,18 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     if (_choiceView.hidden) {
         _choiceView.hidden = NO;
+        [_window makeKeyAndVisible];
     } else {
         _choiceView.hidden = YES;
+        _window.hidden = YES;
     }
 //    [self chatAction:nil];
 }
 
+- (void)resignWindowClick
+{
+    _window.hidden = YES;
+}
 
 - (void)chatAction:(NSNotification *)notification
 {

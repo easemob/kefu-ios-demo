@@ -63,13 +63,16 @@
     [backButton setTitle:name forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    backButton.imageRect = CGRectMake(10, 10, 20, 18);
-    backButton.titleRect = CGRectMake(40, 10, 200, 18);
+    backButton.imageRect = CGRectMake(10, 6.5, 16, 16);
+    backButton.titleRect = CGRectMake(28, 0, 143, 29);
     [self.view addSubview:backButton];
-    backButton.frame = CGRectMake(self.view.width * 0.5 - 80, 250, 220, 40);
+    backButton.frame = CGRectMake(0, 0, 180, 29);
+    
     [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = -16;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
     
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
     contentView.backgroundColor = [UIColor whiteColor];
@@ -91,7 +94,7 @@
     view.backgroundColor = RGBACOLOR(184, 22, 22, 1);
     [self.view addSubview:view];
     
-    UIButton *saveButton = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth - 45, 5, 40, 40)];
+    UIButton *saveButton = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth - 55, 5, 40, 40)];
     [saveButton setTitle:NSLocalizedString(@"save", @"Save") forState:UIControlStateNormal];
     saveButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [saveButton addTarget:self action:@selector(saveButton) forControlEvents:UIControlEventTouchUpInside];
