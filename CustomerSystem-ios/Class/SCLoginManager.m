@@ -156,15 +156,20 @@ static SCLoginManager *_manager = nil;
     self.username = newUser;
     error = [[HChatClient sharedClient] registerWithUsername:newUser password:hxPassWord];
     if (error) {
+        /*
+         "network_anomalies" = "Network anomalies, please try again!";
+         "account_already_exists" = "Registered account already exists, please try again!";
+         "without_permission" = "Without permission, please sign in to open mode!";
+         */
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error.code == HErrorUserAlreadyExist) {
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"注册账号已存在，请重试！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"account_already_exists", @"Registered account already exists, please try again!") delegate:nil cancelButtonTitle:NSLocalizedString(@"setting_confirm", @"confirm") otherButtonTitles:nil, nil];
                 [alertView show];
             }else if(error.code == 208){
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"无权限，请改为开放注册模式！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"without_permission", @"Without permission, please sign in to open mode!") delegate:nil cancelButtonTitle:NSLocalizedString(@"setting_confirm", @"confirm") otherButtonTitles:nil, nil];
                 [alertView show];
             }else{
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"网络异常，请重试！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"network_anomalies", @"Network anomalies, please try again!")  delegate:nil cancelButtonTitle:NSLocalizedString(@"setting_confirm", @"confirm") otherButtonTitles:nil, nil];
                 [alertView show];
             }
         });

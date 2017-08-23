@@ -101,13 +101,19 @@
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
     [backButton setTitle:NSLocalizedString(@"title.leavemsgdetail", @"Leave Message Detail") forState:UIControlStateNormal];
-    backButton.titleLabel.font = [UIFont systemFontOfSize:19];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
     backButton.imageRect = CGRectMake(10, 6.5, 16, 16);
-    backButton.titleRect = CGRectMake(28, 0, 103, 29);
+    if ([NSLocalizedString(@"title.leavemsgdetail", @"Leave Message Detail") isEqualToString:@"留言详情"]) {
+        backButton.titleRect = CGRectMake(28, 0, 83, 29);
+        backButton.frame = CGRectMake(0, 0, 120, 29);
+    } else {
+        backButton.titleRect = CGRectMake(28, 0, 193, 29);
+        backButton.frame = CGRectMake(0, 0, 230, 29);
+    }
+    
     [self.view addSubview:backButton];
-    backButton.frame = CGRectMake(0, 0, 140, 29);
     
     [backButton addTarget:self action:@selector(backBtnItem) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];

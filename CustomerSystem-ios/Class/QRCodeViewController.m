@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"扫一扫";
+
     if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
@@ -76,7 +76,7 @@
         NSString *value = metadataObject.stringValue;
         if (![value containsString:@"easemob.com"] || ![value containsString:@"appkey"]
             ||![value containsString:@"tenantid"] || ![value containsString:@"imservicenum"]) {
-            [self showHint:@"二维码无效"];
+            [self showHint:NSLocalizedString(@"qrcode_invalid", @"QrCode Invalid")];
             [self.navigationController popViewControllerAnimated:YES];
             return;
         }

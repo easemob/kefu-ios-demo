@@ -21,16 +21,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"文件";
+    self.title = NSLocalizedString(@"file", @"File");
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.leftBarButtonItem = self.backItem;
     self.navigationItem.rightBarButtonItem = self.openFileItem;
     [self.view addSubview:self.downloadButton];
     if (![self isExistFile:_model]) {
-        [_downloadButton setTitle:@"下载" forState:UIControlStateNormal];
+        [_downloadButton setTitle:NSLocalizedString(@"download", @"Download") forState:UIControlStateNormal];
     } else {
-        [_downloadButton setTitle:@"已下载" forState:UIControlStateNormal];
+        [_downloadButton setTitle:NSLocalizedString(@"have_downloaded", @"Have downloaded") forState:UIControlStateNormal];
     }
     [self.view addSubview:self.fileImageView];
     [self.view addSubview:self.nameLabel];
@@ -53,6 +53,8 @@
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.frame = CGRectMake((kHDScreenWidth - 200.f)/2, CGRectGetMaxY(self.fileImageView.frame) + 10.f, 200.f, 20.f);
+        _nameLabel.centerX = _fileImageView.centerX;
+        _nameLabel.textAlignment = NSTextAlignmentCenter;
         _nameLabel.textColor = RGBACOLOR(26, 26, 26, 1);
         _nameLabel.font = [UIFont systemFontOfSize:17];
         _nameLabel.text = _model.fileName ? _model.fileName : @"";
@@ -66,7 +68,7 @@
         UIButton *openFileButton = [UIButton buttonWithType:UIButtonTypeCustom];
         openFileButton.frame = CGRectMake(0, 0, 44, 44);
         [openFileButton.titleLabel setFont:[UIFont systemFontOfSize:15.f]];
-        [openFileButton setTitle:@"打开" forState:UIControlStateNormal];
+        [openFileButton setTitle:NSLocalizedString(@"open", @"Open") forState:UIControlStateNormal];
         [openFileButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [openFileButton addTarget:self action:@selector(openFileAction) forControlEvents:UIControlEventTouchUpInside];
         _openFileItem = [[UIBarButtonItem alloc] initWithCustomView:openFileButton];
@@ -109,7 +111,7 @@
 {
     
     if (![self isExistFile:_model]) {
-        [self showHint:@"正在下载文件,请稍后点击"];
+        [self showHint:NSLocalizedString(@"download_file", @"Is the download file, please click on the later")];
         [self downloadMessageAttachments:_model];
         return;
     }
@@ -118,7 +120,7 @@
     self.documentInteractionController.URL = localUrl;
     self.documentInteractionController.name = body.displayName;
     if (![self.documentInteractionController presentPreviewAnimated:YES]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"系统不支持预览此类文件" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"not_support_preview_files", @"Such systems do not support preview files") delegate:nil cancelButtonTitle:NSLocalizedString(@"know_the", @"Know The") otherButtonTitles:nil];
         [alert show];
     }
     
@@ -142,17 +144,17 @@
     if (model.bodyType == EMMessageBodyTypeFile) {
         if (body.localPath) {
             if ([self isExistFile:model]) {
-                [self showHint:@"已下载~~"];
+                [self showHint:[NSString stringWithFormat:@"%@~~",NSLocalizedString(@"have_downloaded", @"Have downloaded")]];
                 return;
             }
-            [self showHudInView:self.view hint:@"下载中..."];
+            [self showHudInView:self.view hint:[NSString stringWithFormat:@"%@...",NSLocalizedString(@"in_the_download", @"In the download")]];
             
             [[HChatClient sharedClient].chat downloadMessageAttachment:model.message progress:^(int progress) {
                 
             } completion:^(HMessage *message, HError *error) {
                 [self hideHud];
                 if (!error) { //成功
-                    [_downloadButton setTitle:@"已下载" forState:UIControlStateNormal];
+                    [_downloadButton setTitle:NSLocalizedString(@"have_downloaded", @"Have downloaded") forState:UIControlStateNormal];
                 } else { //下载失败
                     
                 }
@@ -166,10 +168,13 @@
 {
     if (_backItem == nil) {
         UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+        [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
         backButton.imageEdgeInsets = UIEdgeInsetsMake(0, -22, 0, 0);
         [backButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
         _backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+        UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        nagetiveSpacer.width = - 16;
+        self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,_backItem];
     }
     
     return _backItem;

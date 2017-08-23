@@ -77,9 +77,9 @@ static HDLocationViewController *defaultLocation = nil;
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
     backButton.imageRect = CGRectMake(10, 6.5, 16, 16);
-    backButton.titleRect = CGRectMake(28, 0, 83, 29);
+    backButton.titleRect = CGRectMake(28, 0, 153, 29);
     [self.view addSubview:backButton];
-    backButton.frame = CGRectMake(0, 0, 120, 29);
+    backButton.frame = CGRectMake(0, 0, 190, 29);
     
     [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];

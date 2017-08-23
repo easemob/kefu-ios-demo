@@ -275,5 +275,41 @@
 "message_content_beyond_limit" = "字数超过限制";
 "know_the" = "知道了";
 
+"transfertocs" = "转人工客服";
+
+"qrcode" = "扫一扫";
+"qrcode_invalid" = "二维码无效";
+"qrcode_box" = "将二维码放入框中,即可自动扫描";
+
+"comment_suc" = "评价成功";
+"comment_fail" = "评价失败";
+"comment_submit" = "评价提交";
+
+"initialization_error" = "重要提示[初始化错误]";
+"appkey_updated" = "appkey 已更新";
+
+"setting_confirm" = "确认";
+
+"network_anomalies" = "网络异常,请重试!";
+"account_already_exists" = "注册账号已存在，请重试!";
+"without_permission" = "无权限，请改为开放注册模式!";
+
+"robot_menu" = "[机器人菜单]";
+"order_menu" = "[订单消息]";
+"track_message" = "[轨迹消息]";
+"evaluation_of_invitation" = "[评价邀请]";
+"graphic_message" = "[图文消息]";
+"form_message" = "[表单消息]";
+"cov_picture" = "[图片]";
+"cov_voice" = "[语音]";
+"cov_file" = "[文件]";
+"cov_location" = "[位置]";
+
+"file" = "文件";
+"download" = "下载";
+"have_downloaded" = "已下载";
+"download_file" = "正在下载文件,请稍后点击";
+"not_support_preview_files" = "系统不支持预览此类文件";
+"in_the_download" = "下载中";
 
 

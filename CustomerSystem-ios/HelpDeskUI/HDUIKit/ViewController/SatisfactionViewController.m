@@ -50,10 +50,12 @@
 - (void)setupBarButtonItem
 {
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
+    [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    [self.navigationItem setLeftBarButtonItem:backItem];
+    UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    nagetiveSpacer.width = -18;
+    self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
 }
 
 #pragma mark - getter
@@ -61,7 +63,7 @@
 {
     if (_headImage == nil) {
         _headImage = [[UIImageView alloc] init];
-        _headImage.frame = CGRectMake((kHDScreenWidth-50)/2, 20 + 64, 50.f, 50.f);
+        _headImage.frame = CGRectMake((kHDScreenWidth-50)/2, 20, 50.f, 50.f);
         _headImage.layer.cornerRadius = CGRectGetWidth(_headImage.frame)/2;
         _headImage.backgroundColor = [UIColor whiteColor];
         _headImage.image = [UIImage imageNamed:@"customer"];
