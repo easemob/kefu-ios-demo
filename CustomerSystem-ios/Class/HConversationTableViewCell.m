@@ -105,17 +105,17 @@
             EMTextMessageBody *body = (EMTextMessageBody*)model.latestMessage.body;
             content = body.text;
             if ([HjudgeTextMessageSubType isMenuMessage:model.latestMessage]) {
-                content = @"[机器人菜单]";
+                content = NSLocalizedString(@"robot_menu", @"[Robot Menu]");
             }else if ([HjudgeTextMessageSubType isOrderMessage:model.latestMessage]) {
-                content = @"[订单消息]";
+                content = NSLocalizedString(@"order_menu", @"[Order Menu]");
             }else if ([HjudgeTextMessageSubType isTrackMessage:model.latestMessage]) {
-                content = @"[轨迹消息]";
+                content = NSLocalizedString(@"track_message", @"[Track Message]");
             }else if ([HjudgeTextMessageSubType isEvaluateMessage:model.latestMessage]) {
-                content = @"[评价邀请]";
+                content = NSLocalizedString(@"evaluation_of_invitation", @"[Evaluation Invitation]");
             }else if ([HDArticleDataControl isArticleMessage:model.latestMessage]) {
-                content = @"[图文消息]";
+                content = NSLocalizedString(@"graphic_message", @"[Graphic Message]");
             }else if ([HjudgeTextMessageSubType isFormMessage:model.latestMessage]) {
-                content = @"[表单消息]";
+                content = NSLocalizedString(@"form_message", @"[Form Message]");
             }else{
                 NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:_contentLabel.font]];
                 _contentLabel.attributedText = attributedString;
@@ -124,19 +124,19 @@
             break;
         }
         case EMMessageBodyTypeImage: {
-            content = @"[图片]";
+            content = NSLocalizedString(@"cov_picture", @"[Picture]");
             break;
         }
         case EMMessageBodyTypeVoice:{
-            content = @"[语音]";
+            content = NSLocalizedString(@"cov_voice", @"[Vioce]");
             break;
         }
         case EMMessageBodyTypeFile:{
-            content = @"[文件]";
+            content = NSLocalizedString(@"cov_file", @"[File]");
             break;
         }
         case EMMessageBodyTypeLocation:{
-            content = @"[位置]";
+            content = NSLocalizedString(@"cov_location", @"[Location]");
             break;
         }
         default:

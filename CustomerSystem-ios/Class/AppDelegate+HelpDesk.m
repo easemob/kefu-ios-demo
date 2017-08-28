@@ -56,11 +56,11 @@
 //    option.restServer = @"124.207.9.210";
 //    option.chatPort = 443;
 //    option.chatServer = @"124.207.9.210";
-//    option.kefuRestServer = @"http://118.192.134.212";
+//    option.kefuRestServer = @"http://118.192.134.212";  
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"重要提示[初始化错误]" message:initError.errorDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"initialization_error", @"Initialization error!") message:initError.errorDescription delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
@@ -82,7 +82,7 @@
     #warning "changeAppkey 为内部方法，不建议使用"
     HError *er = [clit changeAppkey:lgM.appkey];
     if (er == nil) {
-        [SVProgressHUD showSuccessWithStatus:@"appkey 已更新"];
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"appkey_updated", @"Appkey has been updated")]; 
         [SVProgressHUD dismissWithDelay:1.0];
         NSLog(@"appkey 已更新");
     } else {

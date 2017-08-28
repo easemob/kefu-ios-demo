@@ -53,6 +53,9 @@
 		D2769D271B9052D7003D9E3D /* button_demo_department@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2769D251B9052D7003D9E3D /* button_demo_department@2x.png */; };
 		D2769D281B9052D7003D9E3D /* button_demo_department_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2769D261B9052D7003D9E3D /* button_demo_department_select@2x.png */; };
 		D298641D1EE3A89700AF4A4C /* LeaveMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D298641C1EE3A89700AF4A4C /* LeaveMessageCell.m */; };
+		D29E09F91F4ECE5A0089506D /* HEvaluationTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = D29E09F81F4ECE5A0089506D /* HEvaluationTagView.m */; };
+		D29E0A041F4FF90F0089506D /* HAppraiseTagsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D29E0A011F4FF90F0089506D /* HAppraiseTagsModel.m */; };
+		D29E0A051F4FF90F0089506D /* HEvaluationDegreeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D29E0A031F4FF90F0089506D /* HEvaluationDegreeModel.m */; };
 		D2D8C1651F4043F000D6F677 /* Triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2D8C1641F4043F000D6F677 /* Triangle@2x.png */; };
 		D32772321F33270D0059F1BB /* HDArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D32772311F33270D0059F1BB /* HDArticleView.m */; };
 		D32FBEB01ED55E6C00BA68D7 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D32FBE901ED55E6C00BA68D7 /* LICENSE */; };
@@ -492,6 +495,12 @@
 		D27967A51BDF33D200842C28 /* CustomerSystem.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerSystem.pch; sourceTree = "<group>"; };
 		D298641B1EE3A89700AF4A4C /* LeaveMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaveMessageCell.h; sourceTree = "<group>"; };
 		D298641C1EE3A89700AF4A4C /* LeaveMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaveMessageCell.m; sourceTree = "<group>"; };
+		D29E09F71F4ECE5A0089506D /* HEvaluationTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEvaluationTagView.h; sourceTree = "<group>"; };
+		D29E09F81F4ECE5A0089506D /* HEvaluationTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEvaluationTagView.m; sourceTree = "<group>"; };
+		D29E0A001F4FF90F0089506D /* HAppraiseTagsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAppraiseTagsModel.h; sourceTree = "<group>"; };
+		D29E0A011F4FF90F0089506D /* HAppraiseTagsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAppraiseTagsModel.m; sourceTree = "<group>"; };
+		D29E0A021F4FF90F0089506D /* HEvaluationDegreeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEvaluationDegreeModel.h; sourceTree = "<group>"; };
+		D29E0A031F4FF90F0089506D /* HEvaluationDegreeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEvaluationDegreeModel.m; sourceTree = "<group>"; };
 		D2D8C1641F4043F000D6F677 /* Triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Triangle@2x.png"; sourceTree = "<group>"; };
 		D32772301F33270D0059F1BB /* HDArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDArticleView.h; sourceTree = "<group>"; };
 		D32772311F33270D0059F1BB /* HDArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDArticleView.m; sourceTree = "<group>"; };
@@ -1798,6 +1807,10 @@
 				D3CB63DA1E4888F30022A6BA /* HDUserModel.h */,
 				D3CB63DB1E4888F30022A6BA /* HDUserModel.m */,
 				8F6ACB301F41D6FE00A5622B /* EasemobWebViewInterface.h */,
+				D29E0A001F4FF90F0089506D /* HAppraiseTagsModel.h */,
+				D29E0A011F4FF90F0089506D /* HAppraiseTagsModel.m */,
+				D29E0A021F4FF90F0089506D /* HEvaluationDegreeModel.h */,
+				D29E0A031F4FF90F0089506D /* HEvaluationDegreeModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1872,6 +1885,8 @@
 				D3D87C131F3847C300FB7C84 /* HArticleWebViewController.m */,
 				8F6ACB2A1F41449100A5622B /* HFormWebViewController.h */,
 				8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */,
+				D29E09F71F4ECE5A0089506D /* HEvaluationTagView.h */,
+				D29E09F81F4ECE5A0089506D /* HEvaluationTagView.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2747,10 +2762,12 @@
 				D3CB64641E4888F30022A6BA /* MWGridCell.m in Sources */,
 				D3CB645D1E4888F30022A6BA /* MJRefreshStateHeader.m in Sources */,
 				D32FBEBE1ED55E6C00BA68D7 /* UIImageView+WebCache.m in Sources */,
+				D29E0A051F4FF90F0089506D /* HEvaluationDegreeModel.m in Sources */,
 				D3CB64551E4888F30022A6BA /* MJRefreshAutoGifFooter.m in Sources */,
 				D3AA4B241ED45B7300B5C509 /* HDVoiceConverter.mm in Sources */,
 				D3CB64A61E4888F30022A6BA /* HDBubbleView+Image.m in Sources */,
 				D3CB64531E4888F30022A6BA /* MJRefreshFooter.m in Sources */,
+				D29E0A041F4FF90F0089506D /* HAppraiseTagsModel.m in Sources */,
 				D32FBEBF1ED55E6C00BA68D7 /* UIView+WebCacheOperation.m in Sources */,
 				D355795E1EE94A9A00F6B54E /* HConversationsViewController.m in Sources */,
 				D3CB646A1E4888F30022A6BA /* MWZoomingScrollView.m in Sources */,
@@ -2782,6 +2799,7 @@
 				D3CB64831E4888F30022A6BA /* PSTCollectionViewLayout.m in Sources */,
 				D3CB64AF1E4888F30022A6BA /* HDBubbleView.m in Sources */,
 				D3CB648E1E4888F30022A6BA /* NSDateFormatter+Category.m in Sources */,
+				D29E09F91F4ECE5A0089506D /* HEvaluationTagView.m in Sources */,
 				D3D87C141F3847C300FB7C84 /* HArticleWebViewController.m in Sources */,
 				D3CB64A41E4888F30022A6BA /* HDBubbleView+File.m in Sources */,
 				D36621931F4E7786008EE9C4 /* HDCallViewController.m in Sources */,

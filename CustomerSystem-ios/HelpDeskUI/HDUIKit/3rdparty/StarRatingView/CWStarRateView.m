@@ -90,6 +90,10 @@
     } else {
         self.scorePercent = 1.0;
     }
+    
+    if ([self.delegate respondsToSelector:@selector(starRateView:scroePercentDidChange:)]) {
+        [self.delegate starRateView:self scroePercentDidChange:self.scorePercent];
+    }
 }
 
 -(void)userPanRateView:(UIPanGestureRecognizer *)gesture{
@@ -152,9 +156,7 @@
         _scorePercent = scroePercent;
     }
     
-    if ([self.delegate respondsToSelector:@selector(starRateView:scroePercentDidChange:)]) {
-        [self.delegate starRateView:self scroePercentDidChange:scroePercent];
-    }
+
     
     [self setNeedsLayout];
 }

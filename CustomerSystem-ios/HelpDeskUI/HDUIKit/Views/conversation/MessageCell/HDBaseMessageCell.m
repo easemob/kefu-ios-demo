@@ -111,7 +111,7 @@
                     [self addConstraint:self.bubbleWithExtConstraint];
                     break;
                 }
-                    
+                
                 if (![dic.allKeys containsObject:@"videoPlayback"] && ![dic.allKeys containsObject:@"liveStreamInvitation"]) {
                     [self removeConstraint:self.bubbleWithExtConstraint];
                     CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;

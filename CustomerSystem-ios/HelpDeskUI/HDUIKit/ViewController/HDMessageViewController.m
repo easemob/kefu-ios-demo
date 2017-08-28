@@ -801,7 +801,6 @@
         CGPoint location = [recognizer locationInView:self.tableView];
         NSIndexPath * indexPath = [self.tableView indexPathForRowAtPoint:location];
         
-        NSLog(@"indexPathDelete--%ld", indexPath.row);
         BOOL canLongPress = NO;
         if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:canLongPressRowAtIndexPath:)]) {
             canLongPress = [_dataSource messageViewController:self
@@ -926,7 +925,6 @@
     // 取到cell所对应的indePath
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
-    NSLog(@"view--%@ indexPath--%@", view,indexPath);
     // 传给全局变量，根据indexPath移除cell
     self.snedButtonIndexPath = indexPath;
     // 发送轨迹消息
@@ -1743,6 +1741,7 @@
 
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo {
+    
     if ([eventName isEqualToString:HRouterEventTapMenu]) {
         NSString *text = [userInfo objectForKey:@"clickText"];
         NSDictionary *ext = nil;
@@ -1797,7 +1796,9 @@
     }
     if ([eventName isEqualToString:HRouterEventTapEvaluate]) {
         if (_isSendingEvaluateMessage) return;
-        _isSendingEvaluateMessage = YES;
+//        _isSendingEvaluateMessage = YES;
+        // 评价
+        _isSendingEvaluateMessage = NO;
         SatisfactionViewController *view = [[SatisfactionViewController alloc] init];
         id <HDIMessageModel> model = nil;
         model = [[HDMessageModel alloc] initWithMessage:[userInfo objectForKey:@"HMessage"]];
@@ -1824,23 +1825,32 @@
 }
 
 
-- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments type:(ControlType *)type{
+- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments type:(ControlType *)type evaluationTagsArray:(NSMutableArray *)tags{
     HMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
     HControlMessage *hCtrl = [HControlMessage new];
     hCtrl.type = type;
     hCtrl.arguments = arguments;
     [message addCompositeContent:hCtrl];
+    // 将会话标签加到消息的ext中
+    NSMutableDictionary *ext = [message.ext mutableCopy];
+    NSMutableDictionary *ctrlArgs = [[ext objectForKey:@"weichat"] objectForKey:@"ctrlArgs"];
+    NSArray *tagsArray = [NSArray arrayWithArray:tags];
+    [ctrlArgs setObject:tagsArray forKey:@"appraiseTags"];
+    message.ext = [ext copy];
     
     __weak typeof(self) weakself = self;
-    _isSendingEvaluateMessage = NO;
-    [self showHudInView:self.view hint:@"评价提交"];
+//    _isSendingEvaluateMessage = NO;
+    // 评价
+    _isSendingEvaluateMessage = YES;
+    [self showHudInView:self.view hint:NSLocalizedString(@"comment_submit", @"Comment Submit.")];
     [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *aMessage, HError *aError) {
         [self hideHud];
         if (!aError) {
+            NSLog(@"message.ext--%@", message.ext);
             [weakself.tableView reloadData];
-            [weakself showHint:@"评价成功"];
+            [weakself showHint:NSLocalizedString(@"comment_suc", @"Add comment successful.")];
         } else {
-            [weakself showHint:@"评价失败"];
+            [weakself showHint:NSLocalizedString(@"comment_fail", @"Add comment fail.")];
         }
         [_conversation deleteMessageWithId:aMessage.messageId error:nil];
     }];

@@ -61,12 +61,12 @@
 - (UILabel *)QRCodeTipLabel {
     if (!_QRCodeTipLabel) {
         _QRCodeTipLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.clearRect) + 30, CGRectGetWidth(self.bounds) - 20, 20)];
-        _QRCodeTipLabel.text = @"将二维码放入框中,即可自动扫描";
         _QRCodeTipLabel.numberOfLines = 0;
+        _QRCodeTipLabel.text = NSLocalizedString(@"qrcode_box", @"qrcode box");
         _QRCodeTipLabel.textColor = [UIColor whiteColor];
         _QRCodeTipLabel.backgroundColor = [UIColor clearColor];
         _QRCodeTipLabel.textAlignment = NSTextAlignmentCenter;
-        _QRCodeTipLabel.font = [UIFont systemFontOfSize:12];
+        _QRCodeTipLabel.font = [UIFont systemFontOfSize:10];
     }
     return _QRCodeTipLabel;
 }

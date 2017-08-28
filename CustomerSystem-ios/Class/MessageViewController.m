@@ -56,7 +56,7 @@
     [self.tableView addSubview:self.slimeView];
     
     _view = [[UIView alloc] init];
-    _hintLabel = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2, 10, 100, 50)];
+    _hintLabel = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 140)/2, 10, 140, 50)];
     _hintLabel.textAlignment = NSTextAlignmentCenter;
     _hintLabel.font = [UIFont systemFontOfSize:15];
 //    _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");

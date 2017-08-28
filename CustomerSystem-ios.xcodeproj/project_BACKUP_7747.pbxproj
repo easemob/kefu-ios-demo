@@ -1136,11 +1136,7 @@
 		D33959571E56DC1F009370BF /* include */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				D3379F1C1E725EBB000E67A9 /* helpdesk_sdk.h */,
-=======
 				D38FEDEA1E76593B00FCB3AF /* helpdesk_sdk.h */,
->>>>>>> V1.0.0
 				D33959581E56DC1F009370BF /* EMCmdMessageBody.h */,
 				D33959591E56DC1F009370BF /* EMCommonDefs.h */,
 				D339595A1E56DC1F009370BF /* EMFileMessageBody.h */,

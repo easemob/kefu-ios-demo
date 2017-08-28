@@ -15,13 +15,14 @@
     
     NSLayoutConstraint *transTitleMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.transTitle attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
     NSLayoutConstraint *transTitleMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.transTitle attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *transTitleMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.transTitle attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
+    NSLayoutConstraint *transTitleMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.transTitle attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.left];
     [self.marginConstraints addObject:transTitleMarginTopConstraint];
     [self.marginConstraints addObject:transTitleMarginLeftConstraint];
     [self.marginConstraints addObject:transTitleMarginRightConstraint];
     
-    NSLayoutConstraint *transButtonMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.transformButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom- 10];
-    
+    NSLayoutConstraint *transButtonMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.transformButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.transTitle attribute:NSLayoutAttributeBottom multiplier:1.0 constant:3];
+    NSLayoutConstraint *transButtonMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.transformButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom -10];
+    [self.marginConstraints addObject:transButtonMarginTopConstraint];
     [self.marginConstraints addObject:transButtonMarginBottomConstraint];
     [self addConstraints:self.marginConstraints];
 }
@@ -47,7 +48,7 @@
     self.transformButton.titleLabel.font = [UIFont systemFontOfSize:13.0];
     [self.transformButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     self.transformButton.layer.cornerRadius = 5.f;
-    [self.transformButton setTitle:@"转人工客服" forState:UIControlStateNormal];
+    [self.transformButton setTitle:NSLocalizedString(@"transfertocs", @"Transfer Kefu") forState:UIControlStateNormal];
     [self.transformButton addTarget:self action:@selector(transformAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundImageView addSubview:self.transformButton];
     

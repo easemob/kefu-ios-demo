@@ -100,7 +100,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [_window addSubview:triangleView];
     
     //“会话”
-    UIButton *converationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+    UIButton *converationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
     converationBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [converationBtn setTitle:NSLocalizedString(@"title.conversationTitle", @"conversationList") forState:UIControlStateNormal];
     converationBtn.titleLabel.font = [UIFont systemFontOfSize:18];

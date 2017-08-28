@@ -32,7 +32,7 @@
 "saySomething" = "Say somthing";
 "searchResults" = "The search results";
 "doneWithCount" = "Done(%i)";
-"sureToDelete" = "please make sure to delete";
+"sureToDelete" = "Please make sure to delete";
 "receiveCmd" = "receive cmd message";
 "receiveMessage" = "you have a new message";
 "loginAtOtherDevice" = "your login account has been in other places";
@@ -272,3 +272,43 @@
 
 "message_content_beyond_limit" = "The message content beyond the limit";
 "know_the" = "Know The";
+
+"transfertocs" = "Transfer Kefu";
+
+"qrcode" = "QR Code";
+"qrcode_invalid" = "QrCode Invalid";
+"qrcode_box" = "Qr code to be included in the box, can automatically scan";
+
+"comment_suc" = "Add comment successful.";
+"comment_fail" = "Add comment fail.";
+"comment_submit" = "Comment submit.";
+
+"initialization_error" = "Initialization error!";
+"appkey_updated" = "Appkey has been updated";
+
+"setting_confirm" = "confirm";
+
+"network_anomalies" = "Network anomalies, please try again!";
+"account_already_exists" = "Registered account already exists, please try again!";
+"without_permission" = "Without permission, please sign in to open mode!";
+
+"robot_menu" = "[Robot Menu]";
+"order_menu" = "[Order Menu]";
+"track_message" = "[Track Message]";
+"evaluation_of_invitation" = "[Evaluation Invitation]";
+"graphic_message" = "[Graphic Message]";
+"form_message" = "[Form Message]";
+"cov_picture" = "[Picture]";
+"cov_voice" = "[Vioce]";
+"cov_file" = "[File]";
+"cov_location" = "[Location]";
+
+"file" = "File";
+"download" = "Download";
+"have_downloaded" = "Have downloaded";
+"download_file" = "Is the download file, please click on the later";
+"not_support_preview_files" = "Such systems do not support preview files";
+"in_the_download" = "In the download";
+
+"select_at_least_one_tag" = "Select at least one tag!";
+
