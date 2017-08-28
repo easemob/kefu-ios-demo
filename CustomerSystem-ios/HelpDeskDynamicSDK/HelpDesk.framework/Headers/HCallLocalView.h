@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EMCallLocalView.h"
 #import "HCallEnum.h"
+
 @interface HCallLocalView : EMCallLocalView
+
+@property(nonatomic,assign) HCallViewScaleMode hScaleMode;
 
 @end

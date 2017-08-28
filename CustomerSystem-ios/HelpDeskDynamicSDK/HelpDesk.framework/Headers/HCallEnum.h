@@ -11,65 +11,6 @@
 
 /*!
  *  \~chinese
- *  会话状态
- *
- *  \~english
- *  Call session status
- */
-typedef enum{
-    HCallSessionStatusDisconnected = 0,    /*! \~chinese 通话没开始 \~english Disconnected */
-    HCallSessionStatusConnecting,          /*! \~chinese 通话正在连接 \~english It's ready, wait to answer */
-    HCallSessionStatusConnected,           /*! \~chinese 通话已经准备好，等待接听 \~english Connection is established */
-    HCallSessionStatusAccepted,            /*! \~chinese 通话双方同意协商 \~english Accepted */
-}HCallSessionStatus;
-
-typedef HCallSessionStatus HCallStatus;
-
-/*!
- *  \~chinese
- *  通话类型
- *
- *  \~english
- *  Call type
- */
-typedef enum{
-    HCallTypeVoice = 0,    /*! \~chinese 实时语音 \~english Voice call */
-    HCallTypeVideo,        /*! \~chinese 实时视频 \~english Video call */
-}HCallType;
-
-/*!
- *  \~chinese
- *  通话结束原因
- *
- *  \~english
- *  Call end reason
- */
-typedef enum{
-    HCallEndReasonHangup   = 0,    /*! \~chinese 对方挂断 \~english Another peer hang up */
-    HCallEndReasonNoResponse,      /*! \~chinese 对方没有响应 \~english No response */
-    HCallEndReasonDecline,         /*! \~chinese 对方拒接 \~english Another peer declined the call */
-    HCallEndReasonBusy,            /*! \~chinese 对方占线 \~english User is busy */
-    HCallEndReasonFailed,          /*! \~chinese 失败 \~english Establish the call failed */
-    HCallEndReasonUnsupported,     /*! \~chinese 功能不支持 \~english Unsupported */
-    HCallEndReasonRemoteOffline,   /*! \~chinese 对方不在线 \~english Remote offline */
-}HCallEndReason;
-
-/*!
- *  \~chinese
- *  通话连接方式
- *
- *  \~english
- *  Connection type of the call
- */
-typedef enum{
-    HCallConnectTypeNone = 0,  /*! \~chinese 无连接 \~english None */
-    HCallConnectTypeDirect,    /*! \~chinese 直连 \~english  Direct connect */
-    HCallConnectTypeRelay,     /*! \~chinese 转媒体服务器连接 \~english Relay connect */
-}HCallConnectType;
-
-
-/*!
- *  \~chinese
  *  通话数据流状态
  *
  *  \~english
@@ -110,18 +51,5 @@ typedef enum{
 }HCallViewScaleMode;
 #endif
 
-/*!
- *  \~chinese
- *  视频分辨率
- *
- *  \~english
- *  Video resolution
- */
-typedef enum{
-    HCallVideoResolutionAdaptive = 0,   /*! \~chinese 自适应分辨率 \~english Adaptive resolution */
-    HCallVideoResolution352_288,       /*! \~chinese 352 * 288 \~english 352 * 288 */
-    HCallVideoResolution640_480,       /*! \~chinese 640 * 480 \~english 640 * 480 */
-    HCallVideoResolution1280_720,      /*! \~chinese 1280 * 720 \~english 1280 * 720 */
-}HCallVideoResolution;
 
 #endif /* HCallEnum_h */

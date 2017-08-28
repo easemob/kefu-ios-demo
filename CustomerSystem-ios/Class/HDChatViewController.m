@@ -51,11 +51,19 @@
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
     [self stopAudioPlayingWithChangeCategory:YES];
-    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:NSLocalizedString(@"em_chat_invite_video_call", @"nvite customer service making a video call")];
-    HMessage *callMessage = [[HMessage alloc] initWithConversationID:[HChatClient sharedClient].chat.currentConversationId from:[HChatClient sharedClient].currentUsername to:[HChatClient sharedClient].chat.currentConversationId body:body];
-    [callMessage addAttributeDictionary:[self callExt]];
-    [callMessage addContent:[self visitorInfo]];
-    [self _sendMessage:callMessage];
+    
+    HMessage *message = [HDSDKHelper videoInvitedMessageFormatWithText
+                         :NSLocalizedString(@"em_chat_invite_video_call", @"nvite customer service making a video call")
+                         toUser:[HChatClient sharedClient].chat.currentConversationId];
+    [message addContent:[self visitorInfo]];
+    [self _sendMessage:message];
+    
+    
+//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:NSLocalizedString(@"em_chat_invite_video_call", @"nvite customer service making a video call")];
+//    HMessage *callMessage = [[HMessage alloc] initWithConversationID:[HChatClient sharedClient].chat.currentConversationId from:[HChatClient sharedClient].currentUsername to:[HChatClient sharedClient].chat.currentConversationId body:body];
+//    [callMessage addAttributeDictionary:[self callExt]];
+//    [callMessage addContent:[self visitorInfo]];
+//    [self _sendMessage:callMessage];
 }
 
 // 留言
@@ -66,23 +74,7 @@
     [self.navigationController pushViewController:leaveMsgVC animated:YES];
 }
 
-- (NSDictionary *)callExt {
-    NSArray *appkeys = [[SCLoginManager shareLoginManager].appkey componentsSeparatedByString:@"#"];
-    NSDictionary *dic = @{
-                          @"type":@"rtcmedia/video",
-                          @"msgtype":@{
-                                  @"liveStreamInvitation":@{
-                                          @"msg": @"邀请客服进行实时视频",
-                                          @"orgName": appkeys[0],
-                                          @"appName": appkeys[1],
-                                          @"userName": [HChatClient sharedClient].currentUsername,
-                                          @"resource": @"mobile"
-                                          }
-                                  
-                                  },
-                          };
-    return dic;
-}
+
 
 - (HVisitorInfo *)visitorInfo {
     HVisitorInfo *visitor = [[HVisitorInfo alloc] init];

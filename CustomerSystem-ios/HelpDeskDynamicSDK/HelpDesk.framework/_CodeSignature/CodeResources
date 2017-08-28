@@ -4,6 +4,18 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>.DS_Store</key>
+		<data>
+		+/pSlzmIV0TU1eDLCOaZ05Jnb1E=
+		</data>
+		<key>Headers/EMCallLocalView.h</key>
+		<data>
+		LgehKpsaDBqniHdJxRMvTOKeE+c=
+		</data>
+		<key>Headers/EMCallRemoteView.h</key>
+		<data>
+		NCGsPpo5OZXuTLFLaiACZoiXoqA=
+		</data>
 		<key>Headers/HAgentIdentityInfo.h</key>
 		<data>
 		PpxBVn9tg0NWO8iKUCybD2hLvRw=
@@ -14,31 +26,31 @@
 		</data>
 		<key>Headers/HCall.h</key>
 		<data>
-		8uk5kGE6CkCkw+DD8MqJvz1g3aw=
+		A1C5w6n9JWh5POIYKUQCc/kG0us=
+		</data>
+		<key>Headers/HCallEntities.h</key>
+		<data>
+		yueexxx9mYi8WaC4V2HnvP6i6K8=
 		</data>
 		<key>Headers/HCallEnum.h</key>
 		<data>
-		n07fCAZUV0bHCkvCwPqCKzyAIvk=
+		aw3I9/VEZ4bsueunPcXemBht8Tg=
 		</data>
 		<key>Headers/HCallLocalView.h</key>
 		<data>
-		2CipSOpL8QIVhVA/WixtDRGR35U=
+		XMGJCHTwxbC244vZaHLBLRb8ljc=
 		</data>
 		<key>Headers/HCallManagerDelegate.h</key>
 		<data>
-		O5Jd0k5BR+RFB6yWjkuSTN+9gOc=
+		VmMBqvztp8uGYUxsszP5qrqAYss=
 		</data>
 		<key>Headers/HCallOptions.h</key>
 		<data>
-		9bUH22+Wne/DfaD4Z4nL8vvESJw=
+		TuncyWqziLRgVXpYtgUO/ITZy4g=
 		</data>
 		<key>Headers/HCallRemoteView.h</key>
 		<data>
-		G6SuRcv2nF5eNdycCZv+RyYAMjY=
-		</data>
-		<key>Headers/HCallSession.h</key>
-		<data>
-		xEr8WX0BMUY2aoZ/CbJrWi9PTlE=
+		Zsa2nTcReAFW/uPeCXs5vsb5oYA=
 		</data>
 		<key>Headers/HChat.h</key>
 		<data>
@@ -50,7 +62,7 @@
 		</data>
 		<key>Headers/HChatClient.h</key>
 		<data>
-		Gj9BcwLRZGJvheSnJ/fZ3IFnDNA=
+		s6GgpNudv53fXlnSWscjLqFYHFc=
 		</data>
 		<key>Headers/HChatClientDelegate.h</key>
 		<data>
@@ -138,7 +150,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		LAaowW0Hs0PiXTe//JvlZRK6FAg=
+		0FptHefH6WhtZkcmQnlLzSntxFI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -147,6 +159,28 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Headers/EMCallLocalView.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LgehKpsaDBqniHdJxRMvTOKeE+c=
+			</data>
+			<key>hash2</key>
+			<data>
+			qK6IHnfBlfIpUKId/kG733fNeY20owRl8Qo8FTnGGCU=
+			</data>
+		</dict>
+		<key>Headers/EMCallRemoteView.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NCGsPpo5OZXuTLFLaiACZoiXoqA=
+			</data>
+			<key>hash2</key>
+			<data>
+			LvF3I8azNigs6vyPJlyXA7DsFLqAUwZsNGWTWs3aMW4=
+			</data>
+		</dict>
 		<key>Headers/HAgentIdentityInfo.h</key>
 		<dict>
 			<key>hash</key>
@@ -173,77 +207,77 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8uk5kGE6CkCkw+DD8MqJvz1g3aw=
+			A1C5w6n9JWh5POIYKUQCc/kG0us=
 			</data>
 			<key>hash2</key>
 			<data>
-			lUigJqf3I9yqBkaRNzk4P0HUID0ShtPPzyZsSecrBZE=
+			G7II4eIDvbcxTL47k+ks9I/SaG2uTnoFtlXfCFJYMRE=
+			</data>
+		</dict>
+		<key>Headers/HCallEntities.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			yueexxx9mYi8WaC4V2HnvP6i6K8=
+			</data>
+			<key>hash2</key>
+			<data>
+			zZoDz7PrOaI1TyCnezywFGxc37RchV7RrFLvNJICYGY=
 			</data>
 		</dict>
 		<key>Headers/HCallEnum.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			n07fCAZUV0bHCkvCwPqCKzyAIvk=
+			aw3I9/VEZ4bsueunPcXemBht8Tg=
 			</data>
 			<key>hash2</key>
 			<data>
-			7YrrV02EvVA2T1LbMvnhPaGzb9oHdKfL7d3CZgdZ1qA=
+			PCJ9XjyhqFJ3XMb4JTAouEpBcroVvIoa7r/lx1OgEzA=
 			</data>
 		</dict>
 		<key>Headers/HCallLocalView.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			2CipSOpL8QIVhVA/WixtDRGR35U=
+			XMGJCHTwxbC244vZaHLBLRb8ljc=
 			</data>
 			<key>hash2</key>
 			<data>
-			xWK6f1t2NrLbmaAmuFO1OnP4aw9T3Bdk0rgvikVwNmQ=
+			BpMPXEoY8vaquXfEe17DnxmbS+q4o+pUeyxzTv+2rLY=
 			</data>
 		</dict>
 		<key>Headers/HCallManagerDelegate.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			O5Jd0k5BR+RFB6yWjkuSTN+9gOc=
+			VmMBqvztp8uGYUxsszP5qrqAYss=
 			</data>
 			<key>hash2</key>
 			<data>
-			xf4jMGeuGqo27vqRHNiyEtSESKeEED6lvcqxpOYnbJA=
+			1Er+4IBG4zlEXF2xIL7Mkj3QLENQ0yMLqBBoHiOD1LQ=
 			</data>
 		</dict>
 		<key>Headers/HCallOptions.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			9bUH22+Wne/DfaD4Z4nL8vvESJw=
+			TuncyWqziLRgVXpYtgUO/ITZy4g=
 			</data>
 			<key>hash2</key>
 			<data>
-			/qGIfjKee6wBJqddCmSR6MBnn38QqCKu/pV5wdLt7fY=
+			2BQqKGGhBc9lypFENRPZbz07qJynyrX1gf/A7pXn6j4=
 			</data>
 		</dict>
 		<key>Headers/HCallRemoteView.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			G6SuRcv2nF5eNdycCZv+RyYAMjY=
+			Zsa2nTcReAFW/uPeCXs5vsb5oYA=
 			</data>
 			<key>hash2</key>
 			<data>
-			rWqkAn2umIQVz3w337Ftyv3d/dGjQliidq9rZHNIgKc=
-			</data>
-		</dict>
-		<key>Headers/HCallSession.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xEr8WX0BMUY2aoZ/CbJrWi9PTlE=
-			</data>
-			<key>hash2</key>
-			<data>
-			WTbY2W/ZEvee8sktGCIygwTr5XfXbPVT/HyNdo5kDII=
+			gVy7bww1Pgez4NyInRqu/0MsXVfTCaprVmRnhsb2dy8=
 			</data>
 		</dict>
 		<key>Headers/HChat.h</key>
@@ -272,11 +306,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Gj9BcwLRZGJvheSnJ/fZ3IFnDNA=
+			s6GgpNudv53fXlnSWscjLqFYHFc=
 			</data>
 			<key>hash2</key>
 			<data>
-			YdeD29ahqfOoYNFk3gDR63HdYJh1wl6r+nni2OVgBYM=
+			o2WOrbZPTvzPocdx3ys+46wKIZ7IocqTBGlEq6BEkdU=
 			</data>
 		</dict>
 		<key>Headers/HChatClientDelegate.h</key>

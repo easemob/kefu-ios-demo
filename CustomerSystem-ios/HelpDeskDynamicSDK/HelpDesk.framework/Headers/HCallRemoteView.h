@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EMCallRemoteView.h"
+#import "HCallEnum.h"
 
 @interface HCallRemoteView : EMCallRemoteView
+
+@property(nonatomic,assign) HCallViewScaleMode hScaleMode;
 
 @end

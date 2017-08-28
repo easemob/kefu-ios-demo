@@ -142,6 +142,37 @@ static HDSDKHelper *helper = nil;
     HMessage *message = [[HMessage alloc] initWithConversationID:toUser from:from to:toUser body:bdy];
     return message;
 }
+
+
++ (HMessage *)videoInvitedMessageFormatWithText:(NSString *)text toUser:(NSString *)toUser {
+    NSString *willSendText = [HDConvertToCommonEmoticonsHelper convertToCommonEmoticons:text];
+    EMTextMessageBody *bdy = [[EMTextMessageBody alloc] initWithText:willSendText];
+    NSString *from = [[HChatClient sharedClient] currentUsername];
+    HMessage *message = [[HMessage alloc] initWithConversationID:toUser from:from to:toUser body:bdy];
+    message.ext = [HDSDKHelper callExt];
+    
+    return message;
+}
+
++ (NSDictionary *)callExt {
+    NSArray *appkeys = [[SCLoginManager shareLoginManager].appkey componentsSeparatedByString:@"#"];
+    NSDictionary *dic = @{
+                          @"type":@"rtcmedia/video",
+                          @"msgtype":@{
+                                  @"liveStreamInvitation":@{
+                                          @"msg": @"邀请客服进行实时视频",
+                                          @"orgName": appkeys[0],
+                                          @"appName": appkeys[1],
+                                          @"userName": [HChatClient sharedClient].currentUsername,
+                                          @"resource": @"mobile",
+                                          @"isNewInvitation":@(YES)
+                                          }
+                                  }
+                          };
+    return dic;
+}
+
+
 //构造image消息体
 + (HMessage *)imageMessageWithImageData:(NSData *)imageData
                                           to:(NSString *)to

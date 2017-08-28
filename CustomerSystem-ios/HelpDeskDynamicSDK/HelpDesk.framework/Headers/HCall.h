@@ -7,53 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Hyphenate/Hyphenate.h>
-#import <Hyphenate/EMCallLocalView.h>
-#import <Hyphenate/EMCallRemoteView.h>
-#import <Hyphenate/EMOptions.h>
-#import <Hyphenate/EMOptions+PrivateDeploy.h>
+#import <HyphenateLite/HyphenateLite.h>
+#import "HCallLocalView.h"
+#import "HCallRemoteView.h"
+#import <HyphenateLite/EMOptions.h>
+#import <HyphenateLite/EMOptions+PrivateDeploy.h>
 #import "HError.h"
 #import "HCallOptions.h"
 #import "HCallEnum.h"
 #import "HCallLocalView.h"
 #import "HCallManagerDelegate.h"
 #import "HCallRemoteView.h"
-#import "HCallSession.h"
+#import "HCallEntities.h"
 
 #import "HCall.h"
 
 @interface HCall : NSObject
 
 + (instancetype)shareInstance;
-
-#pragma mark - Delegate
-/*!
- *  \~chinese
- *  添加回调代理
- *
- *  @param aDelegate  要添加的代理
- *  @param aQueue     执行代理方法的队列
- *
- *  \~english
- *  Add delegate
- *
- *  @param aDelegate  Delegate
- *  @param aQueue     The queue of call delegate method
- */
-- (void)addDelegate:(id<HCallManagerDelegate>)aDelegate
-      delegateQueue:(dispatch_queue_t)aQueue;
-/*!
- *  \~chinese
- *  移除回调代理
- *
- *  @param aDelegate  要移除的代理
- *
- *  \~english
- *  Remove delegate
- *
- *  @param aDelegate  Delegate
- */
-- (void)removeDelegate:(id<HCallManagerDelegate>)aDelegate;
 
 #pragma mark - Options
 
@@ -83,66 +54,122 @@
  */
 - (HCallOptions *)getCallOptions;
 
-#pragma mark - Make and Answer and End
+
+#pragma mark - Delegate
 
 /*!
  *  \~chinese
- *  发起实时会话
+ *  添加回调代理
  *
- *  @param aType            通话类型
- *  @param aRemoteName      被呼叫的用户（不能与自己通话）
- *  @param aExt             通话扩展信息，会传给被呼叫方
- *  @param aCompletionBlock 完成的回调
+ *  @param aDelegate  要添加的代理
+ *  @param aQueue     执行代理方法的队列
  *
  *  \~english
- *  Start a call
+ *  Add delegate
  *
- *  @param aType            Call type
- *  @param aRemoteName      The callee
- *  @param aExt             Call extention, to the callee
- *  @param aCompletionBlock The callback of completion
- *
+ *  @param aDelegate  Delegate
+ *  @param aQueue     The queue of call delegate method
  */
-- (void)startCall:(HCallType)aType
-       remoteName:(NSString *)aRemoteName
-              ext:(NSString *)aExt
-       completion:(void (^)(HCallSession *aCallSession, HError *aError))aCompletionBlock;
+- (void)addDelegate:(id<HCallManagerDelegate>)aDelegate
+      delegateQueue:(dispatch_queue_t)aQueue;
 
 /*!
  *  \~chinese
- *  接收方同意通话请求
+ *  移除回调代理
  *
- *  @param  aCallId     通话ID
- *
- *  @result 错误信息
+ *  @param aDelegate  要移除的代理
  *
  *  \~english
- *  Receiver answer the call
+ *  Remove delegate
  *
- *  @param  aCallId     Call Id
- *  @param  aRemoteName Remote name
- *
- *  @result Error
+ *  @param aDelegate  Delegate
  */
-- (HError *)answerIncomingCall:(NSString *)aCallId;
+- (void)removeDelegate:(id<HCallManagerDelegate>)aDelegate;
+
+#pragma mark - answer and end session
+
+/**
+ 接受视频会话
+
+ @param completion 完成回调
+ */
+- (void)acceptCallCompletion:(void(^)(id obj,HError *error))completion;
+
+/**
+ 结束视频会话
+ */
+- (void)endCall;
+
+
+/**
+ 订阅视频
+ */
+- (void)subscribeStreamId:(NSString *)streamId view:(HCallRemoteView *)view completion:(void(^)(id obj,HError *error))completion;
+
+
+- (void)unSubscribeStreamId:(NSString *)streamId completion:(void(^)(id obj,HError *error))completion;
+#pragma mark - Control Camera
 
 /*!
  *  \~chinese
- *  结束通话
+ *  设置使用前置摄像头还是后置摄像头,默认使用前置摄像头
  *
- *  @param aCallId     通话的ID
- *  @param aReason     结束原因
+ *  @param  aIsFrontCamera    是否使用前置摄像头, YES使用前置, NO使用后置
+ *
+ *  \~english
+ *  Use front camera or back camera, default use front
+ *
+ *  @param  aIsFrontCamera    YES for front camera, NO for back camera.
+ */
+- (void)switchCameraPosition:(BOOL)aIsFrontCamera;
+
+#pragma mark - Control Stream
+
+/*!
+ *  \~chinese
+ *  暂停语音数据传输
+ *
+ *  \~english
+ *  Suspend voice data transmission
+ */
+- (void)pauseVoice;
+
+/*!
+ *  \~chinese
+ *  恢复语音数据传输
  *
  *  @result 错误
  *
  *  \~english
- *  End the call
- *
- *  @param aCallId     Call ID
- *  @param aReason     End reason
+ *  Resume voice data transmission
  *
  *  @result Error
  */
-- (HError *)endCall:(NSString *)aCallId
-              reason:(HCallEndReason)aReason;
+- (void)resumeVoice;
+
+/*!
+ *  \~chinese
+ *  暂停视频图像数据传输
+ *
+ *  \~english
+ * Suspend video data transmission
+ */
+- (void)pauseVideo;
+
+/*!
+ *  \~chinese
+ *  恢复视频图像数据传输
+ *
+ *  \~english
+ *  Resume video data transmission
+ */
+- (void)resumeVideo;
+
 @end
+
+
+
+
+
+
+

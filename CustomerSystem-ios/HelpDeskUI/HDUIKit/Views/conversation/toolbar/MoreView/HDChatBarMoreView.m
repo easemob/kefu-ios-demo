@@ -148,7 +148,7 @@
     _videoCallLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets * 3 + CHAT_BUTTON_SIZE * 2, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
     _videoCallLabel.text = NSLocalizedString(@"attach_call_video", @"Call Video");
     _videoCallLabel.font = [UIFont systemFontOfSize:10];
-    _videoCallLabel.textAlignment = UITextAlignmentCenter;
+    _videoCallLabel.textAlignment = NSTextAlignmentCenter;
     _videoCallLabel.textColor = [UIColor blackColor];
     [_scrollview addSubview:_videoCallLabel];
     
@@ -163,7 +163,7 @@
     _locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets * 4 + CHAT_BUTTON_SIZE * 3, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
     _locationLabel.text = NSLocalizedString(@"attach_location", @"Location");
     _locationLabel.font = [UIFont systemFontOfSize:10];
-    _locationLabel.textAlignment = UITextAlignmentCenter;
+    _locationLabel.textAlignment = NSTextAlignmentCenter;
     _locationLabel.textColor = [UIColor blackColor];
     [_scrollview addSubview:_locationLabel];
     
@@ -179,7 +179,7 @@
     _leaveMessageLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets, 10 * 2 + CHAT_BUTTON_SIZE*2 + 15, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
     _leaveMessageLabel.text = NSLocalizedString(@"leave_title", @"Note");
     _leaveMessageLabel.font = [UIFont systemFontOfSize:10];
-    _leaveMessageLabel.textAlignment = UITextAlignmentCenter;
+    _leaveMessageLabel.textAlignment = NSTextAlignmentCenter;
     _leaveMessageLabel.textColor = [UIColor blackColor];
     [_scrollview addSubview:_leaveMessageLabel];
     

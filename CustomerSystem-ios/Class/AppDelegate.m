@@ -7,12 +7,10 @@
 //
 
 #import "AppDelegate.h"
-
-
 #import "LocalDefine.h"
 #import "HomeViewController.h"
 #import "AppDelegate+HelpDesk.h"
-#import "HCallManager.h"
+#import "HDCallManager.h"
 
 @interface AppDelegate ()
 @end
@@ -27,7 +25,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     self.homeController = [[HomeViewController alloc] init];
-    [[HCallManager sharedInstance] setMainViewController:self.homeController];
+    [[HDCallManager sharedInstance] setRootViewController:self.homeController];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.homeController];
     [self configureNavigationController:navigationController];
     self.window.rootViewController = navigationController;

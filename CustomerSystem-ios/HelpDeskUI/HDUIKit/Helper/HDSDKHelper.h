@@ -40,6 +40,9 @@
 + (HMessage *)textHMessageFormatWithText:(NSString *)text
                                       to:(NSString *)toUser;
 
++ (HMessage *)videoInvitedMessageFormatWithText:(NSString *)text
+                                         toUser:(NSString *)toUser;
+
 + (HMessage *)imageMessageWithImageData:(NSData *)imageData
                                      to:(NSString *)to
                              messageExt:(NSDictionary *)messageExt;

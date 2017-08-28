@@ -8,82 +8,37 @@
 
 #import <Foundation/Foundation.h>
 #import "HCallEnum.h"
+
+/**
+ 发布流的时候己方视频状态
+ */
 @interface HCallOptions : NSObject
-/*!
- *  \~chinese
- *  被叫方不在线时，是否推送来电通知
- *  如果设置为NO，不推送通知，返回EMErrorCallRemoteOffline
- *  默认NO
- *
- *  \~english
- *  When remote is not online, whether to send offline push
- *  default NO
- */
-@property (nonatomic, assign) BOOL isSendPushIfOffline;
 
-/*!
- *  \~chinese
- *  当isSendPushIfOffline=YES时起作用,离线推送显示的内容
- *  默认 “You have incoming call...”
- *
- *  \~english
- *  Only effective when isSendPushIfOffline is YES.
- *  default “You have incoming call...”
- */
-@property (nonatomic, strong) NSString *offlineMessageText;
+@property (nonatomic, copy) NSString * name;
 
-/*!
- *  \~chinese
- *  视频分辨率
- *  默认自适应
- *
- *  \~english
- *  Video resolution
- *  default adaptive
+/**
+ 是否关闭摄像头
  */
-@property (nonatomic, assign) HCallVideoResolution videoResolution;
+@property (nonatomic, assign) BOOL videoOff;
 
-/*!
- *  \~chinese
- *  最大视频码率
- *  范围 50 < videoKbps < 5000, 默认0, 0为自适应
- *  建议设置为0
- *
- *  \~english
- *  Video kbps
- *  range 50 < videoKbps < 5000, default 0 , 0 means adaptive
- *  advice 0
+/**
+ 是否静音
  */
-@property (nonatomic, assign) long maxVideoKbps;
+@property (nonatomic, assign) BOOL mute;
 
-/*!
- *  \~chinese
- *  最小视频码率
- *
- *  \~english
- *  Min video kbps
- *
+/**
+ 己方昵称
  */
-@property (nonatomic, assign) int minVideoKbps;
+@property (nonatomic, copy) NSString * nickName;
 
-/*!
- *  \~chinese
- *  是否固定视频分辨率，默认为NO
- *
- *  \~english
- *  Enable fixed video resolution，default NO
- *
+/**
+ 预览视频
  */
-@property (nonatomic, assign) BOOL isFixedVideoResolution;
+@property (nonatomic, strong) HCallLocalView * previewView;
 
-/*!
- *  \~chinese
- *  最大视频帧率
- *
- *  \~english
- *  Max video frame rate
- *
+/**
+ 是否使用后置摄像头
  */
-@property (nonatomic, assign) int maxVideoFrameRate;
+@property (nonatomic, assign) BOOL useBackCamera;
 
 @end
