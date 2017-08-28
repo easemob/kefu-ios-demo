@@ -47,6 +47,7 @@
 #define kMesssageExtWeChat_ctrlType_inviteEnquiry @"inviteEnquiry"
 #define kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer @"hasTransfer"
 #define kMesssageExtWeChat_ctrlArgs @"ctrlArgs"
+#define kMesssageExtWeChat_ctrlArgs_evaluationDegree @"evaluationDegree"
 #define kMesssageExtWeChat_ctrlType_transferToKfHint  @"TransferToKfHint"
 #define kMesssageExtWeChat_ctrlArgs_inviteId @"inviteId"
 #define kMesssageExtWeChat_ctrlArgs_serviceSessionId @"serviceSessionId"
@@ -62,6 +63,9 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 #define fHDUserDefaults [NSUserDefaults standardUserDefaults]
+
+#define fKeyWindow [UIApplication sharedApplication].keyWindow
+#define fUserDefaults [NSUserDefaults standardUserDefaults]
 
 @interface HelpDeskUI : NSObject
 

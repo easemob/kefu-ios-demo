@@ -9,19 +9,25 @@
 #import "SatisfactionViewController.h"
 
 #import "CWStarRateView.h"
+#import "HEvaluationTagView.h"
+#import "HEvaluationDegreeModel.h"
+#import "HAppraiseTagsModel.h"
 
 #define kViewSpace 20.f
 
-@interface SatisfactionViewController () <UITextViewDelegate>
+@interface SatisfactionViewController () <UITextViewDelegate,CWStarRateViewDelegate, HEvaluationTagSelectDelegate>
 
 @property (nonatomic, strong) UIImageView *headImage;
 @property (nonatomic, strong) UILabel *nickLabel;
 @property (nonatomic, strong) UILabel *textLabel;
 @property (nonatomic, strong) CWStarRateView *starRateView;
+@property (nonatomic, strong) UILabel *evaluateTitle;
+@property (nonatomic, strong) HEvaluationTagView *evaluationTagView;
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UIButton *commitBtn;
-
+@property (nonatomic, strong) NSMutableDictionary *evaluationTagsDict;
+@property (nonatomic, strong) NSMutableArray *evaluationTagsArray;
 @end
 
 @implementation SatisfactionViewController
@@ -41,10 +47,31 @@
     [self.bgView addSubview:self.nickLabel];
     [self.bgView addSubview:self.textLabel];
     [self.bgView addSubview:self.starRateView];
+    [self.bgView addSubview:self.evaluateTitle];
+    [self.bgView addSubview:self.evaluationTagView];
     [self.bgView addSubview:self.textView];
     [self.bgView addSubview:self.commitBtn];
     
+    self.evaluateTitle.text = @"非常满意";
+    [self parseAppraiseTagExt:1.0];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (NSMutableDictionary *)evaluationTagsDict
+{
+    if (_evaluationTagsDict == nil) {
+        _evaluationTagsDict = [NSMutableDictionary dictionary];
+    }
+    return _evaluationTagsDict;
+}
+
+- (NSMutableArray *)evaluationTagsArray
+{
+    if (_evaluationTagsArray == nil) {
+        _evaluationTagsArray = [NSMutableArray array];
+    }
+    return _evaluationTagsArray;
 }
 
 - (void)setupBarButtonItem
@@ -104,15 +131,27 @@
         _starRateView.scorePercent = 1.0;
         _starRateView.allowIncompleteStar = YES;
         _starRateView.hasAnimation = YES;
+        _starRateView.delegate = self;
     }
     return _starRateView;
+}
+
+- (UILabel *)evaluateTitle
+{
+    if (_evaluateTitle == nil) {
+        _evaluateTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(_starRateView.frame) + kViewSpace/2, kHDScreenWidth - 40, 30)];
+        _evaluateTitle.textAlignment = NSTextAlignmentCenter;
+        _evaluateTitle.font = [UIFont systemFontOfSize:16];
+        [_evaluateTitle setTextColor:[UIColor orangeColor]];
+    }
+    return _evaluateTitle;
 }
 
 - (UITextView*)textView
 {
     if (_textView == nil) {
         _textView = [[UITextView alloc] init];
-        _textView.frame = CGRectMake(20, CGRectGetMaxY(_starRateView.frame) + kViewSpace, kHDScreenWidth - 40, 100);
+        _textView.frame = CGRectMake(20, CGRectGetMaxY(_evaluationTagView.frame) + kViewSpace/2, kHDScreenWidth - 40, 100);
         _textView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         _textView.layer.cornerRadius = 5.f;
         _textView.layer.borderWidth = 0.5;
@@ -124,18 +163,65 @@
     return _textView;
 }
 
+- (UIView *)evaluationTagView
+{
+    if (_evaluationTagView == nil) {
+        _evaluationTagView = [[HEvaluationTagView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_evaluateTitle.frame), kHDScreenWidth - 20, 60)];
+        _evaluationTagView.delegate = self;
+    }
+    return _evaluationTagView;
+}
+
 - (UIButton*)commitBtn
 {
     if (_commitBtn == nil) {
         _commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_commitBtn setTitle:NSLocalizedString(@"satisfaction.commit", @"commit") forState:UIControlStateNormal];
         [_commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _commitBtn.frame = CGRectMake(20, CGRectGetMaxY(_textView.frame) + kViewSpace, kHDScreenWidth - 40, 40);
+        _commitBtn.frame = CGRectMake(20, CGRectGetMaxY(_textView.frame) + 5, kHDScreenWidth - 40, 40);
         _commitBtn.layer.cornerRadius = 5.f;
         [_commitBtn setBackgroundColor:RGBACOLOR(36, 149, 207, 1)];
         [_commitBtn addTarget:self action:@selector(commit) forControlEvents:UIControlEventTouchUpInside];
     }
     return _commitBtn;
+}
+
+- (void)starRateView:(CWStarRateView *)starRateView scroePercentDidChange:(CGFloat)newScorePercent
+{
+    [self parseAppraiseTagExt:newScorePercent];
+}
+
+
+- (void)parseAppraiseTagExt:(CGFloat)ScorePercent
+{
+    if ([self.messageModel.message.ext objectForKey:kMesssageExtWeChat]) {
+        NSDictionary *weichat = [self.messageModel.message.ext objectForKey:kMesssageExtWeChat];
+        if ([weichat objectForKey:kMesssageExtWeChat_ctrlArgs]) {
+            NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMesssageExtWeChat_ctrlArgs]];
+            NSLog(@"ctrlArgs--%@", ctrlArgs);
+            NSMutableArray *evaluationDegree = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_evaluationDegree];
+            NSDictionary *appraiseTagsDict = nil;
+            if (ScorePercent == 1.0) {
+                appraiseTagsDict = [evaluationDegree objectAtIndex:0];
+                self.evaluateTitle.text = [appraiseTagsDict objectForKey:@"name"];
+            } else if (ScorePercent == 0.8) {
+                appraiseTagsDict = [evaluationDegree objectAtIndex:1];
+                self.evaluateTitle.text = [appraiseTagsDict objectForKey:@"name"];;
+            } else if (ScorePercent == 0.6) {
+                appraiseTagsDict = [evaluationDegree objectAtIndex:2];
+                self.evaluateTitle.text = [appraiseTagsDict objectForKey:@"name"];;
+            } else if (ScorePercent == 0.4) {
+                appraiseTagsDict = [evaluationDegree objectAtIndex:3];
+                self.evaluateTitle.text = [appraiseTagsDict objectForKey:@"name"];;
+            } else if (ScorePercent == 0.2) {
+                appraiseTagsDict = [evaluationDegree objectAtIndex:4];
+                self.evaluateTitle.text = [appraiseTagsDict objectForKey:@"name"];;
+            }
+        
+            HEvaluationDegreeModel *edm = [HEvaluationDegreeModel evaluationDegreeWithDict:appraiseTagsDict];
+            self.evaluationTagView.evaluationDegreeModel = edm;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -159,7 +245,7 @@
         [alert show];
         return;
     }
-    if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithControlArguments:type:)]) {
+    if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithControlArguments:type:evaluationTagsArray:)]) {
         if ([self.messageModel.message.ext objectForKey:kMesssageExtWeChat]) {
             NSDictionary *weichat = [self.messageModel.message.ext objectForKey:kMesssageExtWeChat];
             if ([weichat objectForKey:kMesssageExtWeChat_ctrlArgs]) {
@@ -170,11 +256,23 @@
                 arguments.inviteId = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_inviteId];
                 arguments.detail = self.textView.text;
                 arguments.summary = [NSString stringWithFormat:@"%d",(int)(_starRateView.scorePercent*5)];
-                [self.delegate commitSatisfactionWithControlArguments:arguments type:type];
+                if (self.evaluationTagsArray.count == 0) {
+                    [self showHint:NSLocalizedString(@"select_at_least_one_tag", @"Select at least one tag!")];
+                } else {
+                    [self.delegate commitSatisfactionWithControlArguments:arguments type:type evaluationTagsArray:self.evaluationTagsArray];
+                }
+                
             }
         }
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    if (self.evaluationTagsArray.count == 0) {
+        
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+    
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -209,6 +307,21 @@
     }];
 }
 
+- (void)evaluationTagSelectWithArray:(NSArray *)tags
+{
+    if (self.evaluationTagsArray) {
+        [self.evaluationTagsArray removeAllObjects];
+    }
+    
+    for (int i = 0; i < tags.count; i ++) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        HAppraiseTagsModel *model = tags[i];
+        [dict setObject:model.appraiseTagsId forKey:@"id"];
+        [dict setObject:model.name forKey:@"name"];
+        [self.evaluationTagsArray addObject:dict];
+    }
+
+}
 
 /*
 #pragma mark - Navigation

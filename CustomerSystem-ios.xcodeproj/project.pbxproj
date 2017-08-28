@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8F1281F41F3C535A00E872CA /* HDBubbleView+Form.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */; };
-		8F6ACB241F3DA97A00A5622B /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6ACB231F3DA97A00A5622B /* HelpDesk.framework */; };
-		8F6ACB251F3DA98100A5622B /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6ACB231F3DA97A00A5622B /* HelpDesk.framework */; };
-		8F6ACB261F3DA98100A5622B /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6ACB231F3DA97A00A5622B /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F6ACB2C1F41449100A5622B /* HFormWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */; };
 		C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */; };
 		C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A61CC7495E00211B1B /* libc++.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -61,6 +58,9 @@
 		D2769D271B9052D7003D9E3D /* button_demo_department@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2769D251B9052D7003D9E3D /* button_demo_department@2x.png */; };
 		D2769D281B9052D7003D9E3D /* button_demo_department_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2769D261B9052D7003D9E3D /* button_demo_department_select@2x.png */; };
 		D298641D1EE3A89700AF4A4C /* LeaveMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D298641C1EE3A89700AF4A4C /* LeaveMessageCell.m */; };
+		D29E09F91F4ECE5A0089506D /* HEvaluationTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = D29E09F81F4ECE5A0089506D /* HEvaluationTagView.m */; };
+		D29E0A041F4FF90F0089506D /* HAppraiseTagsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D29E0A011F4FF90F0089506D /* HAppraiseTagsModel.m */; };
+		D29E0A051F4FF90F0089506D /* HEvaluationDegreeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D29E0A031F4FF90F0089506D /* HEvaluationDegreeModel.m */; };
 		D2D8C1651F4043F000D6F677 /* Triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2D8C1641F4043F000D6F677 /* Triangle@2x.png */; };
 		D32772321F33270D0059F1BB /* HDArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D32772311F33270D0059F1BB /* HDArticleView.m */; };
 		D32FBEB01ED55E6C00BA68D7 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D32FBE901ED55E6C00BA68D7 /* LICENSE */; };
@@ -509,7 +509,6 @@
 /* Begin PBXFileReference section */
 		8F1281F21F3C535A00E872CA /* HDBubbleView+Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HDBubbleView+Form.h"; sourceTree = "<group>"; };
 		8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HDBubbleView+Form.m"; sourceTree = "<group>"; };
-		8F6ACB231F3DA97A00A5622B /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
 		8F6ACB2A1F41449100A5622B /* HFormWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFormWebViewController.h; sourceTree = "<group>"; };
 		8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFormWebViewController.m; sourceTree = "<group>"; };
 		8F6ACB301F41D6FE00A5622B /* EasemobWebViewInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasemobWebViewInterface.h; sourceTree = "<group>"; };
@@ -562,6 +561,12 @@
 		D27967A51BDF33D200842C28 /* CustomerSystem.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerSystem.pch; sourceTree = "<group>"; };
 		D298641B1EE3A89700AF4A4C /* LeaveMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaveMessageCell.h; sourceTree = "<group>"; };
 		D298641C1EE3A89700AF4A4C /* LeaveMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaveMessageCell.m; sourceTree = "<group>"; };
+		D29E09F71F4ECE5A0089506D /* HEvaluationTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEvaluationTagView.h; sourceTree = "<group>"; };
+		D29E09F81F4ECE5A0089506D /* HEvaluationTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEvaluationTagView.m; sourceTree = "<group>"; };
+		D29E0A001F4FF90F0089506D /* HAppraiseTagsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAppraiseTagsModel.h; sourceTree = "<group>"; };
+		D29E0A011F4FF90F0089506D /* HAppraiseTagsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAppraiseTagsModel.m; sourceTree = "<group>"; };
+		D29E0A021F4FF90F0089506D /* HEvaluationDegreeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEvaluationDegreeModel.h; sourceTree = "<group>"; };
+		D29E0A031F4FF90F0089506D /* HEvaluationDegreeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEvaluationDegreeModel.m; sourceTree = "<group>"; };
 		D2D8C1641F4043F000D6F677 /* Triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Triangle@2x.png"; sourceTree = "<group>"; };
 		D32772301F33270D0059F1BB /* HDArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDArticleView.h; sourceTree = "<group>"; };
 		D32772311F33270D0059F1BB /* HDArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDArticleView.m; sourceTree = "<group>"; };
@@ -1947,6 +1952,10 @@
 				D3CB63DA1E4888F30022A6BA /* HDUserModel.h */,
 				D3CB63DB1E4888F30022A6BA /* HDUserModel.m */,
 				8F6ACB301F41D6FE00A5622B /* EasemobWebViewInterface.h */,
+				D29E0A001F4FF90F0089506D /* HAppraiseTagsModel.h */,
+				D29E0A011F4FF90F0089506D /* HAppraiseTagsModel.m */,
+				D29E0A021F4FF90F0089506D /* HEvaluationDegreeModel.h */,
+				D29E0A031F4FF90F0089506D /* HEvaluationDegreeModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2021,6 +2030,8 @@
 				D3D87C131F3847C300FB7C84 /* HArticleWebViewController.m */,
 				8F6ACB2A1F41449100A5622B /* HFormWebViewController.h */,
 				8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */,
+				D29E09F71F4ECE5A0089506D /* HEvaluationTagView.h */,
+				D29E09F81F4ECE5A0089506D /* HEvaluationTagView.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2963,10 +2974,12 @@
 				D3CB64641E4888F30022A6BA /* MWGridCell.m in Sources */,
 				D3CB645D1E4888F30022A6BA /* MJRefreshStateHeader.m in Sources */,
 				D32FBEBE1ED55E6C00BA68D7 /* UIImageView+WebCache.m in Sources */,
+				D29E0A051F4FF90F0089506D /* HEvaluationDegreeModel.m in Sources */,
 				D3CB64551E4888F30022A6BA /* MJRefreshAutoGifFooter.m in Sources */,
 				D3AA4B241ED45B7300B5C509 /* HDVoiceConverter.mm in Sources */,
 				D3CB64A61E4888F30022A6BA /* HDBubbleView+Image.m in Sources */,
 				D3CB64531E4888F30022A6BA /* MJRefreshFooter.m in Sources */,
+				D29E0A041F4FF90F0089506D /* HAppraiseTagsModel.m in Sources */,
 				D32FBEBF1ED55E6C00BA68D7 /* UIView+WebCacheOperation.m in Sources */,
 				D355795E1EE94A9A00F6B54E /* HConversationsViewController.m in Sources */,
 				D3CB646A1E4888F30022A6BA /* MWZoomingScrollView.m in Sources */,
@@ -2997,6 +3010,7 @@
 				D3CB64831E4888F30022A6BA /* PSTCollectionViewLayout.m in Sources */,
 				D3CB64AF1E4888F30022A6BA /* HDBubbleView.m in Sources */,
 				D3CB648E1E4888F30022A6BA /* NSDateFormatter+Category.m in Sources */,
+				D29E09F91F4ECE5A0089506D /* HEvaluationTagView.m in Sources */,
 				D3D87C141F3847C300FB7C84 /* HArticleWebViewController.m in Sources */,
 				D3CB64A41E4888F30022A6BA /* HDBubbleView+File.m in Sources */,
 				D34D6CED1DEC12850099EE23 /* LeaveMsgAttatchmentView.m in Sources */,
