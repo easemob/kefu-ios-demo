@@ -175,15 +175,26 @@
     if (self.tagModelArray.count > 0) {
         [self.tagModelArray removeAllObjects];
     }
-    // 遍历扩展数组，转换为model存进数组
-    for (NSDictionary *dict in _appraiseTagsArray) {
-        HAppraiseTagsModel *atm = [HAppraiseTagsModel appraiseTagsWithDict:dict];
-        [self.tagModelArray addObject:atm];
+    // 遍历扩展数组，转换为model存进数组 (如果扩展里面没有标签，把标签按钮都隐藏，清空数据)
+    if (self.appraiseTagsArray.count == 0) {
+        for (UIButton *button in self.appraiseBtnArray) {
+            button.hidden = YES;
+        }
+        [self.tagModelArray removeAllObjects];
+    } else {
+        for (NSDictionary *dict in self.appraiseTagsArray) {
+            HAppraiseTagsModel *atm = [HAppraiseTagsModel appraiseTagsWithDict:dict];
+            [self.tagModelArray addObject:atm];
+        }
+        for (int i = 0; i < self.tagModelArray.count; i ++) {
+            UIButton *button = self.appraiseBtnArray[i];
+            button.hidden = NO;
+        }
     }
     
     for (int i = 0; i < self.tagModelArray.count; i++) {
         HAppraiseTagsModel *atm = self.tagModelArray[i];
-        if (atm.name.length > 5) {
+        if (atm.name.length > 7) {
             UIButton *button = self.appraiseBtnArray[i];
             button.titleLabel.font = [UIFont systemFontOfSize:8];
         } else {
