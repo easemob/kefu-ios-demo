@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <HyphenateLite/HyphenateLite.h>
 #import "HCallLocalView.h"
 #import "HCallRemoteView.h"
 #import <HyphenateLite/EMOptions.h>
-#import <HyphenateLite/EMOptions+PrivateDeploy.h>
 #import "HError.h"
 #import "HCallOptions.h"
 #import "HCallEnum.h"

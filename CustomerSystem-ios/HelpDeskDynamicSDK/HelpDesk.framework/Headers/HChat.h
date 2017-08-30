@@ -187,6 +187,9 @@
            completion:(void (^)(HMessage *message,
                                 HError *error))aCompletion;
 
+
+
+
 /*!
  *  \~chinese
  *  更新消息到DB

@@ -179,8 +179,8 @@
 //接受视频邀请
 - (IBAction)acceptBtnClicked:(id)sender {
     [_condition lock];
-    [_condition signal];
     _isOperate = YES;
+    [_condition signal];
     [_condition unlock];
     _acceptBtn.hidden = YES;
     [self setAudioSessionSpeaker];

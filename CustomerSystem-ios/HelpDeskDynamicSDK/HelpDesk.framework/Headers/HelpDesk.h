@@ -20,3 +20,4 @@ FOUNDATION_EXPORT const unsigned char HelpDeskVersionString[];
 #import <HelpDesk/HCall.h>
 #import <HelpDesk/HChatClient+call.h>
 
+

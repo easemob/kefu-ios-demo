@@ -1631,7 +1631,7 @@
                     if ([url hasPrefix:@"http"]) {
                         model.avatarURLPath = [agent valueForKey:@"avatar"];
                     } else {
-                        model.avatarURLPath = [[@"https://kefu.easemob.com" stringByAppendingString:[agent valueForKey:@"avatar"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                        model.avatarURLPath = [[@"https:" stringByAppendingString:[agent valueForKey:@"avatar"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     }
                 }
             }

@@ -281,15 +281,15 @@
 - (void)setModel:(id<HDIMessageModel>)model
 {
     [super setModel:model];
-//    if (model.avatarURLPath) {
-//        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:model.avatarURLPath] placeholderImage:model.avatarImage];
-//    } else {
-//        self.avatarView.image = model.avatarImage;
-//    }
-//    if (![model.nickname isKindOfClass:[NSNull class]]) {
-////        _nameLabel.text = model.nickname;
-//        _nameLabel.text = _lgM.nickname;
-//    }
+    if (model.avatarURLPath) {
+        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:model.avatarURLPath] placeholderImage:model.avatarImage];
+    } else {
+        self.avatarView.image = model.avatarImage;
+    }
+    if (![model.nickname isKindOfClass:[NSNull class]]) {
+//        _nameLabel.text = model.nickname;
+        _nameLabel.text = _lgM.nickname;
+    }
     
     if (self.model.isSender) {
         _nameLabel.text = _lgM.nickname;

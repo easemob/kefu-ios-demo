@@ -124,7 +124,7 @@ static HDCallManager *_manager = nil;
 
 //视频流刷新
 - (void)onStreamUpdate:(HCallStream *)stream {
-    
+    //需要标记视频状态的话，可以在这里操作
 }
 
 

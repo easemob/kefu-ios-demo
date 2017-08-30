@@ -261,16 +261,16 @@
 
 #pragma mark - HDMessageViewControllerDataSource
 
-- (id<HDIMessageModel>)messageViewController:(HDMessageViewController *)viewController
-                           modelForMessage:(HMessage *)message
-{
-    id<HDIMessageModel> model = nil;
-    model = [[HDMessageModel alloc] initWithMessage:message];
-    model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
-    model.avatarURLPath = @"";
-    model.failImageName = @"imageDownloadFail";
-    return model;
-}
+//- (id<HDIMessageModel>)messageViewController:(HDMessageViewController *)viewController
+//                           modelForMessage:(HMessage *)message
+//{
+//    id<HDIMessageModel> model = nil;
+//    model = [[HDMessageModel alloc] initWithMessage:message];
+//    model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
+//    model.avatarURLPath = @"";
+//    model.failImageName = @"imageDownloadFail";
+//    return model;
+//}
 
 - (NSArray*)emotionFormessageViewController:(HDMessageViewController *)viewController
 {
