@@ -8,6 +8,7 @@
 
 #import "AppDelegate+HelpDesk.h"
 #import "LocalDefine.h"
+#import <Bugly/Bugly.h>
 
 /**
  *  本类中做了EaseMob初始化和推送等操作
@@ -16,6 +17,8 @@
 @implementation AppDelegate (HelpDesk)
 - (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [Bugly startWithAppId:@"b336efe49a"];
     //ios8注册apns
     [self registerRemoteNotification];
     //初始化环信客服sdk
@@ -48,8 +51,8 @@
     option.tenantId = lgM.tenantId;
     option.enableConsoleLog = YES;
     option.apnsCertName = apnsCertName;
-    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
-//    option.kefuRestServer = @"https://kefu.easemob.com";
+//    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
+    option.kefuRestServer = @"https://kefu.easemob.com";
 //    option.kefuRestServer = @"https://pinganpoc.kefu.easemob.com";
 //    option.kefuRestServer = @"http://vpc10.kefu.easemob.com";
 //    option.enableDnsConfig = NO;

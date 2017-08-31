@@ -296,7 +296,9 @@
         [self avatarViewImage:model];
 
     } else {
-        _nameLabel.text = @"";
+        if (![model.nickname isKindOfClass:[NSNull class]]) {
+            _nameLabel.text = model.nickname;
+        }
         [self avatarViewImage:model];
     }
     

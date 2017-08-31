@@ -1796,9 +1796,7 @@
     }
     if ([eventName isEqualToString:HRouterEventTapEvaluate]) {
         if (_isSendingEvaluateMessage) return;
-//        _isSendingEvaluateMessage = YES;
-        // 评价
-        _isSendingEvaluateMessage = NO;
+        _isSendingEvaluateMessage = YES;
         SatisfactionViewController *view = [[SatisfactionViewController alloc] init];
         id <HDIMessageModel> model = nil;
         model = [[HDMessageModel alloc] initWithMessage:[userInfo objectForKey:@"HMessage"]];
@@ -1839,9 +1837,6 @@
     message.ext = [ext copy];
     
     __weak typeof(self) weakself = self;
-//    _isSendingEvaluateMessage = NO;
-    // 评价
-    _isSendingEvaluateMessage = YES;
     [self showHudInView:self.view hint:NSLocalizedString(@"comment_submit", @"Comment Submit.")];
     [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *aMessage, HError *aError) {
         [self hideHud];

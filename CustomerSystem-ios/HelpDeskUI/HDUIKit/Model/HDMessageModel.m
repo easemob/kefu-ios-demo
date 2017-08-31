@@ -35,6 +35,19 @@
         }
         if (!_isSender) {
             NSString *kefu = [[[message.ext objectForKey:@"weichat"] objectForKey:@"agent"] objectForKey:@"userNickname"];
+             NSDictionary *weichat = [message.ext objectForKey:@"weichat"];
+            NSDictionary *agent = [weichat objectForKey:@"agent"];
+            if ([agent objectForKey:@"avatar"]) {
+                NSString *avatar = [agent objectForKey:@"avatar"];
+                if (avatar && ![avatar isKindOfClass:[NSNull class]]) {
+                    if ([avatar hasPrefix:@"http"]) {
+                        _avatarURLPath = avatar;
+                    } else {
+                        _avatarURLPath = [@"https:" stringByAppendingString:avatar];
+                    }
+
+                }
+            }
             if (kefu) {
                 _nickname = kefu;
             } else {
@@ -48,7 +61,6 @@
                         _nickname = [[weichat objectForKey:@"visitor"] objectForKey:@"userNickname"];
                     }
                 }
-                
             } else {
                 _nickname = message.from;
             }

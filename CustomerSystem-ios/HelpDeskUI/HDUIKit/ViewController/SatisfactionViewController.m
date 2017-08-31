@@ -78,7 +78,7 @@
 {
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
-    [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     nagetiveSpacer.width = -18;
@@ -256,7 +256,7 @@
                 arguments.inviteId = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_inviteId];
                 arguments.detail = self.textView.text;
                 arguments.summary = [NSString stringWithFormat:@"%d",(int)(_starRateView.scorePercent*5)];
-                if (self.evaluationTagsArray.count == 0) {
+                if (self.evaluationTagsArray.count == 0 && self.evaluationTagView.evaluationDegreeModel.appraiseTags.count>0) {
                     [self showHint:NSLocalizedString(@"select_at_least_one_tag", @"Select at least one tag!")];
                 } else {
                     [self.delegate commitSatisfactionWithControlArguments:arguments type:type evaluationTagsArray:self.evaluationTagsArray];
@@ -265,13 +265,12 @@
             }
         }
     }
-    
-    if (self.evaluationTagsArray.count == 0) {
+    if (self.evaluationTagView.evaluationDegreeModel.appraiseTags.count>0 &&
+        self.evaluationTagsArray.count == 0) {
         
     } else {
-        [self.navigationController popViewControllerAnimated:YES];
+         [self back];
     }
-    
     
 }
 
