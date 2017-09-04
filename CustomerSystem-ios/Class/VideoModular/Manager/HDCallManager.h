@@ -26,6 +26,7 @@
 - (void)acceptCallCompletion:(void (^)(id obj, HError *error))completion;
 
 
+
 //离开一个会话
 - (void)endCall;
 
