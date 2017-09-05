@@ -373,6 +373,7 @@
 }
 
 
+
 - (void)deleteAllMessages:(id)sender
 {
     if (self.dataArray.count == 0) {

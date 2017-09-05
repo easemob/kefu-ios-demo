@@ -194,6 +194,10 @@
     [self backItemDidClicked];
 }
 
+- (void)backItemDidClicked {
+    
+}
+
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
