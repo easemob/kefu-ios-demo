@@ -82,7 +82,7 @@
 
 -(NSString *)imToken
 {
-    return [[HChatClient sharedClient] getUserToken];;
+    return [[HChatClient sharedClient] accessToken];
 }
 
 

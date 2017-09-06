@@ -136,51 +136,25 @@ static HDSDKHelper *helper = nil;
 //构造text消息体
 + (HMessage *)textHMessageFormatWithText:(NSString *)text
                                       to:(NSString *)toUser{
-    NSString *willSendText = [HDConvertToCommonEmoticonsHelper convertToCommonEmoticons:text];
-    EMTextMessageBody *bdy = [[EMTextMessageBody alloc] initWithText:willSendText];
-    NSString *from = [[HChatClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:toUser from:from to:toUser body:bdy];
+    HMessage *message = [HMessage createTxtSendMessageWithContent:text to:toUser];
     return message;
 }
 
 
 + (HMessage *)videoInvitedMessageFormatWithText:(NSString *)text toUser:(NSString *)toUser {
-    NSString *willSendText = [HDConvertToCommonEmoticonsHelper convertToCommonEmoticons:text];
-    EMTextMessageBody *bdy = [[EMTextMessageBody alloc] initWithText:willSendText];
-    NSString *from = [[HChatClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:toUser from:from to:toUser body:bdy];
-    message.ext = [HDSDKHelper callExt];
-    
+    HMessage *message = [HMessage createVideoInviteSendMessageWithContent:text to:toUser];
     return message;
 }
-
-+ (NSDictionary *)callExt {
-    NSArray *appkeys = [[SCLoginManager shareLoginManager].appkey componentsSeparatedByString:@"#"];
-    NSDictionary *dic = @{
-                          @"type":@"rtcmedia/video",
-                          @"msgtype":@{
-                                  @"liveStreamInvitation":@{
-                                          @"msg": @"邀请客服进行实时视频",
-                                          @"orgName": appkeys[0],
-                                          @"appName": appkeys[1],
-                                          @"userName": [HChatClient sharedClient].currentUsername,
-                                          @"resource": @"mobile",
-                                          @"isNewInvitation":@(YES)
-                                          }
-                                  }
-                          };
-    return dic;
-}
-
 
 //构造image消息体
 + (HMessage *)imageMessageWithImageData:(NSData *)imageData
                                           to:(NSString *)to
                                   messageExt:(NSDictionary *)messageExt
 {
-    EMImageMessageBody *body = [[EMImageMessageBody alloc] initWithData:imageData displayName:@"image"];
-    NSString *from = [[HChatClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body];
+    HMessage *message = [HMessage createImageSendMessageWithData:imageData displayName:@"image" to:to];
+    if(messageExt){
+        [message addAttributeDictionary:messageExt];
+    }
     return message;
 }
 
@@ -189,21 +163,19 @@ static HDSDKHelper *helper = nil;
                                       to:(NSString *)to
                               messageExt:(NSDictionary *)messageExt
 {
-    NSData *data = UIImageJPEGRepresentation(image, 1);
-    
-    return [HDSDKHelper imageMessageWithImageData:data to:to messageExt:messageExt];
+    HMessage *message = [HMessage createImageSendMessageWithImage:image to:to];
+    if (messageExt) {
+        [message addAttributeDictionary:messageExt];
+    }
+    return message;
 }
 //构造语音消息
 + (HMessage *)voiceMessageWithLocalPath:(NSString *)localPath
-                               duration:(NSInteger)duration
+                               duration:(int)duration
                                      to:(NSString *)to
                              messageExt:(NSDictionary *)messageExt
 {
-    EMVoiceMessageBody *body = [[EMVoiceMessageBody alloc] initWithLocalPath:localPath displayName:@"audio"];
-    body.duration = (int)duration;
-    NSString *from = [[HChatClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body];
-    
+    HMessage *message = [HMessage createVoiceSendMessageWithLocalPath:localPath duration:duration to:to];
     return message;
 }
 
@@ -214,10 +186,10 @@ static HDSDKHelper *helper = nil;
                                             to:(NSString *)to
                                     messageExt:(NSDictionary *)messageExt
 {
-    EMLocationMessageBody *body = [[EMLocationMessageBody alloc] initWithLatitude:latitude longitude:longitude address:address];
-    NSString *from = [[HChatClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body];
-    
+    HMessage *message = [HMessage createLocationSendMessageWithLatitude:latitude longitude:longitude address:address to:to];
+    if (messageExt) {
+        [message addAttributeDictionary:messageExt];
+    }
     return message;
 }
 

@@ -58,7 +58,7 @@
                                 messageExt:(NSDictionary *)messageExt;
 
 + (HMessage *)voiceMessageWithLocalPath:(NSString *)localPath
-                               duration:(NSInteger)duration
+                               duration:(int)duration
                                      to:(NSString *)to
                              messageExt:(NSDictionary *)messageExt;
 

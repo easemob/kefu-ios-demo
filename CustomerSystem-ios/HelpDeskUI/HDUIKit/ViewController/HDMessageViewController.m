@@ -81,7 +81,7 @@
     }
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        _conversation = [[HChatClient sharedClient].chat getConversation:conversationChatter];
+        _conversation = [[HChatClient sharedClient].chatManager getConversation:conversationChatter];
         _converID = conversationChatter;
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
@@ -89,7 +89,7 @@
         _scrollToBottomWhenAppear = YES;
         _messsagesSource = [NSMutableArray array];
         HError *er = [HError new];
-        [_conversation markMessagesAsReadWithConversationId:conversationChatter error:&er];
+        [_conversation markAllMessagesAsRead:&er];
     }
     
     return self;
@@ -99,7 +99,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
+    [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:NO];
     if (self.scrollToBottomWhenAppear) {
         [self _scrollViewToBottom:NO];
@@ -189,7 +189,7 @@
 - (void)backItemClicked {
     [[HDCDDeviceManager sharedInstance] disableProximitySensor];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[HChatClient sharedClient].chat removeDelegate:self];
+    [[HChatClient sharedClient].chatManager removeDelegate:self];
     [self.navigationController popViewControllerAnimated:YES];
     [self backItemDidClicked];
 }
@@ -482,7 +482,7 @@
         if (imageBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed)
         {
             //download the message thumbnail
-            [[HChatClient sharedClient].chat downloadMessageAttachment:message progress:nil completion:completion];
+            [[HChatClient sharedClient].chatManager downloadMessageAttachment:message progress:nil completion:completion];
         }
     }
     else if ([messageBody type] == EMMessageBodyTypeVideo)
@@ -491,7 +491,7 @@
         if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed)
         {
             //download the message thumbnail
-            [[HChatClient sharedClient].chat downloadMessageThumbnail:message progress:nil completion:completion];
+            [[HChatClient sharedClient].chatManager downloadMessageThumbnail:message progress:nil completion:completion];
         }
     }
     else if ([messageBody type] == EMMessageBodyTypeVoice)
@@ -500,7 +500,7 @@
         if (voiceBody.downloadStatus > EMDownloadStatusSuccessed)
         {
             //download the message attachment
-            [[HChatClient sharedClient].chat downloadMessageAttachment:message progress:nil completion:^(HMessage *message, HError *error) {
+            [[HChatClient sharedClient].chatManager downloadMessageAttachment:message progress:nil completion:^(HMessage *message, HError *error) {
                 if (!error) {
                     [weakSelf _reloadTableViewDataWithMessage:message];
                 }
@@ -562,7 +562,7 @@
     
     if (videoBody.thumbnailDownloadStatus == EMDownloadStatusFailed || ![[NSFileManager defaultManager] fileExistsAtPath:videoBody.thumbnailLocalPath]) {
         [self showHint:@"begin downloading thumbnail image, click later"];
-        [[HChatClient sharedClient].chat downloadMessageThumbnail:model.message progress:nil completion:completion];
+        [[HChatClient sharedClient].chatManager downloadMessageThumbnail:model.message progress:nil completion:completion];
         return;
     }
     
@@ -573,7 +573,7 @@
     }
     
     [self showHudInView:self.view hint:NSEaseLocalizedString(@"message.downloadingVideo", @"downloading video...")];
-    [[HChatClient sharedClient].chat downloadMessageAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
+    [[HChatClient sharedClient].chatManager downloadMessageAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
         [weakSelf hideHud];
         if (!error) {
             block();
@@ -625,7 +625,7 @@
                 }
             }
             [weakSelf showHudInView:weakSelf.view hint:NSEaseLocalizedString(@"message.downloadingImage", @"downloading a image...")];
-            [[HChatClient sharedClient].chat downloadMessageAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
+            [[HChatClient sharedClient].chatManager downloadMessageAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
                 [weakSelf hideHud];
                 if (!error) {
                     //send the acknowledgement
@@ -648,7 +648,7 @@
             }];
         }else{
             //get the message thumbnail
-            [[HChatClient sharedClient].chat downloadMessageThumbnail:model.message progress:nil completion:^(HMessage *message, HError *error) {
+            [[HChatClient sharedClient].chatManager downloadMessageThumbnail:model.message progress:nil completion:^(HMessage *message, HError *error) {
                 if (!error) {
                     [weakSelf _reloadTableViewDataWithMessage:model.message];
                 }else{
@@ -672,7 +672,7 @@
     else if (downloadStatus == EMDownloadStatusFailed)
     {
         [self showHint:NSEaseLocalizedString(@"message.downloadingAudio", @"downloading voice, click later")];
-        [[HChatClient sharedClient].chat downloadMessageAttachment:model.message progress:nil completion:nil];
+        [[HChatClient sharedClient].chatManager downloadMessageAttachment:model.message progress:nil completion:nil];
         return;
     }
     
@@ -760,7 +760,7 @@
                     }
                     
                     HMessage *latest = [strongSelf.messsagesSource lastObject];
-                    strongSelf.messageTimeIntervalTag = latest.timestamp;
+                    strongSelf.messageTimeIntervalTag = latest.messageTime;
                     
                     [strongSelf.tableView reloadData];
                     
@@ -945,7 +945,7 @@
 
     __weak typeof(self) weakself = self;
     
-    [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *message, HError *error) {
+    [[HChatClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HMessage *message, HError *error) {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
         }
@@ -1144,7 +1144,7 @@
     }
     __weak typeof(self) weakself = self;
     
-    [[HChatClient sharedClient].chat resendMessage:model.message progress:nil completion:^(HMessage *message, HError *error) {
+    [[HChatClient sharedClient].chatManager resendMessage:model.message progress:nil completion:^(HMessage *message, HError *error) {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
         }
@@ -1597,9 +1597,9 @@
     
     for (HMessage *message in messages) {
         //Calculate time interval
-        CGFloat interval = (self.messageTimeIntervalTag - message.timestamp) / 1000;
+        CGFloat interval = (self.messageTimeIntervalTag - message.messageTime) / 1000;
         if (self.messageTimeIntervalTag < 0 || interval > 60 || interval < -60) {
-            NSDate *messageDate = [NSDate dateWithTimeIntervalInMilliSecondSince1970:(NSTimeInterval)message.timestamp];
+            NSDate *messageDate = [NSDate dateWithTimeIntervalInMilliSecondSince1970:(NSTimeInterval)message.messageTime];
             NSString *timeStr = @"";
             
             if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:stringForDate:)]) {
@@ -1609,7 +1609,7 @@
                 timeStr = [messageDate formattedTime];
             }
             [formattedArray addObject:timeStr];
-            self.messageTimeIntervalTag = message.timestamp;
+            self.messageTimeIntervalTag = message.messageTime;
         }
         
         //Construct message model
@@ -1726,7 +1726,7 @@
     
     __weak typeof(self) weakself = self;
     
-    [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *message, HError *error) {
+    [[HChatClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HMessage *message, HError *error) {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
         }
@@ -1785,7 +1785,7 @@
             HMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId];
             [aHMessage addCompositeContent:hcont];
             __weak typeof(self) weakSelf = self;
-            [[HChatClient sharedClient].chat sendMessage:aHMessage progress:nil completion:^(HMessage *aMessage, HError *aError) {
+            [[HChatClient sharedClient].chatManager sendMessage:aHMessage progress:nil completion:^(HMessage *aMessage, HError *aError) {
                 _isSendingTransformMessage = NO;
                 if (!aError) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -1842,7 +1842,7 @@
     
     __weak typeof(self) weakself = self;
     [self showHudInView:self.view hint:NSLocalizedString(@"comment_submit", @"Comment Submit.")];
-    [[HChatClient sharedClient].chat sendMessage:message progress:nil completion:^(HMessage *aMessage, HError *aError) {
+    [[HChatClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HMessage *aMessage, HError *aError) {
         [self hideHud];
         if (!aError) {
             NSLog(@"message.ext--%@", message.ext);
@@ -1863,7 +1863,7 @@
     [_ext setValue:@YES forKey:kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer];
     _message.ext = [_ext copy];
     __weak typeof(self) weakSelf = self;
-    [[HChatClient sharedClient].chat updateMessage:_message completion:^(HMessage *aMessage, HError *aError) {
+    [[HChatClient sharedClient].chatManager updateMessage:_message completion:^(HMessage *aMessage, HError *aError) {
         if (!aError) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.tableView reloadData];
@@ -1927,7 +1927,7 @@
 }
 
 - (void)sendVoiceMessageWithLocalPath:(NSString *)localPath
-                             duration:(NSInteger)duration
+                             duration:(int)duration
 {
     id progress = nil;
     if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:progressDelegateForMessageBodyType:)]) {

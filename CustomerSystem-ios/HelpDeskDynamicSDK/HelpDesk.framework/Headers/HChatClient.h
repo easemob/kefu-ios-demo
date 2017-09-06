@@ -40,18 +40,20 @@
  */
 @property (nonatomic, strong, readonly) NSString *currentUsername;
 
+@property(nonatomic,copy) NSString *currentVersion __attribute__((deprecated("已过期, 请使用sdkVersion")));
+
 /**
  当前SDK 版本
  */
+@property(nonatomic, copy) NSString *sdkVersion;
 
-@property(nonatomic,copy) NSString *currentVersion;
 
+@property(nonatomic,copy) NSString *imCurrentVersion __attribute__((deprecated("已过期, 请使用imSdkVersion")));
 
 /**
  当前IM版本号
  */
-
-@property(nonatomic,copy) NSString *imCurrentVersion;
+@property(nonatomic, copy) NSString *imSdkVersion;
 
 /*!
  *  \~chinese
@@ -63,24 +65,21 @@
 @property (nonatomic, strong, readonly) HPushOptions *hPushOptions;
 
 
+
+@property (nonatomic, strong, readonly) HChat *chat __attribute__((deprecated("已过期, 请使用chatManager")));
+
 /*!
  *  \~chinese
- *  聊天模块
+ *  聊天消息管理模块
  *
  *  \~english
  *  Chat module
  */
-@property (nonatomic, strong, readonly) HChat *chat;
+@property (nonatomic, strong, readonly) HChat *chatManager;
 
 
-/*!
- *  \~chinese
- *  SDK是否自动登录上次登录的账号
- *
- *  \~english
- *  If SDK will automatically log into with previously logged in session
- */
-@property (nonatomic, readonly) BOOL isAutoLogin;
+@property (nonatomic, readonly) BOOL isAutoLogin __attribute__((deprecated("已过期")));
+
 /*!
  *  \~chinese
  *  用户是否已登录
@@ -278,6 +277,8 @@
  */
 - (HPushOptions *)getPushOptionsFromServerWithError:(HError **)pError;
 
+- (HError *)setApnsNickname:(NSString *)aNickname __attribute__((deprecated("已过期, 请使用setPushNickname")));
+
 /*!
  *  \~chinese
  *  设置推送消息显示的昵称
@@ -297,7 +298,7 @@
  *
  *  @result Error
  */
-- (HError *)setApnsNickname:(NSString *)aNickname;
+- (HError *)setPushNickname:(NSString *)aNickname;
 
 /*!
  *  \~chinese
@@ -347,6 +348,9 @@
 
 #pragma mark - Change AppKey
 
+
+- (HError *)changeAppkey:(NSString *)appkey __attribute__((deprecated("已过期, 请使用changeAppKey")));
+
 /*!
  *  \~chinese
  *  修改appkey
@@ -362,8 +366,7 @@
  *
  *  @result Error
  */
-- (HError *)changeAppkey:(NSString *)appkey;
-
+- (HError *)changeAppKey:(NSString *)appKey;
 
 /**
  改变tenantId
@@ -383,5 +386,11 @@
  * 获取IM用户的token
  *
  */
-- (NSString *) getUserToken;
+- (NSString *) accessToken;
+
+- (NSString *) getUserToken __attribute__((deprecated("已过期, 请使用accessToken")));
+
+
+
+
 @end

@@ -192,7 +192,7 @@ typedef void(^HDSelectAtTargetCallback)(HDAtTarget*);
                          andAddress:(NSString *)address;
 
 - (void)sendVoiceMessageWithLocalPath:(NSString *)localPath
-                             duration:(NSInteger)duration;
+                             duration:(int)duration;
 
 - (void)sendVideoMessageWithURL:(NSURL *)url;
 

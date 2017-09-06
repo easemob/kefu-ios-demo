@@ -16,4 +16,5 @@
 + (BOOL)isTransferMessage:(HMessage *)message;  //转接客服消息
 + (BOOL)isEvaluateMessage:(HMessage *)message;  //满意度评价消息
 + (BOOL)isFormMessage:(HMessage *)message; //机器人表单消息
+
 @end

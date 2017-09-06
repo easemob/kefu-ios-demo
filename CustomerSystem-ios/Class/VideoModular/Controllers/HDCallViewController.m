@@ -124,7 +124,7 @@
 - (IBAction)switchBtnClicked:(id)sender {
     UIButton *btn = sender;
     _switchBtn.selected = !btn.selected;
-    [[HChatClient sharedClient].call switchCameraPosition:_switchBtn.selected];
+    [[HChatClient sharedClient].callManager switchCameraPosition:_switchBtn.selected];
 }
 
 //开关mic
@@ -132,9 +132,9 @@
     UIButton *btn = sender;
     _micBtn.selected = !btn.selected;
     if (_micBtn.selected) {
-        [[HChatClient sharedClient].call pauseVoice];
+        [[HChatClient sharedClient].callManager pauseVoice];
     } else {
-        [[HChatClient sharedClient].call resumeVoice];
+        [[HChatClient sharedClient].callManager resumeVoice];
     }
 }
 
@@ -150,9 +150,9 @@
     UIButton *btn = sender;
     _videoBtn.selected = !btn.selected;
     if (_videoBtn.selected) {
-        [[HChatClient sharedClient].call pauseVideo];
+        [[HChatClient sharedClient].callManager pauseVideo];
     } else {
-        [[HChatClient sharedClient].call resumeVideo];
+        [[HChatClient sharedClient].callManager resumeVideo];
     }
 }
 

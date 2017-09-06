@@ -16,6 +16,9 @@
  *  \~english
  *  call module
  */
-@property (nonatomic, strong, readonly) HCall *call;
+@property (nonatomic, strong, readonly) HCall *callManager;
+
+@property (nonatomic, strong, readonly) HCall *call __attribute__((deprecated("已过期, 请使用callManager")));
+
 
 @end

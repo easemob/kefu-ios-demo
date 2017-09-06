@@ -38,8 +38,8 @@ static HDCallManager *_manager = nil;
         options.mute = NO;
         options.nickName = [SCLoginManager shareLoginManager].nickname;
         options.previewView = self.localView;
-        [[HChatClient sharedClient].call setCallOptions:options];
-        [[HChatClient sharedClient].call addDelegate:self delegateQueue:nil];
+        [[HChatClient sharedClient].callManager setCallOptions:options];
+        [[HChatClient sharedClient].callManager addDelegate:self delegateQueue:nil];
         _acceptTicket = NO;
     }
     return self;
@@ -60,7 +60,7 @@ static HDCallManager *_manager = nil;
 }
 
 - (void)acceptCallCompletion:(void (^)(id, HError *))completion {
-    [[HChatClient sharedClient].call acceptCallCompletion:^(id obj, HError *error) {
+    [[HChatClient sharedClient].callManager acceptCallCompletion:^(id obj, HError *error) {
         if (error == nil) {
             NSLog(@"接受成功");
         }
@@ -155,7 +155,7 @@ static HDCallManager *_manager = nil;
 
 - (void)endCall {
     [self exitSession];
-    [[HChatClient sharedClient].call endCall];
+    [[HChatClient sharedClient].callManager endCall];
 }
 
 - (void)setSpeakEnable:(BOOL)enable {
@@ -188,7 +188,7 @@ static HDCallManager *_manager = nil;
             streamId = member.normalStream.streamId;
         }
         
-        [[HChatClient sharedClient].call subscribeStreamId:streamId view:topView completion:^(id obj, HError *error) {
+        [[HChatClient sharedClient].callManager subscribeStreamId:streamId view:topView completion:^(id obj, HError *error) {
             if (error == nil) {
                 NSLog(@"订阅成功");
                 topView.hidden = NO;

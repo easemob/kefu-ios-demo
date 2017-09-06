@@ -93,7 +93,7 @@
     _titleLabel.text = name;
     NSString *timeDes = @"";
     if (model.latestMessage.body != nil) {
-        timeDes = [self stringFromTimeInterval:model.latestMessage.localTime];
+        timeDes = [self stringFromTimeInterval:model.latestMessage.messageTime];
     }
     _timeLabel.text =timeDes;
     
