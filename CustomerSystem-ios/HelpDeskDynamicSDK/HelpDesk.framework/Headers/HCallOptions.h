@@ -14,7 +14,7 @@
  */
 @interface HCallOptions : NSObject
 
-@property (nonatomic, copy) NSString * name;
+@property (nonatomic, copy) NSString * name __attribute__((deprecated("已过期")));
 
 /**
  是否关闭摄像头
@@ -39,6 +39,6 @@
 /**
  是否使用后置摄像头
  */
-@property (nonatomic, assign) BOOL useBackCamera;
+@property (nonatomic, assign) BOOL useBackCamera __attribute__((deprecated("已过期")));
 
 @end

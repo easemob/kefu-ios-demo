@@ -16,19 +16,27 @@
 /**
     正在会话的conversationId，只读
  */
-@property(nonatomic,copy,readonly) NSString *currentConversationId;
+@property(nonatomic,copy,readonly) NSString *currentConversationId __attribute__((deprecated("已过期")));
 
 
 #pragma mark - 第二通道
+
+- (void)startPollingCname:(NSString *)cname __attribute__((deprecated("已过期, 请使用bingChatWithConversationId")));
+
 /**
  开启第二通道,参数为会话ID
+ @param conversationId 会话ID,一般为IM服务号
  */
-- (void)startPollingCname:(NSString *)cname;
+- (void)bingChatWithConversationId:(NSString *)conversationId;
+
+
+- (void)endPolling __attribute__((deprecated("已过期, 请使用unbind")));
 
 /**
  关闭第二通道
  */
-- (void)endPolling;
+- (void)unbind;
+
 
 #pragma mark - Delegate
 
@@ -207,6 +215,10 @@
 - (void)updateMessage:(HMessage *)aMessage
            completion:(void (^)(HMessage *aMessage, HError *aError))aCompletionBlock;
 
+- (void)downloadMessageThumbnail:(HMessage *)aMessage
+                        progress:(void (^)(int progress))aProgressBlock
+                      completion:(void (^)(HMessage *message, HError *error))aCompletionBlock __attribute__((deprecated("已过期, 请使用downloadThumbnail")));
+
 /*!
  *  \~chinese
  *  下载缩略图（图片消息的缩略图或视频消息的第一帧图片），SDK会自动下载缩略图，所以除非自动下载失败，用户不需要自己下载缩略图
@@ -222,7 +234,7 @@
  *  @param aProgressBlock      The callback block of attachment download progress
  *  @param aCompletion         The callback block of download complete
  */
-- (void)downloadMessageThumbnail:(HMessage *)aMessage
+- (void)downloadThumbnail:(HMessage *)aMessage
                         progress:(void (^)(int progress))aProgressBlock
                       completion:(void (^)(HMessage *message, HError *error))aCompletionBlock;
 
@@ -244,9 +256,23 @@
  *  @param aProgressBlock      The callback block of attachment download progress
  *  @param aCompletion         The callback block of download complete
  */
-- (void)downloadMessageAttachment:(HMessage *)aMessage
+- (void)downloadAttachment:(HMessage *)aMessage
                          progress:(void (^)(int progress))aProgressBlock
                        completion:(void (^)(HMessage *message, HError *error))aCompletionBlock;
+
+- (void)downloadMessageAttachment:(HMessage *)aMessage
+                         progress:(void (^)(int progress))aProgressBlock
+                       completion:(void (^)(HMessage *message, HError *error))aCompletionBlock __attribute__((deprecated("已过期, 请使用downloadAttachment")));
+
+
+/**
+ 
+ 设置语音消息为已播放
+
+ @param message 需要设置的消息
+ */
+- (void)setMessageListened:(HMessage *)message;
+
 
 @end
 

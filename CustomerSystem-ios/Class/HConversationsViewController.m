@@ -67,7 +67,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) { //删除
         NSArray *datas = self.dataSource;
         HConversation *conv = [datas objectAtIndex:indexPath.row];
-        BOOL delete = [[HChatClient sharedClient].chat deleteConversation:conv.conversationId deleteMessages:NO];
+        BOOL delete = [[HChatClient sharedClient].chatManager deleteConversation:conv.conversationId deleteMessages:NO];
         if (delete) {
             [self refreshData];
         }
@@ -77,7 +77,7 @@
 #pragma mark - refreshData
 
 - (void)refreshData {
-    NSArray *hConversations = [[HChatClient sharedClient].chat loadAllConversations];
+    NSArray *hConversations = [[HChatClient sharedClient].chatManager loadAllConversations];
     long badgeValue = 0;
     for (HConversation *conv in hConversations) {
         badgeValue += conv.unreadMessagesCount;

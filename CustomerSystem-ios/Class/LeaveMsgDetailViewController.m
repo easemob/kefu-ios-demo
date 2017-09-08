@@ -294,9 +294,8 @@
 
 - (void)didSelectAudioAttachment:(LeaveMsgAttachmentModel *)attachment touchImage:(LeaveMsgAttatchmentView *)attatchmentView {
     _touchView = attatchmentView;
-    HLeaveMsgManager *manager = [HLeaveMsgManager shareInstance];
     kWeakSelf
-    [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
+    [[[HChatClient sharedClient] leaveMsgManager] downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
         if (!error) {
             NSString *toPath = [NSString stringWithFormat:@"%@/%d.wav",NSTemporaryDirectory(),123];
             BOOL success = [[HDCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
@@ -363,10 +362,9 @@
 {
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    [[HLeaveMsgManager shareInstance] asyncGetLeaveMessageAllCommentsWithTenantId:lgM.tenantId projectId:lgM.projectId cname:lgM.cname ticketId:_ticketId page:0 pageSize:100 completion:^(id responseObject, NSError *error) {
+    [[[HChatClient sharedClient] leaveMsgManager]getLeaveMsgCommentsWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:_ticketId page:0 pageSize:100 completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             [weakSelf loadDataArray:responseObject];
-        } else {
         }
     }];
     
@@ -473,8 +471,7 @@
     
     LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:parameters];
     __weak typeof(self) weakSelf = self;
-    
-    [[HLeaveMsgManager shareInstance] asyncLeaveMessageCommentWithTenantId:lgM.tenantId projectId:lgM.projectId cname:lgM.cname ticketId:_ticketId requestBody:body completion:^(id responseObject, NSError *error) {
+    [[[HChatClient sharedClient]leaveMsgManager] createLeaveMsgCommentWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:_ticketId requestBody:body completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             comment.updated_at = [responseObject objectForKey:@"updated_at"];
             comment.created_at = [responseObject objectForKey:@"created_at"];
@@ -486,9 +483,7 @@
         } else {
             [self showHint:@"回复失败，请稍后再试"];
         }
-        
     }];
-    
     [self.navigationController popToViewController:self animated:YES];
 }
 

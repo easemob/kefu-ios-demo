@@ -10,17 +10,7 @@
 #import "LeaveMsgDetailModel.h"
 #import "LeaveMsgCell.h"
 #import "LeaveMessageCell.h"
-//#import "HChatDelegate.h"
-//#import "EaseMob.h"
-//#import "SRRefreshView.h"
-//#import "ChatViewController.h"
-//#import "LeaveMsgCell.h"
-//#import "ConvertToCommonEmoticonsHelper.h"
-//#import "NSDate+Category.h"
 #import "LeaveMsgDetailViewController.h"
-//#import "LeaveMsgDetailModel.h"
-//#import "EMHttpManager.h"
-//#import "EMIMHelper.h"
 
 @interface MessageViewController () <UITableViewDelegate,UITableViewDataSource,HChatDelegate,SRRefreshDelegate>
 {
@@ -276,7 +266,7 @@
 {
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    [[HLeaveMsgManager shareInstance] asyncGetLeaveMessageDetailWithTenantId:lgM.tenantId projectId:lgM.projectId cname:lgM.cname ticketId:ticketId completion:^(id responseObject, NSError *error) {
+    [[[HChatClient sharedClient]leaveMsgManager] getLeaveMsgDetailWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:ticketId completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithResponseObject:responseObject ticketId:ticketId];
             [weakSelf.navigationController pushViewController:leaveMsgDetail animated:YES];
@@ -303,8 +293,7 @@
 //    NSDictionary *parameters = @{@"size":@(_pageSize),@"page":@(_page),@"sort":@"updatedAt,desc"};
     __weak typeof(self) weakSelf = self;
     SCLoginManager *lgm = [SCLoginManager shareLoginManager];
-    [[HLeaveMsgManager shareInstance] asyncGetMessagesWithTenantId:lgm.tenantId projectId:lgm.projectId cname:lgm.cname page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
-        
+    [[[HChatClient sharedClient]leaveMsgManager] getLeaveMsgsWithProjectId:lgm.projectId targetUser:lgm.cname page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
         if (!error) { //请求成功
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
                 if (_page == 0) {
@@ -336,7 +325,7 @@
             
             if (completion) {
                 completion(NO);
-
+                
                 
             }
         }
@@ -348,27 +337,10 @@
         } else {
             _hintLabel.text = NSLocalizedString(@"no_more", @"NO More");
         }
-        
     }];
     
-
 }
 
-
-//- (NSString*)getTicketIdWithMessage:(EMMessage*)message
-//{
-//    NSDictionary *ext = [self _getSafeDictionary:message.ext];
-//    if (ext) {
-//        if ([ext objectForKey:@"weichat"]) {
-//            if ([[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
-//                if ([[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"]) {
-//                    return [[[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"] objectForKey:@"id"];
-//                }
-//            }
-//        }
-//    }
-//    return @"";
-//}
 
 - (NSMutableDictionary*)_getSafeDictionary:(NSDictionary*)dic
 {

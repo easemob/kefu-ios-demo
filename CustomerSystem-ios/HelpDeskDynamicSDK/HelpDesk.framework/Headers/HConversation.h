@@ -20,7 +20,7 @@ typedef enum{
     HMessageSearchDirectionDown        /*! \~chinese 向下搜索 \~english Search newer messages */
 } HMessageSearchDirection;
 
-@interface OfficialItem : NSObject
+@interface OfficialAccount : NSObject
 //official
 @property(nonatomic,copy) NSString *avatarUrl;      //头像url
 @property(nonatomic,copy) NSString *officialName;   //名字
@@ -55,7 +55,7 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
 /**
     当conversationType为HConverstionTypeCUSTOM时这个属性才有值
  */
-@property(nonatomic,strong,readonly) OfficialItem *item;
+@property(nonatomic,strong,readonly) OfficialAccount *officialAccount;
 
 
 /*!
@@ -74,7 +74,7 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
  *  \~english
  *  Conversation extend property
  */
-@property (nonatomic, strong) NSDictionary *ext;
+@property (nonatomic, strong) NSDictionary *ext __attribute__((deprecated("已过期")));
 
 /*!
  *  \~chinese
@@ -86,6 +86,10 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
 @property (nonatomic, strong, readonly) HMessage *latestMessage;
 
 -(instancetype)initWithConversation:(NSString *)conversationId;
+
+
+- (void)insertMessage:(HMessage *)aMessage
+                error:(HError **)pError __attribute__((deprecated("已过期, 请使用addMessage")));
 
 /*!
  *  \~chinese
@@ -100,9 +104,12 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
  *  @param aMessage Message
  *  @param pError   Error
  */
-- (void)insertMessage:(HMessage *)aMessage
-                error:(HError **)pError;
+- (void)addMessage:(HMessage *)aMessage
+             error:(HError **)pError;
 
+
+- (void)deleteMessageWithId:(NSString *)aMessageId
+                      error:(HError **)pError __attribute__((deprecated("已过期, 请使用removeMessageWithMessageId")));
 /*!
  *  \~chinese
  *  删除一条消息
@@ -117,7 +124,7 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
  *  @param pError       Error
  *
  */
-- (void)deleteMessageWithId:(NSString *)aMessageId
+- (void)removeMessageWithMessageId:(NSString *)aMessageId
                       error:(HError **)pError;
 /*!
  *  \~chinese
@@ -188,7 +195,7 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
  *
  *  @result Extend properties update result, YES: success, No: fail
  */
-- (BOOL)updateConversationExtToDB;
+- (BOOL)updateConversationExtToDB __attribute__((deprecated("已过期")));
 
 #pragma mark - Async method
 
@@ -310,7 +317,7 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
 - (void)loadMessagesFrom:(long long)aStartTimestamp
                       to:(long long)aEndTimestamp
                    count:(int)aCount
-              completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock;
+              completion:(void (^)(NSArray *aMessages, HError *aError))aCompletionBlock __attribute__((deprecated("已过期")));
 /*!
  *  \~chinese
  *  收到的对方发送的最后一条消息
@@ -322,18 +329,6 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
  *
  *  @result Message instance
  */
-- (HMessage *)lastReceivedMessage;
+- (HMessage *)lastReceivedMessage __attribute__((deprecated("已过期")));
 
-/*!
- *  \~chinese
- *  该会话的最后一条消息
- *
- *  @result 消息实例
- *
- *  \~english
- *  Get lastest message
- *
- *  @result Message instance
- */
-- (HMessage *)latestMessage;
 @end

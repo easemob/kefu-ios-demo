@@ -260,8 +260,8 @@ const NSInteger baseTag=123;
             NSData *data = [NSData dataWithContentsOfFile:recordPath];
             
             SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-            
-            [[HLeaveMsgManager shareInstance] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
+            //此方法只为演示用，用户应把录制的附件放到自己服务器，环信服务器不存储留言的附件
+            [[[HChatClient sharedClient] leaveMsgManager] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {
                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
                         LeaveMsgAttachmentModel *attachment = [[LeaveMsgAttachmentModel alloc] initWithDictionary:nil];
@@ -483,7 +483,8 @@ const NSInteger baseTag=123;
             NSData *data =UIImageJPEGRepresentation(orgImage, 0.5);
             
             SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-            [[HLeaveMsgManager shareInstance] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
+            ////此方法只为演示用，用户应把录制的附件放到自己服务器，环信服务器不存储留言的附件
+            [[[HChatClient sharedClient] leaveMsgManager] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {
                     [weakHud hide:YES];
                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -574,9 +575,8 @@ const NSInteger baseTag=123;
         if ([attachment.type isEqualToString:@"audio"]) {
             LeaveMsgAttatchmentView *view = (LeaveMsgAttatchmentView *)tap.view;
             _currentAnimationView = view;
-            HLeaveMsgManager *manager = [HLeaveMsgManager shareInstance];
             kWeakSelf
-            [manager downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
+            [[[HChatClient sharedClient] leaveMsgManager] downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
                 if (!error) {
                     NSString *toPath = [NSString stringWithFormat:@"%@/%ld.wav",NSTemporaryDirectory(),tap.view.tag];
                     BOOL success = [[HDCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];

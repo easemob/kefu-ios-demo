@@ -49,17 +49,8 @@
     HOptions *option = [[HOptions alloc] init];
     option.appkey = lgM.appkey; 
     option.tenantId = lgM.tenantId;
-    option.enableConsoleLog = YES;
+    option.enableConsoleLog = YES; //是否打开日志信息
     option.apnsCertName = apnsCertName;
-//    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
-//    option.kefuRestServer = @"https://kefu.easemob.com";
-    option.kefuRestServer = @"https://pinganpoc.kefu.easemob.com";
-//    option.kefuRestServer = @"http://vpc10.kefu.easemob.com";
-//    option.enableDnsConfig = NO;
-//    option.restServer = @"124.207.9.210";
-//    option.chatPort = 443;
-//    option.chatServer = @"124.207.9.210";
-//    option.kefuRestServer = @"http://118.192.134.212";  
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {

@@ -108,18 +108,13 @@
 - (void)unSubscribeStreamId:(NSString *)streamId completion:(void(^)(id obj,HError *error))completion;
 #pragma mark - Control Camera
 
-/*!
- *  \~chinese
- *  设置使用前置摄像头还是后置摄像头,默认使用前置摄像头
- *
- *  @param  aIsFrontCamera    是否使用前置摄像头, YES使用前置, NO使用后置
- *
- *  \~english
- *  Use front camera or back camera, default use front
- *
- *  @param  aIsFrontCamera    YES for front camera, NO for back camera.
+
+- (void)switchCameraPosition:(BOOL)aIsFrontCamera __attribute__((deprecated("已过期, 请使用switchCamera")));
+
+/**
+    切换摄像头
  */
-- (void)switchCameraPosition:(BOOL)aIsFrontCamera;
+- (void)switchCamera;
 
 #pragma mark - Control Stream
 

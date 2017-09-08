@@ -269,7 +269,7 @@ typedef enum{
 
  @param isListened the voice file was played.
  */
-- (void) setListened:(BOOL)isListened;
+- (void)setListened:(BOOL)isListened;
 
 @end
 

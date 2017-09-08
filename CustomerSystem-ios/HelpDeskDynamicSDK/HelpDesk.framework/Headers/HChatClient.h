@@ -391,6 +391,13 @@
 - (NSString *) getUserToken __attribute__((deprecated("已过期, 请使用accessToken")));
 
 
-
+/*!
+ *  \~chinese
+ *  留言管理模块
+ *
+ *  \~english
+ *  LeaveMsgManager module
+ */
+@property (nonatomic, strong, readonly) HLeaveMsgManager *leaveMsgManager;
 
 @end

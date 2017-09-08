@@ -178,7 +178,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
         body.subject = subject;
         SCLoginManager *logM = [SCLoginManager shareLoginManager];
         [self showHudInView:self.view hint:NSLocalizedString(@"recorder_video_processing", @"processing...")];
-        [[HLeaveMsgManager shareInstance] asyncCreateMessageWithTenantId:logM.tenantId projectId:logM.projectId cname:logM.cname requestBody:body completion:^(id responseObject, NSError *error) {
+        [[[HChatClient sharedClient] leaveMsgManager]createLeaveMsgWithProjectId:logM.projectId targetUser:logM.cname requestBody:body completion:^(id responseObject, NSError *error) {
             if (error == nil) {
                 NSLog(@"发送留言成功");
                 [self hideHud];
@@ -204,14 +204,10 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
                     [self.navigationController popViewControllerAnimated:YES];
                 });
             }
-            
         }];
-        
-        
         [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_ADDMSG_TO_LIST object:nil];
     }
     
-
 }
 
 

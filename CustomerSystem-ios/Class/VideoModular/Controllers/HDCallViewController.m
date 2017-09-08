@@ -124,7 +124,7 @@
 - (IBAction)switchBtnClicked:(id)sender {
     UIButton *btn = sender;
     _switchBtn.selected = !btn.selected;
-    [[HChatClient sharedClient].callManager switchCameraPosition:_switchBtn.selected];
+    [[HChatClient sharedClient].callManager switchCamera];
 }
 
 //开关mic
