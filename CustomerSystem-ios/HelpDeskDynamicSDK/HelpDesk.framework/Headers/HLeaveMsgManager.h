@@ -22,7 +22,17 @@
  @param tenantId    客服tenantId
  */
 - (void)getWorkStatusWithTenantId:(NSString *)tenantId
-                       completion:(void(^)(BOOL isWork,NSError *error))completion;
+                       completion:(void(^)(BOOL isWork,NSError *error))completion __attribute__((deprecated("已过期, 请使用getWorkStatusWithToUser")));;
+
+
+/**
+  @brief 获取客服工作状态
+
+ @param imServiceNumber im服务号
+ @param completion 返回结果 true or false
+ */
+- (void)getWorkStatusWithToUser:(NSString *)imServiceNumber completion:(void (^)(BOOL,NSError *))completion;
+
 
 /*
  @method
@@ -214,6 +224,7 @@
  */
 
 - (void)downloadFileWithUrl:(NSString *)url completionHander:(void (^)(BOOL success,NSURL *filePath,NSError *error))completion;
+
 
 
 @end

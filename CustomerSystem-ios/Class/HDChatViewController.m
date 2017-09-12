@@ -39,13 +39,14 @@
     self.dataSource = self;
     self.visitorInfo = [self visitorInfo];
     NSLog(@"开启第二通道");
-    [[HChatClient sharedClient].chat startPollingCname:self.conversation.conversationId];
+    [[HChatClient sharedClient].chatManager bingChatWithConversationId:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
     if ([_commodityInfo count] > 1) {
         [self sendCommodityMessageWithInfo:_commodityInfo];
         _commodityInfo = nil;
     }
+    
 }
 
 //请求视频通话
@@ -54,7 +55,7 @@
     
     HMessage *message = [HDSDKHelper videoInvitedMessageFormatWithText
                          :NSLocalizedString(@"em_chat_invite_video_call", @"nvite customer service making a video call")
-                         toUser:[HChatClient sharedClient].chat.currentConversationId];
+                         toUser:self.conversation.conversationId];
     [message addContent:[self visitorInfo]];
     [self _sendMessage:message];
     
@@ -164,7 +165,7 @@
 {
     message.status = HMessageStatusSuccessed;
     [self addMessageToDataSource:message progress:nil];
-    [self.conversation insertMessage:message error:nil];
+    [self.conversation addMessage:message error:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -174,7 +175,7 @@
 
 - (void)dealloc{
     NSLog(@"第二通道已经关闭");
-    [[HChatClient sharedClient].chat endPolling];
+    [[HChatClient sharedClient].chatManager unbind];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -199,10 +200,10 @@
     UIBarButtonItem *clearNagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     clearNagetiveSpacer.width = -5;
     
-    UIButton *leaveMsgButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [leaveMsgButton setImage:[UIImage imageNamed:@"chatBar_comment"]forState:UIControlStateNormal];
-    [leaveMsgButton addTarget:self action:@selector(didPressedLeaveMsgButton) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *leaveItem = [[UIBarButtonItem alloc] initWithCustomView:leaveMsgButton];
+//    UIButton *leaveMsgButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+//    [leaveMsgButton setImage:[UIImage imageNamed:@"chatBar_comment"]forState:UIControlStateNormal];
+//    [leaveMsgButton addTarget:self action:@selector(didPressedLeaveMsgButton) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *leaveItem = [[UIBarButtonItem alloc] initWithCustomView:leaveMsgButton];
     
     self.navigationItem.rightBarButtonItems = @[clearNagetiveSpacer,clearItem];
 }

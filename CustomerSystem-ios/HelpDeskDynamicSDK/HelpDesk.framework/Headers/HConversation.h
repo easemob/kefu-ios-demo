@@ -22,8 +22,10 @@ typedef enum{
 
 @interface OfficialAccount : NSObject
 //official
+@property(nonatomic, copy) NSString *officialAccountId; //ID
 @property(nonatomic,copy) NSString *avatarUrl;      //头像url
 @property(nonatomic,copy) NSString *officialName;   //名字
+
 //marketing
 @property(nonatomic,copy) NSString *marketingId;
 @property(nonatomic,copy) NSString *groupName;  //指定技能组
