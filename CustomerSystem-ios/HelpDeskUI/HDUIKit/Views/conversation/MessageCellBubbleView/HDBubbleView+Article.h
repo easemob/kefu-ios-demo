@@ -11,6 +11,16 @@
 
 #pragma mark - model
 
+#define kTitleFontSize 15
+#define kProfileFontSize 12
+#define kTopMargin 10
+#define kLeftMargin 10
+#define kTitleImageHeight 180
+#define kTitleFontSize 15
+#define kTimeFontSize 10
+#define kDigistFontSize 10
+#define kMarginNormal 10
+
 
 typedef NS_ENUM(NSUInteger, HDCellType) {
     HDCellTypeTitle = 0,

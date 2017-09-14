@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+
+__attribute__((deprecated("已过期, 请使用HMessageHelper ")))
 @interface HjudgeTextMessageSubType : NSObject
 
 + (BOOL)isTrackMessage:(HMessage *)message;     //轨迹消息

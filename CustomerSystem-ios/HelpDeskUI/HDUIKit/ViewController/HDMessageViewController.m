@@ -479,28 +479,22 @@
     EMMessageBody *messageBody = message.body;
     if ([messageBody type] == EMMessageBodyTypeImage) {
         EMImageMessageBody *imageBody = (EMImageMessageBody *)messageBody;
-        if (imageBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed)
-        {
+        if (imageBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
             //download the message thumbnail
-            [[HChatClient sharedClient].chatManager downloadMessageAttachment:message progress:nil completion:completion];
+            [[HChatClient sharedClient].chatManager downloadAttachment:message progress:nil completion:completion];
         }
-    }
-    else if ([messageBody type] == EMMessageBodyTypeVideo)
-    {
+    }else if ([messageBody type] == EMMessageBodyTypeVideo) {
         EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
-        if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed)
-        {
+        if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
             //download the message thumbnail
-            [[HChatClient sharedClient].chatManager downloadMessageThumbnail:message progress:nil completion:completion];
+            [[HChatClient sharedClient].chatManager downloadThumbnail:message progress:nil completion:completion];
         }
-    }
-    else if ([messageBody type] == EMMessageBodyTypeVoice)
+    }else if ([messageBody type] == EMMessageBodyTypeVoice)
     {
         EMVoiceMessageBody *voiceBody = (EMVoiceMessageBody*)messageBody;
-        if (voiceBody.downloadStatus > EMDownloadStatusSuccessed)
-        {
+        if (voiceBody.downloadStatus > EMDownloadStatusSuccessed) {
             //download the message attachment
-            [[HChatClient sharedClient].chatManager downloadMessageAttachment:message progress:nil completion:^(HMessage *message, HError *error) {
+            [[HChatClient sharedClient].chatManager downloadAttachment:message progress:nil completion:^(HMessage *message, HError *error) {
                 if (!error) {
                     [weakSelf _reloadTableViewDataWithMessage:message];
                 }
@@ -562,7 +556,7 @@
     
     if (videoBody.thumbnailDownloadStatus == EMDownloadStatusFailed || ![[NSFileManager defaultManager] fileExistsAtPath:videoBody.thumbnailLocalPath]) {
         [self showHint:@"begin downloading thumbnail image, click later"];
-        [[HChatClient sharedClient].chatManager downloadMessageThumbnail:model.message progress:nil completion:completion];
+        [[HChatClient sharedClient].chatManager downloadThumbnail:model.message progress:nil completion:completion];
         return;
     }
     
@@ -573,7 +567,7 @@
     }
     
     [self showHudInView:self.view hint:NSEaseLocalizedString(@"message.downloadingVideo", @"downloading video...")];
-    [[HChatClient sharedClient].chatManager downloadMessageAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
+    [[HChatClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
         [weakSelf hideHud];
         if (!error) {
             block();
@@ -625,7 +619,7 @@
                 }
             }
             [weakSelf showHudInView:weakSelf.view hint:NSEaseLocalizedString(@"message.downloadingImage", @"downloading a image...")];
-            [[HChatClient sharedClient].chatManager downloadMessageAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
+            [[HChatClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
                 [weakSelf hideHud];
                 if (!error) {
                     //send the acknowledgement
@@ -648,7 +642,7 @@
             }];
         }else{
             //get the message thumbnail
-            [[HChatClient sharedClient].chatManager downloadMessageThumbnail:model.message progress:nil completion:^(HMessage *message, HError *error) {
+            [[HChatClient sharedClient].chatManager downloadThumbnail:model.message progress:nil completion:^(HMessage *message, HError *error) {
                 if (!error) {
                     [weakSelf _reloadTableViewDataWithMessage:model.message];
                 }else{
@@ -672,7 +666,7 @@
     else if (downloadStatus == EMDownloadStatusFailed)
     {
         [self showHint:NSEaseLocalizedString(@"message.downloadingAudio", @"downloading voice, click later")];
-        [[HChatClient sharedClient].chatManager downloadMessageAttachment:model.message progress:nil completion:nil];
+        [[HChatClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:nil];
         return;
     }
     
@@ -963,7 +957,7 @@
         NSMutableIndexSet *indexs = [NSMutableIndexSet indexSetWithIndex:self.snedButtonIndexPath.row];
         NSMutableArray *indexPaths = [NSMutableArray arrayWithObjects:self.snedButtonIndexPath, nil];
         
-        [self.conversation deleteMessageWithId:model.message.messageId error:nil];
+        [self.conversation removeMessageWithMessageId:model.message.messageId error:nil];
         [self.messsagesSource removeObject:model.message];
         
         if (self.snedButtonIndexPath.row - 1 >= 0) {
@@ -1093,40 +1087,32 @@
 
 #pragma mark - HDMessageCellDelegate
 
-- (void)messageCellSelected:(id<HDIMessageModel>)model
-{
+- (void)messageCellSelected:(id<HDIMessageModel>)model {
     switch (model.bodyType) {
-        case EMMessageBodyTypeText:
-        {
-            if([HjudgeTextMessageSubType isFormMessage:model.message]){
+        case EMMessageBodyTypeText: {
+            if([HMessageHelper getMessageExtType:model.message] == HExtFormMsg){
                 [self _formMessageCellSelected:model];
             }
         }
             break;
-        case EMMessageBodyTypeImage:
-        {
+        case EMMessageBodyTypeImage: {
             _scrollToBottomWhenAppear = NO;
             [self _imageMessageCellSelected:model];
         }
             break;
-        case EMMessageBodyTypeLocation:
-        {
+        case EMMessageBodyTypeLocation: {
              [self _locationMessageCellSelected:model];
         }
             break;
-        case EMMessageBodyTypeVoice:
-        {
+        case EMMessageBodyTypeVoice: {
             [self _audioMessageCellSelected:model];
         }
             break;
-        case EMMessageBodyTypeVideo:
-        {
+        case EMMessageBodyTypeVideo: {
             [self _videoMessageCellSelected:model];
-
         }
             break;
-        case EMMessageBodyTypeFile: //自定义实现
-        {
+        case EMMessageBodyTypeFile: {
             _scrollToBottomWhenAppear = NO;
             [self _fileMessageCellSelected:model];
         }
@@ -1339,7 +1325,7 @@
     __weak typeof(self) weakSelf = self;
     [[HDCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
         if (!error) {
-            [weakSelf sendVoiceMessageWithLocalPath:recordPath duration:aDuration];
+            [weakSelf sendVoiceMessageWithLocalPath:recordPath duration:(int)aDuration];
         }
         else {
             NSString *ers = error.domain;
@@ -1562,7 +1548,7 @@
         NSMutableIndexSet *indexs = [NSMutableIndexSet indexSetWithIndex:self.menuIndexPath.row];
         NSMutableArray *indexPaths = [NSMutableArray arrayWithObjects:self.menuIndexPath, nil];
         
-        [self.conversation deleteMessageWithId:model.message.messageId error:nil];
+        [self.conversation removeMessageWithMessageId:model.message.messageId error:nil];
         [self.messsagesSource removeObject:model.message];
         
         if (self.menuIndexPath.row - 1 >= 0) {
@@ -1780,7 +1766,7 @@
         arguments.sessionId = [ctrlArgs valueForKey:@"serviceSessionId"];
         HControlMessage *hcont = [HControlMessage new];
         hcont.arguments = arguments;
-        if ([HjudgeTextMessageSubType isTransferMessage:message]) {
+        if ([HMessageHelper getMessageExtType:message] == HExtToCustomServiceMsg) {
             //发送透传消息
             HMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId];
             [aHMessage addCompositeContent:hcont];
@@ -1815,8 +1801,7 @@
 }
 
 //链接被点击
-- (void)chatTextCellUrlPressed:(NSURL *)url
-{
+- (void)chatTextCellUrlPressed:(NSURL *)url {
     if (url) {
         [[UIApplication sharedApplication] openURL:url];
     }
@@ -1851,7 +1836,7 @@
         } else {
             [weakself showHint:NSLocalizedString(@"comment_fail", @"Add comment fail.")];
         }
-        [_conversation deleteMessageWithId:aMessage.messageId error:nil];
+        [_conversation removeMessageWithMessageId:aMessage.messageId error:nil];
     }];
 }
 
@@ -1943,17 +1928,7 @@
 
 - (void)sendVideoMessageWithURL:(NSURL *)url
 {
-    id progress = nil;
-    if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:progressDelegateForMessageBodyType:)]) {
-        progress = [_dataSource messageViewController:self progressDelegateForMessageBodyType:EMMessageBodyTypeVideo];
-    }
-    else{
-        progress = self;
-    }
     
-    HMessage *message = [HDSDKHelper videoMessageWithURL:url to:self.conversation.conversationId messageExt:nil];
-    
-    [self _sendMessage:message];
 }
 
 #pragma mark - notifycation

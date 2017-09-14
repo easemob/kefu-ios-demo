@@ -150,15 +150,8 @@ typedef NS_ENUM(NSInteger, HDAudioSession){
 -(void)asyncStopRecordingWithCompletion:(void(^)(NSString *recordPath,
                                                  NSInteger aDuration,
                                                  NSError *error))completion{
-    NSError *error = nil;
-
     if(![self isRecording]){
         if (completion) {
-            // 还没有开始录音
-//            error = [NSError errorWithDomain:NSEaseLocalizedString(@"error.recordNotBegin", @"Recording has not yet begun")
-//                                        code:HDErrorAudioRecordNotStarted
-//                                    userInfo:nil];
-//            completion(nil,0,error);
             [[NSNotificationCenter defaultCenter] postNotificationName:@"NotStartedRecording" object:nil];
         }
         return;
@@ -170,13 +163,7 @@ typedef NS_ENUM(NSInteger, HDAudioSession){
     if([_recorderEndDate timeIntervalSinceDate:_recorderStartDate] < [HDCDDeviceManager recordMinDuration]){
         if (completion) {
             // 时间过短
-//            error = [NSError errorWithDomain:@"时间过短"
-//                                        code:HDErrorAudioRecordDurationTooShort
-//                                    userInfo:nil];
-//            completion(nil,0,error);
-//            if(error){
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"TheRecordingTimeIsTooShort" object:nil];
-//            }
         }
         
         // If the recording time is too shorty，in purpose delay one second

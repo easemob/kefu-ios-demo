@@ -84,11 +84,12 @@
         }
         _tipView.tipNumber = string;
     }
-    [_headerImageView sd_setImageWithURL:[NSURL URLWithString:model.officialAccount.avatarUrl] placeholderImage:[UIImage imageNamed:@"default_customer_avatar"]];
+    [_headerImageView sd_setImageWithURL:[NSURL URLWithString:model.officialAccount.img] placeholderImage:[UIImage imageNamed:@"default_customer_avatar"]];
     
     NSString *name = model.conversationId;
-    if (model.conversationType == HConversationTypeCUSTOM) {
-        name = model.officialAccount.officialName;
+    
+    if (model.officialAccount.name) {
+        name = model.officialAccount.name;
     }
     _titleLabel.text = name;
     NSString *timeDes = @"";
@@ -104,22 +105,31 @@
         {
             EMTextMessageBody *body = (EMTextMessageBody*)model.latestMessage.body;
             content = body.text;
-            if ([HjudgeTextMessageSubType isMenuMessage:model.latestMessage]) {
-                content = NSLocalizedString(@"robot_menu", @"[Robot Menu]");
-            }else if ([HjudgeTextMessageSubType isOrderMessage:model.latestMessage]) {
-                content = NSLocalizedString(@"order_menu", @"[Order Menu]");
-            }else if ([HjudgeTextMessageSubType isTrackMessage:model.latestMessage]) {
-                content = NSLocalizedString(@"track_message", @"[Track Message]");
-            }else if ([HjudgeTextMessageSubType isEvaluateMessage:model.latestMessage]) {
-                content = NSLocalizedString(@"evaluation_of_invitation", @"[Evaluation Invitation]");
-            }else if ([HDArticleDataControl isArticleMessage:model.latestMessage]) {
-                content = NSLocalizedString(@"graphic_message", @"[Graphic Message]");
-            }else if ([HjudgeTextMessageSubType isFormMessage:model.latestMessage]) {
-                content = NSLocalizedString(@"form_message", @"[Form Message]");
-            }else{
-                NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:_contentLabel.font]];
-                _contentLabel.attributedText = attributedString;
-                return;
+            HExtMsgType extMsgType = [HMessageHelper getMessageExtType:model.latestMessage];
+            switch (extMsgType) {
+                case HExtRobotMenuMsg:
+                    content = NSLocalizedString(@"robot_menu", @"[Robot Menu]");
+                    break;
+                case HExtOrderMsg:
+                    content = NSLocalizedString(@"order_menu", @"[Order Menu]");
+                    break;
+                case HExtTrackMsg:
+                    content = NSLocalizedString(@"track_message", @"[Track Message]");
+                    break;
+                case HExtEvaluationMsg:
+                    content = NSLocalizedString(@"evaluation_of_invitation", @"[Evaluation Invitation]");
+                    break;
+                case HExtArticleMsg:
+                    content = NSLocalizedString(@"graphic_message", @"[Graphic Message]");
+                    break;
+                case HExtFormMsg:
+                    content = NSLocalizedString(@"form_message", @"[Form Message]");
+                    break;
+                default:{
+                    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:_contentLabel.font]];
+                    _contentLabel.attributedText = attributedString;
+                    return;
+                }
             }
             break;
         }

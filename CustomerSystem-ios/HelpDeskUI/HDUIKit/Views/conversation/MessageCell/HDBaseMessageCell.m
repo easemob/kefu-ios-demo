@@ -63,7 +63,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier model:model];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        if (!model.isArticle) {
+        if ([HMessageHelper getMessageExtType:model.message] != HExtArticleMsg) {
             _nameLabel = [[UILabel alloc] init];
             _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
             _nameLabel.backgroundColor = [UIColor clearColor];
@@ -86,7 +86,7 @@
 {
     [super layoutSubviews];
     _bubbleView.backgroundImageView.image = self.model.isSender ? self.sendBubbleBackgroundImage : self.recvBubbleBackgroundImage;
-    if (self.model.isArticle) {
+    if ([HMessageHelper getMessageExtType:self.model.message] == HExtArticleMsg) {
         _bubbleView.backgroundImageView.image = nil;
         _bubbleView.backgroundImageView.layer.borderWidth = 0.5;
         _bubbleView.backgroundImageView.layer.masksToBounds = YES;
@@ -94,31 +94,22 @@
         _bubbleView.backgroundImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     }
     switch (self.model.bodyType) {
-        case EMMessageBodyTypeText:
-        {
-            NSDictionary *dic =[self.model.message.ext objectForKey:@"msgtype"];
-            if (dic || [HjudgeTextMessageSubType isTransferMessage:self.model.message] || [HjudgeTextMessageSubType  isEvaluateMessage:self.model.message]) {
-                if (self.model.isSender && [HjudgeTextMessageSubType isMenuMessage:self.model.message]) {
-                    break;
-                }
-                if (self.model.isArticle) {
-                    break;
-                }
-                if([HjudgeTextMessageSubType isFormMessage:self.model.message]){
+        case EMMessageBodyTypeText: {
+            HExtMsgType extMsgType = [HMessageHelper getMessageExtType:self.model.message];
+            switch (extMsgType) {
+                case HExtToCustomServiceMsg:
+                case HExtEvaluationMsg:
+                case HExtRobotMenuMsg:
+                case HExtOrderMsg:
+                case HExtTrackMsg:
                     [self removeConstraint:self.bubbleWithExtConstraint];
                     CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
                     self.bubbleWithExtConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + margin];
                     [self addConstraint:self.bubbleWithExtConstraint];
                     break;
-                }
-                
-                if (![dic.allKeys containsObject:@"videoPlayback"] && ![dic.allKeys containsObject:@"liveStreamInvitation"]) {
-                    [self removeConstraint:self.bubbleWithExtConstraint];
-                    CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
-                    self.bubbleWithExtConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + margin];
-                    [self addConstraint:self.bubbleWithExtConstraint];
-                }
+                default:break;
             }
+            
         }
             break;
         case EMMessageBodyTypeImage:
@@ -169,7 +160,7 @@
 
 - (void)configureLayoutConstraintsWithModel:(id<HDIMessageModel>)model
 {
-    if (model.isArticle) {
+    if ([HMessageHelper getMessageExtType:model.message] == HExtArticleMsg) {
         [self configArticleConstraints];
     } else {
         if (model.isSender) {

@@ -41,7 +41,7 @@
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) UIImage *thumbnailImage;
 @property (nonatomic) BOOL isMediaPlaying;
-@property (nonatomic) BOOL isMediaPlayed;
+//@property (nonatomic) BOOL isMediaPlayed;
 @property (nonatomic) CGFloat mediaDuration;
 @property (strong, nonatomic) NSString *fileIconName;
 @property (strong, nonatomic) NSString *fileName;
@@ -54,8 +54,6 @@
 @property (strong, nonatomic) NSString *fileURLPath;
 @property (strong, nonatomic) NSString *thumbnailFileURLPath;
 
-//图文消息
-@property(nonatomic,assign) BOOL isArticle; //是否是图文消息
 
 - (instancetype)initWithMessage:(HMessage *)message;
 

@@ -170,25 +170,8 @@ static HDMessageReadManager *detailInstance = nil;
             messageModel.isMediaPlaying = YES;
             prevAudioModel.isMediaPlaying = NO;
             isPrepare = YES;
-            
-            if (!messageModel.isMediaPlayed) {
-                messageModel.isMediaPlayed = YES;
-                HMessage *chatMessage = messageModel.message;
-                NSString *conversationId = [HChatClient sharedClient].chat.currentConversationId;
-                HConversation *conversation = [[HConversation alloc] initWithConversation:conversationId];
-                if (chatMessage.ext) {
-                    NSMutableDictionary *dict = [chatMessage.ext mutableCopy];
-                    if (![[dict objectForKey:@"isPlayed"] boolValue]) {
-                        [dict setObject:@YES forKey:@"isPlayed"];
-                        chatMessage.ext = dict;
-                        [conversation updateMessageChange:chatMessage error:nil];
-                    }
-                } else {
-                    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:chatMessage.ext];
-                    [dic setObject:@YES forKey:@"isPlayed"];
-                    chatMessage.ext = dic;
-                    [conversation updateMessageChange:chatMessage error:nil];
-                }
+            if(![messageModel.message isListened]){
+                [[HChatClient sharedClient].chatManager setMessageListened:messageModel.message];
             }
         }
         

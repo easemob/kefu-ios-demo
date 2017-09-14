@@ -22,7 +22,7 @@
 		</data>
 		<key>Headers/HCall.h</key>
 		<data>
-		D24AnFoTWybTEkCQX5F5tW2EwQQ=
+		tI0BWPTR3g7YdaEpN7XyL0JIReo=
 		</data>
 		<key>Headers/HCallEntities.h</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>Headers/HCallOptions.h</key>
 		<data>
-		cNiE6Jm8WkHaul284abMG7pVLAg=
+		GPngVGECNeb5POst7f2OfHHijUg=
 		</data>
 		<key>Headers/HCallRemoteView.h</key>
 		<data>
@@ -50,15 +50,15 @@
 		</data>
 		<key>Headers/HChat.h</key>
 		<data>
-		a5LcMmyQ3iPcbq/ItAjTquoJA20=
+		nl6XhqFyV4c+aqMB/Wdv5B5nyWg=
 		</data>
 		<key>Headers/HChatClient+call.h</key>
 		<data>
-		esYy/ovFVG6UwUsiXRBXAO0yLm0=
+		X7O9/45C3B+ANZoAnDw6lizLtD0=
 		</data>
 		<key>Headers/HChatClient.h</key>
 		<data>
-		s58pmkjSpIK/6LHK7fbCQwhqgD8=
+		iampA7NUfupCj18323059er1ZPQ=
 		</data>
 		<key>Headers/HChatClientDelegate.h</key>
 		<data>
@@ -82,7 +82,7 @@
 		</data>
 		<key>Headers/HConversation.h</key>
 		<data>
-		9A56dHWEiXtuepODqWGjHr8CpTU=
+		utxPS+AuXHLVk+D/23DVPoGJCeQ=
 		</data>
 		<key>Headers/HError.h</key>
 		<data>
@@ -94,7 +94,7 @@
 		</data>
 		<key>Headers/HLeaveMsgManager.h</key>
 		<data>
-		neR5popgVlvV2U5a8TZAnXrWSt0=
+		yUWsCDiH3zHdFyUAUpq9FHquta4=
 		</data>
 		<key>Headers/HMessage+Content.h</key>
 		<data>
@@ -102,7 +102,11 @@
 		</data>
 		<key>Headers/HMessage.h</key>
 		<data>
-		/I/7VFxkBWSn4qoEmCERic/3Mq8=
+		ah7yAzYTSMXB3CZeRL1VO9ReLBM=
+		</data>
+		<key>Headers/HMessageHelper.h</key>
+		<data>
+		emgclSrfS6+OjM33dEDH/6JuqsM=
 		</data>
 		<key>Headers/HOptions.h</key>
 		<data>
@@ -142,11 +146,11 @@
 		</data>
 		<key>Headers/HjudgeTextMessageSubType.h</key>
 		<data>
-		PYISMf3QQo5KT0XNc8R8UR33lo8=
+		647tmVvwr1FL3U/N5O1qUEZLDO0=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		0FptHefH6WhtZkcmQnlLzSntxFI=
+		3woiVK4n+EVmkOuAQ7iIUL7PCqw=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -203,11 +207,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			D24AnFoTWybTEkCQX5F5tW2EwQQ=
+			tI0BWPTR3g7YdaEpN7XyL0JIReo=
 			</data>
 			<key>hash2</key>
 			<data>
-			pPVbmRquU8X5ifHS5CLKQLr0QVp4w83kkWibxEONzOY=
+			qY+Q7RUUaEM5tpyEMGf5ZFPjRp8QvuZPDc+K0qiBjUI=
 			</data>
 		</dict>
 		<key>Headers/HCallEntities.h</key>
@@ -258,11 +262,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			cNiE6Jm8WkHaul284abMG7pVLAg=
+			GPngVGECNeb5POst7f2OfHHijUg=
 			</data>
 			<key>hash2</key>
 			<data>
-			94QRAtb1pRfboWVWHdkdIt3DvvBcgA0OaSfOg+Xlsnw=
+			W+A4KWoSdoj3lWoaX4r3e7APvspPO/+EAaaB2+qo53A=
 			</data>
 		</dict>
 		<key>Headers/HCallRemoteView.h</key>
@@ -280,33 +284,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			a5LcMmyQ3iPcbq/ItAjTquoJA20=
+			nl6XhqFyV4c+aqMB/Wdv5B5nyWg=
 			</data>
 			<key>hash2</key>
 			<data>
-			1tn/wIFLtsk8KtLJkOxan+vjIKmMwDbK6Xuk362RrRM=
+			jmuOW0FKZMlB10aayGpKLgBnqFZSqcd2n+hfe70+ILc=
 			</data>
 		</dict>
 		<key>Headers/HChatClient+call.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			esYy/ovFVG6UwUsiXRBXAO0yLm0=
+			X7O9/45C3B+ANZoAnDw6lizLtD0=
 			</data>
 			<key>hash2</key>
 			<data>
-			srK7d2eK4P8Ll8MCvo50hkk9avidsNAeLcB/3nq5dcY=
+			7bctyflzXTrboXjB6mK4ixcaXWkeoRfKmfTpYWcxy2s=
 			</data>
 		</dict>
 		<key>Headers/HChatClient.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			s58pmkjSpIK/6LHK7fbCQwhqgD8=
+			iampA7NUfupCj18323059er1ZPQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			il4fdh4s13wZIUxkf7uBR/Bh6ahkGiMH5KDV8zPjlOE=
+			44kxLcw0ViUCSpAbhk7rb4Gt5dSEffgXAWyCUZA4b88=
 			</data>
 		</dict>
 		<key>Headers/HChatClientDelegate.h</key>
@@ -368,11 +372,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9A56dHWEiXtuepODqWGjHr8CpTU=
+			utxPS+AuXHLVk+D/23DVPoGJCeQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			21DZm6veOlrT/2JJcNomIOCY/ZqU5cfp7Tpy5vzZjM0=
+			qMDQjqmymGRREfP4scx2T3hi6kMovkZOsmGVnX5so0Q=
 			</data>
 		</dict>
 		<key>Headers/HError.h</key>
@@ -401,11 +405,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			neR5popgVlvV2U5a8TZAnXrWSt0=
+			yUWsCDiH3zHdFyUAUpq9FHquta4=
 			</data>
 			<key>hash2</key>
 			<data>
-			qXXR9fLGhYpjffOfTDeuE/5OpzhYUEyvNNA8cNYyXPM=
+			zLAdtQjQEfoRdUhuXu2jhrozQ/5+p5SAIcSozHN/7tI=
 			</data>
 		</dict>
 		<key>Headers/HMessage+Content.h</key>
@@ -423,11 +427,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/I/7VFxkBWSn4qoEmCERic/3Mq8=
+			ah7yAzYTSMXB3CZeRL1VO9ReLBM=
 			</data>
 			<key>hash2</key>
 			<data>
-			Y8mQRJsYvxddamVWn2RO/BLD9+jc6A1nRu5H5KMpsAI=
+			8i57euOwND/Jk2/E/ZG8xN9zW8Dq7ZsdCPGu+lBZ1F0=
+			</data>
+		</dict>
+		<key>Headers/HMessageHelper.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			emgclSrfS6+OjM33dEDH/6JuqsM=
+			</data>
+			<key>hash2</key>
+			<data>
+			rmSeVULRC2JOJGTJDGMwZJ9LKXyDTOUDxs6W3AuOCtY=
 			</data>
 		</dict>
 		<key>Headers/HOptions.h</key>
@@ -533,11 +548,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			PYISMf3QQo5KT0XNc8R8UR33lo8=
+			647tmVvwr1FL3U/N5O1qUEZLDO0=
 			</data>
 			<key>hash2</key>
 			<data>
-			ezdz8W8jWJ0l37Doa6Q9CWfY7k3DgozugK2aNMsOQV4=
+			O3fGVr354l28UIzXnaGxUqgsTicYxJN6a/zdjAHL/R0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

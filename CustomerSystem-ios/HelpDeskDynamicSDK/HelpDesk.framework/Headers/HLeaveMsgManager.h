@@ -22,7 +22,7 @@
  @param tenantId    客服tenantId
  */
 - (void)getWorkStatusWithTenantId:(NSString *)tenantId
-                       completion:(void(^)(BOOL isWork,NSError *error))completion __attribute__((deprecated("已过期, 请使用getWorkStatusWithToUser")));;
+                       completion:(void(^)(BOOL isWork,NSError *error))completion __attribute__((deprecated("已过期, 请使用getWorkStatusWithToUser")));
 
 
 /**

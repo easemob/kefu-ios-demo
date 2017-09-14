@@ -28,6 +28,7 @@
 #import "HError.h"
 #import "HPushOptions.h"
 #import "HjudgeTextMessageSubType.h"
+#import "HMessageHelper.h"
 // resued concept
 
 @interface HChatClient :NSObject<HChatClientDelegate>

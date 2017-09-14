@@ -23,13 +23,14 @@ typedef enum{
 @interface OfficialAccount : NSObject
 //official
 @property(nonatomic, copy) NSString *officialAccountId; //ID
-@property(nonatomic,copy) NSString *avatarUrl;      //头像url
-@property(nonatomic,copy) NSString *officialName;   //名字
-
+@property(nonatomic, copy) NSString *avatarUrl __attribute__((deprecated("已过期, 请使用img")));
+@property(nonatomic, copy) NSString *img;// 头像url
+@property(nonatomic, copy) NSString *name;   //名字
+@property(nonatomic, copy) NSString *type; //类型
 //marketing
-@property(nonatomic,copy) NSString *marketingId;
-@property(nonatomic,copy) NSString *groupName;  //指定技能组
-@property(nonatomic,copy) NSString *userName;   //指定客服
+@property(nonatomic, copy) NSString *marketingId;
+@property(nonatomic, copy) NSString *groupName;  //指定技能组
+@property(nonatomic, copy) NSString *userName;   //指定客服
 
 @end
 
@@ -52,7 +53,7 @@ typedef NS_ENUM(NSUInteger, HConversationType) {
 /**
     会话类型【普通会话、官方会话】
  */
-@property(nonatomic,assign,readonly) HConversationType conversationType;
+@property(nonatomic,assign,readonly) HConversationType conversationType __attribute__((deprecated("已过期")));
 
 /**
     当conversationType为HConverstionTypeCUSTOM时这个属性才有值

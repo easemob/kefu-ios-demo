@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		8F1281F41F3C535A00E872CA /* HDBubbleView+Form.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */; };
 		8F6ACB2C1F41449100A5622B /* HFormWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */; };
+		8FADCA2A1F6AA123004D9197 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FADCA291F6AA123004D9197 /* HelpDesk.framework */; };
+		8FADCA2B1F6AA131004D9197 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FADCA291F6AA123004D9197 /* HelpDesk.framework */; };
+		8FADCA2C1F6AA131004D9197 /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FADCA291F6AA123004D9197 /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */; };
 		C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A61CC7495E00211B1B /* libc++.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
@@ -130,7 +133,6 @@
 		D366CAEE1EF925FD00899143 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D366CAE81EF925FD00899143 /* SVProgressHUD.m */; };
 		D366CAEF1EF925FD00899143 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D366CAEA1EF925FD00899143 /* SVRadialGradientLayer.m */; };
 		D37315831E52A5D00043ED32 /* HelpDeskUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */; };
-		D373491F1F3482C700FAE588 /* HDArticleDataControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D373491E1F3482C700FAE588 /* HDArticleDataControl.m */; };
 		D378E6041F56698800E3AB74 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D378E6031F56698800E3AB74 /* Bugly.framework */; };
 		D378E6061F5669A400E3AB74 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D378E6051F5669A400E3AB74 /* Security.framework */; };
 		D37983E91F31E45700E9E4EB /* HDBubbleView+Article.m in Sources */ = {isa = PBXBuildFile; fileRef = D37983E81F31E45700E9E4EB /* HDBubbleView+Article.m */; };
@@ -140,9 +142,6 @@
 		D3AA4B241ED45B7300B5C509 /* HDVoiceConverter.mm in Sources */ = {isa = PBXBuildFile; fileRef = D3AA4B191ED45B7300B5C509 /* HDVoiceConverter.mm */; };
 		D3AA4B251ED45B7300B5C509 /* hdlibopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AA4B1D1ED45B7300B5C509 /* hdlibopencore-amrnb.a */; };
 		D3AA4B261ED45B7300B5C509 /* hdlibopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AA4B211ED45B7300B5C509 /* hdlibopencore-amrwb.a */; };
-		D3C69C2E1F5823A300986969 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C69C2D1F5823A300986969 /* HelpDesk.framework */; };
-		D3C69C2F1F5823A900986969 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C69C2D1F5823A300986969 /* HelpDesk.framework */; };
-		D3C69C301F5823A900986969 /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D3C69C2D1F5823A300986969 /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D3CB64421E4888F30022A6BA /* HDAudioPlayerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63261E4888F20022A6BA /* HDAudioPlayerUtil.m */; };
 		D3CB64431E4888F30022A6BA /* HDAudioRecorderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63281E4888F20022A6BA /* HDAudioRecorderUtil.m */; };
 		D3CB64441E4888F30022A6BA /* HDCDDeviceManager+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB632A1E4888F20022A6BA /* HDCDDeviceManager+Media.m */; };
@@ -436,7 +435,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D3C69C301F5823A900986969 /* HelpDesk.framework in Embed Frameworks */,
+				8FADCA2C1F6AA131004D9197 /* HelpDesk.framework in Embed Frameworks */,
 				D366219F1F4E7908008EE9C4 /* HyphenateLite.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -450,6 +449,7 @@
 		8F6ACB2A1F41449100A5622B /* HFormWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFormWebViewController.h; sourceTree = "<group>"; };
 		8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFormWebViewController.m; sourceTree = "<group>"; };
 		8F6ACB301F41D6FE00A5622B /* EasemobWebViewInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasemobWebViewInterface.h; sourceTree = "<group>"; };
+		8FADCA291F6AA123004D9197 /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
 		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		D20066121EF23274005B558D /* em_example_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_1.png; sourceTree = "<group>"; };
@@ -626,8 +626,6 @@
 		D366CAE91EF925FD00899143 /* SVRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRadialGradientLayer.h; sourceTree = "<group>"; };
 		D366CAEA1EF925FD00899143 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
 		D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HelpDeskUIResource.bundle; sourceTree = "<group>"; };
-		D373491D1F3482C700FAE588 /* HDArticleDataControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDArticleDataControl.h; sourceTree = "<group>"; };
-		D373491E1F3482C700FAE588 /* HDArticleDataControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDArticleDataControl.m; sourceTree = "<group>"; };
 		D378E6031F56698800E3AB74 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		D378E6051F5669A400E3AB74 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D37983E71F31E45700E9E4EB /* HDBubbleView+Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HDBubbleView+Article.h"; sourceTree = "<group>"; };
@@ -647,7 +645,6 @@
 		D3AA4B1F1ED45B7300B5C509 /* hddec_if.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hddec_if.h; sourceTree = "<group>"; };
 		D3AA4B201ED45B7300B5C509 /* hdif_rom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hdif_rom.h; sourceTree = "<group>"; };
 		D3AA4B211ED45B7300B5C509 /* hdlibopencore-amrwb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "hdlibopencore-amrwb.a"; sourceTree = "<group>"; };
-		D3C69C2D1F5823A300986969 /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
 		D3CB63211E4888F20022A6BA /* HDCDDeviceManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCDDeviceManagerDelegate.h; sourceTree = "<group>"; };
 		D3CB63221E4888F20022A6BA /* HDCDDeviceManagerProximitySensorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCDDeviceManagerProximitySensorDelegate.h; sourceTree = "<group>"; };
 		D3CB63241E4888F20022A6BA /* HDDemoErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDemoErrorCode.h; sourceTree = "<group>"; };
@@ -1088,9 +1085,9 @@
 				EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */,
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
-				D3C69C2E1F5823A300986969 /* HelpDesk.framework in Frameworks */,
+				8FADCA2A1F6AA123004D9197 /* HelpDesk.framework in Frameworks */,
 				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
-				D3C69C2F1F5823A900986969 /* HelpDesk.framework in Frameworks */,
+				8FADCA2B1F6AA131004D9197 /* HelpDesk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1163,7 +1160,7 @@
 		D30153741ECC0E55002A2EA8 /* HelpDeskDynamicSDK */ = {
 			isa = PBXGroup;
 			children = (
-				D3C69C2D1F5823A300986969 /* HelpDesk.framework */,
+				8FADCA291F6AA123004D9197 /* HelpDesk.framework */,
 			);
 			path = HelpDeskDynamicSDK;
 			sourceTree = "<group>";
@@ -1877,8 +1874,6 @@
 		D3CB63FB1E4888F30022A6BA /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				D373491D1F3482C700FAE588 /* HDArticleDataControl.h */,
-				D373491E1F3482C700FAE588 /* HDArticleDataControl.m */,
 				D3CB63FE1E4888F30022A6BA /* HDMessageViewController.h */,
 				D3CB63FF1E4888F30022A6BA /* HDMessageViewController.m */,
 				D3CB63FC1E4888F30022A6BA /* HDLocationViewController.h */,
@@ -2888,7 +2883,6 @@
 				D32FBEB61ED55E6C00BA68D7 /* SDWebImageDownloader.m in Sources */,
 				D3CB649C1E4888F30022A6BA /* HDMessageViewController.m in Sources */,
 				D298641D1EE3A89700AF4A4C /* LeaveMessageCell.m in Sources */,
-				D373491F1F3482C700FAE588 /* HDArticleDataControl.m in Sources */,
 				D3CB64801E4888F30022A6BA /* PSTCollectionViewData.m in Sources */,
 				D33946F21E54381B009370BF /* UIView+FLExtension.m in Sources */,
 				D3CB648C1E4888F30022A6BA /* HDUserModel.m in Sources */,

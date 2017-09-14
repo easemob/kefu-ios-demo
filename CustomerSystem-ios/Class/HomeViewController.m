@@ -308,12 +308,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     [self unregisterNotifications];
     
-    [[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
+    [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 }
 
 -(void)unregisterNotifications
 {
-    [[HChatClient sharedClient].chat removeDelegate:self];
+    [[HChatClient sharedClient].chatManager removeDelegate:self];
 }
 
 - (void)setupSubviews

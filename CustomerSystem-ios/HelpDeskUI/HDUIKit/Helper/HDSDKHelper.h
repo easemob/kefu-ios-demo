@@ -62,10 +62,6 @@
                                      to:(NSString *)to
                              messageExt:(NSDictionary *)messageExt;
 
-+ (HMessage *)videoMessageWithURL:(NSURL *)url
-                               to:(NSString *)to
-                       messageExt:(NSDictionary *)messageExt;
-
 
 #pragma mark - call
 

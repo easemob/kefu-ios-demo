@@ -416,7 +416,7 @@
         NSMutableIndexSet *indexs = [NSMutableIndexSet indexSetWithIndex:self.menuIndexPath.row];
         NSMutableArray *indexPaths = [NSMutableArray arrayWithObjects:self.menuIndexPath, nil];
         
-        [self.conversation deleteMessageWithId:model.message.messageId error:nil];
+        [self.conversation removeMessageWithMessageId:model.message.messageId error:nil];
         [self.messsagesSource removeObject:model.message];
         
         if (self.menuIndexPath.row - 1 >= 0) {
