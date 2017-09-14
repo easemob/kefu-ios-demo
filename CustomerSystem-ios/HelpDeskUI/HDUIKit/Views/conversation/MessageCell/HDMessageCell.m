@@ -11,7 +11,6 @@
  */
 
 #import "HDMessageCell.h"
-#import "HDArticleDataControl.h"
 #import "HDBubbleView+Text.h"
 #import "HDBubbleView+Image.h"
 #import "HDBubbleView+Track.h"

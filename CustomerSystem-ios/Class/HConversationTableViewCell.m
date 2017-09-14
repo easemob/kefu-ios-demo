@@ -7,7 +7,6 @@
 //
 
 #import "HConversationTableViewCell.h"
-#import "HDArticleDataControl.h"
 #define kHeadImageViewLeft 10.f
 #define kHeadImageViewTop 10.f
 #define kHeadImageViewWidth 40.f

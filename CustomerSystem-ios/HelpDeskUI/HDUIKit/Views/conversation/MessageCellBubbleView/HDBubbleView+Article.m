@@ -9,7 +9,6 @@
 #import "HDBubbleView+Article.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
-#import "HDArticleDataControl.h"
 
 
 @implementation HDSubItem
