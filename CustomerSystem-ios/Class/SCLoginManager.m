@@ -116,7 +116,6 @@ static SCLoginManager *_manager = nil;
         return NO;
     }
     return  [self login];
-    
 }
 
 - (BOOL)login {
@@ -129,7 +128,6 @@ static SCLoginManager *_manager = nil;
     }
     return NO;
 }
-
 
 //创建一个随机的用户名
 - (NSString *)getrandomUsername {

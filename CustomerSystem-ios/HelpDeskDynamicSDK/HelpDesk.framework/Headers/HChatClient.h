@@ -210,6 +210,30 @@
 - (HError *)loginWithUsername:(NSString *)aUsername
                       password:(NSString *)aPassword;
 
+/*!
+ *  \~chinese
+ *  登录
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aUsername  用户名
+ *  @param aToken  token
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Login
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aUsername  Username
+ *  @param aToken  token
+ *
+ *  @result Error
+ */
+- (HError *)loginWithUsername:(NSString *)aUsername
+                        token:(NSString *)aToken;
+
 #pragma makr - Logout
 
 /*!
