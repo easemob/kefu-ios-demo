@@ -312,3 +312,5 @@
 
 "select_at_least_one_tag" = "Select at least one tag!";
 
+"current_visitor_wait_count" = " The current queue number is ：%d";
+

@@ -314,6 +314,12 @@
     _chatToolbar = chatToolbar;
     if (_chatToolbar) {
         [self.view addSubview:_chatToolbar];
+        _visitorWaitCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -20, kScreenWidth, 20)];
+        _visitorWaitCountLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        _visitorWaitCountLabel.font = [UIFont systemFontOfSize:12];
+        _visitorWaitCountLabel.textColor = [UIColor whiteColor];
+        _visitorWaitCountLabel.hidden = YES;
+        [_chatToolbar addSubview:_visitorWaitCountLabel];
     }
     
     CGRect tableFrame = self.tableView.frame;
@@ -1480,6 +1486,20 @@
             break;
         }
     }
+}
+
+-(void)visitorWaitCount:(int)count{
+    if (count > 0) {
+        if (_visitorWaitCountLabel) {
+            _visitorWaitCountLabel.text = [NSString stringWithFormat:NSLocalizedString(@"current_visitor_wait_count", @" The current queue number is ：%d"), count];
+            _visitorWaitCountLabel.hidden = NO;
+        }
+    }else{
+        if (_visitorWaitCountLabel) {
+            _visitorWaitCountLabel.hidden = YES;
+        }
+    }
+
 }
 
 

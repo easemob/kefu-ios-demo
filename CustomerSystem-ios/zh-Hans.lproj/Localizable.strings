@@ -314,3 +314,5 @@
 
 "select_at_least_one_tag" = "至少选择一个标签!";
 
+"current_visitor_wait_count" = " 当前排队人数为：%d";
+

@@ -175,6 +175,9 @@ typedef void(^HDSelectAtTargetCallback)(HDAtTarget*);
 
 @property(nonatomic,strong) HQueueIdentityInfo *queueInfo; //指定技能组
 
+@property(nonatomic, strong)UILabel *visitorWaitCountLabel;
+
+
 - (instancetype)initWithConversationChatter:(NSString *)conversationChatter;
 
 - (void)tableViewDidTriggerHeaderRefresh;

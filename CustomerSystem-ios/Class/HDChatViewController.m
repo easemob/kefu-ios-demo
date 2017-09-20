@@ -39,7 +39,7 @@
     self.dataSource = self;
     self.visitorInfo = [self visitorInfo];
     NSLog(@"开启第二通道");
-    [[HChatClient sharedClient].chatManager bingChatWithConversationId:self.conversation.conversationId];
+    [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
     if ([_commodityInfo count] > 1) {

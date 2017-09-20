@@ -21,13 +21,13 @@
 
 #pragma mark - 第二通道
 
-- (void)startPollingCname:(NSString *)cname __attribute__((deprecated("已过期, 请使用bingChatWithConversationId")));
+- (void)startPollingCname:(NSString *)cname __attribute__((deprecated("已过期, 请使用bindChatWithConversationId")));
 
 /**
  开启第二通道,参数为会话ID
  @param conversationId 会话ID,一般为IM服务号
  */
-- (void)bingChatWithConversationId:(NSString *)conversationId;
+- (void)bindChatWithConversationId:(NSString *)conversationId;
 
 
 - (void)endPolling __attribute__((deprecated("已过期, 请使用unbind")));
