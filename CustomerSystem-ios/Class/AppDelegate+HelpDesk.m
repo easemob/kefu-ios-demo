@@ -51,6 +51,7 @@
     option.tenantId = lgM.tenantId;
     option.enableConsoleLog = YES; //是否打开日志信息
     option.apnsCertName = apnsCertName;
+//    option.kefuRestServer = @"http://sandbox.kefu.easemob.com";
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {

@@ -38,7 +38,7 @@
     self.delegate = self;
     self.dataSource = self;
     self.visitorInfo = [self visitorInfo];
-    NSLog(@"开启第二通道");
+    
     [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
@@ -54,17 +54,10 @@
     [self stopAudioPlayingWithChangeCategory:YES];
     
     HMessage *message = [HDSDKHelper videoInvitedMessageFormatWithText
-                         :NSLocalizedString(@"em_chat_invite_video_call", @"nvite customer service making a video call")
+                         :NSLocalizedString(@"em_chat_invite_video_call", @"invite customer service making a video call")
                          toUser:self.conversation.conversationId];
     [message addContent:[self visitorInfo]];
     [self _sendMessage:message];
-    
-    
-//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:NSLocalizedString(@"em_chat_invite_video_call", @"nvite customer service making a video call")];
-//    HMessage *callMessage = [[HMessage alloc] initWithConversationID:[HChatClient sharedClient].chat.currentConversationId from:[HChatClient sharedClient].currentUsername to:[HChatClient sharedClient].chat.currentConversationId body:body];
-//    [callMessage addAttributeDictionary:[self callExt]];
-//    [callMessage addContent:[self visitorInfo]];
-//    [self _sendMessage:callMessage];
 }
 
 // 留言
@@ -83,7 +76,9 @@
     visitor.qq = @"12345678";
     visitor.phone = @"13636362637";
     visitor.companyName = @"环信";
-    visitor.nickName = [SCLoginManager shareLoginManager].nickname;
+    if ([SCLoginManager shareLoginManager].nickname && [SCLoginManager shareLoginManager].nickname.length > 0) {
+        visitor.nickName = [SCLoginManager shareLoginManager].nickname;
+    }
     visitor.email = @"abv@126.com";
     visitor.desc = @"环信移动客服";
     return visitor;

@@ -36,7 +36,6 @@ static HDCallManager *_manager = nil;
         HCallOptions *options = [[HCallOptions alloc] init];
         options.videoOff = NO;
         options.mute = NO;
-        options.nickName = [SCLoginManager shareLoginManager].nickname;
         options.previewView = self.localView;
         [[HChatClient sharedClient].callManager setCallOptions:options];
         [[HChatClient sharedClient].callManager addDelegate:self delegateQueue:nil];
@@ -53,8 +52,12 @@ static HDCallManager *_manager = nil;
 }
 
 - (void)exitSession {
-    [_currentCallVC dismissViewControllerAnimated:YES completion:nil];
-    _currentCallVC = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(_currentCallVC){
+            [_currentCallVC dismissViewControllerAnimated:YES completion:nil];
+            _currentCallVC = nil;
+        }
+    });
     _acceptTicket = NO;
     [_memberObjDic removeAllObjects];
 }
@@ -62,7 +65,15 @@ static HDCallManager *_manager = nil;
 - (void)acceptCallCompletion:(void (^)(id, HError *))completion {
     [[HChatClient sharedClient].callManager acceptCallCompletion:^(id obj, HError *error) {
         if (error == nil) {
-            NSLog(@"接受成功");
+            NSLog(@"Accepted.");
+        }
+    }];
+}
+
+- (void)acceptCallWithNickname:(NSString *)nickname completion:(void (^)(id, HError *))completion {
+    [[HChatClient sharedClient].callManager acceptCallWithNickname:nickname completion:^(id obj, HError *error) {
+        if (error == nil) {
+            NSLog(@"Accepted.");
         }
     }];
 }
@@ -79,7 +90,7 @@ static HDCallManager *_manager = nil;
 }
 
 - (void)onMemberJoin:(HCallMember *)member {
-    NSLog(@"成员进来:%@",member.memberName);
+    NSLog(@"onMemberJoin:%@",member.memberName);
     HDMemberObject *item = [self getMemberObjWithMemberName:member.memberName];
     item.agentName = [member.extension objectForKey:@"nickname"];
     [_memberObjDic setObject:item forKey:member.memberName];
@@ -95,7 +106,7 @@ static HDCallManager *_manager = nil;
 - (void)onStreamAdd:(HCallStream *)stream {
     HDMemberObject *item = [self getMemberObjWithMemberName:stream.memberName];
     if (item == nil) {
-        NSLog(@"成员多于3个将被抛弃");
+        NSLog(@"Cannot more than three videos");
         return;
     }
     if (stream.streamType == HCallStreamTypeNormal) {
@@ -138,13 +149,12 @@ static HDCallManager *_manager = nil;
 - (void)onCallEndReason:(int)reason desc:(NSString *)desc {
     NSString *tip = @"";
     switch (reason) {
-        case 0:
-        {
-            tip = @"对方挂断了视频通话";
+        case 0: {
+            tip = NSLocalizedString(@"video_other_side_has_hungup", @"The other side hung up the video call");
             break;
         }
         default:
-            tip = @"视频通话已经结束";
+            tip = NSLocalizedString(@"video_is_over", @"Video is over");
             break;
     }
     [_currentCallVC passiveCloseSessionTip:tip];
@@ -190,7 +200,7 @@ static HDCallManager *_manager = nil;
         
         [[HChatClient sharedClient].callManager subscribeStreamId:streamId view:topView completion:^(id obj, HError *error) {
             if (error == nil) {
-                NSLog(@"订阅成功");
+                NSLog(@"Subscribe Success!->%@", streamId);
                 topView.hidden = NO;
                 if (member.deskTopStream != nil) {
                     member.remoteVideoItem.normalView.hidden = YES;
@@ -198,7 +208,7 @@ static HDCallManager *_manager = nil;
                 [member.remoteVideoItem.backView bringSubviewToFront:member.remoteVideoItem.backView.nameLabel];
                 [_currentCallVC addStreamWithHDMemberObj:member];
             } else {
-                NSLog(@"订阅失败 error:%@",error.errorDescription);
+                NSLog(@"Subscribe Failed. error:%@",error.errorDescription);
             }
         }];
     });

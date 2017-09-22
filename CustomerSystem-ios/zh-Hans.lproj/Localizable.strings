@@ -316,3 +316,6 @@
 
 "current_visitor_wait_count" = " 当前排队人数为：%d";
 
+"video_other_side_has_hungup" = "对方挂断了视频通话";
+
+"video_is_over" = "视频通话已经结束";

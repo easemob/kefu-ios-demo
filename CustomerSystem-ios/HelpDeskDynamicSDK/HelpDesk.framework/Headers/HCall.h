@@ -93,6 +93,15 @@
  */
 - (void)acceptCallCompletion:(void(^)(id obj,HError *error))completion;
 
+
+/**
+ 接受视频会话
+
+ @param nickname 传递自己的昵称到对方
+ @param completion 完成回调
+ */
+- (void)acceptCallWithNickname:(NSString *)nickname completion:(void (^)(id, HError *))completion;
+
 /**
  结束视频会话
  */

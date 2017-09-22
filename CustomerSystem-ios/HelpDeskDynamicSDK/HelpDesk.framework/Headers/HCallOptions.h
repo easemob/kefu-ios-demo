@@ -14,8 +14,6 @@
  */
 @interface HCallOptions : NSObject
 
-@property (nonatomic, copy) NSString * name __attribute__((deprecated("已过期")));
-
 /**
  是否关闭摄像头
  */
@@ -27,18 +25,8 @@
 @property (nonatomic, assign) BOOL mute;
 
 /**
- 己方昵称
- */
-@property (nonatomic, copy) NSString * nickName;
-
-/**
  预览视频
  */
 @property (nonatomic, strong) HCallLocalView * previewView;
-
-/**
- 是否使用后置摄像头
- */
-@property (nonatomic, assign) BOOL useBackCamera __attribute__((deprecated("已过期")));
 
 @end

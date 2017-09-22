@@ -71,11 +71,14 @@
 - (void)messageAttachmentStatusDidChange:(HMessage *)aMessage
                                    error:(HError *)aError;
 
-
 /**
  待接入排队人数
- 
+
  @param count 排队第几位
  */
 - (void)visitorWaitCount:(int)count;
+
+
+
+
 @end

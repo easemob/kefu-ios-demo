@@ -314,3 +314,6 @@
 
 "current_visitor_wait_count" = " The current queue number is ：%d";
 
+"video_other_side_has_hungup" = "The other side hung up the video call";
+
+"video_is_over" = "Video is over";

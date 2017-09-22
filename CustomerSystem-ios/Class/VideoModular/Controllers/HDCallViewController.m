@@ -196,9 +196,9 @@
         _menuBackView.hidden = NO;
         [self setLocalView];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[HDCallManager sharedInstance] acceptCallCompletion:^(id obj, HError *error) {
+            [[HDCallManager sharedInstance] acceptCallWithNickname:[SCLoginManager shareLoginManager].nickname completion:^(id obj, HError * error) {
                 if (error == nil) {
-                    NSLog(@"接受会话成功");
+                    NSLog(@"acceptCall Success!");
                 }
             }];
         });

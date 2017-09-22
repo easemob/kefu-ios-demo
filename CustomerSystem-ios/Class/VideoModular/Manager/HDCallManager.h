@@ -25,7 +25,7 @@
 //接受视频邀请
 - (void)acceptCallCompletion:(void (^)(id obj, HError *error))completion;
 
-
+- (void)acceptCallWithNickname:(NSString *)nickname completion:(void (^)(id, HError *))completion;
 
 //离开一个会话
 - (void)endCall;
