@@ -56,6 +56,8 @@
  */
 @property(nonatomic, copy) NSString *imSdkVersion;
 
+@property(nonatomic, assign) BOOL enableVisitorWaitCount;
+
 /*!
  *  \~chinese
  *  推送设置

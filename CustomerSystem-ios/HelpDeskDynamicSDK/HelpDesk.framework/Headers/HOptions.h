@@ -115,4 +115,9 @@
  */
 @property (nonatomic, copy) NSString *restServer;
 
+/**
+ 是否需要待接入排队功能
+ */
+@property (nonatomic, assign) BOOL visitorWaitCount;
+
 @end

@@ -8,10 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		8F1281F41F3C535A00E872CA /* HDBubbleView+Form.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */; };
+		8F261B8C1F7A5292002F9483 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F261B8B1F7A527A002F9483 /* HelpDesk.framework */; };
+		8F261B8E1F7A53B6002F9483 /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F261B8B1F7A527A002F9483 /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F6ACB2C1F41449100A5622B /* HFormWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */; };
-		8FADCA2A1F6AA123004D9197 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FADCA291F6AA123004D9197 /* HelpDesk.framework */; };
-		8FADCA2B1F6AA131004D9197 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FADCA291F6AA123004D9197 /* HelpDesk.framework */; };
-		8FADCA2C1F6AA131004D9197 /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FADCA291F6AA123004D9197 /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */; };
 		C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A61CC7495E00211B1B /* libc++.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
@@ -435,7 +434,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8FADCA2C1F6AA131004D9197 /* HelpDesk.framework in Embed Frameworks */,
+				8F261B8E1F7A53B6002F9483 /* HelpDesk.framework in Embed Frameworks */,
 				D366219F1F4E7908008EE9C4 /* HyphenateLite.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -446,10 +445,10 @@
 /* Begin PBXFileReference section */
 		8F1281F21F3C535A00E872CA /* HDBubbleView+Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HDBubbleView+Form.h"; sourceTree = "<group>"; };
 		8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HDBubbleView+Form.m"; sourceTree = "<group>"; };
+		8F261B8B1F7A527A002F9483 /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
 		8F6ACB2A1F41449100A5622B /* HFormWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFormWebViewController.h; sourceTree = "<group>"; };
 		8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFormWebViewController.m; sourceTree = "<group>"; };
 		8F6ACB301F41D6FE00A5622B /* EasemobWebViewInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasemobWebViewInterface.h; sourceTree = "<group>"; };
-		8FADCA291F6AA123004D9197 /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
 		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		D20066121EF23274005B558D /* em_example_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_1.png; sourceTree = "<group>"; };
@@ -1063,6 +1062,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F261B8C1F7A5292002F9483 /* HelpDesk.framework in Frameworks */,
 				D378E6061F5669A400E3AB74 /* Security.framework in Frameworks */,
 				D3E4B4471E7AA41B004FEA49 /* libiconv.tbd in Frameworks */,
 				D366219D1F4E78C3008EE9C4 /* HyphenateLite.framework in Frameworks */,
@@ -1085,9 +1085,7 @@
 				EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */,
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
-				8FADCA2A1F6AA123004D9197 /* HelpDesk.framework in Frameworks */,
 				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
-				8FADCA2B1F6AA131004D9197 /* HelpDesk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1160,7 +1158,7 @@
 		D30153741ECC0E55002A2EA8 /* HelpDeskDynamicSDK */ = {
 			isa = PBXGroup;
 			children = (
-				8FADCA291F6AA123004D9197 /* HelpDesk.framework */,
+				8F261B8B1F7A527A002F9483 /* HelpDesk.framework */,
 			);
 			path = HelpDeskDynamicSDK;
 			sourceTree = "<group>";
