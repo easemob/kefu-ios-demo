@@ -27,7 +27,6 @@
 #import "UIImageView+WebCache.h"
 #import "HDEmotionEscape.h"
 #import "HDLocalDefine.h"
-//#import "HjudgeTextMessageSubType.h"
 
 #define kImageWidth 40
 #define kImageHeight 70
@@ -833,12 +832,11 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         }
         switch (_model.bodyType) {
             case EMMessageBodyTypeText: {
-                if([HjudgeTextMessageSubType isFormMessage:_model.message]){
+                if ([HMessageHelper getMessageExtType:_model.message] == HExtFormMsg) {
                     if ([_delegate respondsToSelector:@selector(messageCellSelected:)]) {
                         [_delegate messageCellSelected:_model];
                     }
                 }
-                
             }
                 break;
             case EMMessageBodyTypeImage:
@@ -1098,8 +1096,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 case HExtToCustomServiceMsg:
                 {
                     NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
-                    CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
-                    height += (rect.size.height > 20 ? rect.size.height : 20) + 20;
+                    CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth - 25, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
+                    height += (rect.size.height > 20 ? rect.size.height : 20) + 21;
                     height += 50;
                     return height;
                 }

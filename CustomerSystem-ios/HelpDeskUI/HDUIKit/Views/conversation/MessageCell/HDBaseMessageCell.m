@@ -11,7 +11,6 @@
  */
 
 #import "HDBaseMessageCell.h"
-//#import "HjudgeTextMessageSubType.h"
 #import "UIImageView+WebCache.h"
 #import "HDBubbleView+Transform.h"
 #import "HDBubbleView+Evaluate.h"
