@@ -206,7 +206,6 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         break;
                     case HExtFormMsg:
                         [_bubbleView setupFormBubbleView];
-                        _bubbleView.formTitleLabel.font = _messageFileNameFont;
                         _bubbleView.formTitleLabel.textColor = _messageFileNameColor;
                         _bubbleView.formDescLabel.font = _messageFileSizeFont;
                         break;
@@ -478,10 +477,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     {
                         NSDictionary *msgTypeDic = [model.message.ext objectForKey:@"msgtype"];
                         _bubbleView.formIconView.image = [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_item_form"];
-                        _bubbleView.formTitleLabel.text = @"点击填写表单";
-                        
                         @try {
                             _bubbleView.formDescLabel.text = [[msgTypeDic objectForKey:@"html"] objectForKey:@"desc"];
+                            _bubbleView.formTitleLabel.text = [[msgTypeDic objectForKey:@"html"] objectForKey:@"topic"];
                         } @catch (NSException *ignored) {}
                     }
                         break;
@@ -580,12 +578,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             
             NSRange matchRange = [match range];
             
-         //   if ([self isIndex:index inRange:matchRange]) {
-          //      [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:matchRange];
-          //  }
-           // else {
             [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:(242)/255.0 green:(83)/255.0 blue:(131)/255.0 alpha:(1)] range:matchRange];
-            //}
             
             [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:matchRange];
         }
@@ -855,13 +848,6 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 break;
             case EMMessageBodyTypeVoice:
             {
-//                _model.isMediaPlaying = !_model.isMediaPlaying;
-//                if (_model.isMediaPlaying) {
-//                    [_bubbleView.voiceImageView startAnimating];
-//                }
-//                else{
-//                    [_bubbleView.voiceImageView stopAnimating];
-//                }
                 if ([_delegate respondsToSelector:@selector(messageCellSelected:)]) {
                     [_delegate messageCellSelected:_model];
                 }
@@ -921,28 +907,6 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     }
     
 }
-
-#pragma mark - HDIModelCell
-/*
-- (BOOL)isCustomBubbleView:(id<IMessageModel>)model
-{
-    return NO;
-}
-
-- (void)setCustomModel:(id<IMessageModel>)model
-{
-
-}
-
-- (void)setCustomBubbleView:(id<IMessageModel>)model
-{
-
-}
-
-- (void)updateCustomBubbleViewMargin:(UIEdgeInsets)bubbleMargin model:(id<IMessageModel>)model
-{
-
-}*/
 
 #pragma mark - public
 
@@ -1090,8 +1054,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 case HExtOrderMsg:
                     return 2*HDMessageCellPadding + kImageHeight + 2*kTitleHeight + 20;
                 case HExtFormMsg:
-                    height += (kImageHeight + kTitleHeight);
-                    return height;
+                    return kImageHeight;
                 case HExtToCustomServiceMsg:
                 {
                     NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];

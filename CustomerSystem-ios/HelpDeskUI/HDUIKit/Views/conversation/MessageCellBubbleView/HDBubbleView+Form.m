@@ -2,7 +2,7 @@
 //  HDBubbleView+Form.m
 //  CustomerSystem-ios
 //
-//  Created by 李玉召 on 10/08/2017.
+//  Created by lyz on 10/08/2017.
 //  Copyright © 2017 easemob. All rights reserved.
 //
 
@@ -16,28 +16,38 @@
 {
     [self.marginConstraints removeAllObjects];
     
+    
+    NSLayoutConstraint *formIconWithMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.formIconView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+    NSLayoutConstraint *formIconWithMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.formIconView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
+    NSLayoutConstraint *formIconWithMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.formIconView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+    
+    
     //title label
     NSLayoutConstraint *formTitleWithMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.formTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
     NSLayoutConstraint *formTitleWithMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.formTitleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *formTitleWithMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.formTitleLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    [self.marginConstraints addObject:formTitleWithMarginTopConstraint];
-    [self.marginConstraints addObject:formTitleWithMarginLeftConstraint];
-    [self.marginConstraints addObject:formTitleWithMarginRightConstraint];
-    
-    
-    //icon view
-    
-    NSLayoutConstraint *formIconWithMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.formIconView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    NSLayoutConstraint *formIconWithMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.formIconView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    
-    [self.marginConstraints addObject:formIconWithMarginBottomConstraint];
-    [self.marginConstraints addObject:formIconWithMarginLeftConstraint];
-    
+    NSLayoutConstraint *fromTitleWithMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.formTitleLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.formIconView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-10];
     
     
     //desc label
     NSLayoutConstraint *formDescWithMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.formDescLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
+    
+    NSLayoutConstraint *formDescWithMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.formDescLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
+    NSLayoutConstraint *fromDescWithMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.formDescLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.formIconView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-10];
+    
+    [self.marginConstraints addObject:formIconWithMarginTopConstraint];
+    [self.marginConstraints addObject:formIconWithMarginBottomConstraint];
+    [self.marginConstraints addObject:formIconWithMarginRightConstraint];
+    
+    [self.marginConstraints addObject:formTitleWithMarginTopConstraint];
+    [self.marginConstraints addObject:formTitleWithMarginLeftConstraint];
+    [self.marginConstraints addObject:fromTitleWithMarginRightConstraint];
+    
+    [self.marginConstraints addObject:formDescWithMarginLeftConstraint];
     [self.marginConstraints addObject:formDescWithMarginBottomConstraint];
+    [self.marginConstraints addObject:fromDescWithMarginRightConstraint];
+    
+   
+    
     
     [self addConstraints:self.marginConstraints];
     
@@ -46,16 +56,11 @@
 - (void)_setupFormBubbleConstraints
 {
     [self _setupFormBubbleMarginConstraints];
-    
-    
+ 
     //icon view
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.formIconView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.formIconView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.formIconView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.formTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    
+ 
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.formDescLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.formTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.formDescLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.formIconView attribute:NSLayoutAttributeRight multiplier:1.0 constant:HDMessageCellPadding]];
     
 }
 
@@ -66,14 +71,15 @@
 {
     self.formIconView = [[UIImageView alloc]init];
     self.formIconView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.formIconView.backgroundColor = [UIColor clearColor];
     self.formIconView.contentMode = UIViewContentModeScaleAspectFit;
     [self.backgroundImageView addSubview:self.formIconView];
     
     self.formTitleLabel = [[UILabel alloc]init];
     self.formTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.formTitleLabel.backgroundColor = [UIColor clearColor];
-    self.formTitleLabel.font = [UIFont systemFontOfSize:12];
+    self.formTitleLabel.font = [UIFont systemFontOfSize:13];
+    self.formTitleLabel.textColor = [UIColor blackColor];
+    self.formTitleLabel.numberOfLines = 1;
     [self.backgroundImageView addSubview:self.formTitleLabel];
     
     [self.backgroundImageView setTag:1991];
@@ -81,6 +87,9 @@
     self.formDescLabel = [[UILabel alloc] init];
     self.formDescLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.formDescLabel.backgroundColor = [UIColor clearColor];
+    self.formTitleLabel.numberOfLines = 1;
+    self.formDescLabel.textColor = [UIColor grayColor];
+    
     [self.backgroundImageView addSubview:self.formDescLabel];
     [self _setupFormBubbleConstraints];
 }
