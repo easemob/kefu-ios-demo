@@ -1067,19 +1067,18 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         }
                         menu = arr.copy;
                     }
-                    
+                    int leftPadding = 15, rightPadding = 10;
+                    int topMargin = 8;
+                    int bottomMargin = 8;
+                    int allPadding = leftPadding + rightPadding;
+                    int rowPaddingTopAndBottom = 5;
                     // 修改订单，轨迹类消息宽度
-                    height += [menuTitle boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
+                    height += [menuTitle boundingRectWithSize:CGSizeMake(tableWidth - allPadding , MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
                     for (NSString *string in menu) {
-                        height += [string boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
+                        height += [string boundingRectWithSize:CGSizeMake(tableWidth - allPadding, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height + rowPaddingTopAndBottom;
                     }
-                    if ([[menu lastObject] isEqualToString:@"转人工客服"] || ([[menu lastObject] isEqualToString:@"返回上一级"] && ![[menu objectAtIndex:([menu count] - 2)] isEqualToString:@"转人工客服"])) {
-                        return [self robotMenuHeightMenu:menu height:height lessNine:10 equalNine:30 greaterTen:60 greaterFifteen:80 greaterTwenty:90];
-                    } else if([[menu lastObject] isEqualToString:@"返回上一级"] && [[menu objectAtIndex:([menu count] - 2)] isEqualToString:@"转人工客服"]) {
-                        return [self robotMenuHeightMenu:menu height:height lessNine:10 equalNine:30 greaterTen:60 greaterFifteen:80 greaterTwenty:100];
-                    } else {
-                        return [self robotMenuHeightMenu:menu height:height lessNine:0 equalNine:30 greaterTen:60 greaterFifteen:80 greaterTwenty:90];
-                    }
+                    height += (topMargin + bottomMargin);
+                    return height;
                 }
                 case HExtArticleMsg:{
                     NSArray *articles = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"articles"];
@@ -1209,43 +1208,21 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 + (NSString*)_getMessageContent:(HMessage*)message
 {
     NSString *content = @"";
-    if ([message.ext objectForKey:@"msgtype"]) {
-        NSDictionary *dic = [message.ext objectForKey:@"msgtype"];
-        if ([dic objectForKey:@"choice"] ) {
-            NSDictionary *choice = [dic objectForKey:@"choice"];
-            NSArray *menu = [choice objectForKey:@"list"];
-            content = [choice objectForKey:@"title"];
-            if (menu) {
-                for (NSString *string in menu) {
-                    content = [content stringByAppendingString:[NSString stringWithFormat:@"\n%@",string]];
-                }
-            }
-            
-            NSArray *items = [choice objectForKey:@"items"];
-            if (items) {
-                for (NSDictionary *item  in items) {
-                    content = [content stringByAppendingString:[NSString stringWithFormat:@"\n%@",[item valueForKey:@"name"]]];
-                }
-            }
+    NSDictionary *choice = [[message.ext objectForKey:@"msgtype"] objectForKey:@"choice"];
+    NSArray *items = [choice objectForKey:@"items"];
+    NSArray *menu = [choice objectForKey:@"list"];
+    content = [choice objectForKey:@"title"];
+    if (menu) {
+        for (NSString *string in menu) {
+            content = [content stringByAppendingString:[NSString stringWithFormat:@"\n%@",string]];
+        }
+    }
+    if (items) {
+        for (NSDictionary *item  in items) {
+            content = [content stringByAppendingString:[NSString stringWithFormat:@"\n%@",[item valueForKey:@"name"]]];
         }
     }
     return content;
 }
-
-+ (CGFloat)robotMenuHeightMenu:(NSArray *)menu height:(CGFloat)height lessNine:(CGFloat)lessNine equalNine:(CGFloat)equalNine greaterTen:(CGFloat)greaterTen greaterFifteen:(CGFloat)greaterFifteen greaterTwenty:(CGFloat)greaterTwenty
-{
-    if([menu count] >= 5 && [menu count] <= 9){
-        return 2*HDMessageCellPadding + height + equalNine;
-    } else if ([menu count] >= 10 && [menu count] <= 15){
-        return 2*HDMessageCellPadding + height + greaterTen;
-    } else if([menu count] > 15 && [menu count] < 20){
-        return 2*HDMessageCellPadding + height + greaterFifteen;
-    }else if([menu count] >= 20){
-        return 2*HDMessageCellPadding + height + greaterTwenty;
-    } else {
-        return 2*HDMessageCellPadding + height + lessNine;
-    }
-}
-
 
 @end

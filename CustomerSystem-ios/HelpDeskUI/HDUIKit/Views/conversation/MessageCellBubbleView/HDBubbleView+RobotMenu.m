@@ -94,7 +94,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSLog(@"success  success success ");
     NSString *text= nil;
     if ([self isItems]) {
         text = ((HDMenuItem *)self.options[indexPath.row]).name;
