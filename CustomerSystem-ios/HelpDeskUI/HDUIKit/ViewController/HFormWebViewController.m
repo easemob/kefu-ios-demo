@@ -2,7 +2,7 @@
 //  HFormWebViewController.m
 //  CustomerSystem-ios
 //
-//  Created by 李玉召 on 14/08/2017.
+//  Created by liyuzhao on 14/08/2017.
 //  Copyright © 2017 easemob. All rights reserved.
 //
 
@@ -38,8 +38,6 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:trueUrl];
     _web.delegate = self;
     [self.view addSubview:_web];
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    
     [_web loadRequest:request];
     
 }
@@ -59,10 +57,8 @@
             NSLog(@"exception:%@", exception);
         };
         
-        
-        self.jsContext[@"easemob"]=self;
-        
     }
+     self.jsContext[@"easemob"]=self;
 
 }
 
@@ -100,5 +96,10 @@
     // Pass the selected object to the new view controller.
 }
 */
-
+- (void)dealloc
+{
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    _web.delegate = nil;
+    _web = nil;
+}
 @end
