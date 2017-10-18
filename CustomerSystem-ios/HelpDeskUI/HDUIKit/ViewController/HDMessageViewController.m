@@ -648,6 +648,14 @@
             }];
         }else{
             //get the message thumbnail
+            [[HChatClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
+                if (!error) {
+                    [weakSelf _reloadTableViewDataWithMessage:model.message];
+                }else{
+                    [weakSelf showHint:NSEaseLocalizedString(@"message.thumImageFail", @"thumbnail for failure!")];
+                }
+            }];
+            
             [[HChatClient sharedClient].chatManager downloadThumbnail:model.message progress:nil completion:^(HMessage *message, HError *error) {
                 if (!error) {
                     [weakSelf _reloadTableViewDataWithMessage:model.message];
@@ -1717,7 +1725,7 @@
                 [self.dataArray removeAllObjects];
                 [self.dataArray addObjectsFromArray:formattedMessages];
                 [self.tableView reloadData];
-                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.dataArray count] - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+//                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.dataArray count] - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
                 return;
             }
         }

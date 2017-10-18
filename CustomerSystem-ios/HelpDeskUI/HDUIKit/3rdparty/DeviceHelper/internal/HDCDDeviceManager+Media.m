@@ -55,7 +55,8 @@ typedef NS_ENUM(NSInteger, HDAudioSession){
     }
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *wavFilePath = [[aFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"wav"];
-     //判断文件格式是否为AMR, 如果不是不需要转换
+     //判断文件格式是否为AMR, 如果是需要转换为wav
+    //[备注:收到的]
     if ([HDVoiceConverter isAMRFile:aFilePath]) {
         if (![fileManager fileExistsAtPath:wavFilePath]) {
             BOOL covertRet = [self convertAMR:aFilePath toWAV:wavFilePath];
