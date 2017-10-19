@@ -36,7 +36,7 @@
 "receiveCmd" = "receive cmd message";
 "receiveMessage" = "you have a new message";
 "loginAtOtherDevice" = "your login account has been in other places";
-"loginUserRemoveFromServer" = "your account has been removed from the server side";
+"loginUserRemoveFromServer" = "your account has been removed from the server";
 "appkeyError" = "appkey error";
 
 //general

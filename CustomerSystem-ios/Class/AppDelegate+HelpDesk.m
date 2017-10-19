@@ -252,7 +252,10 @@
 }
 
 - (void)userAccountDidRemoveFromServer {
-    
+    [[HChatClient sharedClient] logout:YES];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"loginUserRemoveFromServer", @"your login account has been remove from server") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+    alertView.tag = 100;
+    [alertView show];
 }
 
 - (void)userAccountDidLoginFromOtherDevice {

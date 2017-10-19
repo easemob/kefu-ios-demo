@@ -12,4 +12,6 @@
 - (void)easemobApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 - (void)resetCustomerServiceSDK;
+- (void)userAccountDidRemoveFromServer ;
+- (void)userAccountDidLoginFromOtherDevice;
 @end

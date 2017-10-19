@@ -15,7 +15,6 @@
 #import "SCLoginManager.h"
 #import "MessageViewController.h"
 #import "HDMessageViewController.h"
-#import "HDChatViewController.h"
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
 #define kafterSale @"shouhou"

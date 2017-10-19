@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HDChatViewController.h"
 
 //#import "EaseMob.h"
 
@@ -14,13 +15,13 @@ static NSString *g_appkey = nil;
 static NSString *g_cname = nil;
 
 @interface HomeViewController : UITabBarController
-{
-   // EMConnectionState _connectionState;
-}
+
+@property(nonatomic,strong)HDChatViewController *curChat; //当前聊天界面
 
 - (void)jumpToChatList;
 
 - (void)setupUntreatedApplyCount;
+
 
 //- (void)networkChanged:(EMConnectionState)connectionState;
 

@@ -11,6 +11,7 @@
  */
 
 #import "HDChatViewController.h"
+#import "AppDelegate+HelpDesk.h"
 //#import "HVisitorTrack.h"
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
@@ -326,14 +327,12 @@
 }
 
 #pragma mark - HelpDesk
-
-#pragma mark - HClientDelegate
-
 - (void)userAccountDidLoginFromOtherDevice
 {
     if ([self.imagePicker.mediaTypes count] > 0 && [[self.imagePicker.mediaTypes objectAtIndex:0] isEqualToString:(NSString *)kUTTypeMovie]) {
         [self.imagePicker stopVideoCapture];
     }
+    
 }
 
 - (void)userAccountDidRemoveFromServer

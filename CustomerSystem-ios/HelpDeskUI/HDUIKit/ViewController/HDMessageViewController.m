@@ -927,6 +927,12 @@
     }
 }
 
+- (void)messageStatusDidChange:(HMessage *)aMessage error:(HError *)aError {
+    NSLog(@"messageStatusDidChange,id:%@",aMessage);
+    NSLog(@"dataArray :%@",self.dataArray);
+    [self _refreshAfterSentMessage:aMessage];
+}
+
 
 // 删除轨迹消息代理方法
 - (void)transmitDelegateTrackMessage:(id<HDIMessageModel>)model sendButton:(UIButton *)sendButton
@@ -1152,8 +1158,6 @@
             [weakself.tableView reloadData];
         }
     }];
-    
-    [self.tableView reloadData];
 }
 
 - (void)avatarViewSelcted:(id<HDIMessageModel>)model
@@ -1730,7 +1734,6 @@
             }
         }
     }
-    [self.tableView reloadData];
 }
 
 - (void)_sendMessage:(HMessage *)message
