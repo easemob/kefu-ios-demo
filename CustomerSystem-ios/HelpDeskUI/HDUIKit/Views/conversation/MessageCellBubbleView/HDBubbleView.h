@@ -10,9 +10,10 @@
  * from Hyphenate Inc.
  */
 
-
 #import <UIKit/UIKit.h>
 #import "HDArticleView.h"
+#define kBigExpressionHW 100
+
 extern CGFloat const HDMessageCellPadding;
 
 extern NSString *const HRouterEventTapMenu; //选择菜单

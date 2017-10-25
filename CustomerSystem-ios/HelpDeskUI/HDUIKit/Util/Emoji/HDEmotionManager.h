@@ -27,6 +27,8 @@ typedef NS_ENUM(NSUInteger, HDEmotionType) {
 
 @property (nonatomic, strong) NSArray *emotions;
 
+@property (nonatomic, strong) NSString *emotionName;
+
 /*!
  @property
  @brief number of lines of emotion

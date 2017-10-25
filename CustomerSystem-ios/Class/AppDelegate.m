@@ -76,7 +76,6 @@
         [navigationController.navigationBar.layer setMasksToBounds:YES];
     }
     
-    
 }
 
 

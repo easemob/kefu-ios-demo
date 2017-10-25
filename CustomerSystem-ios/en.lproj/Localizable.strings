@@ -13,6 +13,7 @@
 "delete" = "Delete";
 "copy" = "Copy";
 "save" = "Save";
+"default" = "Default";
 
 "add" = "Add";
 "send" = "Send";
@@ -37,6 +38,8 @@
 "receiveMessage" = "you have a new message";
 "loginAtOtherDevice" = "your login account has been in other places";
 "loginUserRemoveFromServer" = "your account has been removed from the server";
+"userAccountDidForcedToLogout" = "your account has been forced to logout";
+"userDidForbidByServer" = "forbid by server";
 "appkeyError" = "appkey error";
 
 //general

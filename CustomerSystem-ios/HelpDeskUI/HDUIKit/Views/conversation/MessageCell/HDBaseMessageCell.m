@@ -85,12 +85,22 @@
 {
     [super layoutSubviews];
     _bubbleView.backgroundImageView.image = self.model.isSender ? self.sendBubbleBackgroundImage : self.recvBubbleBackgroundImage;
-    if ([HMessageHelper getMessageExtType:self.model.message] == HExtArticleMsg) {
-        _bubbleView.backgroundImageView.image = nil;
-        _bubbleView.backgroundImageView.layer.borderWidth = 0.5;
-        _bubbleView.backgroundImageView.layer.masksToBounds = YES;
-        _bubbleView.backgroundImageView.layer.cornerRadius = 5;
-        _bubbleView.backgroundImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    switch ([HMessageHelper getMessageExtType:self.model.message]) {
+        case HExtArticleMsg: {
+            _bubbleView.backgroundImageView.image = nil;
+            _bubbleView.backgroundImageView.layer.borderWidth = 0.5;
+            _bubbleView.backgroundImageView.layer.masksToBounds = YES;
+            _bubbleView.backgroundImageView.layer.cornerRadius = 5;
+            _bubbleView.backgroundImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+            break;
+        }
+        case HExtBigExpressionMsg: {
+            _bubbleView.backgroundImageView.image = nil;
+            break;
+        }
+            
+        default:
+            break;
     }
     switch (self.model.bodyType) {
         case EMMessageBodyTypeText: {

@@ -195,9 +195,6 @@
            completion:(void (^)(HMessage *message,
                                 HError *error))aCompletion;
 
-
-
-
 /*!
  *  \~chinese
  *  更新消息到DB
@@ -263,8 +260,6 @@
 - (void)downloadMessageAttachment:(HMessage *)aMessage
                          progress:(void (^)(int progress))aProgressBlock
                        completion:(void (^)(HMessage *message, HError *error))aCompletionBlock __attribute__((deprecated("已过期, 请使用downloadAttachment")));
-
-
 /**
  
  设置语音消息为已播放
@@ -273,6 +268,25 @@
  */
 - (void)setMessageListened:(HMessage *)message;
 
+#pragma mark - 自定义表情包
+
+
+/**
+ 获取表情包列表
+
+ @param completion 完成回调
+ */
+- (void)getEmojiPackageListCompletion:(void(^)(NSArray <NSDictionary *> *emojiPackages,HError *error))completion;
+
+
+/**
+ 获取单个表情包的表情文件
+
+ @param packageId 表情包id
+ @param completion 完成回调
+ */
+- (void)getEmojisWithPackageId:(NSString *)packageId
+                   completion:(void(^)(NSArray <NSDictionary *> *emojis,HError *error))completion;
 
 @end
 

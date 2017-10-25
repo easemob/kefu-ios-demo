@@ -16,11 +16,70 @@
 #import "HDFaceView.h"
 #import "HDEmotionManager.h"
 
-@interface UIButton (UIButtonImageWithLable)
-- (void) setImage:(UIImage *)image withTitle:(NSString *)title forState:(UIControlState)stateType;
+
+@interface EmojiButton :UIButton
+
++ (instancetype)buttonWithType:(UIButtonType)buttonType frame:(CGRect)frame;
+
 @end
 
-@implementation UIButton (UIButtonImageWithLable)
+@implementation EmojiButton
+
++ (instancetype)buttonWithType:(UIButtonType)buttonType frame:(CGRect)frame {
+    EmojiButton *btn = [super buttonWithType:buttonType];
+    btn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [btn setFrame:frame];
+    return btn;
+}
+
+- (CGRect)imageRectForContentRect:(CGRect)contentRect {
+    CGFloat imageX = 0;
+    CGFloat imageY = 0;
+    CGFloat imageWidth = contentRect.size.width;
+    CGFloat imageHeight = contentRect.size.height * (1 - 0.25);
+    return CGRectMake(imageX, imageY, imageWidth, imageHeight);
+}
+
+- (CGRect)titleRectForContentRect:(CGRect)contentRect {
+    CGFloat titleX = 0;
+    CGFloat titleHeight = contentRect.size.height * 0.25;
+    CGFloat titleY = contentRect.size.height - titleHeight;
+    CGFloat titleWidth = contentRect.size.width;
+    return CGRectMake(titleX, titleY, titleWidth, titleHeight);
+}
+
+@end
+
+
+@interface EmojiButton (UIButtonImageWithLable)
+- (void) setImage:(NSString *)url withTitle:(NSString *)title forState:(UIControlState)stateType;
+
+- (void) setImage:(NSURL *)url withTitle:(NSString *)title forState:(UIControlState)stateType placeholderImage:(UIImage *)placeholder;
+@end
+
+@implementation EmojiButton (UIButtonImageWithLable)
+
+- (void)setImage:(NSURL *)url withTitle:(NSString *)title forState:(UIControlState)stateType placeholderImage:(UIImage *)placeholder {
+    CGSize titleSize;
+    if ([NSString instancesRespondToSelector:@selector(sizeWithAttributes:)]) {
+        titleSize = [title sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10]}];
+    } else {
+        titleSize = [title sizeWithFont:[UIFont systemFontOfSize:10]];
+    }
+    [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    [self setImageEdgeInsets:UIEdgeInsetsMake(0,
+                                              0.0,
+                                              20,
+                                              0)];
+    [self sd_setImageWithURL:url forState:stateType placeholderImage:placeholder];
+    
+    [self.titleLabel setContentMode:UIViewContentModeCenter];
+    [self.titleLabel setBackgroundColor:[UIColor clearColor]];
+    [self.titleLabel setFont:[UIFont systemFontOfSize:10]];
+    [self setTitleColor:[UIColor blackColor] forState:stateType];
+    
+    [self setTitle:title forState:UIControlStateNormal];
+}
 
 - (void) setImage:(UIImage *)image withTitle:(NSString *)title forState:(UIControlState)stateType {
     //UIEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right)
@@ -61,7 +120,7 @@
 @interface HDCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, weak) id<HDCollectionViewCellDelegate> delegate;
-@property (nonatomic, strong) UIButton *hdImageButton;
+@property (nonatomic, strong) EmojiButton *hdImageButton;
 @property (nonatomic, strong) HDEmotion *hdEmotion;
 
 @end
@@ -72,8 +131,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _hdImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _hdImageButton.frame = self.bounds;
+        _hdImageButton = [EmojiButton buttonWithType:UIButtonTypeCustom frame:self.bounds];
         _hdImageButton.userInteractionEnabled = YES;
         [self.contentView addSubview:_hdImageButton];
     }
@@ -91,7 +149,8 @@
     _hdEmotion = emotion;
     if ([emotion isKindOfClass:[HDEmotion class]]) {
         if (emotion.emotionType == HDEmotionGif) {
-            [_hdImageButton setImage:[UIImage imageNamed:emotion.emotionThumbnail] withTitle:emotion.emotionTitle forState:UIControlStateNormal];
+            [_hdImageButton setImage:[NSURL URLWithString:emotion.emotionThumbnail] withTitle:emotion.emotionTitle forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"loading"]];
+//            [_hdImageButton setImage:[UIImage imageNamed:emotion.emotionThumbnail] withTitle:emotion.emotionTitle forState:UIControlStateNormal];
         } else if (emotion.emotionType == HDEmotionPng) {
             [_hdImageButton setImage:[UIImage imageNamed:emotion.emotionThumbnail] forState:UIControlStateNormal];
             _hdImageButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -150,8 +209,8 @@
     if (self) {
         _pageControl = [[UIPageControl alloc] init];
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        // 改成水平排列
-        [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+        
+        [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
 
         _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         [self.collectionView registerClass:[HDCollectionViewCell class] forCellWithReuseIdentifier:@"collectionCell"];

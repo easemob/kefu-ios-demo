@@ -12,6 +12,7 @@
 "delete" = "删除";
 "copy" = "复制";
 "save" = "保存";
+"default" = "默认";
 
 "add" = "添加";
 "send" = "发送";
@@ -36,6 +37,8 @@
 "receiveMessage" = "您有一条新消息";
 "loginAtOtherDevice" = "你的账号已在其他地方登录";
 "loginUserRemoveFromServer" = "你的账号已被从服务器端移除";
+"userDidForbidByServer" = "服务被禁用";
+"userAccountDidForcedToLogout" = "账号被强制退出";
 "appkeyError" = "appkey错误";
 
 //general

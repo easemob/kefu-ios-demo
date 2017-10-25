@@ -40,6 +40,8 @@
 + (HMessage *)textHMessageFormatWithText:(NSString *)text
                                       to:(NSString *)toUser;
 
++ (HMessage *)customMagicEmojiMessageWithOriginUrl:(NSString *)url to:(NSString *)toUser;
+
 + (HMessage *)videoInvitedMessageFormatWithText:(NSString *)text
                                          toUser:(NSString *)toUser;
 

@@ -12,6 +12,7 @@
 
 #import "HDChatViewController.h"
 #import "AppDelegate+HelpDesk.h"
+#import "SCLoginManager.h"
 //#import "HVisitorTrack.h"
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
@@ -32,15 +33,27 @@
 
 @implementation HDChatViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+     [SCLoginManager shareLoginManager].curChat = self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [SCLoginManager shareLoginManager].curChat = nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
     // Do any additional setup after loading the view.
     self.showRefreshHeader = YES;
     self.delegate = self;
     self.dataSource = self;
     self.visitorInfo = [self visitorInfo];
     
-    [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
+//    [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
     if ([_commodityInfo count] > 1) {
@@ -174,16 +187,6 @@
     [[HChatClient sharedClient].chatManager unbind];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
 #pragma mark - setup subviews
 
 - (void)_setupBarButtonItem
@@ -271,6 +274,7 @@
 
 - (NSArray*)emotionFormessageViewController:(HDMessageViewController *)viewController
 {
+    NSMutableArray *rst = [NSMutableArray arrayWithCapacity:0];
     //添加表情数据源
 #pragma mark smallpngface
     NSMutableArray *customEmotions = [NSMutableArray array];
@@ -291,7 +295,35 @@
     }
     HDEmotion *customTemp = [customEmotions objectAtIndex:0];
     HDEmotionManager *customManagerDefault = [[HDEmotionManager alloc] initWithType:HDEmotionPng emotionRow:4 emotionCol:9 emotions:customEmotions tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
-    return @[customManagerDefault];
+    customManagerDefault.emotionName = NSLocalizedString(@"default", @"default");
+    [rst addObject:customManagerDefault];
+    
+    NSArray *emojiPackagesDics =[self emojiValueForKey:@"emojiPackages"];
+    for (NSDictionary *dic in emojiPackagesDics) {
+        HEmojiPackage *package = [[HEmojiPackage alloc] initWithDictionary:dic];
+        if (![[SCLoginManager shareLoginManager].tenantId isEqualToString:package.tenantId]) {
+            continue;
+        }
+        NSMutableArray *marr = [NSMutableArray arrayWithCapacity:0];
+        NSArray *emojis = [self emojiValueForKey:[NSString stringWithFormat:@"emojis%@",package.packageId]];
+        for (NSDictionary *emojiDic in emojis) {
+            HEmoji *hemoji = [[HEmoji alloc] initWithDictionary:emojiDic];
+            HDEmotion *emotion = [[HDEmotion alloc] initWithName:hemoji.emojiName emotionId:@"100" emotionThumbnail:hemoji.thumbnailUrl emotionOriginal:hemoji.originUrl emotionOriginalURL:hemoji.originUrl emotionType:hemoji.emotionType];
+            [marr addObject:emotion];
+        }
+        HDEmotion *customTemp = [marr objectAtIndex:0];
+        HDEmotionManager *manager = [[HDEmotionManager alloc] initWithType:HDEmotionGif emotionRow:2 emotionCol:4 emotions:marr tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
+        manager.emotionName = package.packageName;
+        [rst addObject:manager];
+    }
+    return rst;
+}
+
+- (id)emojiValueForKey:(NSString *)key {
+    NSString *path=NSTemporaryDirectory();
+    NSString *emojiPath =[path stringByAppendingPathComponent:@"emoji.plist"];
+    NSMutableDictionary *mDic = [NSMutableDictionary dictionaryWithContentsOfFile:emojiPath];
+    return [mDic valueForKey:key];
 }
 
 - (BOOL)isEmotionMessageFormessageViewController:(HDMessageViewController *)viewController
@@ -315,39 +347,12 @@
     return emotion;
 }
 
-- (NSDictionary*)emotionExtFormessageViewController:(HDMessageViewController *)viewController
-                                        easeEmotion:(HDEmotion*)easeEmotion
-{
-    return @{MESSAGE_ATTR_EXPRESSION_ID:easeEmotion.emotionId,MESSAGE_ATTR_IS_BIG_EXPRESSION:@(YES)};
-}
 
 - (void)messageViewControllerMarkAllMessagesAsRead:(HDMessageViewController *)viewController
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"setupUnreadMessageCount" object:nil];
 }
 
-#pragma mark - HelpDesk
-- (void)userAccountDidLoginFromOtherDevice
-{
-    if ([self.imagePicker.mediaTypes count] > 0 && [[self.imagePicker.mediaTypes objectAtIndex:0] isEqualToString:(NSString *)kUTTypeMovie]) {
-        [self.imagePicker stopVideoCapture];
-    }
-    
-}
-
-- (void)userAccountDidRemoveFromServer
-{
-    if ([self.imagePicker.mediaTypes count] > 0 && [[self.imagePicker.mediaTypes objectAtIndex:0] isEqualToString:(NSString *)kUTTypeMovie]) {
-        [self.imagePicker stopVideoCapture];
-    }
-}
-
-- (void)userDidForbidByServer
-{
-    if ([self.imagePicker.mediaTypes count] > 0 && [[self.imagePicker.mediaTypes objectAtIndex:0] isEqualToString:(NSString *)kUTTypeMovie]) {
-        [self.imagePicker stopVideoCapture];
-    }
-}
 
 #pragma mark - action
 
@@ -356,6 +361,9 @@
  */
 - (void)backItemDidClicked
 {
+    if ([self.imagePicker.mediaTypes count] > 0 && [[self.imagePicker.mediaTypes objectAtIndex:0] isEqualToString:(NSString *)kUTTypeMovie]) {
+        [self.imagePicker stopVideoCapture];
+    }
     NSLog(@"返回会话列表");
 //    if (self.deleteConversationIfNull) {
 //        //判断当前会话是否为空，若符合则删除该会话

@@ -51,4 +51,26 @@ typedef enum{
  *  Delegate method will be invoked when current IM account is removed from server
  */
 - (void)userAccountDidRemoveFromServer;
+
+/*!
+ *  \~chinese
+ *  服务被禁用
+ *
+ *  \~english
+ *  Delegate method will be invoked when User is forbidden
+ */
+- (void)userDidForbidByServer;
+
+/*!
+ *  \~chinese
+ *  当前登录账号被强制退出时会收到该回调，有以下原因：
+ *    1.密码被修改；
+ *    2.登陆设备数过多；
+ *
+ *  \~english
+ *  Delegate method will be invoked when current IM account is forced to logout with the following reasons:
+ *    1. The password is modified
+ *    2. Logged in too many devices
+ */
+- (void)userAccountDidForcedToLogout:(HError *)aError;
 @end

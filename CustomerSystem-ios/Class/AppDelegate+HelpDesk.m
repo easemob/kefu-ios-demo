@@ -52,7 +52,7 @@
     option.enableConsoleLog = YES; //是否打开日志信息
     option.apnsCertName = apnsCertName;
     option.visitorWaitCount = YES; //打开待接入访客排队人数功能
-//    option.kefuRestServer = @"http://sandbox.kefu.easemob.com";
+    option.kefuRestServer = @"http://sandbox.kefu.easemob.com";
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {
@@ -252,18 +252,37 @@
 }
 
 - (void)userAccountDidRemoveFromServer {
-    [[HChatClient sharedClient] logout:YES];
+    [self userAccountLogout];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"loginUserRemoveFromServer", @"your login account has been remove from server") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    alertView.tag = 100;
     [alertView show];
 }
 
 - (void)userAccountDidLoginFromOtherDevice {
-    [[HChatClient sharedClient] logout:YES];
+    [self userAccountLogout];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"loginAtOtherDevice", @"your login account has been in other places") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    alertView.tag = 100;
     [alertView show];
 }
 
+
+- (void)userDidForbidByServer {
+    [self userAccountLogout];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"userDidForbidByServer", @"your login account has been forbid by server") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
+- (void)userAccountDidForcedToLogout:(HError *)aError {
+    [self userAccountLogout];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"userAccountDidForcedToLogout", @"your login account has been forced logout") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
+//退出当前
+- (void)userAccountLogout {
+    [[HChatClient sharedClient] logout:YES];
+    HDChatViewController *chat = [SCLoginManager shareLoginManager].curChat;
+    if (chat) {
+        [chat backItemClicked];
+    }
+}
 
 @end

@@ -66,6 +66,7 @@
     
     _bottomScrollView = [[UIScrollView alloc] initWithFrame: CGRectMake(0, CGRectGetMaxY(_facialView.frame), 4 * CGRectGetWidth(_facialView.frame)/5, self.frame.size.height - CGRectGetHeight(_facialView.frame))];
     _bottomScrollView.showsHorizontalScrollIndicator = NO;
+    _bottomScrollView.backgroundColor = RGBACOLOR(245, 245, 245, 1);
     [self addSubview:_bottomScrollView];
     [self _setupButtonScrollView];
     
@@ -95,14 +96,13 @@
         if (emotionManager.emotionType == HDEmotionDefault) {
             HDEmotion *emotion = [emotionManager.emotions objectAtIndex:0];
             [defaultButton setTitle:emotion.emotionThumbnail forState:UIControlStateNormal];
-        } else {
-            [defaultButton setImage:emotionManager.tagImage forState:UIControlStateNormal];
-            [defaultButton setImageEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
-            defaultButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        }  else {
+            [defaultButton setTitle:emotionManager.emotionName forState:UIControlStateNormal];
         }
         [defaultButton setBackgroundColor:[UIColor clearColor]];
         defaultButton.layer.borderWidth = 0.5;
         defaultButton.layer.borderColor = [UIColor whiteColor].CGColor;
+        [defaultButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [defaultButton addTarget:self action:@selector(didSelect:) forControlEvents:UIControlEventTouchUpInside];
         defaultButton.tag = 1000 + i;
         [_bottomScrollView addSubview:defaultButton];

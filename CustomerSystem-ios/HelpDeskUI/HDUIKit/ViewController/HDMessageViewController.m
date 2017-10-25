@@ -1265,12 +1265,13 @@
 {
     if ([ext objectForKey:EASEUI_EMOTION_DEFAULT_EXT]) {
         HDEmotion *emotion = [ext objectForKey:EASEUI_EMOTION_DEFAULT_EXT];
-        if (self.dataSource && [self.dataSource respondsToSelector:@selector(emotionExtFormessageViewController:easeEmotion:)]) {
-            NSDictionary *ext = [self.dataSource emotionExtFormessageViewController:self easeEmotion:emotion];
-            [self sendTextMessage:emotion.emotionTitle withExt:ext];
-        } else {
-            [self sendTextMessage:emotion.emotionTitle withExt:@{MESSAGE_ATTR_EXPRESSION_ID:emotion.emotionId,MESSAGE_ATTR_IS_BIG_EXPRESSION:@(YES)}];
-        }
+        [self sendCustomMagicEmojiWithOriginUrl:emotion.emotionOriginalURL];
+//        if (self.dataSource && [self.dataSource respondsToSelector:@selector(emotionExtFormessageViewController:easeEmotion:)]) {
+//            NSDictionary *ext = [self.dataSource emotionExtFormessageViewController:self easeEmotion:emotion];
+//            [self sendTextMessage:emotion.emotionTitle withExt:ext];
+//        } else {
+//            [self sendTextMessage:emotion.emotionTitle withExt:@{MESSAGE_ATTR_EXPRESSION_ID:emotion.emotionId,MESSAGE_ATTR_IS_BIG_EXPRESSION:@(YES)}];
+//        }
         return;
     }
     if (text && text.length > 0) {
@@ -1677,10 +1678,17 @@
      __weak HDMessageViewController *weakSelf = self;
     dispatch_async(_messageQueue, ^{
         NSArray *messages = [weakSelf formatMessages:@[message]];
+        NSMutableArray  *mArr = [NSMutableArray arrayWithCapacity:0];
+        for (int i=0; i<messages.count; i++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.dataArray.count + i inSection:0];
+            [mArr addObject:indexPath];
+        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.dataArray addObjectsFromArray:messages];
-            [weakSelf.tableView reloadData];
+            [weakSelf.tableView beginUpdates];
+            [weakSelf.tableView insertRowsAtIndexPaths:mArr.copy withRowAnimation:UITableViewRowAnimationBottom];
+            [weakSelf.tableView endUpdates];
             [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[weakSelf.dataArray count] - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
         });
     });
@@ -1729,7 +1737,6 @@
                 [self.dataArray removeAllObjects];
                 [self.dataArray addObjectsFromArray:formattedMessages];
                 [self.tableView reloadData];
-//                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.dataArray count] - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
                 return;
             }
         }
@@ -1905,6 +1912,12 @@
     }
     [self _sendMessage:message];
 }
+
+- (void)sendCustomMagicEmojiWithOriginUrl:(NSString *)url {
+    HMessage *message = [HDSDKHelper customMagicEmojiMessageWithOriginUrl:url to:self.conversation.conversationId];
+    [self _sendMessage:message];
+}
+
 - (void)sendLocationMessageLatitude:(double)latitude
                           longitude:(double)longitude
                          andAddress:(NSString *)address

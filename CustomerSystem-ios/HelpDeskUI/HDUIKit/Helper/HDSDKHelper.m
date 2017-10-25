@@ -140,6 +140,19 @@ static HDSDKHelper *helper = nil;
     return message;
 }
 
++ (HMessage *)customMagicEmojiMessageWithOriginUrl:(NSString *)url to:(NSString *)toUser {
+    HMessage *message = [HMessage createTxtSendMessageWithContent:@"" to:toUser];
+    NSDictionary *ext = @{
+                          @"msgtype":@{
+                                  @"customMagicEmoji":@{
+                                          @"url":url
+                                          }
+                                  }
+                          };
+    [message addAttributeDictionary:ext];
+    return message;
+}
+
 
 + (HMessage *)videoInvitedMessageFormatWithText:(NSString *)text toUser:(NSString *)toUser {
     HMessage *message = [HMessage createVideoInviteSendMessageWithContent:text to:toUser];

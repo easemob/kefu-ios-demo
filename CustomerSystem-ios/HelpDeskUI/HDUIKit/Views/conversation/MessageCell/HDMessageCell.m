@@ -24,6 +24,7 @@
 #import "HDBubbleView+File.h"
 #import "HDBubbleView+Form.h"
 #import "HDBubbleView+Article.h"
+#import "HDBubbleView+Gif.h"
 #import "UIImageView+WebCache.h"
 #import "HDEmotionEscape.h"
 #import "HDLocalDefine.h"
@@ -41,6 +42,7 @@ NSString *const HDMessageCellIdentifierRecvMenu = @"HDMessageCellRecvMenu";
 NSString *const HDMessageCellIdentifierRecvArticle = @"HDMessageCellRecvArticle";
 NSString *const HDMessageCellIdentifierRecvTransform = @"HDMessageCellRecvTransform";
 NSString *const HDMessageCellIdentifierRecvEvaluate = @"HDMessageCellRecvEvaluate";
+NSString *const HDMessageCellIdentifierRecvBigExpression = @"HDMessageCellRecvBigExpression";
 NSString *const HDMessageCellIdentifierRecvLocation = @"HDMessageCellRecvLocation";
 NSString *const HDMessageCellIdentifierRecvVoice = @"HDMessageCellRecvVoice";
 NSString *const HDMessageCellIdentifierRecvVideo = @"HDMessageCellRecvVideo";
@@ -215,6 +217,10 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     case HExtEvaluationMsg:
                         [_bubbleView setupEvaluateBubbleView];
                         break;
+                    case HExtBigExpressionMsg:  {
+                        [_bubbleView setupGifBubbleView];
+                        break;
+                    }
                     default:
                         [_bubbleView setupTextBubbleView];
                         _bubbleView.textLabel.font = _messageTextFont;
@@ -483,6 +489,19 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         } @catch (NSException *ignored) {}
                     }
                         break;
+                    case HExtBigExpressionMsg: {
+                        NSDictionary *msgTypeDic = [model.message.ext objectForKey:@"msgtype"];
+                        NSDictionary *emojiDic = nil;
+                        NSString *emojiUrl = nil;
+                        if (msgTypeDic) {
+                            emojiDic = [msgTypeDic objectForKey:@"customMagicEmoji"];
+                        }
+                        if (emojiDic) {
+                            emojiUrl = [emojiDic objectForKey:@"url"];
+                        }
+                        [_bubbleView.imageView sd_setImageWithURL:[NSURL URLWithString:emojiUrl] placeholderImage:[UIImage imageNamed:_model.failImageName]];
+                        break;
+                    }
                     default:
                     {
                         NSString *content = model.text;
@@ -668,6 +687,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             break;
                         case HExtEvaluationMsg:
                             [_bubbleView updateEvaluateMargin:_bubbleMargin];
+                            break;
+                        case HExtBigExpressionMsg:
+                            [_bubbleView updateGifMargin:_bubbleMargin];
                             break;
                         default:
                             [_bubbleView updateTextMargin:_bubbleMargin];
@@ -975,6 +997,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     case HExtEvaluationMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvEvaluate;
                         break;
+                    case HExtBigExpressionMsg:
+                        cellIdentifier = HDMessageCellIdentifierRecvBigExpression;
+                        break;
                     default:
                         cellIdentifier = HDMessageCellIdentifierRecvText;
                         break;
@@ -1055,6 +1080,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     return 2*HDMessageCellPadding + kImageHeight + 2*kTitleHeight + 20;
                 case HExtFormMsg:
                     return kImageHeight;
+                case HExtBigExpressionMsg:
+                    return kBigExpressionHW;
                 case HExtToCustomServiceMsg:
                 {
                     NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];

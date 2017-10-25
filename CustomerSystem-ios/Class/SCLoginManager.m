@@ -9,7 +9,62 @@
 #import "SCLoginManager.h"
 #import <objc/runtime.h>
 
+@implementation HEmojiPackage
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+        _packageId = [dictionary valueForKey:@"id"];
+        _packageName = [dictionary valueForKey:@"packageName"];
+        _emojiNum = [[dictionary valueForKey:@"fileNum"] integerValue];
+        _tenantId = [[dictionary valueForKey:@"tenantId"] stringValue];
+    }
+    return self;
+}
+
+@end
+
+@implementation HEmoji
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+        _emojiName = [dictionary valueForKey:@"fileName"];
+        _originUrl = [dictionary valueForKey:@"originUrl"];
+        _thumbnailUrl = [dictionary valueForKey:@"thumbnailUrl"];
+        _originMediaId = [dictionary valueForKey:@"originMediaId"];
+        _thumbnailMediaId = [dictionary valueForKey:@"thumbnailMediaId"];
+    }
+    return self;
+}
+
+- (NSString *)originUrl {
+    NSString *orUrl = [[HChatClient sharedClient].kefuRestServer stringByAppendingString:_originUrl];
+    return orUrl;
+}
+
+- (NSString *)thumbnailUrl {
+    NSString *thUrl = [[HChatClient sharedClient].kefuRestServer stringByAppendingString:_thumbnailUrl];
+    return thUrl;
+}
+
+- (NSString *)originLocalPath {
+    return [[SDImageCache sharedImageCache] defaultCachePathForKey:_originMediaId];
+}
+
+- (NSString *)thumbnailLocalPath {
+    return [[SDImageCache sharedImageCache] defaultCachePathForKey:_thumbnailMediaId];
+}
+
+- (HDEmotionType)emotionType {
+    return HDEmotionGif;
+}
+
+@end
+
 @implementation SCLoginManager
+{
+    NSString *_emojiPath;
+}
 
 static SCLoginManager *_manager = nil;
 + (instancetype)shareLoginManager {
@@ -107,7 +162,11 @@ static SCLoginManager *_manager = nil;
     return self;
 }
 //登录IM
-- (BOOL)loginKefuSDK {    
+- (BOOL)loginKefuSDK {
+    [[SDImageCache sharedImageCache] cleanDisk];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self cacheBigExpression];
+    });
     HChatClient *client = [HChatClient sharedClient];
     if (client.isLoggedInBefore) {
         return YES;
@@ -187,5 +246,53 @@ static SCLoginManager *_manager = nil;
     }
 }
 
+- (void)createPlist {
+    NSString *path=NSTemporaryDirectory();
+    NSLog(@"path = %@",path);
+    _emojiPath =[path stringByAppendingPathComponent:@"emoji.plist"];
+    NSFileManager* fm = [NSFileManager defaultManager];
+    if (![fm fileExistsAtPath:_emojiPath]) {
+         [fm createFileAtPath:_emojiPath contents:nil attributes:nil];
+        [[NSMutableDictionary dictionaryWithCapacity:0] writeToFile:_emojiPath atomically:YES];
+    }
+}
+
+- (void)setEmojiValue:(id)value forKey:(NSString *)key {
+    NSMutableDictionary *mDic = [NSMutableDictionary dictionaryWithContentsOfFile:_emojiPath];
+    [mDic setValue:value forKey:key];
+    [mDic writeToFile:_emojiPath atomically:YES];
+}
+
+- (void)cacheBigExpression {
+    [self createPlist];
+    HChat *chat = [HChatClient sharedClient].chatManager;
+    [chat getEmojiPackageListCompletion:^(NSArray<NSDictionary *> *emojiPackages, HError *error) {
+        NSMutableArray *hPackages = @[].mutableCopy;
+        [self setEmojiValue:emojiPackages forKey:@"emojiPackages"];
+        for (NSDictionary *dict in emojiPackages) {
+            HEmojiPackage *emojiPackage = [[HEmojiPackage alloc] initWithDictionary:dict];
+            [hPackages addObject:emojiPackage];
+        }
+        for (HEmojiPackage *package in hPackages) {
+            [chat getEmojisWithPackageId:package.packageId completion:^(NSArray<NSDictionary *> *emojis, HError *error) {
+                [self setEmojiValue:emojis forKey:[NSString stringWithFormat:@"emojis%@",package.packageId]];
+//                for (NSDictionary *di in emojis) {
+//                    HEmoji *emoji = [[HEmoji alloc] initWithDictionary:di];
+//                    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+//                    NSURL *originUrl = [NSURL URLWithString:emoji.originUrl];
+//                    [manager downloadImageWithURL:originUrl options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+//                        SDImageCache *cache = [SDImageCache sharedImageCache];
+//                        [cache storeImage:image forKey:emoji.originMediaId];
+//                    }];
+//                    NSURL *thumbUrl = [NSURL URLWithString:emoji.thumbnailUrl];
+//                    [manager downloadImageWithURL:thumbUrl options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+//                        SDImageCache *cache = [SDImageCache sharedImageCache];
+//                        [cache storeImage:image forKey:emoji.thumbnailMediaId];
+//                    }];
+//                }
+            }];
+        }
+    }];
+}
 
 @end

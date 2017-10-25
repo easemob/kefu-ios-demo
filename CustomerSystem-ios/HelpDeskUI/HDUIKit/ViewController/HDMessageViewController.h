@@ -206,6 +206,8 @@ typedef void(^HDSelectAtTargetCallback)(HDAtTarget*);
                  andIndexPath:(NSIndexPath *)indexPath
                   messageType:(EMMessageBodyType)messageType;
 
+- (void)backItemClicked;
+
 #warning 在继承这个方法的时候确保不要执行可能引起父类方法不能dealloc的代码
 - (void)backItemDidClicked;
 

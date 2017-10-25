@@ -45,19 +45,18 @@
     self.imageView = [[UIImageView alloc] init];
     self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.imageView.backgroundColor = [UIColor clearColor];
-    [self addSubview:self.imageView];
-    self.backgroundImageView.hidden = YES;
+    [self.backgroundImageView addSubview:self.imageView];
     
     [self _setupImageBubbleConstraints];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:100]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kBigExpressionHW]];
 }
 
 - (void)updateGifMargin:(UIEdgeInsets)margin
 {
-    if (_margin.top == margin.top && _margin.bottom == margin.bottom && _margin.left == margin.left && _margin.right == margin.right) {
-        return;
-    }
-    _margin = margin;
+//    if (_margin.top == margin.top && _margin.bottom == margin.bottom && _margin.left == margin.left && _margin.right == margin.right) {
+//        return;
+//    }
+    _margin = UIEdgeInsetsMake(0, 0, 0, 0);
     
     [self removeConstraints:self.marginConstraints];
     [self _setupImageBubbleMarginConstraints];

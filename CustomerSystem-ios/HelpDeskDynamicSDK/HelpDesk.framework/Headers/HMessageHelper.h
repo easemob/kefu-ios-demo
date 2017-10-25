@@ -31,7 +31,7 @@ typedef enum {
 + (BOOL)isToCustomServiceMessage:(HMessage *)message;  //转人工客服消息
 + (BOOL)isEvaluationMessage:(HMessage *)message;  //满意度评价消息
 + (BOOL)isFormMessage:(HMessage *)message; //机器人表单消息
-
++ (BOOL)isBigExpressionMessage:(HMessage *)message; //大表情消息
 
 
 

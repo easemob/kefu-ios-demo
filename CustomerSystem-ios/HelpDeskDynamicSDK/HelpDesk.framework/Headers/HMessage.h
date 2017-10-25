@@ -224,6 +224,16 @@ typedef enum{
 
 
 /**
+ create bigExpression send message
+
+ @param url emoji url
+ @param toUserName toUsername
+ @return HMessage
+ */
++ (instancetype)createBigExpressionSendMessageWithUrl:(NSString *)url to:(NSString *)toUserName;
+
+
+/**
  create location send message
 
  @param latitude
