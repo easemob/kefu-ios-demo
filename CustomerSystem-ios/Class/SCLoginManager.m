@@ -163,7 +163,7 @@ static SCLoginManager *_manager = nil;
 }
 //登录IM
 - (BOOL)loginKefuSDK {
-    [[SDImageCache sharedImageCache] cleanDisk];
+//    [[SDImageCache sharedImageCache] cleanDisk];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self cacheBigExpression];
     });
