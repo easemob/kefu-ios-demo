@@ -141,15 +141,7 @@ static HDSDKHelper *helper = nil;
 }
 
 + (HMessage *)customMagicEmojiMessageWithOriginUrl:(NSString *)url to:(NSString *)toUser {
-    HMessage *message = [HMessage createTxtSendMessageWithContent:@"" to:toUser];
-    NSDictionary *ext = @{
-                          @"msgtype":@{
-                                  @"customMagicEmoji":@{
-                                          @"url":url
-                                          }
-                                  }
-                          };
-    [message addAttributeDictionary:ext];
+    HMessage *message = [HMessage createBigExpressionSendMessageWithUrl:url to:toUser];
     return message;
 }
 

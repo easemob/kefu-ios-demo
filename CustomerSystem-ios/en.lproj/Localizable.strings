@@ -305,6 +305,7 @@
 "cov_voice" = "[Vioce]";
 "cov_file" = "[File]";
 "cov_location" = "[Location]";
+"big_expression" = "[Emoji]";
 
 "file" = "File";
 "download" = "Download";

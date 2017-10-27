@@ -124,6 +124,9 @@
                 case HExtFormMsg:
                     content = NSLocalizedString(@"form_message", @"[Form Message]");
                     break;
+                case HExtBigExpressionMsg:
+                    content = NSLocalizedString(@"big_expression", "[Emoji]");
+                    break;
                 default:{
                     NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:_contentLabel.font]];
                     _contentLabel.attributedText = attributedString;

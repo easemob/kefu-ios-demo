@@ -53,7 +53,7 @@
     self.dataSource = self;
     self.visitorInfo = [self visitorInfo];
     
-//    [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
+    [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
     if ([_commodityInfo count] > 1) {
@@ -346,13 +346,6 @@
     }
     return emotion;
 }
-
-
-- (void)messageViewControllerMarkAllMessagesAsRead:(HDMessageViewController *)viewController
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"setupUnreadMessageCount" object:nil];
-}
-
 
 #pragma mark - action
 

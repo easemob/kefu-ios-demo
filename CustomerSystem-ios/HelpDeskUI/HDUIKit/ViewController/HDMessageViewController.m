@@ -98,7 +98,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    NSString *name = _converID;
+    if (_conversation.officialAccount.name) {
+        name = _conversation.officialAccount.name;
+    }
+    self.title = name;
     [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:NO];
     if (self.scrollToBottomWhenAppear) {
@@ -170,14 +174,14 @@
 - (void)setLeftBarBtnItem {
     CustomButton * backButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:[UIImage imageNamed:@"Shape"] forState:UIControlStateNormal];
-    [backButton setTitle:_converID forState:UIControlStateNormal];
+    [backButton setTitle:@"返回" forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
     backButton.imageRect = CGRectMake(10, 6.5, 16, 16);
-    backButton.titleRect = CGRectMake(28, 0, 230, 29);
+    backButton.titleRect = CGRectMake(28, 0, 60, 29);
     [self.view addSubview:backButton];
-    backButton.frame = CGRectMake(0, 0, 260, 29);
+    backButton.frame = CGRectMake(0, 0, 60, 29);
     
     [backButton addTarget:self action:@selector(backItemClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
@@ -269,7 +273,7 @@
         [_imagePicker dismissViewControllerAnimated:NO completion:nil];
         _imagePicker = nil;
     }
-    
+    NSLog(@"dealloc :%s",__func__);
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -928,9 +932,7 @@
 }
 
 - (void)messageStatusDidChange:(HMessage *)aMessage error:(HError *)aError {
-    NSLog(@"messageStatusDidChange,id:%@",aMessage);
-    NSLog(@"dataArray :%@",self.dataArray);
-    [self _refreshAfterSentMessage:aMessage];
+//    [self _refreshAfterSentMessage:aMessage];
 }
 
 

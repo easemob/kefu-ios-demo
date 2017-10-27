@@ -91,6 +91,7 @@
     
     for (int i = 0; i < number; i++) {
         UIButton *defaultButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        defaultButton.titleLabel.font = [UIFont systemFontOfSize:10];
         defaultButton.frame = CGRectMake(i * CGRectGetWidth(_bottomScrollView.frame)/(kButtomNum-1), 0, CGRectGetWidth(_bottomScrollView.frame)/(kButtomNum-1), CGRectGetHeight(_bottomScrollView.frame));
         HDEmotionManager *emotionManager = [_emotionManagers objectAtIndex:i];
         if (emotionManager.emotionType == HDEmotionDefault) {

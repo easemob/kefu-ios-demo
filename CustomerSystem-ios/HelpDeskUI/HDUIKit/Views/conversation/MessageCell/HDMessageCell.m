@@ -52,6 +52,7 @@ NSString *const HDMessageCellIdentifierRecvForm = @"HDMessageCelRecvForm";
 
 NSString *const HDMessageCellIdentifierSendText = @"HDMessageCellSendText";
 NSString *const HDMessageCellIdentifierSendTrack = @"HDMessageCellSendTrack";
+NSString *const HDMessageCellIdentifierSendBigExpression = @"HDMessageCellSendBigExpression";
 NSString *const HDMessageCellIdentifierSendOrder = @"HDMessageCellSendOrder";
 NSString *const HDMessageCellIdentifierSendLocation = @"HDMessageCellSendLocation";
 NSString *const HDMessageCellIdentifierSendVoice = @"HDMessageCellSendVoice";
@@ -945,6 +946,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         break;
                     case HExtTrackMsg:
                         cellIdentifier = HDMessageCellIdentifierSendTrack;
+                        break;
+                    case HExtBigExpressionMsg:
+                        cellIdentifier = HDMessageCellIdentifierSendBigExpression;
                         break;
                     default:
                         cellIdentifier = HDMessageCellIdentifierSendText;

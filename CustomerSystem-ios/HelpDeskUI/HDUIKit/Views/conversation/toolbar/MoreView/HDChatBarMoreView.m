@@ -120,7 +120,7 @@
     [_scrollview addSubview:_takePicButton];
     
     _takeLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE * 1, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _takeLabel.text = NSLocalizedString(@"attach_picture", @"Image");
+    _takeLabel.text = NSLocalizedString(@"attach_take_pic", @"Image");
     _takeLabel.font = [UIFont systemFontOfSize:10];
     _takeLabel.textAlignment = UITextAlignmentCenter;
     _takeLabel.textColor = [UIColor blackColor];

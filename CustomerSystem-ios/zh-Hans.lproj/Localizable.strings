@@ -307,6 +307,7 @@
 "cov_voice" = "[语音]";
 "cov_file" = "[文件]";
 "cov_location" = "[位置]";
+"big_expression" ="[表情]";
 
 "file" = "文件";
 "download" = "下载";

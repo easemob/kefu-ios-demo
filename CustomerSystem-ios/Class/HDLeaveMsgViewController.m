@@ -343,6 +343,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 
 
 - (void)dealloc {
+    NSLog(@"dealloc %s",__func__);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (void)didReceiveMemoryWarning {

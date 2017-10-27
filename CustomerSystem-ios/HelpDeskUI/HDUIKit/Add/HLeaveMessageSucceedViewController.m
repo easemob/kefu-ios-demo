@@ -104,8 +104,23 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 
 - (void)back
 {
-[self.navigationController popToRootViewControllerAnimated:YES];
+    HDMessageViewController *chatVC = nil;
+    for (UIViewController *vc in self.navigationController.childViewControllers) {
+        if ([vc isKindOfClass:[HDMessageViewController class]]) {
+            chatVC = (HDMessageViewController *)vc;
+            break;
+        }
+    }
+    if (chatVC != nil) {
+        [self.navigationController popToViewController:chatVC animated:YES];
+    } else {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
     
+}
+
+- (void)dealloc {
+    NSLog(@"dealloc %s",__func__);
 }
 
 - (void)didReceiveMemoryWarning {
