@@ -247,22 +247,18 @@ const NSInteger baseTag=123;
     __weak typeof(self) weakSelf = self;
     [[HDCDDeviceManager sharedInstance] asyncStopRecordingWithCompletion:^(NSString *recordPath, NSInteger aDuration, NSError *error) {
         if (!error) {
-            //            EMChatVoice *voice = [[EMChatVoice alloc] initWithFile:recordPath
-            //                                                       displayName:@"audio"];
-            //            voice.duration = aDuration;
-            
             __weak typeof(self) weakSelf = self;
-            //            MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment", "Upload attachment") toView:self.view];
-            //            hud.layer.zPosition = 1.f;
-            //            __weak MBProgressHUD *weakHud = hud;
             NSString *fileName =[[recordPath componentsSeparatedByString:@"/"] lastObject];
             
             NSData *data = [NSData dataWithContentsOfFile:recordPath];
-            
+            MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
+            hud.layer.zPosition = 1.f;
+            __weak MBProgressHUD *weakHud = hud;
             SCLoginManager *lgM = [SCLoginManager shareLoginManager];
             //此方法只为演示用，用户应把录制的附件放到自己服务器，环信服务器不存储留言的附件
             [[[HChatClient sharedClient] leaveMsgManager] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {
+                    [weakHud hide:YES];
                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
                         LeaveMsgAttachmentModel *attachment = [[LeaveMsgAttachmentModel alloc] initWithDictionary:nil];
                         NSArray * entities = [responseObject objectForKey:@"entities"];
@@ -277,7 +273,8 @@ const NSInteger baseTag=123;
                         [weakSelf _reloadAttatchmentsView];
                     }
                 } else {
-                    
+                    [weakHud setLabelText:NSLocalizedString(@"failed", "Upload attachment failed")];
+                    [weakHud hide:YES afterDelay:0.5];
                 }
             }];
             
@@ -474,7 +471,7 @@ const NSInteger baseTag=123;
         NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
         
         __weak typeof(self) weakSelf = self;
-        MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment", "Upload attachment") toView:self.view];
+        MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
         hud.layer.zPosition = 1.f;
         __weak MBProgressHUD *weakHud = hud;
         ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset) {
@@ -500,7 +497,7 @@ const NSInteger baseTag=123;
                         [weakSelf _reloadAttatchmentsView];
                     }
                 } else {
-                    [weakHud setLabelText:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment.failed", "Upload attachment failed")];
+                    [weakHud setLabelText:NSLocalizedString(@"failed", "Upload attachment failed")];
                     [weakHud hide:YES afterDelay:0.5];
                 }
             }];

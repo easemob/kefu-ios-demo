@@ -75,7 +75,7 @@
     }
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
     HChatClient *clit = [HChatClient sharedClient];
-    #warning "changeAppKey 为内部方法，不建议使用"
+#warning "changeAppKey 为内部方法，不建议使用"
     HError *er = [clit changeAppKey:lgM.appkey];
     if (er == nil) {
         [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"appkey_updated", @"Appkey has been updated")]; 

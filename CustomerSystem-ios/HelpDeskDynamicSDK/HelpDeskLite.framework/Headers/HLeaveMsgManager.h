@@ -14,7 +14,7 @@
 
 //留言附件地址
 
-@property(nonatomic,copy) NSString *serverUrl;
+@property(nonatomic,copy) NSString *serverUrl __attribute__((deprecated("已过期")));
 
 /*
  @method
@@ -22,7 +22,17 @@
  @param tenantId    客服tenantId
  */
 - (void)getWorkStatusWithTenantId:(NSString *)tenantId
-                       completion:(void(^)(BOOL isWork,NSError *error))completion;
+                       completion:(void(^)(BOOL isWork,NSError *error))completion __attribute__((deprecated("已过期, 请使用getWorkStatusWithToUser")));
+
+
+/**
+  @brief 获取客服工作状态
+
+ @param imServiceNumber im服务号
+ @param completion 返回结果 true or false
+ */
+- (void)getWorkStatusWithToUser:(NSString *)imServiceNumber completion:(void (^)(BOOL,NSError *))completion;
+
 
 /*
  @method
@@ -38,7 +48,18 @@
                              projectId:(NSString*)projectId
                                  cname:(NSString *)cname
                            requestBody:(LeaveMsgRequestBody *)requestBody
-                            completion:(void(^)(id responseObject,NSError *error))completion;
+                            completion:(void(^)(id responseObject,NSError *error))completion __attribute__((deprecated("已过期, 请使用createLeaveMsg")));
+
+/**
+ @brief 创建一个留言
+ @discussion 失败返回NSError,成功返回responseObject
+ @param projectId 留言的Project ID
+ @param imCustomerService im服务号
+ @param requestBody 留言参数
+ @param completion 返回结果
+ */
+- (void)createLeaveMsgWithProjectId:(NSString *)projectId targetUser:(NSString *)imCustomerService requestBody:(LeaveMsgRequestBody *)requestBody completion:(void(^)(id responseObject,NSError *error))completion;
+
 /*
  @method
  @brief 获取留言详情
@@ -53,7 +74,23 @@
                                      projectId:(NSString*)projectId
                                          cname:(NSString *)cname
                                       ticketId:(NSString*)ticketId
-                                    completion:(void(^)(id responseObject,NSError *error))completion;
+                                    completion:(void(^)(id responseObject,NSError *error))completion __attribute__((deprecated("已过期, 请使用getLeaveMsgDetailWithProjectId")));
+
+
+/**
+ @brief 获取留言详情
+ @discussion 失败返回NSError,成功返回responseObject
+
+ @param projectId 留言的Project ID
+ @param targetUser im服务号
+ @param ticketId  留言ID
+ @param completion 返回结果 通过error判断成败
+ */
+- (void)getLeaveMsgDetailWithProjectId:(NSString *)projectId
+                                    targetUser:(NSString *)imCustomerService
+                              ticketId:(NSString*)ticketId
+                            completion:(void(^)(id responseObject,NSError *error))completion;
+
 
 /*
  @method
@@ -73,7 +110,28 @@
                                            ticketId:(NSString *)ticketId
                                                page:(NSUInteger)page
                                            pageSize:(NSUInteger)pageSize
-                                         completion:(void(^)(id responseObject,NSError *error))completion;
+                                         completion:(void(^)(id responseObject,NSError *error))completion __attribute__((deprecated("已过期, 请使用getLeaveMsgCommentsWithProjectId")));
+
+
+/**
+ @brief 获取留言下所有评论
+ @discussion 失败返回NSError,成功返回responseObject
+ @param targetUser im服务号
+ @param projectId 留言的Project ID
+ @param ticketId 留言ID
+ @param page 第一页从0开始
+ @param pageSize 每页显示的个数
+ @param completion 返回结果 通过error判断成败
+ */
+
+- (void)getLeaveMsgCommentsWithProjectId:(NSString*)projectId
+                                        targetUser:(NSString *)imCustomerService
+                                ticketId:(NSString *)ticketId
+                                    page:(NSUInteger)page
+                                pageSize:(NSUInteger)pageSize
+                              completion:(void(^)(id responseObject,NSError *error))completion;
+
+
 
 /*
  @method
@@ -91,7 +149,24 @@
                                        cname:(NSString *)cname
                               ticketId:(NSString *)ticketId
                             requestBody:(LeaveMsgRequestBody*)requestBody
-                            completion:(void(^)(id responseObject,NSError *error))completion;
+                                  completion:(void(^)(id responseObject,NSError *error))completion __attribute__((deprecated("已过期, 请使用createLeaveMsgCommentWithProjectId")));
+
+
+
+/**
+ @brief 给一个留言添加评论
+ @discussion 失败返回NSError,成功返回responseObject
+ @param targetUser im服务号
+ @param projectId 留言的Project ID
+ @param ticketId 留言ID
+ @param requestBody 请求体
+ @param completion 返回结果block
+ */
+- (void)createLeaveMsgCommentWithProjectId:(NSString*)projectId
+                                     targetUser:(NSString *)imCustomerService
+                                  ticketId:(NSString *)ticketId
+                               requestBody:(LeaveMsgRequestBody*)requestBody
+                                completion:(void(^)(id responseObject,NSError *error))completion;
 
 
 /*
@@ -109,8 +184,25 @@
                            projectId:(NSString*)projectId
                                cname:(NSString *)cname
                                 page:(NSInteger)page
-                            pageSize:(NSInteger)pigeSize
-                          completion:(void(^)(id responseObject,NSError *error))completion;
+                            pageSize:(NSInteger)pageSize
+                          completion:(void(^)(id responseObject,NSError *error))completion  __attribute__((deprecated("已过期, 请使用getLeaveMsgsWithProjectId")));
+
+
+/**
+ @brief 获取留言列表
+ @discussion 失败返回NSError,成功返回responseObject
+
+ @param projectId 留言的Project ID
+ @param targetUser IM 服务号
+ @param page 第几页从0开始
+ @param pageSize 每页显示个数
+ @param completion 返回结果
+ */
+- (void)getLeaveMsgsWithProjectId:(NSString *)projectId
+                           targetUser:(NSString *)imCustomerService
+                            page:(NSInteger)page
+                        pageSize:(NSInteger)pageSize
+                      completion:(void(^)(id responseObject,NSError *error))completion;
 
 
 /*
@@ -125,9 +217,9 @@
 - (void)uploadWithTenantId:(NSString*)tenantId
                       File:(NSData*)file
                 parameters:(NSDictionary*)parameters
-                completion:(void(^)(id responseObject,NSError *error))completion;
+                completion:(void(^)(id responseObject,NSError *error))completion __attribute__((deprecated("已过期")));
 
-/*
+/**
  下载文件
  */
 

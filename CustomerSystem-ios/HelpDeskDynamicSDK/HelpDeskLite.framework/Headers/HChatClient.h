@@ -7,24 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-//LITE
-//#import <HyphenateLite/EMMessageBody.h>
-//#import <HyphenateLite/EMTextMessageBody.h>
-//#import <HyphenateLite/EMVideoMessageBody.h>
-//#import <HyphenateLite/EMImageMessageBody.h>
-//#import <HyphenateLite/EMVoiceMessageBody.h>
-//#import <HyphenateLite/EMLocationMessageBody.h>
-//#import <HyphenateLite/EMCmdMessageBody.h>
-//#import <HyphenateLite/HyphenateLite.h>
-//FULL
-#import <Hyphenate/EMMessageBody.h>
-#import <Hyphenate/EMTextMessageBody.h>
-#import <Hyphenate/EMVideoMessageBody.h>
-#import <Hyphenate/EMImageMessageBody.h>
-#import <Hyphenate/EMVoiceMessageBody.h>
-#import <Hyphenate/EMLocationMessageBody.h>
-#import <Hyphenate/EMCmdMessageBody.h>
-#import <Hyphenate/Hyphenate.h>
+
+#import <HyphenateLite/EMMessageBody.h>
+#import <HyphenateLite/EMTextMessageBody.h>
+#import <HyphenateLite/EMVideoMessageBody.h>
+#import <HyphenateLite/EMImageMessageBody.h>
+#import <HyphenateLite/EMVoiceMessageBody.h>
+#import <HyphenateLite/EMLocationMessageBody.h>
+#import <HyphenateLite/EMCmdMessageBody.h>
+#import <HyphenateLite/HyphenateLite.h>
+#import <HyphenateLite/EMOptions+PrivateDeploy.h>
 
 #import "HMessage.h"
 #import "HMessage+Content.h"
@@ -36,6 +28,7 @@
 #import "HError.h"
 #import "HPushOptions.h"
 #import "HjudgeTextMessageSubType.h"
+#import "HMessageHelper.h"
 // resued concept
 
 @interface HChatClient :NSObject<HChatClientDelegate>
@@ -48,18 +41,22 @@
  */
 @property (nonatomic, strong, readonly) NSString *currentUsername;
 
+@property(nonatomic,copy) NSString *currentVersion __attribute__((deprecated("已过期, 请使用sdkVersion")));
+
 /**
  当前SDK 版本
  */
+@property(nonatomic, copy) NSString *sdkVersion;
 
-@property(nonatomic,copy) NSString *currentVersion;
 
+@property(nonatomic,copy) NSString *imCurrentVersion __attribute__((deprecated("已过期, 请使用imSdkVersion")));
 
 /**
  当前IM版本号
  */
+@property(nonatomic, copy) NSString *imSdkVersion;
 
-@property(nonatomic,copy) NSString *imCurrentVersion;
+@property(nonatomic, assign) BOOL enableVisitorWaitCount;
 
 /*!
  *  \~chinese
@@ -71,24 +68,21 @@
 @property (nonatomic, strong, readonly) HPushOptions *hPushOptions;
 
 
+
+@property (nonatomic, strong, readonly) HChat *chat __attribute__((deprecated("已过期, 请使用chatManager")));
+
 /*!
  *  \~chinese
- *  聊天模块
+ *  聊天消息管理模块
  *
  *  \~english
  *  Chat module
  */
-@property (nonatomic, strong, readonly) HChat *chat;
+@property (nonatomic, strong, readonly) HChat *chatManager;
 
 
-/*!
- *  \~chinese
- *  SDK是否自动登录上次登录的账号
- *
- *  \~english
- *  If SDK will automatically log into with previously logged in session
- */
-@property (nonatomic, readonly) BOOL isAutoLogin;
+@property (nonatomic, readonly) BOOL isAutoLogin __attribute__((deprecated("已过期")));
+
 /*!
  *  \~chinese
  *  用户是否已登录
@@ -218,6 +212,30 @@
 - (HError *)loginWithUsername:(NSString *)aUsername
                       password:(NSString *)aPassword;
 
+/*!
+ *  \~chinese
+ *  登录
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aUsername  用户名
+ *  @param aToken  token
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Login
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aUsername  Username
+ *  @param aToken  token
+ *
+ *  @result Error
+ */
+- (HError *)loginWithUsername:(NSString *)aUsername
+                        token:(NSString *)aToken;
+
 #pragma makr - Logout
 
 /*!
@@ -286,6 +304,8 @@
  */
 - (HPushOptions *)getPushOptionsFromServerWithError:(HError **)pError;
 
+- (HError *)setApnsNickname:(NSString *)aNickname __attribute__((deprecated("已过期, 请使用setPushNickname")));
+
 /*!
  *  \~chinese
  *  设置推送消息显示的昵称
@@ -305,7 +325,7 @@
  *
  *  @result Error
  */
-- (HError *)setApnsNickname:(NSString *)aNickname;
+- (HError *)setPushNickname:(NSString *)aNickname;
 
 /*!
  *  \~chinese
@@ -355,6 +375,9 @@
 
 #pragma mark - Change AppKey
 
+
+- (HError *)changeAppkey:(NSString *)appkey __attribute__((deprecated("已过期, 请使用changeAppKey")));
+
 /*!
  *  \~chinese
  *  修改appkey
@@ -370,8 +393,7 @@
  *
  *  @result Error
  */
-- (HError *)changeAppkey:(NSString *)appkey;
-
+- (HError *)changeAppKey:(NSString *)appKey;
 
 /**
  改变tenantId
@@ -391,5 +413,17 @@
  * 获取IM用户的token
  *
  */
-- (NSString *) getUserToken;
+- (NSString *) accessToken;
+
+- (NSString *) getUserToken __attribute__((deprecated("已过期, 请使用accessToken")));
+
+/*!
+ *  \~chinese
+ *  留言管理模块
+ *
+ *  \~english
+ *  LeaveMsgManager module
+ */
+@property (nonatomic, strong, readonly) HLeaveMsgManager *leaveMsgManager;
+
 @end

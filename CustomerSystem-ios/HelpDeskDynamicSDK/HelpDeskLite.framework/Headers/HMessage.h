@@ -55,14 +55,16 @@ typedef enum{
  */
 @property (nonatomic, copy) NSString *messageId;
 
+@property (nonatomic) long long timestamp __attribute__((deprecated("已过期, 请使用messageTime")));
+
 /*!
  *  \~chinese
  *  时间戳，服务器收到此消息的时间
  *
  *  \~english
- *  Timestamp, the time of server received this message
+ *  messageTime, the time of server received this message
  */
-@property (nonatomic) long long timestamp;
+@property (nonatomic) long long messageTime;
 
 /*!
  *  \~chinese
@@ -71,7 +73,7 @@ typedef enum{
  *  \~english
  *  The time of client send/receive the message
  */
-@property (nonatomic) long long localTime;
+@property (nonatomic) long long localTime __attribute__((deprecated("已过期, 请使用messageTime")));;
 /*!
  *  \~chinese
  *  消息的方向
@@ -169,6 +171,115 @@ typedef enum{
 
 - (void)addAttributeDictionary:(NSDictionary *)dic;
 
+/**
+ create Txt message
+
+ @param content
+ @param toUserName
+ @return HMessage
+ */
++(instancetype)createTxtSendMessageWithContent:(NSString *)content to:(NSString *)toUserName;
+
+
+/**
+ create image message
+
+ @param imageData
+ @param imageName
+ @param toUserName
+ @return HMessage
+ */
++(instancetype)createImageSendMessageWithData:(NSData *) imageData displayName:(NSString *) imageName to:(NSString *) toUserName;
+
+
+/**
+ create image message use image
+
+ @param image
+ @param toUserName
+ @return HMessage
+ */
++(instancetype)createImageSendMessageWithImage:(UIImage *) image to:(NSString *) toUserName;
+
+
+/**
+ create voice send message
+
+ @param localPath
+ @param duration
+ @param toUserName
+ @return HMessage
+ */
++(instancetype)createVoiceSendMessageWithLocalPath:(NSString *) localPath duration:(int) duration to:(NSString *) toUserName;
+
+
+/**
+ create video invite send message
+
+ @param content
+ @param toUserName
+ @return HMessage
+ */
++(instancetype)createVideoInviteSendMessageWithContent:(NSString *) content to:(NSString *)toUserName;
+
+
+/**
+ create bigExpression send message
+
+ @param url emoji url
+ @param toUserName toUsername
+ @return HMessage
+ */
++ (instancetype)createBigExpressionSendMessageWithUrl:(NSString *)url to:(NSString *)toUserName;
+
+
+/**
+ create location send message
+
+ @param latitude
+ @param longitude
+ @param address
+ @param toUserName
+ @return HMessage
+ */
++(instancetype)createLocationSendMessageWithLatitude:(double) latitude longitude:(double)longitude address:(NSString *) address to:(NSString *)toUserName;
+
+
+/**
+ create file send message
+
+ @param localPath
+ @param toUserName
+ @return HMessage
+ */
++(instancetype)createFileSendMessageWithLocalPath:(NSString *)localPath to:(NSString *)toUserName;
+
+
+/**
+ create file send message
+
+ @param localPath
+ @param displayName
+ @param toUserName
+ @return HMessage
+ */
++(instancetype)createFileSendMessageWithLocalPath:(NSString *)localPath displayName:(NSString *)displayName to:(NSString *)toUserName;
+
+
+/**
+ check voice message if it is listened
+
+ @return YES or NO
+ */
+- (BOOL) isListened;
+
+
+/**
+ set voice message is listened
+
+ @param isListened the voice file was played.
+ */
+- (void)setListened:(BOOL)isListened;
 
 @end
 

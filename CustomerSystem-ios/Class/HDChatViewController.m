@@ -308,13 +308,16 @@
         NSArray *emojis = [self emojiValueForKey:[NSString stringWithFormat:@"emojis%@",package.packageId]];
         for (NSDictionary *emojiDic in emojis) {
             HEmoji *hemoji = [[HEmoji alloc] initWithDictionary:emojiDic];
-            HDEmotion *emotion = [[HDEmotion alloc] initWithName:hemoji.emojiName emotionId:@"100" emotionThumbnail:hemoji.thumbnailUrl emotionOriginal:hemoji.originUrl emotionOriginalURL:hemoji.originUrl emotionType:hemoji.emotionType];
+            HDEmotion *emotion = [[HDEmotion alloc] initWithName:hemoji.emojiName emotionId:@"123" emotionThumbnail:hemoji.thumbnailUrl emotionOriginal:hemoji.originUrl emotionOriginalURL:hemoji.originUrl emotionType:hemoji.emotionType];
             [marr addObject:emotion];
         }
-        HDEmotion *customTemp = [marr objectAtIndex:0];
-        HDEmotionManager *manager = [[HDEmotionManager alloc] initWithType:HDEmotionGif emotionRow:2 emotionCol:4 emotions:marr tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
-        manager.emotionName = package.packageName;
-        [rst addObject:manager];
+        if (marr.count > 0) {
+            HDEmotion *customTemp = [marr objectAtIndex:0];
+            HDEmotionManager *manager = [[HDEmotionManager alloc] initWithType:HDEmotionGif emotionRow:2 emotionCol:4 emotions:marr tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
+            manager.emotionName = package.packageName;
+            [rst addObject:manager];
+        }
+        
     }
     return rst;
 }

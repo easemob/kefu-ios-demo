@@ -186,6 +186,9 @@
 "leaveMessage.leavemsg.attachmentname" = "Attachment";
 "leaveMessage.leavemsg.uploadattachment" = "Upload attachment";
 "leaveMessage.leavemsg.uploadattachment.failed" = "Upload attachment failed";
+"uploading..." = "uploading...";
+"success!" = "success";
+"failed" = "failed";
 
 // new
 "Header.image" = "em_main_introduce";
