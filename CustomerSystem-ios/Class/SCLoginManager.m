@@ -33,6 +33,7 @@
         _thumbnailUrl = [dictionary valueForKey:@"thumbnailUrl"];
         _originMediaId = [dictionary valueForKey:@"originMediaId"];
         _thumbnailMediaId = [dictionary valueForKey:@"thumbnailMediaId"];
+        _tenantId = [dictionary valueForKey:@"tenantId"];
     }
     return self;
 }
@@ -267,30 +268,34 @@ static SCLoginManager *_manager = nil;
     [self createPlist];
     HChat *chat = [HChatClient sharedClient].chatManager;
     [chat getEmojiPackageListCompletion:^(NSArray<NSDictionary *> *emojiPackages, HError *error) {
-        NSMutableArray *hPackages = @[].mutableCopy;
-        [self setEmojiValue:emojiPackages forKey:@"emojiPackages"];
-        for (NSDictionary *dict in emojiPackages) {
-            HEmojiPackage *emojiPackage = [[HEmojiPackage alloc] initWithDictionary:dict];
-            [hPackages addObject:emojiPackage];
-        }
-        for (HEmojiPackage *package in hPackages) {
-            [chat getEmojisWithPackageId:package.packageId completion:^(NSArray<NSDictionary *> *emojis, HError *error) {
-                [self setEmojiValue:emojis forKey:[NSString stringWithFormat:@"emojis%@",package.packageId]];
-//                for (NSDictionary *di in emojis) {
-//                    HEmoji *emoji = [[HEmoji alloc] initWithDictionary:di];
-//                    SDWebImageManager *manager = [SDWebImageManager sharedManager];
-//                    NSURL *originUrl = [NSURL URLWithString:emoji.originUrl];
-//                    [manager downloadImageWithURL:originUrl options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-//                        SDImageCache *cache = [SDImageCache sharedImageCache];
-//                        [cache storeImage:image forKey:emoji.originMediaId];
-//                    }];
-//                    NSURL *thumbUrl = [NSURL URLWithString:emoji.thumbnailUrl];
-//                    [manager downloadImageWithURL:thumbUrl options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-//                        SDImageCache *cache = [SDImageCache sharedImageCache];
-//                        [cache storeImage:image forKey:emoji.thumbnailMediaId];
-//                    }];
-//                }
-            }];
+        if (error == nil) {
+            NSMutableArray *hPackages = @[].mutableCopy;
+            [self setEmojiValue:emojiPackages forKey:@"emojiPackages"];
+            for (NSDictionary *dict in emojiPackages) {
+                HEmojiPackage *emojiPackage = [[HEmojiPackage alloc] initWithDictionary:dict];
+                [hPackages addObject:emojiPackage];
+            }
+            for (HEmojiPackage *package in hPackages) {
+                [chat getEmojisWithPackageId:package.packageId completion:^(NSArray<NSDictionary *> *emojis, HError *error) {
+                    if (error == nil) {
+                        [self setEmojiValue:emojis forKey:[NSString stringWithFormat:@"emojis%@",package.packageId]];
+                    }
+                    //                for (NSDictionary *di in emojis) {
+                    //                    HEmoji *emoji = [[HEmoji alloc] initWithDictionary:di];
+                    //                    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+                    //                    NSURL *originUrl = [NSURL URLWithString:emoji.originUrl];
+                    //                    [manager downloadImageWithURL:originUrl options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                    //                        SDImageCache *cache = [SDImageCache sharedImageCache];
+                    //                        [cache storeImage:image forKey:emoji.originMediaId];
+                    //                    }];
+                    //                    NSURL *thumbUrl = [NSURL URLWithString:emoji.thumbnailUrl];
+                    //                    [manager downloadImageWithURL:thumbUrl options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                    //                        SDImageCache *cache = [SDImageCache sharedImageCache];
+                    //                        [cache storeImage:image forKey:emoji.thumbnailMediaId];
+                    //                    }];
+                    //                }
+                }];
+            }
         }
     }];
 }

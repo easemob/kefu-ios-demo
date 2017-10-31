@@ -38,6 +38,8 @@
 
 @property(nonatomic,copy) NSString *thumbnailLocalPath;
 
+@property(nonatomic,copy) NSString *tenantId;
+
 @property(nonatomic,assign) HDEmotionType emotionType;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
