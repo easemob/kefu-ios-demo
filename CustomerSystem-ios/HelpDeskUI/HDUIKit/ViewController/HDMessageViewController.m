@@ -1689,7 +1689,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.dataArray addObjectsFromArray:messages];
             [weakSelf.tableView beginUpdates];
-            [weakSelf.tableView insertRowsAtIndexPaths:mArr.copy withRowAnimation:UITableViewRowAnimationBottom];
+            [weakSelf.tableView insertRowsAtIndexPaths:mArr.copy withRowAnimation:UITableViewRowAnimationNone];
             [weakSelf.tableView endUpdates];
             [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[weakSelf.dataArray count] - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
         });
