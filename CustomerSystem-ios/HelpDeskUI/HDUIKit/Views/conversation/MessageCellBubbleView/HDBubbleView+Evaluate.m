@@ -12,15 +12,17 @@
 - (void)_setupEvaluateBubbleMarginConstraints {
     [self.marginConstraints removeAllObjects];
     
-    NSLayoutConstraint *transTitleMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *transTitleMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *transTitleMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    [self.marginConstraints addObject:transTitleMarginTopConstraint];
-    [self.marginConstraints addObject:transTitleMarginLeftConstraint];
-    [self.marginConstraints addObject:transTitleMarginRightConstraint];
+    NSLayoutConstraint *evalTitleMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
+    NSLayoutConstraint *evalTitleMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
+    NSLayoutConstraint *evalTitleMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
+    [self.marginConstraints addObject:evalTitleMarginTopConstraint];
+    [self.marginConstraints addObject:evalTitleMarginLeftConstraint];
+    [self.marginConstraints addObject:evalTitleMarginRightConstraint];
     
-    NSLayoutConstraint *transButtonMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom- 10];
-    [self.marginConstraints addObject:transButtonMarginBottomConstraint];
+    NSLayoutConstraint *evalButtonMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.evaluateTitle attribute:NSLayoutAttributeBottom multiplier:1.0 constant:3];
+    NSLayoutConstraint *evalButtonMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
+    [self.marginConstraints addObject:evalButtonMarginTopConstraint];
+    [self.marginConstraints addObject:evalButtonMarginBottomConstraint];
     
     [self addConstraints:self.marginConstraints];
 }

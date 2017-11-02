@@ -467,11 +467,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         break;
                     case HExtEvaluationMsg:
                     {
-                        if ([model.text isEqualToString:@""]) {
-                            _bubbleView.evaluateTitle.attributedText = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"satisfaction.message", @"please evaluate my service")];
-                        } else  {
-                            _bubbleView.evaluateTitle.attributedText = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
-                        }
+                        _bubbleView.evaluateTitle.attributedText = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"satisfaction.message", @"please evaluate my service")];
                     }
                         break;
                     case HExtToCustomServiceMsg: {
@@ -1096,10 +1092,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 }
                 case HExtEvaluationMsg:
                 {
-                    NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
-                    CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
-                    height += (rect.size.height > 20 ? rect.size.height : 20) + 20;
-                    height += [model.text boundingRectWithSize:CGSizeMake(tableWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height;
+                    NSAttributedString *text = [[NSAttributedString alloc] initWithString: NSLocalizedString(@"satisfaction.message", @"please evaluate my service")];
+                    CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth - 25, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
+                    height += (rect.size.height > 20 ? rect.size.height : 20) + 21;
                     height += 50;
                     return height;
                 }
