@@ -43,7 +43,7 @@
 }
 @end
 
-@interface HDMessageViewController ()<HDMessageCellDelegate,HChatDelegate,UIGestureRecognizerDelegate,TransmitDeleteTrackMsgDelegate>
+@interface HDMessageViewController ()<HDMessageCellDelegate,HChatDelegate,TransmitDeleteTrackMsgDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
@@ -1268,12 +1268,7 @@
     if ([ext objectForKey:EASEUI_EMOTION_DEFAULT_EXT]) {
         HDEmotion *emotion = [ext objectForKey:EASEUI_EMOTION_DEFAULT_EXT];
         [self sendCustomMagicEmojiWithOriginUrl:emotion.emotionOriginalURL];
-//        if (self.dataSource && [self.dataSource respondsToSelector:@selector(emotionExtFormessageViewController:easeEmotion:)]) {
-//            NSDictionary *ext = [self.dataSource emotionExtFormessageViewController:self easeEmotion:emotion];
-//            [self sendTextMessage:emotion.emotionTitle withExt:ext];
-//        } else {
-//            [self sendTextMessage:emotion.emotionTitle withExt:@{MESSAGE_ATTR_EXPRESSION_ID:emotion.emotionId,MESSAGE_ATTR_IS_BIG_EXPRESSION:@(YES)}];
-//        }
+
         return;
     }
     if (text && text.length > 0) {

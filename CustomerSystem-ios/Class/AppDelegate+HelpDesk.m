@@ -53,6 +53,7 @@
     option.apnsCertName = apnsCertName;
     option.visitorWaitCount = YES; //打开待接入访客排队人数功能
 //    option.kefuRestServer = @"http://sandbox.kefu.easemob.com";
+//    option.kefuRestServer = @"http://vpc10.kefu.easemob.com";
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {

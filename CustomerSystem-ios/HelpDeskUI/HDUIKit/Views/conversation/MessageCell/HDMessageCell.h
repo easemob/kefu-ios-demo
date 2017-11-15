@@ -40,7 +40,7 @@ typedef enum{
 @end
 
 @protocol HDMessageCellDelegate;
-@interface HDMessageCell : UITableViewCell<HDIModelChatCell,UIGestureRecognizerDelegate>
+@interface HDMessageCell : UITableViewCell<HDIModelChatCell>
 {
     UIButton *_statusButton;
     UILabel *_hasRead;
