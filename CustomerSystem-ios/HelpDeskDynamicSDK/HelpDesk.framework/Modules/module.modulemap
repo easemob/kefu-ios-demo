@@ -1,0 +1,6 @@
+framework module HelpDesk {
+  umbrella header "HelpDesk.h"
+
+  export *
+  module * { export * }
+}
