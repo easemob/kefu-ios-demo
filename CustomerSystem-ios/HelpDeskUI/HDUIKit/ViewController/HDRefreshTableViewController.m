@@ -42,6 +42,10 @@
         self.edgesForExtendedLayout =  UIRectEdgeNone;
     }
     
+    if (@available(iOS 11.0, *)) {
+        self.additionalSafeAreaInsets = UIEdgeInsetsMake(0, 0, iPhoneXBottomHeight, 0);
+    }
+    
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:self.style];
     _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _tableView.delegate = self;

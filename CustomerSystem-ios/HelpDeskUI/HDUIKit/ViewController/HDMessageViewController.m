@@ -122,7 +122,7 @@
     
     //Initialization
     CGFloat chatbarHeight = [HDChatToolbar defaultHeight];
-    self.chatToolbar = [[HDChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - chatbarHeight, self.view.frame.size.width, chatbarHeight)];
+    self.chatToolbar = [[HDChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - chatbarHeight-iPhoneXBottomHeight, self.view.frame.size.width, chatbarHeight)];
     self.chatToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     //Initializa the gesture recognizer
@@ -327,7 +327,7 @@
     }
     
     CGRect tableFrame = self.tableView.frame;
-    tableFrame.size.height = self.view.frame.size.height - _chatToolbar.frame.size.height;
+    tableFrame.size.height = self.view.frame.size.height - _chatToolbar.frame.size.height-iPhoneXBottomHeight;
     self.tableView.frame = tableFrame;
     if ([chatToolbar isKindOfClass:[HDChatToolbar class]]) {
         [(HDChatToolbar *)self.chatToolbar setDelegate:self];
@@ -1180,7 +1180,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         CGRect rect = self.tableView.frame;
         rect.origin.y = 0;
-        rect.size.height = self.view.frame.size.height - toHeight;
+        rect.size.height = self.view.frame.size.height - toHeight - iPhoneXBottomHeight;
         self.tableView.frame = rect;
     }];
     
