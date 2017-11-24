@@ -1678,25 +1678,20 @@
 -(void)addMessageToDataSource:(HMessage *)message
                      progress:(id)progress
 {
-    [self.messsagesSource addObject:message];
-    
-     __weak HDMessageViewController *weakSelf = self;
-    dispatch_async(_messageQueue, ^{
-        NSArray *messages = [weakSelf formatMessages:@[message]];
+    @synchronized (self.messsagesSource) {
+        [self.messsagesSource addObject:message];
+        NSArray *messages = [self formatMessages:@[message]];
         NSMutableArray  *mArr = [NSMutableArray arrayWithCapacity:0];
         for (int i=0; i<messages.count; i++) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.dataArray.count + i inSection:0];
             [mArr addObject:indexPath];
         }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.dataArray addObjectsFromArray:messages];
-            [weakSelf.tableView beginUpdates];
-            [weakSelf.tableView insertRowsAtIndexPaths:mArr.copy withRowAnimation:UITableViewRowAnimationNone];
-            [weakSelf.tableView endUpdates];
-            [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[weakSelf.dataArray count] - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-        });
-    });
+        [self.dataArray addObjectsFromArray:messages];
+        [self.tableView beginUpdates];
+        [self.tableView insertRowsAtIndexPaths:mArr.copy withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tableView endUpdates];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.dataArray count] - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    }
 }
 
 #pragma mark - public
