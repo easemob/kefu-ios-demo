@@ -13,6 +13,7 @@
 #import <HyphenateLite/EMVideoMessageBody.h>
 #import <HyphenateLite/EMImageMessageBody.h>
 #import <HyphenateLite/EMVoiceMessageBody.h>
+#import <HyphenateLite/EMFileMessageBody.h>
 #import <HyphenateLite/EMLocationMessageBody.h>
 #import <HyphenateLite/EMCmdMessageBody.h>
 #import <HyphenateLite/HyphenateLite.h>

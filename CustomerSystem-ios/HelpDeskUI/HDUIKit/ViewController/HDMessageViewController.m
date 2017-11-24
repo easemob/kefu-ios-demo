@@ -95,6 +95,14 @@
     return self;
 }
 
+- (void)agentInputStateChange:(NSString *)content {
+    if (content!=nil) {
+        self.title = content;
+    } else {
+        self.title = _converID;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
