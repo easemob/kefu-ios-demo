@@ -90,7 +90,7 @@
     _editField.delegate = self;
     [contentView addSubview:_editField];
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 114, kScreenWidth, 50)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 114 - iPhoneXBottomHeight, kScreenWidth, 50)];
     view.backgroundColor = RGBACOLOR(184, 22, 22, 1);
     [self.view addSubview:view];
     

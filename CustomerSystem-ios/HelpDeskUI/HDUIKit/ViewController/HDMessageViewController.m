@@ -68,6 +68,9 @@
 @end
 
 @implementation HDMessageViewController
+{
+    NSString *_title;
+}
 
 @synthesize conversation = _conversation;
 @synthesize deleteConversationIfNull = _deleteConversationIfNull;
@@ -95,14 +98,22 @@
     return self;
 }
 
+- (void)agentInputStateChange:(NSString *)content {
+    if (content!=nil) {
+        self.title = content;
+    } else {
+        self.title = _title;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSString *name = _converID;
+    _title = _converID;
     if (_conversation.officialAccount.name) {
-        name = _conversation.officialAccount.name;
+        _title = _conversation.officialAccount.name;
     }
-    self.title = name;
+    self.title = _title;
     [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:NO];
     if (self.scrollToBottomWhenAppear) {

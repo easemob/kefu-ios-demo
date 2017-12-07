@@ -176,7 +176,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         SCLoginManager *lgM = [SCLoginManager shareLoginManager];
         if ([lgM loginKefuSDK]/*[self loginKefuSDK:shouqian]测试切换账号使用*/ ) {
-            
+//            [[EMClient sharedClient] logout:YES];//测试第二通道
 //            [self setPushOptions];
             NSString *queue = nil;
             if ([notification.object objectForKey:kpreSell]) {

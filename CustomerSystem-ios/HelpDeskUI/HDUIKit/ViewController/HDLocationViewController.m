@@ -229,6 +229,9 @@ static HDLocationViewController *defaultLocation = nil;
 
 - (void)sendLocation
 {
+    if (_currentLocationCoordinate.latitude == 0) {
+        return;
+    }
     if (_delegate && [_delegate respondsToSelector:@selector(sendLocationLatitude:longitude:andAddress:)]) {
         [_delegate sendLocationLatitude:_currentLocationCoordinate.latitude longitude:_currentLocationCoordinate.longitude andAddress:_addressString];
     }

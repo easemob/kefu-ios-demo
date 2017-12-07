@@ -18,7 +18,11 @@
     if (dic != nil) {
         _type = HDCellTypeSub;
         _title = [dic objectForKey:@"title"];
-        _createTime = [self timeFormatter:[[dic objectForKey:@"createdTime"] doubleValue]/1000];
+        double createTime = [[NSDate date] timeIntervalSince1970] * 1000;
+        if ([dic objectForKey:@"createdTime"]) {
+            createTime = [[dic objectForKey:@"createdTime"] doubleValue];
+        }
+        _createTime = [self timeFormatter:createTime/1000];
         _digest = [dic objectForKey:@"digest"];
         _imageUrl = [dic objectForKey:@"thumbUrl"];
         _url = [dic objectForKey:@"url"];

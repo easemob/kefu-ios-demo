@@ -105,12 +105,12 @@
 - (void)timeTimerAction
 {
     self.timeLength += 1;
-    int hour = self.timeLength / 3600;
-    int m = (self.timeLength - hour * 3600) / 60;
-    int s = self.timeLength - hour * 3600 - m * 60;
+//    int hour = self.timeLength / 3600;
+//    int m = (self.timeLength - hour * 3600) / 60;
+//    int s = self.timeLength - hour * 3600 - m * 60;
     
  
-    _timeLabel.text = [NSString stringWithFormat:@"%i", s];
+    _timeLabel.text = [NSString stringWithFormat:@"%i", self.timeLength];
     
 }
 
