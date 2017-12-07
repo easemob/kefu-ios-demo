@@ -29,4 +29,17 @@
  */
 @property (nonatomic, strong) HCallLocalView * previewView;
 
+/**
+ 默认使用后置摄像头
+ */
+@property (nonatomic, assign) BOOL useBackCamera;
+/**
+ 设置视频宽
+ */
+@property (nonatomic, assign) int videoWidth;
+/**
+ 设置视频高
+ */
+@property (nonatomic, assign) int videoHeight;
+    
 @end

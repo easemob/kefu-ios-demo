@@ -79,6 +79,12 @@
 - (void)visitorWaitCount:(int)count;
 
 
+/**
+ 坐席输入状态变化
+
+ @param content 内容
+ */
+- (void)agentInputStateChange:(NSString *)content;
 
 
 @end

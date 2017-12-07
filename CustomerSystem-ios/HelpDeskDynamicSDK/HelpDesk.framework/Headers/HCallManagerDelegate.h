@@ -66,5 +66,7 @@
  @param stream stream
  */
 - (void)onStreamUpdate:(HCallStream *)stream;
+    
+- (void)onNotice:(HMediaNoticeCode)code arg1:(NSString *)arg1 arg2:(NSString *)arg2 arg3:(id)arg3;
 
 @end

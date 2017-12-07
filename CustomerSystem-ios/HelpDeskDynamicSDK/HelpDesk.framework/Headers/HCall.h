@@ -167,6 +167,21 @@
  */
 - (void)resumeVideo;
 
+
+/**
+ * 发送自定义消息
+ */
+- (void) sendCustomWithRemoteMemberId:(NSString*)remoteMemeberId
+            message:(NSString*)message
+             onDone:(void(^)(id obj, HError * error))block;
+
+/**
+ * 发送自定义消息
+ */
+- (void) sendCustomWithRemoteStreamId:(NSString*)remoteStreamId
+            message:(NSString*)message
+             onDone:(void(^)(id obj, HError * error))block;
+    
 @end
 
 

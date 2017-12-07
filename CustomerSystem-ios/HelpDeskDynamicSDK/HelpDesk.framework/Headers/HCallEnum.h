@@ -9,32 +9,6 @@
 #ifndef HCallEnum_h
 #define HCallEnum_h
 
-/*!
- *  \~chinese
- *  通话数据流状态
- *
- *  \~english
- *  Call status
- */
-typedef enum{
-    HCallStreamStatusVoicePause = 0,  /*! \~chinese 中断语音 \~english Pause voice streaming */
-    HCallStreamStatusVoiceResume,     /*! \~chinese 继续语音 \~english Resume voice streaming */
-    HCallStreamStatusVideoPause,      /*! \~chinese 中断视频 \~english Pause video streaming */
-    HCallStreamStatusVideoResume,     /*! \~chinese 继续视频 \~english Resume video streaming */
-}HCallStreamingStatus;
-
-/*!
- *  \~chinese
- *  通话网络状态
- *
- *  \~english
- *  Network status
- */
-typedef enum{
-    HCallNetworkStatusNormal = 0,  /*! \~chinese 正常 \~english Normal */
-    HCallNetworkStatusUnstable,    /*! \~chinese 不稳定 \~english Unstable */
-    HCallNetworkStatusNoData,      /*! \~chinese 没有数据 \~english No data */
-}HCallNetworkStatus;
 
 #ifndef H_SCALEASPECT_DEFINE
 #define H_SCALEASPECT_DEFINE
@@ -50,6 +24,23 @@ typedef enum{
     HCallViewScaleModeAspectFill = 1,  /*! \~chinese 全屏 \~english Aspect fill */
 }HCallViewScaleMode;
 #endif
+
+
+
+typedef enum{
+    HMediaNoticeNone = 0,
+    HMediaNoticeStats = 100,
+    HMediaNoticeDisconn = 120,
+    HMediaNoticeReconn = 121,
+    HMediaNoticePoorQuality = 122,
+    HMediaNoticePublishSetup = 123,
+    HMediaNoticeSubscriptionSetup = 124,
+    HMediaNoticeTakePicture = 125,
+    HMediaNoticeCustomMsg = 126,
+    HMediaNoticeOpenCameraFail = 201,
+    HMediaNoticeOpenMicFail = 202,
+}HMediaNoticeCode;
+
 
 
 #endif /* HCallEnum_h */
