@@ -96,6 +96,15 @@
     // Pass the selected object to the new view controller.
 }
 */
+    
+-(void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion
+{
+    if(self.presentedViewController){
+        [super dismissViewControllerAnimated:flag completion:completion];
+    }
+}
+    
+    
 - (void)dealloc
 {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
