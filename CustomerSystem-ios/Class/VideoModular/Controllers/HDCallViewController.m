@@ -124,7 +124,14 @@
 - (IBAction)switchBtnClicked:(id)sender {
     UIButton *btn = sender;
     _switchBtn.selected = !btn.selected;
-    [[HChatClient sharedClient].callManager switchCamera];
+//    [[HChatClient sharedClient].callManager switchCamera];
+    [[HChatClient sharedClient].callManager publishWindow:self.view completion:^(id obj, HError * error) {
+        if(error){
+            NSLog(@"desktop shared fail, error: %@", error.errorDescription);
+        }else{
+            NSLog(@"desktop shared success.");
+        }
+    }];
 }
 
 //开关mic
