@@ -62,12 +62,9 @@
     NSString *newAppkey = [dic valueForKey:@"appkey"];
     if (![_appkey isEqualToString:newAppkey]) {
         _appkey = [dic valueForKey:@"appkey"];
-        _cname = [dic valueForKey:@"imservicenum"];
-        _tenantId = [dic valueForKey:@"tenantid"];
-        _projectId = [dic valueForKey:@"projectId"];
-        [self commitModify];
-        [self.tableView reloadData];
-        [self.navigationController popViewControllerAnimated:YES];
+        _lgM.appkey = _appkey;
+        AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+        [appDelegate resetCustomerServiceSDK];
     }
     if (![_tenantId isEqualToString:[dic valueForKey:@"tenantId"]]) {
         _tenantId = [dic valueForKey:@"tenantid"];
@@ -77,8 +74,10 @@
     _cname = [dic valueForKey:@"imservicenum"];
     _projectId = [dic valueForKey:@"projectId"];
     _lgM.cname = _cname;
+    _lgM.nickname = _nickname;
     _lgM.projectId = _projectId;
     [self.tableView reloadData];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -259,19 +258,6 @@
         default:
             break;
     }
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)commitModify {
-    _lgM.appkey = _appkey;
-    _lgM.cname = _cname;
-    _lgM.nickname = _nickname;
-    _lgM.tenantId = _tenantId;
-    _lgM.projectId = _projectId;
-    [self.tableView reloadData];
-    AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate resetCustomerServiceSDK];
 }
 
 
