@@ -116,6 +116,7 @@ static HDCallManager *_manager = nil;
     }
     [_memberObjDic setObject:item forKey:stream.memberName];
     [self subscribeStreamWithMemberObj:item];
+    
 }
 
 /**
@@ -149,7 +150,7 @@ static HDCallManager *_manager = nil;
 - (void)onCallEndReason:(int)reason desc:(NSString *)desc {
     NSString *tip = @"";
     switch (reason) {
-        case 0: {
+        case HErrorCallReasonHangup: {
             tip = NSLocalizedString(@"video_other_side_has_hungup", @"The other side hung up the video call");
             break;
         }
@@ -159,6 +160,21 @@ static HDCallManager *_manager = nil;
     }
     [_currentCallVC passiveCloseSessionTip:tip];
     [self exitSession];
+}
+    
+-(void)onNotice:(HMediaNoticeCode)code arg1:(NSString *)arg1 arg2:(NSString *)arg2 arg3:(id)arg3{
+    switch (code) {
+        case HMediaNoticeOpenCameraFail:
+            NSLog(@"HMediaNoticeOpenCameraFail");
+        break;
+        case HMediaNoticeOpenMicFail:
+            NSLog(@"HMediaNoticeOpenMicFail");
+        break;
+        default:
+            NSLog(@"onNotice:%d", code);
+        break;
+    }
+    
 }
 
 #pragma mark - 用户交互

@@ -58,10 +58,12 @@ typedef enum{
     HErrorGroupPermissionDenied,            /*! \~chinese 没有权限进行该操作 \~english User has no access for the operation */
     HErrorGroupMHbersFull,                 /*! \~chinese 群成员个数已达到上限 \~english Reach group's max mHber count */
     HErrorGroupNotExist,                    /*! \~chinese 群组不存在 \~english Group is not existed */
-    
-    
-    HErrorCallInvalidId = 800,              /*! \~chinese 实时通话ID无效 \~english Call id is invalid */
-    HErrorCallBusy,                         /*! \~chinese 已经在进行实时通话了 \~english User is busy */
-    HErrorCallRemoteOffline,                /*! \~chinese 对方不在线 \~english Callee is offline */
-    HErrorCallConnectFailed,                /*! \~chinese 实时通话建立连接失败 \~english Establish connection failure */
+    HErrorCallReasonHangup = 800,
+    HErrorCallReasonNoResponse,
+    HErrorCallReasonReject,
+    HErrorCallReasonBusy,
+    HErrorCallReasonFail,
+    HErrorCallReasonUnspported,
+    HErrorCallReasonOtherDevice,
+    HErrorCallReasonDismiss,
 }HErrorCode;

@@ -68,7 +68,9 @@
 }
 
 -(void)closeWindow{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [super dismissViewControllerAnimated:YES completion:nil];
+    });
 }
 
 -(void)showToast:(NSString *)toast{
@@ -96,6 +98,15 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+    
+-(void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion
+{
+    if(self.presentedViewController){
+        [super dismissViewControllerAnimated:flag completion:completion];
+    }
+}
+    
 - (void)dealloc
 {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];

@@ -77,9 +77,8 @@
             NSLog(@"登出出错:%@",error.errorDescription);
     }
     SCLoginManager *lgM = [SCLoginManager shareLoginManager];
-    HChatClient *clit = [HChatClient sharedClient];
 #warning "changeAppKey 为内部方法，不建议使用"
-    HError *er = [clit changeAppKey:lgM.appkey];
+    HError *er = [client changeAppKey:lgM.appkey];
     if (er == nil) {
         [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"appkey_updated", @"Appkey has been updated")]; 
         [SVProgressHUD dismissWithDelay:1.0];
@@ -188,9 +187,9 @@
 
 // 将得到的deviceToken传给SDK
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[HChatClient sharedClient] bindDeviceToken:deviceToken];
-//    });
+    });
 }
 
 // 注册deviceToken失败，此处失败，与环信SDK无关，一般是您的环境配置或者证书配置有误
