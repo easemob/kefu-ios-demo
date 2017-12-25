@@ -288,5 +288,13 @@
 - (void)getEmojisWithPackageId:(NSString *)packageId
                    completion:(void(^)(NSArray <NSDictionary *> *emojis,HError *error))completion;
 
+
+/**
+ 把访客输入的内容传到服务器
+
+ @param completion 完成回调
+ */
+- (void)postContent:(NSString *)content conversationId:(NSString *)conversationId completion:(void(^)(id responseObject,HError *error))completion;
+
 @end
 

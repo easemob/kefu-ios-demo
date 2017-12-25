@@ -3095,6 +3095,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskDynamicSDK",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/CustomerSystem-ios",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -3146,6 +3147,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskDynamicSDK",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/CustomerSystem-ios",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";

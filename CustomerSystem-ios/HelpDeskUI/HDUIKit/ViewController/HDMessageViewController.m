@@ -1206,6 +1206,13 @@
     [_menuController setMenuItems:nil];
 }
 
+- (void)inputTextViewDidChange:(HDTextView *)inputTextView {
+    
+    [[HChatClient sharedClient].chatManager postContent:inputTextView.text conversationId:_conversation.conversationId completion:^(id responseObject, HError *error) {
+        
+    }];
+}
+
 - (void)didSendText:(NSString *)text
 {
     if (text && text.length > 0) {

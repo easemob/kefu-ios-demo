@@ -87,6 +87,8 @@
 
 - (void)inputTextViewWillBeginEditing:(HDTextView *)inputTextView;
 
+- (void)inputTextViewDidChange:(HDTextView *)inputTextView;
+
 - (void)didSendText:(NSString *)text;
 
 - (void)didSendText:(NSString *)text withExt:(NSDictionary*)ext;

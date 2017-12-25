@@ -571,6 +571,10 @@
 - (void)textViewDidChange:(UITextView *)textView
 {
     [self _willShowInputTextViewToHeight:[self _getTextViewContentH:textView]];
+    if (_delegate && [_delegate respondsToSelector:@selector(inputTextViewDidChange:)]) {
+        [_delegate inputTextViewDidChange:self.inputTextView];
+    }
+    
 }
 
 #pragma mark - DXFaceDelegate
