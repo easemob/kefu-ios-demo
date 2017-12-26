@@ -3093,9 +3093,8 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskDynamicSDK",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/CustomerSystem-ios",
+					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskDynamicSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -3109,19 +3108,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CustomerSystem-ios",
-					"$(PROJECT_DIR)/CustomerSystem-ios/Helpdesk_sdk/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HyphenateSDK/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/hdVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskSDK/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
+					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -3145,9 +3132,8 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskDynamicSDK",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/CustomerSystem-ios",
+					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskDynamicSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -3161,19 +3147,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CustomerSystem-ios",
-					"$(PROJECT_DIR)/CustomerSystem-ios/Helpdesk_sdk/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HyphenateSDK/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/hdVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskSDK/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
+					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
