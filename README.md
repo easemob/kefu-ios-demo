@@ -1,7 +1,9 @@
 
 如需旧版商城demo请跳转:[2.x商城Demo](https://github.com/easemob/helpdeskdemo-ios/tree/master-2.x)
 
-## 环信客服SDK (iOS 版)
+
+
+## 环信客服SDK (iOS 版) ![Build Status](https://travis-ci.org/easemob/kefu-ios-demo.svg?branch=dev-full)
 
 
 ## Introduction
