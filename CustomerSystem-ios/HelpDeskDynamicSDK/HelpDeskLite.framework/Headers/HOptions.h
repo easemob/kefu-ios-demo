@@ -120,4 +120,10 @@
  */
 @property (nonatomic, assign) BOOL visitorWaitCount;
 
+
+/**
+ 是否显示坐席输入状态
+ */
+@property (nonatomic, assign) BOOL showAgentInputState;
+
 @end
