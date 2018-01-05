@@ -156,7 +156,7 @@ static HDLocationViewController *defaultLocation = nil;
                                                            delegate:nil
                                                   cancelButtonTitle:NSEaseLocalizedString(@"ok", @"OK")
                                                   otherButtonTitles:nil, nil];
-        [alertView show];
+        [alertView show];      
     }
 }
 

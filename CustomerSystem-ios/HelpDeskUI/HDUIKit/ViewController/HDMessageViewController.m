@@ -59,6 +59,8 @@
     NSString *_converID;
 }
 
+@property (nonatomic,strong) UIView *maskingView; //遮罩
+
 @property (strong, nonatomic) id<HDIMessageModel> playingVoiceModel;
 @property (nonatomic) BOOL isKicked;
 @property (nonatomic) BOOL isPlayingAudio;
@@ -1206,6 +1208,13 @@
     [_menuController setMenuItems:nil];
 }
 
+- (void)inputTextViewDidChange:(HDTextView *)inputTextView {
+    
+    [[HChatClient sharedClient].chatManager postContent:inputTextView.text conversationId:_conversation.conversationId completion:^(id responseObject, HError *error) {
+        
+    }];
+}
+
 - (void)didSendText:(NSString *)text
 {
     if (text && text.length > 0) {
@@ -1287,12 +1296,23 @@
     }
 }
 
+- (UIView *)maskingView {
+    if (_maskingView == nil) {
+        _maskingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+        _maskingView.backgroundColor = [UIColor clearColor];
+        _maskingView.userInteractionEnabled = YES;
+        _maskingView.tag = 33;
+    }
+    return _maskingView;
+}
 
 #pragma mark - HRecordViewDelegate
 // 点触录音按钮开始录音的代理方法
 - (void)didHdStartRecordingVoiceAction:(UIView *)recordView
 {
     [self _stopAudioPlayingWithChangeCategory:YES];
+    [self.view addSubview:self.maskingView];
+    [self.view bringSubviewToFront:self.maskingView];
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchDown];
     } else {
@@ -1322,6 +1342,7 @@
 // 在控件之外触摸抬起事件的代理方法
 - (void)didHdCancelRecordingVoiceAction:(UIView *)recordView
 {
+    [self.maskingView removeFromSuperview];
     [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpOutside];
@@ -1339,6 +1360,7 @@
 // 在控件之内触摸抬起事件的代理方法
 - (void)didHdFinishRecoingVoiceAction:(UIView *)recordView
 {
+    [self.maskingView removeFromSuperview];
     _isClickBackgroud = nil;
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpInside];

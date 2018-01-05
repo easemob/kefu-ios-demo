@@ -401,19 +401,14 @@
 		EB62E32E1A8DDA4800705655 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB62E2DE1A8DDA4800705655 /* HomeViewController.m */; };
 		EB62E3B91A8E08EB00705655 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB62E3B71A8E08EA00705655 /* Localizable.strings */; };
 		EB62E3BD1A8E0B8700705655 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB62E3BB1A8E0B8700705655 /* InfoPlist.strings */; };
-		EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4361A8E2D4900705655 /* libsqlite3.dylib */; };
 		EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4381A8E2D5000705655 /* CoreText.framework */; };
 		EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E43A1A8E2D5600705655 /* ImageIO.framework */; };
 		EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E43C1A8E2D5C00705655 /* MapKit.framework */; };
 		EB62E43F1A8E2D6200705655 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E43E1A8E2D6200705655 /* CoreLocation.framework */; };
-		EB62E4411A8E2D6B00705655 /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4401A8E2D6A00705655 /* libresolv.dylib */; };
 		EB62E4431A8E2D7300705655 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4421A8E2D7300705655 /* SystemConfiguration.framework */; };
 		EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4441A8E2D7900705655 /* MobileCoreServices.framework */; };
-		EB62E4491A8E2D8700705655 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4481A8E2D8700705655 /* libiconv.dylib */; };
 		EB62E44B1A8E2D8D00705655 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E44A1A8E2D8D00705655 /* AddressBook.framework */; };
 		EB62E44D1A8E2D9300705655 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E44C1A8E2D9300705655 /* CFNetwork.framework */; };
-		EB62E44F1A8E2D9900705655 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E44E1A8E2D9900705655 /* libz.dylib */; };
-		EB62E4511A8E2DA000705655 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4501A8E2DA000705655 /* libxml2.dylib */; };
 		EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4521A8E2DA400705655 /* UIKit.framework */; };
 		EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4541A8E2DAB00705655 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -881,7 +876,6 @@
 		D3DEAA1D1DED78D00081B654 /* SCAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAudioPlay.h; sourceTree = "<group>"; };
 		D3DEAA1E1DED78D00081B654 /* SCAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAudioPlay.m; sourceTree = "<group>"; };
 		D3E4B4371E7A930E004FEA49 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		EB395DFD1A8F0AC40083B659 /* MallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MallViewController.h; sourceTree = "<group>"; };
 		EB395DFE1A8F0AC40083B659 /* MallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MallViewController.m; sourceTree = "<group>"; };
 		EB395E001A8F0C8D0083B659 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -1041,20 +1035,14 @@
 		EB62E3BA1A8E08FB00705655 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EB62E3BC1A8E0B8700705655 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EB62E3BE1A8E0B8F00705655 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		EB62E4361A8E2D4900705655 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		EB62E4381A8E2D5000705655 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		EB62E43A1A8E2D5600705655 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		EB62E43C1A8E2D5C00705655 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		EB62E43E1A8E2D6200705655 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		EB62E4401A8E2D6A00705655 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		EB62E4421A8E2D7300705655 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		EB62E4441A8E2D7900705655 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		EB62E4461A8E2D8000705655 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
-		EB62E4481A8E2D8700705655 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		EB62E44A1A8E2D8D00705655 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		EB62E44C1A8E2D9300705655 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		EB62E44E1A8E2D9900705655 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		EB62E4501A8E2DA000705655 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		EB62E4521A8E2DA400705655 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EB62E4541A8E2DAB00705655 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -1074,20 +1062,15 @@
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
 				D378E6041F56698800E3AB74 /* Bugly.framework in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
-				EB62E4511A8E2DA000705655 /* libxml2.dylib in Frameworks */,
-				EB62E44F1A8E2D9900705655 /* libz.dylib in Frameworks */,
 				EB62E44D1A8E2D9300705655 /* CFNetwork.framework in Frameworks */,
 				D3AA4B251ED45B7300B5C509 /* hdlibopencore-amrnb.a in Frameworks */,
 				EB62E44B1A8E2D8D00705655 /* AddressBook.framework in Frameworks */,
-				EB62E4491A8E2D8700705655 /* libiconv.dylib in Frameworks */,
 				EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */,
 				EB62E4431A8E2D7300705655 /* SystemConfiguration.framework in Frameworks */,
-				EB62E4411A8E2D6B00705655 /* libresolv.dylib in Frameworks */,
 				EB62E43F1A8E2D6200705655 /* CoreLocation.framework in Frameworks */,
 				EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */,
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
-				EB62E4371A8E2D4900705655 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1365,21 +1348,14 @@
 				D363DD3B1DF6E9A900AC54D1 /* QuickLook.framework */,
 				EB62E4541A8E2DAB00705655 /* Foundation.framework */,
 				EB62E4521A8E2DA400705655 /* UIKit.framework */,
-				EB62E4501A8E2DA000705655 /* libxml2.dylib */,
-				EB62E44E1A8E2D9900705655 /* libz.dylib */,
 				EB62E44C1A8E2D9300705655 /* CFNetwork.framework */,
 				EB62E44A1A8E2D8D00705655 /* AddressBook.framework */,
-				EB62E4481A8E2D8700705655 /* libiconv.dylib */,
-				EB62E4461A8E2D8000705655 /* libstdc++.dylib */,
 				EB62E4441A8E2D7900705655 /* MobileCoreServices.framework */,
 				EB62E4421A8E2D7300705655 /* SystemConfiguration.framework */,
-				EB62E4401A8E2D6A00705655 /* libresolv.dylib */,
 				EB62E43E1A8E2D6200705655 /* CoreLocation.framework */,
 				EB62E43C1A8E2D5C00705655 /* MapKit.framework */,
 				EB62E43A1A8E2D5600705655 /* ImageIO.framework */,
 				EB62E4381A8E2D5000705655 /* CoreText.framework */,
-				EB62E4361A8E2D4900705655 /* libsqlite3.dylib */,
-				EB3959881A8EE69D0083B659 /* libstdc++.6.dylib */,
 				C9AAF3A61CC7495E00211B1B /* libc++.tbd */,
 				C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */,
 			);
@@ -3093,8 +3069,8 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskDynamicSDK",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskDynamicSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -3108,19 +3084,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CustomerSystem-ios",
-					"$(PROJECT_DIR)/CustomerSystem-ios/Helpdesk_sdk/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HyphenateSDK/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/hdVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskSDK/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
+					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -3144,8 +3108,8 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskDynamicSDK",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskDynamicSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -3159,19 +3123,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CustomerSystem-ios",
-					"$(PROJECT_DIR)/CustomerSystem-ios/Helpdesk_sdk/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HyphenateSDK/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/hdVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskSDK/lib",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrnb",
-					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/3rdparty/DeviceHelper/HDVoiceConvert/opencore-amrwb",
+					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";

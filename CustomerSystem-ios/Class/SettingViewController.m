@@ -48,6 +48,55 @@
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
     [self initializePropertys];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingChange:) name:KNOTIFICATION_SETTINGCHANGE object:nil];
+//    [self addLogoutButton]; //异步调用退出
+}
+
+- (void)addLogoutButton {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, kScreenHeight-300, 100, 40);
+    button.centerX = kScreenWidth/2;
+    button.layer.cornerRadius = 5;
+    button.layer.masksToBounds = YES;
+    [button setTitle:@"退出登录" forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor redColor];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(logoutHD) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
+}
+
+- (void)logoutHD {
+    
+    NSString *name1 = @"3B840787C7254D2C94FD5FA5F82F7F4E27554";
+    NSString *name2 = @"3B840787C7254D2C94FD5FA5F82F7F4E45351";
+    
+    dispatch_queue_t queue = dispatch_queue_create("yitiao", DISPATCH_QUEUE_SERIAL);
+    
+    dispatch_async(queue, ^{
+        HChatClient *client = [HChatClient sharedClient];
+        HError *error = [HError errorWithDescription:@"尚未登录" code:-1];
+        if (client.isLoggedInBefore) {
+            error =  [client logout:YES];
+        }
+        if (error == nil) {
+            NSLog(@"登出成功");
+        } else {
+            NSLog(@"失败:%@",error.errorDescription);
+        }
+        
+        HError *er = [client loginWithUsername:name2 password:hxPassWord];
+        if (er == nil) {
+            NSLog(@"登录成功！！！");
+        }
+        
+        HConversation *conversation = [[HChatClient sharedClient].chatManager getConversation:[SCLoginManager shareLoginManager].cname];
+        [conversation loadMessagesStartFromId:nil count:10 searchDirection:HMessageSearchDirectionUp completion:^(NSArray *aMessages, HError *aError) {
+            NSLog(@"aMessages:%@",aMessages);
+            [conversation markAllMessagesAsRead:nil];
+        }];
+
+        
+    });
+    
 }
 
 - (void)initializePropertys {
@@ -62,12 +111,9 @@
     NSString *newAppkey = [dic valueForKey:@"appkey"];
     if (![_appkey isEqualToString:newAppkey]) {
         _appkey = [dic valueForKey:@"appkey"];
-        _cname = [dic valueForKey:@"imservicenum"];
-        _tenantId = [dic valueForKey:@"tenantid"];
-        _projectId = [dic valueForKey:@"projectId"];
-        [self commitModify];
-        [self.tableView reloadData];
-        [self.navigationController popViewControllerAnimated:YES];
+        _lgM.appkey = _appkey;
+        AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+        [appDelegate resetCustomerServiceSDK];
     }
     if (![_tenantId isEqualToString:[dic valueForKey:@"tenantId"]]) {
         _tenantId = [dic valueForKey:@"tenantid"];
@@ -77,8 +123,10 @@
     _cname = [dic valueForKey:@"imservicenum"];
     _projectId = [dic valueForKey:@"projectId"];
     _lgM.cname = _cname;
+    _lgM.nickname = _nickname;
     _lgM.projectId = _projectId;
     [self.tableView reloadData];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -259,19 +307,6 @@
         default:
             break;
     }
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)commitModify {
-    _lgM.appkey = _appkey;
-    _lgM.cname = _cname;
-    _lgM.nickname = _nickname;
-    _lgM.tenantId = _tenantId;
-    _lgM.projectId = _projectId;
-    [self.tableView reloadData];
-    AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate resetCustomerServiceSDK];
 }
 
 
