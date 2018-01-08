@@ -26,6 +26,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *voiceBtn;
 @property (weak, nonatomic) IBOutlet UIButton *videoBtn;
+@property (weak, nonatomic) IBOutlet UIButton *shareViewBtn;
 
 //进入与否
 
@@ -124,14 +125,32 @@
 - (IBAction)switchBtnClicked:(id)sender {
     UIButton *btn = sender;
     _switchBtn.selected = !btn.selected;
-//    [[HChatClient sharedClient].callManager switchCamera];
-    [[HChatClient sharedClient].callManager publishWindow:self.view completion:^(id obj, HError * error) {
-        if(error){
-            NSLog(@"desktop shared fail, error: %@", error.errorDescription);
-        }else{
-            NSLog(@"desktop shared success.");
-        }
-    }];
+    [[HChatClient sharedClient].callManager switchCamera];
+}
+- (IBAction)shareViewBtnClicked:(id)sender {
+    UIButton *btn = sender;
+    BOOL isSelected = btn.selected;
+    if(!isSelected){
+        [[HChatClient sharedClient].callManager publishWindow:self.view completion:^(id obj, HError * error) {
+            if(error){
+                NSLog(@"desktop shared fail, error: %@", error.errorDescription);
+            }else{
+                NSLog(@"desktop shared success.");
+            }
+        }];
+    }else{
+        [[HChatClient sharedClient].callManager unPublishWindowWithCompletion:^(id obj, HError * error) {
+            if(error){
+                NSLog(@" unpublish failed., error: %@", error.errorDescription);
+            }else{
+                NSLog(@" unpublish success.");
+            }
+        }];
+    }
+    
+    _shareViewBtn.selected = !btn.selected;
+    
+    
 }
 
 //开关mic

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -22,6 +22,7 @@
                 <outlet property="micBtn" destination="nhg-Wf-D96" id="hgc-sp-Elw"/>
                 <outlet property="promptLabel" destination="tql-1F-i0K" id="93v-HS-2dI"/>
                 <outlet property="rejectBtn" destination="5wP-gN-Gec" id="cZ4-w4-qI1"/>
+                <outlet property="shareViewBtn" destination="dAz-kr-qtA" id="Mcd-u4-U4p"/>
                 <outlet property="switchBtn" destination="TD8-Nb-oIv" id="GFp-bz-XEH"/>
                 <outlet property="timerLabel" destination="cxg-jH-tWy" id="22k-dQ-Vmt"/>
                 <outlet property="videoBtn" destination="vLb-Wj-0cr" id="HpN-Dx-smu"/>
@@ -52,14 +53,14 @@
                     <rect key="frame" x="0.0" y="430" width="320" height="40"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TD8-Nb-oIv">
-                            <rect key="frame" x="27" y="8" width="27" height="27"/>
+                            <rect key="frame" x="40" y="8" width="27" height="27"/>
                             <state key="normal" image="em_switch_camera.png"/>
                             <connections>
                                 <action selector="switchBtnClicked:" destination="-1" eventType="touchUpInside" id="7uE-ZW-dz7"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhg-Wf-D96">
-                            <rect key="frame" x="106.5" y="8" width="27" height="27"/>
+                            <rect key="frame" x="93" y="8" width="27" height="27"/>
                             <state key="normal" image="em_icon_mute_normal.png"/>
                             <state key="selected" image="em_icon_mute_on.png"/>
                             <connections>
@@ -67,7 +68,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qad-ug-YiF">
-                            <rect key="frame" x="186.5" y="8" width="27" height="27"/>
+                            <rect key="frame" x="146.5" y="8" width="27" height="27"/>
                             <state key="normal" image="em_icon_speaker_on.png"/>
                             <state key="selected" image="em_icon_speaker_off.png"/>
                             <connections>
@@ -75,12 +76,19 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vLb-Wj-0cr">
-                            <rect key="frame" x="266.5" y="8" width="27" height="27"/>
+                            <rect key="frame" x="200" y="8" width="27" height="27"/>
                             <state key="normal" image="em_icon_local_video_on.png"/>
                             <state key="selected" image="em_icon_local_video_off.png"/>
                             <connections>
-                                <action selector="switchBtnClicked:" destination="-1" eventType="touchUpInside" id="tp2-0l-llM"/>
                                 <action selector="videoBtnClicked:" destination="-1" eventType="touchUpInside" id="UpG-y8-Fty"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dAz-kr-qtA">
+                            <rect key="frame" x="253" y="8" width="27" height="27"/>
+                            <state key="normal" image="em_icon_local_recard_on.png"/>
+                            <state key="selected" image="em_icon_local_recard_off.png"/>
+                            <connections>
+                                <action selector="shareViewBtnClicked:" destination="-1" eventType="touchUpInside" id="xhy-XT-ir2"/>
                             </connections>
                         </button>
                     </subviews>
@@ -88,26 +96,30 @@
                     <constraints>
                         <constraint firstItem="nhg-Wf-D96" firstAttribute="width" secondItem="TD8-Nb-oIv" secondAttribute="width" id="4cO-nY-TZt"/>
                         <constraint firstItem="vLb-Wj-0cr" firstAttribute="width" secondItem="TD8-Nb-oIv" secondAttribute="width" id="BpJ-em-TR4"/>
-                        <constraint firstItem="qad-ug-YiF" firstAttribute="centerX" secondItem="Hss-Kq-YKQ" secondAttribute="centerX" multiplier="5:4" id="Gkb-Fn-ROb"/>
+                        <constraint firstItem="qad-ug-YiF" firstAttribute="centerX" secondItem="Hss-Kq-YKQ" secondAttribute="centerX" multiplier="3:3" id="Gkb-Fn-ROb"/>
                         <constraint firstItem="nhg-Wf-D96" firstAttribute="height" secondItem="TD8-Nb-oIv" secondAttribute="height" id="Hev-L6-MjH"/>
                         <constraint firstItem="qad-ug-YiF" firstAttribute="top" secondItem="TD8-Nb-oIv" secondAttribute="top" id="KSn-9E-OL7"/>
-                        <constraint firstItem="nhg-Wf-D96" firstAttribute="centerX" secondItem="Hss-Kq-YKQ" secondAttribute="centerX" multiplier="3:4" id="Y7L-Gu-fOl"/>
+                        <constraint firstItem="dAz-kr-qtA" firstAttribute="centerX" secondItem="Hss-Kq-YKQ" secondAttribute="centerX" multiplier="5:3" id="OTI-nS-Gmq"/>
+                        <constraint firstItem="dAz-kr-qtA" firstAttribute="width" secondItem="TD8-Nb-oIv" secondAttribute="width" id="XFV-wn-0uE"/>
+                        <constraint firstItem="nhg-Wf-D96" firstAttribute="centerX" secondItem="Hss-Kq-YKQ" secondAttribute="centerX" multiplier="2:3" id="Y7L-Gu-fOl"/>
                         <constraint firstItem="vLb-Wj-0cr" firstAttribute="height" secondItem="TD8-Nb-oIv" secondAttribute="height" id="Z1K-kG-nYm"/>
                         <constraint firstAttribute="height" constant="40" id="Zi2-PE-JcW"/>
-                        <constraint firstItem="TD8-Nb-oIv" firstAttribute="centerX" secondItem="Hss-Kq-YKQ" secondAttribute="centerX" multiplier="1:4" id="b2D-ox-2hZ"/>
+                        <constraint firstItem="TD8-Nb-oIv" firstAttribute="centerX" secondItem="Hss-Kq-YKQ" secondAttribute="centerX" multiplier="1:3" id="b2D-ox-2hZ"/>
                         <constraint firstItem="nhg-Wf-D96" firstAttribute="top" secondItem="TD8-Nb-oIv" secondAttribute="top" id="ebU-Rc-vdr"/>
                         <constraint firstItem="qad-ug-YiF" firstAttribute="width" secondItem="TD8-Nb-oIv" secondAttribute="width" id="fO1-PC-cc8"/>
+                        <constraint firstItem="dAz-kr-qtA" firstAttribute="height" secondItem="TD8-Nb-oIv" secondAttribute="height" id="kcR-cx-Yfk"/>
                         <constraint firstItem="qad-ug-YiF" firstAttribute="height" secondItem="TD8-Nb-oIv" secondAttribute="height" id="lqS-IH-QIc"/>
                         <constraint firstItem="TD8-Nb-oIv" firstAttribute="top" secondItem="Hss-Kq-YKQ" secondAttribute="topMargin" id="oBY-NG-FeD"/>
                         <constraint firstItem="vLb-Wj-0cr" firstAttribute="top" secondItem="TD8-Nb-oIv" secondAttribute="top" id="qOz-Xt-WEa"/>
-                        <constraint firstItem="vLb-Wj-0cr" firstAttribute="centerX" secondItem="Hss-Kq-YKQ" secondAttribute="centerX" multiplier="7:4" id="rc9-CP-piG"/>
+                        <constraint firstItem="vLb-Wj-0cr" firstAttribute="centerX" secondItem="Hss-Kq-YKQ" secondAttribute="centerX" multiplier="4:3" id="rc9-CP-piG"/>
+                        <constraint firstItem="dAz-kr-qtA" firstAttribute="top" secondItem="TD8-Nb-oIv" secondAttribute="top" id="xbs-yu-utm"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NhA-cy-0Gy">
                     <rect key="frame" x="0.0" y="320" width="320" height="110"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="昵称" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDH-wD-hLA">
-                            <rect key="frame" x="27" y="20" width="280" height="20"/>
+                            <rect key="frame" x="40" y="20" width="280" height="20"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="280" id="0RK-D3-xdx"/>
@@ -118,7 +130,7 @@
                             <color key="highlightedColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         </label>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxg-jH-tWy">
-                            <rect key="frame" x="27" y="87" width="280" height="20"/>
+                            <rect key="frame" x="40" y="87" width="280" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="280" id="X1s-kp-9Bu"/>
                                 <constraint firstAttribute="height" constant="20" id="cUj-Lq-rWb"/>
@@ -128,7 +140,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="向您发起了多人视频邀请..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tql-1F-i0K">
-                            <rect key="frame" x="27" y="55" width="280" height="17"/>
+                            <rect key="frame" x="40" y="55" width="280" height="17"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="17" id="6js-qz-DVj"/>
                                 <constraint firstAttribute="width" constant="280" id="7yA-BO-hun"/>
@@ -194,6 +206,8 @@
     </objects>
     <resources>
         <image name="calling.png" width="58" height="58"/>
+        <image name="em_icon_local_recard_off.png" width="25" height="25"/>
+        <image name="em_icon_local_recard_on.png" width="25" height="25"/>
         <image name="em_icon_local_video_off.png" width="25" height="25"/>
         <image name="em_icon_local_video_on.png" width="25" height="25"/>
         <image name="em_icon_mute_normal.png" width="25" height="25"/>
