@@ -89,7 +89,7 @@
     visitor.name = @"小明儿";
     visitor.qq = @"12345678";
     visitor.phone = @"13636362637";
-    visitor.companyName = @"环信";
+    visitor.companyName = @"";
     if ([SCLoginManager shareLoginManager].nickname && [SCLoginManager shareLoginManager].nickname.length > 0) {
         visitor.nickName = [SCLoginManager shareLoginManager].nickname;
     }

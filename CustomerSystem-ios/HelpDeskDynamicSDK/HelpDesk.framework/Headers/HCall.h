@@ -186,6 +186,10 @@
  * 共享桌面 其中为rootView
  */
 - (void)publishWindow:(UIView *)view completion:(void (^)(id, HError *))completion;
+/**
+ *  取消共享桌面
+ */
+-(void)unPublishWindowWithCompletion:(void (^)(id, HError *))completion;
     
 @end
 
