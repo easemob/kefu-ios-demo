@@ -94,7 +94,7 @@
         visitor.nickName = [SCLoginManager shareLoginManager].nickname;
     }
     visitor.email = @"abv@126.com";
-    visitor.desc = @"环信移动客服";
+    visitor.desc = @"移动客服";
     return visitor;
 }
 

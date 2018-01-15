@@ -171,7 +171,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
         creator.phone = tel;
         creator.qq = @"123456";
         creator.desc = @"我是一只丑小鸭";
-        creator.companyName = @"环信客服";
+//        creator.companyName = @"环信客服";
         LeaveMsgRequestBody *body = [LeaveMsgRequestBody new];
         body.creator = creator;
         body.content = content;

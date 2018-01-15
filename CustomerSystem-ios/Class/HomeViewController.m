@@ -259,7 +259,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     visitor.companyName = @"环信";
     visitor.nickName = [SCLoginManager shareLoginManager].nickname;
     visitor.email = @"abv@126.com";
-    visitor.desc = @"环信移动客服";
+    visitor.desc = @"移动客服";
     return visitor;
 }
 #pragma mark - UITabBarDelegate
