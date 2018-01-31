@@ -116,6 +116,9 @@
     } else {
         self.scorePercent = 1.0;
     }
+    if ([self.delegate respondsToSelector:@selector(starRateView:scroePercentDidChange:)]) {
+        [self.delegate starRateView:self scroePercentDidChange:self.scorePercent];
+    }
 }
 
 - (UIView *)createStarViewWithImage:(NSString *)imageName {
