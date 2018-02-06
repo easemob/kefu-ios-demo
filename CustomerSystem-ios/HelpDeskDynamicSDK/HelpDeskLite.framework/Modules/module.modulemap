@@ -1,6 +1,0 @@
-framework module HelpDeskLite {
-  umbrella header "HelpDeskLite.h"
-
-  export *
-  module * { export * }
-}
