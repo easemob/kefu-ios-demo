@@ -14,10 +14,10 @@
 		8FEEA5A420034A9A008CD415 /* em_icon_local_recard_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA5A220034A9A008CD415 /* em_icon_local_recard_off@2x.png */; };
 		8FEEA5A520034A9A008CD415 /* em_icon_local_recard_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA5A320034A9A008CD415 /* em_icon_local_recard_on@2x.png */; };
 		8FEEA5A720036616008CD415 /* em_icon_mute_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA5A620036616008CD415 /* em_icon_mute_on@2x.png */; };
+		901C2FDB2029AD1D003BE8F8 /* HyphenateLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */; };
+		901C2FDC2029AD1D003BE8F8 /* HyphenateLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		90A90CC820299B3300F602FA /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90A90CC720299B3300F602FA /* HelpDesk.framework */; };
 		90A90CC920299B3300F602FA /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 90A90CC720299B3300F602FA /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		90A90CCC20299B3F00F602FA /* HyphenateLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90A90CCB20299B3F00F602FA /* HyphenateLite.framework */; };
-		90A90CCD20299B3F00F602FA /* HyphenateLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 90A90CCB20299B3F00F602FA /* HyphenateLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */; };
 		C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A61CC7495E00211B1B /* libc++.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
@@ -433,7 +433,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				90A90CC920299B3300F602FA /* HelpDesk.framework in Embed Frameworks */,
-				90A90CCD20299B3F00F602FA /* HyphenateLite.framework in Embed Frameworks */,
+				901C2FDC2029AD1D003BE8F8 /* HyphenateLite.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -452,8 +452,8 @@
 		8FEEA5A220034A9A008CD415 /* em_icon_local_recard_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_local_recard_off@2x.png"; sourceTree = "<group>"; };
 		8FEEA5A320034A9A008CD415 /* em_icon_local_recard_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_local_recard_on@2x.png"; sourceTree = "<group>"; };
 		8FEEA5A620036616008CD415 /* em_icon_mute_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_mute_on@2x.png"; sourceTree = "<group>"; };
+		901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HyphenateLite.framework; path = imsdk/HyphenateLite.framework; sourceTree = "<group>"; };
 		90A90CC720299B3300F602FA /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		90A90CCB20299B3F00F602FA /* HyphenateLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HyphenateLite.framework; path = ../frameworks/HyphenateLite.framework; sourceTree = "<group>"; };
 		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		D20066121EF23274005B558D /* em_example_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_1.png; sourceTree = "<group>"; };
@@ -607,7 +607,6 @@
 		D36621901F4E7786008EE9C4 /* HDCallLocalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallLocalView.m; sourceTree = "<group>"; };
 		D36621911F4E7786008EE9C4 /* HDCallRemoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCallRemoteView.h; sourceTree = "<group>"; };
 		D36621921F4E7786008EE9C4 /* HDCallRemoteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallRemoteView.m; sourceTree = "<group>"; };
-		D366219C1F4E78C3008EE9C4 /* HyphenateLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HyphenateLite.framework; sourceTree = "<group>"; };
 		D36621A51F4E7D9F008EE9C4 /* calling@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calling@2x.png"; sourceTree = "<group>"; };
 		D36621A71F4E7D9F008EE9C4 /* em_icon_local_video_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_local_video_on@2x.png"; sourceTree = "<group>"; };
 		D36621A81F4E7D9F008EE9C4 /* em_icon_mute_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_mute_normal@2x.png"; sourceTree = "<group>"; };
@@ -1058,7 +1057,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90A90CCC20299B3F00F602FA /* HyphenateLite.framework in Frameworks */,
+				901C2FDB2029AD1D003BE8F8 /* HyphenateLite.framework in Frameworks */,
 				D378E6061F5669A400E3AB74 /* Security.framework in Frameworks */,
 				D3E4B4471E7AA41B004FEA49 /* libiconv.tbd in Frameworks */,
 				C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */,
@@ -1348,7 +1347,6 @@
 			children = (
 				D378E6051F5669A400E3AB74 /* Security.framework */,
 				D378E6031F56698800E3AB74 /* Bugly.framework */,
-				D366219C1F4E78C3008EE9C4 /* HyphenateLite.framework */,
 				D3E4B4371E7A930E004FEA49 /* AVFoundation.framework */,
 				D33946EB1E54371C009370BF /* libiconv.tbd */,
 				D363DD3B1DF6E9A900AC54D1 /* QuickLook.framework */,
@@ -2352,7 +2350,7 @@
 		EB62E1F01A8DD92D00705655 = {
 			isa = PBXGroup;
 			children = (
-				90A90CCB20299B3F00F602FA /* HyphenateLite.framework */,
+				901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */,
 				90A90CC720299B3300F602FA /* HelpDesk.framework */,
 				D35726071DE315640033D4E3 /* Frameworks */,
 				EB62E1FB1A8DD92D00705655 /* CustomerSystem-ios */,
@@ -3082,6 +3080,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/imsdk",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
@@ -3120,6 +3119,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/imsdk",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${PROJECT_DIR}/CustomerSystem-ios/CustomerSystem.pch";
