@@ -1531,6 +1531,27 @@
     }
 }
 
+- (void)messagesDidRecall:(NSArray *)recallMessageIds {
+    for (NSString *recallMsgId in recallMessageIds) {
+        __block NSUInteger sourceIndex = NSNotFound;
+        [self.messsagesSource enumerateObjectsUsingBlock:^(HMessage *message, NSUInteger idx, BOOL *stop){
+            if ([message isKindOfClass:[HMessage class]]) {
+                if ([recallMsgId isEqualToString:message.messageId])
+                {
+                    sourceIndex = idx;
+                    *stop = YES;
+                }
+            }
+        }];
+        if (sourceIndex != NSNotFound) {
+            [self.messsagesSource removeObjectAtIndex:sourceIndex];
+        }
+    }
+    
+    self.dataArray = [[self formatMessages:self.messsagesSource] mutableCopy];
+    [self.tableView reloadData];
+}
+
 -(void)visitorWaitCount:(int)count{
     if (count > 0) {
         if (_visitorWaitCountLabel) {
@@ -1542,7 +1563,6 @@
             _visitorWaitCountLabel.hidden = YES;
         }
     }
-
 }
 
 
