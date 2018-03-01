@@ -29,6 +29,7 @@
 #import "SatisfactionViewController.h"
 #import "HArticleWebViewController.h"
 #import "HFormWebViewController.h"
+#import "UIViewController+HDHUD.h"
 #define KHintAdjustY    50
 #define IOS_VERSION [[UIDevice currentDevice] systemVersion]>=9.0
 
@@ -65,7 +66,7 @@
 @property (nonatomic) BOOL isKicked;
 @property (nonatomic) BOOL isPlayingAudio;
 @property (nonatomic, strong) NSMutableArray *atTargets;
-@property(nonatomic,assign) HDemoSaleType saleType;
+@property (nonatomic, assign) HDemoSaleType saleType;
 
 @end
 
@@ -1442,6 +1443,7 @@
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:YES];
 }
 
+
 - (void)moreViewTakePicAction:(HDChatBarMoreView *)moreView
 {
     // Hide the keyboard
@@ -1497,6 +1499,33 @@
     [self.chatToolbar endEditing:YES];
     [self _stopAudioPlayingWithChangeCategory:YES];
     
+}
+
+// 评价
+- (void)moveViewEvaluationAction:(HDChatBarMoreView *)moreView {
+    [self.chatToolbar endEditing:YES];
+    [self _stopAudioPlayingWithChangeCategory:YES];
+
+    NSArray* reversedArray = [[self.messsagesSource reverseObjectEnumerator] allObjects];
+    id <HDIMessageModel> model = nil;
+    
+    for (HMessage *msg in reversedArray) {
+        if (![msg.from isEqualToString:HChatClient.sharedClient.currentUsername]) {
+            model = [[HDMessageModel alloc] initWithMessage:msg];
+        }
+        break;
+    }
+    if (!model) {
+        [self showHint:@"没有客服应答，暂时无法评价客服" duration:2.0];
+        return;
+    }
+    
+    if (_isSendingEvaluateMessage) return;
+    _isSendingEvaluateMessage = YES;
+    SatisfactionViewController *vc = [[SatisfactionViewController alloc] init];
+    vc.messageModel = model;
+    vc.delegate = self;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - EMLocationViewDelegate
@@ -1810,8 +1839,6 @@
 {
     [self sendTextMessage:text withExt:nil];
 }
-
-
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo {
     

@@ -36,7 +36,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-     [SCLoginManager shareLoginManager].curChat = self;
+    [SCLoginManager shareLoginManager].curChat = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -46,8 +46,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
-    // Do any additional setup after loading the view.
     self.showRefreshHeader = YES;
     self.delegate = self;
     self.dataSource = self;
@@ -60,7 +58,6 @@
         [self sendCommodityMessageWithInfo:_commodityInfo];
         _commodityInfo = nil;
     }
-    
 }
 
 //请求视频通话
@@ -76,13 +73,11 @@
 
 // 留言
 - (void)moreViewLeaveMessageAction:(HDChatBarMoreView *)moreView
-{
+{   [self.chatToolbar endEditing:YES];
     [self stopAudioPlayingWithChangeCategory:YES];
     HDLeaveMsgViewController *leaveMsgVC = [[HDLeaveMsgViewController alloc] init];
     [self.navigationController pushViewController:leaveMsgVC animated:YES];
 }
-
-
 
 - (HVisitorInfo *)visitorInfo {
     HVisitorInfo *visitor = [[HVisitorInfo alloc] init];
@@ -165,8 +160,6 @@
         message.ext = [ext copy];
         [self _insertTrackMessage:message];
     }
-
-    
 }
 
 

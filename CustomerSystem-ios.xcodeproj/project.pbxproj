@@ -16,6 +16,7 @@
 		8FEEA5A720036616008CD415 /* em_icon_mute_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA5A620036616008CD415 /* em_icon_mute_on@2x.png */; };
 		901C2FDB2029AD1D003BE8F8 /* HyphenateLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */; };
 		901C2FDC2029AD1D003BE8F8 /* HyphenateLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9084A0A02046BC42006F10FA /* HelpDeskUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9084A09F2046BC42006F10FA /* HelpDeskUIResource.bundle */; };
 		90A90CC820299B3300F602FA /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90A90CC720299B3300F602FA /* HelpDesk.framework */; };
 		90A90CC920299B3300F602FA /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 90A90CC720299B3300F602FA /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */; };
@@ -134,7 +135,6 @@
 		D366CAED1EF925FD00899143 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D366CAE61EF925FD00899143 /* SVProgressHUD.bundle */; };
 		D366CAEE1EF925FD00899143 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D366CAE81EF925FD00899143 /* SVProgressHUD.m */; };
 		D366CAEF1EF925FD00899143 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D366CAEA1EF925FD00899143 /* SVRadialGradientLayer.m */; };
-		D37315831E52A5D00043ED32 /* HelpDeskUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */; };
 		D378E6041F56698800E3AB74 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D378E6031F56698800E3AB74 /* Bugly.framework */; };
 		D378E6061F5669A400E3AB74 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D378E6051F5669A400E3AB74 /* Security.framework */; };
 		D37983E91F31E45700E9E4EB /* HDBubbleView+Article.m in Sources */ = {isa = PBXBuildFile; fileRef = D37983E81F31E45700E9E4EB /* HDBubbleView+Article.m */; };
@@ -441,6 +441,7 @@
 		8FEEA5A320034A9A008CD415 /* em_icon_local_recard_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_local_recard_on@2x.png"; sourceTree = "<group>"; };
 		8FEEA5A620036616008CD415 /* em_icon_mute_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_mute_on@2x.png"; sourceTree = "<group>"; };
 		901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HyphenateLite.framework; path = imsdk/HyphenateLite.framework; sourceTree = "<group>"; };
+		9084A09F2046BC42006F10FA /* HelpDeskUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HelpDeskUIResource.bundle; sourceTree = "<group>"; };
 		90A90CC720299B3300F602FA /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -614,7 +615,6 @@
 		D366CAE81EF925FD00899143 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		D366CAE91EF925FD00899143 /* SVRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRadialGradientLayer.h; sourceTree = "<group>"; };
 		D366CAEA1EF925FD00899143 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
-		D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HelpDeskUIResource.bundle; sourceTree = "<group>"; };
 		D378E6031F56698800E3AB74 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		D378E6051F5669A400E3AB74 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D37983E71F31E45700E9E4EB /* HDBubbleView+Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HDBubbleView+Article.h"; sourceTree = "<group>"; };
@@ -1969,7 +1969,7 @@
 		D3CB64401E4888F30022A6BA /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				D37315821E52A5D00043ED32 /* HelpDeskUIResource.bundle */,
+				9084A09F2046BC42006F10FA /* HelpDeskUIResource.bundle */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -2623,6 +2623,7 @@
 				EB4B06821AC685E900DCF67B /* 80.png in Resources */,
 				EB4B06E51AC685E900DCF67B /* chat_receiver_audio_playing003.png in Resources */,
 				D3DEAA171DED661E0081B654 /* chatBar_recordBg@2x.png in Resources */,
+				9084A0A02046BC42006F10FA /* HelpDeskUIResource.bundle in Resources */,
 				D33947131E543949009370BF /* icon_star.png in Resources */,
 				EB4B06B21AC685E900DCF67B /* VoiceSearchFeedback019@2x.png in Resources */,
 				EB4B06DB1AC685E900DCF67B /* chatBar_colorMore_cameraSelected@2x.png in Resources */,
@@ -2640,7 +2641,6 @@
 				EB4B06F31AC685E900DCF67B /* chat_sender_audio_playing_full.png in Resources */,
 				EB4B06C91AC685E900DCF67B /* chat_location_annotation_someone.png in Resources */,
 				EB4B06CB1AC685E900DCF67B /* chat_location_detail_disclosure.png in Resources */,
-				D37315831E52A5D00043ED32 /* HelpDeskUIResource.bundle in Resources */,
 				EB4B06B71AC685E900DCF67B /* call_out_h.png in Resources */,
 				D200665D1EF23274005B558D /* Shape@2x.png in Resources */,
 				EB4B06B41AC685E900DCF67B /* VoiceSearchFeedback020@2x.png in Resources */,

@@ -12,7 +12,7 @@
 
 #import "HDChatBarMoreView.h"
 
-#define CHAT_BUTTON_SIZE 50
+#define CHAT_BUTTON_SIZE CGSizeMake(50,60)
 #define INSETS 10
 #define MOREVIEW_COL 4
 #define MOREVIEW_ROW 2
@@ -48,6 +48,7 @@
 //@property (nonatomic, strong) UIButton *audioCallButton;
 @property (nonatomic, strong) UIButton *videoCallButton;
 @property (nonatomic, strong) UIButton *leaveMessageButton;
+@property (nonatomic, strong) UIButton *evaluationButton;
 
 @property (nonatomic, strong) UILabel *photoLabel;
 @property (nonatomic, strong) UILabel *takeLabel;
@@ -93,38 +94,26 @@
     _pageControl.numberOfPages = 1;
     [self addSubview:_pageControl];
     
-    CGFloat insets = (self.frame.size.width - 4 * CHAT_BUTTON_SIZE) / 5;
+    CGFloat insets = (self.frame.size.width - 4 * CHAT_BUTTON_SIZE.width) / 5;
     
-    _photoButton =[UIButton buttonWithType:UIButtonTypeCustom];
-    [_photoButton setFrame:CGRectMake(insets, 10, CHAT_BUTTON_SIZE , CHAT_BUTTON_SIZE)];
-    [_photoButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_image_normal"] forState:UIControlStateNormal];
-    [_photoButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_image_pressed"] forState:UIControlStateHighlighted];
+    _photoButton = [self btnWithImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_image_normal"]
+                    highlightedImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_image_pressed"]
+                               title:NSLocalizedString(@"attach_picture", @"Picture")];
+    [_photoButton setFrame:CGRectMake(insets, 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
+    
     [_photoButton addTarget:self action:@selector(photoAction) forControlEvents:UIControlEventTouchUpInside];
     _photoButton.tag = MOREVIEW_BUTTON_TAG;
     [_scrollview addSubview:_photoButton];
     
-    _photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _photoLabel.text = NSLocalizedString(@"attach_picture", @"Picture");
-    _photoLabel.font = [UIFont systemFontOfSize:10];
-    _photoLabel.textAlignment = UITextAlignmentCenter;
-    _photoLabel.textColor = [UIColor blackColor];
-    [_scrollview addSubview:_photoLabel];
+    _takePicButton = [self btnWithImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_takepic_normal"]
+                       highlightedImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_takepic_pressed"]
+                                  title:NSLocalizedString(@"attach_take_pic", @"Image")];
+    [_takePicButton setFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE.width, 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
     
-    _takePicButton =[UIButton buttonWithType:UIButtonTypeCustom];
-    [_takePicButton setFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE * 1, 10, CHAT_BUTTON_SIZE , CHAT_BUTTON_SIZE)];
-    [_takePicButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_takepic_normal"] forState:UIControlStateNormal];
-    [_takePicButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_takepic_pressed"] forState:UIControlStateHighlighted];
     [_takePicButton addTarget:self action:@selector(takePicAction) forControlEvents:UIControlEventTouchUpInside];
     _takePicButton.tag = MOREVIEW_BUTTON_TAG + 1;
     _maxIndex = 1;
     [_scrollview addSubview:_takePicButton];
-    
-    _takeLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE * 1, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _takeLabel.text = NSLocalizedString(@"attach_take_pic", @"Image");
-    _takeLabel.font = [UIFont systemFontOfSize:10];
-    _takeLabel.textAlignment = UITextAlignmentCenter;
-    _takeLabel.textColor = [UIColor blackColor];
-    [_scrollview addSubview:_takeLabel];
 
     CGRect frame = self.frame;
     frame.size.height = 160;
@@ -136,52 +125,46 @@
 //    _audioCallButton.tag = MOREVIEW_BUTTON_TAG + 3;
 //    [_scrollview addSubview:_audioCallButton];
 //    
-    _videoCallButton =[UIButton buttonWithType:UIButtonTypeCustom];
-    [_videoCallButton setFrame:CGRectMake(insets * 3 + CHAT_BUTTON_SIZE * 2, 10, CHAT_BUTTON_SIZE , CHAT_BUTTON_SIZE)];
-    [_videoCallButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/em_chat_video_normal"] forState:UIControlStateNormal];
-    [_videoCallButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/em_chat_video_pressed"] forState:UIControlStateHighlighted];
+    _videoCallButton = [self btnWithImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/em_chat_video_normal"]
+                         highlightedImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/em_chat_video_pressed"]
+                                    title:NSLocalizedString(@"attach_call_video", @"Call Video")];
+    
+    [_videoCallButton setFrame:CGRectMake(insets * 3 + CHAT_BUTTON_SIZE.width * 2, 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
     [_videoCallButton addTarget:self action:@selector(takeVideoCallAction) forControlEvents:UIControlEventTouchUpInside];
-    _videoCallButton.tag =MOREVIEW_BUTTON_TAG + 2;
+    _videoCallButton.tag = MOREVIEW_BUTTON_TAG + 2;
     _maxIndex = 2;
     [_scrollview addSubview:_videoCallButton];
     
-    _videoCallLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets * 3 + CHAT_BUTTON_SIZE * 2, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _videoCallLabel.text = NSLocalizedString(@"attach_call_video", @"Call Video");
-    _videoCallLabel.font = [UIFont systemFontOfSize:10];
-    _videoCallLabel.textAlignment = NSTextAlignmentCenter;
-    _videoCallLabel.textColor = [UIColor blackColor];
-    [_scrollview addSubview:_videoCallLabel];
+    _locationButton = [self btnWithImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_location_normal"]
+                        highlightedImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_location_pressed"]
+                                   title:NSLocalizedString(@"attach_location", @"Location")];
+    [_locationButton setFrame:CGRectMake(insets * 4 + CHAT_BUTTON_SIZE.width * 3, 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
     
-    _locationButton =[UIButton buttonWithType:UIButtonTypeCustom];
-    [_locationButton setFrame:CGRectMake(insets * 4 + CHAT_BUTTON_SIZE * 3, 10, CHAT_BUTTON_SIZE , CHAT_BUTTON_SIZE)];
-    [_locationButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_location_normal"] forState:UIControlStateNormal];
-    [_locationButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chat_location_pressed"] forState:UIControlStateHighlighted];
     [_locationButton addTarget:self action:@selector(locationAction) forControlEvents:UIControlEventTouchUpInside];
     _locationButton.tag = MOREVIEW_BUTTON_TAG + 3;
     [_scrollview addSubview:_locationButton];
     
-    _locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets * 4 + CHAT_BUTTON_SIZE * 3, 10 + CHAT_BUTTON_SIZE, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _locationLabel.text = NSLocalizedString(@"attach_location", @"Location");
-    _locationLabel.font = [UIFont systemFontOfSize:10];
-    _locationLabel.textAlignment = NSTextAlignmentCenter;
-    _locationLabel.textColor = [UIColor blackColor];
-    [_scrollview addSubview:_locationLabel];
-    
-    _leaveMessageButton =[UIButton buttonWithType:UIButtonTypeCustom];
-    [_leaveMessageButton setFrame:CGRectMake(insets, 10 * 2 + CHAT_BUTTON_SIZE + 15, CHAT_BUTTON_SIZE , CHAT_BUTTON_SIZE)];
-    [_leaveMessageButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/em_chat_phrase_normal"] forState:UIControlStateNormal];
-    [_leaveMessageButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/em_chat_phrase_pressed"] forState:UIControlStateHighlighted];
+    _leaveMessageButton = [self btnWithImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/em_chat_phrase_normal"]
+                            highlightedImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/em_chat_phrase_pressed"]
+                                       title:NSLocalizedString(@"leave_title", @"Note")];
+    [_leaveMessageButton setFrame:CGRectMake(insets, 10 * 2 + CHAT_BUTTON_SIZE.height + 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
+
     [_leaveMessageButton addTarget:self action:@selector(leaveMessageAction) forControlEvents:UIControlEventTouchUpInside];
     _leaveMessageButton.tag = MOREVIEW_BUTTON_TAG + 4;
     _maxIndex = 4;
     [_scrollview addSubview:_leaveMessageButton];
+
     
-    _leaveMessageLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets, 10 * 2 + CHAT_BUTTON_SIZE*2 + 15, CHAT_LABEL_SIZE_WIDTH , CHAT_LABEL_SIZE_HEIGHT)];
-    _leaveMessageLabel.text = NSLocalizedString(@"leave_title", @"Note");
-    _leaveMessageLabel.font = [UIFont systemFontOfSize:10];
-    _leaveMessageLabel.textAlignment = NSTextAlignmentCenter;
-    _leaveMessageLabel.textColor = [UIColor blackColor];
-    [_scrollview addSubview:_leaveMessageLabel];
+    _evaluationButton = [self btnWithImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/em_chat_evaluation_normal"]
+                          highlightedImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/em_chat_evaluation_pressed"]
+                                     title:NSLocalizedString(@"evaluation", @"Evaluation")];
+    
+    [_evaluationButton setFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE.width, 10 * 2 + CHAT_BUTTON_SIZE.height + 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
+    
+    [_evaluationButton addTarget:self action:@selector(evaluationAction) forControlEvents:UIControlEventTouchUpInside];
+    _evaluationButton.tag = MOREVIEW_BUTTON_TAG + 5;
+    _maxIndex = 5;
+    [_scrollview addSubview:_evaluationButton];
     
     self.frame = frame;
     _scrollview.frame = CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
@@ -189,31 +172,43 @@
     _pageControl.hidden = _pageControl.numberOfPages<=1;
 }
 
+- (UIButton *)btnWithImage:(UIImage *)aImage highlightedImage:(UIImage *)aHighLightedImage title:(NSString *)aTitle {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setImage:aImage forState:UIControlStateNormal];
+    [btn setImage:aHighLightedImage forState:UIControlStateHighlighted];
+    [btn setTitle:aTitle forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
+    btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0);
+    btn.titleEdgeInsets = UIEdgeInsetsMake(0, -100, -60, -20);
+    return btn;
+}
+
 - (void)insertItemWithImage:(UIImage *)image highlightedImage:(UIImage *)highLightedImage title:(NSString *)title
 {
-    CGFloat insets = (self.frame.size.width - MOREVIEW_COL * CHAT_BUTTON_SIZE) / 5;
+    CGFloat insets = (self.frame.size.width - MOREVIEW_COL * CHAT_BUTTON_SIZE.width) / 5;
     CGRect frame = self.frame;
     _maxIndex++;
-    NSInteger pageSize = MOREVIEW_COL*MOREVIEW_ROW;
-    NSInteger page = _maxIndex/pageSize;
-    NSInteger row = (_maxIndex%pageSize)/MOREVIEW_COL;
-    NSInteger col = _maxIndex%MOREVIEW_COL;
-    UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [moreButton setFrame:CGRectMake(page * CGRectGetWidth(self.frame) + insets * (col + 1) + CHAT_BUTTON_SIZE * col, INSETS + INSETS * 2 * row + CHAT_BUTTON_SIZE * row, CHAT_BUTTON_SIZE , CHAT_BUTTON_SIZE)];
+    NSInteger pageSize = MOREVIEW_COL * MOREVIEW_ROW;
+    NSInteger page = _maxIndex / pageSize;
+    NSInteger row = (_maxIndex % pageSize) / MOREVIEW_COL;
+    NSInteger col = _maxIndex % MOREVIEW_COL;
+    UIButton *moreButton = [self btnWithImage:image highlightedImage:highLightedImage title:title];
+    [moreButton setFrame:CGRectMake(page * CGRectGetWidth(self.frame) + insets * (col + 1) + CHAT_BUTTON_SIZE.width * col, INSETS + INSETS * 2 * row + CHAT_BUTTON_SIZE.height * row, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
     [moreButton setImage:image forState:UIControlStateNormal];
     [moreButton setImage:highLightedImage forState:UIControlStateHighlighted];
     [moreButton addTarget:self action:@selector(moreAction:) forControlEvents:UIControlEventTouchUpInside];
-    moreButton.tag = MOREVIEW_BUTTON_TAG+_maxIndex;
+    moreButton.tag = MOREVIEW_BUTTON_TAG + _maxIndex;
     [_scrollview addSubview:moreButton];
     [_scrollview setContentSize:CGSizeMake(CGRectGetWidth(self.frame) * (page + 1), CGRectGetHeight(self.frame))];
     [_pageControl setNumberOfPages:page + 1];
-    if (_maxIndex >=5) {
+    if (_maxIndex >= 5) {
         frame.size.height = 150;
         _scrollview.frame = CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
         _pageControl.frame = CGRectMake(0, CGRectGetHeight(frame) - 20, CGRectGetWidth(frame), 20);
     }
     self.frame = frame;
-    _pageControl.hidden = _pageControl.numberOfPages<=1;
+    _pageControl.hidden = _pageControl.numberOfPages <= 1;
 }
 
 - (void)updateItemWithImage:(UIImage *)image highlightedImage:(UIImage *)highLightedImage title:(NSString *)title atIndex:(NSInteger)index
@@ -238,7 +233,7 @@
 
 - (void)_resetItemFromIndex:(NSInteger)index
 {
-    CGFloat insets = (self.frame.size.width - MOREVIEW_COL * CHAT_BUTTON_SIZE) / 5;
+    CGFloat insets = (self.frame.size.width - MOREVIEW_COL * CHAT_BUTTON_SIZE.width) / 5;
     CGRect frame = self.frame;
     for (NSInteger i = index + 1; i<_maxIndex + 1; i++) {
         UIView *moreButton = [_scrollview viewWithTag:MOREVIEW_BUTTON_TAG+i];
@@ -248,7 +243,7 @@
             NSInteger page = moveToIndex/pageSize;
             NSInteger row = (moveToIndex%pageSize)/MOREVIEW_COL;
             NSInteger col = moveToIndex%MOREVIEW_COL;
-            [moreButton setFrame:CGRectMake(page * CGRectGetWidth(self.frame) + insets * (col + 1) + CHAT_BUTTON_SIZE * col, INSETS + INSETS * 2 * row + CHAT_BUTTON_SIZE * row, CHAT_BUTTON_SIZE , CHAT_BUTTON_SIZE)];
+            [moreButton setFrame:CGRectMake(page * CGRectGetWidth(self.frame) + insets * (col + 1) + CHAT_BUTTON_SIZE.width * col, INSETS + INSETS * 2 * row + CHAT_BUTTON_SIZE.height * row, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
             moreButton.tag = MOREVIEW_BUTTON_TAG+moveToIndex;
             [_scrollview setContentSize:CGSizeMake(CGRectGetWidth(self.frame) * (page + 1), CGRectGetHeight(self.frame))];
             [_pageControl setNumberOfPages:page + 1];
@@ -377,6 +372,12 @@
 {
     if (_delegate && [_delegate respondsToSelector:@selector(moreViewLeaveMessageAction:)]) {
         [_delegate moreViewLeaveMessageAction:self];
+    }
+}
+
+- (void)evaluationAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(moveViewEvaluationAction:)]) {
+        [_delegate moveViewEvaluationAction:self];
     }
 }
 

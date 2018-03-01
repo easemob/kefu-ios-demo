@@ -207,6 +207,7 @@
 "attach_call_video" = "Call Video";
 "attach_location" = "Location";
 "leave_title" = "Note";
+"evaluation" = "Evaluation";
 
 "recording_description" = "Release to end, finger up to cancel sending";
 "not_start_recording" = "Didn't start the recording";

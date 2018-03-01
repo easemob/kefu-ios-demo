@@ -206,6 +206,7 @@
 "attach_call_video" = "发起视频";
 "attach_location" = "位置";
 "leave_title" = "留言";
+"evaluation" = "评价";
 
 "recording_description" = "松开结束，手指上滑取消发送";
 "not_start_recording" = "还没开始录音";

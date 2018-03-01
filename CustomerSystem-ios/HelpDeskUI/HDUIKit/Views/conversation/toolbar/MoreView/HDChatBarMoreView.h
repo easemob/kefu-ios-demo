@@ -49,6 +49,7 @@ typedef enum{
 - (void)moreViewAudioCallAction:(HDChatBarMoreView *)moreView;
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView;
 - (void)moreViewLeaveMessageAction:(HDChatBarMoreView *)moreView;
+- (void)moveViewEvaluationAction:(HDChatBarMoreView *)moreView;
 - (void)moreView:(HDChatBarMoreView *)moreView didItemInMoreViewAtIndex:(NSInteger)index;
 
 @end
