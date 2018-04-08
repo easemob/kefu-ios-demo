@@ -962,22 +962,20 @@
     // 传给全局变量，根据indexPath移除cell
     self.snedButtonIndexPath = indexPath;
     // 发送轨迹消息
-    [self _sendTrackMessage:model.message];
-    
-    // 删除对应的消息
-    [self deleteTrackMessage:model];
-
-    
+    [self _sendTrackMessage:model];
 }
 
-- (void)_sendTrackMessage:(HMessage *)message
+- (void)_sendTrackMessage:(id<HDIMessageModel>)trackModel
 {
 
     __weak typeof(self) weakself = self;
     
-    [[HChatClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HMessage *message, HError *error) {
+    [[HChatClient sharedClient].chatManager sendMessage:trackModel.message progress:nil completion:^(HMessage *message, HError *error) {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
+            
+            // 删除对应的消息
+            [weakself deleteTrackMessage:trackModel];
         }
         else {
             [weakself.tableView reloadData];
@@ -1212,7 +1210,6 @@
 - (void)inputTextViewDidChange:(HDTextView *)inputTextView {
     
     [[HChatClient sharedClient].chatManager postContent:inputTextView.text conversationId:_conversation.conversationId completion:^(id responseObject, HError *error) {
-        
     }];
 }
 
