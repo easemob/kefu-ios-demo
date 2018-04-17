@@ -55,7 +55,15 @@
     self.evaluateTitle.text = @"非常满意";
     [self parseAppraiseTagExt:1.0];
     
+    UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                            action:@selector(topAction:)];
+    [self.view addGestureRecognizer:tapGr];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)topAction:(UITapGestureRecognizer *)gesture {
+    [self.view endEditing:YES];
 }
 
 - (NSMutableDictionary *)evaluationTagsDict
@@ -294,11 +302,13 @@
     [endValue getValue:&endRect];
     
     CGRect frame = self.bgView.frame;
-    if (endRect.origin.y == self.view.frame.size.height) {
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+    if (endRect.origin.y == screenHeight) {
         frame.origin.y = 0;
-    } else if(beginRect.origin.y == self.view.frame.size.height){
+    } else if(beginRect.origin.y == screenHeight){
         frame.origin.y = - 190;
     } else{
+        
     }
     
     [UIView animateWithDuration:0.3 animations:^{
