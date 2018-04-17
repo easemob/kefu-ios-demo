@@ -69,7 +69,6 @@
 		D2D8C1651F4043F000D6F677 /* Triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2D8C1641F4043F000D6F677 /* Triangle@2x.png */; };
 		D32772321F33270D0059F1BB /* HDArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D32772311F33270D0059F1BB /* HDArticleView.m */; };
 		D32FBEB01ED55E6C00BA68D7 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D32FBE901ED55E6C00BA68D7 /* LICENSE */; };
-		D32FBEB11ED55E6C00BA68D7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D32FBE911ED55E6C00BA68D7 /* README.md */; };
 		D32FBEB21ED55E6C00BA68D7 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = D32FBE941ED55E6C00BA68D7 /* NSData+ImageContentType.m */; };
 		D32FBEB31ED55E6C00BA68D7 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D32FBE961ED55E6C00BA68D7 /* SDImageCache.m */; };
 		D32FBEB41ED55E6C00BA68D7 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = D32FBE981ED55E6C00BA68D7 /* SDWebImageCompat.m */; };
@@ -2721,7 +2720,6 @@
 				D3CB647E1E4888F30022A6BA /* PSTCollectionViewCell.m in Sources */,
 				D34D6D841DEC1F9E0099EE23 /* FLTextView.m in Sources */,
 				D3CB646B1E4888F30022A6BA /* DACircularProgressView.m in Sources */,
-				D32FBEB11ED55E6C00BA68D7 /* README.md in Sources */,
 				D36621971F4E7786008EE9C4 /* HDCallBackView.m in Sources */,
 				D34D6D7E1DEC1C510099EE23 /* LeaseMsgReplyController.m in Sources */,
 				D2769D231B9041DA003D9E3D /* MoreChoiceView.m in Sources */,
