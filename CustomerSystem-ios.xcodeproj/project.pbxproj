@@ -14,8 +14,8 @@
 		8FEEA5A420034A9A008CD415 /* em_icon_local_recard_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA5A220034A9A008CD415 /* em_icon_local_recard_off@2x.png */; };
 		8FEEA5A520034A9A008CD415 /* em_icon_local_recard_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA5A320034A9A008CD415 /* em_icon_local_recard_on@2x.png */; };
 		8FEEA5A720036616008CD415 /* em_icon_mute_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA5A620036616008CD415 /* em_icon_mute_on@2x.png */; };
-		901C2FDB2029AD1D003BE8F8 /* HyphenateLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */; };
-		901C2FDC2029AD1D003BE8F8 /* HyphenateLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		902923002086167300C48454 /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902922FF2086167200C48454 /* Hyphenate.framework */; };
+		902923012086167300C48454 /* Hyphenate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 902922FF2086167200C48454 /* Hyphenate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9084A0A02046BC42006F10FA /* HelpDeskUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9084A09F2046BC42006F10FA /* HelpDeskUIResource.bundle */; };
 		90A90CC820299B3300F602FA /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90A90CC720299B3300F602FA /* HelpDesk.framework */; };
 		90A90CC920299B3300F602FA /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 90A90CC720299B3300F602FA /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -421,7 +421,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				90A90CC920299B3300F602FA /* HelpDesk.framework in Embed Frameworks */,
-				901C2FDC2029AD1D003BE8F8 /* HyphenateLite.framework in Embed Frameworks */,
+				902923012086167300C48454 /* Hyphenate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -439,7 +439,7 @@
 		8FEEA5A220034A9A008CD415 /* em_icon_local_recard_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_local_recard_off@2x.png"; sourceTree = "<group>"; };
 		8FEEA5A320034A9A008CD415 /* em_icon_local_recard_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_local_recard_on@2x.png"; sourceTree = "<group>"; };
 		8FEEA5A620036616008CD415 /* em_icon_mute_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_mute_on@2x.png"; sourceTree = "<group>"; };
-		901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HyphenateLite.framework; path = imsdk/HyphenateLite.framework; sourceTree = "<group>"; };
+		902922FF2086167200C48454 /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hyphenate.framework; path = imsdk/Hyphenate.framework; sourceTree = "<group>"; };
 		9084A09F2046BC42006F10FA /* HelpDeskUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HelpDeskUIResource.bundle; sourceTree = "<group>"; };
 		90A90CC720299B3300F602FA /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
@@ -1041,9 +1041,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				901C2FDB2029AD1D003BE8F8 /* HyphenateLite.framework in Frameworks */,
 				D378E6061F5669A400E3AB74 /* Security.framework in Frameworks */,
 				D3E4B4471E7AA41B004FEA49 /* libiconv.tbd in Frameworks */,
+				902923002086167300C48454 /* Hyphenate.framework in Frameworks */,
 				C9AAF3A71CC7495E00211B1B /* libc++.tbd in Frameworks */,
 				C9AAF3A51CC7494B00211B1B /* libstdc++.6.0.9.tbd in Frameworks */,
 				90A90CC820299B3300F602FA /* HelpDesk.framework in Frameworks */,
@@ -2319,7 +2319,7 @@
 		EB62E1F01A8DD92D00705655 = {
 			isa = PBXGroup;
 			children = (
-				901C2FDA2029AD1D003BE8F8 /* HyphenateLite.framework */,
+				902922FF2086167200C48454 /* Hyphenate.framework */,
 				90A90CC720299B3300F602FA /* HelpDesk.framework */,
 				D35726071DE315640033D4E3 /* Frameworks */,
 				EB62E1FB1A8DD92D00705655 /* CustomerSystem-ios */,
