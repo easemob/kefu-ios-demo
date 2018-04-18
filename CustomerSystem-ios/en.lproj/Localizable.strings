@@ -131,6 +131,7 @@
 "message.simulatorNotSupportCamera" = "simulator does not support taking picture";
 "message.simulatorNotSupportVideo" = "simulator does not support vidio";
 "message.startRecordFail" = "failure to start recording";
+"message.failToPermission" = "no recording permission";
 "message.noMessage" = "no messages";
 
 //reconnection

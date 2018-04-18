@@ -129,7 +129,9 @@
 "message.simulatorNotSupportCamera" = "模拟器不支持拍照";
 "message.simulatorNotSupportVideo" = "模拟器不支持录像";
 "message.startRecordFail" = "开始录音失败";
+"message.failToPermission" = "未获取权限";
 "message.noMessage" = "消息已经清空";
+
 
 //reconnection
 "reconnection.ongoing" = "正在重连中...";

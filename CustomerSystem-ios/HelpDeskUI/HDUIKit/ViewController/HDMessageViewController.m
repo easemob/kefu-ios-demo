@@ -30,15 +30,20 @@
 #import "HArticleWebViewController.h"
 #import "HFormWebViewController.h"
 #import "UIViewController+HDHUD.h"
-#define KHintAdjustY    50
-#define IOS_VERSION [[UIDevice currentDevice] systemVersion]>=9.0
+
+
+typedef enum : NSUInteger {
+    HDRequestRecord,
+    HDCanRecord,
+    HDCanNotRecord,
+} HDRecordResponse;
 
 @implementation HDAtTarget
 - (instancetype)initWithUserId:(NSString*)userId andNickname:(NSString*)nickname
 {
     if (self = [super init]) {
-        _userId = [userId copy];
-        _nickname = [nickname copy];
+        _userId = userId;
+        _nickname = nickname;
     }
     return self;
 }
@@ -48,19 +53,13 @@
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
-    UILongPressGestureRecognizer *_lpgr;
-    UITapGestureRecognizer *_tpgr;
     NSMutableArray *_atTargets;
-    
-    HDRecordView *_tmpView;
     NSString *_isClickBackgroud;
+    BOOL _isRecording;
     dispatch_queue_t _messageQueue;
     BOOL _isSendingTransformMessage; //正在发送转人工消息
     BOOL _isSendingEvaluateMessage;//点击立即评价按钮
-    NSString *_converID;
 }
-
-@property (nonatomic,strong) UIView *maskingView; //遮罩
 
 @property (strong, nonatomic) id<HDIMessageModel> playingVoiceModel;
 @property (nonatomic) BOOL isKicked;
@@ -88,14 +87,13 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         _conversation = [[HChatClient sharedClient].chatManager getConversation:conversationChatter];
-        _converID = conversationChatter;
+        _title = conversationChatter;
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
         _deleteConversationIfNull = YES;
         _scrollToBottomWhenAppear = YES;
         _messsagesSource = [NSMutableArray array];
-        HError *er = [HError new];
-        [_conversation markAllMessagesAsRead:&er];
+        [_conversation markAllMessagesAsRead:nil];
     }
     
     return self;
@@ -112,42 +110,40 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _title = _converID;
+    
     if (_conversation.officialAccount.name) {
         _title = _conversation.officialAccount.name;
     }
     self.title = _title;
     [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
-    [[HDSDKHelper shareHelper] setIsShowingimagePicker:NO];
     if (self.scrollToBottomWhenAppear) {
         [self _scrollViewToBottom:NO];
     }
     
-    _isClickBackgroud = nil;
+//    _isClickBackgroud = nil;
     self.scrollToBottomWhenAppear = YES;
-    
+
     self.view.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideImagePicker) name:@"hideImagePicker" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatToolbarState) name:@"ChatToolbarState" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeRecording) name:@"closeRecording" object:nil];
     
     //Initialization
     CGFloat chatbarHeight = [HDChatToolbar defaultHeight];
-    self.chatToolbar = [[HDChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - chatbarHeight-iPhoneXBottomHeight, self.view.frame.size.width, chatbarHeight)];
+    
+    self.chatToolbar = [[HDChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.height - chatbarHeight - iPhoneXBottomHeight, self.view.width, chatbarHeight)];
     self.chatToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     //Initializa the gesture recognizer
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyBoardHidden:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(keyBoardHidden:)];
     [self.view addGestureRecognizer:tap];
     
-    _lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-    _lpgr.minimumPressDuration = 0.5;
-    [self.tableView addGestureRecognizer:_lpgr];
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = 0.5;
+    [self.tableView addGestureRecognizer:lpgr];
     
-    _messageQueue = dispatch_queue_create("hyphenate.com", NULL);
+    _messageQueue = dispatch_queue_create("com.helpdesk.message.queue", NULL);
     
     //Register the delegate
     [HDCDDeviceManager sharedInstance].delegate = self;
@@ -164,19 +160,22 @@
                                              selector:@selector(appDidEnterBackground)
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
+ 
+    [self setupCell];
+    [self setupEmotion];
+    [self tableViewDidTriggerHeaderRefresh];
+}
+
+- (void)setupCell {
     
     [[HDBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
     [[HDBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
-    
     [[HDBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_full"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_000"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_001"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_002"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_audio_playing_003"]]];
     [[HDBaseMessageCell appearance] setRecvMessageVoiceAnimationImages:@[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing_full"],[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing000"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing001"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing002"], [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_receiver_audio_playing003"]]];
     
     [[HDBaseMessageCell appearance] setAvatarSize:40.f];
     [[HDBaseMessageCell appearance] setAvatarCornerRadius:20.f];
-    
-    [[HDChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
-    [self setupEmotion];
-    [self tableViewDidTriggerHeaderRefresh];
+     [[HDChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
 }
 
 - (void)ChatToolbarState
@@ -266,7 +265,11 @@
             i++;
         }
         HDEmotion *customTemp = [customEmotions objectAtIndex:0];
-        HDEmotionManager *customManagerDefault = [[HDEmotionManager alloc] initWithType:HDEmotionPng emotionRow:4 emotionCol:9 emotions:customEmotions tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
+        HDEmotionManager *customManagerDefault = [[HDEmotionManager alloc] initWithType:HDEmotionPng
+                                                                             emotionRow:4
+                                                                             emotionCol:9
+                                                                               emotions:customEmotions
+                                                                               tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
         // 只添加自定义表情到数组中，UI上只显示自定义表情
         [self.faceView setEmotionManagers:@[customManagerDefault]];
     }
@@ -376,20 +379,25 @@
     }
 }
 
-- (BOOL)_canRecord
+- (void)_canRecordCompletion:(void(^)(HDRecordResponse))aCompletion
 {
-    __block BOOL bCanRecord = NO;
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
-    {
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-        if ([audioSession respondsToSelector:@selector(requestRecordPermission:)]) {
-            [audioSession performSelector:@selector(requestRecordPermission:) withObject:^(BOOL granted) {
-                bCanRecord = granted;
+    switch ([[AVAudioSession sharedInstance] recordPermission]) {
+        case AVAudioSessionRecordPermissionGranted:
+            aCompletion(HDCanRecord);
+            break;
+        case AVAudioSessionRecordPermissionDenied:
+            aCompletion(HDCanNotRecord);
+            break;
+        case AVAudioSessionRecordPermissionUndetermined:
+            [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
             }];
-        }
+            if (aCompletion) {
+                aCompletion(HDRequestRecord);
+            }
+            break;
+        default:
+            break;
     }
-    
-    return bCanRecord;
 }
 
 - (void)showMenuViewController:(UIView *)showInView
@@ -808,16 +816,12 @@
 }
 
 #pragma mark - GestureRecognizer
-
-
 // 要解决这里点击背景的问题，键盘不编辑的问题
 -(void)keyBoardHidden:(UITapGestureRecognizer *)tapRecognizer
 {
     if (tapRecognizer.state == UIGestureRecognizerStateEnded) {
         // 解决还在录音的问题
-        if(_isClickBackgroud){
-            
-        } else {
+        if (!_isRecording) {
             [self.chatToolbar endEditing:YES];
         }
     }
@@ -1293,53 +1297,56 @@
     }
 }
 
-- (UIView *)maskingView {
-    if (_maskingView == nil) {
-        _maskingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-        _maskingView.backgroundColor = [UIColor clearColor];
-        _maskingView.userInteractionEnabled = YES;
-        _maskingView.tag = 33;
-    }
-    return _maskingView;
-}
 
 #pragma mark - HRecordViewDelegate
 // 点触录音按钮开始录音的代理方法
 - (void)didHdStartRecordingVoiceAction:(UIView *)recordView
 {
     [self _stopAudioPlayingWithChangeCategory:YES];
-    [self.view addSubview:self.maskingView];
-    [self.view bringSubviewToFront:self.maskingView];
-    if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchDown];
-    } else {
-        if ([recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)recordView recordButtonTouchDown];
+    _isRecording = YES;
+    __weak typeof(self) weakSelf = self;
+    [self _canRecordCompletion:^(HDRecordResponse recordResponse) {
+        switch (recordResponse) {
+            case HDRequestRecord: break;
+            case HDCanRecord:
+            {
+                if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
+                    [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchDown];
+                } else {
+                    if ([recordView isKindOfClass:[HDRecordView class]]) {
+                        [(HDRecordView *)recordView recordButtonTouchDown];
+                    }
+                }
+                
+                recordView.center = self.view.center;
+                [weakSelf.view addSubview:recordView];
+                int x = arc4random() % 100000;
+                NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
+                NSString *fileName = [NSString stringWithFormat:@"%d%d",(int)time,x];
+                [[HDCDDeviceManager sharedInstance] asyncStartRecordingWithFileName:fileName completion:^(NSError *error)
+                 {
+                     if (error) {
+                         NSLog(@"%@",NSEaseLocalizedString(@"message.startRecordFail", @"failure to start recording"));
+                     }
+                 }];
+            }
+                break;
+            case HDCanNotRecord:
+            {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"message.failToPermission", @"No recording permission") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+                [alertView show];
+            }
+                break;
+            default:
+                break;
         }
-    }
-    
-    if ([self _canRecord]) {
-        _tmpView = (HDRecordView *)recordView;
-        _tmpView.center = self.view.center;
-        [self.view addSubview:_tmpView];
-        [self.view bringSubviewToFront:recordView];
-        int x = arc4random() % 100000;
-        NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
-        NSString *fileName = [NSString stringWithFormat:@"%d%d",(int)time,x];
-        
-        [[HDCDDeviceManager sharedInstance] asyncStartRecordingWithFileName:fileName completion:^(NSError *error)
-         {
-             if (error) {
-                 NSLog(@"%@",NSEaseLocalizedString(@"message.startRecordFail", @"failure to start recording"));
-             }
-         }];
-    }
-    _isClickBackgroud = @"Yes";
+    }];
 }
+
 // 在控件之外触摸抬起事件的代理方法
 - (void)didHdCancelRecordingVoiceAction:(UIView *)recordView
 {
-    [self.maskingView removeFromSuperview];
+    _isRecording = NO;
     [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpOutside];
@@ -1348,17 +1355,12 @@
             [(HDRecordView *)recordView recordButtonTouchUpOutside];
         }
         [recordView removeFromSuperview];
-        
     }
-    
-    _isClickBackgroud = nil;
-    
 }
 // 在控件之内触摸抬起事件的代理方法
 - (void)didHdFinishRecoingVoiceAction:(UIView *)recordView
 {
-    [self.maskingView removeFromSuperview];
-    _isClickBackgroud = nil;
+    _isRecording = NO;
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
         [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpInside];
     } else {
@@ -1373,18 +1375,7 @@
         if (!error) {
             [weakSelf sendVoiceMessageWithLocalPath:recordPath duration:(int)aDuration];
         }
-        else {
-            NSString *ers = error.domain;
-            if (![self _canRecord]) {
-                ers = @"未授权";
-            }
-            [weakSelf showHudInView:self.view hint:ers];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [weakSelf hideHud];
-            });
-        }
     }];
-    _isClickBackgroud = nil;
 }
 
 // 当一次触摸从控件窗口内部拖动到外部时的代理方法
@@ -1397,7 +1388,6 @@
             [(HDRecordView *)recordView recordButtonDragInside];
         }
     }
-    _isClickBackgroud = @"Yes";
 }
 // 当一次触摸从控件窗口之外拖动到内部时的代理方法
 - (void)didHdDragInsideAction:(UIView *)recordView
@@ -1409,7 +1399,6 @@
             [(HDRecordView *)recordView recordButtonDragOutside];
         }
     }
-    _isClickBackgroud = @"Yes";
 }
 
 
@@ -2049,13 +2038,6 @@
     self.messageTimeIntervalTag = -1;
     self.dataArray = [[self formatMessages:self.messsagesSource] mutableCopy];
     [self.tableView reloadData];
-}
-
-- (void)hideImagePicker
-{
-    if (_imagePicker && [HDSDKHelper shareHelper].isShowingimagePicker) {
-        [_imagePicker dismissViewControllerAnimated:NO completion:nil];
-    }
 }
 
 #pragma mark - private

@@ -21,7 +21,23 @@ typedef enum{
     HDRecordViewTypeDragOutside,
 }HDRecordViewType;
 
+@protocol HDRecordViewDelegate <NSObject>
+@optional
+- (void)didHdStartRecordingVoiceAction:(UIView *)recordView;
+
+- (void)didHdCancelRecordingVoiceAction:(UIView *)recordView;
+
+- (void)didHdFinishRecoingVoiceAction:(UIView *)recordView;
+
+- (void)didHdDragOutsideAction:(UIView *)recordView;
+
+- (void)didHdDragInsideAction:(UIView *)recordView;
+
+@end
+
 @interface HDRecordView : UIView
+
+@property (weak, nonatomic) id<HDRecordViewDelegate> delegate;
 
 @property (nonatomic) NSArray *voiceMessageAnimationImages UI_APPEARANCE_SELECTOR;
 

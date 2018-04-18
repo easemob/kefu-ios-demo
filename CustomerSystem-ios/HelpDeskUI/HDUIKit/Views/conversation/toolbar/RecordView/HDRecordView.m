@@ -34,8 +34,6 @@
     // UIAppearance Proxy Defaults
     HDRecordView *recordView = [self appearance];
     recordView.voiceMessageAnimationImages = @[@"HelpDeskUIResource.bundle/hd_record_animate_1",@"HelpDeskUIResource.bundle/hd_record_animate_2",@"HelpDeskUIResource.bundle/hd_record_animate_3",@"HelpDeskUIResource.bundle/hd_record_animate_4",@"HelpDeskUIResource.bundle/hd_record_animate_5",@"HelpDeskUIResource.bundle/hd_record_animate_6",@"HelpDeskUIResource.bundle/hd_record_animate_7",@"HelpDeskUIResource.bundle/hd_record_animate_8",@"HelpDeskUIResource.bundle/hd_record_animate_9",@"HelpDeskUIResource.bundle/hd_record_animate_10",@"HelpDeskUIResource.bundle/hd_record_animate_11",@"HelpDeskUIResource.bundle/hd_record_animate_12",@"HelpDeskUIResource.bundle/hd_record_animate_13",@"HelpDeskUIResource.bundle/hd_record_animate_14"];
-//    recordView.upCancelText = NSEaseLocalizedString(@"message.toolBar.record.upCancel", @"Fingers up slide, cancel sending");
-//    recordView.loosenCancelText = NSEaseLocalizedString(@"message.toolBar.record.loosenCancel", @"loosen the fingers, to cancel sending");
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -93,7 +91,11 @@
 {
     [self stopTimeTimer];
     self.timeLength = 0;
-    self.timeTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timeTimerAction) userInfo:nil repeats:YES];
+    self.timeTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                      target:self
+                                                    selector:@selector(timeTimerAction)
+                                                    userInfo:nil
+                                                     repeats:YES];
     _timerView = [NSTimer scheduledTimerWithTimeInterval:0.05
                                      target:self
                                    selector:@selector(setVoiceImage)
@@ -123,31 +125,15 @@
     }
 }
 
-
-- (void)addCover {
-    UIWindow *keyw = [UIApplication sharedApplication].keyWindow;
-    UIView *cover = [[UIView alloc] initWithFrame:keyw.bounds];
-    cover.tag = kCoverTag;
-    [self bringSubviewToFront:cover];
-    [keyw addSubview:cover];
-}
-
-- (void)removeCoverView {
-     UIWindow *keyw = [UIApplication sharedApplication].keyWindow;
-    UIView *coverView = [keyw viewWithTag:kCoverTag];
-    [coverView removeFromSuperview];
-}
 -(void)recordButtonTouchUpInside
 {
     [self stopTimeTimer];
-    [self removeCoverView];
     [_timerView invalidate];
 }
 
 -(void)recordButtonTouchUpOutside
 {
     [self stopTimeTimer];
-    [self removeCoverView];
     [_timerView invalidate];
 }
 
