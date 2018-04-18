@@ -65,38 +65,14 @@
 }
 
 - (void)logoutHD {
-    
-    NSString *name1 = @"3B840787C7254D2C94FD5FA5F82F7F4E27554";
-    NSString *name2 = @"3B840787C7254D2C94FD5FA5F82F7F4E45351";
-    
-    dispatch_queue_t queue = dispatch_queue_create("yitiao", DISPATCH_QUEUE_SERIAL);
-    
-    dispatch_async(queue, ^{
-        HChatClient *client = [HChatClient sharedClient];
-        HError *error = [HError errorWithDescription:@"尚未登录" code:-1];
-        if (client.isLoggedInBefore) {
-            error =  [client logout:YES];
-        }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        HError *error = [HChatClient.sharedClient logout:YES];
         if (error == nil) {
             NSLog(@"登出成功");
         } else {
             NSLog(@"失败:%@",error.errorDescription);
         }
-        
-        HError *er = [client loginWithUsername:name2 password:hxPassWord];
-        if (er == nil) {
-            NSLog(@"登录成功！！！");
-        }
-        
-        HConversation *conversation = [[HChatClient sharedClient].chatManager getConversation:[SCLoginManager shareLoginManager].cname];
-        [conversation loadMessagesStartFromId:nil count:10 searchDirection:HMessageSearchDirectionUp completion:^(NSArray *aMessages, HError *aError) {
-            NSLog(@"aMessages:%@",aMessages);
-            [conversation markAllMessagesAsRead:nil];
-        }];
-
-        
     });
-    
 }
 
 - (void)initializePropertys {

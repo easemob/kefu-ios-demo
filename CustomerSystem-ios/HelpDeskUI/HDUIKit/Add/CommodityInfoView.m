@@ -44,7 +44,7 @@
     self.name = [[UILabel alloc] initWithFrame:CGRectMake(space, 0, width*0.6, height*0.8)];
     self.name.text = NSLocalizedString([_comDataSource[tag] objectForKey:@"name"], @"em_example1_text");
     self.name.numberOfLines = 2;
-    self.name.lineBreakMode = UILineBreakModeCharacterWrap;
+    self.name.lineBreakMode = NSLineBreakByCharWrapping;
     self.name.font = [UIFont systemFontOfSize:13];
     self.name.textAlignment = NSTextAlignmentLeft;
     [self addSubview:self.name];

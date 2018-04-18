@@ -22,6 +22,4 @@
                   andIndexPath:(NSIndexPath *)indexPath
                    messageType:(EMMessageBodyType)messageType;
 
-- (void)userAccountDidLoginFromOtherDevice;
-
 @end

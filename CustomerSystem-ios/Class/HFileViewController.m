@@ -149,7 +149,7 @@
             }
             [self showHudInView:self.view hint:[NSString stringWithFormat:@"%@...",NSLocalizedString(@"in_the_download", @"In the download")]];
             
-            [[HChatClient sharedClient].chat downloadMessageAttachment:model.message progress:^(int progress) {
+            [[HChatClient sharedClient].chatManager downloadAttachment:model.message progress:^(int progress) {
                 
             } completion:^(HMessage *message, HError *error) {
                 [self hideHud];

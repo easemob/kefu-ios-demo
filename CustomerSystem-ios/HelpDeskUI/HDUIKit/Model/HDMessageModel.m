@@ -17,6 +17,8 @@
 #import "HDEmotionEscape.h"
 
 @implementation HDMessageModel
+@synthesize body;
+@synthesize from;
 
 - (instancetype)initWithMessage:(HMessage *)message
 {

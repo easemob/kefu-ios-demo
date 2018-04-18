@@ -82,13 +82,13 @@
 - (void)registNotification
 {
     [self unregistNotification];
-    [[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
+    [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 //    [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
 }
 
 - (void)unregistNotification
 {
-    [[HChatClient sharedClient].chat removeDelegate:self];
+    [[HChatClient sharedClient].chatManager removeDelegate:self];
 }
 
 - (void)dealloc

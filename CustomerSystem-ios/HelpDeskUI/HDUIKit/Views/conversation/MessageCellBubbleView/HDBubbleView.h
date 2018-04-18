@@ -125,4 +125,5 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 - (instancetype)initWithMargin:(UIEdgeInsets)margin
                       isSender:(BOOL)isSender;
 
+- (void)sendDeleteTrackMsg:(UIButton *)button;
 @end
