@@ -27,7 +27,7 @@
 @property (nonatomic) BOOL isPlayingAudio;
 
 @property (nonatomic) NSMutableDictionary *emotionDic;
-@property (nonatomic, copy) HDSelectAtTargetCallback selectedCallback;
+
 
 @end
 

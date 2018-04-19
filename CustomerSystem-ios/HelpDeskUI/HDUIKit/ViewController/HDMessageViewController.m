@@ -38,23 +38,10 @@ typedef enum : NSUInteger {
     HDCanNotRecord,
 } HDRecordResponse;
 
-@implementation HDAtTarget
-- (instancetype)initWithUserId:(NSString*)userId andNickname:(NSString*)nickname
-{
-    if (self = [super init]) {
-        _userId = userId;
-        _nickname = nickname;
-    }
-    return self;
-}
-@end
-
 @interface HDMessageViewController ()<HDMessageCellDelegate,HChatDelegate,TransmitDeleteTrackMsgDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
-    NSMutableArray *_atTargets;
-    NSString *_isClickBackgroud;
     BOOL _isRecording;
     dispatch_queue_t _messageQueue;
     BOOL _isSendingTransformMessage; //正在发送转人工消息
@@ -64,7 +51,6 @@ typedef enum : NSUInteger {
 @property (strong, nonatomic) id<HDIMessageModel> playingVoiceModel;
 @property (nonatomic) BOOL isKicked;
 @property (nonatomic) BOOL isPlayingAudio;
-@property (nonatomic, strong) NSMutableArray *atTargets;
 @property (nonatomic, assign) HDemoSaleType saleType;
 
 @end
@@ -120,7 +106,6 @@ typedef enum : NSUInteger {
         [self _scrollViewToBottom:NO];
     }
     
-//    _isClickBackgroud = nil;
     self.scrollToBottomWhenAppear = YES;
 
     self.view.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
@@ -315,14 +300,6 @@ typedef enum : NSUInteger {
     }
     
     return _imagePicker;
-}
-
-- (NSMutableArray*)atTargets
-{
-    if (!_atTargets) {
-        _atTargets = [NSMutableArray array];
-    }
-    return _atTargets;
 }
 
 #pragma mark - setter
@@ -1220,68 +1197,7 @@ typedef enum : NSUInteger {
 {
     if (text && text.length > 0) {
         [self sendTextMessage:text];
-        [self.atTargets removeAllObjects];
     }
-}
-
-- (BOOL)didInputAtInLocation:(NSUInteger)location
-{
-    if ([self.delegate respondsToSelector:@selector(messageViewController:selectAtTarget:)]) {
-        location += 1;
-        __weak typeof(self) weakSelf = self;
-        [self.delegate messageViewController:self selectAtTarget:^(HDAtTarget *target) {
-            __strong HDMessageViewController *strongSelf = weakSelf;
-            if (strongSelf && target) {
-                if ([target.userId length] || [target.nickname length]) {
-                    [strongSelf.atTargets addObject:target];
-                    NSString *insertStr = [NSString stringWithFormat:@"%@ ", target.nickname ? target.nickname : target.userId];
-                    HDChatToolbar *toolbar = (HDChatToolbar*)strongSelf.chatToolbar;
-                    NSMutableString *originStr = [toolbar.inputTextView.text mutableCopy];
-                    NSUInteger insertLocation = location > originStr.length ? originStr.length : location;
-                    [originStr insertString:insertStr atIndex:insertLocation];
-                    toolbar.inputTextView.text = originStr;
-                    toolbar.inputTextView.selectedRange = NSMakeRange(insertLocation + insertStr.length, 0);
-                    [toolbar.inputTextView becomeFirstResponder];
-                }
-            }
-            else if (strongSelf) {
-                HDChatToolbar *toolbar = (HDChatToolbar*)strongSelf.chatToolbar;
-                [toolbar.inputTextView becomeFirstResponder];
-            }
-        }];
-        HDChatToolbar *toolbar = (HDChatToolbar*)self.chatToolbar;
-        toolbar.inputTextView.text = [NSString stringWithFormat:@"%@@", toolbar.inputTextView.text];
-        [toolbar.inputTextView resignFirstResponder];
-        return YES;
-    }
-    else {
-        return NO;
-    }
-}
-
-- (BOOL)didDeleteCharacterFromLocation:(NSUInteger)location
-{
-    HDChatToolbar *toolbar = (HDChatToolbar*)self.chatToolbar;
-    if ([toolbar.inputTextView.text length] == location + 1) {
-        //delete last character
-        NSString *inputText = toolbar.inputTextView.text;
-        NSRange range = [inputText rangeOfString:@"@" options:NSBackwardsSearch];
-        if (range.location != NSNotFound) {
-            if (location - range.location > 1) {
-                NSString *sub = [inputText substringWithRange:NSMakeRange(range.location + 1, location - range.location - 1)];
-                for (HDAtTarget *target in self.atTargets) {
-                    if ([sub isEqualToString:target.userId] || [sub isEqualToString:target.nickname]) {
-                        inputText = range.location > 0 ? [inputText substringToIndex:range.location] : @"";
-                        toolbar.inputTextView.text = inputText;
-                        toolbar.inputTextView.selectedRange = NSMakeRange(inputText.length, 0);
-                        [self.atTargets removeObject:target];
-                        return YES;
-                    }
-                }
-            }
-        }
-    }
-    return NO;
 }
 
 - (void)didSendText:(NSString *)text withExt:(NSDictionary*)ext

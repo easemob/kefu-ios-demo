@@ -32,14 +32,6 @@ typedef NS_ENUM(NSInteger, HDemoSaleType){
     hSaleTypeNone   //其他
 };
 
-@interface HDAtTarget : NSObject
-@property (nonatomic, copy) NSString    *userId;
-@property (nonatomic, copy) NSString    *nickname;
-
-- (instancetype)initWithUserId:(NSString*)userId andNickname:(NSString*)nickname;
-@end
-
-typedef void(^HDSelectAtTargetCallback)(HDAtTarget*);
 
 @class HDMessageViewController;
 
@@ -74,16 +66,6 @@ typedef void(^HDSelectAtTargetCallback)(HDAtTarget*);
 - (void)messageViewController:(HDMessageViewController *)viewController
               didSelectRecordView:(UIView *)recordView
                 withEvenType:(HDRecordViewType)type;
-
-/*!
- @method
- @brief 获取要@的对象
- @discussion 用户输入了@，选择要@的对象
- @param selectedCallback 用于回调要@的对象的block
- @result
- */
-- (void)messageViewController:(HDMessageViewController *)viewController
-               selectAtTarget:(HDSelectAtTargetCallback)selectedCallback;
 
 @end
 

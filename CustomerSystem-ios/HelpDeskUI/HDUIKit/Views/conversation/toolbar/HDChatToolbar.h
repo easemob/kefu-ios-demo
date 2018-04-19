@@ -92,10 +92,6 @@
 
 - (void)didSendText:(NSString *)text withExt:(NSDictionary*)ext;
 
-- (BOOL)didInputAtInLocation:(NSUInteger)location;
-
-- (BOOL)didDeleteCharacterFromLocation:(NSUInteger)location;
-
 - (void)didSendFace:(NSString *)faceLocalPath;
 
 - (void)didStartRecordingVoiceAction:(UIView *)recordView;
