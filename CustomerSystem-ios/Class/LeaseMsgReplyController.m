@@ -16,13 +16,13 @@
 #import "LeaveMsgDetailModel.h"
 #import "HDMessageReadManager.h"
 #import "MBProgressHUD+Add.h"
-#import "HDRecordView.h"
+#import "HDMicView.h"
 #import "SCAudioPlay.h"
 #import "CustomButton.h"
-#import "HRecordView.h"
+#import "HDRecordView.h"
 #define kDefaultLeft 20
 const NSInteger baseTag=123;
-@interface LeaseMsgReplyController () <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LeaveMsgAttatchmentViewDelegate,SCAudioPlayDelegate, HRecordViewDelegate, HDCDDeviceManagerDelegate>
+@interface LeaseMsgReplyController () <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LeaveMsgAttatchmentViewDelegate,SCAudioPlayDelegate, HDRecordViewDelegate, HDCDDeviceManagerDelegate>
 
 @property (nonatomic, strong) FLTextView *textView;
 @property (nonatomic, strong) UIButton *addButton;
@@ -34,9 +34,9 @@ const NSInteger baseTag=123;
 // 录音键盘切换按钮
 @property (nonatomic,strong) UIButton *recordChangeBtn;
 // 话筒view
-@property (nonatomic,strong) HDRecordView *recordView;
+@property (nonatomic,strong) HDMicView *micView;
 // 录音按钮view
-@property (nonatomic, strong) HRecordView *recordButtonView;
+@property (nonatomic, strong) HDRecordView *recordButtonView;
 
 
 @property (nonatomic,strong) UIView *maskingView;
@@ -47,7 +47,6 @@ const NSInteger baseTag=123;
 {
     LeaveMsgAttatchmentView *_currentAnimationView;
     SCAudioPlay *_audioPlayer;
-    HDRecordView *_tmpView;
     CGFloat _boardHeight;
     BOOL _status;
 }
@@ -119,13 +118,13 @@ const NSInteger baseTag=123;
     [self _stopAudioPlayingWithChangeCategory];
 }
 
-- (UIView *)recordView
+- (UIView *)micView
 {
-    if (_recordView == nil) {
-        _recordView = [[HDRecordView alloc] initWithFrame:CGRectMake(90, 130, 60, 80)];
+    if (_micView == nil) {
+        _micView = [[HDMicView alloc] initWithFrame:CGRectMake(90, 130, 60, 80)];
     }
     
-    return _recordView;
+    return _micView;
 }
 
 
@@ -170,7 +169,7 @@ const NSInteger baseTag=123;
             _recordChangeBtn.originY = _recordChangeBtn.frame.origin.y - 140;
             _addButton.originY = _addButton.frame.origin.y - 140;
             _attchmentView.originY = _attchmentView.frame.origin.y - 140;
-            self.recordButtonView = [[HRecordView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_recordChangeBtn.frame), kScreenWidth, 140) mark:@"leaveView"];
+            self.recordButtonView = [[HDRecordView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_recordChangeBtn.frame), kScreenWidth, 140) mark:@"leaveView"];
             self.recordButtonView.delegate = self;
             self.recordButtonView.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
             [self.view addSubview:self.recordButtonView];
@@ -195,22 +194,20 @@ const NSInteger baseTag=123;
 
 // 录音
 #pragma mark - HRecordViewDelegate
-- (void)didHdStartRecordingVoiceAction:(UIView *)recordView
+- (void)didHDStartRecordingVoiceAction:(UIView *)micView
 {
     [self _stopAudioPlayingWithChangeCategory];
     [self.view addSubview:self.maskingView];
     [self.view bringSubviewToFront:self.maskingView];
     
-    if ([recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)recordView recordButtonTouchDown];
-        }
+    if ([micView isKindOfClass:[HDMicView class]]) {
+        [(HDMicView *)micView recordButtonTouchDown];
+    }
     
     
     if ([self _canRecord]) {
-        _tmpView = (HDRecordView *)recordView;
-        _tmpView.center = self.view.center;
-        [self.view addSubview:_tmpView];
-        [self.view bringSubviewToFront:recordView];
+        [self.view addSubview:micView];
+        [self.view bringSubviewToFront:micView];
         int x = arc4random() % 100000;
         NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
         NSString *fileName = [NSString stringWithFormat:@"%d%d",(int)time,x];
@@ -224,24 +221,24 @@ const NSInteger baseTag=123;
     }
 }
 
-- (void)didHdCancelRecordingVoiceAction:(UIView *)recordView
+- (void)didHDCancelRecordingVoiceAction:(UIView *)micView
 {
     self.maskingView  = [self.view viewWithTag:33];
     [self.maskingView removeFromSuperview];
     [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
-    if ([recordView isKindOfClass:[HDRecordView class]]) {
-        [(HDRecordView *)recordView recordButtonTouchUpOutside];
+    if ([micView isKindOfClass:[HDMicView class]]) {
+        [(HDMicView *)micView recordButtonTouchUpOutside];
     }
-        [recordView removeFromSuperview];
+        [micView removeFromSuperview];
     
 }
 
-- (void)didHdFinishRecoingVoiceAction:(UIView *)recordView
+- (void)didHDFinishRecoingVoiceAction:(UIView *)micView
 {
     self.maskingView  = [self.view viewWithTag:33];
     [self.maskingView removeFromSuperview];
-    if ([recordView isKindOfClass:[HDRecordView class]]) {
-        [(HDRecordView *)recordView recordButtonTouchUpInside];
+    if ([micView isKindOfClass:[HDMicView class]]) {
+        [(HDMicView *)micView recordButtonTouchUpInside];
     }
     
     __weak typeof(self) weakSelf = self;
@@ -288,21 +285,21 @@ const NSInteger baseTag=123;
         }
     }];
     
-    [recordView removeFromSuperview];
+    [micView removeFromSuperview];
 
 }
 
-- (void)didHdDragOutsideAction:(UIView *)recordView
+- (void)didHDDragOutsideAction:(UIView *)micView
 {
-    if ([recordView isKindOfClass:[HDRecordView class]]) {
-        [(HDRecordView *)recordView recordButtonDragInside];
+    if ([micView isKindOfClass:[HDMicView class]]) {
+        [(HDMicView *)micView recordButtonDragInside];
     }
 }
 
-- (void)didHdDragInsideAction:(UIView *)recordView
+- (void)didHDDragInsideAction:(UIView *)micView
 {
-    if ([recordView isKindOfClass:[HDRecordView class]]) {
-        [(HDRecordView *)recordView recordButtonDragOutside];
+    if ([micView isKindOfClass:[HDMicView class]]) {
+        [(HDMicView *)micView recordButtonDragOutside];
     }
 }
 

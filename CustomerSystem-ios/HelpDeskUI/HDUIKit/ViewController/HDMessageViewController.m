@@ -350,9 +350,9 @@ typedef enum : NSUInteger {
         self.chatBarMoreView = (HDChatBarMoreView*)[(HDChatToolbar *)self.chatToolbar moreView];
         self.faceView = (HDFaceView*)[(HDChatToolbar *)self.chatToolbar faceView];
         // 初始化录音按钮所在的view
-        self.hrecordView = (HRecordView *)[(HDChatToolbar *)self.chatToolbar newRecordView];
+        self.recordView = (HDRecordView *)[(HDChatToolbar *)self.chatToolbar recordView];
         // 添加代理
-        self.hrecordView.delegate = self;
+        self.recordView.delegate = self;
     }
 }
 
@@ -748,7 +748,7 @@ typedef enum : NSUInteger {
 - (void)closeRecording
 {
     if(self.recordView){
-        [self didHdCancelRecordingVoiceAction:self.recordView];
+        [self didHDCancelRecordingVoiceAction:self.micView];
     }
 }
 
@@ -1300,7 +1300,7 @@ typedef enum : NSUInteger {
 
 #pragma mark - HRecordViewDelegate
 // 点触录音按钮开始录音的代理方法
-- (void)didHdStartRecordingVoiceAction:(UIView *)recordView
+- (void)didHDStartRecordingVoiceAction:(UIView *)micView
 {
     [self _stopAudioPlayingWithChangeCategory:YES];
     _isRecording = YES;
@@ -1311,15 +1311,15 @@ typedef enum : NSUInteger {
             case HDCanRecord:
             {
                 if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-                    [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchDown];
+                    [self.delegate messageViewController:self didSelectRecordView:micView withEvenType:HDRecordViewTypeTouchDown];
                 } else {
-                    if ([recordView isKindOfClass:[HDRecordView class]]) {
-                        [(HDRecordView *)recordView recordButtonTouchDown];
+                    if ([micView isKindOfClass:[HDMicView class]]) {
+                        [(HDMicView *)micView recordButtonTouchDown];
                     }
                 }
                 
-                recordView.center = self.view.center;
-                [weakSelf.view addSubview:recordView];
+                micView.center = self.view.center;
+                [weakSelf.view addSubview:micView];
                 int x = arc4random() % 100000;
                 NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
                 NSString *fileName = [NSString stringWithFormat:@"%d%d",(int)time,x];
@@ -1344,30 +1344,30 @@ typedef enum : NSUInteger {
 }
 
 // 在控件之外触摸抬起事件的代理方法
-- (void)didHdCancelRecordingVoiceAction:(UIView *)recordView
+- (void)didHDCancelRecordingVoiceAction:(UIView *)micView
 {
     _isRecording = NO;
     [[HDCDDeviceManager sharedInstance] cancelCurrentRecording];
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpOutside];
+        [self.delegate messageViewController:self didSelectRecordView:micView withEvenType:HDRecordViewTypeTouchUpOutside];
     } else {
-        if ([recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)recordView recordButtonTouchUpOutside];
+        if ([micView isKindOfClass:[HDMicView class]]) {
+            [(HDMicView *)micView recordButtonTouchUpOutside];
         }
-        [recordView removeFromSuperview];
+        [micView removeFromSuperview];
     }
 }
 // 在控件之内触摸抬起事件的代理方法
-- (void)didHdFinishRecoingVoiceAction:(UIView *)recordView
+- (void)didHDFinishRecoingVoiceAction:(UIView *)micView
 {
     _isRecording = NO;
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeTouchUpInside];
+        [self.delegate messageViewController:self didSelectRecordView:micView withEvenType:HDRecordViewTypeTouchUpInside];
     } else {
-        if ([recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)recordView recordButtonTouchUpInside];
+        if ([micView isKindOfClass:[HDMicView class]]) {
+            [(HDMicView *)micView recordButtonTouchUpInside];
         }
-        [recordView removeFromSuperview];
+        [micView removeFromSuperview];
         
     }
     __weak typeof(self) weakSelf = self;
@@ -1379,24 +1379,24 @@ typedef enum : NSUInteger {
 }
 
 // 当一次触摸从控件窗口内部拖动到外部时的代理方法
-- (void)didHdDragOutsideAction:(UIView *)recordView
+- (void)didHDDragOutsideAction:(UIView *)micView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeDragInside];
+        [self.delegate messageViewController:self didSelectRecordView:micView withEvenType:HDRecordViewTypeDragInside];
     } else {
-        if ([recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)recordView recordButtonDragInside];
+        if ([micView isKindOfClass:[HDMicView class]]) {
+            [(HDMicView *)micView recordButtonDragInside];
         }
     }
 }
 // 当一次触摸从控件窗口之外拖动到内部时的代理方法
-- (void)didHdDragInsideAction:(UIView *)recordView
+- (void)didHDDragInsideAction:(UIView *)micView
 {
     if ([self.delegate respondsToSelector:@selector(messageViewController:didSelectRecordView:withEvenType:)]) {
-        [self.delegate messageViewController:self didSelectRecordView:recordView withEvenType:HDRecordViewTypeDragOutside];
+        [self.delegate messageViewController:self didSelectRecordView:micView withEvenType:HDRecordViewTypeDragOutside];
     } else {
-        if ([recordView isKindOfClass:[HDRecordView class]]) {
-            [(HDRecordView *)recordView recordButtonDragOutside];
+        if ([micView isKindOfClass:[HDMicView class]]) {
+            [(HDMicView *)micView recordButtonDragOutside];
         }
     }
 }

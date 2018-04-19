@@ -10,11 +10,11 @@
  * from Hyphenate Inc.
  */
 
-#import "HDRecordView.h"
+#import "HDMicView.h"
 #import "HDCDDeviceManager.h"
 #import "HDLocalDefine.h"
 #define kCoverTag 32320
-@interface HDRecordView ()
+@interface HDMicView ()
 {
     NSTimer *_timer;
     UIImageView *_recordAnimationView;
@@ -27,13 +27,13 @@
 
 @end
 
-@implementation HDRecordView
+@implementation HDMicView
 
 + (void)initialize
 {
     // UIAppearance Proxy Defaults
-    HDRecordView *recordView = [self appearance];
-    recordView.voiceMessageAnimationImages = @[@"HelpDeskUIResource.bundle/hd_record_animate_1",@"HelpDeskUIResource.bundle/hd_record_animate_2",@"HelpDeskUIResource.bundle/hd_record_animate_3",@"HelpDeskUIResource.bundle/hd_record_animate_4",@"HelpDeskUIResource.bundle/hd_record_animate_5",@"HelpDeskUIResource.bundle/hd_record_animate_6",@"HelpDeskUIResource.bundle/hd_record_animate_7",@"HelpDeskUIResource.bundle/hd_record_animate_8",@"HelpDeskUIResource.bundle/hd_record_animate_9",@"HelpDeskUIResource.bundle/hd_record_animate_10",@"HelpDeskUIResource.bundle/hd_record_animate_11",@"HelpDeskUIResource.bundle/hd_record_animate_12",@"HelpDeskUIResource.bundle/hd_record_animate_13",@"HelpDeskUIResource.bundle/hd_record_animate_14"];
+    HDMicView *micView = [self appearance];
+    micView.voiceMessageAnimationImages = @[@"HelpDeskUIResource.bundle/hd_record_animate_1",@"HelpDeskUIResource.bundle/hd_record_animate_2",@"HelpDeskUIResource.bundle/hd_record_animate_3",@"HelpDeskUIResource.bundle/hd_record_animate_4",@"HelpDeskUIResource.bundle/hd_record_animate_5",@"HelpDeskUIResource.bundle/hd_record_animate_6",@"HelpDeskUIResource.bundle/hd_record_animate_7",@"HelpDeskUIResource.bundle/hd_record_animate_8",@"HelpDeskUIResource.bundle/hd_record_animate_9",@"HelpDeskUIResource.bundle/hd_record_animate_10",@"HelpDeskUIResource.bundle/hd_record_animate_11",@"HelpDeskUIResource.bundle/hd_record_animate_12",@"HelpDeskUIResource.bundle/hd_record_animate_13",@"HelpDeskUIResource.bundle/hd_record_animate_14"];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -107,11 +107,6 @@
 - (void)timeTimerAction
 {
     self.timeLength += 1;
-//    int hour = self.timeLength / 3600;
-//    int m = (self.timeLength - hour * 3600) / 60;
-//    int s = self.timeLength - hour * 3600 - m * 60;
-    
- 
     _timeLabel.text = [NSString stringWithFormat:@"%i", self.timeLength];
     
 }
@@ -139,14 +134,12 @@
 
 -(void)recordButtonDragInside
 {
-//    _textLabel.text = _upCancelText;
-//    _textLabel.backgroundColor = [UIColor clearColor];
+
 }
 
 -(void)recordButtonDragOutside
 {
-//    _textLabel.text = _loosenCancelText;
-//    _textLabel.backgroundColor = [UIColor redColor];
+
 }
 
 -(void)setVoiceImage {

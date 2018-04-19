@@ -14,13 +14,12 @@
 #import <UIKit/UIKit.h>
 #import "HDFaceView.h"
 #import "HDTextView.h"
-#import "HDRecordView.h"
+#import "HDMicView.h"
 #import "HDChatBarMoreView.h"
 #import "HDChatToolbarItem.h"
 
 #define kTouchToRecord NSEaseLocalizedString(@"message.toolBar.record.touch", @"hold down to talk")
 #define kTouchToFinish NSEaseLocalizedString(@"message.toolBar.record.send", @"loosen to send")
-
 
 
 @protocol HDChatToolbarDelegate;
@@ -50,9 +49,9 @@
 
 @property (strong, nonatomic) UIView *faceView;
 
-@property (strong, nonatomic) UIView *recordView;
+@property (strong, nonatomic) UIView *micView;
 
-@property (strong, nonatomic) UIView *newRecordView;
+@property (strong, nonatomic) UIView *recordView;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 

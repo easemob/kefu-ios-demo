@@ -16,7 +16,7 @@
 		8FEEA5A720036616008CD415 /* em_icon_mute_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA5A620036616008CD415 /* em_icon_mute_on@2x.png */; };
 		902923002086167300C48454 /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902922FF2086167200C48454 /* Hyphenate.framework */; };
 		902923012086167300C48454 /* Hyphenate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 902922FF2086167200C48454 /* Hyphenate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9078071B2087584700ED9324 /* HDRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9078071A2087584700ED9324 /* HDRecordView.m */; };
+		9078071B2087584700ED9324 /* HDMicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9078071A2087584700ED9324 /* HDMicView.m */; };
 		9084A0A02046BC42006F10FA /* HelpDeskUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9084A09F2046BC42006F10FA /* HelpDeskUIResource.bundle */; };
 		90A90CC820299B3300F602FA /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90A90CC720299B3300F602FA /* HelpDesk.framework */; };
 		90A90CC920299B3300F602FA /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 90A90CC720299B3300F602FA /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -244,7 +244,7 @@
 		D3CE33271F0610FA00A9649E /* CommodityInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CE331F1F0610FA00A9649E /* CommodityInfoView.m */; };
 		D3CE33281F0610FA00A9649E /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CE33211F0610FA00A9649E /* CustomButton.m */; };
 		D3CE33291F0610FA00A9649E /* HLeaveMessageSucceedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CE33231F0610FA00A9649E /* HLeaveMessageSucceedViewController.m */; };
-		D3CE332A1F0610FA00A9649E /* HRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CE33251F0610FA00A9649E /* HRecordView.m */; };
+		D3CE332A1F0610FA00A9649E /* HDRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CE33251F0610FA00A9649E /* HDRecordView.m */; };
 		D3D1BB261DE83D6B004B3557 /* LeaveMsgDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D1BB201DE83D6B004B3557 /* LeaveMsgDetailViewController.m */; };
 		D3D1BB281DE83D6B004B3557 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D1BB241DE83D6B004B3557 /* MessageViewController.m */; };
 		D3D1BB301DE8426F004B3557 /* tabbar_message_hl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3D1BB2E1DE8426F004B3557 /* tabbar_message_hl@2x.png */; };
@@ -440,8 +440,8 @@
 		8FEEA5A320034A9A008CD415 /* em_icon_local_recard_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_local_recard_on@2x.png"; sourceTree = "<group>"; };
 		8FEEA5A620036616008CD415 /* em_icon_mute_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_mute_on@2x.png"; sourceTree = "<group>"; };
 		902922FF2086167200C48454 /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hyphenate.framework; path = imsdk/Hyphenate.framework; sourceTree = "<group>"; };
-		907807192087584600ED9324 /* HDRecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDRecordView.h; sourceTree = "<group>"; };
-		9078071A2087584700ED9324 /* HDRecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDRecordView.m; sourceTree = "<group>"; };
+		907807192087584600ED9324 /* HDMicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMicView.h; sourceTree = "<group>"; };
+		9078071A2087584700ED9324 /* HDMicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMicView.m; sourceTree = "<group>"; };
 		9084A09F2046BC42006F10FA /* HelpDeskUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HelpDeskUIResource.bundle; sourceTree = "<group>"; };
 		90A90CC720299B3300F602FA /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AAF3A31CC748E100211B1B /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
@@ -847,8 +847,8 @@
 		D3CE33211F0610FA00A9649E /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
 		D3CE33221F0610FA00A9649E /* HLeaveMessageSucceedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLeaveMessageSucceedViewController.h; sourceTree = "<group>"; };
 		D3CE33231F0610FA00A9649E /* HLeaveMessageSucceedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLeaveMessageSucceedViewController.m; sourceTree = "<group>"; };
-		D3CE33241F0610FA00A9649E /* HRecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRecordView.h; sourceTree = "<group>"; };
-		D3CE33251F0610FA00A9649E /* HRecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRecordView.m; sourceTree = "<group>"; };
+		D3CE33241F0610FA00A9649E /* HDRecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDRecordView.h; sourceTree = "<group>"; };
+		D3CE33251F0610FA00A9649E /* HDRecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDRecordView.m; sourceTree = "<group>"; };
 		D3D1BB1F1DE83D6B004B3557 /* LeaveMsgDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaveMsgDetailViewController.h; sourceTree = "<group>"; };
 		D3D1BB201DE83D6B004B3557 /* LeaveMsgDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaveMsgDetailViewController.m; sourceTree = "<group>"; };
 		D3D1BB231DE83D6B004B3557 /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
@@ -1066,6 +1066,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		90747D072088427A00622C66 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		D20066111EF23274005B558D /* newResources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1483,6 +1490,7 @@
 		D3CB631D1E4888F20022A6BA /* HDUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				90747D072088427A00622C66 /* Protocol */,
 				D3CE331C1F0610FA00A9649E /* Add */,
 				D33946EF1E54381B009370BF /* Category */,
 				D3CB631E1E4888F20022A6BA /* 3rdparty */,
@@ -1931,7 +1939,7 @@
 				D3CB64321E4888F30022A6BA /* HDTextView.m */,
 				D3CB64331E4888F30022A6BA /* FaceView */,
 				D3CB64381E4888F30022A6BA /* MoreView */,
-				D3CB643B1E4888F30022A6BA /* RecordView */,
+				D3CB643B1E4888F30022A6BA /* MicView */,
 			);
 			path = toolbar;
 			sourceTree = "<group>";
@@ -1956,13 +1964,13 @@
 			path = MoreView;
 			sourceTree = "<group>";
 		};
-		D3CB643B1E4888F30022A6BA /* RecordView */ = {
+		D3CB643B1E4888F30022A6BA /* MicView */ = {
 			isa = PBXGroup;
 			children = (
-				907807192087584600ED9324 /* HDRecordView.h */,
-				9078071A2087584700ED9324 /* HDRecordView.m */,
+				907807192087584600ED9324 /* HDMicView.h */,
+				9078071A2087584700ED9324 /* HDMicView.m */,
 			);
-			path = RecordView;
+			path = MicView;
 			sourceTree = "<group>";
 		};
 		D3CB64401E4888F30022A6BA /* resources */ = {
@@ -1983,8 +1991,8 @@
 				D3CE33211F0610FA00A9649E /* CustomButton.m */,
 				D3CE33221F0610FA00A9649E /* HLeaveMessageSucceedViewController.h */,
 				D3CE33231F0610FA00A9649E /* HLeaveMessageSucceedViewController.m */,
-				D3CE33241F0610FA00A9649E /* HRecordView.h */,
-				D3CE33251F0610FA00A9649E /* HRecordView.m */,
+				D3CE33241F0610FA00A9649E /* HDRecordView.h */,
+				D3CE33251F0610FA00A9649E /* HDRecordView.m */,
 			);
 			path = Add;
 			sourceTree = "<group>";
@@ -2687,7 +2695,7 @@
 				D3CB648F1E4888F30022A6BA /* NSString+Valid.m in Sources */,
 				D34D6CEA1DEC08CA0099EE23 /* LeaveMsgDetailHeaderView.m in Sources */,
 				D3CB64691E4888F30022A6BA /* MWTapDetectingView.m in Sources */,
-				9078071B2087584700ED9324 /* HDRecordView.m in Sources */,
+				9078071B2087584700ED9324 /* HDMicView.m in Sources */,
 				D36621961F4E7786008EE9C4 /* HDMemberObject.m in Sources */,
 				D3CB64671E4888F30022A6BA /* MWPhotoBrowser.m in Sources */,
 				D32FBEB91ED55E6C00BA68D7 /* SDWebImagePrefetcher.m in Sources */,
@@ -2822,7 +2830,7 @@
 				D3CB64661E4888F30022A6BA /* MWPhoto.m in Sources */,
 				D36621991F4E7786008EE9C4 /* HDCallRemoteView.m in Sources */,
 				D3DEAA1F1DED78D00081B654 /* SCAudioPlay.m in Sources */,
-				D3CE332A1F0610FA00A9649E /* HRecordView.m in Sources */,
+				D3CE332A1F0610FA00A9649E /* HDRecordView.m in Sources */,
 				D3CB64541E4888F30022A6BA /* MJRefreshHeader.m in Sources */,
 				D3CB64A51E4888F30022A6BA /* HDBubbleView+Gif.m in Sources */,
 				D3CB64681E4888F30022A6BA /* MWTapDetectingImageView.m in Sources */,
