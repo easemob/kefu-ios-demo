@@ -24,8 +24,6 @@
     UIMenuItem *_transpondMenuItem;
 }
 
-@property (nonatomic) BOOL isPlayingAudio;
-
 @property (nonatomic) NSMutableDictionary *emotionDic;
 
 
@@ -354,14 +352,6 @@
         [self.imagePicker stopVideoCapture];
     }
     NSLog(@"返回会话列表");
-//    if (self.deleteConversationIfNull) {
-//        //判断当前会话是否为空，若符合则删除该会话
-//        HMessage *message = [self.conversation latestMessage];
-//        if (message == nil) {
-//            [[HChatClient sharedClient].chat deleteConversation:self.conversation.conversationId deleteMessages:NO];
-//        }
-//    }
-    
 }
 
 

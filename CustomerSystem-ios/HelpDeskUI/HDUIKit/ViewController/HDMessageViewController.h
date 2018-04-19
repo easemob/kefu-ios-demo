@@ -112,52 +112,47 @@ typedef NS_ENUM(NSInteger, HDemoSaleType){
 
 @end
 
-@interface HDMessageViewController : HDRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, /*EMChatManagerDelegate, */HDCDDeviceManagerDelegate,HDChatToolbarDelegate, HDChatBarMoreViewDelegate, EMLocationViewDelegate, HDMessageCellDelegate,SatisfactionDelegate, HDRecordViewDelegate>
+@interface HDMessageViewController : HDRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, HDCDDeviceManagerDelegate, HDChatToolbarDelegate, HDChatBarMoreViewDelegate, EMLocationViewDelegate, HDMessageCellDelegate, SatisfactionDelegate, HDRecordViewDelegate>
 
-@property (weak, nonatomic) id<HDMessageViewControllerDelegate> delegate;
+@property (nonatomic, assign) id<HDMessageViewControllerDelegate> delegate;
 
-@property (weak, nonatomic) id<HDMessageViewControllerDataSource> dataSource;
+@property (nonatomic, assign) id<HDMessageViewControllerDataSource> dataSource;
 
-@property(nonatomic,strong) HConversation *conversation;
+@property (nonatomic, strong) HConversation *conversation;
 
 @property (nonatomic) NSTimeInterval messageTimeIntervalTag;
 
-@property (nonatomic) BOOL deleteConversationIfNull; //default YES;
-
-@property (nonatomic) BOOL scrollToBottomWhenAppear; //default YES;
-
-
-@property (nonatomic) NSInteger messageCountOfPage; //default 50
+@property (nonatomic) NSInteger messageCountOfPage; //default 10
 
 @property (nonatomic) CGFloat timeCellHeight;
 
-@property (strong, nonatomic) NSMutableArray *messsagesSource;
+@property (nonatomic, strong) NSMutableArray *messsagesSource;
 
-@property (strong, nonatomic) UIView *chatToolbar;
+@property (nonatomic, strong) UIView *chatToolbar;
 
-@property(strong, nonatomic) HDChatBarMoreView *chatBarMoreView;
+@property (nonatomic, strong) HDChatBarMoreView *chatBarMoreView;
 
-@property(strong, nonatomic) HDFaceView *faceView;
+@property (nonatomic, strong) HDFaceView *faceView;
 
-@property(strong, nonatomic) HDMicView *micView;
+@property (nonatomic, strong) HDMicView *micView;
 
-@property (strong, nonatomic) HDRecordView *recordView;
+@property (nonatomic, strong) HDRecordView *recordView;
 
-@property (strong, nonatomic) UIMenuController *menuController;
+@property (nonatomic, strong) UIMenuController *menuController;
 
-@property (strong, nonatomic) NSIndexPath *menuIndexPath;
+@property (nonatomic, strong) NSIndexPath *menuIndexPath;
 
-@property (strong, nonatomic) NSIndexPath *snedButtonIndexPath;
+@property (nonatomic, strong) NSIndexPath *snedButtonIndexPath;
 
-@property (strong, nonatomic) UIImagePickerController *imagePicker;
+@property (nonatomic, strong) UIImagePickerController *imagePicker;
 
-@property(nonatomic,strong) HVisitorInfo *visitorInfo; //访客信息
+@property (nonatomic, strong) HVisitorInfo *visitorInfo; //访客信息
 
-@property(nonatomic,strong) HAgentIdentityInfo *agent; //指定客服
+@property (nonatomic, strong) HAgentIdentityInfo *agent; //指定客服
 
-@property(nonatomic,strong) HQueueIdentityInfo *queueInfo; //指定技能组
+@property (nonatomic, strong) HQueueIdentityInfo *queueInfo; //指定技能组
 
-@property(nonatomic, strong)UILabel *visitorWaitCountLabel;
+@property (nonatomic, strong)UILabel *visitorWaitCountLabel;
 
 
 - (instancetype)initWithConversationChatter:(NSString *)conversationChatter;

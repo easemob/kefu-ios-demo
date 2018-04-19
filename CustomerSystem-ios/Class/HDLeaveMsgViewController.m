@@ -55,10 +55,10 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     
     NSArray *placeholders = @[NSLocalizedString(@"ticket_name", @"Name"),NSLocalizedString(@"ticket_phone", @"Phone"),NSLocalizedString(@"ticket_email", @"Email"),NSLocalizedString(@"ticket_theme", @"Theme")];
     for (int i=0; i<4; i++) {
-        [self createTextfieldWithY:50*i placeholder:placeholders[i] tag:i+NSTextFieldTagName];
+        [self createTextfieldWithY:50 * i placeholder:placeholders[i] tag:i+NSTextFieldTagName];
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChatToolbarState" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"chatToolbarState" object:nil];
 }
 
 - (void)setTextFiledFarme

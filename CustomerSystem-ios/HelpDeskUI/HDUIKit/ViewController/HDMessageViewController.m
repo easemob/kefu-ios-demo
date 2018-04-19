@@ -48,9 +48,6 @@ typedef enum : NSUInteger {
     BOOL _isSendingEvaluateMessage;//点击立即评价按钮
 }
 
-@property (strong, nonatomic) id<HDIMessageModel> playingVoiceModel;
-@property (nonatomic) BOOL isKicked;
-@property (nonatomic) BOOL isPlayingAudio;
 @property (nonatomic, assign) HDemoSaleType saleType;
 
 @end
@@ -61,7 +58,6 @@ typedef enum : NSUInteger {
 }
 
 @synthesize conversation = _conversation;
-@synthesize deleteConversationIfNull = _deleteConversationIfNull;
 @synthesize messageCountOfPage = _messageCountOfPage;
 @synthesize timeCellHeight = _timeCellHeight;
 @synthesize messageTimeIntervalTag = _messageTimeIntervalTag;
@@ -76,8 +72,6 @@ typedef enum : NSUInteger {
         _title = conversationChatter;
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
-        _deleteConversationIfNull = YES;
-        _scrollToBottomWhenAppear = YES;
         _messsagesSource = [NSMutableArray array];
         [_conversation markAllMessagesAsRead:nil];
     }
@@ -102,15 +96,9 @@ typedef enum : NSUInteger {
     }
     self.title = _title;
     [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
-    if (self.scrollToBottomWhenAppear) {
-        [self _scrollViewToBottom:NO];
-    }
-    
-    self.scrollToBottomWhenAppear = YES;
-
     self.view.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatToolbarState) name:@"ChatToolbarState" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatToolbarState) name:@"chatToolbarState" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeRecording) name:@"closeRecording" object:nil];
     
     //Initialization
@@ -163,7 +151,7 @@ typedef enum : NSUInteger {
      [[HDChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
 }
 
-- (void)ChatToolbarState
+- (void)chatToolbarState
 {
     [self.chatToolbar endEditing:YES];
 }
@@ -516,8 +504,6 @@ typedef enum : NSUInteger {
 
 - (void)_locationMessageCellSelected:(id<HDIMessageModel>)model
 {
-    _scrollToBottomWhenAppear = NO;
-    
     HDLocationViewController *locationController = [[HDLocationViewController alloc] initWithLocation:CLLocationCoordinate2DMake(model.latitude, model.longitude)];
     [self.navigationController pushViewController:locationController animated:YES];
 }
@@ -530,8 +516,7 @@ typedef enum : NSUInteger {
 
 - (void)_videoMessageCellSelected:(id<HDIMessageModel>)model
 {
-    _scrollToBottomWhenAppear = NO;
-    
+
     EMVideoMessageBody *videoBody = (EMVideoMessageBody*)model.message.body;
     
     NSString *localPath = [model.fileLocalPath length] > 0 ? model.fileLocalPath : videoBody.localPath;
@@ -671,8 +656,6 @@ typedef enum : NSUInteger {
 
 - (void)_audioMessageCellSelected:(id<HDIMessageModel>)model
 {
-
-    _scrollToBottomWhenAppear = NO;
     EMVoiceMessageBody *body = (EMVoiceMessageBody*)model.message.body;
     EMDownloadStatus downloadStatus = [body downloadStatus];
     if (downloadStatus == EMDownloadStatusDownloading) {
@@ -697,20 +680,15 @@ typedef enum : NSUInteger {
         }];
         
         if (isPrepare) {
-            _isPlayingAudio = YES;
             __weak HDMessageViewController *weakSelf = self;
             [[HDCDDeviceManager sharedInstance] enableProximitySensor];
             [[HDCDDeviceManager sharedInstance] asyncPlayingWithPath:model.fileLocalPath completion:^(NSError *error) {
                 [[HDMessageReadManager defaultManager] stopMessageAudioModel];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakSelf.tableView reloadData];
-                    weakSelf.isPlayingAudio = NO;
                     [[HDCDDeviceManager sharedInstance] disableProximitySensor];
                 });
             }];
-        }
-        else{
-            _isPlayingAudio = NO;
         }
     }
 }
@@ -1110,7 +1088,6 @@ typedef enum : NSUInteger {
         }
             break;
         case EMMessageBodyTypeImage: {
-            _scrollToBottomWhenAppear = NO;
             [self _imageMessageCellSelected:model];
         }
             break;
@@ -1127,7 +1104,6 @@ typedef enum : NSUInteger {
         }
             break;
         case EMMessageBodyTypeFile: {
-            _scrollToBottomWhenAppear = NO;
             [self _fileMessageCellSelected:model];
         }
             break;
@@ -1161,8 +1137,6 @@ typedef enum : NSUInteger {
         
         return;
     }
-    
-    _scrollToBottomWhenAppear = NO;
 }
 
 #pragma mark - HDChatToolbarDelegate
@@ -1534,9 +1508,7 @@ typedef enum : NSUInteger {
         [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
     } else {
         [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
-        if (self.playingVoiceModel == nil) {
-            [[HDCDDeviceManager sharedInstance] disableProximitySensor];
-        }
+        [[HDCDDeviceManager sharedInstance] disableProximitySensor];
     }
     [audioSession setActive:YES error:nil];
 }
