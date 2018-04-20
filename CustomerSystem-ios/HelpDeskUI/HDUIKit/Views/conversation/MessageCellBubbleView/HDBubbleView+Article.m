@@ -8,6 +8,7 @@
 
 #import "HDBubbleView+Article.h"
 #import <CoreGraphics/CoreGraphics.h>
+#import "NSString+Valid.h"
 #import <UIKit/UIKit.h>
 
 

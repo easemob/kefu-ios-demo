@@ -28,6 +28,7 @@
 #import "UIImageView+WebCache.h"
 #import "HDEmotionEscape.h"
 #import "HDLocalDefine.h"
+#import "NSString+Valid.h"
 
 #define kImageWidth 40
 #define kImageHeight 70
@@ -402,8 +403,6 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         _bubbleView.orderNoLabel.text = [itemDic objectForKey:@"order_title"];
                         _bubbleView.orderDescLabel.text = [itemDic objectForKey:@"desc"];
                         _bubbleView.orderPriceLabel.text = [itemDic objectForKey:@"price"];
-
-                    
                     }
                         break;
                     case HExtTrackMsg:

@@ -190,7 +190,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             if (queue) {
                 chat.queueInfo = queueIdentityInfo;
             }
-            //        chat.agent = [[HAgentInfo alloc] initWithValue:@"123@126.com"];
+
             chat.visitorInfo = [self visitorInfo];
             chat.commodityInfo = (NSDictionary *)notification.object;
             if ([notification.object objectForKey:kpreSell]) {

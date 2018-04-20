@@ -12,9 +12,7 @@
 
 - (void)_setupTrackBubbleMarginConstraints {
     [self.marginConstraints removeAllObjects];
-    
 
-    
     //trackTitle
     NSLayoutConstraint *trackTitleMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.trackTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
     NSLayoutConstraint *trackTitleMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.trackTitleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];

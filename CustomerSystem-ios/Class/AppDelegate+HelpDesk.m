@@ -45,17 +45,14 @@
     apnsCertName = @"customer";
 #endif
     //注册kefu_sdk
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager]; //
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager]; 
     HOptions *option = [[HOptions alloc] init];
     option.appkey = lgM.appkey;
-//    option.showAgentInputState = YES;
     option.tenantId = lgM.tenantId;
-    option.enableConsoleLog = YES; //是否打开日志信息
+    option.enableConsoleLog = YES; // 是否打开日志信息
     option.apnsCertName = apnsCertName;
-    option.visitorWaitCount = YES; //打开待接入访客排队人数功能
-    option.showAgentInputState = YES; //
-//    option.kefuRestServer = @"http://sandbox.kefu.easemob.com";
-//    option.kefuRestServer = @"http://vpc10.kefu.easemob.com";
+    option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
+    option.showAgentInputState = YES; // 是否显示坐席输入状态
     HChatClient *client = [HChatClient sharedClient];
     HError *initError = [client initializeSDKWithOptions:option];
     if (initError) {
@@ -215,15 +212,7 @@
     }
     
 #if !TARGET_IPHONE_SIMULATOR
-    //iOS8 注册APNS
-    if ([application respondsToSelector:@selector(registerForRemoteNotifications)]) {
-        [application registerForRemoteNotifications];
-    }else{
-        UIRemoteNotificationType notificationTypes = UIRemoteNotificationTypeBadge |
-        UIRemoteNotificationTypeSound |
-        UIRemoteNotificationTypeAlert;
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:notificationTypes];
-    }
+    [application registerForRemoteNotifications];
 #endif
 }
 

@@ -29,7 +29,7 @@
 //default
 #define kDefaultAppKey @"1141161024115978#kefuchannelapp29593"
 #define kDefaultCustomerName @"kefuchannelimid_012680"
-#define kDefaultCustomerNickname @"环信客服"
+#define kDefaultCustomerNickname @"访客昵称"
 #define kDefaultTenantId @"29593"
 #define kDefaultProjectId @"306713"
 

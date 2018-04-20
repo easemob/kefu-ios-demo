@@ -33,11 +33,15 @@
             NSDictionary *weichat = [message.ext objectForKey:@"weichat"];
             if (weichat) {
                 NSDictionary *agent = [weichat valueForKey:@"agent"];
-                NSString *agentNickname = [agent objectForKey:@"userNickname"];
+                NSString *agentNickname = @"";
                 NSString *agentAvatarUrl = @"";
                 if (![[agent objectForKey:@"avatar"] isKindOfClass:[NSNull class]]) {
                     agentAvatarUrl = [agent objectForKey:@"avatar"];
                 }
+                if (![[agent objectForKey:@"userNickname"] isKindOfClass:[NSNull class]]) {
+                    agentNickname = [agent objectForKey:@"userNickname"];
+                }
+                
                 self.avatarURLPath = agentAvatarUrl;
                 self.nickname = agentNickname;
             }

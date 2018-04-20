@@ -127,7 +127,13 @@ static CSDemoAccountManager *_manager = nil;
 }
 
 - (NSString *)nickname {
-    return @"访客昵称";
+    NSString * tnickname = [fUserDefaults objectForKey:kCustomerNickname];
+    if ([tnickname length] == 0) {
+        tnickname = kDefaultCustomerNickname;
+        [fUserDefaults setObject:tnickname forKey:kCustomerNickname];
+        [fUserDefaults synchronize];
+    }
+    return tnickname;
 }
 
 - (NSString *)avatarStr {

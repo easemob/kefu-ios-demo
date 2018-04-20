@@ -106,7 +106,6 @@ static HDEmotionEscape *_sharedInstance = nil;
                 textAttachmentString = [[NSAttributedString alloc] initWithString:@"[表情]"];
             }
         }
-        
         if (textAttachment != nil) {
             [string deleteCharactersInRange:matchRange];
             [string insertAttributedString:textAttachmentString atIndex:matchRange.location];
@@ -119,9 +118,6 @@ static HDEmotionEscape *_sharedInstance = nil;
 - (NSAttributedString *) attStringFromTextForChatting:(NSString *) aInputText textFont:(UIFont*)font
 {
     NSMutableAttributedString * string = [self attributtedStringFromText:aInputText];
-//    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//    paragraphStyle.lineSpacing = 0.0;
-//    [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
     if (font) {
         [string addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, string.length)];
     }
@@ -131,9 +127,6 @@ static HDEmotionEscape *_sharedInstance = nil;
 - (NSAttributedString *) attStringFromTextForInputView:(NSString *) aInputText textFont:(UIFont*)font
 {
     NSMutableAttributedString * string = [self attributtedStringFromText:aInputText];
-//    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//    paragraphStyle.lineSpacing = 0.0;
-//    [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, string.length)];
     if (font) {
         [string addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, string.length)];
     }
@@ -147,7 +140,6 @@ static HDEmotionEscape *_sharedInstance = nil;
     NSString *fileName = [plistPaht stringByAppendingPathComponent:@"EmotionTextMapList.plist"];
     NSMutableDictionary *emojiKeyValue = [[NSMutableDictionary alloc] initWithContentsOfFile: fileName];
     return [emojiKeyValue objectForKey:aKey];
-    //    NSLog(@"write data is :%@",writeData);
 }
 
 - (NSString*) getEmojiImageNameByKey:(NSString*) aKey

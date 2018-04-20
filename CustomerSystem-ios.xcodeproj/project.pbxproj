@@ -100,7 +100,6 @@
 		D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D339953B1E000D5E00F7B71D /* QRCodeViewController.m */; };
 		D339953F1E000EDF00F7B71D /* ScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = D339953E1E000EDF00F7B71D /* ScanningView.m */; };
 		D33995421E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = D33995411E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m */; };
-		D3424F641ED81DAC007842E1 /* FixFopen.c in Sources */ = {isa = PBXBuildFile; fileRef = D3424F631ED81DAC007842E1 /* FixFopen.c */; };
 		D34743AE1DE6E38600F32D87 /* chatBar_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D34743AD1DE6E38600F32D87 /* chatBar_comment@2x.png */; };
 		D34743B11DE6E8EF00F32D87 /* CSDemoAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D34743B01DE6E8EF00F32D87 /* CSDemoAccountManager.m */; };
 		D34743B41DE6FF8C00F32D87 /* HDLeaveMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D34743B31DE6FF8C00F32D87 /* HDLeaveMsgViewController.m */; };
@@ -558,7 +557,6 @@
 		D339953E1E000EDF00F7B71D /* ScanningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanningView.m; sourceTree = "<group>"; };
 		D33995401E0028BD00F7B71D /* UIBarButtonItem+KFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+KFAdd.h"; sourceTree = "<group>"; };
 		D33995411E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+KFAdd.m"; sourceTree = "<group>"; };
-		D3424F631ED81DAC007842E1 /* FixFopen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FixFopen.c; sourceTree = "<group>"; };
 		D34743AD1DE6E38600F32D87 /* chatBar_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatBar_comment@2x.png"; sourceTree = "<group>"; };
 		D34743AF1DE6E8EF00F32D87 /* CSDemoAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSDemoAccountManager.h; sourceTree = "<group>"; };
 		D34743B01DE6E8EF00F32D87 /* CSDemoAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSDemoAccountManager.m; sourceTree = "<group>"; };
@@ -1778,7 +1776,6 @@
 		D3CB63DC1E4888F30022A6BA /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				D3424F631ED81DAC007842E1 /* FixFopen.c */,
 				D3CB63DD1E4888F30022A6BA /* Category */,
 				D3CB63EA1E4888F30022A6BA /* Emoji */,
 				D3CB63F41E4888F30022A6BA /* HDChineseToPinyin.h */,
@@ -2684,7 +2681,6 @@
 				D32FBEBF1ED55E6C00BA68D7 /* UIView+WebCacheOperation.m in Sources */,
 				D355795E1EE94A9A00F6B54E /* HConversationsViewController.m in Sources */,
 				D3CB646A1E4888F30022A6BA /* MWZoomingScrollView.m in Sources */,
-				D3424F641ED81DAC007842E1 /* FixFopen.c in Sources */,
 				D32FBEB81ED55E6C00BA68D7 /* SDWebImageManager.m in Sources */,
 				D3CB64B41E4888F30022A6BA /* HDFaceView.m in Sources */,
 				D3CB648F1E4888F30022A6BA /* NSString+Valid.m in Sources */,

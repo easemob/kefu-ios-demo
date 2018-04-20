@@ -271,13 +271,12 @@
     } else {
         self.avatarView.image = model.avatarImage;
     }
-    _nameLabel.text = model.nickname;
 
+    _nameLabel.text = model.nickname;
     
     if (self.model.isSender) {
         _hasRead.hidden = YES;
         switch (self.model.messageStatus) {
-                
             case HMessageStatusPending:
             {
                 _statusButton.hidden = YES;

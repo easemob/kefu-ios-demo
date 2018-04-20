@@ -76,20 +76,6 @@
     [self.navigationController pushViewController:leaveMsgVC animated:YES];
 }
 
-- (HVisitorInfo *)visitorInfo {
-    HVisitorInfo *visitor = [[HVisitorInfo alloc] init];
-    visitor.name = @"小明儿";
-    visitor.qq = @"12345678";
-    visitor.phone = @"13636362637";
-    visitor.companyName = @"环信";
-    if ([CSDemoAccountManager shareLoginManager].nickname && [CSDemoAccountManager shareLoginManager].nickname.length > 0) {
-        visitor.nickName = [CSDemoAccountManager shareLoginManager].nickname;
-    }
-    visitor.email = @"abv@126.com";
-    visitor.desc = @"环信移动客服";
-    return visitor;
-}
-
 - (BOOL)isOrder {
     if (_commodityInfo == nil) {
         return NO;
