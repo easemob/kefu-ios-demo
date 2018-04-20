@@ -21,7 +21,6 @@
      [self.marginConstraints addObject:trackTitleMarginLeftConstraint];
      [self.marginConstraints addObject:trackTitleMarginRightConstraint];
     
-    
     // trackBgView.
     NSLayoutConstraint *trackBgViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.trackBgView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.trackTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0];
     NSLayoutConstraint *trackBgViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.trackBgView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:5.0];

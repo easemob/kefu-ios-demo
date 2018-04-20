@@ -97,7 +97,6 @@ typedef enum : NSUInteger {
     self.title = _title;
     [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     self.view.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatToolbarState) name:@"chatToolbarState" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeRecording) name:@"closeRecording" object:nil];
     
@@ -136,7 +135,7 @@ typedef enum : NSUInteger {
  
     [self setupCell];
     [self setupEmotion];
-    [self tableViewDidTriggerHeaderRefresh];
+//    [self tableViewDidTriggerHeaderRefresh]; // 父类不再调用，由子类调用
 }
 
 - (void)setupCell {

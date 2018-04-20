@@ -53,6 +53,7 @@
     _tableView.estimatedRowHeight = 0;
     _tableView.estimatedSectionHeaderHeight = 0;
     _tableView.estimatedSectionFooterHeight = 0;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.tableFooterView = self.defaultFooterView;
     [self.view addSubview:_tableView];
     
@@ -97,7 +98,6 @@
             }];
         }
         else{
-            //            [self.tableView removeFooter];
         }
     }
 }

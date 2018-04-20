@@ -55,6 +55,19 @@
         [self sendCommodityMessageWithInfo:_commodityInfo];
         _commodityInfo = nil;
     }
+    
+    /*
+     因为先执行
+        [super viewDidLoad];
+     后执行
+        self.delegate = self;
+        self.dataSource = self;
+     因为刷新需要在
+        self.delegate = self;
+        self.dataSource = self;
+     之后执行，所以super类中不再调用load消息相关的方法，放到子类中调用。
+     */
+    [self tableViewDidTriggerHeaderRefresh];
 }
 
 //请求视频通话
