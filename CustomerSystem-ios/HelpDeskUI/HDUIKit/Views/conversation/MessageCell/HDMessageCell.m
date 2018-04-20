@@ -85,39 +85,36 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 @synthesize hasRead = _hasRead;
 @synthesize activity = _activity;
 
-+ (void)initialize
-{
-    // UIAppearance Proxy Defaults
-    HDMessageCell *cell = [self appearance];
-    cell.statusSize = 20;
-    cell.activitySize = 20;
-    cell.bubbleMaxWidth = 200.0;
-    cell.leftBubbleMargin = UIEdgeInsetsMake(8, 15, 8, 10);
-    cell.rightBubbleMargin = UIEdgeInsetsMake(8, 10, 8, 15);
-    cell.bubbleMargin = UIEdgeInsetsMake(8, 0, 8, 0);
-    
-    cell.messageTextFont = [UIFont systemFontOfSize:15];
-    cell.messageTextColor = [UIColor blackColor];
-    
-    cell.messageLocationFont = [UIFont systemFontOfSize:10];
-    cell.messageLocationColor = [UIColor whiteColor];
-    
-    cell.messageVoiceDurationColor = [UIColor grayColor];
-    cell.messageVoiceDurationFont = [UIFont systemFontOfSize:12];
-    
-    cell.messageFileNameColor = [UIColor blackColor];
-    cell.messageFileNameFont = [UIFont systemFontOfSize:13];
-    cell.messageFileSizeColor = [UIColor grayColor];
-    cell.messageFileSizeFont = [UIFont systemFontOfSize:11];
-    cell.messageFormDescSizeFont = [UIFont systemFontOfSize:11];
-}
-
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
               reuseIdentifier:(NSString *)reuseIdentifier
                         model:(id<HDIMessageModel>)model
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
+        
+        _statusSize = 20;
+        _activitySize = 20;
+        _bubbleMaxWidth = 200.0;
+        _leftBubbleMargin = UIEdgeInsetsMake(8, 15, 8, 10);
+        _rightBubbleMargin = UIEdgeInsetsMake(8, 10, 8, 15);
+        _bubbleMargin = UIEdgeInsetsMake(8, 0, 8, 0);
+        
+        _messageTextFont = [UIFont systemFontOfSize:15];
+        _messageTextColor = [UIColor blackColor];
+        
+        _messageLocationFont = [UIFont systemFontOfSize:10];
+        _messageLocationColor = [UIColor whiteColor];
+        
+        _messageVoiceDurationColor = [UIColor grayColor];
+        _messageVoiceDurationFont = [UIFont systemFontOfSize:12];
+        
+        _messageFileNameColor = [UIColor blackColor];
+        _messageFileNameFont = [UIFont systemFontOfSize:13];
+        _messageFileSizeColor = [UIColor grayColor];
+        _messageFileSizeFont = [UIFont systemFontOfSize:11];
+        _messageFormDescSizeFont = [UIFont systemFontOfSize:11];
+        
         _messageType = model.bodyType;
         [self _setupSubviewsWithType:_messageType
                             isSender:model.isSender

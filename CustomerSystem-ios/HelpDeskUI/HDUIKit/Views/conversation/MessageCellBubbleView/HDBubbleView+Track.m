@@ -22,7 +22,7 @@
      [self.marginConstraints addObject:trackTitleMarginRightConstraint];
     
     
-    // trackBgView
+    // trackBgView.
     NSLayoutConstraint *trackBgViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.trackBgView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.trackTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0];
     NSLayoutConstraint *trackBgViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.trackBgView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:5.0];
     NSLayoutConstraint *trackBgViewRightConstraint = [NSLayoutConstraint constraintWithItem:self.trackBgView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-10.0];
@@ -55,11 +55,9 @@
     [self.marginConstraints addObject:trackPriceBottomConstraimt];
     
     //send
-    NSLayoutConstraint *cusSendTopConstraint = [NSLayoutConstraint constraintWithItem:self.sendButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.cusImageView attribute:NSLayoutAttributeBottom multiplier:1 constant:5];
     NSLayoutConstraint *cusSendLeftConstraint = [NSLayoutConstraint constraintWithItem:self.sendButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.trackBgView attribute:NSLayoutAttributeLeft multiplier:1 constant:self.margin.left];
     NSLayoutConstraint *cusSendRightConstraint = [NSLayoutConstraint constraintWithItem:self.sendButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.trackBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-self.margin.left];
     NSLayoutConstraint *cusSendBottomConstraint = [NSLayoutConstraint constraintWithItem:self.sendButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.trackBgView attribute:NSLayoutAttributeBottom multiplier:1 constant:-self.margin.bottom];
-    [self.marginConstraints addObject:cusSendTopConstraint];
     [self.marginConstraints addObject:cusSendLeftConstraint];
     [self.marginConstraints addObject:cusSendRightConstraint];
     [self.marginConstraints addObject:cusSendBottomConstraint];
@@ -72,7 +70,7 @@
 - (void)_setupTrackBubbleConstraints  {
     [self _setupTrackBubbleMarginConstraints];
     
-    [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.trackTitleLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:15]];
+    [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.trackTitleLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:15]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.cusImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.cusImageView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
     
@@ -80,9 +78,7 @@
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.cusPriceLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.cusDescLabel attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.cusPriceLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.cusDescLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sendButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:30]];
-    
     
 }
 
@@ -90,6 +86,7 @@
 - (void)setupTrackBubbleView {
     
     self.trackBgView = [[UIView alloc] init];
+
     self.trackBgView.translatesAutoresizingMaskIntoConstraints = NO;
     self.trackBgView.backgroundColor = [UIColor whiteColor];
     [self.backgroundImageView addSubview:self.trackBgView];

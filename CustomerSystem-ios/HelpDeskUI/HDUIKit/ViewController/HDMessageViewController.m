@@ -584,7 +584,6 @@ typedef enum : NSUInteger {
 {
     __weak HDMessageViewController *weakSelf = self;
     EMImageMessageBody *imageBody = (EMImageMessageBody*)[model.message body];
-    
     if ([imageBody type] == EMMessageBodyTypeImage) {
         if (imageBody.thumbnailDownloadStatus == EMDownloadStatusSuccessed) {
             if (imageBody.downloadStatus == EMDownloadStatusSuccessed)
