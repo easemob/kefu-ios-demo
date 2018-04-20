@@ -12,7 +12,7 @@
 #import "SettingViewController.h"
 #import "LocalDefine.h"
 #import "MoreChoiceView.h"
-#import "SCLoginManager.h"
+#import "CSDemoAccountManager.h"
 #import "MessageViewController.h"
 #import "HDMessageViewController.h"
 #import "QRCodeViewController.h"
@@ -174,7 +174,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     isLogin = YES;
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Contacting...", @"连接客服")];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
         if ([lgM loginKefuSDK]/*[self loginKefuSDK:shouqian]测试切换账号使用*/ ) {
 //            [[EMClient sharedClient] logout:YES];//测试第二通道
 //            [self setPushOptions];
@@ -196,7 +196,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             if ([notification.object objectForKey:kpreSell]) {
 //                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
             } else {
-//                chat.title = [SCLoginManager shareLoginManager].cname;
+//                chat.title = [CSDemoAccountManager shareLoginManager].cname;
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
@@ -217,7 +217,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)setPushOptions {
 
-    if ([[SCLoginManager shareLoginManager] loginKefuSDK]) {
+    if ([[CSDemoAccountManager shareLoginManager] loginKefuSDK]) {
         HPushOptions *hOptions = [[HChatClient sharedClient] getPushOptionsFromServerWithError:nil];
         hOptions.displayStyle = HPushDisplayStyleMessageSummary;
         HError *error =  [[HChatClient sharedClient] updatePushOptionsToServer:hOptions];
@@ -257,7 +257,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     visitor.qq = @"12345678";
     visitor.phone = @"13636362637";
     visitor.companyName = @"环信";
-    visitor.nickName = [SCLoginManager shareLoginManager].nickname;
+    visitor.nickName = [CSDemoAccountManager shareLoginManager].nickname;
     visitor.email = @"abv@126.com";
     visitor.desc = @"环信移动客服";
     return visitor;

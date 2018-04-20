@@ -251,7 +251,7 @@ const NSInteger baseTag=123;
             MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
             hud.layer.zPosition = 1.f;
             __weak MBProgressHUD *weakHud = hud;
-            SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+            CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
             //此方法只为演示用，用户应把录制的附件放到自己服务器，环信服务器不存储留言的附件
             [[[HChatClient sharedClient] leaveMsgManager] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {
@@ -476,7 +476,7 @@ const NSInteger baseTag=123;
             NSString *fileName = [representation filename];
             NSData *data =UIImageJPEGRepresentation(orgImage, 0.5);
             
-            SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+            CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
             ////此方法只为演示用，用户应把录制的附件放到自己服务器，环信服务器不存储留言的附件
             [[[HChatClient sharedClient] leaveMsgManager] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {

@@ -148,7 +148,7 @@ typedef enum : NSUInteger {
     
     [[HDBaseMessageCell appearance] setAvatarSize:40.f];
     [[HDBaseMessageCell appearance] setAvatarCornerRadius:20.f];
-     [[HDChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
+    [[HDChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
 }
 
 - (void)chatToolbarState
@@ -1582,7 +1582,7 @@ typedef enum : NSUInteger {
             [formattedArray addObject:timeStr];
             self.messageTimeIntervalTag = message.messageTime;
         }
-        
+
         //Construct message model
         id<HDIMessageModel> model = nil;
         //接收的消息不能设置头像
@@ -1592,26 +1592,6 @@ typedef enum : NSUInteger {
         }
         else{
             model = [[HDMessageModel alloc] initWithMessage:message];
-            NSDictionary *weichat = [NSDictionary dictionary];
-            if ([message.ext objectForKey:@"weichat"]) {
-                weichat = [message.ext valueForKey:@"weichat"];
-            }
-            NSDictionary *agent = [NSDictionary dictionary];
-            if ([weichat objectForKey:@"agent"]) {
-                agent = [weichat valueForKey:@"agent"];
-            }
-            if ([[agent allKeys] containsObject:@"avatar"]) {
-                NSString *url = [agent valueForKey:@"avatar"];
-                if (![url isKindOfClass:[NSNull class]]) {
-                    if ([url hasPrefix:@"http"]) {
-                        model.avatarURLPath = [agent valueForKey:@"avatar"];
-                    } else {
-                        model.avatarURLPath = [[@"https:" stringByAppendingString:[agent valueForKey:@"avatar"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                    }
-                }
-            }
-            model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
-            model.failImageName = @"imageDownloadFail";
         }
 
         if (model) {
@@ -1627,13 +1607,13 @@ typedef enum : NSUInteger {
 {
     @synchronized (self.messsagesSource) {
         [self.messsagesSource addObject:message];
-        NSArray *messages = [self formatMessages:@[message]];
+        NSArray *messageModels = [self formatMessages:@[message]];
         NSMutableArray  *mArr = [NSMutableArray arrayWithCapacity:0];
-        for (int i=0; i<messages.count; i++) {
+        for (int i = 0; i < messageModels.count; i++) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.dataArray.count + i inSection:0];
             [mArr addObject:indexPath];
         }
-        [self.dataArray addObjectsFromArray:messages];
+        [self.dataArray addObjectsFromArray:messageModels];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:mArr.copy withRowAnimation:UITableViewRowAnimationBottom];
         [self.tableView endUpdates];
@@ -1662,42 +1642,43 @@ typedef enum : NSUInteger {
 
 - (void)_refreshAfterSentMessage:(HMessage*)aMessage
 {
-    if ([self.messsagesSource count] /*&& [EMClient sharedClient].options.sortMessageByServerTime*/) {
+    if ([self.messsagesSource count]) {
         NSString *msgId = aMessage.messageId;
-        HMessage *last = self.messsagesSource.lastObject;
-        if ([last isKindOfClass:[HMessage class]]) {
-            __block NSUInteger index = NSNotFound;
-            index = NSNotFound;
-            [self.messsagesSource enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(HMessage *obj, NSUInteger idx, BOOL *stop) {
-                if ([obj isKindOfClass:[HMessage class]] && [obj.messageId isEqualToString:msgId]) {
-                    index = idx;
-                    *stop = YES;
-                }
-            }];
-            if (index != NSNotFound) {
-                [self.messsagesSource removeObjectAtIndex:index];
-                [self.messsagesSource addObject:aMessage];
-                
-                //格式化消息
-                self.messageTimeIntervalTag = -1;
-                NSArray *formattedMessages = [self formatMessages:self.messsagesSource];
-                [self.dataArray removeAllObjects];
-                [self.dataArray addObjectsFromArray:formattedMessages];
-                [self.tableView reloadData];
-                return;
-            }
+        __block NSUInteger index = NSNotFound;
+        [self.messsagesSource enumerateObjectsWithOptions:NSEnumerationReverse
+                                               usingBlock:^(HMessage *obj, NSUInteger idx, BOOL *stop)
+         {
+             if ([obj isKindOfClass:[HMessage class]] && [obj.messageId isEqualToString:msgId]) {
+                 index = idx;
+                 *stop = YES;
+             }
+         }];
+        if (index != NSNotFound) {
+            [self.messsagesSource removeObjectAtIndex:index];
+            [self.messsagesSource addObject:aMessage];
+            
+            //格式化消息
+            self.messageTimeIntervalTag = -1;
+            NSArray *formattedMessages = [self formatMessages:self.messsagesSource];
+            [self.dataArray removeAllObjects];
+            [self.dataArray addObjectsFromArray:formattedMessages];
+            [self.tableView reloadData];
+            return;
         }
     }
 }
 
-- (void)_sendMessage:(HMessage *)message
+- (void)_sendMessage:(HMessage *)aMessage
 {
-    [self addMessageToDataSource:message
+    [self addMessageToDataSource:aMessage
                         progress:nil];
     
     __weak typeof(self) weakself = self;
     
-    [[HChatClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HMessage *message, HError *error) {
+    [[HChatClient sharedClient].chatManager sendMessage:aMessage
+                                               progress:nil
+                                             completion:^(HMessage *message, HError *error)
+    {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
         }
@@ -1754,7 +1735,8 @@ typedef enum : NSUInteger {
             HMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId];
             [aHMessage addCompositeContent:hcont];
             __weak typeof(self) weakSelf = self;
-            [[HChatClient sharedClient].chatManager sendMessage:aHMessage progress:nil completion:^(HMessage *aMessage, HError *aError) {
+            [[HChatClient sharedClient].chatManager sendMessage:aHMessage progress:nil completion:^(HMessage *aMessage, HError *aError)
+            {
                 _isSendingTransformMessage = NO;
                 if (!aError) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -1867,7 +1849,11 @@ typedef enum : NSUInteger {
                           longitude:(double)longitude
                          andAddress:(NSString *)address
 {
-    HMessage *message = [HDSDKHelper locationHMessageWithLatitude:latitude longitude:longitude address:address to:self.conversation.conversationId messageExt:nil];
+    HMessage *message = [HDSDKHelper locationHMessageWithLatitude:latitude
+                                                        longitude:longitude
+                                                          address:address
+                                                               to:self.conversation.conversationId
+                                                       messageExt:nil];
     [self _sendMessage:message];
 }
 
@@ -1938,18 +1924,18 @@ typedef enum : NSUInteger {
             if ([object isKindOfClass:[HDMessageModel class]]) {
                 id<HDIMessageModel> model = object;
                 if ([message.messageId isEqualToString:model.messageId]) {
-                    id<HDIMessageModel> model = nil;
-                    if (self.dataSource && [self.dataSource respondsToSelector:@selector(messageViewController:modelForMessage:)]) {
-                        model = [self.dataSource messageViewController:self modelForMessage:message];
+                    id<HDIMessageModel> newModel = nil;
+                    if (self.dataSource && [self.dataSource respondsToSelector:@selector(messageViewController:modelForMessage:)])
+                    {
+                        newModel = [self.dataSource messageViewController:self modelForMessage:message];
                     }
-                    else{
-                        model = [[HDMessageModel alloc] initWithMessage:message];
-                        model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
-                        model.failImageName = @"imageDownloadFail";
+                    else
+                    {
+                        newModel = [[HDMessageModel alloc] initWithMessage:message];
                     }
                     
                     [self.tableView beginUpdates];
-                    [self.dataArray replaceObjectAtIndex:i withObject:model];
+                    [self.dataArray replaceObjectAtIndex:i withObject:newModel];
                     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
                     [self.tableView endUpdates];
                     break;

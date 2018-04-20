@@ -26,13 +26,13 @@
 
 @implementation SettingViewController
 {
-    SCLoginManager *_lgM;
+    CSDemoAccountManager *_lgM;
     UIScrollView *_scrollview;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _lgM = [SCLoginManager shareLoginManager];
+    _lgM = [CSDemoAccountManager shareLoginManager];
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7)
     {
         self.tableView.backgroundColor = [UIColor colorWithRed:238 / 255.0 green:238 / 255.0 blue:243 / 255.0 alpha:1.0];
@@ -261,7 +261,7 @@
         case 5:
         {
             [SVProgressHUD showWithStatus:NSLocalizedString(@"Contacting...", @"连接客服")];
-            SCLoginManager *lgm = [SCLoginManager shareLoginManager];
+            CSDemoAccountManager *lgm = [CSDemoAccountManager shareLoginManager];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 if ([lgm loginKefuSDK]) {
                     dispatch_async(dispatch_get_main_queue(), ^{

@@ -143,14 +143,14 @@
 
 - (void)restarTheApp
 {
-    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     lgM.appkey = _editField.text;
     AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     [appDelegate resetCustomerServiceSDK];
 }
 
 - (void)changeTenantId {
-    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     lgM.tenantId = _editField.text;
     NSLog(@"new tenantId :%@",lgM.tenantId);
     [[HChatClient sharedClient] changeTenantId:lgM.tenantId];

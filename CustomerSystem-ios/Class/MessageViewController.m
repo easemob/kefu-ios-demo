@@ -265,7 +265,7 @@
 - (void)loadLeaveMessageDetailWithTicketId:(NSString *)ticketId
 {
     __weak typeof(self) weakSelf = self;
-    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     [[[HChatClient sharedClient]leaveMsgManager] getLeaveMsgDetailWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:ticketId completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithResponseObject:responseObject ticketId:ticketId];
@@ -292,7 +292,7 @@
     }
 //    NSDictionary *parameters = @{@"size":@(_pageSize),@"page":@(_page),@"sort":@"updatedAt,desc"};
     __weak typeof(self) weakSelf = self;
-    SCLoginManager *lgm = [SCLoginManager shareLoginManager];
+    CSDemoAccountManager *lgm = [CSDemoAccountManager shareLoginManager];
     [[[HChatClient sharedClient]leaveMsgManager] getLeaveMsgsWithProjectId:lgm.projectId targetUser:lgm.cname page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
         if (!error) { //请求成功
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {

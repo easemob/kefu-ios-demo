@@ -361,7 +361,7 @@
 - (void)loadLeaveMessageAllComments
 {
     __weak typeof(self) weakSelf = self;
-    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     [[[HChatClient sharedClient] leaveMsgManager]getLeaveMsgCommentsWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:_ticketId page:0 pageSize:100 completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             [weakSelf loadDataArray:responseObject];
@@ -435,7 +435,7 @@
 - (void)didSelectSendButtonWithParameters:(NSDictionary*)aParameters
 {
     LeaveMsgDetailModel *model = [_headerView getMsgDetailModel];
-    SCLoginManager *lgM =[SCLoginManager shareLoginManager];
+    CSDemoAccountManager *lgM =[CSDemoAccountManager shareLoginManager];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithCapacity:0];
     NSArray *atts = [aParameters valueForKey:@"attachments"];
     NSMutableArray *attachments = [NSMutableArray arrayWithCapacity:0];

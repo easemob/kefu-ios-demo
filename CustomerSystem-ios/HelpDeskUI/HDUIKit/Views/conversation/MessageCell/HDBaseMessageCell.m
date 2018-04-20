@@ -16,11 +16,7 @@
 #import "HDBubbleView+Evaluate.h"
 
 @interface HDBaseMessageCell()
-{
-    SCLoginManager *_lgM;
-}
 @property (strong, nonatomic) UILabel *nameLabel;
-
 @property (nonatomic) NSLayoutConstraint *avatarWidthConstraint;
 @property (nonatomic) NSLayoutConstraint *nameHeightConstraint;
 
@@ -70,12 +66,9 @@
             _nameLabel.textColor = _messageNameColor;
             [self.contentView addSubview:_nameLabel];
         }
-        _lgM = [SCLoginManager shareLoginManager];
-        [self configureLayoutConstraintsWithModel:model];
         
-        if ([UIDevice currentDevice].systemVersion.floatValue == 7.0) {
-            self.messageNameHeight = 15;
-        }
+        [self configureLayoutConstraintsWithModel:model];
+        self.messageNameHeight = 15;
     }
     
     return self;
@@ -269,38 +262,17 @@
 
 #pragma mark - setter
 
-- (void)avatarViewImage:(id<HDIMessageModel>)model
-{
-    if (model.avatarURLPath) {
-        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:model.avatarURLPath] placeholderImage:model.avatarImage];
-    } else {
-        self.avatarView.image = model.avatarImage;
-    }
-}
-
 - (void)setModel:(id<HDIMessageModel>)model
 {
     [super setModel:model];
+    
     if (model.avatarURLPath) {
         [self.avatarView sd_setImageWithURL:[NSURL URLWithString:model.avatarURLPath] placeholderImage:model.avatarImage];
     } else {
         self.avatarView.image = model.avatarImage;
     }
-    if (![model.nickname isKindOfClass:[NSNull class]]) {
-//        _nameLabel.text = model.nickname;
-        _nameLabel.text = _lgM.nickname;
-    }
-    
-    if (self.model.isSender) {
-        _nameLabel.text = _lgM.nickname;
-        [self avatarViewImage:model];
+    _nameLabel.text = model.nickname;
 
-    } else {
-        if (![model.nickname isKindOfClass:[NSNull class]]) {
-            _nameLabel.text = model.nickname;
-        }
-        [self avatarViewImage:model];
-    }
     
     if (self.model.isSender) {
         _hasRead.hidden = YES;

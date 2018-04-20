@@ -93,7 +93,7 @@
     _localBackView = [[HDCallBackView alloc] initWithFrame:CGRectMake(0, 0, KWH, KWH)];
     [_localBackView addSubviewRestoreBtn];
     [_localBackView addSubviewNameLabel];
-    _localBackView.nameLabel.text = [SCLoginManager shareLoginManager].nickname;
+    _localBackView.nameLabel.text = [CSDemoAccountManager shareLoginManager].nickname;
     _localBackView.delegate = self;
     _localView = [HDCallManager sharedInstance].localView;
     _localView.frame = _localBackView.bounds;
@@ -222,7 +222,7 @@
         _menuBackView.hidden = NO;
         [self setLocalView];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[HDCallManager sharedInstance] acceptCallWithNickname:[SCLoginManager shareLoginManager].nickname completion:^(id obj, HError * error) {
+            [[HDCallManager sharedInstance] acceptCallWithNickname:[CSDemoAccountManager shareLoginManager].nickname completion:^(id obj, HError * error) {
                 if (error == nil) {
                     NSLog(@"acceptCall Success!");
                 }

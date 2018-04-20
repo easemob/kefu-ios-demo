@@ -30,25 +30,18 @@
         _isMediaPlaying = NO;
         _isSender = message.direction == HMessageDirectionSend ? YES : NO;
         if (!_isSender) {
-            NSString *kefu = [[[message.ext objectForKey:@"weichat"] objectForKey:@"agent"] objectForKey:@"userNickname"];
-             NSDictionary *weichat = [message.ext objectForKey:@"weichat"];
-            NSDictionary *agent = [weichat objectForKey:@"agent"];
-            if ([agent objectForKey:@"avatar"]) {
-                NSString *avatar = [agent objectForKey:@"avatar"];
-                if (avatar && ![avatar isKindOfClass:[NSNull class]]) {
-                    if ([avatar hasPrefix:@"http"]) {
-                        _avatarURLPath = avatar;
-                    } else {
-                        _avatarURLPath = [@"https:" stringByAppendingString:avatar];
-                    }
-
+            NSDictionary *weichat = [message.ext objectForKey:@"weichat"];
+            if (weichat) {
+                NSDictionary *agent = [weichat valueForKey:@"agent"];
+                NSString *agentNickname = [agent objectForKey:@"userNickname"];
+                NSString *agentAvatarUrl = @"";
+                if (![[agent objectForKey:@"avatar"] isKindOfClass:[NSNull class]]) {
+                    agentAvatarUrl = [agent objectForKey:@"avatar"];
                 }
+                self.avatarURLPath = agentAvatarUrl;
+                self.nickname = agentNickname;
             }
-            if (kefu) {
-                _nickname = kefu;
-            } else {
-                _nickname = message.from;
-            }
+            self.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
         } else {
             if (message.ext) {
                 NSDictionary *weichat = [message.ext objectForKey:@"weichat"];

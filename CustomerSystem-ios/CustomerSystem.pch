@@ -13,7 +13,7 @@
 #import "LocalDefine.h"
 #import <HelpDesk/HelpDesk.h>
 #import "HelpDeskUI.h"
-#import "SCLoginManager.h"
+#import "CSDemoAccountManager.h"
 #import "SRRefreshView.h"
 #import "UIImageView+WebCache.h"
 #import "UIButton+WebCache.h"

@@ -176,7 +176,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
         body.creator = creator;
         body.content = content;
         body.subject = subject;
-        SCLoginManager *logM = [SCLoginManager shareLoginManager];
+        CSDemoAccountManager *logM = [CSDemoAccountManager shareLoginManager];
         [self showHudInView:self.view hint:NSLocalizedString(@"recorder_video_processing", @"processing...")];
         [[[HChatClient sharedClient] leaveMsgManager]createLeaveMsgWithProjectId:logM.projectId targetUser:logM.cname requestBody:body completion:^(id responseObject, NSError *error) {
             if (error == nil) {

@@ -12,8 +12,7 @@
 
 #import "HDChatViewController.h"
 #import "AppDelegate+HelpDesk.h"
-#import "SCLoginManager.h"
-//#import "HVisitorTrack.h"
+#import "CSDemoAccountManager.h"
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
 #import "HDMessageReadManager.h"
@@ -34,12 +33,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [SCLoginManager shareLoginManager].curChat = self;
+    [CSDemoAccountManager shareLoginManager].curChat = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [SCLoginManager shareLoginManager].curChat = nil;
+    [CSDemoAccountManager shareLoginManager].curChat = nil;
 }
 
 - (void)viewDidLoad {
@@ -83,8 +82,8 @@
     visitor.qq = @"12345678";
     visitor.phone = @"13636362637";
     visitor.companyName = @"环信";
-    if ([SCLoginManager shareLoginManager].nickname && [SCLoginManager shareLoginManager].nickname.length > 0) {
-        visitor.nickName = [SCLoginManager shareLoginManager].nickname;
+    if ([CSDemoAccountManager shareLoginManager].nickname && [CSDemoAccountManager shareLoginManager].nickname.length > 0) {
+        visitor.nickName = [CSDemoAccountManager shareLoginManager].nickname;
     }
     visitor.email = @"abv@126.com";
     visitor.desc = @"环信移动客服";
@@ -251,17 +250,16 @@
 
 
 #pragma mark - HDMessageViewControllerDataSource
-
-//- (id<HDIMessageModel>)messageViewController:(HDMessageViewController *)viewController
-//                           modelForMessage:(HMessage *)message
-//{
-//    id<HDIMessageModel> model = nil;
-//    model = [[HDMessageModel alloc] initWithMessage:message];
-//    model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
-//    model.avatarURLPath = @"";
-//    model.failImageName = @"imageDownloadFail";
-//    return model;
-//}
+// 设置消息页面右侧显示的昵称和头像
+- (id<HDIMessageModel>)messageViewController:(HDMessageViewController *)viewController
+                           modelForMessage:(HMessage *)message
+{
+    id<HDIMessageModel> model = nil;
+    model = [[HDMessageModel alloc] initWithMessage:message];
+    model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
+    model.avatarURLPath = [CSDemoAccountManager shareLoginManager].avatarStr;
+    return model;
+}
 
 - (NSArray*)emotionFormessageViewController:(HDMessageViewController *)viewController
 {
@@ -292,7 +290,7 @@
     NSArray *emojiPackagesDics =[self emojiValueForKey:@"emojiPackages"];
     for (NSDictionary *dic in emojiPackagesDics) {
         HEmojiPackage *package = [[HEmojiPackage alloc] initWithDictionary:dic];
-        if (![[SCLoginManager shareLoginManager].tenantId isEqualToString:package.tenantId]) {
+        if (![[CSDemoAccountManager shareLoginManager].tenantId isEqualToString:package.tenantId]) {
             continue;
         }
         NSMutableArray *marr = [NSMutableArray arrayWithCapacity:0];

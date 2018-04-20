@@ -1,12 +1,12 @@
 //
-//  SCLoginManager.m
+//  CSDemoAccountManager.m
 //  CustomerSystem-ios
 //
 //  Created by ease on 16/11/24.
 //  Copyright © 2016年 easemob. All rights reserved.
 //
 
-#import "SCLoginManager.h"
+#import "CSDemoAccountManager.h"
 #import <objc/runtime.h>
 
 @implementation HEmojiPackage
@@ -62,12 +62,12 @@
 
 @end
 
-@implementation SCLoginManager
+@implementation CSDemoAccountManager
 {
     NSString *_emojiPath;
 }
 
-static SCLoginManager *_manager = nil;
+static CSDemoAccountManager *_manager = nil;
 + (instancetype)shareLoginManager {
     static dispatch_once_t oneceToken;
     dispatch_once(&oneceToken, ^{
@@ -127,13 +127,11 @@ static SCLoginManager *_manager = nil;
 }
 
 - (NSString *)nickname {
-    NSString * tnickname = [fUserDefaults objectForKey:kCustomerNickname];
-    if ([tnickname length] == 0) {
-        tnickname = kDefaultCustomerNickname;
-        [fUserDefaults setObject:tnickname forKey:kCustomerNickname];
-        [fUserDefaults synchronize];
-    }
-    return tnickname;
+    return @"访客昵称";
+}
+
+- (NSString *)avatarStr {
+    return @"https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/e998ef4e7cbcfdb345716c5562a29956_121_121.png";
 }
 
 - (NSString *)tenantId {
@@ -164,7 +162,6 @@ static SCLoginManager *_manager = nil;
 }
 //登录IM
 - (BOOL)loginKefuSDK {
-//    [[SDImageCache sharedImageCache] cleanDisk];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self cacheBigExpression];
     });
@@ -190,7 +187,7 @@ static SCLoginManager *_manager = nil;
 }
 
 //创建一个随机的用户名
-- (NSString *)getrandomUsername {
+- (NSString *)getRandomUsername {
     NSString *username = nil;
     UIDevice *device = [UIDevice currentDevice];//创建设备对象
     NSString *deviceUID = [[NSString alloc] initWithString:[[device identifierForVendor] UUIDString]];
@@ -210,7 +207,7 @@ static SCLoginManager *_manager = nil;
 - (BOOL)registerIMuser { //举个栗子。注册建议在服务端创建环信id与自己app的账号一一对应，\
     而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器
     HError *error = nil;
-    NSString *newUser = [self getrandomUsername];
+    NSString *newUser = [self getRandomUsername];
     self.username = newUser;
     error = [[HChatClient sharedClient] registerWithUsername:newUser password:hxPassWord];
     if (error) {

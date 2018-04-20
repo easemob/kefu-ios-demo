@@ -45,7 +45,7 @@
     apnsCertName = @"customer";
 #endif
     //注册kefu_sdk
-    SCLoginManager *lgM = [SCLoginManager shareLoginManager]; //
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager]; //
     HOptions *option = [[HOptions alloc] init];
     option.appkey = lgM.appkey;
 //    option.showAgentInputState = YES;
@@ -76,7 +76,7 @@
     if (error != nil) {
             NSLog(@"登出出错:%@",error.errorDescription);
     }
-    SCLoginManager *lgM = [SCLoginManager shareLoginManager];
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
 #warning "changeAppKey 为内部方法，不建议使用"
     HError *er = [client changeAppKey:lgM.appkey];
     if (er == nil) {
@@ -283,7 +283,7 @@
 //退出当前
 - (void)userAccountLogout {
     [[HChatClient sharedClient] logout:YES];
-    HDChatViewController *chat = [SCLoginManager shareLoginManager].curChat;
+    HDChatViewController *chat = [CSDemoAccountManager shareLoginManager].curChat;
     if (chat) {
         [chat backItemClicked];
     }
