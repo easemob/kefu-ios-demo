@@ -576,14 +576,8 @@ typedef enum : NSUInteger {
     NSDictionary *htmlDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"html"];
     NSString *strUrl = [htmlDic objectForKey:@"url"];
     formVC.url = strUrl;
-//    formVC.view.originY = kScreenHeight - 64;
     [self presentViewController:formVC animated:YES completion:nil];
-    
-//    [self.view addSubview:formVC.view];
-//    [UIView animateWithDuration:0.25 animations:^{
-//        formVC.view.originY = 0;
-//    }];
-    
+
 }
 
 - (void)_imageMessageCellSelected:(id<HDIMessageModel>)model

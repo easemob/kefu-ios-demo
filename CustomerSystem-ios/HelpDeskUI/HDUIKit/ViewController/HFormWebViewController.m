@@ -8,14 +8,10 @@
 
 #import "HFormWebViewController.h"
 #import <JavaScriptCore/JavaScriptCore.h>
-#import "EasemobWebViewInterface.h"
 
 @interface HFormWebViewController ()<UIWebViewDelegate, EasemobWebViewInterface>
-
 @property (nonatomic, strong) JSContext *jsContext;
-
 @property (nonatomic, strong) UIWebView *web;
-
 @end
 
 @implementation HFormWebViewController

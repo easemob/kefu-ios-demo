@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HFormWebViewController : UIViewController
+@protocol EasemobWebViewInterface <NSObject>
 
+- (void)closeWindow;
+- (void)showToast:(NSString *)toast;
+- (NSString *) imToken;
+@end
+
+@interface HFormWebViewController : UIViewController
 @property(nonatomic,strong) NSString *url;
 
 @end
