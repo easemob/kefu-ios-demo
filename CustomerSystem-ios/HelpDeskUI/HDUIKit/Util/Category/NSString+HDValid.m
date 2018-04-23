@@ -10,9 +10,9 @@
  * from Hyphenate Inc.
  */
 
-#import "NSString+Valid.h"
+#import "NSString+HDValid.h"
 
-@implementation NSString (Valid)
+@implementation NSString (HDValid)
 
 - (BOOL)isChinese
 {

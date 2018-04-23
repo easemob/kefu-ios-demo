@@ -199,7 +199,7 @@
 		D3CB648B1E4888F30022A6BA /* HDMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63D91E4888F30022A6BA /* HDMessageModel.m */; };
 		D3CB648D1E4888F30022A6BA /* NSDate+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63DF1E4888F30022A6BA /* NSDate+Category.m */; };
 		D3CB648E1E4888F30022A6BA /* NSDateFormatter+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63E11E4888F30022A6BA /* NSDateFormatter+Category.m */; };
-		D3CB648F1E4888F30022A6BA /* NSString+Valid.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63E31E4888F30022A6BA /* NSString+Valid.m */; };
+		D3CB648F1E4888F30022A6BA /* NSString+HDValid.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63E31E4888F30022A6BA /* NSString+HDValid.m */; };
 		D3CB64901E4888F30022A6BA /* UIResponder+HRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63E51E4888F30022A6BA /* UIResponder+HRouter.m */; };
 		D3CB64911E4888F30022A6BA /* UIViewController+DismissKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63E71E4888F30022A6BA /* UIViewController+DismissKeyboard.m */; };
 		D3CB64921E4888F30022A6BA /* UIViewController+HDHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CB63E91E4888F30022A6BA /* UIViewController+HDHUD.m */; };
@@ -754,8 +754,8 @@
 		D3CB63DF1E4888F30022A6BA /* NSDate+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Category.m"; sourceTree = "<group>"; };
 		D3CB63E01E4888F30022A6BA /* NSDateFormatter+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+Category.h"; sourceTree = "<group>"; };
 		D3CB63E11E4888F30022A6BA /* NSDateFormatter+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+Category.m"; sourceTree = "<group>"; };
-		D3CB63E21E4888F30022A6BA /* NSString+Valid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Valid.h"; sourceTree = "<group>"; };
-		D3CB63E31E4888F30022A6BA /* NSString+Valid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Valid.m"; sourceTree = "<group>"; };
+		D3CB63E21E4888F30022A6BA /* NSString+HDValid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HDValid.h"; sourceTree = "<group>"; };
+		D3CB63E31E4888F30022A6BA /* NSString+HDValid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HDValid.m"; sourceTree = "<group>"; };
 		D3CB63E41E4888F30022A6BA /* UIResponder+HRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIResponder+HRouter.h"; sourceTree = "<group>"; };
 		D3CB63E51E4888F30022A6BA /* UIResponder+HRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIResponder+HRouter.m"; sourceTree = "<group>"; };
 		D3CB63E61E4888F30022A6BA /* UIViewController+DismissKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+DismissKeyboard.h"; sourceTree = "<group>"; };
@@ -1794,8 +1794,8 @@
 				D3CB63DF1E4888F30022A6BA /* NSDate+Category.m */,
 				D3CB63E01E4888F30022A6BA /* NSDateFormatter+Category.h */,
 				D3CB63E11E4888F30022A6BA /* NSDateFormatter+Category.m */,
-				D3CB63E21E4888F30022A6BA /* NSString+Valid.h */,
-				D3CB63E31E4888F30022A6BA /* NSString+Valid.m */,
+				D3CB63E21E4888F30022A6BA /* NSString+HDValid.h */,
+				D3CB63E31E4888F30022A6BA /* NSString+HDValid.m */,
 				D3CB63E41E4888F30022A6BA /* UIResponder+HRouter.h */,
 				D3CB63E51E4888F30022A6BA /* UIResponder+HRouter.m */,
 				D3CB63E61E4888F30022A6BA /* UIViewController+DismissKeyboard.h */,
@@ -2681,7 +2681,7 @@
 				D3CB646A1E4888F30022A6BA /* MWZoomingScrollView.m in Sources */,
 				D32FBEB81ED55E6C00BA68D7 /* SDWebImageManager.m in Sources */,
 				D3CB64B41E4888F30022A6BA /* HDFaceView.m in Sources */,
-				D3CB648F1E4888F30022A6BA /* NSString+Valid.m in Sources */,
+				D3CB648F1E4888F30022A6BA /* NSString+HDValid.m in Sources */,
 				D34D6CEA1DEC08CA0099EE23 /* LeaveMsgDetailHeaderView.m in Sources */,
 				D3CB64691E4888F30022A6BA /* MWTapDetectingView.m in Sources */,
 				9078071B2087584700ED9324 /* HDMicView.m in Sources */,

@@ -28,7 +28,7 @@
 #import "UIImageView+WebCache.h"
 #import "HDEmotionEscape.h"
 #import "HDLocalDefine.h"
-#import "NSString+Valid.h"
+#import "NSString+HDValid.h"
 
 #define kImageWidth 40
 #define kImageHeight 70

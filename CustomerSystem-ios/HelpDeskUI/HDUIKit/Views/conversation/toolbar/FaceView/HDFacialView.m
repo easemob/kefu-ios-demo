@@ -15,6 +15,7 @@
 #import "HDEmoji.h"
 #import "HDFaceView.h"
 #import "HDEmotionManager.h"
+#import "UIButton+WebCache.h"
 
 
 @interface EmojiButton :UIButton

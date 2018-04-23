@@ -212,14 +212,15 @@
     [self setAudioSessionSpeaker];
     CGPoint center = _rejectBtn.center;
     center.x = kScreenWidth/2;
+    __weak typeof(self)weakSelf = self;
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        _rejectBtn.center = center;
+        weakSelf.rejectBtn.center = center;
     } completion:^(BOOL finished) {
-        _timerLabel.hidden = NO;
+        weakSelf.timerLabel.hidden = NO;
          [self startRecordTime];
-        _rejectBtn.hidden = YES;
-        _hangUpBtn.hidden = NO;
-        _menuBackView.hidden = NO;
+        weakSelf.rejectBtn.hidden = YES;
+        weakSelf.hangUpBtn.hidden = NO;
+        weakSelf.menuBackView.hidden = NO;
         [self setLocalView];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[HDCallManager sharedInstance] acceptCallWithNickname:[CSDemoAccountManager shareLoginManager].nickname completion:^(id obj, HError * error) {

@@ -12,7 +12,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (Valid)
+@interface NSString (HDValid)
 
 - (BOOL)isChinese;
 
