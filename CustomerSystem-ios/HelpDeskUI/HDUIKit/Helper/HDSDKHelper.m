@@ -156,7 +156,7 @@ static HDSDKHelper *helper = nil;
                                           to:(NSString *)to
                                   messageExt:(NSDictionary *)messageExt
 {
-    HMessage *message = [HMessage createImageSendMessageWithData:imageData displayName:@"image" to:to];
+    HMessage *message = [HMessage createImageSendMessageWithData:imageData displayName:@"image.jpg" to:to];
     if(messageExt){
         [message addAttributeDictionary:messageExt];
     }
@@ -168,7 +168,9 @@ static HDSDKHelper *helper = nil;
                                       to:(NSString *)to
                               messageExt:(NSDictionary *)messageExt
 {
-    HMessage *message = [HMessage createImageSendMessageWithImage:image to:to];
+    HMessage *message = [HMessage createImageSendMessageWithImage:image
+                                                      displayName:@"image.jpg"
+                                                               to:to];
     if (messageExt) {
         [message addAttributeDictionary:messageExt];
     }
