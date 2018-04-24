@@ -85,36 +85,40 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 @synthesize hasRead = _hasRead;
 @synthesize activity = _activity;
 
++ (void)initialize
+{
+    // UIAppearance Proxy Defaults
+    HDMessageCell *cell = [self appearance];
+    cell.statusSize = 20;
+    cell.activitySize = 20;
+    cell.bubbleMaxWidth = 200.0;
+    cell.leftBubbleMargin = UIEdgeInsetsMake(8, 15, 8, 10);
+    cell.rightBubbleMargin = UIEdgeInsetsMake(8, 10, 8, 15);
+    cell.bubbleMargin = UIEdgeInsetsMake(8, 0, 8, 0);
+    
+    cell.messageTextFont = [UIFont systemFontOfSize:15];
+    cell.messageTextColor = [UIColor blackColor];
+    
+    cell.messageLocationFont = [UIFont systemFontOfSize:10];
+    cell.messageLocationColor = [UIColor whiteColor];
+    
+    cell.messageVoiceDurationColor = [UIColor grayColor];
+    cell.messageVoiceDurationFont = [UIFont systemFontOfSize:12];
+    
+    cell.messageFileNameColor = [UIColor blackColor];
+    cell.messageFileNameFont = [UIFont systemFontOfSize:13];
+    cell.messageFileSizeColor = [UIColor grayColor];
+    cell.messageFileSizeFont = [UIFont systemFontOfSize:11];
+    cell.messageFormDescSizeFont = [UIFont systemFontOfSize:11];
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
               reuseIdentifier:(NSString *)reuseIdentifier
                         model:(id<HDIMessageModel>)model
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        
-        _statusSize = 20;
-        _activitySize = 20;
-        _bubbleMaxWidth = 200.0;
-        _leftBubbleMargin = UIEdgeInsetsMake(8, 15, 8, 10);
-        _rightBubbleMargin = UIEdgeInsetsMake(8, 10, 8, 15);
-        _bubbleMargin = UIEdgeInsetsMake(8, 0, 8, 0);
-        
-        _messageTextFont = [UIFont systemFontOfSize:15];
-        _messageTextColor = [UIColor blackColor];
-        
-        _messageLocationFont = [UIFont systemFontOfSize:10];
-        _messageLocationColor = [UIColor whiteColor];
-        
-        _messageVoiceDurationColor = [UIColor grayColor];
-        _messageVoiceDurationFont = [UIFont systemFontOfSize:12];
-        
-        _messageFileNameColor = [UIColor blackColor];
-        _messageFileNameFont = [UIFont systemFontOfSize:13];
-        _messageFileSizeColor = [UIColor grayColor];
-        _messageFileSizeFont = [UIFont systemFontOfSize:11];
-        _messageFormDescSizeFont = [UIFont systemFontOfSize:11];
-        
+
         _messageType = model.bodyType;
         [self _setupSubviewsWithType:_messageType
                             isSender:model.isSender
@@ -305,7 +309,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     if ([self.deleteTrackMsgdelegate respondsToSelector:@selector(transmitDelegateTrackMessage:sendButton:)]) {
         [self.deleteTrackMsgdelegate transmitDelegateTrackMessage:_model sendButton:sendButton];
     }
-
+    
 }
 
 #pragma mark - Setup Constraints
@@ -317,7 +321,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     
     self.bubbleMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.bubbleMaxWidth];
     [self addConstraint:self.bubbleMaxWidthConstraint];
-//    self.bubbleMaxWidthConstraint.active = YES;
+    //    self.bubbleMaxWidthConstraint.active = YES;
     
     //status button
     self.statusWidthConstraint = [NSLayoutConstraint constraintWithItem:self.statusButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.statusSize];
@@ -334,7 +338,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     [self _updateHasReadWidthConstraint];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.statusButton attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.activity attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    //    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.activity attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
 }
 
 #pragma mark - Update Constraint
@@ -400,6 +404,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         _bubbleView.orderNoLabel.text = [itemDic objectForKey:@"order_title"];
                         _bubbleView.orderDescLabel.text = [itemDic objectForKey:@"desc"];
                         _bubbleView.orderPriceLabel.text = [itemDic objectForKey:@"price"];
+                        
+                        
                     }
                         break;
                     case HExtTrackMsg:
@@ -1123,7 +1129,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 retSize.width = width;
                 retSize.height = kEMMessageImageSizeHeight;
             }
-
+            
             height += retSize.height;
         }
             break;
@@ -1145,9 +1151,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             if ([NSString instancesRespondToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
                 nameRect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
             } else {
-//                nameRect.size = [text sizeWithFont:font constrainedToSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) lineBreakMode:NSLineBreakByCharWrapping];
-                nameRect.size = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                attributes:@{NSFontAttributeName:font} context:nil].size;
+                nameRect.size = [text sizeWithFont:font constrainedToSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) lineBreakMode:NSLineBreakByCharWrapping];
             }
             height += (nameRect.size.height > 20 ? nameRect.size.height : 20);
             
@@ -1157,8 +1161,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             if ([NSString instancesRespondToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
                 sizeRect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
             } else {
-                sizeRect.size = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                                attributes:@{NSFontAttributeName:font} context:nil].size;
+                sizeRect.size = [text sizeWithFont:font constrainedToSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) lineBreakMode:NSLineBreakByCharWrapping];
             }
             height += (sizeRect.size.height > 15 ? sizeRect.size.height : 15);
         }
@@ -1166,7 +1169,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         default:
             break;
     }
-
+    
     height += HDMessageCellPadding;
     model.cellHeight = height;
     
