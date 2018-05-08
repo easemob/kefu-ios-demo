@@ -38,7 +38,7 @@ typedef enum : NSUInteger {
     HDCanNotRecord,
 } HDRecordResponse;
 
-@interface HDMessageViewController ()<HDMessageCellDelegate,HChatDelegate,TransmitDeleteTrackMsgDelegate>
+@interface HDMessageViewController ()<HDMessageCellDelegate,HChatDelegate,TransmitDeleteTrackMsgDelegate, UIGestureRecognizerDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
@@ -109,6 +109,7 @@ typedef enum : NSUInteger {
     //Initializa the gesture recognizer
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(keyBoardHidden:)];
+    tap.delegate = self;
     [self.view addGestureRecognizer:tap];
     
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
