@@ -187,7 +187,6 @@ typedef enum : NSUInteger {
     
 }
 
-
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
         if (touch.view.width == 200 || touch.view.tag == 1990) {
@@ -198,8 +197,6 @@ typedef enum : NSUInteger {
     if(touch.view.tag == 1991){
         return NO; //tag in Cell+Form.h
     }
-    
-    
     return YES;
 }
 
@@ -269,8 +266,6 @@ typedef enum : NSUInteger {
 {
     [super viewWillAppear:animated];
 }
-
-
 
 - (void)viewWillDisappear:(BOOL)animated
 {

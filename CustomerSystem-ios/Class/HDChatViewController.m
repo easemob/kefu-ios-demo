@@ -257,6 +257,7 @@
     model = [[HDMessageModel alloc] initWithMessage:message];
     model.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
     model.avatarURLPath = [CSDemoAccountManager shareLoginManager].avatarStr;
+    model.nickname = [CSDemoAccountManager shareLoginManager].nickname;
     return model;
 }
 
