@@ -24,7 +24,6 @@
 
 #import "SVProgressHUD.h"
 
-
 #define fKeyWindow [UIApplication sharedApplication].keyWindow
 #define fUserDefaults [NSUserDefaults standardUserDefaults]
 
@@ -43,9 +42,7 @@
 
 
 #pragma mark - 三方音视频
-#import "HDCallLocalView.h"
-#import "HDCallRemoteView.h"
-#import "HDCallManager.h"
+
 
 
 #endif

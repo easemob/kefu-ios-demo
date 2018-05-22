@@ -263,7 +263,7 @@
                 arguments.sessionId = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_serviceSessionId];
                 arguments.inviteId = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_inviteId];
                 arguments.detail = self.textView.text;
-                arguments.summary = [NSString stringWithFormat:@"%d",(int)(_starRateView.scorePercent*5)];
+                arguments.summary = [NSString stringWithFormat:@"%d",(int)(_starRateView.scorePercent * 5)];
                 if (self.evaluationTagsArray.count == 0 && self.evaluationTagView.evaluationDegreeModel.appraiseTags.count>0) {
                     [self showHint:NSLocalizedString(@"select_at_least_one_tag", @"Select at least one tag!")];
                 } else {

@@ -269,7 +269,7 @@ static CSDemoAccountManager *_manager = nil;
 
 - (void)cacheBigExpression {
     [self createPlist];
-    HChat *chat = [HChatClient sharedClient].chatManager;
+    HChatManager *chat = [HChatClient sharedClient].chatManager;
     [chat getEmojiPackageListCompletion:^(NSArray<NSDictionary *> *emojiPackages, HError *error) {
         if (error == nil) {
             NSMutableArray *hPackages = @[].mutableCopy;

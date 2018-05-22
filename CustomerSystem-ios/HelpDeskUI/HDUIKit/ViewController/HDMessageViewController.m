@@ -1384,11 +1384,23 @@ typedef enum : NSUInteger {
     }
     
     if (_isSendingEvaluateMessage) return;
-    _isSendingEvaluateMessage = YES;
-    SatisfactionViewController *vc = [[SatisfactionViewController alloc] init];
-    vc.messageModel = model;
-    vc.delegate = self;
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showHudInView:self.view hint:@"获取中..."];
+    [HChatClient.sharedClient.chatManager asyncFetchEvaluationDegreeInfoWithCompletion:^(NSDictionary *info, HError *error)
+    {
+        [self hideHud];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!error) {
+                SatisfactionViewController *vc = [[SatisfactionViewController alloc] init];
+                HMessage *msg = model.message;
+                msg.ext = @{@"weichat":@{@"ctrlArgs":@{@"evaluationDegree":info[@"entities"],@"serviceSessionId":self.conversation}}};
+                vc.messageModel = [[HDMessageModel alloc] initWithMessage:msg];
+                vc.delegate = self;
+                [self.navigationController pushViewController:vc animated:YES];
+            }else {
+                [self showHint:@"获取评价信息失败"];
+            }
+        });
+    }];
 }
 
 #pragma mark - EMLocationViewDelegate
@@ -1739,7 +1751,7 @@ typedef enum : NSUInteger {
     }
     if ([eventName isEqualToString:HRouterEventTapEvaluate]) {
         if (_isSendingEvaluateMessage) return;
-        _isSendingEvaluateMessage = YES;
+//        _isSendingEvaluateMessage = YES; 设置后再设置为YES
         SatisfactionViewController *view = [[SatisfactionViewController alloc] init];
         id <HDIMessageModel> model = nil;
         model = [[HDMessageModel alloc] initWithMessage:[userInfo objectForKey:@"HMessage"]];
@@ -1912,8 +1924,9 @@ typedef enum : NSUInteger {
             if ([object isKindOfClass:[HDMessageModel class]]) {
                 id<HDIMessageModel> model = object;
                 if ([message.messageId isEqualToString:model.messageId]) {
+                    BOOL isSender = message.direction == HMessageDirectionSend;
                     id<HDIMessageModel> newModel = nil;
-                    if (self.dataSource && [self.dataSource respondsToSelector:@selector(messageViewController:modelForMessage:)])
+                    if (isSender && _dataSource && [_dataSource respondsToSelector:@selector(messageViewController:modelForMessage:)])
                     {
                         newModel = [self.dataSource messageViewController:self modelForMessage:message];
                     }

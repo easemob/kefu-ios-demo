@@ -17,12 +17,15 @@
 #import "HDMessageViewController.h"
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
+
+#import "HCallViewController.h"
+
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HChatDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HChatDelegate, HCallManagerDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -62,6 +65,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // call
+    [HChatClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
@@ -532,5 +538,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 
 
-
+#pragma mark - HCallManagerDelegate
+- (void)onCallReceivedNickName:(NSString *)nickName {
+    HCallViewController *hCallVC = [HCallViewController hasReceivedCallWithAgentName:nickName];
+    [self presentViewController:hCallVC animated:YES completion:nil];
+    hCallVC.callback = ^(HCallViewController *callVC, NSString *timeStr) {
+        NSLog(@"通话时长: ---- %@",timeStr);
+        [callVC dismissViewControllerAnimated:YES completion:nil];
+    };
+}
 @end
