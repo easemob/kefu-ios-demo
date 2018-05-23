@@ -64,7 +64,6 @@
     item.memberName = [NSString stringWithFormat:@"%f", [NSDate timeIntervalSinceReferenceDate]];
     item.camView = [[HCallLocalView alloc] init]; // 自己的camView是HCallLocalView，其他人的是HCallRemoteView
     [_members addObject:item]; // 将自己的item添加到datasource中
-    [self updateInfoLabel]; // 更新“正在通话中...(n)”中的n。
     
     // 设置音视频 options
     HCallOptions *options = [[HCallOptions alloc] init];
@@ -76,7 +75,6 @@
     
     // 设置 ui
     [self.view setBackgroundColor:UIColor.blackColor];
-    [self.infoLabel setHidden:YES];
     [self.timeLabel setHidden:YES];
     [self.callingView setHidden:YES];
     [self.collectionView reloadData];
@@ -86,6 +84,8 @@
     
     // 设置选中 collectionView 第一项
     [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
+    
+    [self updateInfoLabel]; // 尝试更新“正在通话中...(n)”中的n。
 }
 
 - (void)setupCollectionView {
@@ -111,7 +111,9 @@
 
 // 更新详情显示
 - (void)updateInfoLabel {
-    self.infoLabel.text = [NSString stringWithFormat:@"正在通话中...(%d)",(int)_members.count];
+    if (!self.callingView.isHidden) { // 只有在已经通话中的情况下，才回去更新。
+        self.infoLabel.text = [NSString stringWithFormat:@"正在通话中...(%d)",(int)_members.count];
+    }
 }
 
 // 旋转摄像头事件
@@ -210,7 +212,7 @@
     [self.infoLabel setHidden:NO];
     [self.callingView setHidden:NO];
     [self setupCollectionView];
-    
+    [self updateInfoLabel];
     __weak typeof(self) weakSelf = self;
     [[HChatClient sharedClient].callManager acceptCallWithNickname:self.agentName
                                                         completion:^(id obj, HError *error)
