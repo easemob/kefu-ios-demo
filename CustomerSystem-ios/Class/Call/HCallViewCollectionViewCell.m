@@ -37,13 +37,15 @@
 }
 
 - (void)selected {
-    self.avatarImageView.layer.borderWidth = 3;
+    self.avatarImageView.layer.borderWidth = 2;
+    // 发送被选中通知
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectedNotification"
                                                         object:nil
                                                       userInfo:@{@"item_memberName":self.item.memberName}];
     _item.isSelected = YES;
 }
 
+// 接收被选中通知，如果被选中的不是self，则将self设置为未选中状态
 - (void)receiveNoti:(NSNotification *)noti {
     NSString *memberName = noti.userInfo[@"item_memberName"];
     if (![memberName isEqualToString:self.item.memberName]) {

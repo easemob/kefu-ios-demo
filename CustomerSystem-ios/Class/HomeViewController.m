@@ -66,7 +66,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     [super viewDidLoad];
     
-    // call
+    // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HChatClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone

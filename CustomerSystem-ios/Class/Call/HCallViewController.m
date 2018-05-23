@@ -50,25 +50,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 监听屏幕旋转
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(handleStatusBarOrientationChange)
-                                                name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(handleStatusBarOrientationChange)
+                                                name:UIApplicationDidChangeStatusBarOrientationNotification
+                                              object:nil];
     
     // 初始化数据源
     _members = [NSMutableArray array];
-    HCallViewCollectionViewCellItem *item = [[HCallViewCollectionViewCellItem alloc] initWithAvatarURI:@"url"
-                                                                                          defaultImage:[UIImage imageNamed:@"off"]
-                                                                                              nickname:@"自己"];
-    item.isSelected = YES;
+    // 设置第一个item的头像，昵称都为自己。
+    HCallViewCollectionViewCellItem *item = [[HCallViewCollectionViewCellItem alloc] initWithAvatarURI:@"url" defaultImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/user"] nickname:[CSDemoAccountManager shareLoginManager].nickname];
+    item.isSelected = YES; // 默认自己会被选中
+    // 随机给一个memberNumber
     item.memberName = [NSString stringWithFormat:@"%f", [NSDate timeIntervalSinceReferenceDate]];
-    item.camView = [[HCallLocalView alloc] init];
-    [_members addObject:item];
-    [self updateInfoLabel];
+    item.camView = [[HCallLocalView alloc] init]; // 自己的camView是HCallLocalView，其他人的是HCallRemoteView
+    [_members addObject:item]; // 将自己的item添加到datasource中
+    [self updateInfoLabel]; // 更新“正在通话中...(n)”中的n。
     
     // 设置音视频 options
     HCallOptions *options = [[HCallOptions alloc] init];
     options.videoOff = NO; // 这个值要和按钮状态统一。
     options.mute = NO; // 这个值要和按钮状态统一。
-    options.previewView = (HCallLocalView *)item.camView;
+    options.previewView = (HCallLocalView *)item.camView; // 设置自己视频时使用的view
     [[HChatClient sharedClient].callManager setCallOptions:options];
     [HChatClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     
@@ -82,7 +84,7 @@
     // 响铃
     [self startRing];
     
-    // 设置 collectionView 第一项
+    // 设置选中 collectionView 第一项
     [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
 }
 
@@ -100,9 +102,9 @@
     view.frame = UIScreen.mainScreen.bounds;
 }
 
-// 添加member
+// 根据HCallMember 创建cellItem
 - (HCallViewCollectionViewCellItem *)createCallerWithMember:(HCallMember *)aMember {
-    HCallViewCollectionViewCellItem *item = [[HCallViewCollectionViewCellItem alloc] initWithAvatarURI:aMember.extension[@"avatarUrl"] defaultImage:[UIImage imageNamed:@"off"] nickname:aMember.extension[@"nickname"]];
+    HCallViewCollectionViewCellItem *item = [[HCallViewCollectionViewCellItem alloc] initWithAvatarURI:aMember.extension[@"avatarUrl"] defaultImage:[UIImage imageNamed:@"default_customer_avatar"] nickname:aMember.extension[@"nickname"]];
     item.memberName = aMember.memberName;
     return item;
 }
@@ -236,7 +238,11 @@
 // 开始计时
 - (void)startTimer {
     _time = 0;
-    _timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
+    _timer = [NSTimer timerWithTimeInterval:1
+                                     target:self
+                                   selector:@selector(updateTime)
+                                   userInfo:nil
+                                    repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
 }
 

@@ -15,7 +15,7 @@
 @end
 
 @interface HCallViewCollectionViewCellItem : NSObject
-@property (nonatomic, strong) NSString *memberName;
+@property (nonatomic, strong) NSString *memberName; // Call中的属性，用于区分当前属于哪一个member
 @property (nonatomic, strong) NSString *avatarUrl;
 @property (nonatomic, strong) UIImage *defaultImage;
 @property (nonatomic, strong) NSString *nickname;
