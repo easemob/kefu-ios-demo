@@ -16,6 +16,7 @@
     NSMutableArray *_members; // 通话人
     NSTimer *_timer;
     NSInteger _time;
+    HCallViewCollectionViewCellItem *_currentItem;
 }
 @property (nonatomic, strong) NSString *agentName;
 
@@ -71,6 +72,8 @@
     options.mute = NO; // 这个值要和按钮状态统一。
     options.previewView = (HCallLocalView *)item.camView; // 设置自己视频时使用的view
     [[HChatClient sharedClient].callManager setCallOptions:options];
+    
+    // 添加监听
     [HChatClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     
     // 设置 ui
@@ -211,6 +214,10 @@
     [self.callinView setHidden:YES];
     [self.infoLabel setHidden:NO];
     [self.callingView setHidden:NO];
+    NSArray *hasJoined = [HChatClient.sharedClient.callManager hasJoinedMembers];
+    for (HCallMember *member in hasJoined) {
+       [_members addObject:[self createCallerWithMember:member]];
+    }
     [self setupCollectionView];
     [self updateInfoLabel];
     __weak typeof(self) weakSelf = self;
@@ -282,6 +289,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [[self.view viewWithTag:kCamViewTag] removeFromSuperview];
     HCallViewCollectionViewCellItem *item = [_members objectAtIndex:indexPath.section];
+    _currentItem = item;
     EMCallRemoteView *view = (EMCallRemoteView *)item.camView;
     view.scaleMode = self.screenBtn.selected ? EMCallViewScaleModeAspectFill : EMCallViewScaleModeAspectFit;
     view.frame = UIScreen.mainScreen.bounds;
@@ -311,6 +319,11 @@
             currentItem = item;
             break;
         }
+    }
+    
+    // 如果移除的是当前显示的客服
+    if ([_currentItem.memberName isEqualToString:member.memberName]) {
+        [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
     }
     
     [_members removeObject:currentItem];
