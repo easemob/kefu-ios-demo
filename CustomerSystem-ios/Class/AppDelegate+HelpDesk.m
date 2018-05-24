@@ -46,15 +46,15 @@
 #endif
     //注册kefu_sdk
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager]; 
-    HOptions *option = [[HOptions alloc] init];
+    HDOptions *option = [[HDOptions alloc] init];
     option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.apnsCertName = apnsCertName;
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
     option.showAgentInputState = YES; // 是否显示坐席输入状态
-    HChatClient *client = [HChatClient sharedClient];
-    HError *initError = [client initializeSDKWithOptions:option];
+    HDClient *client = [HDClient sharedClient];
+    HDError *initError = [client initializeSDKWithOptions:option];
     if (initError) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"initialization_error", @"Initialization error!") message:initError.errorDescription delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
         [alert show];
@@ -68,14 +68,14 @@
 //修改关联app后需要重新初始化
 - (void)resetCustomerServiceSDK {
     //如果在登录状态,账号要退出
-    HChatClient *client = [HChatClient sharedClient];
-    HError *error = [client logout:NO];
+    HDClient *client = [HDClient sharedClient];
+    HDError *error = [client logout:NO];
     if (error != nil) {
             NSLog(@"登出出错:%@",error.errorDescription);
     }
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
 #warning "changeAppKey 为内部方法，不建议使用"
-    HError *er = [client changeAppKey:lgM.appkey];
+    HDError *er = [client changeAppKey:lgM.appkey];
     if (er == nil) {
         [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"appkey_updated", @"Appkey has been updated")]; 
         [SVProgressHUD dismissWithDelay:1.0];
@@ -138,18 +138,18 @@
 
 #pragma mark - notifiers
 - (void)appDidEnterBackgroundNotif:(NSNotification*)notif{
-    [[HChatClient sharedClient] applicationDidEnterBackground:notif.object];
+    [[HDClient sharedClient] applicationDidEnterBackground:notif.object];
 }
 
 - (void)appWillEnterForeground:(NSNotification*)notif
 {
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    [[HChatClient sharedClient] applicationWillEnterForeground:notif.object];
+    [[HDClient sharedClient] applicationWillEnterForeground:notif.object];
 }
 
 - (void)appDidFinishLaunching:(NSNotification*)notif
 {
-//    [[HChatClient sharedClient] applicationdidfinishLounching];
+//    [[HDClient sharedClient] applicationdidfinishLounching];
  //   [[EaseMob sharedInstance] applicationDidFinishLaunching:notif.object];
 }
 
@@ -185,7 +185,7 @@
 // 将得到的deviceToken传给SDK
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[HChatClient sharedClient] bindDeviceToken:deviceToken];
+        [[HDClient sharedClient] bindDeviceToken:deviceToken];
     });
 }
 
@@ -221,11 +221,11 @@
 - (void)registerEaseMobNotification
 {
     // 将self 添加到SDK回调中，以便本类可以收到SDK回调
-    [[HChatClient sharedClient] addDelegate:self delegateQueue:nil];
+    [[HDClient sharedClient] addDelegate:self delegateQueue:nil];
 }
 
 - (void)unRegisterEaseMobNotification{
-    [[HChatClient sharedClient] removeDelegate:self];
+    [[HDClient sharedClient] removeDelegate:self];
 }
 
 
@@ -263,7 +263,7 @@
     [alertView show];
 }
 
-- (void)userAccountDidForcedToLogout:(HError *)aError {
+- (void)userAccountDidForcedToLogout:(HDError *)aError {
     [self userAccountLogout];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"userAccountDidForcedToLogout", @"your login account has been forced logout") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
     [alertView show];
@@ -271,7 +271,7 @@
 
 //退出当前
 - (void)userAccountLogout {
-    [[HChatClient sharedClient] logout:YES];
+    [[HDClient sharedClient] logout:YES];
     HDChatViewController *chat = [CSDemoAccountManager shareLoginManager].curChat;
     if (chat) {
         [chat backItemClicked];

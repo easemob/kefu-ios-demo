@@ -28,7 +28,7 @@
 #import "HDBubbleView+Evaluate.h"
 #import "SatisfactionViewController.h"
 #import "HArticleWebViewController.h"
-#import "HFormWebViewController.h"
+#import "HDFormWebViewController.h"
 #import "UIViewController+HDHUD.h"
 
 
@@ -38,7 +38,7 @@ typedef enum : NSUInteger {
     HDCanNotRecord,
 } HDRecordResponse;
 
-@interface HDMessageViewController ()<HDMessageCellDelegate,HChatDelegate,TransmitDeleteTrackMsgDelegate, UIGestureRecognizerDelegate>
+@interface HDMessageViewController ()<HDMessageCellDelegate,HDChatManagerDelegate,TransmitDeleteTrackMsgDelegate, UIGestureRecognizerDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
@@ -68,7 +68,7 @@ typedef enum : NSUInteger {
     }
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        _conversation = [[HChatClient sharedClient].chatManager getConversation:conversationChatter];
+        _conversation = [[HDClient sharedClient].chatManager getConversation:conversationChatter];
         _title = conversationChatter;
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
@@ -95,7 +95,7 @@ typedef enum : NSUInteger {
         _title = _conversation.officialAccount.name;
     }
     self.title = _title;
-    [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
+    [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     self.view.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatToolbarState) name:@"chatToolbarState" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeRecording) name:@"closeRecording" object:nil];
@@ -178,7 +178,7 @@ typedef enum : NSUInteger {
 - (void)backItemClicked {
     [[HDCDDeviceManager sharedInstance] disableProximitySensor];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[HChatClient sharedClient].chatManager removeDelegate:self];
+    [[HDClient sharedClient].chatManager removeDelegate:self];
     [self.navigationController popViewControllerAnimated:YES];
     [self backItemDidClicked];
 }
@@ -453,10 +453,10 @@ typedef enum : NSUInteger {
 }
 
 
-- (void)_downloadMessageAttachments:(HMessage *)message
+- (void)_downloadMessageAttachments:(HDMessage *)message
 {
     __weak typeof(self) weakSelf = self;
-    void (^completion)(HMessage *, HError *) = ^(HMessage *aMessage, HError *error) {
+    void (^completion)(HDMessage *, HDError *) = ^(HDMessage *aMessage, HDError *error) {
         if (!error)
         {
             [weakSelf _reloadTableViewDataWithMessage:message];
@@ -472,20 +472,20 @@ typedef enum : NSUInteger {
         EMImageMessageBody *imageBody = (EMImageMessageBody *)messageBody;
         if (imageBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
             //download the message thumbnail
-            [[HChatClient sharedClient].chatManager downloadAttachment:message progress:nil completion:completion];
+            [[HDClient sharedClient].chatManager downloadAttachment:message progress:nil completion:completion];
         }
     }else if ([messageBody type] == EMMessageBodyTypeVideo) {
         EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
         if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
             //download the message thumbnail
-            [[HChatClient sharedClient].chatManager downloadThumbnail:message progress:nil completion:completion];
+            [[HDClient sharedClient].chatManager downloadThumbnail:message progress:nil completion:completion];
         }
     }else if ([messageBody type] == EMMessageBodyTypeVoice)
     {
         EMVoiceMessageBody *voiceBody = (EMVoiceMessageBody*)messageBody;
         if (voiceBody.downloadStatus > EMDownloadStatusSuccessed) {
             //download the message attachment
-            [[HChatClient sharedClient].chatManager downloadAttachment:message progress:nil completion:^(HMessage *message, HError *error) {
+            [[HDClient sharedClient].chatManager downloadAttachment:message progress:nil completion:^(HDMessage *message, HDError *error) {
                 if (!error) {
                     [weakSelf _reloadTableViewDataWithMessage:message];
                 }
@@ -531,7 +531,7 @@ typedef enum : NSUInteger {
     };
     
     __weak typeof(self) weakSelf = self;
-    void (^completion)(HMessage *aMessage, HError *error) = ^(HMessage *aMessage, HError *error) {
+    void (^completion)(HDMessage *aMessage, HDError *error) = ^(HDMessage *aMessage, HDError *error) {
         if (!error)
         {
             [weakSelf _reloadTableViewDataWithMessage:aMessage];
@@ -544,7 +544,7 @@ typedef enum : NSUInteger {
     
     if (videoBody.thumbnailDownloadStatus == EMDownloadStatusFailed || ![[NSFileManager defaultManager] fileExistsAtPath:videoBody.thumbnailLocalPath]) {
         [self showHint:@"begin downloading thumbnail image, click later"];
-        [[HChatClient sharedClient].chatManager downloadThumbnail:model.message progress:nil completion:completion];
+        [[HDClient sharedClient].chatManager downloadThumbnail:model.message progress:nil completion:completion];
         return;
     }
     
@@ -555,7 +555,7 @@ typedef enum : NSUInteger {
     }
     
     [self showHudInView:self.view hint:NSEaseLocalizedString(@"message.downloadingVideo", @"downloading video...")];
-    [[HChatClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
+    [[HDClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:^(HDMessage *message, HDError *error) {
         [weakSelf hideHud];
         if (!error) {
             block();
@@ -567,7 +567,7 @@ typedef enum : NSUInteger {
 
 - (void) _formMessageCellSelected:(id<HDIMessageModel>)model
 {
-    HFormWebViewController *formVC = [[HFormWebViewController alloc]init];
+    HDFormWebViewController *formVC = [[HDFormWebViewController alloc]init];
     NSDictionary *htmlDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"html"];
     NSString *strUrl = [htmlDic objectForKey:@"url"];
     formVC.url = strUrl;
@@ -600,7 +600,7 @@ typedef enum : NSUInteger {
                 }
             }
             [weakSelf showHudInView:weakSelf.view hint:NSEaseLocalizedString(@"message.downloadingImage", @"downloading a image...")];
-            [[HChatClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
+            [[HDClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:^(HDMessage *message, HDError *error) {
                 [weakSelf hideHud];
                 if (!error) {
                     //send the acknowledgement
@@ -623,7 +623,7 @@ typedef enum : NSUInteger {
             }];
         }else{
             //get the message thumbnail
-            [[HChatClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:^(HMessage *message, HError *error) {
+            [[HDClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:^(HDMessage *message, HDError *error) {
                 if (!error) {
                     [weakSelf _reloadTableViewDataWithMessage:model.message];
                 }else{
@@ -631,7 +631,7 @@ typedef enum : NSUInteger {
                 }
             }];
             
-            [[HChatClient sharedClient].chatManager downloadThumbnail:model.message progress:nil completion:^(HMessage *message, HError *error) {
+            [[HDClient sharedClient].chatManager downloadThumbnail:model.message progress:nil completion:^(HDMessage *message, HDError *error) {
                 if (!error) {
                     [weakSelf _reloadTableViewDataWithMessage:model.message];
                 }else{
@@ -653,7 +653,7 @@ typedef enum : NSUInteger {
     else if (downloadStatus == EMDownloadStatusFailed)
     {
         [self showHint:NSEaseLocalizedString(@"message.downloadingAudio", @"downloading voice, click later")];
-        [[HChatClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:nil];
+        [[HDClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:nil];
         return;
     }
     
@@ -735,7 +735,7 @@ typedef enum : NSUInteger {
                         [strongSelf.dataArray addObjectsFromArray:formattedMessages];
                     }
                     
-                    HMessage *latest = [strongSelf.messsagesSource lastObject];
+                    HDMessage *latest = [strongSelf.messsagesSource lastObject];
                     strongSelf.messageTimeIntervalTag = latest.messageTime;
                     
                     [strongSelf.tableView reloadData];
@@ -744,14 +744,14 @@ typedef enum : NSUInteger {
                 }
             });
             //re-download all messages that are not successfully downloaded
-            for (HMessage *message in messages)
+            for (HDMessage *message in messages)
             {
                 [weakSelf _downloadMessageAttachments:message];
             }
         });
     };
     
-    [self.conversation loadMessagesStartFromId:messageId count:(int)count searchDirection:HMessageSearchDirectionUp completion:^(NSArray *aMessages, HError *aError) {
+    [self.conversation loadMessagesStartFromId:messageId count:(int)count searchDirection:HMessageSearchDirectionUp completion:^(NSArray *aMessages, HDError *aError) {
         if (!aError && [aMessages count]) {
             refresh(aMessages);
         }
@@ -891,7 +891,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)messageStatusDidChange:(HMessage *)aMessage error:(HError *)aError {
+- (void)messageStatusDidChange:(HDMessage *)aMessage error:(HDError *)aError {
 //    [self _refreshAfterSentMessage:aMessage];
 }
 
@@ -916,10 +916,8 @@ typedef enum : NSUInteger {
 
     __weak typeof(self) weakself = self;
     
-    [[HChatClient sharedClient].chatManager sendMessage:trackModel.message progress:nil completion:^(HMessage *message, HError *error) {
+    [[HDClient sharedClient].chatManager sendMessage:trackModel.message progress:nil completion:^(HDMessage *message, HDError *error) {
         if (!error) {
-            [weakself _refreshAfterSentMessage:message];
-            
             // 删除对应的消息
             [weakself deleteTrackMessage:trackModel];
         }
@@ -1070,7 +1068,7 @@ typedef enum : NSUInteger {
 - (void)messageCellSelected:(id<HDIMessageModel>)model {
     switch (model.bodyType) {
         case EMMessageBodyTypeText: {
-            if([HMessageHelper getMessageExtType:model.message] == HExtFormMsg){
+            if([HDMessageHelper getMessageExtType:model.message] == HExtFormMsg){
                 [self _formMessageCellSelected:model];
             }
         }
@@ -1108,7 +1106,7 @@ typedef enum : NSUInteger {
     }
     __weak typeof(self) weakself = self;
     
-    [[HChatClient sharedClient].chatManager resendMessage:model.message progress:nil completion:^(HMessage *message, HError *error) {
+    [[HDClient sharedClient].chatManager resendMessage:model.message progress:nil completion:^(HDMessage *message, HDError *error) {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
         }
@@ -1151,7 +1149,7 @@ typedef enum : NSUInteger {
 
 - (void)inputTextViewDidChange:(HDTextView *)inputTextView {
     
-    [[HChatClient sharedClient].chatManager postContent:inputTextView.text conversationId:_conversation.conversationId completion:^(id responseObject, HError *error) {
+    [[HDClient sharedClient].chatManager postContent:inputTextView.text conversationId:_conversation.conversationId completion:^(id responseObject, HDError *error) {
     }];
 }
 
@@ -1372,8 +1370,8 @@ typedef enum : NSUInteger {
     NSArray* reversedArray = [[self.messsagesSource reverseObjectEnumerator] allObjects];
     id <HDIMessageModel> model = nil;
     
-    for (HMessage *msg in reversedArray) {
-        if (![msg.from isEqualToString:HChatClient.sharedClient.currentUsername]) {
+    for (HDMessage *msg in reversedArray) {
+        if (![msg.from isEqualToString:HDClient.sharedClient.currentUsername]) {
             model = [[HDMessageModel alloc] initWithMessage:msg];
         }
         break;
@@ -1385,14 +1383,14 @@ typedef enum : NSUInteger {
     
     if (_isSendingEvaluateMessage) return;
     [self showHudInView:self.view hint:@"获取中..."];
-    [HChatClient.sharedClient.chatManager asyncFetchEvaluationDegreeInfoWithCompletion:^(NSDictionary *info, HError *error)
+    [HDClient.sharedClient.chatManager asyncFetchEvaluationDegreeInfoWithCompletion:^(NSDictionary *info, HDError *error)
     {
-        [self hideHud];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self hideHud];
             if (!error) {
                 SatisfactionViewController *vc = [[SatisfactionViewController alloc] init];
-                HMessage *msg = model.message;
-                msg.ext = @{@"weichat":@{@"ctrlArgs":@{@"evaluationDegree":info[@"entities"],@"serviceSessionId":self.conversation}}};
+                HDMessage *msg = model.message;
+                msg.ext = @{@"weichat":@{@"ctrlArgs":@{@"evaluationDegree":info[@"entities"],@"serviceSessionId":@""/* need serviceSessionId */}}};
                 vc.messageModel = [[HDMessageModel alloc] initWithMessage:msg];
                 vc.delegate = self;
                 [self.navigationController pushViewController:vc animated:YES];
@@ -1414,10 +1412,10 @@ typedef enum : NSUInteger {
 
 #pragma mark - Hyphenate
 
-#pragma mark - HChatDelegate
+#pragma mark - HDChatManagerDelegate
 
 - (void)messagesDidReceive:(NSArray *)aMessages {
-    for (HMessage *message in aMessages) {
+    for (HDMessage *message in aMessages) {
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             [_conversation markAllMessagesAsRead:nil];
             [self addMessageToDataSource:message progress:nil];
@@ -1426,7 +1424,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
-    for (HMessage *message in aCmdMessages) {
+    for (HDMessage *message in aCmdMessages) {
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
             NSLog(@"receive cmd message: %@", msg);
@@ -1438,8 +1436,8 @@ typedef enum : NSUInteger {
 - (void)messagesDidRecall:(NSArray *)recallMessageIds {
     for (NSString *recallMsgId in recallMessageIds) {
         __block NSUInteger sourceIndex = NSNotFound;
-        [self.messsagesSource enumerateObjectsUsingBlock:^(HMessage *message, NSUInteger idx, BOOL *stop){
-            if ([message isKindOfClass:[HMessage class]]) {
+        [self.messsagesSource enumerateObjectsUsingBlock:^(HDMessage *message, NSUInteger idx, BOOL *stop){
+            if ([message isKindOfClass:[HDMessage class]]) {
                 if ([recallMsgId isEqualToString:message.messageId])
                 {
                     sourceIndex = idx;
@@ -1470,7 +1468,7 @@ typedef enum : NSUInteger {
 }
 
 
-- (void)messageAttachmentStatusDidChange:(HMessage *)aMessage error:(HError *)aError {
+- (void)messageAttachmentStatusDidChange:(HDMessage *)aMessage error:(HDError *)aError {
     if (!aError) {
         EMFileMessageBody *fileBody = (EMFileMessageBody*)[aMessage body];
         if ([fileBody type] == EMMessageBodyTypeImage) {
@@ -1566,7 +1564,7 @@ typedef enum : NSUInteger {
         return formattedArray;
     }
     
-    for (HMessage *message in messages) {
+    for (HDMessage *message in messages) {
         //Calculate time interval
         CGFloat interval = (self.messageTimeIntervalTag - message.messageTime) / 1000;
         if (self.messageTimeIntervalTag < 0 || interval > 60 || interval < -60) {
@@ -1602,7 +1600,7 @@ typedef enum : NSUInteger {
     return formattedArray;
 }
 
--(void)addMessageToDataSource:(HMessage *)message
+-(void)addMessageToDataSource:(HDMessage *)message
                      progress:(id)progress
 {
     @synchronized (self.messsagesSource) {
@@ -1628,7 +1626,7 @@ typedef enum : NSUInteger {
     self.messageTimeIntervalTag = -1;
     NSString *messageId = nil;
     if ([self.messsagesSource count] > 0) {
-        messageId = [(HMessage *)self.messsagesSource.firstObject messageId];
+        messageId = [(HDMessage *)self.messsagesSource.firstObject messageId];
     }
     else {
         messageId = nil;
@@ -1640,15 +1638,15 @@ typedef enum : NSUInteger {
 
 #pragma mark - send message
 
-- (void)_refreshAfterSentMessage:(HMessage*)aMessage
+- (void)_refreshAfterSentMessage:(HDMessage*)aMessage
 {
     if ([self.messsagesSource count]) {
         NSString *msgId = aMessage.messageId;
         __block NSUInteger index = NSNotFound;
         [self.messsagesSource enumerateObjectsWithOptions:NSEnumerationReverse
-                                               usingBlock:^(HMessage *obj, NSUInteger idx, BOOL *stop)
+                                               usingBlock:^(HDMessage *obj, NSUInteger idx, BOOL *stop)
          {
-             if ([obj isKindOfClass:[HMessage class]] && [obj.messageId isEqualToString:msgId]) {
+             if ([obj isKindOfClass:[HDMessage class]] && [obj.messageId isEqualToString:msgId]) {
                  index = idx;
                  *stop = YES;
              }
@@ -1668,16 +1666,16 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)_sendMessage:(HMessage *)aMessage
+- (void)_sendMessage:(HDMessage *)aMessage
 {
     [self addMessageToDataSource:aMessage
                         progress:nil];
     
     __weak typeof(self) weakself = self;
     
-    [[HChatClient sharedClient].chatManager sendMessage:aMessage
+    [[HDClient sharedClient].chatManager sendMessage:aMessage
                                                progress:nil
-                                             completion:^(HMessage *message, HError *error)
+                                             completion:^(HDMessage *message, HDError *error)
     {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
@@ -1722,20 +1720,20 @@ typedef enum : NSUInteger {
     if ([eventName isEqualToString:HRouterEventTapTransform]) {
         if (_isSendingTransformMessage) return;
         _isSendingTransformMessage = YES;
-        __block HMessage *message = [userInfo objectForKey:@"HMessage"];
+        __block HDMessage *message = [userInfo objectForKey:@"HDMessage"];
         NSDictionary *weichat = [message.ext objectForKey:kMesssageExtWeChat];
         NSDictionary *ctrlArgs = [weichat objectForKey:kMesssageExtWeChat_ctrlArgs];
         ControlArguments *arguments = [ControlArguments new];
         arguments.identity = [ctrlArgs valueForKey:@"id"];
         arguments.sessionId = [ctrlArgs valueForKey:@"serviceSessionId"];
-        HControlMessage *hcont = [HControlMessage new];
+        HDControlMessage *hcont = [HDControlMessage new];
         hcont.arguments = arguments;
-        if ([HMessageHelper getMessageExtType:message] == HExtToCustomServiceMsg) {
+        if ([HDMessageHelper getMessageExtType:message] == HExtToCustomServiceMsg) {
             //发送透传消息
-            HMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId];
+            HDMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId];
             [aHMessage addCompositeContent:hcont];
             __weak typeof(self) weakSelf = self;
-            [[HChatClient sharedClient].chatManager sendMessage:aHMessage progress:nil completion:^(HMessage *aMessage, HError *aError)
+            [[HDClient sharedClient].chatManager sendMessage:aHMessage progress:nil completion:^(HDMessage *aMessage, HDError *aError)
             {
                 _isSendingTransformMessage = NO;
                 if (!aError) {
@@ -1754,7 +1752,7 @@ typedef enum : NSUInteger {
 //        _isSendingEvaluateMessage = YES; 设置后再设置为YES
         SatisfactionViewController *view = [[SatisfactionViewController alloc] init];
         id <HDIMessageModel> model = nil;
-        model = [[HDMessageModel alloc] initWithMessage:[userInfo objectForKey:@"HMessage"]];
+        model = [[HDMessageModel alloc] initWithMessage:[userInfo objectForKey:@"HDMessage"]];
         view.messageModel = model;
         view.delegate = self;
         [self.navigationController pushViewController:view animated:YES];
@@ -1778,8 +1776,8 @@ typedef enum : NSUInteger {
 
 
 - (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments type:(ControlType *)type evaluationTagsArray:(NSMutableArray *)tags{
-    HMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
-    HControlMessage *hCtrl = [HControlMessage new];
+    HDMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
+    HDControlMessage *hCtrl = [HDControlMessage new];
     hCtrl.type = type;
     hCtrl.arguments = arguments;
     [message addCompositeContent:hCtrl];
@@ -1792,7 +1790,7 @@ typedef enum : NSUInteger {
     
     __weak typeof(self) weakself = self;
     [self showHudInView:self.view hint:NSLocalizedString(@"comment_submit", @"Comment Submit.")];
-    [[HChatClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HMessage *aMessage, HError *aError) {
+    [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
         [self hideHud];
         if (!aError) {
             NSLog(@"message.ext--%@", message.ext);
@@ -1806,14 +1804,14 @@ typedef enum : NSUInteger {
 }
 
 //更新转人工消息的ext
-- (void)updateTransferMessageExt:(HMessage *)message {
-    HMessage *_message = message;
+- (void)updateTransferMessageExt:(HDMessage *)message {
+    HDMessage *_message = message;
     NSMutableDictionary *_ext = [NSMutableDictionary dictionaryWithDictionary:message.ext];
     
     [_ext setValue:@YES forKey:kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer];
     _message.ext = [_ext copy];
     __weak typeof(self) weakSelf = self;
-    [[HChatClient sharedClient].chatManager updateMessage:_message completion:^(HMessage *aMessage, HError *aError) {
+    [[HDClient sharedClient].chatManager updateMessage:_message completion:^(HDMessage *aMessage, HDError *aError) {
         if (!aError) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.tableView reloadData];
@@ -1824,7 +1822,7 @@ typedef enum : NSUInteger {
 
 - (void)sendTextMessage:(NSString *)text withExt:(NSDictionary*)ext
 {
-    HMessage *message = [HDSDKHelper textHMessageFormatWithText:text to:self.conversation.conversationId];
+    HDMessage *message = [HDSDKHelper textHMessageFormatWithText:text to:self.conversation.conversationId];
     if (_visitorInfo) {
         [message addContent:_visitorInfo];
     }
@@ -1841,7 +1839,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)sendCustomMagicEmojiWithOriginUrl:(NSString *)url {
-    HMessage *message = [HDSDKHelper customMagicEmojiMessageWithOriginUrl:url to:self.conversation.conversationId];
+    HDMessage *message = [HDSDKHelper customMagicEmojiMessageWithOriginUrl:url to:self.conversation.conversationId];
     [self _sendMessage:message];
 }
 
@@ -1849,7 +1847,7 @@ typedef enum : NSUInteger {
                           longitude:(double)longitude
                          andAddress:(NSString *)address
 {
-    HMessage *message = [HDSDKHelper locationHMessageWithLatitude:latitude
+    HDMessage *message = [HDSDKHelper locationHMessageWithLatitude:latitude
                                                         longitude:longitude
                                                           address:address
                                                                to:self.conversation.conversationId
@@ -1867,7 +1865,7 @@ typedef enum : NSUInteger {
         progress = self;
     }
     
-    HMessage *message = [HDSDKHelper imageMessageWithImageData:imageData to:self.conversation.conversationId messageExt:nil];
+    HDMessage *message = [HDSDKHelper imageMessageWithImageData:imageData to:self.conversation.conversationId messageExt:nil];
     EMImageMessageBody *body = (EMImageMessageBody *)message.body;
     NSLog(@"body.localPathbody.localPath:%@",body.localPath);
     [self _sendMessage:message];
@@ -1882,7 +1880,7 @@ typedef enum : NSUInteger {
     else{
         progress = self;
     }
-    HMessage *message = [HDSDKHelper imageMessageWithImage:image to:self.conversation.conversationId messageExt:nil];
+    HDMessage *message = [HDSDKHelper imageMessageWithImage:image to:self.conversation.conversationId messageExt:nil];
     [self _sendMessage:message];
 }
 
@@ -1897,7 +1895,7 @@ typedef enum : NSUInteger {
         progress = self;
     }
     
-    HMessage *message = [HDSDKHelper voiceMessageWithLocalPath:localPath duration:duration to:self.conversation.conversationId messageExt:nil];
+    HDMessage *message = [HDSDKHelper voiceMessageWithLocalPath:localPath duration:duration to:self.conversation.conversationId messageExt:nil];
     [self _sendMessage:message];
 }
 
@@ -1915,7 +1913,7 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark - private
-- (void)_reloadTableViewDataWithMessage:(HMessage *)message
+- (void)_reloadTableViewDataWithMessage:(HDMessage *)message
 {
     if ([self.conversation.conversationId isEqualToString:message.conversationId])
     {

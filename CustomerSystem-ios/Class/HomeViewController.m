@@ -18,14 +18,14 @@
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
 
-#import "HCallViewController.h"
+#import "HDCallViewController.h"
 
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HChatDelegate, HCallManagerDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate, HDCallManagerDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -67,7 +67,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [super viewDidLoad];
     
     // 用于添加语音呼入的监听 onCallReceivedNickName:
-    [HChatClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
+    [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
@@ -188,9 +188,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             if ([notification.object objectForKey:kpreSell]) {
                 queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
             }
-            HQueueIdentityInfo *queueIdentityInfo=nil;
+            HDQueueIdentityInfo *queueIdentityInfo=nil;
             if (queue) {
-                queueIdentityInfo = [[HQueueIdentityInfo alloc] initWithValue:queue];
+                queueIdentityInfo = [[HDQueueIdentityInfo alloc] initWithValue:queue];
             }
             HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
             if (queue) {
@@ -224,16 +224,16 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)setPushOptions {
 
     if ([[CSDemoAccountManager shareLoginManager] loginKefuSDK]) {
-        HPushOptions *hOptions = [[HChatClient sharedClient] getPushOptionsFromServerWithError:nil];
-        hOptions.displayStyle = HPushDisplayStyleMessageSummary;
-        HError *error =  [[HChatClient sharedClient] updatePushOptionsToServer:hOptions];
+        HDPushOptions *HDOptions = [[HDClient sharedClient] getPushOptionsFromServerWithError:nil];
+        HDOptions.displayStyle = HPushDisplayStyleMessageSummary;
+        HDError *error =  [[HDClient sharedClient] updatePushOptionsToServer:HDOptions];
         NSLog(@" error:%@",error.errorDescription);
     }
 }
 
 //登录IM【测试切换账号专用】
 //- (BOOL)loginKefuSDK:(BOOL)isShouqian {
-//    HChatClient *client = [HChatClient sharedClient];
+//    HDClient *client = [HDClient sharedClient];
 //    if (client.isLoggedInBefore) {
 //        [client logout:NO];
 //    }
@@ -245,8 +245,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //        username = @"shouhou";
 //    }
 //    //用户没有注册的请注意注册
-////    [[HChatClient sharedClient] registerWithUsername:username password:hxPassWord];
-//    HError *error = [[HChatClient sharedClient] loginWithUsername:username password:hxPassWord];
+////    [[HDClient sharedClient] registerWithUsername:username password:hxPassWord];
+//    HDError *error = [[HDClient sharedClient] loginWithUsername:username password:hxPassWord];
 //    if (!error) { //IM登录成功
 //        return YES;
 //    } else { //登录失败
@@ -257,8 +257,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //}
 
 
-- (HVisitorInfo *)visitorInfo {
-    HVisitorInfo *visitor = [[HVisitorInfo alloc] init];
+- (HDVisitorInfo *)visitorInfo {
+    HDVisitorInfo *visitor = [[HDVisitorInfo alloc] init];
     visitor.name = @"小明儿";
     visitor.qq = @"12345678";
     visitor.phone = @"13636362637";
@@ -313,12 +313,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     [self unregisterNotifications];
     
-    [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
+    [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 }
 
 -(void)unregisterNotifications
 {
-    [[HChatClient sharedClient].chatManager removeDelegate:self];
+    [[HDClient sharedClient].chatManager removeDelegate:self];
 }
 
 - (void)setupSubviews
@@ -417,7 +417,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)_showNotificationWithMessage:(NSArray *)messages
 {
-    HPushOptions *options = [[HChatClient sharedClient] hPushOptions];
+    HDPushOptions *options = [[HDClient sharedClient] hdPushOptions];
     //发送本地推送
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     notification.fireDate = [NSDate date]; //触发通知的时间
@@ -514,13 +514,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
-    for (HMessage *message in aCmdMessages) {
+    for (HDMessage *message in aCmdMessages) {
         NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
         NSLog(@"receive cmd message: %@", msg);
     }
 }
 
-- (BOOL)isNotificationMessage:(HMessage *)message {
+- (BOOL)isNotificationMessage:(HDMessage *)message {
     if (message.ext == nil) { //没有扩展
         return NO;
     }
@@ -538,11 +538,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 
 
-#pragma mark - HCallManagerDelegate
+#pragma mark - HDCallManagerDelegate
 - (void)onCallReceivedNickName:(NSString *)nickName {
-    HCallViewController *hCallVC = [HCallViewController hasReceivedCallWithAgentName:nickName];
-    [self presentViewController:hCallVC animated:YES completion:nil];
-    hCallVC.callback = ^(HCallViewController *callVC, NSString *timeStr) {
+    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithAgentName:nickName];
+    [self presentViewController:hdCallVC animated:YES completion:nil];
+    hdCallVC.callback = ^(HDCallViewController *callVC, NSString *timeStr) {
         NSLog(@"通话时长: ---- %@",timeStr);
         [callVC dismissViewControllerAnimated:YES completion:nil];
     };

@@ -39,12 +39,12 @@
 }
 
 - (NSString *)originUrl {
-    NSString *orUrl = [[HChatClient sharedClient].kefuRestServer stringByAppendingString:_originUrl];
+    NSString *orUrl = [[HDClient sharedClient].kefuRestServer stringByAppendingString:_originUrl];
     return orUrl;
 }
 
 - (NSString *)thumbnailUrl {
-    NSString *thUrl = [[HChatClient sharedClient].kefuRestServer stringByAppendingString:_thumbnailUrl];
+    NSString *thUrl = [[HDClient sharedClient].kefuRestServer stringByAppendingString:_thumbnailUrl];
     return thUrl;
 }
 
@@ -171,7 +171,7 @@ static CSDemoAccountManager *_manager = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self cacheBigExpression];
     });
-    HChatClient *client = [HChatClient sharedClient];
+    HDClient *client = [HDClient sharedClient];
     if (client.isLoggedInBefore) {
         return YES;
     }
@@ -182,7 +182,7 @@ static CSDemoAccountManager *_manager = nil;
 }
 
 - (BOOL)login {
-    HError *error = [[HChatClient sharedClient] loginWithUsername:self.username password:hxPassWord];
+    HDError *error = [[HDClient sharedClient] loginWithUsername:self.username password:hxPassWord];
     if (!error) { //IM登录成功
         return YES;
     } else { //登录失败
@@ -212,10 +212,10 @@ static CSDemoAccountManager *_manager = nil;
 
 - (BOOL)registerIMuser { //举个栗子。注册建议在服务端创建环信id与自己app的账号一一对应，\
     而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器
-    HError *error = nil;
+    HDError *error = nil;
     NSString *newUser = [self getRandomUsername];
     self.username = newUser;
-    error = [[HChatClient sharedClient] registerWithUsername:newUser password:hxPassWord];
+    error = [[HDClient sharedClient] registerWithUsername:newUser password:hxPassWord];
     if (error) {
         /*
          "network_anomalies" = "Network anomalies, please try again!";
@@ -223,7 +223,7 @@ static CSDemoAccountManager *_manager = nil;
          "without_permission" = "Without permission, please sign in to open mode!";
          */
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (error.code == HErrorUserAlreadyExist) {
+            if (error.code == HDErrorUserAlreadyExist) {
                 UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"account_already_exists", @"Registered account already exists, please try again!") delegate:nil cancelButtonTitle:NSLocalizedString(@"setting_confirm", @"confirm") otherButtonTitles:nil, nil];
                 [alertView show];
             }else if(error.code == 208){
@@ -269,8 +269,8 @@ static CSDemoAccountManager *_manager = nil;
 
 - (void)cacheBigExpression {
     [self createPlist];
-    HChatManager *chat = [HChatClient sharedClient].chatManager;
-    [chat getEmojiPackageListCompletion:^(NSArray<NSDictionary *> *emojiPackages, HError *error) {
+    HDChatManager *chat = [HDClient sharedClient].chatManager;
+    [chat getEmojiPackageListCompletion:^(NSArray<NSDictionary *> *emojiPackages, HDError *error) {
         if (error == nil) {
             NSMutableArray *hPackages = @[].mutableCopy;
             [self setEmojiValue:emojiPackages forKey:@"emojiPackages"];
@@ -279,7 +279,7 @@ static CSDemoAccountManager *_manager = nil;
                 [hPackages addObject:emojiPackage];
             }
             for (HEmojiPackage *package in hPackages) {
-                [chat getEmojisWithPackageId:package.packageId completion:^(NSArray<NSDictionary *> *emojis, HError *error) {
+                [chat getEmojisWithPackageId:package.packageId completion:^(NSArray<NSDictionary *> *emojis, HDError *error) {
                     if (error == nil) {
                         [self setEmojiValue:emojis forKey:[NSString stringWithFormat:@"emojis%@",package.packageId]];
                     }

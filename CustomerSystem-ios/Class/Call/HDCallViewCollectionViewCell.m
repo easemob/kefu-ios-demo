@@ -1,20 +1,20 @@
 //
-//  HCallViewCollectionViewCell.m
+//  HDCallViewCollectionViewCell.m
 //  testBitCode
 //
 //  Created by 杜洁鹏 on 2018/5/22.
 //  Copyright © 2018年 杜洁鹏. All rights reserved.
 //
 
-#import "HCallViewCollectionViewCell.h"
+#import "HDCallViewCollectionViewCell.h"
 
-@interface HCallViewCollectionViewCell ()
+@interface HDCallViewCollectionViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
 
 @end
 
-@implementation HCallViewCollectionViewCell
+@implementation HDCallViewCollectionViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -24,7 +24,7 @@
                                                object:nil];
 }
 
-- (void)setItem:(HCallViewCollectionViewCellItem *)item {
+- (void)setItem:(HDCallViewCollectionViewCellItem *)item {
     _item = item;
     self.avatarImageView.image = _item.defaultImage; // 可能需要用sdWebImage根据url设置
     self.avatarImageView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -61,7 +61,7 @@
 @end
 
 
-@implementation HCallViewCollectionViewCellItem
+@implementation HDCallViewCollectionViewCellItem
 
 - (instancetype)initWithAvatarURI:(NSString *)aUrl
                      defaultImage:(UIImage *)aImage

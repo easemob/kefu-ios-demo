@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8F1281F41F3C535A00E872CA /* HDBubbleView+Form.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */; };
-		8F6ACB2C1F41449100A5622B /* HFormWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */; };
+		8F6ACB2C1F41449100A5622B /* HDFormWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6ACB2B1F41449100A5622B /* HDFormWebViewController.m */; };
 		8FEEA5A020034A46008CD415 /* em_icon_local_video_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA59E20034A45008CD415 /* em_icon_local_video_off@2x.png */; };
 		8FEEA5A120034A46008CD415 /* em_icon_speaker_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA59F20034A45008CD415 /* em_icon_speaker_off@2x.png */; };
 		8FEEA5A420034A9A008CD415 /* em_icon_local_recard_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEEA5A220034A9A008CD415 /* em_icon_local_recard_off@2x.png */; };
@@ -18,10 +18,10 @@
 		902923012086167300C48454 /* Hyphenate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 902922FF2086167200C48454 /* Hyphenate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9078071B2087584700ED9324 /* HDMicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9078071A2087584700ED9324 /* HDMicView.m */; };
 		9084A0A02046BC42006F10FA /* HelpDeskUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9084A09F2046BC42006F10FA /* HelpDeskUIResource.bundle */; };
-		9086153320B43A54002E71DA /* HCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9086150B20B43A54002E71DA /* HCallViewController.xib */; };
-		9086153420B43A54002E71DA /* HCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9086150C20B43A54002E71DA /* HCallViewController.m */; };
-		9086153520B43A54002E71DA /* HCallViewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9086150D20B43A54002E71DA /* HCallViewCollectionViewCell.m */; };
-		9086153620B43A54002E71DA /* HCallViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9086150F20B43A54002E71DA /* HCallViewCollectionViewCell.xib */; };
+		9086153320B43A54002E71DA /* HDCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9086150B20B43A54002E71DA /* HDCallViewController.xib */; };
+		9086153420B43A54002E71DA /* HDCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9086150C20B43A54002E71DA /* HDCallViewController.m */; };
+		9086153520B43A54002E71DA /* HDCallViewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9086150D20B43A54002E71DA /* HDCallViewCollectionViewCell.m */; };
+		9086153620B43A54002E71DA /* HDCallViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9086150F20B43A54002E71DA /* HDCallViewCollectionViewCell.xib */; };
 		9086153720B43A54002E71DA /* shareDesktop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9086151120B43A54002E71DA /* shareDesktop@2x.png */; };
 		9086153820B43A54002E71DA /* record.png in Resources */ = {isa = PBXBuildFile; fileRef = 9086151220B43A54002E71DA /* record.png */; };
 		9086153920B43A54002E71DA /* on.png in Resources */ = {isa = PBXBuildFile; fileRef = 9086151320B43A54002E71DA /* on.png */; };
@@ -460,8 +460,8 @@
 /* Begin PBXFileReference section */
 		8F1281F21F3C535A00E872CA /* HDBubbleView+Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HDBubbleView+Form.h"; sourceTree = "<group>"; };
 		8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HDBubbleView+Form.m"; sourceTree = "<group>"; };
-		8F6ACB2A1F41449100A5622B /* HFormWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFormWebViewController.h; sourceTree = "<group>"; };
-		8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFormWebViewController.m; sourceTree = "<group>"; };
+		8F6ACB2A1F41449100A5622B /* HDFormWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDFormWebViewController.h; sourceTree = "<group>"; };
+		8F6ACB2B1F41449100A5622B /* HDFormWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDFormWebViewController.m; sourceTree = "<group>"; };
 		8FEEA59E20034A45008CD415 /* em_icon_local_video_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_local_video_off@2x.png"; sourceTree = "<group>"; };
 		8FEEA59F20034A45008CD415 /* em_icon_speaker_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_speaker_off@2x.png"; sourceTree = "<group>"; };
 		8FEEA5A220034A9A008CD415 /* em_icon_local_recard_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "em_icon_local_recard_off@2x.png"; sourceTree = "<group>"; };
@@ -471,12 +471,12 @@
 		907807192087584600ED9324 /* HDMicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMicView.h; sourceTree = "<group>"; };
 		9078071A2087584700ED9324 /* HDMicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMicView.m; sourceTree = "<group>"; };
 		9084A09F2046BC42006F10FA /* HelpDeskUIResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HelpDeskUIResource.bundle; sourceTree = "<group>"; };
-		9086150A20B43A54002E71DA /* HCallViewCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCallViewCollectionViewCell.h; sourceTree = "<group>"; };
-		9086150B20B43A54002E71DA /* HCallViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HCallViewController.xib; sourceTree = "<group>"; };
-		9086150C20B43A54002E71DA /* HCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCallViewController.m; sourceTree = "<group>"; };
-		9086150D20B43A54002E71DA /* HCallViewCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCallViewCollectionViewCell.m; sourceTree = "<group>"; };
-		9086150E20B43A54002E71DA /* HCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCallViewController.h; sourceTree = "<group>"; };
-		9086150F20B43A54002E71DA /* HCallViewCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HCallViewCollectionViewCell.xib; sourceTree = "<group>"; };
+		9086150A20B43A54002E71DA /* HDCallViewCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCallViewCollectionViewCell.h; sourceTree = "<group>"; };
+		9086150B20B43A54002E71DA /* HDCallViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HDCallViewController.xib; sourceTree = "<group>"; };
+		9086150C20B43A54002E71DA /* HDCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallViewController.m; sourceTree = "<group>"; };
+		9086150D20B43A54002E71DA /* HDCallViewCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallViewCollectionViewCell.m; sourceTree = "<group>"; };
+		9086150E20B43A54002E71DA /* HDCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCallViewController.h; sourceTree = "<group>"; };
+		9086150F20B43A54002E71DA /* HDCallViewCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HDCallViewCollectionViewCell.xib; sourceTree = "<group>"; };
 		9086151120B43A54002E71DA /* shareDesktop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareDesktop@2x.png"; sourceTree = "<group>"; };
 		9086151220B43A54002E71DA /* record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record.png; sourceTree = "<group>"; };
 		9086151320B43A54002E71DA /* on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = on.png; sourceTree = "<group>"; };
@@ -1128,12 +1128,12 @@
 		9086150920B43A54002E71DA /* Call */ = {
 			isa = PBXGroup;
 			children = (
-				9086150F20B43A54002E71DA /* HCallViewCollectionViewCell.xib */,
-				9086150A20B43A54002E71DA /* HCallViewCollectionViewCell.h */,
-				9086150D20B43A54002E71DA /* HCallViewCollectionViewCell.m */,
-				9086150B20B43A54002E71DA /* HCallViewController.xib */,
-				9086150E20B43A54002E71DA /* HCallViewController.h */,
-				9086150C20B43A54002E71DA /* HCallViewController.m */,
+				9086150F20B43A54002E71DA /* HDCallViewCollectionViewCell.xib */,
+				9086150A20B43A54002E71DA /* HDCallViewCollectionViewCell.h */,
+				9086150D20B43A54002E71DA /* HDCallViewCollectionViewCell.m */,
+				9086150B20B43A54002E71DA /* HDCallViewController.xib */,
+				9086150E20B43A54002E71DA /* HDCallViewController.h */,
+				9086150C20B43A54002E71DA /* HDCallViewController.m */,
 				9086151020B43A54002E71DA /* HCallResources */,
 			);
 			name = Call;
@@ -1898,8 +1898,8 @@
 				D3394AE41E54868D009370BF /* SatisfactionViewController.m */,
 				D3D87C121F3847C300FB7C84 /* HArticleWebViewController.h */,
 				D3D87C131F3847C300FB7C84 /* HArticleWebViewController.m */,
-				8F6ACB2A1F41449100A5622B /* HFormWebViewController.h */,
-				8F6ACB2B1F41449100A5622B /* HFormWebViewController.m */,
+				8F6ACB2A1F41449100A5622B /* HDFormWebViewController.h */,
+				8F6ACB2B1F41449100A5622B /* HDFormWebViewController.m */,
 				D29E09F71F4ECE5A0089506D /* HEvaluationTagView.h */,
 				D29E09F81F4ECE5A0089506D /* HEvaluationTagView.m */,
 			);
@@ -2543,7 +2543,7 @@
 				EB4B06E71AC685E900DCF67B /* chat_receiver_audio_playing_full.png in Resources */,
 				EB62E3BD1A8E0B8700705655 /* InfoPlist.strings in Resources */,
 				D20066461EF23274005B558D /* em_nav_ticket_select@2x.png in Resources */,
-				9086153320B43A54002E71DA /* HCallViewController.xib in Resources */,
+				9086153320B43A54002E71DA /* HDCallViewController.xib in Resources */,
 				D381B31A1F9F689E008DA2B7 /* loading.png in Resources */,
 				EB4B06F51AC685E900DCF67B /* chat_sender_bg.png in Resources */,
 				EB4B068D1AC685E900DCF67B /* VoiceSearchFeedback001.png in Resources */,
@@ -2694,7 +2694,7 @@
 				EB4B06851AC685E900DCF67B /* chatFire_audioPlaying0.png in Resources */,
 				D36621BA1F4E7D9F008EE9C4 /* power@2x.png in Resources */,
 				9086155320B43A54002E71DA /* shareDesktop.png in Resources */,
-				9086153620B43A54002E71DA /* HCallViewCollectionViewCell.xib in Resources */,
+				9086153620B43A54002E71DA /* HDCallViewCollectionViewCell.xib in Resources */,
 				EB4B068A1AC685E900DCF67B /* chatFire_audioPlaying2@2x.png in Resources */,
 				9086153B20B43A54002E71DA /* record off@2x.png in Resources */,
 				D34D6C751DEBF2FF0099EE23 /* message_comment@2x.png in Resources */,
@@ -2765,7 +2765,7 @@
 			files = (
 				D3CB64431E4888F30022A6BA /* HDAudioRecorderUtil.m in Sources */,
 				D3CB64641E4888F30022A6BA /* MWGridCell.m in Sources */,
-				9086153520B43A54002E71DA /* HCallViewCollectionViewCell.m in Sources */,
+				9086153520B43A54002E71DA /* HDCallViewCollectionViewCell.m in Sources */,
 				D3CB645D1E4888F30022A6BA /* MJRefreshStateHeader.m in Sources */,
 				D32FBEBE1ED55E6C00BA68D7 /* UIImageView+WebCache.m in Sources */,
 				D29E0A051F4FF90F0089506D /* HEvaluationDegreeModel.m in Sources */,
@@ -2867,7 +2867,7 @@
 				D3CB64A81E4888F30022A6BA /* HDBubbleView+Order.m in Sources */,
 				D3394EA61E559A3F009370BF /* HFileViewController.m in Sources */,
 				D3CB64921E4888F30022A6BA /* UIViewController+HDHUD.m in Sources */,
-				8F6ACB2C1F41449100A5622B /* HFormWebViewController.m in Sources */,
+				8F6ACB2C1F41449100A5622B /* HDFormWebViewController.m in Sources */,
 				D3CB64AB1E4888F30022A6BA /* HDBubbleView+Track.m in Sources */,
 				D32772321F33270D0059F1BB /* HDArticleView.m in Sources */,
 				D3CB64421E4888F30022A6BA /* HDAudioPlayerUtil.m in Sources */,
@@ -2876,7 +2876,7 @@
 				D3CB64901E4888F30022A6BA /* UIResponder+HRouter.m in Sources */,
 				D355796A1EE9517E00F6B54E /* DXTipView.m in Sources */,
 				D3CB64991E4888F30022A6BA /* HDConvertToCommonEmoticonsHelper.m in Sources */,
-				9086153420B43A54002E71DA /* HCallViewController.m in Sources */,
+				9086153420B43A54002E71DA /* HDCallViewController.m in Sources */,
 				D3CB64951E4888F30022A6BA /* HDEmotionEscape.m in Sources */,
 				D32FBEB61ED55E6C00BA68D7 /* SDWebImageDownloader.m in Sources */,
 				D3CB649C1E4888F30022A6BA /* HDMessageViewController.m in Sources */,

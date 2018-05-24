@@ -1,22 +1,22 @@
 //
-//  HCallViewController.m
+//  HDCallViewController.m
 //  testBitCode
 //
 //  Created by 杜洁鹏 on 2018/5/8.
 //  Copyright © 2018年 杜洁鹏. All rights reserved.
 //
 
-#import "HCallViewController.h"
-#import "HCallViewCollectionViewCell.h"
+#import "HDCallViewController.h"
+#import "HDCallViewCollectionViewCell.h"
 #import <HelpDesk/HelpDesk.h>
 
 #define kCamViewTag 100001
 
-@interface HCallViewController () <UICollectionViewDelegate, UICollectionViewDataSource, HCallManagerDelegate> {
+@interface HDCallViewController () <UICollectionViewDelegate, UICollectionViewDataSource, HDCallManagerDelegate> {
     NSMutableArray *_members; // 通话人
     NSTimer *_timer;
     NSInteger _time;
-    HCallViewCollectionViewCellItem *_currentItem;
+    HDCallViewCollectionViewCellItem *_currentItem;
 }
 @property (nonatomic, strong) NSString *agentName;
 
@@ -40,10 +40,10 @@
 
 @end
 
-@implementation HCallViewController
+@implementation HDCallViewController
 
-+ (HCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName {
-    HCallViewController *callVC = [[HCallViewController alloc] initWithNibName:@"HCallViewController" bundle:nil];
++ (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName {
+    HDCallViewController *callVC = [[HDCallViewController alloc] initWithNibName:@"HDCallViewController" bundle:nil];
     callVC.agentName = aAgentName;
     return callVC;
 }
@@ -59,22 +59,22 @@
     // 初始化数据源
     _members = [NSMutableArray array];
     // 设置第一个item的头像，昵称都为自己。
-    HCallViewCollectionViewCellItem *item = [[HCallViewCollectionViewCellItem alloc] initWithAvatarURI:@"url" defaultImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/user"] nickname:[CSDemoAccountManager shareLoginManager].nickname];
+    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:@"url" defaultImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/user"] nickname:[CSDemoAccountManager shareLoginManager].nickname];
     item.isSelected = YES; // 默认自己会被选中
     // 随机给一个memberNumber
     item.memberName = [NSString stringWithFormat:@"%f", [NSDate timeIntervalSinceReferenceDate]];
-    item.camView = [[HCallLocalView alloc] init]; // 自己的camView是HCallLocalView，其他人的是HCallRemoteView
+    item.camView = [[HDCallLocalView alloc] init]; // 自己的camView是HDCallLocalView，其他人的是HDCallRemoteView
     [_members addObject:item]; // 将自己的item添加到datasource中
     
     // 设置音视频 options
-    HCallOptions *options = [[HCallOptions alloc] init];
+    HDCallOptions *options = [[HDCallOptions alloc] init];
     options.videoOff = NO; // 这个值要和按钮状态统一。
     options.mute = NO; // 这个值要和按钮状态统一。
-    options.previewView = (HCallLocalView *)item.camView; // 设置自己视频时使用的view
-    [[HChatClient sharedClient].callManager setCallOptions:options];
+    options.previewView = (HDCallLocalView *)item.camView; // 设置自己视频时使用的view
+    [[HDClient sharedClient].callManager setCallOptions:options];
     
     // 添加监听
-    [HChatClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
+    [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     
     // 设置 ui
     [self.view setBackgroundColor:UIColor.blackColor];
@@ -94,7 +94,7 @@
 - (void)setupCollectionView {
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-    UINib *cellNib = [UINib nibWithNibName:@"HCallViewCollectionViewCell" bundle:nil];
+    UINib *cellNib = [UINib nibWithNibName:@"HDCallViewCollectionViewCell" bundle:nil];
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"cellid"];
 }
 
@@ -105,9 +105,9 @@
     view.frame = UIScreen.mainScreen.bounds;
 }
 
-// 根据HCallMember 创建cellItem
-- (HCallViewCollectionViewCellItem *)createCallerWithMember:(HCallMember *)aMember {
-    HCallViewCollectionViewCellItem *item = [[HCallViewCollectionViewCellItem alloc] initWithAvatarURI:aMember.extension[@"avatarUrl"] defaultImage:[UIImage imageNamed:@"default_customer_avatar"] nickname:aMember.extension[@"nickname"]];
+// 根据HDCallMember 创建cellItem
+- (HDCallViewCollectionViewCellItem *)createCallerWithMember:(HDCallMember *)aMember {
+    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:aMember.extension[@"avatarUrl"] defaultImage:[UIImage imageNamed:@"default_customer_avatar"] nickname:aMember.extension[@"nickname"]];
     item.memberName = aMember.memberName;
     return item;
 }
@@ -122,16 +122,16 @@
 // 旋转摄像头事件
 - (IBAction)camBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
-    [[HChatClient sharedClient].callManager switchCamera];
+    [[HDClient sharedClient].callManager switchCamera];
 }
 
 // 静音事件
 - (IBAction)muteBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     if (btn.selected) {
-        [[HChatClient sharedClient].callManager pauseVoice];
+        [[HDClient sharedClient].callManager pauseVoice];
     } else {
-        [[HChatClient sharedClient].callManager resumeVoice];
+        [[HDClient sharedClient].callManager resumeVoice];
     }
 }
 
@@ -139,9 +139,9 @@
 - (IBAction)videoBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     if (btn.selected) {
-        [[HChatClient sharedClient].callManager pauseVideo];
+        [[HDClient sharedClient].callManager pauseVideo];
     } else {
-        [[HChatClient sharedClient].callManager resumeVideo];
+        [[HDClient sharedClient].callManager resumeVideo];
     }
 }
 
@@ -158,7 +158,7 @@
 - (IBAction)shareDesktopBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     if(btn.selected){
-        [[HChatClient sharedClient].callManager publishWindow:self.view completion:^(id obj, HError * error) {
+        [[HDClient sharedClient].callManager publishWindow:self.view completion:^(id obj, HDError * error) {
             if(error){
                 NSLog(@"desktop shared fail, error: %@", error.errorDescription);
             }else{
@@ -166,7 +166,7 @@
             }
         }];
     }else{
-        [[HChatClient sharedClient].callManager unPublishWindowWithCompletion:^(id obj, HError * error) {
+        [[HDClient sharedClient].callManager unPublishWindowWithCompletion:^(id obj, HDError * error) {
             if(error){
                 NSLog(@" unpublish failed., error: %@", error.errorDescription);
             }else{
@@ -203,9 +203,9 @@
 - (IBAction)offBtnClicked:(id)sender
 {
     [self stopRing];
-    [[HChatClient sharedClient].callManager endCall];
-    self.callback(self, self.timeLabel.text);
+    [[HDClient sharedClient].callManager endCall];
     [self stopTimer];
+    self.callback(self, self.timeLabel.text);
 }
 
 // 应答事件
@@ -214,15 +214,15 @@
     [self.callinView setHidden:YES];
     [self.infoLabel setHidden:NO];
     [self.callingView setHidden:NO];
-    NSArray *hasJoined = [HChatClient.sharedClient.callManager hasJoinedMembers];
-    for (HCallMember *member in hasJoined) {
+    NSArray *hasJoined = [HDClient.sharedClient.callManager hasJoinedMembers];
+    for (HDCallMember *member in hasJoined) {
        [_members addObject:[self createCallerWithMember:member]];
     }
     [self setupCollectionView];
     [self updateInfoLabel];
     __weak typeof(self) weakSelf = self;
-    [[HChatClient sharedClient].callManager acceptCallWithNickname:self.agentName
-                                                        completion:^(id obj, HError *error)
+    [[HDClient sharedClient].callManager acceptCallWithNickname:self.agentName
+                                                        completion:^(id obj, HDError *error)
      {
          if (error == nil) {
              [weakSelf.timeLabel setHidden:NO];
@@ -271,7 +271,7 @@
 #pragma mark - UICollectionViewDelegate & UICollectionViewDataSource
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    HCallViewCollectionViewCell * cell  = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellid" forIndexPath:indexPath];
+    HDCallViewCollectionViewCell * cell  = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellid" forIndexPath:indexPath];
     cell.item = _members[indexPath.section];
     return cell;
 }
@@ -288,7 +288,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [[self.view viewWithTag:kCamViewTag] removeFromSuperview];
-    HCallViewCollectionViewCellItem *item = [_members objectAtIndex:indexPath.section];
+    HDCallViewCollectionViewCellItem *item = [_members objectAtIndex:indexPath.section];
     _currentItem = item;
     EMCallRemoteView *view = (EMCallRemoteView *)item.camView;
     view.scaleMode = self.screenBtn.selected ? EMCallViewScaleModeAspectFill : EMCallViewScaleModeAspectFit;
@@ -297,13 +297,13 @@
     [self.view sendSubviewToBack:view];
     view.tag = kCamViewTag;
     
-    HCallViewCollectionViewCell *cell = (HCallViewCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    HDCallViewCollectionViewCell *cell = (HDCallViewCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     [cell selected];
 }
 
 #pragma mark - Call
 // 成员加入回调
-- (void)onMemberJoin:(HCallMember *)member {
+- (void)onMemberJoin:(HDCallMember *)member {
     // 有 member 加入，添加到datasource中。
     [_members addObject: [self createCallerWithMember:member]];
     [self.collectionView reloadData];
@@ -311,10 +311,10 @@
 }
 
 // 成员离开回调
-- (void)onMemberExit:(HCallMember *)member {
+- (void)onMemberExit:(HDCallMember *)member {
     // 有 member 离开，清理datasource
-    HCallViewCollectionViewCellItem *currentItem = nil;
-    for (HCallViewCollectionViewCellItem *item in _members) {
+    HDCallViewCollectionViewCellItem *currentItem = nil;
+    for (HDCallViewCollectionViewCellItem *item in _members) {
         if ([item.memberName isEqualToString:member.memberName]) {
             currentItem = item;
             break;
@@ -332,10 +332,10 @@
 }
 
 // 视频流加入回调
-- (void)onStreamAdd:(HCallStream *)stream {
+- (void)onStreamAdd:(HDCallStream *)stream {
     // 有新视频流加入， 找到所属的member，设置remoteView
-    HCallViewCollectionViewCellItem *currentItem = nil;
-    for (HCallViewCollectionViewCellItem *member in _members) {
+    HDCallViewCollectionViewCellItem *currentItem = nil;
+    for (HDCallViewCollectionViewCellItem *member in _members) {
         if ([member.memberName isEqualToString:stream.memberName]) {
             currentItem = member;
             break;
@@ -347,22 +347,22 @@
     }
     
     if (!currentItem.camView) {
-        currentItem.camView = [[HCallRemoteView alloc] init];
+        currentItem.camView = [[HDCallRemoteView alloc] init];
     }
     
-    [[HChatClient sharedClient].callManager subscribeStreamId:stream.streamId
-                                                         view:(HCallRemoteView *)currentItem.camView
-                                                   completion:^(id obj, HError *error)
+    [[HDClient sharedClient].callManager subscribeStreamId:stream.streamId
+                                                         view:(HDCallRemoteView *)currentItem.camView
+                                                   completion:^(id obj, HDError *error)
     {
         
     }];
 }
 
 // 视频流离开回调
-- (void)onStreamRemove:(HCallStream *)stream {
+- (void)onStreamRemove:(HDCallStream *)stream {
     // 有视频流被移除， 找到所属的member，设置清空
-    HCallViewCollectionViewCellItem *currentItem = nil;
-    for (HCallViewCollectionViewCellItem *member in _members) {
+    HDCallViewCollectionViewCellItem *currentItem = nil;
+    for (HDCallViewCollectionViewCellItem *member in _members) {
         if ([member.memberName isEqualToString:stream.memberName]) {
             currentItem = member;
             break;
@@ -375,14 +375,14 @@
 }
 
 // 视频流更新回调
-- (void)onStreamUpdate:(HCallStream *)stream {
+- (void)onStreamUpdate:(HDCallStream *)stream {
     
 }
 
 // 结束回调
 - (void)onCallEndReason:(int)reason desc:(NSString *)desc {
-    self.callback(self, self.timeLabel.text);
     [self stopTimer];
+    self.callback(self, self.timeLabel.text);
 }
 
 @end

@@ -171,7 +171,7 @@ static HDMessageReadManager *detailInstance = nil;
             prevAudioModel.isMediaPlaying = NO;
             isPrepare = YES;
             if(![messageModel.message isListened]){
-                [[HChatClient sharedClient].chatManager setMessageListened:messageModel.message];
+                [[HDClient sharedClient].chatManager setMessageListened:messageModel.message];
             }
         }
         

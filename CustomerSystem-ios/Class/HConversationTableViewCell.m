@@ -67,7 +67,7 @@
     _titleLabel.frame = CGRectMake(CGRectGetMaxX(_headerImageView.frame) + 10, kMargin, self.frame.size.width - CGRectGetMaxX(_headerImageView.frame) - 2*kMargin - kTimeWidth, 19);
 }
 
-- (void)setModel:(HConversation *)model {
+- (void)setModel:(HDConversation *)model {
     NSInteger count = model.unreadMessagesCount;
     
     if (count == 0) {
@@ -104,7 +104,7 @@
         {
             EMTextMessageBody *body = (EMTextMessageBody*)model.latestMessage.body;
             content = body.text;
-            HExtMsgType extMsgType = [HMessageHelper getMessageExtType:model.latestMessage];
+            HExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.latestMessage];
             switch (extMsgType) {
                 case HExtRobotMenuMsg:
                     content = NSLocalizedString(@"robot_menu", @"[Robot Menu]");

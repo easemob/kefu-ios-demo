@@ -1,5 +1,5 @@
 //
-//  HFormWebViewController.h
+//  HDFormWebViewController.h
 //  CustomerSystem-ios
 //
 //  Created by 李玉召 on 14/08/2017.
@@ -15,7 +15,7 @@
 - (NSString *) imToken;
 @end
 
-@interface HFormWebViewController : UIViewController
+@interface HDFormWebViewController : UIViewController
 @property(nonatomic,strong) NSString *url;
 
 @end

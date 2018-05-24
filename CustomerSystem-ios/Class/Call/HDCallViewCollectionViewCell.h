@@ -1,5 +1,5 @@
 //
-//  HCallViewCollectionViewCell.h
+//  HDCallViewCollectionViewCell.h
 //  testBitCode
 //
 //  Created by 杜洁鹏 on 2018/5/22.
@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class HCallViewCollectionViewCellItem;
-@interface HCallViewCollectionViewCell : UICollectionViewCell
-@property (nonatomic, strong) HCallViewCollectionViewCellItem *item;
+@class HDCallViewCollectionViewCellItem;
+@interface HDCallViewCollectionViewCell : UICollectionViewCell
+@property (nonatomic, strong) HDCallViewCollectionViewCellItem *item;
 - (void)selected;
 @end
 
-@interface HCallViewCollectionViewCellItem : NSObject
+@interface HDCallViewCollectionViewCellItem : NSObject
 @property (nonatomic, strong) NSString *memberName; // Call中的属性，用于区分当前属于哪一个member
 @property (nonatomic, strong) NSString *avatarUrl;
 @property (nonatomic, strong) UIImage *defaultImage;

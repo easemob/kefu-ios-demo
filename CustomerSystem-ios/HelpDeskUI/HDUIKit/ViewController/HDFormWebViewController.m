@@ -1,20 +1,20 @@
 //
-//  HFormWebViewController.m
+//  HDFormWebViewController.m
 //  CustomerSystem-ios
 //
 //  Created by liyuzhao on 14/08/2017.
 //  Copyright © 2017 easemob. All rights reserved.
 //
 
-#import "HFormWebViewController.h"
+#import "HDFormWebViewController.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 
-@interface HFormWebViewController ()<UIWebViewDelegate, EasemobWebViewInterface>
+@interface HDFormWebViewController ()<UIWebViewDelegate, EasemobWebViewInterface>
 @property (nonatomic, strong) JSContext *jsContext;
 @property (nonatomic, strong) UIWebView *web;
 @end
 
-@implementation HFormWebViewController
+@implementation HDFormWebViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,7 +76,7 @@
 
 -(NSString *)imToken
 {
-    return [[HChatClient sharedClient] accessToken];
+    return [[HDClient sharedClient] accessToken];
 }
 
 

@@ -15,11 +15,11 @@
 
 //#import "EMSDK.h"
 
-@class HMessage;
+@class HDMessage;
 @protocol HDIMessageModel <NSObject>
 
 @property (nonatomic) CGFloat cellHeight;
-@property (strong, nonatomic, readonly) HMessage *message;
+@property (strong, nonatomic, readonly) HDMessage *message;
 @property (strong, nonatomic, readonly) NSString *messageId;
 @property (nonatomic, readonly) HMessageStatus messageStatus;
 @property (nonatomic, readonly) EMMessageBodyType bodyType;
@@ -56,6 +56,6 @@
 @property (strong, nonatomic) NSString *thumbnailFileURLPath;
 
 
-- (instancetype)initWithMessage:(HMessage *)message;
+- (instancetype)initWithMessage:(HDMessage *)message;
 
 @end

@@ -12,7 +12,7 @@
 
 @interface HConversationTableViewCell : UITableViewCell
 
-@property(nonatomic,strong) HConversation *model;
+@property(nonatomic,strong) HDConversation *model;
 
 @property (strong, nonatomic) UIImageView *headerImageView;
 

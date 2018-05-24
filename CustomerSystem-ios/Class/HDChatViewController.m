@@ -16,7 +16,7 @@
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
 #import "HDMessageReadManager.h"
-@interface HDChatViewController ()<UIAlertViewDelegate,HChatClientDelegate>
+@interface HDChatViewController ()<UIAlertViewDelegate,HDClientDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
@@ -48,7 +48,7 @@
     self.dataSource = self;
     self.visitorInfo = [self visitorInfo];
     
-    [[HChatClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
+    [[HDClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
     if ([_commodityInfo count] > 1) {
@@ -74,7 +74,7 @@
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
     [self stopAudioPlayingWithChangeCategory:YES];
     
-    HMessage *message = [HDSDKHelper videoInvitedMessageFormatWithText
+    HDMessage *message = [HDSDKHelper videoInvitedMessageFormatWithText
                          :NSLocalizedString(@"em_chat_invite_video_call", @"invite customer service making a video call")
                          toUser:self.conversation.conversationId];
     [message addContent:[self visitorInfo]];
@@ -109,7 +109,7 @@
     NSString *imageUrl = [info objectForKey:@"img_url"];
     NSString *itemUrl = [info objectForKey:@"item_url"];
     if ([self isOrder]) { //发送订单消息
-        HOrderInfo *ord = [HOrderInfo new];
+        HDOrderInfo *ord = [HDOrderInfo new];
         ord.title = title;
         ord.orderTitle = orderTitle;
         ord.price = price;
@@ -118,7 +118,7 @@
         ord.itemUrl = itemUrl;
         return ord;
     } else {
-        HVisitorTrack *vst = [HVisitorTrack new];
+        HDVisitorTrack *vst = [HDVisitorTrack new];
         vst.title = title;
         vst.price = price;
         vst.desc = desc;
@@ -133,9 +133,9 @@
 
 - (void)sendCommodityMessageWithInfo:(NSDictionary *)info
 {
-    HMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
+    HDMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
     if ([self isOrder]) {
-        HOrderInfo *od  = (HOrderInfo *)[self trackOrOrder];
+        HDOrderInfo *od  = (HDOrderInfo *)[self trackOrOrder];
         [message addContent:od];
         
         [message addContent:self.visitorInfo];
@@ -146,7 +146,7 @@
         [self _sendMessage:message];
         
     } else {
-        HVisitorTrack *vt = (HVisitorTrack *)[self trackOrOrder];
+        HDVisitorTrack *vt = (HDVisitorTrack *)[self trackOrOrder];
         [message addContent:vt];
         
         [message addContent:self.visitorInfo];
@@ -159,7 +159,7 @@
 }
 
 
-- (void)_insertTrackMessage:(HMessage *)message
+- (void)_insertTrackMessage:(HDMessage *)message
 {
     message.status = HMessageStatusSuccessed;
     [self addMessageToDataSource:message progress:nil];
@@ -173,7 +173,7 @@
 
 - (void)dealloc{
     NSLog(@"第二通道已经关闭");
-    [[HChatClient sharedClient].chatManager unbind];
+    [[HDClient sharedClient].chatManager unbind];
 }
 
 #pragma mark - setup subviews
@@ -251,7 +251,7 @@
 #pragma mark - HDMessageViewControllerDataSource
 // 设置消息页面右侧显示的昵称和头像
 - (id<HDIMessageModel>)messageViewController:(HDMessageViewController *)viewController
-                           modelForMessage:(HMessage *)message
+                           modelForMessage:(HDMessage *)message
 {
     id<HDIMessageModel> model = nil;
     model = [[HDMessageModel alloc] initWithMessage:message];

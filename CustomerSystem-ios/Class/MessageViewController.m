@@ -12,7 +12,7 @@
 #import "LeaveMessageCell.h"
 #import "LeaveMsgDetailViewController.h"
 
-@interface MessageViewController () <UITableViewDelegate,UITableViewDataSource,HChatDelegate,SRRefreshDelegate>
+@interface MessageViewController () <UITableViewDelegate,UITableViewDataSource,HDChatManagerDelegate,SRRefreshDelegate>
 {
     NSInteger   _page;
     NSInteger   _pageSize;
@@ -138,10 +138,10 @@
 }
 
 
-#pragma mark - HChatDelegate
+#pragma mark - HDChatManagerDelegate
 
 - (void)messagesDidReceive:(NSArray *)aMessages {
-    for (HMessage *message in aMessages) {
+    for (HDMessage *message in aMessages) {
         NSDictionary *ext = [self _getSafeDictionary:message.ext];
         if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
             LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"]];
@@ -266,7 +266,7 @@
 {
     __weak typeof(self) weakSelf = self;
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    [[[HChatClient sharedClient]leaveMsgManager] getLeaveMsgDetailWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:ticketId completion:^(id responseObject, NSError *error) {
+    [[[HDClient sharedClient]leaveMsgManager] getLeaveMsgDetailWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:ticketId completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             LeaveMsgDetailViewController *leaveMsgDetail = [[LeaveMsgDetailViewController alloc] initWithResponseObject:responseObject ticketId:ticketId];
             [weakSelf.navigationController pushViewController:leaveMsgDetail animated:YES];
@@ -293,7 +293,7 @@
 //    NSDictionary *parameters = @{@"size":@(_pageSize),@"page":@(_page),@"sort":@"updatedAt,desc"};
     __weak typeof(self) weakSelf = self;
     CSDemoAccountManager *lgm = [CSDemoAccountManager shareLoginManager];
-    [[[HChatClient sharedClient]leaveMsgManager] getLeaveMsgsWithProjectId:lgm.projectId targetUser:lgm.cname page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
+    [[[HDClient sharedClient]leaveMsgManager] getLeaveMsgsWithProjectId:lgm.projectId targetUser:lgm.cname page:_page pageSize:_pageSize completion:^(id responseObject, NSError *error) {
         if (!error) { //请求成功
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
                 if (_page == 0) {

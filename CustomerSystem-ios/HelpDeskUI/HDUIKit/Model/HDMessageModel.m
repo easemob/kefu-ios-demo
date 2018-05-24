@@ -20,7 +20,7 @@
 @synthesize body;
 @synthesize from;
 
-- (instancetype)initWithMessage:(HMessage *)message
+- (instancetype)initWithMessage:(HDMessage *)message
 {
     self = [super init];
     if (self) {
@@ -63,7 +63,7 @@
             case EMMessageBodyTypeText:
             {   EMTextMessageBody *textBody = (EMTextMessageBody *)_firstMessageBody;
                 NSString *didReceiveText = [HDConvertToCommonEmoticonsHelper convertToSystemEmoticons:textBody.text];
-                if ([HMessageHelper getMessageExtType:self.message] == HExtRobotMenuMsg) {
+                if ([HDMessageHelper getMessageExtType:self.message] == HExtRobotMenuMsg) {
                     didReceiveText = [HDMessageCell _getMessageContent:self.message];
                 }
                 self.text = didReceiveText;

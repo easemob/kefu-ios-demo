@@ -58,7 +58,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier model:model];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        if ([HMessageHelper getMessageExtType:model.message] != HExtArticleMsg) {
+        if ([HDMessageHelper getMessageExtType:model.message] != HExtArticleMsg) {
             _nameLabel = [[UILabel alloc] init];
             _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
             _nameLabel.backgroundColor = [UIColor clearColor];
@@ -78,7 +78,7 @@
 {
     [super layoutSubviews];
     _bubbleView.backgroundImageView.image = self.model.isSender ? self.sendBubbleBackgroundImage : self.recvBubbleBackgroundImage;
-    switch ([HMessageHelper getMessageExtType:self.model.message]) {
+    switch ([HDMessageHelper getMessageExtType:self.model.message]) {
         case HExtArticleMsg: {
             _bubbleView.backgroundImageView.image = nil;
             _bubbleView.backgroundImageView.layer.borderWidth = 0.5;
@@ -97,7 +97,7 @@
     }
     switch (self.model.bodyType) {
         case EMMessageBodyTypeText: {
-            HExtMsgType extMsgType = [HMessageHelper getMessageExtType:self.model.message];
+            HExtMsgType extMsgType = [HDMessageHelper getMessageExtType:self.model.message];
             switch (extMsgType) {
                 case HExtToCustomServiceMsg:
                 case HExtEvaluationMsg:
@@ -162,7 +162,7 @@
 
 - (void)configureLayoutConstraintsWithModel:(id<HDIMessageModel>)model
 {
-    if ([HMessageHelper getMessageExtType:model.message] == HExtArticleMsg) {
+    if ([HDMessageHelper getMessageExtType:model.message] == HExtArticleMsg) {
         [self configArticleConstraints];
     } else {
         if (model.isSender) {
