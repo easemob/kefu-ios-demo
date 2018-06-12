@@ -225,7 +225,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
     if ([[CSDemoAccountManager shareLoginManager] loginKefuSDK]) {
         HDPushOptions *HDOptions = [[HDClient sharedClient] getPushOptionsFromServerWithError:nil];
-        HDOptions.displayStyle = HPushDisplayStyleMessageSummary;
+        HDOptions.displayStyle = HDPushDisplayStyleMessageSummary;
         HDError *error =  [[HDClient sharedClient] updatePushOptionsToServer:HDOptions];
         NSLog(@" error:%@",error.errorDescription);
     }
@@ -422,7 +422,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     notification.fireDate = [NSDate date]; //触发通知的时间
     
-    if (options.displayStyle == HPushDisplayStyleMessageSummary) {
+    if (options.displayStyle == HDPushDisplayStyleMessageSummary) {
         id<HDIMessageModel> messageModel  = messages.firstObject;
         NSString *messageStr = nil;
         switch (messageModel.body.type) {
@@ -542,7 +542,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)onCallReceivedNickName:(NSString *)nickName {
     HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithAgentName:nickName];
     [self presentViewController:hdCallVC animated:YES completion:nil];
-    hdCallVC.callback = ^(HDCallViewController *callVC, NSString *timeStr) {
+    hdCallVC.hangUpCallback = ^(UIViewController *callVC, NSString *timeStr) {
         NSLog(@"通话时长: ---- %@",timeStr);
         [callVC dismissViewControllerAnimated:YES completion:nil];
     };

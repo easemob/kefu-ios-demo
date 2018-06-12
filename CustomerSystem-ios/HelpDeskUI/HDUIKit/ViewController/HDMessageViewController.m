@@ -50,6 +50,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) HDemoSaleType saleType;
 
+
 @end
 
 @implementation HDMessageViewController
@@ -751,7 +752,7 @@ typedef enum : NSUInteger {
         });
     };
     
-    [self.conversation loadMessagesStartFromId:messageId count:(int)count searchDirection:HMessageSearchDirectionUp completion:^(NSArray *aMessages, HDError *aError) {
+    [self.conversation loadMessagesStartFromId:messageId count:(int)count searchDirection:HDMessageSearchDirectionUp completion:^(NSArray *aMessages, HDError *aError) {
         if (!aError && [aMessages count]) {
             refresh(aMessages);
         }
@@ -1068,7 +1069,7 @@ typedef enum : NSUInteger {
 - (void)messageCellSelected:(id<HDIMessageModel>)model {
     switch (model.bodyType) {
         case EMMessageBodyTypeText: {
-            if([HDMessageHelper getMessageExtType:model.message] == HExtFormMsg){
+            if([HDMessageHelper getMessageExtType:model.message] == HDExtFormMsg){
                 [self _formMessageCellSelected:model];
             }
         }
@@ -1100,7 +1101,7 @@ typedef enum : NSUInteger {
 
 - (void)statusButtonSelcted:(id<HDIMessageModel>)model withMessageCell:(HDMessageCell*)messageCell
 {
-    if ((model.messageStatus != HMessageStatusFailed) && (model.messageStatus != HMessageStatusPending))
+    if ((model.messageStatus != HDMessageStatusFailed) && (model.messageStatus != HDMessageStatusPending))
     {
         return;
     }
@@ -1373,12 +1374,18 @@ typedef enum : NSUInteger {
     for (HDMessage *msg in reversedArray) {
         if (![msg.from isEqualToString:HDClient.sharedClient.currentUsername]) {
             model = [[HDMessageModel alloc] initWithMessage:msg];
+            break;
         }
-        break;
     }
     if (!model) {
         [self showHint:@"没有客服应答，暂时无法评价客服" duration:2.0];
         return;
+    }
+    
+    NSString *sessionId = nil;
+    id service_session = model.message.ext[@"service_session"];
+    if (service_session != [NSNull null]) {
+        sessionId = service_session[@"serviceSessionId"] == [NSNull null] ? nil : service_session[@"serviceSessionId"];
     }
     
     if (_isSendingEvaluateMessage) return;
@@ -1390,7 +1397,11 @@ typedef enum : NSUInteger {
             if (!error) {
                 SatisfactionViewController *vc = [[SatisfactionViewController alloc] init];
                 HDMessage *msg = model.message;
-                msg.ext = @{@"weichat":@{@"ctrlArgs":@{@"evaluationDegree":info[@"entities"],@"serviceSessionId":@""/* need serviceSessionId */}}};
+                NSMutableDictionary *ext = [[NSMutableDictionary alloc] initWithDictionary:@{@"weichat":@{@"ctrlArgs":@{@"evaluationDegree":info[@"entities"]}}}];
+                if (sessionId) {
+                    [ext setValue:sessionId forKey:@"serviceSessionId"];
+                }
+                msg.ext = ext;
                 vc.messageModel = [[HDMessageModel alloc] initWithMessage:msg];
                 vc.delegate = self;
                 [self.navigationController pushViewController:vc animated:YES];
@@ -1584,7 +1595,7 @@ typedef enum : NSUInteger {
         //Construct message model
         id<HDIMessageModel> model = nil;
         //接收的消息不能设置头像
-        BOOL isSender = message.direction == HMessageDirectionSend;
+        BOOL isSender = message.direction == HDMessageDirectionSend;
         if (isSender && _dataSource && [_dataSource respondsToSelector:@selector(messageViewController:modelForMessage:)]) {
             model = [_dataSource messageViewController:self modelForMessage:message];
         }
@@ -1728,7 +1739,7 @@ typedef enum : NSUInteger {
         arguments.sessionId = [ctrlArgs valueForKey:@"serviceSessionId"];
         HDControlMessage *hcont = [HDControlMessage new];
         hcont.arguments = arguments;
-        if ([HDMessageHelper getMessageExtType:message] == HExtToCustomServiceMsg) {
+        if ([HDMessageHelper getMessageExtType:message] == HDExtToCustomServiceMsg) {
             //发送透传消息
             HDMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId];
             [aHMessage addCompositeContent:hcont];
@@ -1922,7 +1933,7 @@ typedef enum : NSUInteger {
             if ([object isKindOfClass:[HDMessageModel class]]) {
                 id<HDIMessageModel> model = object;
                 if ([message.messageId isEqualToString:model.messageId]) {
-                    BOOL isSender = message.direction == HMessageDirectionSend;
+                    BOOL isSender = message.direction == HDMessageDirectionSend;
                     id<HDIMessageModel> newModel = nil;
                     if (isSender && _dataSource && [_dataSource respondsToSelector:@selector(messageViewController:modelForMessage:)])
                     {

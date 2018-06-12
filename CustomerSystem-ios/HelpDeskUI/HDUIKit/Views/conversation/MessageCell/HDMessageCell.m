@@ -148,7 +148,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     [self.contentView addSubview:_statusButton];
     
     UIEdgeInsets edge = isSender?_rightBubbleMargin:_leftBubbleMargin;
-    if ([HDMessageHelper getMessageExtType:model.message] == HExtArticleMsg) {
+    if ([HDMessageHelper getMessageExtType:model.message] == HDExtArticleMsg) {
         edge = UIEdgeInsetsMake(0, 0, 0, 0);
     }
     
@@ -156,7 +156,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     _bubbleView.translatesAutoresizingMaskIntoConstraints = NO;
     _bubbleView.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:_bubbleView];
-    if ([HDMessageHelper getMessageExtType:model.message] != HExtArticleMsg) {
+    if ([HDMessageHelper getMessageExtType:model.message] != HDExtArticleMsg) {
         _avatarView = [[UIImageView alloc] init];
         _avatarView.translatesAutoresizingMaskIntoConstraints = NO;
         _avatarView.backgroundColor = [UIColor yellowColor];
@@ -188,16 +188,16 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     } else {
         switch (messageType) {
             case EMMessageBodyTypeText: {
-                HExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
+                HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
                 switch (extMsgType) {
-                    case HExtTrackMsg:
+                    case HDExtTrackMsg:
                         [_bubbleView setupTrackBubbleView];
                         _bubbleView.delegate = self;
                         break;
-                    case HExtOrderMsg:
+                    case HDExtOrderMsg:
                         [_bubbleView setupOrderBubbleView];
                         break;
-                    case HExtRobotMenuMsg:
+                    case HDExtRobotMenuMsg:
                         if (model.isSender) {
                             [_bubbleView setupTextBubbleView];
                             _bubbleView.textLabel.font = _messageTextFont;
@@ -206,21 +206,21 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             [_bubbleView setupRobotMenuBubbleView];
                         }
                         break;
-                    case HExtArticleMsg:
+                    case HDExtArticleMsg:
                         [_bubbleView setupArticleuBubbleView];
                         break;
-                    case HExtFormMsg:
+                    case HDExtFormMsg:
                         [_bubbleView setupFormBubbleView];
                         _bubbleView.formTitleLabel.textColor = _messageFileNameColor;
                         _bubbleView.formDescLabel.font = _messageFileSizeFont;
                         break;
-                    case HExtToCustomServiceMsg:
+                    case HDExtToCustomServiceMsg:
                         [_bubbleView setupTransformBubbleView];
                         break;
-                    case HExtEvaluationMsg:
+                    case HDExtEvaluationMsg:
                         [_bubbleView setupEvaluateBubbleView];
                         break;
-                    case HExtBigExpressionMsg:  {
+                    case HDExtBigExpressionMsg:  {
                         [_bubbleView setupGifBubbleView];
                         break;
                     }
@@ -393,9 +393,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             case EMMessageBodyTypeText:
             {
                 _detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
-                HExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
+                HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
                 switch (extMsgType) {
-                    case HExtOrderMsg:
+                    case HDExtOrderMsg:
                     {
                         NSDictionary * itemDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"order"];
                         NSString *url = [itemDic objectForKey:@"img_url"];
@@ -408,7 +408,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         
                     }
                         break;
-                    case HExtTrackMsg:
+                    case HDExtTrackMsg:
                     {
                         NSDictionary * itemDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"track"];
                         NSString *imageName = [model.message.ext objectForKey:@"imageName"];
@@ -424,7 +424,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         _bubbleView.cusPriceLabel.text = [itemDic objectForKey:@"price"];
                     }
                         break;
-                    case HExtRobotMenuMsg:
+                    case HDExtRobotMenuMsg:
                     {
                         if (self.model.isSender) {
                             NSString *content = model.text;
@@ -455,7 +455,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         }
                     }
                         break;
-                    case HExtArticleMsg:
+                    case HDExtArticleMsg:
                     {
                         NSArray *articles = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"articles"];
                         NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
@@ -467,18 +467,18 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         [_bubbleView reloadArticleData];
                     }
                         break;
-                    case HExtEvaluationMsg:
+                    case HDExtEvaluationMsg:
                     {
                         _bubbleView.evaluateTitle.attributedText = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"satisfaction.message", @"please evaluate my service")];
                     }
                         break;
-                    case HExtToCustomServiceMsg: {
+                    case HDExtToCustomServiceMsg: {
                         _bubbleView.transTitle.attributedText = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
                         BOOL hasTransfer = [model.message.ext[kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer] boolValue];
                         [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer];
                     }
                         break;
-                    case HExtFormMsg:
+                    case HDExtFormMsg:
                     {
                         NSDictionary *msgTypeDic = [model.message.ext objectForKey:@"msgtype"];
                         _bubbleView.formIconView.image = [UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_item_form"];
@@ -488,7 +488,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         } @catch (NSException *ignored) {}
                     }
                         break;
-                    case HExtBigExpressionMsg: {
+                    case HDExtBigExpressionMsg: {
                         NSDictionary *msgTypeDic = [model.message.ext objectForKey:@"msgtype"];
                         NSDictionary *emojiDic = nil;
                         NSString *emojiUrl = nil;
@@ -659,15 +659,15 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         if (_bubbleView) {
             switch (_messageType) {
                 case EMMessageBodyTypeText: {
-                    HExtMsgType extMsgType = [HDMessageHelper getMessageExtType:_model.message];
+                    HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:_model.message];
                     switch (extMsgType) {
-                        case HExtOrderMsg:
+                        case HDExtOrderMsg:
                             [_bubbleView updateOrderMargin:_bubbleMargin];
                             break;
-                        case HExtTrackMsg:
+                        case HDExtTrackMsg:
                             [_bubbleView updateTrackMargin:_bubbleMargin];
                             break;
-                        case HExtRobotMenuMsg:
+                        case HDExtRobotMenuMsg:
                             if (_model.isSender) {
                                 [_bubbleView updateTextMargin:_bubbleMargin];
                             } else {
@@ -675,19 +675,19 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                                 [_bubbleView reloadData];
                             }
                             break;
-                        case HExtArticleMsg:
+                        case HDExtArticleMsg:
                             [_bubbleView updateArticleMargin:UIEdgeInsetsMake(0, 0, 0, 0)];
                             break;
-                        case HExtFormMsg:
+                        case HDExtFormMsg:
                             [_bubbleView updateFormMargin:_bubbleMargin];
                             break;
-                        case HExtToCustomServiceMsg:
+                        case HDExtToCustomServiceMsg:
                             [_bubbleView updateTransformMargin:_bubbleMargin];
                             break;
-                        case HExtEvaluationMsg:
+                        case HDExtEvaluationMsg:
                             [_bubbleView updateEvaluateMargin:_bubbleMargin];
                             break;
-                        case HExtBigExpressionMsg:
+                        case HDExtBigExpressionMsg:
                             [_bubbleView updateGifMargin:_bubbleMargin];
                             break;
                         default:
@@ -846,7 +846,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         }
         switch (_model.bodyType) {
             case EMMessageBodyTypeText: {
-                if ([HDMessageHelper getMessageExtType:_model.message] == HExtFormMsg) {
+                if ([HDMessageHelper getMessageExtType:_model.message] == HDExtFormMsg) {
                     if ([_delegate respondsToSelector:@selector(messageCellSelected:)]) {
                         [_delegate messageCellSelected:_model];
                     }
@@ -937,15 +937,15 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     if (model.isSender) {
         switch (model.bodyType) {
             case EMMessageBodyTypeText: {
-                HExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
+                HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
                 switch (extMsgType) {
-                    case HExtOrderMsg:
+                    case HDExtOrderMsg:
                         cellIdentifier = HDMessageCellIdentifierSendOrder;
                         break;
-                    case HExtTrackMsg:
+                    case HDExtTrackMsg:
                         cellIdentifier = HDMessageCellIdentifierSendTrack;
                         break;
-                    case HExtBigExpressionMsg:
+                    case HDExtBigExpressionMsg:
                         cellIdentifier = HDMessageCellIdentifierSendBigExpression;
                         break;
                     default:
@@ -976,30 +976,30 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     else{
         switch (model.bodyType) {
             case EMMessageBodyTypeText: {
-                HExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
+                HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
                 switch (extMsgType) {
-                    case HExtOrderMsg:
+                    case HDExtOrderMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvOrder;
                         break;
-                    case HExtTrackMsg:
+                    case HDExtTrackMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvTrack;
                         break;
-                    case HExtRobotMenuMsg:
+                    case HDExtRobotMenuMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvMenu;
                         break;
-                    case HExtArticleMsg:
+                    case HDExtArticleMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvArticle;
                         break;
-                    case HExtFormMsg:
+                    case HDExtFormMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvForm;
                         break;
-                    case HExtToCustomServiceMsg:
+                    case HDExtToCustomServiceMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvTransform;
                         break;
-                    case HExtEvaluationMsg:
+                    case HDExtEvaluationMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvEvaluate;
                         break;
-                    case HExtBigExpressionMsg:
+                    case HDExtBigExpressionMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvBigExpression;
                         break;
                     default:
@@ -1045,9 +1045,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     switch (model.bodyType) {
         case EMMessageBodyTypeText: {
             CGFloat tableWidth = 200-cell.bubbleMargin.left-cell.bubbleMargin.right;
-            HExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
+            HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
             switch (extMsgType) {
-                case HExtRobotMenuMsg:{
+                case HDExtRobotMenuMsg:{
                     NSDictionary *choiceDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"choice"];
                     NSArray *menu = [choiceDic objectForKey:@"list"];
                     NSString *menuTitle = [choiceDic objectForKey:@"title"];
@@ -1071,20 +1071,20 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     height += (topMargin + bottomMargin);
                     return height;
                 }
-                case HExtArticleMsg:{
+                case HDExtArticleMsg:{
                     NSArray *articles = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"articles"];
                     return [self getArticleCellHeight:articles];
                 }
-                case HExtTrackMsg:
+                case HDExtTrackMsg:
                     // 修改轨迹消息的高度
                     return 2*HDMessageCellPadding + kImageHeight + kTitleHeight + 60;
-                case HExtOrderMsg:
+                case HDExtOrderMsg:
                     return 2*HDMessageCellPadding + kImageHeight + 2*kTitleHeight + 20;
-                case HExtFormMsg:
+                case HDExtFormMsg:
                     return kImageHeight;
-                case HExtBigExpressionMsg:
+                case HDExtBigExpressionMsg:
                     return kBigExpressionHW;
-                case HExtToCustomServiceMsg:
+                case HDExtToCustomServiceMsg:
                 {
                     NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
                     CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth - 25, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
@@ -1092,7 +1092,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     height += 50;
                     return height;
                 }
-                case HExtEvaluationMsg:
+                case HDExtEvaluationMsg:
                 {
                     NSAttributedString *text = [[NSAttributedString alloc] initWithString: NSLocalizedString(@"satisfaction.message", @"please evaluate my service")];
                     CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth - 25, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];

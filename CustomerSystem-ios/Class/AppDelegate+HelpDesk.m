@@ -45,7 +45,10 @@
     apnsCertName = @"customer";
 #endif
     //注册kefu_sdk
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager]; 
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    [lgM setCname:@"kefuchannelimid_653864"];
+    [lgM setAppkey:@"1494171102061694#kefuchannelapp8019"];
+    [lgM setTenantId:@"228"];
     HDOptions *option = [[HDOptions alloc] init];
     option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;

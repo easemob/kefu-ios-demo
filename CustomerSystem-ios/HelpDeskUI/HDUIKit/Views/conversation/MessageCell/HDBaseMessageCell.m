@@ -58,7 +58,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier model:model];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        if ([HDMessageHelper getMessageExtType:model.message] != HExtArticleMsg) {
+        if ([HDMessageHelper getMessageExtType:model.message] != HDExtArticleMsg) {
             _nameLabel = [[UILabel alloc] init];
             _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
             _nameLabel.backgroundColor = [UIColor clearColor];
@@ -79,7 +79,7 @@
     [super layoutSubviews];
     _bubbleView.backgroundImageView.image = self.model.isSender ? self.sendBubbleBackgroundImage : self.recvBubbleBackgroundImage;
     switch ([HDMessageHelper getMessageExtType:self.model.message]) {
-        case HExtArticleMsg: {
+        case HDExtArticleMsg: {
             _bubbleView.backgroundImageView.image = nil;
             _bubbleView.backgroundImageView.layer.borderWidth = 0.5;
             _bubbleView.backgroundImageView.layer.masksToBounds = YES;
@@ -87,7 +87,7 @@
             _bubbleView.backgroundImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
             break;
         }
-        case HExtBigExpressionMsg: {
+        case HDExtBigExpressionMsg: {
             _bubbleView.backgroundImageView.image = nil;
             break;
         }
@@ -97,13 +97,13 @@
     }
     switch (self.model.bodyType) {
         case EMMessageBodyTypeText: {
-            HExtMsgType extMsgType = [HDMessageHelper getMessageExtType:self.model.message];
+            HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:self.model.message];
             switch (extMsgType) {
-                case HExtToCustomServiceMsg:
-                case HExtEvaluationMsg:
-                case HExtRobotMenuMsg:
-                case HExtOrderMsg:
-                case HExtTrackMsg:
+                case HDExtToCustomServiceMsg:
+                case HDExtEvaluationMsg:
+                case HDExtRobotMenuMsg:
+                case HDExtOrderMsg:
+                case HDExtTrackMsg:
                     [self removeConstraint:self.bubbleWithExtConstraint];
                     CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
                     self.bubbleWithExtConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + margin];
@@ -162,7 +162,7 @@
 
 - (void)configureLayoutConstraintsWithModel:(id<HDIMessageModel>)model
 {
-    if ([HDMessageHelper getMessageExtType:model.message] == HExtArticleMsg) {
+    if ([HDMessageHelper getMessageExtType:model.message] == HDExtArticleMsg) {
         [self configArticleConstraints];
     } else {
         if (model.isSender) {
@@ -277,21 +277,21 @@
     if (self.model.isSender) {
         _hasRead.hidden = YES;
         switch (self.model.messageStatus) {
-            case HMessageStatusPending:
+            case HDMessageStatusPending:
             {
                 _statusButton.hidden = YES;
                 [_activity setHidden:NO];
                 [_activity startAnimating];
             }
                 break;
-            case HMessageStatusDelivering:
+            case HDMessageStatusDelivering:
             {
                 _statusButton.hidden = YES;
                 [_activity setHidden:NO];
                 [_activity startAnimating];
             }
                 break;
-            case HMessageStatusSuccessed:
+            case HDMessageStatusSuccessed:
             {
                 _statusButton.hidden = YES;
                 [_activity stopAnimating];
@@ -301,7 +301,7 @@
             }
                 break;
             
-            case HMessageStatusFailed:
+            case HDMessageStatusFailed:
             {
                 [_activity stopAnimating];
                 [_activity setHidden:YES];

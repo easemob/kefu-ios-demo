@@ -22,7 +22,7 @@
 @property (strong, nonatomic, readonly) EMMessageBody *firstMessageBody;
 @property (strong, nonatomic, readonly) NSString *messageId;
 @property (nonatomic, readonly) EMMessageBodyType bodyType;
-@property (nonatomic, readonly) HMessageStatus messageStatus;
+@property (nonatomic, readonly) HDMessageStatus messageStatus;
 @property (nonatomic) BOOL isMessageRead;
 // if the current login user is message sender
 @property (nonatomic) BOOL isSender;

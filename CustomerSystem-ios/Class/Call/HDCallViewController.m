@@ -42,8 +42,20 @@
 
 @implementation HDCallViewController
 
++ (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName
+                                        hangUpCallBack:(HangUpCallback)callback{
+    HDCallViewController *callVC = [[HDCallViewController alloc]
+                                    initWithNibName:@"HDCallViewController"
+                                    bundle:nil];
+    callVC.agentName = aAgentName;
+    callVC.hangUpCallback = callback;
+    return callVC;
+}
+
 + (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName {
-    HDCallViewController *callVC = [[HDCallViewController alloc] initWithNibName:@"HDCallViewController" bundle:nil];
+    HDCallViewController *callVC = [[HDCallViewController alloc]
+                                    initWithNibName:@"HDCallViewController"
+                                    bundle:nil];
     callVC.agentName = aAgentName;
     return callVC;
 }
@@ -205,7 +217,9 @@
     [self stopRing];
     [[HDClient sharedClient].callManager endCall];
     [self stopTimer];
-    self.callback(self, self.timeLabel.text);
+    if (self.hangUpCallback) {
+        self.hangUpCallback(self, self.timeLabel.text);
+    }
 }
 
 // 应答事件
@@ -257,7 +271,7 @@
 
 - (void)updateTime {
     _time++;
-    self.timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",_time / 3600, (_time % 3600) / 60, _time % 60];
+    self.timeLabel.text = [NSString stringWithFormat:@"%02d:%02d:%02d",_time / 3600, (_time % 3600) / 60, _time % 60];
 }
 
 // 停止计时
@@ -382,7 +396,10 @@
 // 结束回调
 - (void)onCallEndReason:(int)reason desc:(NSString *)desc {
     [self stopTimer];
-    self.callback(self, self.timeLabel.text);
+    if (self.hangUpCallback) {
+        self.hangUpCallback(self, self.timeLabel.text);
+    }
 }
+
 
 @end

@@ -20,7 +20,6 @@
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
-    UIMenuItem *_transpondMenuItem;
 }
 
 @property (nonatomic) NSMutableDictionary *emotionDic;
@@ -161,7 +160,7 @@
 
 - (void)_insertTrackMessage:(HDMessage *)message
 {
-    message.status = HMessageStatusSuccessed;
+    message.status = HDMessageStatusSuccessed;
     [self addMessageToDataSource:message progress:nil];
     [self.conversation addMessage:message error:nil];
 }
@@ -388,6 +387,7 @@
     self.menuIndexPath = nil;
 }
 
+/*
 - (void)deleteMenuAction:(id)sender
 {
     if (self.menuIndexPath && self.menuIndexPath.row > 0) {
@@ -421,6 +421,7 @@
     }
     self.menuIndexPath = nil;
 }
+ */
 
 #pragma mark - private
 - (void)showMenuViewController:(UIView *)showInView

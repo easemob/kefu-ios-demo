@@ -28,7 +28,7 @@
         _message = message;
         _firstMessageBody = message.body;
         _isMediaPlaying = NO;
-        _isSender = message.direction == HMessageDirectionSend ? YES : NO;
+        _isSender = message.direction == HDMessageDirectionSend ? YES : NO;
         if (!_isSender) {
             NSDictionary *weichat = [message.ext objectForKey:@"weichat"];
             if (weichat) {
@@ -63,7 +63,7 @@
             case EMMessageBodyTypeText:
             {   EMTextMessageBody *textBody = (EMTextMessageBody *)_firstMessageBody;
                 NSString *didReceiveText = [HDConvertToCommonEmoticonsHelper convertToSystemEmoticons:textBody.text];
-                if ([HDMessageHelper getMessageExtType:self.message] == HExtRobotMenuMsg) {
+                if ([HDMessageHelper getMessageExtType:self.message] == HDExtRobotMenuMsg) {
                     didReceiveText = [HDMessageCell _getMessageContent:self.message];
                 }
                 self.text = didReceiveText;
@@ -153,7 +153,7 @@
     return _message.messageId;
 }
 
-- (HMessageStatus)messageStatus
+- (HDMessageStatus)messageStatus
 {
     return _message.status;
 }

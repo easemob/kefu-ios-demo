@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface HDCallViewController : UIViewController
-@property (nonatomic, copy) void (^callback)(HDCallViewController *callVC, NSString *timeStr);
+typedef void (^HangUpCallback)(HDCallViewController *callVC, NSString *timeStr);
+@property (nonatomic, copy) HangUpCallback hangUpCallback;
 
 // 根据被叫初始化HDCallVC
++ (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName
+                                        hangUpCallBack:(HangUpCallback)callback;
+
 + (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName;
 
 @end
