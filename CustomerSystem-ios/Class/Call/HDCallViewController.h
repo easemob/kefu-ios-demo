@@ -12,10 +12,30 @@
 typedef void (^HangUpCallback)(HDCallViewController *callVC, NSString *timeStr);
 @property (nonatomic, copy) HangUpCallback hangUpCallback;
 
-// 根据被叫初始化HDCallVC
+/*!
+ *  \~chinese
+ *  初始化被叫页面
+ *
+ *  @param aAgentName  主叫坐席名称
+ *  @param aAvatarStr  被叫(自己)头像名称
+ *  @param aNickname   被叫(自己)昵称
+ *  @param callback    呼叫结束后回调
+ */
 + (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName
+                                             avatarStr:(NSString *)aAvatarStr
+                                              nickName:(NSString *)aNickname
                                         hangUpCallBack:(HangUpCallback)callback;
 
-+ (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName;
+/*!
+ *  \~chinese
+ *  初始化被叫页面
+ *
+ *  @param aAgentName  主叫坐席名称
+ *  @param aAvatarStr  被叫(自己)头像名称
+ *  @param aNickname   被叫(自己)昵称
+ */
++ (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName
+                                             avatarStr:(NSString *)aAvatarStr
+                                              nickName:(NSString *)aNickname;
 
 @end

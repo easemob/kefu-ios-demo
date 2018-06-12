@@ -19,6 +19,8 @@
     HDCallViewCollectionViewCellItem *_currentItem;
 }
 @property (nonatomic, strong) NSString *agentName;
+@property (nonatomic, strong) NSString *avatarStr;
+@property (nonatomic, strong) NSString *nickname;
 
 @property (weak, nonatomic) IBOutlet UIView *callingView; // 通话中展示的view
 @property (weak, nonatomic) IBOutlet UIView *callinView;  // 呼入时展示的view
@@ -43,20 +45,28 @@
 @implementation HDCallViewController
 
 + (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName
+                                             avatarStr:(NSString *)aAvatarStr
+                                              nickName:(NSString *)aNickname
                                         hangUpCallBack:(HangUpCallback)callback{
     HDCallViewController *callVC = [[HDCallViewController alloc]
                                     initWithNibName:@"HDCallViewController"
                                     bundle:nil];
     callVC.agentName = aAgentName;
+    callVC.avatarStr = aAvatarStr;
+    callVC.nickname = aNickname;
     callVC.hangUpCallback = callback;
     return callVC;
 }
 
-+ (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName {
++ (HDCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName
+                                             avatarStr:(NSString *)aAvatarStr
+                                              nickName:(NSString *)aNickname {
     HDCallViewController *callVC = [[HDCallViewController alloc]
                                     initWithNibName:@"HDCallViewController"
                                     bundle:nil];
     callVC.agentName = aAgentName;
+    callVC.avatarStr = aAvatarStr;
+    callVC.nickname = aNickname;
     return callVC;
 }
 
@@ -71,7 +81,7 @@
     // 初始化数据源
     _members = [NSMutableArray array];
     // 设置第一个item的头像，昵称都为自己。
-    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:@"url" defaultImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/user"] nickname:[CSDemoAccountManager shareLoginManager].nickname];
+    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:@"url" defaultImage:[UIImage imageNamed:self.avatarStr] nickname:self.nickname];
     item.isSelected = YES; // 默认自己会被选中
     // 随机给一个memberNumber
     item.memberName = [NSString stringWithFormat:@"%f", [NSDate timeIntervalSinceReferenceDate]];
@@ -131,7 +141,7 @@
     }
 }
 
-// 旋转摄像头事件
+// 切换摄像头事件
 - (IBAction)camBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     [[HDClient sharedClient].callManager switchCamera];
@@ -271,7 +281,7 @@
 
 - (void)updateTime {
     _time++;
-    self.timeLabel.text = [NSString stringWithFormat:@"%02d:%02d:%02d",_time / 3600, (_time % 3600) / 60, _time % 60];
+    self.timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02d",_time / 3600, (_time % 3600) / 60, _time % 60];
 }
 
 // 停止计时
