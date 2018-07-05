@@ -1382,7 +1382,7 @@ typedef enum : NSUInteger {
         return;
     }
     
-    NSString *sessionId = nil;
+    __block NSString *sessionId = nil;
     id service_session = model.message.ext[@"service_session"];
     if (service_session != [NSNull null]) {
         sessionId = service_session[@"serviceSessionId"] == [NSNull null] ? nil : service_session[@"serviceSessionId"];
@@ -1390,26 +1390,41 @@ typedef enum : NSUInteger {
     
     if (_isSendingEvaluateMessage) return;
     [self showHudInView:self.view hint:@"获取中..."];
-    [HDClient.sharedClient.chatManager asyncFetchEvaluationDegreeInfoWithCompletion:^(NSDictionary *info, HDError *error)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self hideHud];
-            if (!error) {
-                SatisfactionViewController *vc = [[SatisfactionViewController alloc] init];
-                HDMessage *msg = model.message;
-                NSMutableDictionary *ext = [[NSMutableDictionary alloc] initWithDictionary:@{@"weichat":@{@"ctrlArgs":@{@"evaluationDegree":info[@"entities"]}}}];
-                if (sessionId) {
-                    [ext setValue:sessionId forKey:@"serviceSessionId"];
-                }
-                msg.ext = ext;
-                vc.messageModel = [[HDMessageModel alloc] initWithMessage:msg];
-                vc.delegate = self;
-                [self.navigationController pushViewController:vc animated:YES];
-            }else {
-                [self showHint:@"获取评价信息失败"];
-            }
+    if (!sessionId) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+            [HDClient.sharedClient.chatManager asyncFetchSessionWithConversationId:self.conversation.conversationId
+                                                                       sessionType:HSessionType_Processing
+                                                                        completion:^(NSArray *sessions, HDError *error)
+             {
+                 sessionId = sessions.firstObject;
+                 dispatch_semaphore_signal(semaphore);
+             }];
+            
+            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         });
-    }];
+        
+        [HDClient.sharedClient.chatManager asyncFetchEvaluationDegreeInfoWithCompletion:^(NSDictionary *info, HDError *error)
+         {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [self hideHud];
+                 if (!error) {
+                     SatisfactionViewController *vc = [[SatisfactionViewController alloc] init];
+                     HDMessage *msg = model.message;
+                     NSMutableDictionary *ext = [[NSMutableDictionary alloc] initWithDictionary:@{@"weichat":@{@"ctrlArgs":@{@"evaluationDegree":info[@"entities"]}}}];
+                     if (sessionId) {
+                         [ext setValue:sessionId forKey:@"serviceSessionId"];
+                     }
+                     msg.ext = ext;
+                     vc.messageModel = [[HDMessageModel alloc] initWithMessage:msg];
+                     vc.delegate = self;
+                     [self.navigationController pushViewController:vc animated:YES];
+                 }else {
+                     [self showHint:@"获取评价信息失败"];
+                 }
+             });
+         }];
+    }
 }
 
 #pragma mark - EMLocationViewDelegate
@@ -1679,6 +1694,7 @@ typedef enum : NSUInteger {
 
 - (void)_sendMessage:(HDMessage *)aMessage
 {
+    
     [self addMessageToDataSource:aMessage
                         progress:nil];
     
@@ -1700,6 +1716,7 @@ typedef enum : NSUInteger {
 
 - (void)sendTextMessage:(NSString *)text
 {
+    
     [self sendTextMessage:text withExt:nil];
 }
 
@@ -1804,7 +1821,6 @@ typedef enum : NSUInteger {
     [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
         [self hideHud];
         if (!aError) {
-            NSLog(@"message.ext--%@", message.ext);
             [weakself.tableView reloadData];
             [weakself showHint:NSLocalizedString(@"comment_suc", @"Add comment successful.")];
         } else {
@@ -1846,6 +1862,7 @@ typedef enum : NSUInteger {
     if (ext) {
         [message addAttributeDictionary:ext];
     }
+
     [self _sendMessage:message];
 }
 

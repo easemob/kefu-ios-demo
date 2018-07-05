@@ -42,9 +42,6 @@
 
 + (HDMessage *)customMagicEmojiMessageWithOriginUrl:(NSString *)url to:(NSString *)toUser;
 
-+ (HDMessage *)videoInvitedMessageFormatWithText:(NSString *)text
-                                         toUser:(NSString *)toUser;
-
 + (HDMessage *)imageMessageWithImageData:(NSData *)imageData
                                      to:(NSString *)to
                              messageExt:(NSDictionary *)messageExt;

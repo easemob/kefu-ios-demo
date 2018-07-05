@@ -281,7 +281,7 @@
 
 - (void)updateTime {
     _time++;
-    self.timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02d",_time / 3600, (_time % 3600) / 60, _time % 60];
+    self.timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",_time / 3600, (_time % 3600) / 60, _time % 60];
 }
 
 // 停止计时

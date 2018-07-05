@@ -145,12 +145,6 @@ static HDSDKHelper *helper = nil;
     return message;
 }
 
-
-+ (HDMessage *)videoInvitedMessageFormatWithText:(NSString *)text toUser:(NSString *)toUser {
-    HDMessage *message = [HDMessage createVideoInviteSendMessageWithContent:text to:toUser];
-    return message;
-}
-
 //构造image消息体
 + (HDMessage *)imageMessageWithImageData:(NSData *)imageData
                                           to:(NSString *)to

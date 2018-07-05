@@ -543,10 +543,10 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithAgentName:nickName
                                                                               avatarStr:@"HelpDeskUIResource.bundle/user"
                                                                                nickName:[CSDemoAccountManager shareLoginManager].nickname];
-    [self presentViewController:hdCallVC animated:YES completion:nil];
     hdCallVC.hangUpCallback = ^(UIViewController *callVC, NSString *timeStr) {
         NSLog(@"通话时长: ---- %@",timeStr);
         [callVC dismissViewControllerAnimated:YES completion:nil];
     };
+    [self presentViewController:hdCallVC animated:YES completion:nil];
 }
 @end

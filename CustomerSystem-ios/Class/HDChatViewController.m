@@ -73,9 +73,7 @@
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
     [self stopAudioPlayingWithChangeCategory:YES];
     
-    HDMessage *message = [HDSDKHelper videoInvitedMessageFormatWithText
-                         :NSLocalizedString(@"em_chat_invite_video_call", @"invite customer service making a video call")
-                         toUser:self.conversation.conversationId];
+    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content:@"邀请客服进行实时视频"];
     [message addContent:[self visitorInfo]];
     [self _sendMessage:message];
 }
