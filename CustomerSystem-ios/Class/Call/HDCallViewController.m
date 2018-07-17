@@ -73,7 +73,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 监听屏幕旋转
-    [[NSNotificationCenter defaultCenter]addObserver:self
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                             selector:@selector(handleStatusBarOrientationChange)
                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
                                               object:nil];
@@ -329,9 +329,11 @@
 // 成员加入回调
 - (void)onMemberJoin:(HDCallMember *)member {
     // 有 member 加入，添加到datasource中。
-    [_members addObject: [self createCallerWithMember:member]];
-    [self.collectionView reloadData];
-    [self updateInfoLabel];
+    if (!self.callingView.isHidden) { // 只有在已经通话中的情况下，才回去在ui加入，否则都在接听时加入。
+        [_members addObject: [self createCallerWithMember:member]];
+        [self.collectionView reloadData];
+        [self updateInfoLabel];
+    }
 }
 
 // 成员离开回调
