@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSString *nickname;
 @property (nonatomic, strong) UIView *camView;
 @property (nonatomic, assign) BOOL isSelected;
+@property (nonatomic, strong) NSMutableArray *handleStreams;
 
 - (instancetype)initWithAvatarURI:(NSString *)aUrl
                      defaultImage:(UIImage *)aImage

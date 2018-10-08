@@ -74,4 +74,12 @@
     
     return self;
 }
+
+- (NSMutableArray *)handleStreams {
+    if (!_handleStreams) {
+        _handleStreams = [NSMutableArray array];
+    }
+    
+    return _handleStreams;
+}
 @end

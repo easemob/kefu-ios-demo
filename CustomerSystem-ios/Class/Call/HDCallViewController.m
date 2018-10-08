@@ -372,16 +372,43 @@
         return; // 如果没有找到，return
     }
     
+    
+    HDCallStream *oldStream = currentItem.handleStreams.firstObject;
+    if (oldStream) {
+        [[HDClient sharedClient].callManager updateSubscribeStreamId:oldStream.streamId
+                                                                view:nil
+                                                          completion:nil];
+    }
+    
+    BOOL _hasStream = NO;
+    for (HDCallStream *st in currentItem.handleStreams) {
+        if ([st.streamId isEqualToString:stream.streamId]) {
+            _hasStream = YES;
+            break;
+        }
+    }
+    
+    if (!_hasStream) {
+        [currentItem.handleStreams addObject:stream];
+    }
+    
     if (!currentItem.camView) {
         currentItem.camView = [[HDCallRemoteView alloc] init];
     }
     
     [[HDClient sharedClient].callManager subscribeStreamId:stream.streamId
-                                                         view:(HDCallRemoteView *)currentItem.camView
-                                                   completion:^(id obj, HDError *error)
-    {
-        
-    }];
+                                                      view:(HDCallRemoteView *)currentItem.camView
+                                                completion:^(id obj, HDError *error) {
+                                                    if ([_currentItem.memberName isEqualToString:currentItem.memberName]) {
+                                                        [[self.view viewWithTag:kCamViewTag] removeFromSuperview];
+                                                        EMCallRemoteView *view = (EMCallRemoteView *)currentItem.camView;
+                                                        view.scaleMode = self.screenBtn.selected ? EMCallViewScaleModeAspectFill : EMCallViewScaleModeAspectFit;
+                                                        view.frame = UIScreen.mainScreen.bounds;
+                                                        [self.view addSubview:view];
+                                                        [self.view sendSubviewToBack:view];
+                                                        view.tag = kCamViewTag;
+                                                    }
+                                                }];
 }
 
 // 视频流离开回调
@@ -395,14 +422,46 @@
         }
     }
     
-    if (!currentItem.camView) {
-        currentItem.camView = nil;
+    
+    HDCallStream *curStream = nil;
+    for (HDCallStream *tmpStream in currentItem.handleStreams) {
+        if ([tmpStream.streamId isEqualToString:stream.streamId]) {
+            curStream = tmpStream;
+            break;
+        }
+    }
+   
+    if (curStream) {
+        [currentItem.handleStreams removeObject:curStream];
+        [[HDClient sharedClient].callManager updateSubscribeStreamId:curStream.streamId
+                                                                view:nil
+                                                          completion:nil];
+        
+    }
+    
+    if (currentItem.handleStreams.firstObject) {
+        currentItem.camView = [[HDCallRemoteView alloc] init];
+        HDCallStream *needUpdateStream = currentItem.handleStreams.firstObject;
+        [[HDClient sharedClient].callManager unSubscribeStreamId:needUpdateStream.streamId completion:nil];
+        [[HDClient sharedClient].callManager subscribeStreamId:needUpdateStream.streamId
+                                                                view:(HDCallRemoteView *)currentItem.camView
+                                                          completion:^(id obj, HDError *error) {
+                                                              if ([_currentItem.memberName isEqualToString:currentItem.memberName]) {
+                                                                  [[self.view viewWithTag:kCamViewTag] removeFromSuperview];
+                                                                  EMCallRemoteView *view = (EMCallRemoteView *)currentItem.camView;
+                                                                  view.scaleMode = self.screenBtn.selected ? EMCallViewScaleModeAspectFill : EMCallViewScaleModeAspectFit;
+                                                                  view.frame = UIScreen.mainScreen.bounds;
+                                                                  [self.view addSubview:view];
+                                                                  [self.view sendSubviewToBack:view];
+                                                                  view.tag = kCamViewTag;
+                                                              }
+                                                          }];
     }
 }
 
 // 视频流更新回调
 - (void)onStreamUpdate:(HDCallStream *)stream {
-    
+
 }
 
 // 结束回调
