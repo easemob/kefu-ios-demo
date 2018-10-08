@@ -67,7 +67,7 @@
     _titleLabel.frame = CGRectMake(CGRectGetMaxX(_headerImageView.frame) + 10, kMargin, self.frame.size.width - CGRectGetMaxX(_headerImageView.frame) - 2*kMargin - kTimeWidth, 19);
 }
 
-- (void)setModel:(HConversation *)model {
+- (void)setModel:(HDConversation *)model {
     NSInteger count = model.unreadMessagesCount;
     
     if (count == 0) {
@@ -104,27 +104,27 @@
         {
             EMTextMessageBody *body = (EMTextMessageBody*)model.latestMessage.body;
             content = body.text;
-            HExtMsgType extMsgType = [HMessageHelper getMessageExtType:model.latestMessage];
+            HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.latestMessage];
             switch (extMsgType) {
-                case HExtRobotMenuMsg:
+                case HDExtRobotMenuMsg:
                     content = NSLocalizedString(@"robot_menu", @"[Robot Menu]");
                     break;
-                case HExtOrderMsg:
+                case HDExtOrderMsg:
                     content = NSLocalizedString(@"order_menu", @"[Order Menu]");
                     break;
-                case HExtTrackMsg:
+                case HDExtTrackMsg:
                     content = NSLocalizedString(@"track_message", @"[Track Message]");
                     break;
-                case HExtEvaluationMsg:
+                case HDExtEvaluationMsg:
                     content = NSLocalizedString(@"evaluation_of_invitation", @"[Evaluation Invitation]");
                     break;
-                case HExtArticleMsg:
+                case HDExtArticleMsg:
                     content = NSLocalizedString(@"graphic_message", @"[Graphic Message]");
                     break;
-                case HExtFormMsg:
+                case HDExtFormMsg:
                     content = NSLocalizedString(@"form_message", @"[Form Message]");
                     break;
-                case HExtBigExpressionMsg:
+                case HDExtBigExpressionMsg:
                     content = NSLocalizedString(@"big_expression", "[Emoji]");
                     break;
                 default:{

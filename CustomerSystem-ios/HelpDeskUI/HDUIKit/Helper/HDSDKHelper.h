@@ -26,7 +26,7 @@
 #define kSDKConfigEnableConsoleLogger @"SDKConfigEnableConsoleLogger"
 #define kEaseUISDKConfigIsUseLite @"isUselibHyphenateClientSDKLite"
 
-@interface HDSDKHelper : NSObject<HChatClientDelegate>
+@interface HDSDKHelper : NSObject<HDClientDelegate>
 
 @property (nonatomic) BOOL isShowingimagePicker;
 
@@ -35,31 +35,28 @@
 + (instancetype)shareHelper;
 
 #pragma mark - send message new
-+ (HMessage *)cmdMessageFormatTo:(NSString *)to;
++ (HDMessage *)cmdMessageFormatTo:(NSString *)to;
 
-+ (HMessage *)textHMessageFormatWithText:(NSString *)text
++ (HDMessage *)textHMessageFormatWithText:(NSString *)text
                                       to:(NSString *)toUser;
 
-+ (HMessage *)customMagicEmojiMessageWithOriginUrl:(NSString *)url to:(NSString *)toUser;
++ (HDMessage *)customMagicEmojiMessageWithOriginUrl:(NSString *)url to:(NSString *)toUser;
 
-+ (HMessage *)videoInvitedMessageFormatWithText:(NSString *)text
-                                         toUser:(NSString *)toUser;
-
-+ (HMessage *)imageMessageWithImageData:(NSData *)imageData
++ (HDMessage *)imageMessageWithImageData:(NSData *)imageData
                                      to:(NSString *)to
                              messageExt:(NSDictionary *)messageExt;
 
-+ (HMessage *)imageMessageWithImage:(UIImage *)image
++ (HDMessage *)imageMessageWithImage:(UIImage *)image
                                      to:(NSString *)to
                              messageExt:(NSDictionary *)messageExt;
 
-+ (HMessage *)locationHMessageWithLatitude:(double)latitude
++ (HDMessage *)locationHMessageWithLatitude:(double)latitude
                                  longitude:(double)longitude
                                    address:(NSString *)address
                                         to:(NSString *)to
                                 messageExt:(NSDictionary *)messageExt;
 
-+ (HMessage *)voiceMessageWithLocalPath:(NSString *)localPath
++ (HDMessage *)voiceMessageWithLocalPath:(NSString *)localPath
                                duration:(int)duration
                                      to:(NSString *)to
                              messageExt:(NSDictionary *)messageExt;

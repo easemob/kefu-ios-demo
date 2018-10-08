@@ -66,7 +66,7 @@
 
 - (void)logoutHD {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        HError *error = [HChatClient.sharedClient logout:YES];
+        HDError *error = [HDClient.sharedClient logout:YES];
         if (error == nil) {
             NSLog(@"登出成功");
         } else {
@@ -94,7 +94,7 @@
     if (![_tenantId isEqualToString:[dic valueForKey:@"tenantId"]]) {
         _tenantId = [dic valueForKey:@"tenantid"];
         _lgM.tenantId = _tenantId;
-        [[HChatClient  sharedClient] changeTenantId:_tenantId];
+        [[HDClient  sharedClient] changeTenantId:_tenantId];
     }
     _cname = [dic valueForKey:@"imservicenum"];
     _projectId = [dic valueForKey:@"projectId"];

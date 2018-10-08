@@ -54,7 +54,7 @@ typedef NS_ENUM(NSInteger, HDemoSaleType){
 
 - (void)messageViewController:(HDMessageViewController *)viewController
    didFailSendingMessageModel:(id<HDIMessageModel>)messageModel
-                        error:(HError *)error;
+                        error:(HDError *)error;
 
 - (void)messageViewController:(HDMessageViewController *)viewController
     didSelectAvatarMessageModel:(id<HDIMessageModel>)messageModel;
@@ -90,7 +90,7 @@ typedef NS_ENUM(NSInteger, HDemoSaleType){
                              count:(NSInteger)count;
 
 - (id<HDIMessageModel>)messageViewController:(HDMessageViewController *)viewController
-                           modelForMessage:(HMessage *)message;
+                           modelForMessage:(HDMessage *)message;
 
 - (BOOL)messageViewController:(HDMessageViewController *)viewController
    canLongPressRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -118,7 +118,7 @@ typedef NS_ENUM(NSInteger, HDemoSaleType){
 
 @property (nonatomic, assign) id<HDMessageViewControllerDataSource> dataSource;
 
-@property (nonatomic, strong) HConversation *conversation;
+@property (nonatomic, strong) HDConversation *conversation;
 
 @property (nonatomic) NSTimeInterval messageTimeIntervalTag;
 
@@ -146,11 +146,11 @@ typedef NS_ENUM(NSInteger, HDemoSaleType){
 
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 
-@property (nonatomic, strong) HVisitorInfo *visitorInfo; //访客信息
+@property (nonatomic, strong) HDVisitorInfo *visitorInfo; //访客信息
 
-@property (nonatomic, strong) HAgentIdentityInfo *agent; //指定客服
+@property (nonatomic, strong) HDAgentIdentityInfo *agent; //指定客服
 
-@property (nonatomic, strong) HQueueIdentityInfo *queueInfo; //指定技能组
+@property (nonatomic, strong) HDQueueIdentityInfo *queueInfo; //指定技能组
 
 @property (nonatomic, strong)UILabel *visitorWaitCountLabel;
 
@@ -161,7 +161,7 @@ typedef NS_ENUM(NSInteger, HDemoSaleType){
 
 - (void)sendTextMessage:(NSString *)text;
 
-- (void)_sendMessage:(HMessage *)message;
+- (void)_sendMessage:(HDMessage *)message;
 
 - (void)sendTextMessage:(NSString *)text withExt:(NSDictionary*)ext;
 
@@ -176,7 +176,7 @@ typedef NS_ENUM(NSInteger, HDemoSaleType){
 
 - (void)sendVideoMessageWithURL:(NSURL *)url;
 
--(void)addMessageToDataSource:(HMessage *)message
+-(void)addMessageToDataSource:(HDMessage *)message
                      progress:(id)progress;
 
 -(void)showMenuViewController:(UIView *)showInView

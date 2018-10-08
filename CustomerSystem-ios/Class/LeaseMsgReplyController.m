@@ -253,7 +253,7 @@ const NSInteger baseTag=123;
             __weak MBProgressHUD *weakHud = hud;
             CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
             //此方法只为演示用，用户应把录制的附件放到自己服务器，环信服务器不存储留言的附件
-            [[[HChatClient sharedClient] leaveMsgManager] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
+            [[[HDClient sharedClient] leaveMsgManager] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {
                     [weakHud hide:YES];
                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -478,7 +478,7 @@ const NSInteger baseTag=123;
             
             CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
             ////此方法只为演示用，用户应把录制的附件放到自己服务器，环信服务器不存储留言的附件
-            [[[HChatClient sharedClient] leaveMsgManager] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
+            [[[HDClient sharedClient] leaveMsgManager] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
                 if (!error) {
                     [weakHud hide:YES];
                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -570,7 +570,7 @@ const NSInteger baseTag=123;
             LeaveMsgAttatchmentView *view = (LeaveMsgAttatchmentView *)tap.view;
             _currentAnimationView = view;
             kWeakSelf
-            [[[HChatClient sharedClient] leaveMsgManager] downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
+            [[[HDClient sharedClient] leaveMsgManager] downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
                 if (!error) {
                     NSString *toPath = [NSString stringWithFormat:@"%@/%ld.wav",NSTemporaryDirectory(),tap.view.tag];
                     BOOL success = [[HDCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];

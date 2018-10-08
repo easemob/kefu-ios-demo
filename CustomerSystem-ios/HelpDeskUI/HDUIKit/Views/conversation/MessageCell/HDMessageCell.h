@@ -119,7 +119,7 @@ typedef enum{
 
 + (CGFloat)cellHeightWithModel:(id<HDIMessageModel>)model;
 
-+ (NSString*)_getMessageContent:(HMessage*)message;
++ (NSString*)_getMessageContent:(HDMessage*)message;
 
 @end
 

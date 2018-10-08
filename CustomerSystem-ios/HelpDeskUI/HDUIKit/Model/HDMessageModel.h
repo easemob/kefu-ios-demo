@@ -18,11 +18,11 @@
 
 @property (nonatomic) CGFloat cellHeight;
 
-@property (strong, nonatomic, readonly) HMessage *message;
+@property (strong, nonatomic, readonly) HDMessage *message;
 @property (strong, nonatomic, readonly) EMMessageBody *firstMessageBody;
 @property (strong, nonatomic, readonly) NSString *messageId;
 @property (nonatomic, readonly) EMMessageBodyType bodyType;
-@property (nonatomic, readonly) HMessageStatus messageStatus;
+@property (nonatomic, readonly) HDMessageStatus messageStatus;
 @property (nonatomic) BOOL isMessageRead;
 // if the current login user is message sender
 @property (nonatomic) BOOL isSender;
@@ -55,6 +55,6 @@
 @property (strong, nonatomic) NSString *thumbnailFileURLPath;
 
 
-- (instancetype)initWithMessage:(HMessage *)message;
+- (instancetype)initWithMessage:(HDMessage *)message;
 
 @end

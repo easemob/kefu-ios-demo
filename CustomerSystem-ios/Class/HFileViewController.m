@@ -149,9 +149,9 @@
             }
             [self showHudInView:self.view hint:[NSString stringWithFormat:@"%@...",NSLocalizedString(@"in_the_download", @"In the download")]];
             
-            [[HChatClient sharedClient].chatManager downloadAttachment:model.message progress:^(int progress) {
+            [[HDClient sharedClient].chatManager downloadAttachment:model.message progress:^(int progress) {
                 
-            } completion:^(HMessage *message, HError *error) {
+            } completion:^(HDMessage *message, HDError *error) {
                 [self hideHud];
                 if (!error) { //成功
                     [_downloadButton setTitle:NSLocalizedString(@"have_downloaded", @"Have downloaded") forState:UIControlStateNormal];

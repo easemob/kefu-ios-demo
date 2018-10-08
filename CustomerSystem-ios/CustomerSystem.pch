@@ -24,7 +24,6 @@
 
 #import "SVProgressHUD.h"
 
-
 #define fKeyWindow [UIApplication sharedApplication].keyWindow
 #define fUserDefaults [NSUserDefaults standardUserDefaults]
 
@@ -40,12 +39,5 @@
 #define kMesssageExtWeChat_ctrlArgs_serviceSessionId @"serviceSessionId"
 #define kMesssageExtWeChat_ctrlArgs_detail @"detail"
 #define kMesssageExtWeChat_ctrlArgs_summary @"summary"
-
-
-#pragma mark - 三方音视频
-#import "HDCallLocalView.h"
-#import "HDCallRemoteView.h"
-#import "HDCallManager.h"
-
 
 #endif

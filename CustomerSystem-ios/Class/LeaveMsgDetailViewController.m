@@ -18,7 +18,7 @@
 #import <objc/runtime.h>
 #import "CustomButton.h"
 
-@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate,SCAudioPlayDelegate,LeaseMsgReplyControllerDelegate,HChatDelegate>
+@interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate,SCAudioPlayDelegate,LeaseMsgReplyControllerDelegate,HDChatManagerDelegate>
 {
     id _responseObject;
     NSString *_ticketId;
@@ -82,13 +82,13 @@
 - (void)registNotification
 {
     [self unregistNotification];
-    [[HChatClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
+    [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 //    [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
 }
 
 - (void)unregistNotification
 {
-    [[HChatClient sharedClient].chatManager removeDelegate:self];
+    [[HDClient sharedClient].chatManager removeDelegate:self];
 }
 
 - (void)dealloc
@@ -295,7 +295,7 @@
 - (void)didSelectAudioAttachment:(LeaveMsgAttachmentModel *)attachment touchImage:(LeaveMsgAttatchmentView *)attatchmentView {
     _touchView = attatchmentView;
     kWeakSelf
-    [[[HChatClient sharedClient] leaveMsgManager] downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
+    [[[HDClient sharedClient] leaveMsgManager] downloadFileWithUrl:attachment.url completionHander:^(BOOL success, NSURL *filePath, NSError *error) {
         if (!error) {
             NSString *toPath = [NSString stringWithFormat:@"%@/%d.wav",NSTemporaryDirectory(),123];
             BOOL success = [[HDCDDeviceManager new] convertAMR:[filePath path] toWAV:toPath];
@@ -362,7 +362,7 @@
 {
     __weak typeof(self) weakSelf = self;
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    [[[HChatClient sharedClient] leaveMsgManager]getLeaveMsgCommentsWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:_ticketId page:0 pageSize:100 completion:^(id responseObject, NSError *error) {
+    [[[HDClient sharedClient] leaveMsgManager]getLeaveMsgCommentsWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:_ticketId page:0 pageSize:100 completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             [weakSelf loadDataArray:responseObject];
         }
@@ -385,10 +385,10 @@
     [self scrollViewToBottom:YES];
 }
 //
-#pragma mark - HChatDelegate
+#pragma mark - HDChatManagerDelegate
 
 - (void)messagesDidReceive:(NSArray *)aMessages {
-    for (HMessage *message in aMessages) {
+    for (HDMessage *message in aMessages) {
         NSDictionary *ext = [self _getSafeDictionary:message.ext];
         if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
             NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];
@@ -455,7 +455,7 @@
         
     }
     Creator *ctr=[Creator new];
-    ctr.identity =  [HChatClient sharedClient].currentUsername;
+    ctr.identity =  [HDClient sharedClient].currentUsername;
     ctr.name = model.comment.creator.name ? model.comment.creator.name:lgM.nickname;
     ctr.email = @"afanda@163.com";
     ctr.phone = @"110119120";
@@ -471,7 +471,7 @@
     
     LeaveMsgCommentModel *comment = [[LeaveMsgCommentModel alloc] initWithDictionary:parameters];
     __weak typeof(self) weakSelf = self;
-    [[[HChatClient sharedClient]leaveMsgManager] createLeaveMsgCommentWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:_ticketId requestBody:body completion:^(id responseObject, NSError *error) {
+    [[[HDClient sharedClient]leaveMsgManager] createLeaveMsgCommentWithProjectId:lgM.projectId targetUser:lgM.cname ticketId:_ticketId requestBody:body completion:^(id responseObject, NSError *error) {
         if (error == nil) {
             comment.updated_at = [responseObject objectForKey:@"updated_at"];
             comment.created_at = [responseObject objectForKey:@"created_at"];

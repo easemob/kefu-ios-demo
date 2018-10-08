@@ -57,7 +57,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    HConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
+    HDConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
     HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:conversation.conversationId];
     [self.navigationController pushViewController:chat animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -71,8 +71,8 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) { //删除
         NSArray *datas = self.dataSource;
-        HConversation *conv = [datas objectAtIndex:indexPath.row];
-        BOOL delete = [[HChatClient sharedClient].chatManager deleteConversation:conv.conversationId deleteMessages:NO];
+        HDConversation *conv = [datas objectAtIndex:indexPath.row];
+        BOOL delete = [[HDClient sharedClient].chatManager deleteConversation:conv.conversationId deleteMessages:NO];
         if (delete) {
             [self refreshData];
         }
@@ -82,9 +82,9 @@
 #pragma mark - refreshData
 
 - (void)refreshData {
-    NSArray *hConversations = [[HChatClient sharedClient].chatManager loadAllConversations];
+    NSArray *hConversations = [[HDClient sharedClient].chatManager loadAllConversations];
     long badgeValue = 0;
-    for (HConversation *conv in hConversations) {
+    for (HDConversation *conv in hConversations) {
         badgeValue += conv.unreadMessagesCount;
     }
     NSString *badge = nil;

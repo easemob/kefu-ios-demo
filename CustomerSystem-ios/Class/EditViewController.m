@@ -153,7 +153,7 @@
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     lgM.tenantId = _editField.text;
     NSLog(@"new tenantId :%@",lgM.tenantId);
-    [[HChatClient sharedClient] changeTenantId:lgM.tenantId];
+    [[HDClient sharedClient] changeTenantId:lgM.tenantId];
 }
 
 -(void)keyBoardHidden:(UITapGestureRecognizer *)tapRecognizer

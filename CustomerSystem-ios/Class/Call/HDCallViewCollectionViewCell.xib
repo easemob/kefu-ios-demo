@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14105" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="HDCallViewCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="78" height="96"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="78" height="96"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VNC-N7-VEs">
+                        <rect key="frame" x="7" y="0.0" width="64" height="64"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="64" id="HSE-co-5Xf"/>
+                            <constraint firstAttribute="width" constant="64" id="KTU-iF-cFR"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="32"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5J-Xb-fCY">
+                        <rect key="frame" x="0.0" y="74" width="78" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="zj5-VZ-8K8"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="K5J-Xb-fCY" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="0lD-Pf-qz0"/>
+                <constraint firstItem="VNC-N7-VEs" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="NKB-37-hHL"/>
+                <constraint firstAttribute="bottom" secondItem="K5J-Xb-fCY" secondAttribute="bottom" constant="5" id="gQC-8b-vdx"/>
+                <constraint firstItem="VNC-N7-VEs" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="lBT-p0-6vk"/>
+                <constraint firstAttribute="trailing" secondItem="K5J-Xb-fCY" secondAttribute="trailing" id="uCK-Ii-peA"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
+            <connections>
+                <outlet property="avatarImageView" destination="VNC-N7-VEs" id="wkJ-fV-uL1"/>
+                <outlet property="nicknameLabel" destination="K5J-Xb-fCY" id="eN8-ZD-iNc"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+</document>

@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate (HelpDesk)<UIAlertViewDelegate,HChatClientDelegate>
+@interface AppDelegate (HelpDesk)<UIAlertViewDelegate,HDClientDelegate>
 - (void)easemobApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 - (void)resetCustomerServiceSDK;

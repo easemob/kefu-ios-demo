@@ -72,12 +72,12 @@ static HDSDKHelper *helper = nil;
 
 - (void)appDidEnterBackgroundNotif:(NSNotification*)notif
 {
-    [[HChatClient sharedClient] applicationDidEnterBackground:notif.object];
+    [[HDClient sharedClient] applicationDidEnterBackground:notif.object];
 }
 
 - (void)appWillEnterForeground:(NSNotification*)notif
 {
-    [[HChatClient sharedClient] applicationWillEnterForeground:notif.object];
+    [[HDClient sharedClient] applicationWillEnterForeground:notif.object];
 }
 
 #pragma mark - register apns
@@ -126,37 +126,31 @@ static HDSDKHelper *helper = nil;
 #pragma mark - send message new
 
 //构造cmd消息
-+ (HMessage *)cmdMessageFormatTo:(NSString *)to{
++ (HDMessage *)cmdMessageFormatTo:(NSString *)to{
     EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"TransferToKf"];
-    NSString *from = [[HChatClient sharedClient] currentUsername];
-    HMessage *message = [[HMessage alloc] initWithConversationID:to from:from to:to body:body];
+    NSString *from = [[HDClient sharedClient] currentUsername];
+    HDMessage *message = [[HDMessage alloc] initWithConversationID:to from:from to:to body:body];
     return message;
 }
 
 //构造text消息体
-+ (HMessage *)textHMessageFormatWithText:(NSString *)text
++ (HDMessage *)textHMessageFormatWithText:(NSString *)text
                                       to:(NSString *)toUser{
-    HMessage *message = [HMessage createTxtSendMessageWithContent:text to:toUser];
+    HDMessage *message = [HDMessage createTxtSendMessageWithContent:text to:toUser];
     return message;
 }
 
-+ (HMessage *)customMagicEmojiMessageWithOriginUrl:(NSString *)url to:(NSString *)toUser {
-    HMessage *message = [HMessage createBigExpressionSendMessageWithUrl:url to:toUser];
-    return message;
-}
-
-
-+ (HMessage *)videoInvitedMessageFormatWithText:(NSString *)text toUser:(NSString *)toUser {
-    HMessage *message = [HMessage createVideoInviteSendMessageWithContent:text to:toUser];
++ (HDMessage *)customMagicEmojiMessageWithOriginUrl:(NSString *)url to:(NSString *)toUser {
+    HDMessage *message = [HDMessage createBigExpressionSendMessageWithUrl:url to:toUser];
     return message;
 }
 
 //构造image消息体
-+ (HMessage *)imageMessageWithImageData:(NSData *)imageData
++ (HDMessage *)imageMessageWithImageData:(NSData *)imageData
                                           to:(NSString *)to
                                   messageExt:(NSDictionary *)messageExt
 {
-    HMessage *message = [HMessage createImageSendMessageWithData:imageData displayName:@"image" to:to];
+    HDMessage *message = [HDMessage createImageSendMessageWithData:imageData displayName:@"image.jpg" to:to];
     if(messageExt){
         [message addAttributeDictionary:messageExt];
     }
@@ -164,34 +158,36 @@ static HDSDKHelper *helper = nil;
 }
 
 //构造image
-+ (HMessage *)imageMessageWithImage:(UIImage *)image
++ (HDMessage *)imageMessageWithImage:(UIImage *)image
                                       to:(NSString *)to
                               messageExt:(NSDictionary *)messageExt
 {
-    HMessage *message = [HMessage createImageSendMessageWithImage:image to:to];
+    HDMessage *message = [HDMessage createImageSendMessageWithImage:image
+                                                      displayName:@"image.jpg"
+                                                               to:to];
     if (messageExt) {
         [message addAttributeDictionary:messageExt];
     }
     return message;
 }
 //构造语音消息
-+ (HMessage *)voiceMessageWithLocalPath:(NSString *)localPath
++ (HDMessage *)voiceMessageWithLocalPath:(NSString *)localPath
                                duration:(int)duration
                                      to:(NSString *)to
                              messageExt:(NSDictionary *)messageExt
 {
-    HMessage *message = [HMessage createVoiceSendMessageWithLocalPath:localPath duration:duration to:to];
+    HDMessage *message = [HDMessage createVoiceSendMessageWithLocalPath:localPath duration:duration to:to];
     return message;
 }
 
 //构造地理位置消息
-+ (HMessage *)locationHMessageWithLatitude:(double)latitude
++ (HDMessage *)locationHMessageWithLatitude:(double)latitude
                                      longitude:(double)longitude
                                        address:(NSString *)address
                                             to:(NSString *)to
                                     messageExt:(NSDictionary *)messageExt
 {
-    HMessage *message = [HMessage createLocationSendMessageWithLatitude:latitude longitude:longitude address:address to:to];
+    HDMessage *message = [HDMessage createLocationSendMessageWithLatitude:latitude longitude:longitude address:address to:to];
     if (messageExt) {
         [message addAttributeDictionary:messageExt];
     }

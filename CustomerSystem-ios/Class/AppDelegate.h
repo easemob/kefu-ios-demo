@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #import "HomeViewController.h"
-//#import "HChatClientDelegate.h"
+//#import "HDClientDelegate.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, HChatClientDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, HDClientDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
