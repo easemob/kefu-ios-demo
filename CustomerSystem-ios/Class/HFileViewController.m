@@ -123,7 +123,6 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"not_support_preview_files", @"Such systems do not support preview files") delegate:nil cancelButtonTitle:NSLocalizedString(@"know_the", @"Know The") otherButtonTitles:nil];
         [alert show];
     }
-    
 }
 
 - (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {

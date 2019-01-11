@@ -66,16 +66,19 @@
         self.dataSource = self;
      之后执行，所以super类中不再调用load消息相关的方法，放到子类中调用。
      */
+    
     [self tableViewDidTriggerHeaderRefresh];
 }
 
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
-    [self stopAudioPlayingWithChangeCategory:YES];
-    
-    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content:@"邀请客服进行实时视频"];
-    [message addContent:[self visitorInfo]];
-    [self _sendMessage:message];
+    [HDClient.sharedClient.chatManager getEnterpriseWelcomeWithCompletion:^(NSString *welcome, HDError *error) {
+        NSLog(@" --- %@",welcome);
+    }];
+//    [self stopAudioPlayingWithChangeCategory:YES];
+//    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content:@"邀请客服进行实时视频"];
+//    [message addContent:[self visitorInfo]];
+//    [self _sendMessage:message];
 }
 
 // 留言
