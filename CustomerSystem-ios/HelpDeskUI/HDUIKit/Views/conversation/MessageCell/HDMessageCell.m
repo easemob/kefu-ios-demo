@@ -67,11 +67,6 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     EMMessageBodyType _messageType;
 }
 
-@property (nonatomic) NSLayoutConstraint *statusWidthConstraint;
-@property (nonatomic) NSLayoutConstraint *activtiyWidthConstraint;
-@property (nonatomic) NSLayoutConstraint *hasReadWidthConstraint;
-@property (nonatomic) NSLayoutConstraint *bubbleMaxWidthConstraint;
-
 @end
 
 @implementation HDMessageCell
@@ -235,7 +230,6 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             case EMMessageBodyTypeImage:
             {
                 [_bubbleView setupImageBubbleView];
-                
                 _bubbleView.imageView.image = [UIImage imageNamed:@"HelpDeskUIResource.bundle/imageDownloadFail"];
             }
                 break;
@@ -309,36 +303,35 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     if ([self.deleteTrackMsgdelegate respondsToSelector:@selector(transmitDelegateTrackMessage:sendButton:)]) {
         [self.deleteTrackMsgdelegate transmitDelegateTrackMessage:_model sendButton:sendButton];
     }
-    
 }
 
 #pragma mark - Setup Constraints
 
 - (void)_setupConstraints
 {
-    //bubble view
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-HDMessageCellPadding]];
+    [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-HDMessageCellPadding);
+        make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
+    }];
+
+    [self.statusButton mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(self.statusSize);
+        make.height.equalTo(self.statusButton.mas_width);
+        make.centerY.equalTo(self.contentView.mas_centerY).offset(0);
+    }];
     
-    self.bubbleMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.bubbleMaxWidth];
-    [self addConstraint:self.bubbleMaxWidthConstraint];
-    //    self.bubbleMaxWidthConstraint.active = YES;
-    
-    //status button
-    self.statusWidthConstraint = [NSLayoutConstraint constraintWithItem:self.statusButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.statusSize];
-    [self addConstraint:self.statusWidthConstraint];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.statusButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.statusButton attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.statusButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-    
-    //activtiy
-    self.activtiyWidthConstraint = [NSLayoutConstraint constraintWithItem:self.activity attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.activitySize];
-    [self addConstraint:self.activtiyWidthConstraint];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.activity attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.activity attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.activity attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    [self.activity mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(self.activitySize);
+        make.width.equalTo(self.activity.mas_height);
+        make.centerY.equalTo(self.contentView.mas_centerY).offset(0);
+    }];
     
     [self _updateHasReadWidthConstraint];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.statusButton attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
-    //    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.activity attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+
+    [self.hasRead mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.contentView.mas_centerY).offset(0);
+        make.height.equalTo(self.statusButton.mas_width).offset(0);
+    }];
 }
 
 #pragma mark - Update Constraint
@@ -346,39 +339,35 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 - (void)_updateHasReadWidthConstraint
 {
     if (_hasRead) {
-        [self removeConstraint:self.hasReadWidthConstraint];
-        
-        self.hasReadWidthConstraint = [NSLayoutConstraint constraintWithItem:_hasRead attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:40];
-        [self addConstraint:self.hasReadWidthConstraint];
+        [_hasRead mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(40);
+        }];
     }
 }
 
 - (void)_updateStatusButtonWidthConstraint
 {
     if (_statusButton) {
-        [self removeConstraint:self.statusWidthConstraint];
-        
-        self.statusWidthConstraint = [NSLayoutConstraint constraintWithItem:self.statusButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:self.statusSize];
-        [self addConstraint:self.statusWidthConstraint];
+        [self.statusButton mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(self.statusSize);
+        }];
     }
 }
 
 - (void)_updateActivityWidthConstraint
 {
     if (_activity) {
-        [self removeConstraint:self.activtiyWidthConstraint];
-        
-        self.statusWidthConstraint = [NSLayoutConstraint constraintWithItem:self.activity attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:self.activitySize];
-        [self addConstraint:self.activtiyWidthConstraint];
+        [self.activity mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(self.activitySize);
+        }];
     }
 }
 
 - (void)_updateBubbleMaxWidthConstraint
 {
-    [self removeConstraint:self.bubbleMaxWidthConstraint];
-    
-    self.bubbleMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.bubbleMaxWidth];
-    [self addConstraint:self.bubbleMaxWidthConstraint];
+    [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
+    }];
 }
 
 #pragma mark - setter
@@ -1147,22 +1136,12 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         {
             NSString *text = model.fileName;
             UIFont *font = cell.messageFileNameFont;
-            CGRect nameRect;
-            if ([NSString instancesRespondToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
-                nameRect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
-            } else {
-                nameRect.size = [text sizeWithFont:font constrainedToSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) lineBreakMode:NSLineBreakByCharWrapping];
-            }
+            CGRect nameRect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
             height += (nameRect.size.height > 20 ? nameRect.size.height : 20);
             
             text = model.fileSizeDes;
             font = cell.messageFileSizeFont;
-            CGRect sizeRect;
-            if ([NSString instancesRespondToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
-                sizeRect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
-            } else {
-                sizeRect.size = [text sizeWithFont:font constrainedToSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) lineBreakMode:NSLineBreakByCharWrapping];
-            }
+            CGRect sizeRect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
             height += (sizeRect.size.height > 15 ? sizeRect.size.height : 15);
         }
             break;

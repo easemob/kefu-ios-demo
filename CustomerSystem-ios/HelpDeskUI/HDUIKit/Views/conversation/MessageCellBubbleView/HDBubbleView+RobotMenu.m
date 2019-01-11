@@ -13,26 +13,13 @@
 @end
 
 @implementation HDBubbleView (RobotMenu)
-
-- (void)_setupRobotMenuBubbleMarginConstraints {
-    [self.marginConstraints removeAllObjects];
-    
-    NSLayoutConstraint *robotMenuMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *robotMenuMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *robotMenuMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    [self.marginConstraints addObject:robotMenuMarginTopConstraint];
-    [self.marginConstraints addObject:robotMenuMarginLeftConstraint];
-    [self.marginConstraints addObject:robotMenuMarginRightConstraint];
-    
-    [self addConstraints:self.marginConstraints];
-}
-
-
 - (void)_setupRobotMenuBubbleConstraints {
-    [self _setupRobotMenuBubbleMarginConstraints];
-    
-    [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-self.margin.top-self.margin.bottom]];
-    
+    [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+        make.height.equalTo(self.backgroundImageView.mas_height).offset(-self.margin.top-self.margin.bottom);
+    }];
 }
 
 - (void)setupRobotMenuBubbleView {
@@ -120,13 +107,10 @@
         return;
     }
     _margin = margin;
-    
-    [self removeConstraints:self.marginConstraints];
     [self _setupRobotMenuBubbleConstraints];
 }
 
 - (void)reloadData {
-    [self removeConstraints:self.marginConstraints];
     [self _setupRobotMenuBubbleConstraints];
     [self.tableView reloadData];
 }

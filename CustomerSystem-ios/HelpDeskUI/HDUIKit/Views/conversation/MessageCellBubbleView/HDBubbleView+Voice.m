@@ -18,57 +18,48 @@
 
 #pragma mark - private
 
-- (void)_setupVoiceBubbleMarginConstraints
-{
-    [self.marginConstraints removeAllObjects];
-    
-    //image view
-    NSLayoutConstraint *imageWithMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.voiceImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *imageWithMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.voiceImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    [self.marginConstraints addObject:imageWithMarginTopConstraint];
-    [self.marginConstraints addObject:imageWithMarginBottomConstraint];
-
-    //duration label
-    NSLayoutConstraint *durationWithMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.voiceDurationLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *durationWithMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.voiceDurationLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    [self.marginConstraints addObject:durationWithMarginTopConstraint];
-    [self.marginConstraints addObject:durationWithMarginBottomConstraint];
-    
-    if(self.isSender){
-        NSLayoutConstraint *imageWithMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.voiceImageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-        [self.marginConstraints addObject:imageWithMarginRightConstraint];
-
-        NSLayoutConstraint *durationRightConstraint = [NSLayoutConstraint constraintWithItem:self.voiceDurationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.voiceImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-HDMessageCellPadding];
-        [self.marginConstraints addObject:durationRightConstraint];
-        
-        NSLayoutConstraint *durationLeftConstraint = [NSLayoutConstraint constraintWithItem:self.voiceDurationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-        [self.marginConstraints addObject:durationLeftConstraint];
-    }
-    else{
-        NSLayoutConstraint *imageWithMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.voiceImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-        [self.marginConstraints addObject:imageWithMarginLeftConstraint];
-        
-        NSLayoutConstraint *durationLeftConstraint = [NSLayoutConstraint constraintWithItem:self.voiceDurationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.voiceImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:HDMessageCellPadding];
-        [self.marginConstraints addObject:durationLeftConstraint];
-        
-        NSLayoutConstraint *durationRightConstraint = [NSLayoutConstraint constraintWithItem:self.voiceDurationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-        [self.marginConstraints addObject:durationRightConstraint];
-        
-        [self.marginConstraints addObject:[NSLayoutConstraint constraintWithItem:self.isReadView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:ISREAD_VIEW_SIZE/2]];
-        [self.marginConstraints addObject:[NSLayoutConstraint constraintWithItem:self.isReadView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-ISREAD_VIEW_SIZE/2]];
-        [self.marginConstraints addObject:[NSLayoutConstraint constraintWithItem:self.isReadView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-        [self.marginConstraints addObject:[NSLayoutConstraint constraintWithItem:self.isReadView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:ISREAD_VIEW_SIZE]];
-    }
-    
-    [self addConstraints:self.marginConstraints];
-}
-
 - (void)_setupVoiceBubbleConstraints
 {
     if (self.isSender) {
         self.isReadView.hidden = YES;
     }
-    [self _setupVoiceBubbleMarginConstraints];
+    [self.voiceImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+    }];
+    
+    [self.voiceDurationLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+    }];
+    
+    if(self.isSender){
+        [self.voiceImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+        }];
+        
+        [self.voiceDurationLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.voiceImageView.mas_left).offset(-HDMessageCellPadding);
+            make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        }];
+    }
+    else{
+        [self.voiceImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        }];
+        
+        [self.voiceDurationLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.voiceImageView.mas_right).offset(HDMessageCellPadding);
+            make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+        }];
+        
+        [self.isReadView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.backgroundImageView.mas_top).offset(0);
+            make.left.equalTo(self.backgroundImageView.mas_right).offset(-ISREAD_VIEW_SIZE/2);
+            make.bottom.equalTo(self.backgroundImageView.mas_top).offset(ISREAD_VIEW_SIZE);
+            make.right.equalTo(self.backgroundImageView.mas_right).offset(ISREAD_VIEW_SIZE/2);
+        }];
+    }
 }
 
 #pragma mark - public
@@ -102,9 +93,7 @@
         return;
     }
     _margin = margin;
-    
-    [self removeConstraints:self.marginConstraints];
-    [self _setupVoiceBubbleMarginConstraints];
+    [self _setupVoiceBubbleConstraints];
 }
 
 @end

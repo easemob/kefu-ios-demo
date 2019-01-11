@@ -61,11 +61,12 @@ CGFloat const HDMessageTimeCellPadding = 5;
 
 - (void)_setupTitleLabelConstraints
 {
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:HDMessageTimeCellPadding]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-HDMessageTimeCellPadding]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-HDMessageTimeCellPadding]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:HDMessageTimeCellPadding]];
+    [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).offset(HDMessageTimeCellPadding);
+        make.left.equalTo(self.contentView.mas_left).offset(HDMessageTimeCellPadding);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-HDMessageTimeCellPadding);
+        make.right.equalTo(self.contentView.mas_right).offset(-HDMessageTimeCellPadding);
+    }];
 }
 
 #pragma mark - setter

@@ -10,75 +10,50 @@
 
 @implementation HDBubbleView (Order)
 
-- (void)_setupOrderBubbleMarginConstraints {
-    [self.marginConstraints removeAllObjects];
-    
-    //orderTitle
-    NSLayoutConstraint *orderTitleMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *orderTitleMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderTitleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *orderTitleMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderTitleLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    [self.marginConstraints addObject:orderTitleMarginTopConstraint];
-    [self.marginConstraints addObject:orderTitleMarginLeftConstraint];
-    [self.marginConstraints addObject:orderTitleMarginRightConstraint];
-    
-    
-    // orderBgView
-    NSLayoutConstraint *orderBgViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderBgView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0];
-    NSLayoutConstraint *orderBgViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderBgView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:5.0];
-    NSLayoutConstraint *orderBgViewRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderBgView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-10.0];
-    NSLayoutConstraint *orderBgViewBottomhtConstraint = [NSLayoutConstraint constraintWithItem:self.orderBgView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0];
-    [self.marginConstraints addObject:orderBgViewTopConstraint];
-    [self.marginConstraints addObject:orderBgViewLeftConstraint];
-    [self.marginConstraints addObject:orderBgViewRightConstraint];
-    [self.marginConstraints addObject:orderBgViewBottomhtConstraint];
-    
-    //cusImageView
-    NSLayoutConstraint *orderImageViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeTop multiplier:1.0 constant:5.0];
-    NSLayoutConstraint *orderImageViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *orderImageViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.orderImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    [self.marginConstraints addObject:orderImageViewTopConstraint];
-    [self.marginConstraints addObject:orderImageViewLeftConstraint];
-    [self.marginConstraints addObject:orderImageViewBottomConstraint];
-    
-    //orderNo
-    NSLayoutConstraint *orderNoMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeTop multiplier:1.0 constant:5];
-    NSLayoutConstraint *orderNoMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:5.0];
-    NSLayoutConstraint *orderNoMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    [self.marginConstraints addObject:orderNoMarginTopConstraint];
-    [self.marginConstraints addObject:orderNoMarginLeftConstraint];
-    [self.marginConstraints addObject:orderNoMarginRightConstraint];
-    
-    //desc
-    NSLayoutConstraint *orderDescTopConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderNoLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:8.0];
-    NSLayoutConstraint *orderDescLeftConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderImageView attribute:NSLayoutAttributeRight multiplier:1 constant:5.0];
-    NSLayoutConstraint *orderDescRightConstraint = [NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-self.margin.right];
-    
-    [self.marginConstraints addObject:orderDescTopConstraint];
-    [self.marginConstraints addObject:orderDescLeftConstraint];
-    [self.marginConstraints addObject:orderDescRightConstraint];
-    
-    //price
-    NSLayoutConstraint *orderPriceBottomConstraimt = [NSLayoutConstraint constraintWithItem:self.orderPriceLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.orderBgView attribute:NSLayoutAttributeBottom multiplier:1 constant:-self.margin.bottom];
-    
-    [self.marginConstraints addObject:orderPriceBottomConstraimt];
-    
-    [self addConstraints:self.marginConstraints];
-}
-
 - (void)_setupOrderBubbleConstraints  {
-    [self _setupOrderBubbleMarginConstraints];
+    [self.orderTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+        make.height.equalTo(15);
+    }];
     
-    [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.orderTitleLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:15]];
-    [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.orderNoLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:13]];
+    [self.orderBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.orderTitleLabel.mas_bottom).offset(5);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(5);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-10);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-5);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.orderImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.orderImageView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    [self.orderImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.orderBgView.mas_top).offset(5);
+        make.left.equalTo(self.orderBgView.mas_left).offset(self.margin.left);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+        make.height.equalTo(self.orderImageView.mas_width);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.orderDescLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.orderPriceLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
+    [self.orderNoLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.orderBgView.mas_top).offset(5);
+        make.right.equalTo(self.orderBgView.mas_right).offset(-self.margin.right);
+        make.left.equalTo(self.orderImageView.mas_right).offset(5);
+        make.height.equalTo(13);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.orderPriceLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.orderDescLabel attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
+    [self.orderDescLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.orderNoLabel.mas_bottom).offset(8);
+        make.left.equalTo(self.orderImageView.mas_right).offset(5);
+        make.right.equalTo(self.orderBgView.mas_right).offset(5);
+        make.bottom.equalTo(self.orderPriceLabel.mas_top).offset(-5);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.orderPriceLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.orderDescLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5]];
+    [self.orderPriceLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.orderBgView.mas_bottom).offset(-self.margin.bottom);
+    }];
     
+    [self.orderPriceLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.orderDescLabel.mas_left).offset(0);
+        make.right.equalTo(self.orderDescLabel.mas_right).offset(0);
+    }];
 }
 
 - (void)setupOrderBubbleView {
@@ -131,8 +106,7 @@
         return;
     }
     _margin = margin;
-    
-    [self removeConstraints:self.marginConstraints];
-    [self _setupOrderBubbleMarginConstraints];
+
+    [self _setupOrderBubbleConstraints];
 }
 @end

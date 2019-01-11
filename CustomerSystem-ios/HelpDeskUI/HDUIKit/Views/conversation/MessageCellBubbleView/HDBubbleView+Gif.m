@@ -17,25 +17,14 @@
 
 #pragma mark - private
 
-- (void)_setupImageBubbleMarginConstraints
+- (void)_setupGifBubbleConstraints
 {
-    NSLayoutConstraint *marginTopConstraint = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *marginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    NSLayoutConstraint *marginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    NSLayoutConstraint *marginRightConstraint = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    
-    [self.marginConstraints removeAllObjects];
-    [self.marginConstraints addObject:marginTopConstraint];
-    [self.marginConstraints addObject:marginBottomConstraint];
-    [self.marginConstraints addObject:marginLeftConstraint];
-    [self.marginConstraints addObject:marginRightConstraint];
-    
-    [self addConstraints:self.marginConstraints];
-}
-
-- (void)_setupImageBubbleConstraints
-{
-    [self _setupImageBubbleMarginConstraints];
+    [self.imageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.mas_top).offset(5);
+        make.left.equalTo(self.mas_left).offset(self.margin.left);
+        make.bottom.equalTo(self.mas_bottom).offset(-self.margin.bottom);
+        make.right.equalTo(self.mas_right).offset(-self.margin.right);
+    }];
 }
 
 #pragma mark - public
@@ -48,19 +37,19 @@
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.backgroundImageView addSubview:self.imageView];
     
-    [self _setupImageBubbleConstraints];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kBigExpressionHW]];
+    [self _setupGifBubbleConstraints];
+    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(kBigExpressionHW);
+    }];
 }
 
 - (void)updateGifMargin:(UIEdgeInsets)margin
 {
-//    if (_margin.top == margin.top && _margin.bottom == margin.bottom && _margin.left == margin.left && _margin.right == margin.right) {
-//        return;
-//    }
-    _margin = UIEdgeInsetsMake(0, 0, 0, 0);
-    
-    [self removeConstraints:self.marginConstraints];
-    [self _setupImageBubbleMarginConstraints];
+    if (_margin.top == margin.top && _margin.bottom == margin.bottom && _margin.left == margin.left && _margin.right == margin.right) {
+        return;
+    }
+    _margin = margin;
+    [self _setupGifBubbleConstraints];
 }
 
 @end

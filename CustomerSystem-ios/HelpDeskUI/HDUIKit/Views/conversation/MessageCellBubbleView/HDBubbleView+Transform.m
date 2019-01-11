@@ -74,8 +74,4 @@
     self.transformButton.enabled = enable;
 }
 
-
-
-
-
 @end

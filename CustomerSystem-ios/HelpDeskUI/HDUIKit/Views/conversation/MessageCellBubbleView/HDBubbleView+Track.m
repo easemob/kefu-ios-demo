@@ -10,77 +10,47 @@
 
 @implementation HDBubbleView (Track)
 
-- (void)_setupTrackBubbleMarginConstraints {
-    [self.marginConstraints removeAllObjects];
-
-    //trackTitle
-    NSLayoutConstraint *trackTitleMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.trackTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *trackTitleMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.trackTitleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *trackTitleMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.trackTitleLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-     [self.marginConstraints addObject:trackTitleMarginTopConstraint];
-     [self.marginConstraints addObject:trackTitleMarginLeftConstraint];
-     [self.marginConstraints addObject:trackTitleMarginRightConstraint];
-    
-    // trackBgView.
-    NSLayoutConstraint *trackBgViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.trackBgView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.trackTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0];
-    NSLayoutConstraint *trackBgViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.trackBgView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:5.0];
-    NSLayoutConstraint *trackBgViewRightConstraint = [NSLayoutConstraint constraintWithItem:self.trackBgView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-10.0];
-    NSLayoutConstraint *trackBgViewBottomhtConstraint = [NSLayoutConstraint constraintWithItem:self.trackBgView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-5.0];
-    [self.marginConstraints addObject:trackBgViewTopConstraint];
-    [self.marginConstraints addObject:trackBgViewLeftConstraint];
-    [self.marginConstraints addObject:trackBgViewRightConstraint];
-    [self.marginConstraints addObject:trackBgViewBottomhtConstraint];
-    
-    //cusImageView
-    NSLayoutConstraint *cusimageViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.cusImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.trackBgView attribute:NSLayoutAttributeTop multiplier:1.0 constant:5.0];
-    NSLayoutConstraint *cusimageViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.cusImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.trackBgView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *cusimageViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.cusImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.sendButton attribute:NSLayoutAttributeTop multiplier:1.0 constant:-self.margin.bottom];
-    [self.marginConstraints addObject:cusimageViewTopConstraint];
-    [self.marginConstraints addObject:cusimageViewLeftConstraint];
-    [self.marginConstraints addObject:cusimageViewBottomConstraint];
-    
-    //desc
-    NSLayoutConstraint *cusDescTopConstraint = [NSLayoutConstraint constraintWithItem:self.cusDescLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.trackTitleLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:self.margin.top + 10];
-    NSLayoutConstraint *cusDescLeftConstraint = [NSLayoutConstraint constraintWithItem:self.cusDescLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.cusImageView attribute:NSLayoutAttributeRight multiplier:1 constant:self.margin.left];
-    NSLayoutConstraint *cusDescRightConstraint = [NSLayoutConstraint constraintWithItem:self.cusDescLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.trackBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-self.margin.right];
-    
-    [self.marginConstraints addObject:cusDescTopConstraint];
-    [self.marginConstraints addObject:cusDescLeftConstraint];
-    [self.marginConstraints addObject:cusDescRightConstraint];
-    
-    
-    //price
-    NSLayoutConstraint *trackPriceBottomConstraimt = [NSLayoutConstraint constraintWithItem:self.cusPriceLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.sendButton attribute:NSLayoutAttributeTop multiplier:1 constant:-10];
-    [self.marginConstraints addObject:trackPriceBottomConstraimt];
-    
-    //send
-    NSLayoutConstraint *cusSendLeftConstraint = [NSLayoutConstraint constraintWithItem:self.sendButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.trackBgView attribute:NSLayoutAttributeLeft multiplier:1 constant:self.margin.left];
-    NSLayoutConstraint *cusSendRightConstraint = [NSLayoutConstraint constraintWithItem:self.sendButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.trackBgView attribute:NSLayoutAttributeRight multiplier:1 constant:-self.margin.left];
-    NSLayoutConstraint *cusSendBottomConstraint = [NSLayoutConstraint constraintWithItem:self.sendButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.trackBgView attribute:NSLayoutAttributeBottom multiplier:1 constant:-self.margin.bottom];
-    [self.marginConstraints addObject:cusSendLeftConstraint];
-    [self.marginConstraints addObject:cusSendRightConstraint];
-    [self.marginConstraints addObject:cusSendBottomConstraint];
-    
-
-    
-    [self addConstraints:self.marginConstraints];
-}
-
 - (void)_setupTrackBubbleConstraints  {
-    [self _setupTrackBubbleMarginConstraints];
+    [self.trackTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+        make.height.equalTo(15);
+    }];
     
-    [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.trackTitleLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:15]];
+    [self.trackBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.trackTitleLabel.mas_bottom).offset(5);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(5);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-10.0);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-5);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.cusImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.cusImageView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    [self.cusImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.trackBgView.mas_top).offset(5);
+        make.left.equalTo(self.trackBgView.mas_left).offset(self.margin.left);
+        make.bottom.equalTo(self.trackBgView.mas_top).offset(-self.margin.bottom);
+        make.width.equalTo(self.cusImageView.mas_height).offset(0);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.cusDescLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.cusPriceLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
+    [self.cusDescLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.trackTitleLabel.mas_bottom).offset(self.margin.top + 10);
+        make.left.equalTo(self.cusImageView.mas_right).offset(self.margin.left);
+        make.right.equalTo(self.trackBgView.mas_right).offset(-self.margin.right);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.cusPriceLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.cusDescLabel attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
+    [self.cusPriceLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.sendButton.mas_top).offset(-10);
+        make.left.equalTo(self.cusDescLabel.mas_left).offset(0);
+        make.right.equalTo(self.cusDescLabel.mas_right).offset(0);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sendButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:30]];
-    
+    [self.sendButton mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.trackBgView.mas_left).offset(self.margin.left);
+        make.right.equalTo(self.trackBgView.mas_right).offset(-self.margin.left);
+        make.bottom.equalTo(self.trackBgView.mas_bottom).offset(-self.margin.bottom);
+        make.height.equalTo(30);
+    }];
 }
-
 
 - (void)setupTrackBubbleView {
     
@@ -98,7 +68,7 @@
     
     self.cusImageView = [[UIImageView alloc] init];
     self.cusImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.cusImageView.backgroundColor = [UIColor clearColor];
+    self.cusImageView.backgroundColor = [UIColor redColor];
     self.cusImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.trackBgView addSubview:self.cusImageView];
     
@@ -135,9 +105,8 @@
         return;
     }
     _margin = margin;
-    
-    [self removeConstraints:self.marginConstraints];
-    [self _setupTrackBubbleMarginConstraints];
+
+    [self _setupTrackBubbleConstraints];
 }
 
 

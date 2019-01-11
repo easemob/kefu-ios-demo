@@ -15,41 +15,23 @@
 
 @implementation HDBubbleView (Location)
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-//    
-//    CGFloat availableLabelWidth = self.frame.size.width;
-//    self.locationLabel.preferredMaxLayoutWidth = availableLabelWidth - 30;
-//    
-//    [super layoutSubviews];
-}
-
 #pragma mark - private
-
-- (void)_setupLocationBubbleMarginConstraints
-{
-    NSLayoutConstraint *marginTopConstraint = [NSLayoutConstraint constraintWithItem:self.locationImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *marginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.locationImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    NSLayoutConstraint *marginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.locationImageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    NSLayoutConstraint *marginRightConstraint = [NSLayoutConstraint constraintWithItem:self.locationImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    
-    [self.marginConstraints removeAllObjects];
-    [self.marginConstraints addObject:marginTopConstraint];
-    [self.marginConstraints addObject:marginBottomConstraint];
-    [self.marginConstraints addObject:marginLeftConstraint];
-    [self.marginConstraints addObject:marginRightConstraint];
-    
-    [self addConstraints:self.marginConstraints];
-}
 
 - (void)_setupLocationBubbleConstraints
 {
-    [self _setupLocationBubbleMarginConstraints];
+    [self.locationImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.locationLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.locationImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.locationLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.locationImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.locationLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.locationImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.locationLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.locationImageView attribute:NSLayoutAttributeHeight multiplier:0.3 constant:0]];
+    [self.locationLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.locationImageView.mas_bottom).offset(0);
+        make.left.equalTo(self.locationImageView.mas_left).offset(0);
+        make.right.equalTo(self.locationImageView.mas_right).offset(0);
+        make.height.equalTo(self.locationImageView.mas_height).offset(0).multipliedBy(0.3);
+    }];
 }
 
 #pragma mark - public
@@ -66,7 +48,6 @@
     self.locationLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.locationLabel.numberOfLines = 2;
     self.locationLabel.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.8];
-//    self.locationLabel.preferredMaxLayoutWidth = 0.0f;
     [self.locationImageView addSubview:self.locationLabel];
     
     [self _setupLocationBubbleConstraints];
@@ -78,9 +59,7 @@
         return;
     }
     _margin = margin;
-    
-    [self removeConstraints:self.marginConstraints];
-    [self _setupLocationBubbleMarginConstraints];
+    [self _setupLocationBubbleConstraints];
 }
 
 @end

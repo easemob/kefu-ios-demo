@@ -43,21 +43,13 @@
 
 @implementation HDBubbleView (Article)
 
-- (void)_setupArticleBubbleMarginConstraints {
-    [self.marginConstraints removeAllObjects];
-    
-    NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.articleView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.articleView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.articleView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    [self.marginConstraints addObject:topConstraint];
-    [self.marginConstraints addObject:leftConstraint];
-    [self.marginConstraints addObject:rightConstraint];
-    [self addConstraints:self.marginConstraints];
-}
-
 - (void)_setupArticleBubbleConstraints {
-    [self _setupArticleBubbleMarginConstraints];
-    [self  addConstraint:[NSLayoutConstraint constraintWithItem:self.articleView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-self.margin.top-self.margin.bottom]];
+    [self.articleView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+        make.height.equalTo(self.backgroundImageView.mas_height).offset(-self.margin.top-self.margin.bottom);
+    }];
 }
 
 
@@ -74,15 +66,11 @@
         return;
     }
     _margin = margin;
-    
-    [self removeConstraints:self.marginConstraints];
     [self _setupArticleBubbleConstraints];
 }
 
 - (void)reloadArticleData {
-    
-    [self removeConstraints:self.marginConstraints];
-    [self _setupArticleBubbleMarginConstraints];
+    [self _setupArticleBubbleConstraints];
     [self.articleView reloadData];
 }
 

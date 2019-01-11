@@ -106,8 +106,11 @@
                 case HDExtTrackMsg:
                     [self removeConstraint:self.bubbleWithExtConstraint];
                     CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
-                    self.bubbleWithExtConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:200 + margin];
-                    [self addConstraint:self.bubbleWithExtConstraint];
+                    
+                    [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
+                        make.width.equalTo(200 + margin);
+                    }];
+    
                     break;
                 default:break;
             }
@@ -131,12 +134,12 @@
                 retSize.width = width;
                 retSize.height = kEMMessageImageSizeHeight;
             }
-            [self removeConstraint:self.bubbleWithImageConstraint];
             
             CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
-            self.bubbleWithImageConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:retSize.width + margin];
             
-            [self addConstraint:self.bubbleWithImageConstraint];
+            [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.width.equalTo(retSize.width + margin);
+            }];
         }
             break;
         case EMMessageBodyTypeLocation:
@@ -175,67 +178,65 @@
 
 - (void)configArticleConstraints {
     //bubble view
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:HDMessageCellPadding]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:HDMessageCellPadding]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kScreenWidth - 20]];
+    [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).offset(HDMessageCellPadding);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(HDMessageCellPadding);
+        make.centerX.equalTo(self.contentView.mas_centerX).offset(0);
+        make.width.equalTo(kScreenWidth - 20);
+    }];
 }
 
 - (void)configureSendLayoutConstraints
 {
-    //avatar view
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:HDMessageCellPadding]];
+    [self.avatarView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).offset(HDMessageCellPadding);
+        make.right.equalTo(self.contentView.mas_right).offset(-HDMessageCellPadding);
+        make.width.equalTo(self.avatarSize);
+        make.height.equalTo(self.avatarView.mas_width);
+    }];
+
+    [self.nameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).offset(0);
+        make.right.equalTo(self.avatarView.mas_left).offset(-HDMessageCellPadding);
+        make.height.equalTo(self.messageNameHeight);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-HDMessageCellPadding]];
+    [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.avatarView.mas_left).offset(-HDMessageCellPadding);
+        make.top.equalTo(self.nameLabel.mas_bottom).offset(0);
+    }];
     
-    self.avatarWidthConstraint = [NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.avatarSize];
-    [self addConstraint:self.avatarWidthConstraint];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.avatarView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    [self.statusButton mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.bubbleView.mas_left).offset(-HDMessageCellPadding);
+    }];
     
-    //name label
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+    [self.activity mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.bubbleView.mas_left).offset(-HDMessageCellPadding);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.avatarView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-HDMessageCellPadding]];
-    
-    self.nameHeightConstraint = [NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.messageNameHeight];
-    [self addConstraint:self.nameHeightConstraint];
-    
-    //bubble view
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.avatarView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-HDMessageCellPadding]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.nameLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    
-    //status button
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.statusButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.bubbleView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-HDMessageCellPadding]];
-    
-    //activity
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.activity attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.bubbleView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-HDMessageCellPadding]];
-    
-    //hasRead
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.bubbleView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-HDMessageCellPadding]];
+    [self.hasRead mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.bubbleView.mas_left).offset(-HDMessageCellPadding);
+    }];
 }
 
 - (void)configureRecvLayoutConstraints
 {
-    //avatar view
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:HDMessageCellPadding]];
+    [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).offset(HDMessageCellPadding);
+        make.left.equalTo(self.contentView.mas_left).offset(HDMessageCellPadding);
+        make.width.equalTo(self.avatarSize);
+        make.height.equalTo(self.avatarView.mas_width);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:HDMessageCellPadding]];
-    
-    self.avatarWidthConstraint = [NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.avatarSize];
-    [self addConstraint:self.avatarWidthConstraint];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.avatarView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
-    
-    //name label
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.avatarView attribute:NSLayoutAttributeRight multiplier:1.0 constant:HDMessageCellPadding]];
-    
-    self.nameHeightConstraint = [NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.messageNameHeight];
-    [self addConstraint:self.nameHeightConstraint];
-    
-    //bubble view
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.avatarView attribute:NSLayoutAttributeRight multiplier:1.0 constant:HDMessageCellPadding]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.nameLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.nameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).offset(0);
+        make.left.equalTo(self.avatarView.mas_right).offset(HDMessageCellPadding);
+        make.height.equalTo(self.messageNameHeight);
+    }];
+    [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.avatarView.mas_right).offset(HDMessageCellPadding);
+        make.top.equalTo(self.nameLabel.mas_bottom).offset(0);
+    }];
 }
 
 #pragma mark - Update Constraint
@@ -243,20 +244,18 @@
 - (void)_updateAvatarViewWidthConstraint
 {
     if (self.avatarView) {
-        [self removeConstraint:self.avatarWidthConstraint];
-        
-        self.avatarWidthConstraint = [NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:self.avatarSize];
-        [self addConstraint:self.avatarWidthConstraint];
+        [self.avatarView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(self.avatarSize);
+        }];
     }
 }
 
 - (void)_updateNameHeightConstraint
 {
     if (_nameLabel) {
-        [self removeConstraint:self.nameHeightConstraint];
-        
-        self.nameHeightConstraint = [NSLayoutConstraint constraintWithItem:self.nameLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.messageNameHeight];
-        [self addConstraint:self.nameHeightConstraint];
+        [self.nameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(self.messageNameHeight);
+        }];
     }
 }
 

@@ -9,30 +9,20 @@
 #import "HDBubbleView+Evaluate.h"
 
 @implementation HDBubbleView (Evaluate)
-- (void)_setupEvaluateBubbleMarginConstraints {
-    [self.marginConstraints removeAllObjects];
-    
-    NSLayoutConstraint *evalTitleMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *evalTitleMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *evalTitleMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateTitle attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    [self.marginConstraints addObject:evalTitleMarginTopConstraint];
-    [self.marginConstraints addObject:evalTitleMarginLeftConstraint];
-    [self.marginConstraints addObject:evalTitleMarginRightConstraint];
-    
-    NSLayoutConstraint *evalButtonMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.evaluateTitle attribute:NSLayoutAttributeBottom multiplier:1.0 constant:3];
-    NSLayoutConstraint *evalButtonMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    [self.marginConstraints addObject:evalButtonMarginTopConstraint];
-    [self.marginConstraints addObject:evalButtonMarginBottomConstraint];
-    
-    [self addConstraints:self.marginConstraints];
-}
 
 - (void)_setupEvaluateBubbleConstraints {
-    [self _setupEvaluateBubbleMarginConstraints];
+    [self.evaluateTitle mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+        make.bottom.equalTo(self.evaluateButton.mas_top).offset(-3);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:100]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:50]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.evaluateButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [self.evaluateButton mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(100);
+        make.height.equalTo(50);
+        make.centerX.equalTo(self.backgroundImageView.mas_centerX).offset(0);
+    }];
 }
 
 - (void)setupEvaluateBubbleView {
@@ -65,9 +55,7 @@
         return;
     }
     _margin = margin;
-    
-    [self removeConstraints:self.marginConstraints];
-    [self _setupEvaluateBubbleMarginConstraints];
+    [self _setupEvaluateBubbleConstraints];
 }
 
 

@@ -17,43 +17,27 @@
 
 #pragma mark - private
 
-- (void)_setupFileBubbleMarginConstraints
-{
-    [self.marginConstraints removeAllObjects];
-    
-    //icon view
-    NSLayoutConstraint *fileIconWithMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.fileIconView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *fileIconWithMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.fileIconView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    NSLayoutConstraint *fileIconWithMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.fileIconView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    [self.marginConstraints addObject:fileIconWithMarginTopConstraint];
-    [self.marginConstraints addObject:fileIconWithMarginBottomConstraint];
-    [self.marginConstraints addObject:fileIconWithMarginLeftConstraint];
-    
-    //name label
-    NSLayoutConstraint *fileNameWithMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.fileNameLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *fileNameWithMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.fileNameLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    [self.marginConstraints addObject:fileNameWithMarginTopConstraint];
-    [self.marginConstraints addObject:fileNameWithMarginRightConstraint];
-    
-    //size label
-    NSLayoutConstraint *fileSizeWithMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.fileSizeLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    [self.marginConstraints addObject:fileSizeWithMarginBottomConstraint];
-    
-    [self addConstraints:self.marginConstraints];
-}
-
 - (void)_setupFileBubbleConstraints
 {
-    [self _setupFileBubbleMarginConstraints];
+    [self.fileIconView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        make.height.equalTo(self.fileIconView.mas_width).offset(0);
+    }];
     
-    //icon view
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.fileIconView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.fileIconView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    [self.fileNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+        make.left.equalTo(self.fileIconView.mas_right).offset(HDMessageCellPadding);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.fileNameLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.fileIconView attribute:NSLayoutAttributeRight multiplier:1.0 constant:HDMessageCellPadding]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.fileSizeLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.fileNameLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.fileSizeLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.fileNameLabel attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.fileSizeLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.fileNameLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.fileSizeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.fileNameLabel.mas_left).offset(0);
+        make.right.equalTo(self.fileNameLabel.mas_right).offset(0);
+        make.top.equalTo(self.fileNameLabel.mas_bottom).offset(0);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+    }];
 }
 
 #pragma mark - public
@@ -85,9 +69,7 @@
         return;
     }
     _margin = margin;
-    
-    [self removeConstraints:self.marginConstraints];
-    [self _setupFileBubbleMarginConstraints];
+    [self _setupFileBubbleConstraints];
 }
 
 @end
