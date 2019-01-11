@@ -64,7 +64,6 @@
 		9094F20021E83C8D00037601 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9094F1E121E83C8C00037601 /* MASConstraint.m */; };
 		9094F20121E83C8D00037601 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9094F1E321E83C8C00037601 /* MASViewConstraint.m */; };
 		9094F20221E83C8D00037601 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 9094F1E421E83C8C00037601 /* MASViewAttribute.m */; };
-		9094F20321E83C8D00037601 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9094F1E521E83C8C00037601 /* Info.plist */; };
 		9094F20421E83C8D00037601 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9094F1E721E83C8C00037601 /* SVRadialGradientLayer.m */; };
 		9094F20521E83C8D00037601 /* SVProgressAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9094F1EA21E83C8C00037601 /* SVProgressAnimatedView.m */; };
 		9094F20621E83C8D00037601 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9094F1ED21E83C8C00037601 /* SVProgressHUD.m */; };
@@ -543,7 +542,6 @@
 		9094F1E221E83C8C00037601 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		9094F1E321E83C8C00037601 /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
 		9094F1E421E83C8C00037601 /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
-		9094F1E521E83C8C00037601 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9094F1E721E83C8C00037601 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
 		9094F1E821E83C8C00037601 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		9094F1E921E83C8C00037601 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
@@ -1250,7 +1248,6 @@
 				9094F1E221E83C8C00037601 /* ViewController+MASAdditions.h */,
 				9094F1E321E83C8C00037601 /* MASViewConstraint.m */,
 				9094F1E421E83C8C00037601 /* MASViewAttribute.m */,
-				9094F1E521E83C8C00037601 /* Info.plist */,
 			);
 			path = Masonry;
 			sourceTree = "<group>";
@@ -2759,7 +2756,6 @@
 				D20066531EF23274005B558D /* list@2x.png in Resources */,
 				EB4B06851AC685E900DCF67B /* chatFire_audioPlaying0.png in Resources */,
 				D36621BA1F4E7D9F008EE9C4 /* power@2x.png in Resources */,
-				9094F20321E83C8D00037601 /* Info.plist in Resources */,
 				9086155320B43A54002E71DA /* shareDesktop.png in Resources */,
 				9086153620B43A54002E71DA /* HDCallViewCollectionViewCell.xib in Resources */,
 				EB4B068A1AC685E900DCF67B /* chatFire_audioPlaying2@2x.png in Resources */,
