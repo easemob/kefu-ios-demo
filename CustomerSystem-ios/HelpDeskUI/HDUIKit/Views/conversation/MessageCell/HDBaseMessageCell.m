@@ -94,11 +94,7 @@
                 case HDExtOrderMsg:
                 case HDExtTrackMsg:
                 {
-                    CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
                     
-                    [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
-                        make.width.equalTo(200 + margin);
-                    }];
                 }
     
                     break;

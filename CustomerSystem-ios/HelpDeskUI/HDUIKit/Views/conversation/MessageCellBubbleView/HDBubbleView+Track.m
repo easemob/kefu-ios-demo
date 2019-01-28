@@ -11,6 +11,7 @@
 @implementation HDBubbleView (Track)
 
 - (void)_setupTrackBubbleConstraints  {
+    
     [self.trackTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
@@ -28,12 +29,12 @@
     [self.cusImageView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.trackBgView.mas_top).offset(5);
         make.left.equalTo(self.trackBgView.mas_left).offset(self.margin.left);
-        make.bottom.equalTo(self.trackBgView.mas_top).offset(-self.margin.bottom);
+        make.bottom.equalTo(self.sendButton.mas_top).offset(-self.margin.bottom);
         make.width.equalTo(self.cusImageView.mas_height).offset(0);
     }];
     
     [self.cusDescLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.trackTitleLabel.mas_bottom).offset(self.margin.top + 10);
+        make.top.equalTo(self.trackBgView.mas_top).offset(10);
         make.left.equalTo(self.cusImageView.mas_right).offset(self.margin.left);
         make.right.equalTo(self.trackBgView.mas_right).offset(-self.margin.right);
     }];
@@ -68,7 +69,7 @@
     
     self.cusImageView = [[UIImageView alloc] init];
     self.cusImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.cusImageView.backgroundColor = [UIColor redColor];
+    self.cusImageView.backgroundColor = [UIColor clearColor];
     self.cusImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.trackBgView addSubview:self.cusImageView];
     
