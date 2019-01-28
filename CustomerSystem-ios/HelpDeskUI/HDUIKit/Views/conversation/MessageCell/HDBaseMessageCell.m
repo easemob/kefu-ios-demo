@@ -17,17 +17,6 @@
 
 @interface HDBaseMessageCell()
 @property (strong, nonatomic) UILabel *nameLabel;
-@property (nonatomic) NSLayoutConstraint *avatarWidthConstraint;
-@property (nonatomic) NSLayoutConstraint *nameHeightConstraint;
-
-@property (nonatomic) NSLayoutConstraint *bubbleWithAvatarRightConstraint;
-@property (nonatomic) NSLayoutConstraint *bubbleWithoutAvatarRightConstraint;
-
-@property (nonatomic) NSLayoutConstraint *bubbleWithNameTopConstraint;
-@property (nonatomic) NSLayoutConstraint *bubbleWithoutNameTopConstraint;
-@property (nonatomic) NSLayoutConstraint *bubbleWithImageConstraint;
-@property (nonatomic) NSLayoutConstraint *bubbleWithExtConstraint;
-
 @end
 
 @implementation HDBaseMessageCell
@@ -104,12 +93,13 @@
                 case HDExtRobotMenuMsg:
                 case HDExtOrderMsg:
                 case HDExtTrackMsg:
-                    [self removeConstraint:self.bubbleWithExtConstraint];
+                {
                     CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
                     
                     [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
                         make.width.equalTo(200 + margin);
                     }];
+                }
     
                     break;
                 default:break;

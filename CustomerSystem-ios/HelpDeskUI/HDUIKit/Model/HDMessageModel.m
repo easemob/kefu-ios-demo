@@ -109,17 +109,19 @@
             case EMMessageBodyTypeVideo:
             {
                 EMVideoMessageBody *videoBody = (EMVideoMessageBody *)message.body;
-                self.thumbnailImageSize = videoBody.thumbnailSize;
-                if ([videoBody.thumbnailLocalPath length] > 0) {
-                    NSData *thumbnailImageData = [NSData dataWithContentsOfFile:videoBody.thumbnailLocalPath];
-                    if (thumbnailImageData.length) {
-                        self.thumbnailImage = [UIImage imageWithData:thumbnailImageData];
-                    }
-                    self.image = self.thumbnailImage;
-                }
+                self.fileIconName = @"messageVideo";
+                self.fileName = videoBody.displayName;
+                self.fileSize = videoBody.fileLength;
                 
-                // video file path
-                self.fileURLPath = videoBody.remotePath;
+                if (self.fileSize < 1024) {
+                    self.fileSizeDes = [NSString stringWithFormat:@"%.2fB", self.fileSize];
+                }
+                else if(self.fileSize < 1024 * 1024){
+                    self.fileSizeDes = [NSString stringWithFormat:@"%.2fkB", self.fileSize / 1024];
+                }
+                else if (self.fileSize < 2014 * 1024 * 1024){
+                    self.fileSizeDes = [NSString stringWithFormat:@"%.2fMB", self.fileSize / (1024 * 1024)];
+                }
             }
                 break;
             case EMMessageBodyTypeFile:
@@ -130,7 +132,7 @@
                 self.fileSize = fileMessageBody.fileLength;
                 
                 if (self.fileSize < 1024) {
-                    self.fileSizeDes = [NSString stringWithFormat:@"%fB", self.fileSize];
+                    self.fileSizeDes = [NSString stringWithFormat:@"%.2fB", self.fileSize];
                 }
                 else if(self.fileSize < 1024 * 1024){
                     self.fileSizeDes = [NSString stringWithFormat:@"%.2fkB", self.fileSize / 1024];
@@ -147,6 +149,30 @@
     
     return self;
 }
+
+- (UIImage*) thumbnailImageForVideo:(NSString *)videoRemotePath atTime:(NSTimeInterval)time {
+    if (!videoRemotePath) {
+        return nil;
+    }
+    NSURL *videoURL = [NSURL URLWithString:videoRemotePath];
+    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil] ;
+    NSParameterAssert(asset);
+    AVAssetImageGenerator *assetImageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    assetImageGenerator.appliesPreferredTrackTransform = YES;
+    assetImageGenerator.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels;
+    CGImageRef thumbnailImageRef = NULL;
+    CFTimeInterval thumbnailImageTime = time;
+    NSError *thumbnailImageGenerationError = nil;
+    thumbnailImageRef = [assetImageGenerator copyCGImageAtTime:CMTimeMake(thumbnailImageTime, 60) actualTime:NULL error:&thumbnailImageGenerationError];
+    
+    if (!thumbnailImageRef)
+        NSLog(@"thumbnailImageGenerationError %@", thumbnailImageGenerationError);
+    
+    UIImage *thumbnailImage = thumbnailImageRef ? [[UIImage alloc] initWithCGImage:thumbnailImageRef] : nil;
+    
+    return thumbnailImage;
+}
+
 
 - (NSString *)messageId
 {

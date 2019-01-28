@@ -513,12 +513,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [_conversationsVC refreshData];
 }
 
-- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
-    for (HDMessage *message in aCmdMessages) {
-        NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
-        NSLog(@"receive cmd message: %@", msg);
-    }
-}
 
 - (BOOL)isNotificationMessage:(HDMessage *)message {
     if (message.ext == nil) { //没有扩展

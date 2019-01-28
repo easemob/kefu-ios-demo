@@ -127,9 +127,11 @@
 
 - (void)ListenTime
 {
+    _recordButton.enabled = NO;
     [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_too_short" andLabelText:TimeIsTooShort];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self setButtonImage:@"HelpDeskUIResource.bundle/hd_record_menu_mic_gray" andLabelText:PinRecord];
+        _recordButton.enabled = YES;
     });
 }
 

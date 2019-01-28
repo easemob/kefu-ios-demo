@@ -13,6 +13,7 @@
 
 #import "HDMessageViewController.h"
 #import <Foundation/Foundation.h>
+#import <AVKit/AVKit.h>
 #import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "NSDate+Category.h"
@@ -193,6 +194,10 @@ typedef enum : NSUInteger {
         if (touch.view.width == 200 || touch.view.tag == 1990) {
             return NO;
         }
+    }
+    
+    if ([touch.view isKindOfClass:HDRecordView.class]) {
+        return NO;
     }
     
     if(touch.view.tag == 1991){
@@ -476,11 +481,13 @@ typedef enum : NSUInteger {
             [[HDClient sharedClient].chatManager downloadAttachment:message progress:nil completion:completion];
         }
     }else if ([messageBody type] == EMMessageBodyTypeVideo) {
+        /* 目前后台没有提供缩略图，暂时不自动下载视频缩略图
         EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
         if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
             //download the message thumbnail
             [[HDClient sharedClient].chatManager downloadThumbnail:message progress:nil completion:completion];
         }
+         */
     }else if ([messageBody type] == EMMessageBodyTypeVoice)
     {
         EMVoiceMessageBody *voiceBody = (EMVoiceMessageBody*)messageBody;
@@ -523,32 +530,14 @@ typedef enum : NSUInteger {
     
     dispatch_block_t block = ^{
         //send the acknowledgement
-        
         NSURL *videoURL = [NSURL fileURLWithPath:localPath];
-        MPMoviePlayerViewController *moviePlayerController = [[MPMoviePlayerViewController alloc] initWithContentURL:videoURL];
-        [moviePlayerController.moviePlayer prepareToPlay];
-        moviePlayerController.moviePlayer.movieSourceType = MPMovieSourceTypeFile;
-        [self presentMoviePlayerViewControllerAnimated:moviePlayerController];
+        AVPlayerViewController * pVC = [AVPlayerViewController new];
+        pVC.player = [AVPlayer playerWithURL:videoURL];
+        [pVC.player play];
+        [self presentViewController:pVC animated:YES completion:nil];
     };
     
     __weak typeof(self) weakSelf = self;
-    void (^completion)(HDMessage *aMessage, HDError *error) = ^(HDMessage *aMessage, HDError *error) {
-        if (!error)
-        {
-            [weakSelf _reloadTableViewDataWithMessage:aMessage];
-        }
-        else
-        {
-            [weakSelf showHint:NSEaseLocalizedString(@"message.thumImageFail", @"thumbnail for failure!")];
-        }
-    };
-    
-    if (videoBody.thumbnailDownloadStatus == EMDownloadStatusFailed || ![[NSFileManager defaultManager] fileExistsAtPath:videoBody.thumbnailLocalPath]) {
-        [self showHint:@"begin downloading thumbnail image, click later"];
-        [[HDClient sharedClient].chatManager downloadThumbnail:model.message progress:nil completion:completion];
-        return;
-    }
-    
     if (videoBody.downloadStatus == EMDownloadStatusSuccessed && [[NSFileManager defaultManager] fileExistsAtPath:localPath])
     {
         block();
@@ -752,7 +741,11 @@ typedef enum : NSUInteger {
         });
     };
     
-    [self.conversation loadMessagesStartFromId:messageId count:(int)count searchDirection:HDMessageSearchDirectionUp completion:^(NSArray *aMessages, HDError *aError) {
+    [self.conversation loadMessagesStartFromId:messageId
+                                         count:(int)count
+                               searchDirection:HDMessageSearchDirectionUp
+                                    completion:^(NSArray *aMessages, HDError *aError)
+     {
         if (!aError && [aMessages count]) {
             refresh(aMessages);
         }
@@ -760,6 +753,7 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark - GestureRecognizer
+
 // 要解决这里点击背景的问题，键盘不编辑的问题
 -(void)keyBoardHidden:(UITapGestureRecognizer *)tapRecognizer
 {
@@ -1449,16 +1443,6 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
-    for (HDMessage *message in aCmdMessages) {
-        if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
-            NSString *msg = [NSString stringWithFormat:@"%@", message.ext];
-            NSLog(@"receive cmd message: %@", msg);
-            break;
-        }
-    }
-}
-
 - (void)messagesDidRecall:(NSArray *)recallMessageIds {
     for (NSString *recallMsgId in recallMessageIds) {
         __block NSUInteger sourceIndex = NSNotFound;
@@ -1972,5 +1956,15 @@ typedef enum : NSUInteger {
     }
 }
 
+- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
+
+    for (HDMessage *message in aCmdMessages) {
+        if ([message.body isKindOfClass:[EMCmdMessageBody class]]) {
+            EMCmdMessageBody *_bb = (EMCmdMessageBody *)message.body;
+            NSLog(@" ---- %@ -----%@", _bb.action, message.ext);
+        }
+    }
+}
 
 @end
+

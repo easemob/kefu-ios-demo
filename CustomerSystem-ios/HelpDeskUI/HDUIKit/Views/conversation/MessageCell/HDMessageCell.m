@@ -253,14 +253,12 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
             case EMMessageBodyTypeVideo:
             {
                 [_bubbleView setupVideoBubbleView];
-                
-                _bubbleView.videoTagView.image = [UIImage imageNamed:@"HelpDeskUIResource.bundle/messageVideo"];
+//                _bubbleView.videoTagView.image = [UIImage imageNamed:@"HelpDeskUIResource.bundle/messageVideo"];
             }
                 break;
             case EMMessageBodyTypeFile:
             {
                 [_bubbleView setupFileBubbleView];
-                
                 _bubbleView.fileNameLabel.font = _messageFileNameFont;
                 _bubbleView.fileNameLabel.textColor = _messageFileNameColor;
                 _bubbleView.fileSizeLabel.font = _messageFileSizeFont;
@@ -551,17 +549,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 break;
             case EMMessageBodyTypeVideo:
             {
-                UIImage *image = _model.isSender ? _model.image : _model.thumbnailImage;
-                if (!image) {
-                    image = _model.image;
-                    if (!image) {
-                        [_bubbleView.videoImageView sd_setImageWithURL:[NSURL URLWithString:_model.fileURLPath] placeholderImage:[UIImage imageNamed:_model.failImageName]];
-                    } else {
-                        _bubbleView.videoImageView.image = image;
-                    }
-                } else {
-                    _bubbleView.videoImageView.image = image;
-                }
+                _bubbleView.fileIconView.image = [UIImage imageNamed:[NSString stringWithFormat:@"HelpDeskUIResource.bundle/%@",_model.fileIconName]];
+                _bubbleView.fileNameLabel.text = _model.fileName;
+                _bubbleView.fileSizeLabel.text = _model.fileSizeDes;
             }
                 break;
             case EMMessageBodyTypeFile:
@@ -1101,7 +1091,6 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         }
             break;
         case EMMessageBodyTypeImage:
-        case EMMessageBodyTypeVideo:
         {
             CGSize retSize = model.thumbnailImageSize;
             if (retSize.width == 0 || retSize.height == 0) {
@@ -1133,6 +1122,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         }
             break;
         case EMMessageBodyTypeFile:
+        case EMMessageBodyTypeVideo:
         {
             NSString *text = model.fileName;
             UIFont *font = cell.messageFileNameFont;

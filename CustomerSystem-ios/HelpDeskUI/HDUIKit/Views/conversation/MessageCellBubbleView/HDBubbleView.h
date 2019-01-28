@@ -108,9 +108,9 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 @property (strong, nonatomic) UILabel *voiceDurationLabel;
 @property (strong, nonatomic) UIImageView *isReadView;
 
-//------video views
-@property (strong, nonatomic) UIImageView *videoImageView;
-@property (strong, nonatomic) UIImageView *videoTagView;
+////------video views
+//@property (strong, nonatomic) UIImageView *videoImageView;
+//@property (strong, nonatomic) UIImageView *videoTagView;
 
 //------file views
 @property (strong, nonatomic) UIImageView *fileIconView;

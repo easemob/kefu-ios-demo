@@ -17,48 +17,48 @@
 
 #pragma mark - private
 
-- (void)_setupVideoBubbleMarginConstraints
-{
-    NSLayoutConstraint *marginTopConstraint = [NSLayoutConstraint constraintWithItem:self.videoImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *marginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.videoImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    NSLayoutConstraint *marginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.videoImageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.right];
-    NSLayoutConstraint *marginRightConstraint = [NSLayoutConstraint constraintWithItem:self.videoImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    
-    [self.marginConstraints removeAllObjects];
-    [self.marginConstraints addObject:marginTopConstraint];
-    [self.marginConstraints addObject:marginBottomConstraint];
-    [self.marginConstraints addObject:marginLeftConstraint];
-    [self.marginConstraints addObject:marginRightConstraint];
-    
-    [self addConstraints:self.marginConstraints];
-}
-
 - (void)_setupVideoBubbleConstraints
 {
-    [self _setupVideoBubbleMarginConstraints];
+    [self.fileIconView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        make.height.equalTo(self.fileIconView.mas_width).offset(0);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.videoTagView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.videoImageView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self.fileNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+        make.left.equalTo(self.fileIconView.mas_right).offset(HDMessageCellPadding);
+    }];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.videoTagView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.videoImageView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.videoTagView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.videoImageView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.videoTagView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.videoTagView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    [self.fileSizeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.fileNameLabel.mas_left).offset(0);
+        make.right.equalTo(self.fileNameLabel.mas_right).offset(0);
+        make.top.equalTo(self.fileNameLabel.mas_bottom).offset(0);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+    }];
 }
 
 #pragma mark - public
 
 - (void)setupVideoBubbleView
 {
-    self.videoImageView = [[UIImageView alloc] init];
-    self.videoImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.videoImageView.backgroundColor = [UIColor clearColor];
-    [self.backgroundImageView addSubview:self.videoImageView];
+    self.fileIconView = [[UIImageView alloc] init];
+    self.fileIconView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.fileIconView.backgroundColor = [UIColor clearColor];
+    self.fileIconView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.backgroundImageView addSubview:self.fileIconView];
     
-    self.videoTagView = [[UIImageView alloc] init];
-    self.videoTagView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.videoTagView.backgroundColor = [UIColor clearColor];
-    [self.videoImageView addSubview:self.videoTagView];
+    self.fileNameLabel = [[UILabel alloc] init];
+    self.fileNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.fileNameLabel.backgroundColor = [UIColor clearColor];
+    [self.backgroundImageView addSubview:self.fileNameLabel];
+    
+    self.fileSizeLabel = [[UILabel alloc] init];
+    self.fileSizeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.fileSizeLabel.backgroundColor = [UIColor clearColor];
+    [self.backgroundImageView addSubview:self.fileSizeLabel];
     
     [self _setupVideoBubbleConstraints];
 }
@@ -69,9 +69,7 @@
         return;
     }
     _margin = margin;
-    
-    [self removeConstraints:self.marginConstraints];
-    [self _setupVideoBubbleMarginConstraints];
+    [self _setupVideoBubbleConstraints];
 }
 
 @end
