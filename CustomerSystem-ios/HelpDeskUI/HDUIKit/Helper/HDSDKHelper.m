@@ -177,7 +177,21 @@ static HDSDKHelper *helper = nil;
                              messageExt:(NSDictionary *)messageExt
 {
     HDMessage *message = [HDMessage createVoiceSendMessageWithLocalPath:localPath duration:duration to:to];
+    if (messageExt) {
+        [message addAttributeDictionary:messageExt];
+    }
     return message;
+}
+
+// 构造视频消息
++ (HDMessage *)videoMessageWithLocalPath:(NSString *)aLocalPath
+                                     to:(NSString *)toUser
+                             messageExt:(NSDictionary *)aMsgExt {
+    HDMessage *msg = [HDMessage createVideoSendMessageWithLocalPath:aLocalPath to:toUser];
+    if (aMsgExt) {
+        [msg addAttributeDictionary:aMsgExt];
+    }
+    return msg;
 }
 
 //构造地理位置消息
@@ -187,7 +201,10 @@ static HDSDKHelper *helper = nil;
                                             to:(NSString *)to
                                     messageExt:(NSDictionary *)messageExt
 {
-    HDMessage *message = [HDMessage createLocationSendMessageWithLatitude:latitude longitude:longitude address:address to:to];
+    HDMessage *message = [HDMessage createLocationSendMessageWithLatitude:latitude
+                                                                longitude:longitude
+                                                                  address:address
+                                                                       to:to];
     if (messageExt) {
         [message addAttributeDictionary:messageExt];
     }

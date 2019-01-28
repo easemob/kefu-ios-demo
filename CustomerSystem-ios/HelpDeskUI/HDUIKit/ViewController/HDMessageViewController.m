@@ -1311,7 +1311,7 @@ typedef enum : NSUInteger {
     [self showHint:NSEaseLocalizedString(@"message.simulatorNotSupportCamera", @"simulator does not support taking picture")];
 #elif TARGET_OS_IPHONE
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
 
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:YES];
@@ -1913,7 +1913,18 @@ typedef enum : NSUInteger {
 
 - (void)sendVideoMessageWithURL:(NSURL *)url
 {
+    id progress = nil;
+    if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:progressDelegateForMessageBodyType:)]) {
+        progress = [_dataSource messageViewController:self progressDelegateForMessageBodyType:EMMessageBodyTypeVideo];
+    }
+    else{
+        progress = self;
+    }
     
+    HDMessage *message = [HDSDKHelper videoMessageWithLocalPath:[url path]
+                                                            to:self.conversation.conversationId
+                                                    messageExt:nil];
+    [self _sendMessage:message];
 }
 
 #pragma mark - notifycation

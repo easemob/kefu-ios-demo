@@ -62,6 +62,10 @@
                              messageExt:(NSDictionary *)messageExt;
 
 
++ (HDMessage *)videoMessageWithLocalPath:(NSString *)localPath
+                                     to:(NSString *)toUser
+                             messageExt:(NSDictionary *)aMsgExt;
+
 #pragma mark - call
 
 @end

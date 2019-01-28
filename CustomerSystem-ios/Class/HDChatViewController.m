@@ -72,15 +72,10 @@
 
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
-    
-    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Extension.md"];
-    HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:path to:self.conversation.conversationId];
+    [self stopAudioPlayingWithChangeCategory:YES];
+    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content:@"邀请客服进行实时视频"];
+    [message addContent:[self visitorInfo]];
     [self _sendMessage:message];
-    
-//    [self stopAudioPlayingWithChangeCategory:YES];
-//    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content:@"邀请客服进行实时视频"];
-//    [message addContent:[self visitorInfo]];
-//    [self _sendMessage:message];
 }
 
 // 留言
