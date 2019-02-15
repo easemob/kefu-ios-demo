@@ -460,7 +460,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     }
                         break;
                     case HDExtToCustomServiceMsg: {
-                        _bubbleView.transTitle.attributedText = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
+                        NSAttributedString *text = [[HDEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:self.messageTextFont];
+                        _urlMatches = [_detector matchesInString:model.text options:0 range:NSMakeRange(0, model.text.length)];
+                        _bubbleView.transTitle.attributedText = [self highlightLinksWithIndex:0 attributedString:text];
                         BOOL hasTransfer = [model.message.ext[kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer] boolValue];
                         [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer];
                     }
@@ -919,16 +921,25 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
                 switch (extMsgType) {
                     case HDExtOrderMsg:
+                    {
                         cellIdentifier = HDMessageCellIdentifierSendOrder;
+                    }
                         break;
                     case HDExtTrackMsg:
+                    {
                         cellIdentifier = HDMessageCellIdentifierSendTrack;
+                    }
                         break;
                     case HDExtBigExpressionMsg:
+                    {
                         cellIdentifier = HDMessageCellIdentifierSendBigExpression;
+                    }
                         break;
-                    default:
+                    case HDExtGeneralMsg:
+                    {
                         cellIdentifier = HDMessageCellIdentifierSendText;
+                    }
+                    default:
                         break;
                 }
             }

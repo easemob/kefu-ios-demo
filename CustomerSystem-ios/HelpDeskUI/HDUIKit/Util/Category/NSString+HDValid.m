@@ -29,4 +29,28 @@
     return rect;
 }
 
+- (NSArray*)getURLs {
+    NSError *error;
+    //可以识别url的正则表达式
+    NSString *regulaStr = @"((http[s]{0,1}|ftp)://[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)|(www.[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regulaStr
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    
+    NSArray *arrayOfAllMatches = [regex matchesInString:self
+                                                options:0
+                                                  range:NSMakeRange(0, [self length])];
+    
+    //NSString *subStr;
+    NSMutableArray *arr = [[NSMutableArray alloc] init];
+    
+    for (NSTextCheckingResult *match in arrayOfAllMatches){
+        NSString* substringForMatch;
+        substringForMatch = [self substringWithRange:match.range];
+        [arr addObject:substringForMatch];
+    }
+    return arr;
+}
+
+
 @end

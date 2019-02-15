@@ -74,6 +74,7 @@
 		9094F20B21E83C8D00037601 /* SRSlimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9094F1F521E83C8D00037601 /* SRSlimeView.m */; };
 		9094F20C21E83C8D00037601 /* sr_refresh@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = 9094F1F721E83C8D00037601 /* sr_refresh@2X.png */; };
 		909614E921534DC500B1F8E3 /* commodityInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3CE331D1F0610FA00A9649E /* commodityInfo.plist */; };
+		90BE1E3D2216C656007D17A1 /* UIViewController+AlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BE1E3C2216C656007D17A1 /* UIViewController+AlertController.m */; };
 		90C30630216B5F0000AC249D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C3062F216B5F0000AC249D /* HelpDesk.framework */; };
 		90C30631216B5F0000AC249D /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 90C3062F216B5F0000AC249D /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		90C30633216B5F0F00AC249D /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C30632216B5F0F00AC249D /* Hyphenate.framework */; };
@@ -559,6 +560,8 @@
 		9094F1F621E83C8D00037601 /* SRDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRDefine.h; sourceTree = "<group>"; };
 		9094F1F721E83C8D00037601 /* sr_refresh@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sr_refresh@2X.png"; sourceTree = "<group>"; };
 		9094F1F821E83C8D00037601 /* SRRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRRefreshView.h; sourceTree = "<group>"; };
+		90BE1E3B2216C656007D17A1 /* UIViewController+AlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AlertController.h"; sourceTree = "<group>"; };
+		90BE1E3C2216C656007D17A1 /* UIViewController+AlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AlertController.m"; sourceTree = "<group>"; };
 		90C3062F216B5F0000AC249D /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		90C30632216B5F0F00AC249D /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hyphenate.framework; path = imsdk/Hyphenate.framework; sourceTree = "<group>"; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -1956,6 +1959,8 @@
 		D3CB63FB1E4888F30022A6BA /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				90BE1E3B2216C656007D17A1 /* UIViewController+AlertController.h */,
+				90BE1E3C2216C656007D17A1 /* UIViewController+AlertController.m */,
 				D3CB63FE1E4888F30022A6BA /* HDMessageViewController.h */,
 				D3CB63FF1E4888F30022A6BA /* HDMessageViewController.m */,
 				D3CB63FC1E4888F30022A6BA /* HDLocationViewController.h */,
@@ -3000,6 +3005,7 @@
 				D3CB64AC1E4888F30022A6BA /* HDBubbleView+Transform.m in Sources */,
 				9094F1FA21E83C8D00037601 /* ViewController+MASAdditions.m in Sources */,
 				EB4B07801AC6A1C100DCF67B /* EditViewController.m in Sources */,
+				90BE1E3D2216C656007D17A1 /* UIViewController+AlertController.m in Sources */,
 				D3CB645F1E4888F30022A6BA /* MJRefreshConst.m in Sources */,
 				D3CB64851E4888F30022A6BA /* PSTGridLayoutInfo.m in Sources */,
 			);

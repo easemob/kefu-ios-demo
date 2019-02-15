@@ -31,7 +31,7 @@
 #import "HArticleWebViewController.h"
 #import "HDFormWebViewController.h"
 #import "UIViewController+HDHUD.h"
-
+#import "UIViewController+AlertController.h"
 
 typedef enum : NSUInteger {
     HDRequestRecord,
@@ -1773,6 +1773,36 @@ typedef enum : NSUInteger {
     if ([eventName isEqualToString:HRouterEventTextURLTapEventName]) {
         [self chatTextCellUrlPressed:[userInfo objectForKey:@"url"]];
     }
+    
+    if ([eventName isEqualToString:HRouterEventTransformURLTapEventName]) {
+        [self showTransformURL:[userInfo objectForKey:@"url"]];
+    }
+}
+
+- (void)showTransformURL:(NSString *)str {
+    NSArray *ary = [str getURLs];
+    if (ary.count > 0) {
+        __block NSMutableArray *titles = [NSMutableArray array];
+        for (NSString * str in ary) {
+            [titles addObject:str];
+        }
+        [self showAlertWithTitle:@"请选择跳转的URL"
+                    actionTitles:titles
+                     cancelTitle:@"取消"
+                        callBack:^(NSInteger index)
+         {
+             NSString *path = [titles[index] lowercaseString];
+             if (![path hasPrefix:@"http"]) {
+                 path = [@"http://" stringByAppendingString:path];
+             }
+             NSURL *url = [NSURL URLWithString:path];
+             [[UIApplication sharedApplication] openURL:url
+                                                options:@{}
+                                      completionHandler:^(BOOL success) {
+                                          
+                                      }];
+         }];
+    }
 }
 
 //链接被点击
@@ -1963,16 +1993,6 @@ typedef enum : NSUInteger {
                     break;
                 }
             }
-        }
-    }
-}
-
-- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages {
-
-    for (HDMessage *message in aCmdMessages) {
-        if ([message.body isKindOfClass:[EMCmdMessageBody class]]) {
-            EMCmdMessageBody *_bb = (EMCmdMessageBody *)message.body;
-            NSLog(@" ---- %@ -----%@", _bb.action, message.ext);
         }
     }
 }

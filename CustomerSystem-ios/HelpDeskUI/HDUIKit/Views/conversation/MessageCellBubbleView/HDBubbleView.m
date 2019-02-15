@@ -27,7 +27,7 @@ NSString *const HRouterEventTapArticle = @"HRouterEventTapArticle";
 NSString *const HRouterEventTapTransform = @"HRouterEventTapTransform";
 NSString *const HRouterEventTapEvaluate = @"HRouterEventTapEvaluate";
 NSString *const HRouterEventTextURLTapEventName = @"HRouterEventTextURLTapEventName";
-
+NSString *const HRouterEventTransformURLTapEventName = @"HRouterEventTransformURLTapEventName";
 @interface HDBubbleView()
 
 @property (nonatomic) NSLayoutConstraint *marginTopConstraint;

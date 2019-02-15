@@ -53,6 +53,14 @@
     [self.backgroundImageView addSubview:self.transformButton];
     
     [self _setupTransformBubbleConstraints];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(transfransBubbleViewPressed:)];
+    [self addGestureRecognizer:tap];
+}
+
+- (void)transfransBubbleViewPressed:(UITapGestureRecognizer *)aTap {
+    [[self nextResponder] routerEventWithName:HRouterEventTransformURLTapEventName
+                                     userInfo:@{@"url":self.transTitle.text}];
 }
 
 - (void)transformAction:(UIButton *)sender {

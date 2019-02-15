@@ -18,4 +18,5 @@
 
 + (CGRect)rectOfString:(NSString *)string fontSize:(CGFloat)fontSize size:(CGSize)size;
 
+- (NSArray*)getURLs;
 @end

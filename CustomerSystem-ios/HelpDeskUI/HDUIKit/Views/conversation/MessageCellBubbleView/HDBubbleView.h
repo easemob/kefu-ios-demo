@@ -22,6 +22,7 @@ extern NSString *const HRouterEventTapEvaluate ; //评价
 extern NSString *const HRouterEventTapArticle; //图文消息
 
 extern NSString *const HRouterEventTextURLTapEventName;
+extern NSString *const HRouterEventTransformURLTapEventName;
 
 extern NSString *const HDMessageCellIdentifierSendText;
 extern NSString *const HDMessageCellIdentifierSendLocation;
