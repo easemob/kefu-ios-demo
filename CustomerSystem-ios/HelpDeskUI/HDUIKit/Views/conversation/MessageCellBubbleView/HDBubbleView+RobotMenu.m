@@ -93,7 +93,6 @@
         text = self.options[indexPath.row];
         [self routerEventWithName:HRouterEventTapMenu userInfo:@{@"clickText":self.options[indexPath.row]}];
     }
-    
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -137,6 +136,7 @@
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor clearColor];
+        self.contentView.tag = 1990; //tag 避免controller 拦截手势
         [self setUI];
     }
     return self;
