@@ -30,11 +30,6 @@ NSString *const HRouterEventTextURLTapEventName = @"HRouterEventTextURLTapEventN
 NSString *const HRouterEventTransformURLTapEventName = @"HRouterEventTransformURLTapEventName";
 @interface HDBubbleView()
 
-@property (nonatomic) NSLayoutConstraint *marginTopConstraint;
-@property (nonatomic) NSLayoutConstraint *marginBottomConstraint;
-@property (nonatomic) NSLayoutConstraint *marginLeftConstraint;
-@property (nonatomic) NSLayoutConstraint *marginRightConstraint;
-
 @end
 
 @implementation HDBubbleView
@@ -61,11 +56,14 @@ NSString *const HRouterEventTransformURLTapEventName = @"HRouterEventTransformUR
 
 - (void)_setupBackgroundImageViewConstraints
 {
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundImageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
+    
+    [_backgroundImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.mas_top).offset(0);
+        make.bottom.equalTo(self.mas_bottom).offset(0);
+        make.centerY.equalTo(self.mas_centerY).offset(0);
+        make.right.equalTo(self.mas_right).offset(0);
+        make.left.equalTo(self.mas_left).offset(0);
+    }];
 }
 
 #pragma mark - getter

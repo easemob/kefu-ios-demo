@@ -14,7 +14,7 @@
 @property (nonatomic, strong) UIBarButtonItem *openFileItem;
 @property (nonatomic, strong) UIButton *downloadButton;
 @property (nonatomic, strong) UILabel *nameLabel;
-@property(nonatomic,strong) UIDocumentInteractionController *documentInteractionController;
+@property (nonatomic,strong) UIDocumentInteractionController *documentInteractionController;
 @end
 
 @implementation HFileViewController

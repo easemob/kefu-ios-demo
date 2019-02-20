@@ -12,11 +12,11 @@
 
 @interface DACircularProgressLayer : CALayer
 
-@property(nonatomic, strong) UIColor *trackTintColor;
-@property(nonatomic, strong) UIColor *progressTintColor;
-@property(nonatomic) NSInteger roundedCorners;
-@property(nonatomic) CGFloat thicknessRatio;
-@property(nonatomic) CGFloat progress;
+@property (nonatomic, strong) UIColor *trackTintColor;
+@property (nonatomic, strong) UIColor *progressTintColor;
+@property (nonatomic) NSInteger roundedCorners;
+@property (nonatomic) CGFloat thicknessRatio;
+@property (nonatomic) CGFloat progress;
 
 @end
 

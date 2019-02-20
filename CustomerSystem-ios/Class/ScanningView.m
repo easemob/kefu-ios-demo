@@ -9,7 +9,7 @@
 #import "ScanningView.h"
 
 @interface ScanningView ()
-@property(nonatomic,strong) UILabel  *QRCodeTipLabel; //小提示
+@property (nonatomic,strong) UILabel  *QRCodeTipLabel; //小提示
 @property (nonatomic, strong) UIImageView *scanningImageView;
 
 @end

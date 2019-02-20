@@ -10,29 +10,19 @@
 
 @implementation HDBubbleView (Transform)
 
-- (void)_setupTransformBubbleMarginConstraints {
-    [self.marginConstraints removeAllObjects];
-    
-    NSLayoutConstraint *transTitleMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.transTitle attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.margin.top];
-    NSLayoutConstraint *transTitleMarginLeftConstraint = [NSLayoutConstraint constraintWithItem:self.transTitle attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.margin.left];
-    NSLayoutConstraint *transTitleMarginRightConstraint = [NSLayoutConstraint constraintWithItem:self.transTitle attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-self.margin.left];
-    [self.marginConstraints addObject:transTitleMarginTopConstraint];
-    [self.marginConstraints addObject:transTitleMarginLeftConstraint];
-    [self.marginConstraints addObject:transTitleMarginRightConstraint];
-    
-    NSLayoutConstraint *transButtonMarginTopConstraint = [NSLayoutConstraint constraintWithItem:self.transformButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.transTitle attribute:NSLayoutAttributeBottom multiplier:1.0 constant:3];
-    NSLayoutConstraint *transButtonMarginBottomConstraint = [NSLayoutConstraint constraintWithItem:self.transformButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.margin.bottom];
-    [self.marginConstraints addObject:transButtonMarginTopConstraint];
-    [self.marginConstraints addObject:transButtonMarginBottomConstraint];
-    [self addConstraints:self.marginConstraints];
-}
-
 - (void)_setupTransformBubbleConstraints {
-    [self _setupTransformBubbleMarginConstraints];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.transformButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:100]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.transformButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:50]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.transformButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.backgroundImageView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [self.transTitle mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
+        make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+        make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.left);
+    }];
+    [self.transformButton mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(100);
+        make.height.equalTo(50);
+        make.top.equalTo(self.transTitle.mas_bottom).offset(3);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+        make.centerX.equalTo(self.backgroundImageView.mas_centerX).offset(0);
+    }];
 }
 
 - (void)setupTransformBubbleView {
@@ -74,7 +64,7 @@
     _margin = margin;
     
     [self removeConstraints:self.marginConstraints];
-    [self _setupTransformBubbleMarginConstraints];
+    [self _setupTransformBubbleConstraints];
 }
 
 - (void)setTransformButtonBackgroundColorWithEnable:(BOOL)enable {

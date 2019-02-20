@@ -17,8 +17,8 @@
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UIButton *removeButton;
-@property(nonatomic,strong) UIImageView *animationView;
-@property(nonatomic,strong) UILabel *durationLabel;
+@property (nonatomic,strong) UIImageView *animationView;
+@property (nonatomic,strong) UILabel *durationLabel;
 @end
 
 @implementation LeaveMsgAttatchmentView

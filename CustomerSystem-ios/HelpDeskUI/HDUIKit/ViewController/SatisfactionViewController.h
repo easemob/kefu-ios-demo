@@ -24,6 +24,6 @@
 @property (nonatomic, strong) id<HDIMessageModel> messageModel;
 @property (nonatomic, weak) id<SatisfactionDelegate> delegate;
 
-@property(nonatomic,copy) void(^EvaluateSuccessBlock)();
+@property (nonatomic,copy) void(^EvaluateSuccessBlock)();
 
 @end

@@ -390,9 +390,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         _bubbleView.orderTitleLabel.text = [itemDic objectForKey:@"title"];
                         _bubbleView.orderNoLabel.text = [itemDic objectForKey:@"order_title"];
                         _bubbleView.orderDescLabel.text = [itemDic objectForKey:@"desc"];
-                        _bubbleView.orderPriceLabel.text = [itemDic objectForKey:@"price"];
-                        
-                        
+                        _bubbleView.orderPriceLabel.text = [itemDic objectForKey:@"price"];   
                     }
                         break;
                     case HDExtTrackMsg:
@@ -422,7 +420,10 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             NSArray *menus = [NSArray array];
                             NSMutableArray *array = [NSMutableArray array];
                             menus = [choiceDic objectForKey:@"list"];
+                            CGFloat maxWidth = 0;
                             for (NSString *string in menus) {
+                                CGSize textSize = [string boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size;
+                                maxWidth = MAX(maxWidth, textSize.width);
                                 [array addObject:string];
                             }
                             //机器人菜单更新
@@ -438,6 +439,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             }
                             _bubbleView.options = array;
                             _bubbleView.menuTitle = [choiceDic objectForKey:@"title"];
+                            _bubbleView.tableViewWidth = maxWidth + 10;
                             [_bubbleView reloadData];
                         }
                     }

@@ -17,7 +17,7 @@
 
 @interface LeaveMsgAttatchmentView : UIView<UIGestureRecognizerDelegate>
 
-@property(nonatomic,copy) NSString *localPath;
+@property (nonatomic,copy) NSString *localPath;
 
 @property (nonatomic, strong) id<LeaveMsgAttatchmentViewDelegate> delegate;
 

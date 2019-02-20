@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ScanningView : UIView
-@property(nonatomic,assign) CGRect clearRect;
+@property (nonatomic,assign) CGRect clearRect;
 - (void)stopScanning;
 @end

@@ -20,9 +20,9 @@
 @interface SCAudioPlay : NSObject
 @property (nonatomic ,strong) AVAudioPlayer *player;
 @property (nonatomic ,assign) id<SCAudioPlayDelegate>delegate;
-@property(nonatomic,assign,getter=isPlaying) BOOL playing;
+@property (nonatomic,assign,getter=isPlaying) BOOL playing;
 
-@property(nonatomic,strong) LeaveMsgAttatchmentView *attatchmentView;
+@property (nonatomic,strong) LeaveMsgAttatchmentView *attatchmentView;
 + (instancetype)sharedInstance;
 
 -(void)playSongWithUrl:(NSString *)songUrl;

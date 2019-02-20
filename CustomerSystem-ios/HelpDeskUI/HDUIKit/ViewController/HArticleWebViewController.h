@@ -10,6 +10,6 @@
 
 @interface HArticleWebViewController : UIViewController
 
-@property(nonatomic,strong) NSString *url;
+@property (nonatomic,strong) NSString *url;
 
 @end

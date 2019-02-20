@@ -10,6 +10,6 @@
 
 @interface QRCodeViewController : UIViewController
 
-@property(nonatomic,copy) void (^qrBlock)(NSDictionary *dic);
+@property (nonatomic,copy) void (^qrBlock)(NSDictionary *dic);
 
 @end

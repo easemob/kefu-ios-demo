@@ -11,5 +11,5 @@
 @interface HFileViewController : UIViewController
 
 @property (nonatomic, strong) HDMessageModel *model;
-@property(nonatomic,strong) HDMessage *message;
+@property (nonatomic,strong) HDMessage *message;
 @end

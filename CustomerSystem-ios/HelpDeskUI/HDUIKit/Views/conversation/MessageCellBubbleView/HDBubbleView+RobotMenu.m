@@ -13,12 +13,14 @@
 @end
 
 @implementation HDBubbleView (RobotMenu)
+
 - (void)_setupRobotMenuBubbleConstraints {
     [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
         make.height.equalTo(self.backgroundImageView.mas_height).offset(-self.margin.top-self.margin.bottom);
+        make.width.equalTo(self.tableViewWidth);
     }];
 }
 
@@ -46,12 +48,12 @@
         cell = [[MenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"menu"];
         
     }
-    cell.width = self.tableView.width;
     if ([self isItems]) {
         cell.item = self.options[indexPath.row];
     } else {
         cell.menu = self.options[indexPath.row];
     }
+    cell.width = self.tableViewWidth;
     
     return cell;
 }
@@ -69,19 +71,19 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
     NSString *text = nil;
     if ([self isItems]) {
         text = ((HDMenuItem *)self.options[indexPath.row]).name;
     } else {
         text = self.options[indexPath.row];
     }
-    return [text boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height+5;
+    return [text boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *text= nil;
+    NSString *text = nil;
     if ([self isItems]) {
         text = ((HDMenuItem *)self.options[indexPath.row]).name;
         [self routerEventWithName:HRouterEventTapMenu userInfo:@{
@@ -111,8 +113,8 @@
 }
 
 - (void)reloadData {
-    [self _setupRobotMenuBubbleConstraints];
     [self.tableView reloadData];
+    [self _setupRobotMenuBubbleConstraints];
 }
 
 - (BOOL)isItems {
@@ -128,8 +130,10 @@
 {
     UILabel *_menuLabel;
 }
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style
+                reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor clearColor];
@@ -155,9 +159,17 @@
 - (void)setMenu:(NSString *)menu {
     _menuLabel.text = menu;
     [_menuLabel sizeToFit];
+    CGRect frame = _menuLabel.frame;
+    CGFloat y = (CGRectGetHeight(self.contentView.frame) - CGRectGetHeight(frame)) / 2;
+    frame.origin.y = y;
+    _menuLabel.frame = frame;
 }
 - (void)setWidth:(CGFloat)width {
     _menuLabel.width = width;
+}
+
+- (CGFloat)labelWidth {
+    return CGRectGetWidth(_menuLabel.frame);
 }
 
 @end

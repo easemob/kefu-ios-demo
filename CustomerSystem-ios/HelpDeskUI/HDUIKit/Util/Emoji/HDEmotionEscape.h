@@ -35,6 +35,6 @@
 
 @interface HDTextAttachment : NSTextAttachment
 
-@property(nonatomic, strong) NSString *imageName;
+@property (nonatomic, strong) NSString *imageName;
 
 @end

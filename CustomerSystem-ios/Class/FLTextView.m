@@ -13,7 +13,7 @@
 @interface FLTextView ()<UITextViewDelegate>
 
 
-@property(nonatomic,strong) UILabel *placeholderLabel;
+@property (nonatomic,strong) UILabel *placeholderLabel;
 
 @end
 

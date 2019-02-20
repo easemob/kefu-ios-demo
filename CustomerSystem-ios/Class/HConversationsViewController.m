@@ -12,9 +12,9 @@
 
 @interface HConversationsViewController ()<UITableViewDelegate,UITableViewDataSource,SRRefreshDelegate>
 
-@property(nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) UITableView *tableView;
 
-@property(nonatomic,strong) NSArray *dataSource;
+@property (nonatomic,strong) NSArray *dataSource;
 
 @property (nonatomic, strong) SRRefreshView *slimeView;
 @end

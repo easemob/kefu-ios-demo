@@ -10,8 +10,8 @@
 
 @interface HDMenuItem : NSObject
 
-@property(nonatomic,copy) NSString *menuId;
-@property(nonatomic,copy) NSString *name;
+@property (nonatomic,copy) NSString *menuId;
+@property (nonatomic,copy) NSString *name;
 @end
 
 @interface HDBubbleView (RobotMenu) <UITableViewDelegate,UITableViewDataSource>
@@ -28,10 +28,11 @@
 
 @interface MenuCell : UITableViewCell
 
-@property(nonatomic,strong) HDMenuItem *item;
+@property (nonatomic,strong) HDMenuItem *item;
 
-@property(nonatomic,strong) NSString *menu;
-@property(nonatomic,assign) CGFloat width;
+@property (nonatomic,strong) NSString *menu;
+@property (nonatomic,assign) CGFloat width;
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+- (CGFloat)labelWidth;
 
 @end

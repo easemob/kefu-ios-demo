@@ -30,9 +30,9 @@
 	NSMutableArray *_faces;
 }
 
-@property(nonatomic, weak) id<HDFacialViewDelegate> delegate;
+@property (nonatomic, weak) id<HDFacialViewDelegate> delegate;
 
-@property(strong, nonatomic, readonly) NSArray *faces;
+@property (strong, nonatomic, readonly) NSArray *faces;
 
 -(void)loadFacialView:(NSArray*)emotionManagers size:(CGSize)size;
 

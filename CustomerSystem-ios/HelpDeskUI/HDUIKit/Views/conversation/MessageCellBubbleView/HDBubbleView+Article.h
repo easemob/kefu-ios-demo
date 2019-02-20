@@ -31,17 +31,17 @@ typedef NS_ENUM(NSUInteger, HDCellType) {
 
 - (instancetype)initWithDictionary:(NSDictionary *)dic;
 
-@property(nonatomic,assign) HDCellType type;
+@property (nonatomic,assign) HDCellType type;
 
-@property(nonatomic,strong) NSString *createTime; //创建时间
+@property (nonatomic,strong) NSString *createTime; //创建时间
 
-@property(nonatomic,strong) NSString *title; //标题
+@property (nonatomic,strong) NSString *title; //标题
 
-@property(nonatomic,strong) NSString *imageUrl; //图片url
+@property (nonatomic,strong) NSString *imageUrl; //图片url
 
-@property(nonatomic,strong) NSString *url;  //跳转url
+@property (nonatomic,strong) NSString *url;  //跳转url
 
-@property(nonatomic,strong) NSString *digest; //简介
+@property (nonatomic,strong) NSString *digest; //简介
 
 @end
 
@@ -66,7 +66,7 @@ typedef NS_ENUM(NSUInteger, HDCellType) {
 //有详情的cell
 @interface HDDetailTitleCell : UITableViewCell
 
-@property(nonatomic,strong) HDSubItem *model;
+@property (nonatomic,strong) HDSubItem *model;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
@@ -76,7 +76,7 @@ typedef NS_ENUM(NSUInteger, HDCellType) {
 
 @interface HDSubCell : UITableViewCell
 
-@property(nonatomic,strong) HDSubItem *model;
+@property (nonatomic,strong) HDSubItem *model;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 

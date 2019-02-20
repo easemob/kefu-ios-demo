@@ -15,7 +15,7 @@
 #define kClearRectTop ([UIScreen mainScreen].bounds.size.height-kClearRectWH)/2
 
 @interface QRCodeViewController () <AVCaptureMetadataOutputObjectsDelegate>
-@property(nonatomic,strong) ScanningView *scanningView;
+@property (nonatomic,strong) ScanningView *scanningView;
 @end
 
 @implementation QRCodeViewController

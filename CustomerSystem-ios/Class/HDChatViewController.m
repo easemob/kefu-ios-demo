@@ -55,18 +55,6 @@
         _commodityInfo = nil;
     }
     
-    /*
-     因为先执行
-        [super viewDidLoad];
-     后执行
-        self.delegate = self;
-        self.dataSource = self;
-     因为刷新需要在
-        self.delegate = self;
-        self.dataSource = self;
-     之后执行，所以super类中不再调用load消息相关的方法，放到子类中调用。
-     */
-    
     [self tableViewDidTriggerHeaderRefresh];
 }
 
@@ -184,12 +172,7 @@
     UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithCustomView:clearButton];
     UIBarButtonItem *clearNagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     clearNagetiveSpacer.width = -5;
-    
-//    UIButton *leaveMsgButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-//    [leaveMsgButton setImage:[UIImage imageNamed:@"chatBar_comment"]forState:UIControlStateNormal];
-//    [leaveMsgButton addTarget:self action:@selector(didPressedLeaveMsgButton) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *leaveItem = [[UIBarButtonItem alloc] initWithCustomView:leaveMsgButton];
-    
+
     self.navigationItem.rightBarButtonItems = @[clearNagetiveSpacer,clearItem];
 }
 
@@ -385,7 +368,6 @@
     self.menuIndexPath = nil;
 }
 
-/*
 - (void)deleteMenuAction:(id)sender
 {
     if (self.menuIndexPath && self.menuIndexPath.row > 0) {
@@ -419,7 +401,6 @@
     }
     self.menuIndexPath = nil;
 }
- */
 
 #pragma mark - private
 - (void)showMenuViewController:(UIView *)showInView

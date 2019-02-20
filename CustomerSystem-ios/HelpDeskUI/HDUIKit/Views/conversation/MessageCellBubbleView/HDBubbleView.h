@@ -73,29 +73,30 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 @property (strong, nonatomic) UIButton *sendButton;            //发送按钮
 //order views 【order 属于text消息，包含在消息扩展中的msgtype -> order 键】
 @property (strong, nonatomic) UIView *orderBgView;
-@property(nonatomic,strong) UILabel *orderTitleLabel;        //订单
-@property(nonatomic,strong) UILabel *orderNoLabel;      //订单号
-@property(nonatomic,strong) UIImageView *orderImageView;//订单展示图
-@property(nonatomic,strong) UILabel *orderDescLabel;         //订单描述
-@property(nonatomic,strong) UILabel *orderPriceLabel;        //订单价格
+@property (nonatomic,strong) UILabel *orderTitleLabel;        //订单
+@property (nonatomic,strong) UILabel *orderNoLabel;      //订单号
+@property (nonatomic,strong) UIImageView *orderImageView;//订单展示图
+@property (nonatomic,strong) UILabel *orderDescLabel;         //订单描述
+@property (nonatomic,strong) UILabel *orderPriceLabel;        //订单价格
 //robotMenu
-@property(nonatomic,strong) UITableView *tableView;     //菜单
-@property(nonatomic,strong) NSArray *options;           //菜单选项
-@property(nonatomic,strong) NSString *menuTitle;
+@property (nonatomic,strong) UITableView *tableView;     //菜单
+@property (nonatomic,strong) NSArray *options;           //菜单选项
+@property (nonatomic,strong) NSString *menuTitle;
+@property (nonatomic, assign) CGFloat tableViewWidth;
 
 //article Message
-@property(nonatomic,strong) HDArticleView *articleView;
-//@property(nonatomic,strong) id titleModel;  //第一个cell
-@property(nonatomic,strong) NSArray *subModels; //子菜单的models
+@property (nonatomic,strong) HDArticleView *articleView;
+//@property (nonatomic,strong) id titleModel;  //第一个cell
+@property (nonatomic,strong) NSArray *subModels; //子菜单的models
 
 
 //transform
-@property(nonatomic,strong) UILabel *transTitle; //机器人回复文字
-@property(nonatomic,strong) UIButton *transformButton; //转人工客服button
+@property (nonatomic,strong) UILabel *transTitle; //机器人回复文字
+@property (nonatomic,strong) UIButton *transformButton; //转人工客服button
 
 //evaluate
-@property(nonatomic,strong) UILabel *evaluateTitle; //评价title
-@property(nonatomic,strong) UIButton *evaluateButton; //评价按钮
+@property (nonatomic,strong) UILabel *evaluateTitle; //评价title
+@property (nonatomic,strong) UIButton *evaluateButton; //评价按钮
 
 //------image views
 @property (strong, nonatomic) UIImageView *imageView;

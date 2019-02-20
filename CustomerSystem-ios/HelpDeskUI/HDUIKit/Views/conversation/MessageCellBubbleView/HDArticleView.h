@@ -28,7 +28,7 @@
 
 @interface HDArticleView : UIView
 
-@property(nonatomic,assign) id<HDArticleViewDelegate> delegate;
+@property (nonatomic,assign) id<HDArticleViewDelegate> delegate;
 
 
 - (void)reloadData;
