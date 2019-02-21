@@ -19,7 +19,7 @@
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
-        make.height.equalTo(self.backgroundImageView.mas_height).offset(-self.margin.top-self.margin.bottom);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-5);
         make.width.equalTo(self.tableViewWidth);
     }];
 }
@@ -61,7 +61,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15]};
-    CGFloat height = [self.menuTitle boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height;
+    CGFloat height = [self.menuTitle boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.width, height)];
     label.font = [UIFont systemFontOfSize:13];
     label.textColor = [UIColor blackColor];

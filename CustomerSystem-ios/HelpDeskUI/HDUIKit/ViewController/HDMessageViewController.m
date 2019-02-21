@@ -521,7 +521,6 @@ typedef enum : NSUInteger {
 {
 
     EMVideoMessageBody *videoBody = (EMVideoMessageBody*)model.message.body;
-    
     NSString *localPath = [model.fileLocalPath length] > 0 ? model.fileLocalPath : videoBody.localPath;
     if ([localPath length] == 0) {
         [self showHint:NSEaseLocalizedString(@"message.videoFail", @"video for failure!")];
@@ -537,13 +536,13 @@ typedef enum : NSUInteger {
         [self presentViewController:pVC animated:YES completion:nil];
     };
     
-    __weak typeof(self) weakSelf = self;
-    if (videoBody.downloadStatus == EMDownloadStatusSuccessed && [[NSFileManager defaultManager] fileExistsAtPath:localPath])
-    {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
         block();
         return;
     }
-    
+   
+    __weak typeof(self) weakSelf = self;
+   
     [self showHudInView:self.view hint:NSEaseLocalizedString(@"message.downloadingVideo", @"downloading video...")];
     [[HDClient sharedClient].chatManager downloadAttachment:model.message progress:nil completion:^(HDMessage *message, HDError *error) {
         [weakSelf hideHud];

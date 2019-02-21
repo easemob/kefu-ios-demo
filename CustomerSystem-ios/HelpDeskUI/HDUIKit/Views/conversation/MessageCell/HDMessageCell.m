@@ -426,6 +426,11 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                                 maxWidth = MAX(maxWidth, textSize.width);
                                 [array addObject:string];
                             }
+                            
+                            NSString *title = [choiceDic objectForKey:@"title"];
+                            CGSize textSize = [title boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size;
+                            maxWidth = MAX(maxWidth, textSize.width);
+                            
                             //机器人菜单更新
                             if ([choiceDic.allKeys containsObject:@"items"]) {
                                 [array removeAllObjects];
@@ -438,7 +443,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                                 }
                             }
                             _bubbleView.options = array;
-                            _bubbleView.menuTitle = [choiceDic objectForKey:@"title"];
+                            _bubbleView.menuTitle = title;
                             _bubbleView.tableViewWidth = maxWidth + 10;
                             [_bubbleView reloadData];
                         }
