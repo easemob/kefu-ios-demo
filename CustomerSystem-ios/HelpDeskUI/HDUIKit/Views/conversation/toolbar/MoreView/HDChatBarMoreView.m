@@ -12,8 +12,10 @@
 
 #import "HDChatBarMoreView.h"
 
-#define CHAT_BUTTON_SIZE CGSizeMake(50,60)
+//#define CHAT_BUTTON_SIZE CGSizeMake(50,60)
+#define CHAT_BUTTON_SIZE CGSizeMake(40,48)
 #define INSETS 10
+
 #define MOREVIEW_COL 4
 #define MOREVIEW_ROW 2
 #define MOREVIEW_BUTTON_TAG 1000

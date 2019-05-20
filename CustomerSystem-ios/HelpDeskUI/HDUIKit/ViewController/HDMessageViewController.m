@@ -165,8 +165,8 @@ typedef enum : NSUInteger {
     backButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitleColor:RGBACOLOR(184, 22, 22, 1) forState:UIControlStateHighlighted];
-    backButton.imageRect = CGRectMake(10, 6.5, 16, 16);
-    backButton.titleRect = CGRectMake(28, 0, 60, 29);
+    backButton.imageRect = CGRectMake(-10, 6.5, 16, 16);
+    backButton.titleRect = CGRectMake(10, 0, 60, 29);
     [self.view addSubview:backButton];
     backButton.frame = CGRectMake(0, 0, 60, 29);
     

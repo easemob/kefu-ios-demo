@@ -9,6 +9,7 @@
 #import "HDBubbleView+Article.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import "NSString+HDValid.h"
+#import <HelpDesk/HelpDesk.h>
 #import <UIKit/UIKit.h>
 
 
@@ -25,8 +26,24 @@
         }
         _createTime = [self timeFormatter:createTime/1000];
         _digest = [dic objectForKey:@"digest"];
-        _imageUrl = [dic objectForKey:@"thumbUrl"];
-        _url = [dic objectForKey:@"url"];
+        
+        NSString *thumbUrl = [dic objectForKey:@"thumbUrl"];
+        if (thumbUrl) {
+            if (thumbUrl && [thumbUrl hasPrefix:@"http"]) {
+                _imageUrl = thumbUrl;
+            }else {
+                _imageUrl = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], thumbUrl];
+            }
+        }
+        
+        NSString *imgUrl = [dic objectForKey:@"url"];
+        if (imgUrl) {
+            if (imgUrl && [imgUrl hasPrefix:@"http"]) {
+                _url = imgUrl;
+            }else {
+                _url = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], imgUrl];
+            }
+        }
     }
     return self;
 }

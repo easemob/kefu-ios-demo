@@ -165,15 +165,13 @@
 
 - (void)_setupBarButtonItem
 {
-    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 15, 19)];
+    CustomButton *clearButton = [[CustomButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    clearButton.imageRect = CGRectMake(30, 8, 15, 20);
     clearButton.accessibilityIdentifier = @"clear_message";
     [clearButton setImage:[UIImage imageNamed:@"hd_chat_delete_icon"] forState:UIControlStateNormal];
     [clearButton addTarget:self action:@selector(deleteAllMessages:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithCustomView:clearButton];
-    UIBarButtonItem *clearNagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    clearNagetiveSpacer.width = -5;
-
-    self.navigationItem.rightBarButtonItems = @[clearNagetiveSpacer,clearItem];
+    self.navigationItem.rightBarButtonItems = @[clearItem];
 }
 
 - (void)didPressedLeaveMsgButton {
