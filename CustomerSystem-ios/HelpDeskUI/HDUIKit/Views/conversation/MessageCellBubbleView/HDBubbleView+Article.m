@@ -27,21 +27,22 @@
         _createTime = [self timeFormatter:createTime/1000];
         _digest = [dic objectForKey:@"digest"];
         
-        NSString *thumbUrl = [dic objectForKey:@"thumbUrl"];
-        if (thumbUrl) {
-            if (thumbUrl && [thumbUrl hasPrefix:@"http"]) {
-                _imageUrl = thumbUrl;
+        // 封面展示原图
+        NSString *picUrl = [dic objectForKey:@"picurl"];
+        if (picUrl) {
+            if (picUrl && [picUrl hasPrefix:@"http"]) {
+                _imageUrl = picUrl;
             }else {
-                _imageUrl = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], thumbUrl];
+                _imageUrl = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], picUrl];
             }
         }
         
-        NSString *imgUrl = [dic objectForKey:@"url"];
-        if (imgUrl) {
-            if (imgUrl && [imgUrl hasPrefix:@"http"]) {
-                _url = imgUrl;
+        NSString *detailUrl = [dic objectForKey:@"url"];
+        if (detailUrl) {
+            if (detailUrl && [detailUrl hasPrefix:@"http"]) {
+                _url = detailUrl;
             }else {
-                _url = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], imgUrl];
+                _url = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], detailUrl];
             }
         }
     }

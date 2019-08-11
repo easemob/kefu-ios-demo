@@ -309,7 +309,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 {
     [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-HDMessageCellPadding);
-        make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
+        if (self.bubbleMaxWidth > 0) {
+            make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
+        }
     }];
 
     [self.statusButton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -364,7 +366,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 - (void)_updateBubbleMaxWidthConstraint
 {
     [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
+        if (self.bubbleMaxWidth > 0) {
+            make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
+        }
     }];
 }
 
@@ -416,34 +420,27 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             _urlMatches = [_detector matchesInString:content options:0 range:NSMakeRange(0, content.length)];
                             _bubbleView.textLabel.attributedText = [self highlightLinksWithIndex:0 attributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:self.messageTextFont]];
                         } else {
-                            NSDictionary *choiceDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"choice"];
-                            NSArray *menus = [NSArray array];
-                            NSMutableArray *array = [NSMutableArray array];
-                            menus = [choiceDic objectForKey:@"list"];
+                            HDMenuInfo *info = [model.message menuInfo];
                             CGFloat maxWidth = 0;
-                            for (NSString *string in menus) {
-                                CGSize textSize = [string boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size;
+                            if (info) {
+                                NSString *str = @"";
+                                for (id obj in info.items) {
+                                    if ([obj isKindOfClass:[HDMenuItem class]]) {
+                                        HDMenuItem *item = (HDMenuItem *)obj;
+                                        str = item.menuName;
+                                    }else if([obj isKindOfClass: [NSString class]]) {
+                                        str = obj;
+                                    }
+                                }
+                                
+                                CGSize textSize = [str boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size;
                                 maxWidth = MAX(maxWidth, textSize.width);
-                                [array addObject:string];
                             }
-                            
-                            NSString *title = [choiceDic objectForKey:@"title"];
-                            CGSize textSize = [title boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size;
+                           
+                            CGSize textSize = [info.title boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size;
                             maxWidth = MAX(maxWidth, textSize.width);
                             
-                            //机器人菜单更新
-                            if ([choiceDic.allKeys containsObject:@"items"]) {
-                                [array removeAllObjects];
-                                menus = [choiceDic objectForKey:@"items"];
-                                for (NSDictionary *itemDic in menus) {
-                                    HDMenuItem *item = [HDMenuItem new];
-                                    item.menuId = [itemDic valueForKey:@"id"];
-                                    item.name = [itemDic valueForKey:@"name"];
-                                    [array addObject:item];
-                                }
-                            }
-                            _bubbleView.options = array;
-                            _bubbleView.menuTitle = title;
+                            _bubbleView.menuInfo = info;
                             _bubbleView.tableViewWidth = maxWidth + 10;
                             [_bubbleView reloadData];
                         }
@@ -1055,7 +1052,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         }
                         menu = arr.copy;
                     }
-                    int leftPadding = 15, rightPadding = 10;
+                    int leftPadding = 15;
+                    int rightPadding = 10;
                     int topMargin = 8;
                     int bottomMargin = 8;
                     int allPadding = leftPadding + rightPadding;

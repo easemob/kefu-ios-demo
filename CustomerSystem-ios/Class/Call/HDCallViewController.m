@@ -251,9 +251,12 @@
          if (error == nil) {
              [weakSelf.timeLabel setHidden:NO];
              [weakSelf startTimer];
-             AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-             [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
-             [audioSession setActive:YES error:nil];
+             
+             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                 AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+                 [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord  withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+                 [audioSession setActive:YES error:nil];
+             });
          }
      }];
 }

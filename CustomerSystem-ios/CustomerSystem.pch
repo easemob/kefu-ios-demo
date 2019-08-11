@@ -23,7 +23,6 @@
 #import "UIViewController+KFAdd.h"
 #define MAS_SHORTHAND_GLOBALS
 #import "Masonry.h"
-#import "SVProgressHUD.h"
 
 #define fKeyWindow [UIApplication sharedApplication].keyWindow
 #define fUserDefaults [NSUserDefaults standardUserDefaults]

@@ -1353,7 +1353,6 @@ typedef enum : NSUInteger {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
     [self _stopAudioPlayingWithChangeCategory:YES];
-    
 }
 
 // 评价
@@ -1419,6 +1418,8 @@ typedef enum : NSUInteger {
          }];
     }
 }
+
+
 
 #pragma mark - EMLocationViewDelegate
 
@@ -1708,15 +1709,37 @@ typedef enum : NSUInteger {
     if ([eventName isEqualToString:HRouterEventTapMenu]) {
         NSString *text = [userInfo objectForKey:@"clickText"];
         NSDictionary *ext = nil;
-        if ([userInfo objectForKey:@"menuId"]) {
-            ext = @{
-                    @"msgtype":@{
-                        @"choice":@{
-                            @"menuid":[userInfo objectForKey:@"menuId"]
-                        }
-                    }
-                    };
+        BOOL isTransferManualGuide = [userInfo[@"isTransferManualGuide"] boolValue];
+        if (isTransferManualGuide) {
+            if ([userInfo[@"queueType"] isEqualToString:@"hasTransferNote"]) // 判断是否是留言
+            {
+                // 评价
+                [self moreViewLeaveMessageAction:nil];
+                return;
+            }else {
+                ext = @{
+                        @"msgtype":@{
+                                @"mode":@"transferManualGuide",
+                                @"choice":@{
+                                        @"menuid":[userInfo objectForKey:@"menuId"],
+                                        @"queueId":userInfo[@"queueId"],
+                                        @"queueType":userInfo[@"queueType"]
+                                        }
+                                }
+                        };
+            }
+        }else {
+            if ([userInfo objectForKey:@"menuId"]) {
+                ext = @{
+                        @"msgtype":@{
+                                @"choice":@{
+                                        @"menuid":[userInfo objectForKey:@"menuId"]
+                                        }
+                                }
+                        };
+            }
         }
+        
         [self sendTextMessage:text withExt:ext];
     }
     if ([eventName isEqualToString:HRouterEventTapArticle]) { //图文消息

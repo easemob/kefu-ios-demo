@@ -56,6 +56,25 @@
     }
     
     [self tableViewDidTriggerHeaderRefresh];
+    
+    
+    /*
+    // 获取询前引导
+    [HDClient.sharedClient.chatManager asyncFetchMenuWithConversationId:self.conversation.conversationId
+                                                             completion:^(NSDictionary *info, HDError *error)
+    {
+        if (!error) {
+            HDMessage *msg = [HDMessage createTxtSendMessageWithContent:@"" to:self.conversation.conversationId];
+            msg.status = HDMessageStatusSuccessed;
+            msg.direction = HDMessageDirectionReceive;
+            msg.ext = info;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self addMessageToDataSource:msg progress:nil];
+                [self.conversation addMessage:msg error:nil];
+            });
+        }
+    }];
+     */
 }
 
 //请求视频通话
@@ -68,7 +87,9 @@
 
 // 留言
 - (void)moreViewLeaveMessageAction:(HDChatBarMoreView *)moreView
-{   [self.chatToolbar endEditing:YES];
+{
+    [super moreViewLeaveMessageAction:moreView];
+    [self.chatToolbar endEditing:YES];
     [self stopAudioPlayingWithChangeCategory:YES];
     HDLeaveMsgViewController *leaveMsgVC = [[HDLeaveMsgViewController alloc] init];
     [self.navigationController pushViewController:leaveMsgVC animated:YES];

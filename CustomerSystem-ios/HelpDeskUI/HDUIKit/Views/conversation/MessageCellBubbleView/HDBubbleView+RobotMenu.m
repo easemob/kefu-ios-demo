@@ -8,18 +8,17 @@
 
 #import "HDBubbleView+RobotMenu.h"
 
-@implementation HDMenuItem
-
-@end
 
 @implementation HDBubbleView (RobotMenu)
+
+@dynamic menuInfo;
 
 - (void)_setupRobotMenuBubbleConstraints {
     [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
-        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-5);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(5);
         make.width.equalTo(self.tableViewWidth);
     }];
 }
@@ -74,7 +73,7 @@
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
     NSString *text = nil;
     if ([self isItems]) {
-        text = ((HDMenuItem *)self.options[indexPath.row]).name;
+        text = ((HDMenuItem *)self.options[indexPath.row]).menuName;
     } else {
         text = self.options[indexPath.row];
     }
@@ -83,14 +82,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *text = nil;
     if ([self isItems]) {
-        text = ((HDMenuItem *)self.options[indexPath.row]).name;
-        [self routerEventWithName:HRouterEventTapMenu userInfo:@{
-                                                                 @"clickText":text,
-                                                                 @"menuId":((HDMenuItem *)self.options[indexPath.row]).menuId}];
+        HDMenuItem *item = self.options[indexPath.row];
+        
+        
+        NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+        if (item.menuName) {
+            userInfo[@"clickText"] = item.menuName;
+        }
+        
+        if (item.menuId) {
+            userInfo[@"menuId"] = item.menuId;
+        }
+
+        if (item.isTransferManualGuide) {
+            userInfo[@"isTransferManualGuide"] = @YES;
+            if (item.queueId) {
+                userInfo[@"queueId"] = item.queueId;
+            }
+            
+            if (item.itemType) {
+                userInfo[@"queueType"] = item.itemType;
+            }
+        }
+        [self routerEventWithName:HRouterEventTapMenu userInfo:userInfo];
     } else {
-        text = self.options[indexPath.row];
         [self routerEventWithName:HRouterEventTapMenu userInfo:@{@"clickText":self.options[indexPath.row]}];
     }
 }
@@ -114,6 +130,11 @@
 - (void)reloadData {
     [self.tableView reloadData];
     [self _setupRobotMenuBubbleConstraints];
+}
+
+- (void)setMenuInfo:(HDMenuInfo *)menuInfo {
+    self.options = menuInfo.items;
+    self.menuTitle = menuInfo.title;
 }
 
 - (BOOL)isItems {
@@ -152,7 +173,7 @@
 }
 
 - (void)setItem:(HDMenuItem *)item {
-    _menuLabel.text = item.name;
+    _menuLabel.text = item.menuName;
     [_menuLabel sizeToFit];
 }
 

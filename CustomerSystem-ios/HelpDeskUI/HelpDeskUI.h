@@ -40,6 +40,9 @@
 #import "HDLocalDefine.h"
 
 
+#define MAS_SHORTHAND_GLOBALS
+#import "Masonry.h"
+
 //Ext keyWord
 #define kMesssageExtWeChat @"weichat"
 #define kMesssageExtWeChat_ctrlType @"ctrlType"

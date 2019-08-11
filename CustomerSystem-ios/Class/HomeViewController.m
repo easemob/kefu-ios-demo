@@ -178,12 +178,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         return;
     }
     isLogin = YES;
-    [SVProgressHUD showWithStatus:NSLocalizedString(@"Contacting...", @"连接客服")];
+    __weak typeof(self) weakSelf = self;
+    [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-        if ([lgM loginKefuSDK]/*[self loginKefuSDK:shouqian]测试切换账号使用*/ ) {
-//            [[EMClient sharedClient] logout:YES];//测试第二通道
-//            [self setPushOptions];
+        if ([lgM loginKefuSDK]) {
             NSString *queue = nil;
             if ([notification.object objectForKey:kpreSell]) {
                 queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
@@ -205,14 +204,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //                chat.title = [CSDemoAccountManager shareLoginManager].cname;
             }
             dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
+                [weakSelf hideHud];
                  [self.navigationController pushViewController:chat animated:YES];
             });
            
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"loginFail", @"login fail")];
-                [SVProgressHUD dismissWithDelay:1.0];
+                [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
             });
             NSLog(@"登录失败");
         }
@@ -349,7 +347,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     _conversationsVC = [[HConversationsViewController alloc] init];
     _conversationsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.conversationTitle", @"conversationList") image:[UIImage imageNamed:@"list"] selectedImage:[UIImage imageNamed:@"list2"]];
     _conversationsVC.tabBarItem.tag = 2;
-    [_conversationsVC viewDidLoad];
+//    [_conversationsVC viewDidLoad];
     [self unSelectedTapTabBarItems:_conversationsVC.tabBarItem];
     [self selectedTapTabBarItems:_conversationsVC.tabBarItem];
     
