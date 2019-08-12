@@ -58,7 +58,6 @@
     [self tableViewDidTriggerHeaderRefresh];
     
     
-    /*
     // 获取询前引导
     [HDClient.sharedClient.chatManager asyncFetchMenuWithConversationId:self.conversation.conversationId
                                                              completion:^(NSDictionary *info, HDError *error)
@@ -74,7 +73,6 @@
             });
         }
     }];
-     */
 }
 
 //请求视频通话

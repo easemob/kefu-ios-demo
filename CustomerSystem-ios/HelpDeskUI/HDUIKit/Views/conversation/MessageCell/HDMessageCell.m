@@ -113,7 +113,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-
+        _bubbleMaxWidth = 200.0;
         _messageType = model.bodyType;
         [self _setupSubviewsWithType:_messageType
                             isSender:model.isSender
@@ -437,7 +437,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                                 maxWidth = MAX(maxWidth, textSize.width);
                             }
                            
-                            CGSize textSize = [info.title boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size;
+                            CGSize textSize = [info.title boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size;
                             maxWidth = MAX(maxWidth, textSize.width);
                             
                             _bubbleView.menuInfo = info;
@@ -1033,25 +1033,21 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     
     HDMessageCell *cell = [self appearance];
     CGFloat bubbleMaxWidth = cell.bubbleMaxWidth;
-    bubbleMaxWidth -= (cell.leftBubbleMargin.left + cell.leftBubbleMargin.right + cell.rightBubbleMargin.left + cell.rightBubbleMargin.right)/2;
+    bubbleMaxWidth -= (cell.leftBubbleMargin.left + cell.leftBubbleMargin.right + cell.rightBubbleMargin.left + cell.rightBubbleMargin.right) / 2;
     CGFloat height = HDMessageCellPadding + cell.bubbleMargin.top + cell.bubbleMargin.bottom;
     
     switch (model.bodyType) {
         case EMMessageBodyTypeText: {
-            CGFloat tableWidth = 200-cell.bubbleMargin.left-cell.bubbleMargin.right;
+            CGFloat tableWidth = 200 - cell.bubbleMargin.left - cell.bubbleMargin.right;
             HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
             switch (extMsgType) {
                 case HDExtRobotMenuMsg:{
-                    NSDictionary *choiceDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"choice"];
-                    NSArray *menu = [choiceDic objectForKey:@"list"];
-                    NSString *menuTitle = [choiceDic objectForKey:@"title"];
-                    if ([choiceDic objectForKey:@"items"]) {
-                        NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
-                        for (NSDictionary *dic in [choiceDic objectForKey:@"items"]) {
-                            [arr addObject:[dic valueForKey:@"name"]];
-                        }
-                        menu = arr.copy;
+                    HDMenuInfo *info = [model.message menuInfo];
+                    NSMutableArray *itemTitleAry = [NSMutableArray array];
+                    for (HDMenuItem *item in info.items) {
+                        [itemTitleAry addObject:item.menuName];
                     }
+                    
                     int leftPadding = 15;
                     int rightPadding = 10;
                     int topMargin = 8;
@@ -1059,9 +1055,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     int allPadding = leftPadding + rightPadding;
                     int rowPaddingTopAndBottom = 5;
                     // 修改订单，轨迹类消息宽度
-                    height += [menuTitle boundingRectWithSize:CGSizeMake(tableWidth - allPadding , MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
-                    for (NSString *string in menu) {
-                        height += [string boundingRectWithSize:CGSizeMake(tableWidth - allPadding, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height + rowPaddingTopAndBottom;
+                    height += [info.title boundingRectWithSize:CGSizeMake(tableWidth - allPadding , MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
+                    for (NSString *itemTitle in itemTitleAry) {
+                        height += [itemTitle boundingRectWithSize:CGSizeMake(tableWidth - allPadding, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height + rowPaddingTopAndBottom;
                     }
                     height += (topMargin + bottomMargin);
                     return height;

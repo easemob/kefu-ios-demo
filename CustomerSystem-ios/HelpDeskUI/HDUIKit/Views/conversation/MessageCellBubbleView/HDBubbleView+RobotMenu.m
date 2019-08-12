@@ -47,12 +47,13 @@
         cell = [[MenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"menu"];
         
     }
+    
     if ([self isItems]) {
         cell.item = self.options[indexPath.row];
     } else {
         cell.menu = self.options[indexPath.row];
     }
-    cell.width = self.tableViewWidth;
+    cell.width = self.tableViewWidth + 25;
     
     return cell;
 }
@@ -62,7 +63,7 @@
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15]};
     CGFloat height = [self.menuTitle boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.width, height)];
-    label.font = [UIFont systemFontOfSize:13];
+    label.font = [UIFont systemFontOfSize:15];
     label.textColor = [UIColor blackColor];
     label.numberOfLines = 0;
     label.text = self.menuTitle;
@@ -77,7 +78,7 @@
     } else {
         text = self.options[indexPath.row];
     }
-    return [text boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
+    return [text boundingRectWithSize:CGSizeMake(self.tableViewWidth + 25, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -123,6 +124,7 @@
     if (_margin.top == margin.top && _margin.bottom == margin.bottom && _margin.left == margin.left && _margin.right == margin.right) {
         return;
     }
+    
     _margin = margin;
     [self _setupRobotMenuBubbleConstraints];
 }
@@ -187,6 +189,7 @@
 }
 - (void)setWidth:(CGFloat)width {
     _menuLabel.width = width;
+    [_menuLabel sizeToFit];
 }
 
 - (CGFloat)labelWidth {

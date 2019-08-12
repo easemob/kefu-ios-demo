@@ -1721,9 +1721,9 @@ typedef enum : NSUInteger {
                         @"msgtype":@{
                                 @"mode":@"transferManualGuide",
                                 @"choice":@{
-                                        @"menuid":[userInfo objectForKey:@"menuId"],
-                                        @"queueId":userInfo[@"queueId"],
-                                        @"queueType":userInfo[@"queueType"]
+                                        @"menuid":[userInfo objectForKey:@"menuId"] ?: @"",
+                                        @"queueId":userInfo[@"queueId"] ?: @"",
+                                        @"queueType":userInfo[@"queueType"] ?: @""
                                         }
                                 }
                         };
