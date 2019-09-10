@@ -1,5 +1,5 @@
 /*
- * This file is part of the SDWebImage package.
+ * This file is part of the HDSDWebImage package.
  * (c) Olivier Poitrey <rs@dailymotion.com>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -7,34 +7,34 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SDWebImageCompat.h"
+#import "HDSDWebImageCompat.h"
 
-typedef NS_ENUM(NSInteger, SDImageCacheType) {
+typedef NS_ENUM(NSInteger, HDSDImageCacheType) {
     /**
-     * The image wasn't available the SDWebImage caches, but was downloaded from the web.
+     * The image wasn't available the HDSDWebImage caches, but was downloaded from the web.
      */
-    SDImageCacheTypeNone,
+    HDSDImageCacheTypeNone,
     /**
      * The image was obtained from the disk cache.
      */
-    SDImageCacheTypeDisk,
+    HDSDImageCacheTypeDisk,
     /**
      * The image was obtained from the memory cache.
      */
-    SDImageCacheTypeMemory
+    HDSDImageCacheTypeMemory
 };
 
-typedef void(^SDWebImageQueryCompletedBlock)(UIImage *image, SDImageCacheType cacheType);
+typedef void(^HDSDWebImageQueryCompletedBlock)(UIImage *image, HDSDImageCacheType cacheType);
 
-typedef void(^SDWebImageCheckCacheCompletionBlock)(BOOL isInCache);
+typedef void(^HDSDWebImageCheckCacheCompletionBlock)(BOOL isInCache);
 
-typedef void(^SDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger totalSize);
+typedef void(^HDSDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger totalSize);
 
 /**
- * SDImageCache maintains a memory cache and an optional disk cache. Disk cache write operations are performed
+ * HDSDImageCache maintains a memory cache and an optional disk cache. Disk cache write operations are performed
  * asynchronous so it doesn’t add unnecessary latency to the UI.
  */
-@interface SDImageCache : NSObject
+@interface HDSDImageCache : NSObject
 
 /**
  * Decompressing images that are downloaded and cached can improve performance but can consume lot of memory.
@@ -75,9 +75,9 @@ typedef void(^SDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger tot
 /**
  * Returns global shared cache instance
  *
- * @return SDImageCache global instance
+ * @return HDSDImageCache global instance
  */
-+ (SDImageCache *)sharedImageCache;
++ (HDSDImageCache *)sharedImageCache;
 
 /**
  * Init a new cache store with a specific namespace
@@ -97,7 +97,7 @@ typedef void(^SDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger tot
 -(NSString *)makeDiskCachePath:(NSString*)fullNamespace;
 
 /**
- * Add a read-only cache path to search for images pre-cached by SDImageCache
+ * Add a read-only cache path to search for images pre-cached by HDSDImageCache
  * Useful if you want to bundle pre-loaded images with your app
  *
  * @param path The path to use for this read-only cache path
@@ -147,7 +147,7 @@ typedef void(^SDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger tot
  *
  * @param key The unique key used to store the wanted image
  */
-- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(SDWebImageQueryCompletedBlock)doneBlock;
+- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(HDSDWebImageQueryCompletedBlock)doneBlock;
 
 /**
  * Query the memory cache synchronously.
@@ -177,7 +177,7 @@ typedef void(^SDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger tot
  * @param key             The unique image cache key
  * @param completion      An block that should be executed after the image has been removed (optional)
  */
-- (void)removeImageForKey:(NSString *)key withCompletion:(SDWebImageNoParamsBlock)completion;
+- (void)removeImageForKey:(NSString *)key withCompletion:(HDSDWebImageNoParamsBlock)completion;
 
 /**
  * Remove the image from memory and optionally disk cache asynchronously
@@ -194,7 +194,7 @@ typedef void(^SDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger tot
  * @param fromDisk        Also remove cache entry from disk if YES
  * @param completion      An block that should be executed after the image has been removed (optional)
  */
-- (void)removeImageForKey:(NSString *)key fromDisk:(BOOL)fromDisk withCompletion:(SDWebImageNoParamsBlock)completion;
+- (void)removeImageForKey:(NSString *)key fromDisk:(BOOL)fromDisk withCompletion:(HDSDWebImageNoParamsBlock)completion;
 
 /**
  * Clear all memory cached images
@@ -205,7 +205,7 @@ typedef void(^SDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger tot
  * Clear all disk cached images. Non-blocking method - returns immediately.
  * @param completion    An block that should be executed after cache expiration completes (optional)
  */
-- (void)clearDiskOnCompletion:(SDWebImageNoParamsBlock)completion;
+- (void)clearDiskOnCompletion:(HDSDWebImageNoParamsBlock)completion;
 
 /**
  * Clear all disk cached images
@@ -217,7 +217,7 @@ typedef void(^SDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger tot
  * Remove all expired cached image from disk. Non-blocking method - returns immediately.
  * @param completionBlock An block that should be executed after cache expiration completes (optional)
  */
-- (void)cleanDiskWithCompletionBlock:(SDWebImageNoParamsBlock)completionBlock;
+- (void)cleanDiskWithCompletionBlock:(HDSDWebImageNoParamsBlock)completionBlock;
 
 /**
  * Remove all expired cached image from disk
@@ -238,7 +238,7 @@ typedef void(^SDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger tot
 /**
  * Asynchronously calculate the disk cache's size.
  */
-- (void)calculateSizeWithCompletionBlock:(SDWebImageCalculateSizeBlock)completionBlock;
+- (void)calculateSizeWithCompletionBlock:(HDSDWebImageCalculateSizeBlock)completionBlock;
 
 /**
  *  Async check if image exists in disk cache already (does not load the image)
@@ -247,7 +247,7 @@ typedef void(^SDWebImageCalculateSizeBlock)(NSUInteger fileCount, NSUInteger tot
  *  @param completionBlock the block to be executed when the check is done.
  *  @note the completion block will be always executed on the main queue
  */
-- (void)diskImageExistsWithKey:(NSString *)key completion:(SDWebImageCheckCacheCompletionBlock)completionBlock;
+- (void)diskImageExistsWithKey:(NSString *)key completion:(HDSDWebImageCheckCacheCompletionBlock)completionBlock;
 
 /**
  *  Check if image exists in disk cache already (does not load the image)

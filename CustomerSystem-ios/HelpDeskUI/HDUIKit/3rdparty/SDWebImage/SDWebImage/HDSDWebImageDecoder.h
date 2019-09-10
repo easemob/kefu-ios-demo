@@ -1,5 +1,5 @@
 /*
- * This file is part of the SDWebImage package.
+ * This file is part of the HDSDWebImage package.
  * (c) Olivier Poitrey <rs@dailymotion.com>
  *
  * Created by james <https://github.com/mystcolor> on 9/28/11.
@@ -9,10 +9,10 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SDWebImageCompat.h"
+#import "HDSDWebImageCompat.h"
 
-@interface UIImage (ForceDecode)
+@interface UIImage (HDForceDecode)
 
-+ (UIImage *)decodedImageWithImage:(UIImage *)image;
++ (UIImage *)hdDecodedImageWithImage:(UIImage *)image;
 
 @end

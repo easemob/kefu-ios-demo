@@ -1,5 +1,5 @@
 /*
- * This file is part of the SDWebImage package.
+ * This file is part of the HDSDWebImage package.
  * (c) Olivier Poitrey <rs@dailymotion.com>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -7,75 +7,75 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SDWebImageCompat.h"
-#import "SDWebImageOperation.h"
+#import "HDSDWebImageCompat.h"
+#import "HDSDWebImageOperation.h"
 
-typedef NS_OPTIONS(NSUInteger, SDWebImageDownloaderOptions) {
-    SDWebImageDownloaderLowPriority = 1 << 0,
-    SDWebImageDownloaderProgressiveDownload = 1 << 1,
+typedef NS_OPTIONS(NSUInteger, HDSDWebImageDownloaderOptions) {
+    HDSDWebImageDownloaderLowPriority = 1 << 0,
+    HDSDWebImageDownloaderProgressiveDownload = 1 << 1,
 
     /**
      * By default, request prevent the use of NSURLCache. With this flag, NSURLCache
      * is used with default policies.
      */
-    SDWebImageDownloaderUseNSURLCache = 1 << 2,
+    HDSDWebImageDownloaderUseNSURLCache = 1 << 2,
 
     /**
      * Call completion block with nil image/imageData if the image was read from NSURLCache
-     * (to be combined with `SDWebImageDownloaderUseNSURLCache`).
+     * (to be combined with `HDSDWebImageDownloaderUseNSURLCache`).
      */
 
-    SDWebImageDownloaderIgnoreCachedResponse = 1 << 3,
+    HDSDWebImageDownloaderIgnoreCachedResponse = 1 << 3,
     /**
      * In iOS 4+, continue the download of the image if the app goes to background. This is achieved by asking the system for
      * extra time in background to let the request finish. If the background task expires the operation will be cancelled.
      */
 
-    SDWebImageDownloaderContinueInBackground = 1 << 4,
+    HDSDWebImageDownloaderContinueInBackground = 1 << 4,
 
     /**
      * Handles cookies stored in NSHTTPCookieStore by setting 
      * NSMutableURLRequest.HTTPShouldHandleCookies = YES;
      */
-    SDWebImageDownloaderHandleCookies = 1 << 5,
+    HDSDWebImageDownloaderHandleCookies = 1 << 5,
 
     /**
      * Enable to allow untrusted SSL certificates.
      * Useful for testing purposes. Use with caution in production.
      */
-    SDWebImageDownloaderAllowInvalidSSLCertificates = 1 << 6,
+    HDSDWebImageDownloaderAllowInvalidSSLCertificates = 1 << 6,
 
     /**
      * Put the image in the high priority queue.
      */
-    SDWebImageDownloaderHighPriority = 1 << 7,
+    HDSDWebImageDownloaderHighPriority = 1 << 7,
 };
 
-typedef NS_ENUM(NSInteger, SDWebImageDownloaderExecutionOrder) {
+typedef NS_ENUM(NSInteger, HDSDWebImageDownloaderExecutionOrder) {
     /**
      * Default value. All download operations will execute in queue style (first-in-first-out).
      */
-    SDWebImageDownloaderFIFOExecutionOrder,
+    HDSDWebImageDownloaderFIFOExecutionOrder,
 
     /**
      * All download operations will execute in stack style (last-in-first-out).
      */
-    SDWebImageDownloaderLIFOExecutionOrder
+    HDSDWebImageDownloaderLIFOExecutionOrder
 };
 
-extern NSString *const SDWebImageDownloadStartNotification;
-extern NSString *const SDWebImageDownloadStopNotification;
+extern NSString *const HDSDWebImageDownloadStartNotification;
+extern NSString *const HDSDWebImageDownloadStopNotification;
 
-typedef void(^SDWebImageDownloaderProgressBlock)(NSInteger receivedSize, NSInteger expectedSize);
+typedef void(^HDSDWebImageDownloaderProgressBlock)(NSInteger receivedSize, NSInteger expectedSize);
 
-typedef void(^SDWebImageDownloaderCompletedBlock)(UIImage *image, NSData *data, NSError *error, BOOL finished);
+typedef void(^HDSDWebImageDownloaderCompletedBlock)(UIImage *image, NSData *data, NSError *error, BOOL finished);
 
-typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDictionary *headers);
+typedef NSDictionary *(^HDSDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDictionary *headers);
 
 /**
  * Asynchronous downloader dedicated and optimized for image loading.
  */
-@interface SDWebImageDownloader : NSObject
+@interface HDSDWebImageDownloader : NSObject
 
 /**
  * Decompressing images that are downloaded and cached can improve performance but can consume lot of memory.
@@ -98,16 +98,16 @@ typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDi
 
 
 /**
- * Changes download operations execution order. Default value is `SDWebImageDownloaderFIFOExecutionOrder`.
+ * Changes download operations execution order. Default value is `HDSDWebImageDownloaderFIFOExecutionOrder`.
  */
-@property (assign, nonatomic) SDWebImageDownloaderExecutionOrder executionOrder;
+@property (assign, nonatomic) HDSDWebImageDownloaderExecutionOrder executionOrder;
 
 /**
  *  Singleton method, returns the shared instance
  *
  *  @return global shared instance of downloader class
  */
-+ (SDWebImageDownloader *)sharedDownloader;
++ (HDSDWebImageDownloader *)sharedDownloader;
 
 /**
  *  Set the default URL credential to be set for request operations.
@@ -130,7 +130,7 @@ typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDi
  * This block will be invoked for each downloading image request, returned
  * NSDictionary will be used as headers in corresponding HTTP request.
  */
-@property (nonatomic, copy) SDWebImageDownloaderHeadersFilterBlock headersFilter;
+@property (nonatomic, copy) HDSDWebImageDownloaderHeadersFilterBlock headersFilter;
 
 /**
  * Set a value for a HTTP header to be appended to each download HTTP request.
@@ -148,21 +148,21 @@ typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDi
 - (NSString *)valueForHTTPHeaderField:(NSString *)field;
 
 /**
- * Sets a subclass of `SDWebImageDownloaderOperation` as the default
- * `NSOperation` to be used each time SDWebImage constructs a request
+ * Sets a subclass of `HDSDWebImageDownloaderOperation` as the default
+ * `NSOperation` to be used each time HDSDWebImage constructs a request
  * operation to download an image.
  *
- * @param operationClass The subclass of `SDWebImageDownloaderOperation` to set 
- *        as default. Passing `nil` will revert to `SDWebImageDownloaderOperation`.
+ * @param operationClass The subclass of `HDSDWebImageDownloaderOperation` to set 
+ *        as default. Passing `nil` will revert to `HDSDWebImageDownloaderOperation`.
  */
 - (void)setOperationClass:(Class)operationClass;
 
 /**
- * Creates a SDWebImageDownloader async downloader instance with a given URL
+ * Creates a HDSDWebImageDownloader async downloader instance with a given URL
  *
  * The delegate will be informed when the image is finish downloaded or an error has happen.
  *
- * @see SDWebImageDownloaderDelegate
+ * @see HDSDWebImageDownloaderDelegate
  *
  * @param url            The URL to the image to download
  * @param options        The options to be used for this download
@@ -170,18 +170,18 @@ typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDi
  * @param completedBlock A block called once the download is completed.
  *                       If the download succeeded, the image parameter is set, in case of error,
  *                       error parameter is set with the error. The last parameter is always YES
- *                       if SDWebImageDownloaderProgressiveDownload isn't use. With the
- *                       SDWebImageDownloaderProgressiveDownload option, this block is called
+ *                       if HDSDWebImageDownloaderProgressiveDownload isn't use. With the
+ *                       HDSDWebImageDownloaderProgressiveDownload option, this block is called
  *                       repeatedly with the partial image object and the finished argument set to NO
  *                       before to be called a last time with the full image and finished argument
  *                       set to YES. In case of error, the finished argument is always YES.
  *
- * @return A cancellable SDWebImageOperation
+ * @return A cancellable HDSDWebImageOperation
  */
-- (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url
-                                         options:(SDWebImageDownloaderOptions)options
-                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock
-                                       completed:(SDWebImageDownloaderCompletedBlock)completedBlock;
+- (id <HDSDWebImageOperation>)downloadImageWithURL:(NSURL *)url
+                                         options:(HDSDWebImageDownloaderOptions)options
+                                        progress:(HDSDWebImageDownloaderProgressBlock)progressBlock
+                                       completed:(HDSDWebImageDownloaderCompletedBlock)completedBlock;
 
 /**
  * Sets the download queue suspension state

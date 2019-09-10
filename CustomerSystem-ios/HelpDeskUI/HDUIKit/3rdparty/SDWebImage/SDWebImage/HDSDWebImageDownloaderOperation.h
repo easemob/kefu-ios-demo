@@ -1,5 +1,5 @@
 /*
- * This file is part of the SDWebImage package.
+ * This file is part of the HDSDWebImage package.
  * (c) Olivier Poitrey <rs@dailymotion.com>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -7,15 +7,15 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SDWebImageDownloader.h"
-#import "SDWebImageOperation.h"
+#import "HDSDWebImageDownloader.h"
+#import "HDSDWebImageOperation.h"
 
-extern NSString *const SDWebImageDownloadStartNotification;
-extern NSString *const SDWebImageDownloadReceiveResponseNotification;
-extern NSString *const SDWebImageDownloadStopNotification;
-extern NSString *const SDWebImageDownloadFinishNotification;
+extern NSString *const HDSDWebImageDownloadStartNotification;
+extern NSString *const HDSDWebImageDownloadReceiveResponseNotification;
+extern NSString *const HDSDWebImageDownloadStopNotification;
+extern NSString *const HDSDWebImageDownloadFinishNotification;
 
-@interface SDWebImageDownloaderOperation : NSOperation <SDWebImageOperation, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
+@interface HDSDWebImageDownloaderOperation : NSOperation <HDSDWebImageOperation, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 
 /**
  * The request used by the operation's task.
@@ -44,9 +44,9 @@ extern NSString *const SDWebImageDownloadFinishNotification;
 @property (nonatomic, strong) NSURLCredential *credential;
 
 /**
- * The SDWebImageDownloaderOptions for the receiver.
+ * The HDSDWebImageDownloaderOptions for the receiver.
  */
-@property (assign, nonatomic, readonly) SDWebImageDownloaderOptions options;
+@property (assign, nonatomic, readonly) HDSDWebImageDownloaderOptions options;
 
 /**
  * The expected size of data.
@@ -59,9 +59,9 @@ extern NSString *const SDWebImageDownloadFinishNotification;
 @property (strong, nonatomic) NSURLResponse *response;
 
 /**
- *  Initializes a `SDWebImageDownloaderOperation` object
+ *  Initializes a `HDSDWebImageDownloaderOperation` object
  *
- *  @see SDWebImageDownloaderOperation
+ *  @see HDSDWebImageDownloaderOperation
  *
  *  @param request        the URL request
  *  @param session        the URL session in which this operation will run
@@ -76,15 +76,15 @@ extern NSString *const SDWebImageDownloadFinishNotification;
  */
 - (id)initWithRequest:(NSURLRequest *)request
             inSession:(NSURLSession *)session
-              options:(SDWebImageDownloaderOptions)options
-             progress:(SDWebImageDownloaderProgressBlock)progressBlock
-            completed:(SDWebImageDownloaderCompletedBlock)completedBlock
-            cancelled:(SDWebImageNoParamsBlock)cancelBlock;
+              options:(HDSDWebImageDownloaderOptions)options
+             progress:(HDSDWebImageDownloaderProgressBlock)progressBlock
+            completed:(HDSDWebImageDownloaderCompletedBlock)completedBlock
+            cancelled:(HDSDWebImageNoParamsBlock)cancelBlock;
 
 /**
- *  Initializes a `SDWebImageDownloaderOperation` object
+ *  Initializes a `HDSDWebImageDownloaderOperation` object
  *
- *  @see SDWebImageDownloaderOperation
+ *  @see HDSDWebImageDownloaderOperation
  *
  *  @param request        the URL request
  *  @param options        downloader options
@@ -97,10 +97,10 @@ extern NSString *const SDWebImageDownloadFinishNotification;
  *  @return the initialized instance. The operation will run in a separate session created for this operation
  */
 - (id)initWithRequest:(NSURLRequest *)request
-              options:(SDWebImageDownloaderOptions)options
-             progress:(SDWebImageDownloaderProgressBlock)progressBlock
-            completed:(SDWebImageDownloaderCompletedBlock)completedBlock
-            cancelled:(SDWebImageNoParamsBlock)cancelBlock
+              options:(HDSDWebImageDownloaderOptions)options
+             progress:(HDSDWebImageDownloaderProgressBlock)progressBlock
+            completed:(HDSDWebImageDownloaderCompletedBlock)completedBlock
+            cancelled:(HDSDWebImageNoParamsBlock)cancelBlock
 __deprecated_msg("Method deprecated. Use `initWithRequest:inSession:options:progress:completed:cancelled`");
 
 @end

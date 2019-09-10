@@ -3,12 +3,12 @@
 // Copyright (c) 2014 Dailymotion. All rights reserved.
 //
 
-#import "NSData+ImageContentType.h"
+#import "NSData+HDImageContentType.h"
 
 
-@implementation NSData (ImageContentType)
+@implementation NSData (HDImageContentType)
 
-+ (NSString *)sd_contentTypeForImageData:(NSData *)data {
++ (NSString *)hdSD_contentTypeForImageData:(NSData *)data {
     uint8_t c;
     [data getBytes:&c length:1];
     switch (c) {
@@ -40,10 +40,10 @@
 @end
 
 
-@implementation NSData (ImageContentTypeDeprecated)
+@implementation NSData (HDImageContentTypeDeprecated)
 
 + (NSString *)contentTypeForImageData:(NSData *)data {
-    return [self sd_contentTypeForImageData:data];
+    return [self hdSD_contentTypeForImageData:data];
 }
 
 @end

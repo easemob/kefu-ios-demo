@@ -33,7 +33,7 @@
 #import "NSDate+Category.h"
 #import "UIView+FLExtension.h"
 #import "NSString+HDValid.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+HDWebCache.h"
 #import "UIViewController+HDHUD.h"
 #import "UIViewController+DismissKeyboard.h"
 #import "UIResponder+HRouter.h"

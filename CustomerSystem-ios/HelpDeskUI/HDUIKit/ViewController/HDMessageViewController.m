@@ -22,7 +22,7 @@
 #import "HDEmoji.h"
 #import "HDEmotionEscape.h"
 #import "HDCustomMessageCell.h"
-#import "UIImage+GIF.h"
+#import "UIImage+HDGIF.h"
 #import "HDLocalDefine.h"
 #import "HDSDKHelper.h"
 #import "HDBubbleView+Transform.h"
@@ -858,7 +858,7 @@ typedef enum : NSUInteger {
                 if (_dataSource && [_dataSource respondsToSelector:@selector(emotionURLFormessageViewController:messageModel:)]) {
                     HDEmotion *emotion = [_dataSource emotionURLFormessageViewController:self messageModel:model];
                     if (emotion) {
-                        model.image = [UIImage sd_animatedGIFNamed:emotion.emotionOriginal];
+                        model.image = [UIImage hdSD_animatedGIFNamed:emotion.emotionOriginal];
                         model.fileURLPath = emotion.emotionOriginalURL;
                     }
                 }
@@ -1707,40 +1707,20 @@ typedef enum : NSUInteger {
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo {
     
     if ([eventName isEqualToString:HRouterEventTapMenu]) {
-        NSString *text = [userInfo objectForKey:@"clickText"];
-        NSDictionary *ext = nil;
-        BOOL isTransferManualGuide = [userInfo[@"isTransferManualGuide"] boolValue];
-        if (isTransferManualGuide) {
-            if ([userInfo[@"queueType"] isEqualToString:@"hasTransferNote"]) // 判断是否是留言
-            {
-                // 评价
+        id info = [userInfo objectForKey:@"clickItem"];
+        if ([info isKindOfClass:[HDMenuItem class]]) { // 判断是否是item
+            HDMenuItem *item = (HDMenuItem *)info;
+            if (item.isTransferNoteItem) {
                 [self moreViewLeaveMessageAction:nil];
                 return;
-            }else {
-                ext = @{
-                        @"msgtype":@{
-                                @"mode":@"transferManualGuide",
-                                @"choice":@{
-                                        @"menuid":[userInfo objectForKey:@"menuId"] ?: @"",
-                                        @"queueId":userInfo[@"queueId"] ?: @"",
-                                        @"queueType":userInfo[@"queueType"] ?: @""
-                                        }
-                                }
-                        };
             }
+            HDMessage *msg = [HDMessage createSendMessageWithMenuItem:item to:self.conversation.conversationId];
+            [self _sendMessage:msg];
+            return;
         }else {
-            if ([userInfo objectForKey:@"menuId"]) {
-                ext = @{
-                        @"msgtype":@{
-                                @"choice":@{
-                                        @"menuid":[userInfo objectForKey:@"menuId"]
-                                        }
-                                }
-                        };
-            }
+            NSString *text = (NSString *)info;
+            [self sendTextMessage:text withExt:nil];
         }
-        
-        [self sendTextMessage:text withExt:ext];
     }
     if ([eventName isEqualToString:HRouterEventTapArticle]) { //图文消息
         if (_menuController.menuVisible) {

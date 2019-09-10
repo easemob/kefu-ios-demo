@@ -1,5 +1,5 @@
 /*
- * This file is part of the SDWebImage package.
+ * This file is part of the HDSDWebImage package.
  * (c) Olivier Poitrey <rs@dailymotion.com>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -7,11 +7,11 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SDWebImageManager.h"
+#import "HDSDWebImageManager.h"
 
-@class SDWebImagePrefetcher;
+@class HDSDWebImagePrefetcher;
 
-@protocol SDWebImagePrefetcherDelegate <NSObject>
+@protocol HDSDWebImagePrefetcherDelegate <NSObject>
 
 @optional
 
@@ -23,7 +23,7 @@
  * @param finishedCount   The total number of images that were prefetched (successful or not)
  * @param totalCount      The total number of images that were to be prefetched
  */
-- (void)imagePrefetcher:(SDWebImagePrefetcher *)imagePrefetcher didPrefetchURL:(NSURL *)imageURL finishedCount:(NSUInteger)finishedCount totalCount:(NSUInteger)totalCount;
+- (void)imagePrefetcher:(HDSDWebImagePrefetcher *)imagePrefetcher didPrefetchURL:(NSURL *)imageURL finishedCount:(NSUInteger)finishedCount totalCount:(NSUInteger)totalCount;
 
 /**
  * Called when all images are prefetched.
@@ -31,22 +31,22 @@
  * @param totalCount      The total number of images that were prefetched (whether successful or not)
  * @param skippedCount    The total number of images that were skipped
  */
-- (void)imagePrefetcher:(SDWebImagePrefetcher *)imagePrefetcher didFinishWithTotalCount:(NSUInteger)totalCount skippedCount:(NSUInteger)skippedCount;
+- (void)imagePrefetcher:(HDSDWebImagePrefetcher *)imagePrefetcher didFinishWithTotalCount:(NSUInteger)totalCount skippedCount:(NSUInteger)skippedCount;
 
 @end
 
-typedef void(^SDWebImagePrefetcherProgressBlock)(NSUInteger noOfFinishedUrls, NSUInteger noOfTotalUrls);
-typedef void(^SDWebImagePrefetcherCompletionBlock)(NSUInteger noOfFinishedUrls, NSUInteger noOfSkippedUrls);
+typedef void(^HDSDWebImagePrefetcherProgressBlock)(NSUInteger noOfFinishedUrls, NSUInteger noOfTotalUrls);
+typedef void(^HDSDWebImagePrefetcherCompletionBlock)(NSUInteger noOfFinishedUrls, NSUInteger noOfSkippedUrls);
 
 /**
  * Prefetch some URLs in the cache for future use. Images are downloaded in low priority.
  */
-@interface SDWebImagePrefetcher : NSObject
+@interface HDSDWebImagePrefetcher : NSObject
 
 /**
  *  The web image manager
  */
-@property (strong, nonatomic, readonly) SDWebImageManager *manager;
+@property (strong, nonatomic, readonly) HDSDWebImageManager *manager;
 
 /**
  * Maximum number of URLs to prefetch at the same time. Defaults to 3.
@@ -54,29 +54,29 @@ typedef void(^SDWebImagePrefetcherCompletionBlock)(NSUInteger noOfFinishedUrls, 
 @property (nonatomic, assign) NSUInteger maxConcurrentDownloads;
 
 /**
- * SDWebImageOptions for prefetcher. Defaults to SDWebImageLowPriority.
+ * HDSDWebImageOptions for prefetcher. Defaults to HDSDWebImageLowPriority.
  */
-@property (nonatomic, assign) SDWebImageOptions options;
+@property (nonatomic, assign) HDSDWebImageOptions options;
 
 /**
  * Queue options for Prefetcher. Defaults to Main Queue.
  */
 @property (nonatomic, assign) dispatch_queue_t prefetcherQueue;
 
-@property (weak, nonatomic) id <SDWebImagePrefetcherDelegate> delegate;
+@property (weak, nonatomic) id <HDSDWebImagePrefetcherDelegate> delegate;
 
 /**
  * Return the global image prefetcher instance.
  */
-+ (SDWebImagePrefetcher *)sharedImagePrefetcher;
++ (HDSDWebImagePrefetcher *)sharedImagePrefetcher;
 
 /**
  * Allows you to instantiate a prefetcher with any arbitrary image manager.
  */
-- (id)initWithImageManager:(SDWebImageManager *)manager;
+- (id)initWithImageManager:(HDSDWebImageManager *)manager;
 
 /**
- * Assign list of URLs to let SDWebImagePrefetcher to queue the prefetching,
+ * Assign list of URLs to let HDSDWebImagePrefetcher to queue the prefetching,
  * currently one image is downloaded at a time,
  * and skips images for failed downloads and proceed to the next image in the list
  *
@@ -85,7 +85,7 @@ typedef void(^SDWebImagePrefetcherCompletionBlock)(NSUInteger noOfFinishedUrls, 
 - (void)prefetchURLs:(NSArray *)urls;
 
 /**
- * Assign list of URLs to let SDWebImagePrefetcher to queue the prefetching,
+ * Assign list of URLs to let HDSDWebImagePrefetcher to queue the prefetching,
  * currently one image is downloaded at a time,
  * and skips images for failed downloads and proceed to the next image in the list
  *
@@ -97,7 +97,7 @@ typedef void(^SDWebImagePrefetcherCompletionBlock)(NSUInteger noOfFinishedUrls, 
  *                        first param is the number of completed (successful or not) requests,
  *                        second parameter is the number of skipped requests
  */
-- (void)prefetchURLs:(NSArray *)urls progress:(SDWebImagePrefetcherProgressBlock)progressBlock completed:(SDWebImagePrefetcherCompletionBlock)completionBlock;
+- (void)prefetchURLs:(NSArray *)urls progress:(HDSDWebImagePrefetcherProgressBlock)progressBlock completed:(HDSDWebImagePrefetcherCompletionBlock)completionBlock;
 
 /**
  * Remove and cancel queued list

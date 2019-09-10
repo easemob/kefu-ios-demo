@@ -1,5 +1,5 @@
 /*
- * This file is part of the SDWebImage package.
+ * This file is part of the HDSDWebImage package.
  * (c) Olivier Poitrey <rs@dailymotion.com>
  *
  * Created by james <https://github.com/mystcolor> on 9/28/11.
@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-#import "SDWebImageDecoder.h"
+#import "HDSDWebImageDecoder.h"
 
-@implementation UIImage (ForceDecode)
+@implementation UIImage (HDForceDecode)
 
-+ (UIImage *)decodedImageWithImage:(UIImage *)image {
++ (UIImage *)hdDecodedImageWithImage:(UIImage *)image {
     // while downloading huge amount of images
     // autorelease the bitmap context
     // and all vars to help system to free memory
     // when there are memory warning.
     // on iOS7, do not forget to call
-    // [[SDImageCache sharedImageCache] clearMemory];
+    // [[HDSDImageCache sharedImageCache] clearMemory];
     
     if (image == nil) { // Prevent "CGBitmapContextCreateImage: invalid context 0x0" error
         return nil;

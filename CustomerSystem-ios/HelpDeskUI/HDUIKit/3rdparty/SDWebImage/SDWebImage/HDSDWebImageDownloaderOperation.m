@@ -1,27 +1,27 @@
 /*
- * This file is part of the SDWebImage package.
+ * This file is part of the HDSDWebImage package.
  * (c) Olivier Poitrey <rs@dailymotion.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-#import "SDWebImageDownloaderOperation.h"
-#import "SDWebImageDecoder.h"
-#import "UIImage+MultiFormat.h"
+#import "HDSDWebImageDownloaderOperation.h"
+#import "HDSDWebImageDecoder.h"
+#import "UIImage+HDMultiFormat.h"
 #import <ImageIO/ImageIO.h>
-#import "SDWebImageManager.h"
+#import "HDSDWebImageManager.h"
 
-NSString *const SDWebImageDownloadStartNotification = @"SDWebImageDownloadStartNotification";
-NSString *const SDWebImageDownloadReceiveResponseNotification = @"SDWebImageDownloadReceiveResponseNotification";
-NSString *const SDWebImageDownloadStopNotification = @"SDWebImageDownloadStopNotification";
-NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinishNotification";
+NSString *const HDSDWebImageDownloadStartNotification = @"HDSDWebImageDownloadStartNotification";
+NSString *const HDSDWebImageDownloadReceiveResponseNotification = @"HDSDWebImageDownloadReceiveResponseNotification";
+NSString *const HDSDWebImageDownloadStopNotification = @"HDSDWebImageDownloadStopNotification";
+NSString *const HDSDWebImageDownloadFinishNotification = @"HDSDWebImageDownloadFinishNotification";
 
-@interface SDWebImageDownloaderOperation ()
+@interface HDSDWebImageDownloaderOperation ()
 
-@property (copy, nonatomic) SDWebImageDownloaderProgressBlock progressBlock;
-@property (copy, nonatomic) SDWebImageDownloaderCompletedBlock completedBlock;
-@property (copy, nonatomic) SDWebImageNoParamsBlock cancelBlock;
+@property (copy, nonatomic) HDSDWebImageDownloaderProgressBlock progressBlock;
+@property (copy, nonatomic) HDSDWebImageDownloaderCompletedBlock completedBlock;
+@property (copy, nonatomic) HDSDWebImageNoParamsBlock cancelBlock;
 
 @property (assign, nonatomic, getter = isExecuting) BOOL executing;
 @property (assign, nonatomic, getter = isFinished) BOOL finished;
@@ -43,7 +43,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
 
 @end
 
-@implementation SDWebImageDownloaderOperation {
+@implementation HDSDWebImageDownloaderOperation {
     size_t width, height;
     UIImageOrientation orientation;
     BOOL responseFromCached;
@@ -53,10 +53,10 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
 @synthesize finished = _finished;
 
 - (id)initWithRequest:(NSURLRequest *)request
-              options:(SDWebImageDownloaderOptions)options
-             progress:(SDWebImageDownloaderProgressBlock)progressBlock
-            completed:(SDWebImageDownloaderCompletedBlock)completedBlock
-            cancelled:(SDWebImageNoParamsBlock)cancelBlock {
+              options:(HDSDWebImageDownloaderOptions)options
+             progress:(HDSDWebImageDownloaderProgressBlock)progressBlock
+            completed:(HDSDWebImageDownloaderCompletedBlock)completedBlock
+            cancelled:(HDSDWebImageNoParamsBlock)cancelBlock {
 
     return [self initWithRequest:request
                        inSession:nil
@@ -68,10 +68,10 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
 
 - (id)initWithRequest:(NSURLRequest *)request
             inSession:(NSURLSession *)session
-              options:(SDWebImageDownloaderOptions)options
-             progress:(SDWebImageDownloaderProgressBlock)progressBlock
-            completed:(SDWebImageDownloaderCompletedBlock)completedBlock
-            cancelled:(SDWebImageNoParamsBlock)cancelBlock {
+              options:(HDSDWebImageDownloaderOptions)options
+             progress:(HDSDWebImageDownloaderProgressBlock)progressBlock
+            completed:(HDSDWebImageDownloaderCompletedBlock)completedBlock
+            cancelled:(HDSDWebImageNoParamsBlock)cancelBlock {
     if ((self = [super init])) {
         _request = [request copy];
         _shouldDecompressImages = YES;
@@ -142,7 +142,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
             self.progressBlock(0, NSURLResponseUnknownLength);
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStartNotification object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:HDSDWebImageDownloadStartNotification object:self];
         });
     }
     else {
@@ -188,7 +188,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
     if (self.dataTask) {
         [self.dataTask cancel];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:HDSDWebImageDownloadStopNotification object:self];
         });
 
         // As we cancelled the connection, its callback won't be called and thus won't
@@ -253,7 +253,7 @@ didReceiveResponse:(NSURLResponse *)response
         self.imageData = [[NSMutableData alloc] initWithCapacity:expected];
         self.response = response;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadReceiveResponseNotification object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:HDSDWebImageDownloadReceiveResponseNotification object:self];
         });
     }
     else {
@@ -267,7 +267,7 @@ didReceiveResponse:(NSURLResponse *)response
             [self.dataTask cancel];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:HDSDWebImageDownloadStopNotification object:self];
         });
         
         if (self.completedBlock) {
@@ -284,7 +284,7 @@ didReceiveResponse:(NSURLResponse *)response
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     [self.imageData appendData:data];
 
-    if ((self.options & SDWebImageDownloaderProgressiveDownload) && self.expectedSize > 0 && self.completedBlock) {
+    if ((self.options & HDSDWebImageDownloaderProgressiveDownload) && self.expectedSize > 0 && self.completedBlock) {
         // The following code is from http://www.cocoaintheshell.com/2011/05/progressive-images-download-imageio/
         // Thanks to the author @Nyx0uf
 
@@ -341,10 +341,10 @@ didReceiveResponse:(NSURLResponse *)response
 
             if (partialImageRef) {
                 UIImage *image = [UIImage imageWithCGImage:partialImageRef scale:1 orientation:orientation];
-                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
+                NSString *key = [[HDSDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
                 UIImage *scaledImage = [self scaledImageForKey:key image:image];
                 if (self.shouldDecompressImages) {
-                    image = [UIImage decodedImageWithImage:scaledImage];
+                    image = [UIImage hdDecodedImageWithImage:scaledImage];
                 }
                 else {
                     image = scaledImage;
@@ -390,9 +390,9 @@ didReceiveResponse:(NSURLResponse *)response
         self.thread = nil;
         self.dataTask = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:HDSDWebImageDownloadStopNotification object:self];
             if (!error) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadFinishNotification object:self];
+                [[NSNotificationCenter defaultCenter] postNotificationName:HDSDWebImageDownloadFinishNotification object:self];
             }
         });
     }
@@ -402,7 +402,7 @@ didReceiveResponse:(NSURLResponse *)response
             self.completedBlock(nil, nil, error, YES);
         }
     } else {
-        SDWebImageDownloaderCompletedBlock completionBlock = self.completedBlock;
+        HDSDWebImageDownloaderCompletedBlock completionBlock = self.completedBlock;
         
         if (completionBlock) {
             /**
@@ -411,27 +411,27 @@ didReceiveResponse:(NSURLResponse *)response
              *    and images for which responseFromCached is YES (only the ones that cannot be cached).
              *  Note: responseFromCached is set to NO inside `willCacheResponse:`. This method doesn't get called for large images or images behind authentication 
              */
-            if (self.options & SDWebImageDownloaderIgnoreCachedResponse && responseFromCached && [[NSURLCache sharedURLCache] cachedResponseForRequest:self.request]) {
+            if (self.options & HDSDWebImageDownloaderIgnoreCachedResponse && responseFromCached && [[NSURLCache sharedURLCache] cachedResponseForRequest:self.request]) {
                 completionBlock(nil, nil, nil, YES);
             } else if (self.imageData) {
-                UIImage *image = [UIImage sd_imageWithData:self.imageData];
-                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
+                UIImage *image = [UIImage hdSD_imageWithData:self.imageData];
+                NSString *key = [[HDSDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
                 image = [self scaledImageForKey:key image:image];
                 
                 // Do not force decoding animated GIFs
                 if (!image.images) {
                     if (self.shouldDecompressImages) {
-                        image = [UIImage decodedImageWithImage:image];
+                        image = [UIImage hdDecodedImageWithImage:image];
                     }
                 }
                 if (CGSizeEqualToSize(image.size, CGSizeZero)) {
-                    completionBlock(nil, nil, [NSError errorWithDomain:SDWebImageErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey : @"Downloaded image has 0 pixels"}], YES);
+                    completionBlock(nil, nil, [NSError errorWithDomain:HDSDWebImageErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey : @"Downloaded image has 0 pixels"}], YES);
                 }
                 else {
                     completionBlock(image, self.imageData, nil, YES);
                 }
             } else {
-                completionBlock(nil, nil, [NSError errorWithDomain:SDWebImageErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey : @"Image data is nil"}], YES);
+                completionBlock(nil, nil, [NSError errorWithDomain:HDSDWebImageErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey : @"Image data is nil"}], YES);
             }
         }
     }
@@ -446,7 +446,7 @@ didReceiveResponse:(NSURLResponse *)response
     __block NSURLCredential *credential = nil;
     
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        if (!(self.options & SDWebImageDownloaderAllowInvalidSSLCertificates)) {
+        if (!(self.options & HDSDWebImageDownloaderAllowInvalidSSLCertificates)) {
             disposition = NSURLSessionAuthChallengePerformDefaultHandling;
         } else {
             credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
@@ -496,11 +496,11 @@ didReceiveResponse:(NSURLResponse *)response
 }
 
 - (UIImage *)scaledImageForKey:(NSString *)key image:(UIImage *)image {
-    return SDScaledImageForKey(key, image);
+    return HDSDScaledImageForKey(key, image);
 }
 
 - (BOOL)shouldContinueWhenAppEntersBackground {
-    return self.options & SDWebImageDownloaderContinueInBackground;
+    return self.options & HDSDWebImageDownloaderContinueInBackground;
 }
 
 @end

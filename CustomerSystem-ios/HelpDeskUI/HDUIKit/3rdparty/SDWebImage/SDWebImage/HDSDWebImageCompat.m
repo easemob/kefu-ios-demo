@@ -1,18 +1,18 @@
 //
-//  SDWebImageCompat.m
-//  SDWebImage
+//  HDSDWebImageCompat.m
+//  HDSDWebImage
 //
 //  Created by Olivier Poitrey on 11/12/12.
 //  Copyright (c) 2012 Dailymotion. All rights reserved.
 //
 
-#import "SDWebImageCompat.h"
+#import "HDSDWebImageCompat.h"
 
 #if !__has_feature(objc_arc)
-#error SDWebImage is ARC only. Either turn on ARC for the project or use -fobjc-arc flag
+#error HDSDWebImage is ARC only. Either turn on ARC for the project or use -fobjc-arc flag
 #endif
 
-inline UIImage *SDScaledImageForKey(NSString *key, UIImage *image) {
+inline UIImage *HDSDScaledImageForKey(NSString *key, UIImage *image) {
     if (!image) {
         return nil;
     }
@@ -21,7 +21,7 @@ inline UIImage *SDScaledImageForKey(NSString *key, UIImage *image) {
         NSMutableArray *scaledImages = [NSMutableArray array];
 
         for (UIImage *tempImage in image.images) {
-            [scaledImages addObject:SDScaledImageForKey(key, tempImage)];
+            [scaledImages addObject:HDSDScaledImageForKey(key, tempImage)];
         }
 
         return [UIImage animatedImageWithImages:scaledImages duration:image.duration];
@@ -48,4 +48,4 @@ inline UIImage *SDScaledImageForKey(NSString *key, UIImage *image) {
     }
 }
 
-NSString *const SDWebImageErrorDomain = @"SDWebImageErrorDomain";
+NSString *const HDSDWebImageErrorDomain = @"HDSDWebImageErrorDomain";

@@ -12,8 +12,8 @@
 
 #import "HDCustomMessageCell.h"
 #import "HDBubbleView+Gif.h"
-#import "UIImageView+WebCache.h"
-#import "UIImage+GIF.h"
+#import "UIImageView+HDWebCache.h"
+#import "UIImage+HDGIF.h"
 #import "HDIMessageModel.h"
 
 @interface HDCustomMessageCell ()
@@ -38,13 +38,13 @@
 {
     UIImage *image = model.image;
     if (!image) {
-        [self.bubbleView.imageView sd_setImageWithURL:[NSURL URLWithString:model.fileURLPath] placeholderImage:[UIImage imageNamed:model.failImageName]];
+        [self.bubbleView.imageView hdSD_setImageWithURL:[NSURL URLWithString:model.fileURLPath] placeholderImage:[UIImage imageNamed:model.failImageName]];
     } else {
         _bubbleView.imageView.image = image;
     }
     
     if (model.avatarURLPath) {
-        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:model.avatarURLPath] placeholderImage:model.avatarImage];
+        [self.avatarView hdSD_setImageWithURL:[NSURL URLWithString:model.avatarURLPath] placeholderImage:model.avatarImage];
     } else {
         self.avatarView.image = model.avatarImage;
     }

@@ -9,6 +9,7 @@
 #import "HDCallViewController.h"
 #import "HDCallViewCollectionViewCell.h"
 #import <HelpDesk/HelpDesk.h>
+#import <ReplayKit/ReplayKit.h>
 
 #define kCamViewTag 100001
 
@@ -180,19 +181,46 @@
 - (IBAction)shareDesktopBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     if(btn.selected){
-        [[HDClient sharedClient].callManager publishWindow:self.view completion:^(id obj, HDError * error) {
-            if(error){
-                NSLog(@"desktop shared fail, error: %@", error.errorDescription);
-            }else{
-                NSLog(@"desktop shared success.");
-            }
-        }];
+        if (@available(iOS 11.0, *)) {
+            [[HDClient sharedClient].callManager publishWindow:nil completion:^(id obj, HDError * error) {
+                if(error){
+                    NSLog(@"desktop shared fail, error: %@", error.errorDescription);
+                }else{
+                    @autoreleasepool {
+                        [[RPScreenRecorder sharedRecorder] startCaptureWithHandler:^(CMSampleBufferRef  _Nonnull sampleBuffer, RPSampleBufferType bufferType, NSError * _Nullable error) {
+                            if (CMSampleBufferDataIsReady(sampleBuffer) && bufferType == RPSampleBufferTypeVideo) {
+                                [[HDClient sharedClient].callManager inputCustomVideoSampleBuffer:sampleBuffer
+                                                                                         rotation:UIDeviceOrientationPortrait
+                                                                                        publishId:obj
+                                                                                       completion:^(HDError *error) {
+                                                                                           
+                                                                                       }];
+                            }
+                        } completionHandler:^(NSError * _Nullable error) {
+                            
+                        }];
+                    }
+                }
+            }];
+        }else {
+            [[HDClient sharedClient].callManager publishWindow:self.view completion:^(id obj, HDError * error) {
+                if(error){
+                    NSLog(@"desktop shared fail, error: %@", error.errorDescription);
+                }else{
+                    NSLog(@"desktop shared success.");
+                }
+            }];
+        }
     }else{
         [[HDClient sharedClient].callManager unPublishWindowWithCompletion:^(id obj, HDError * error) {
             if(error){
                 NSLog(@" unpublish failed., error: %@", error.errorDescription);
             }else{
-                NSLog(@" unpublish success.");
+                if (@available(iOS 11.0, *)) {
+                    [[RPScreenRecorder sharedRecorder] stopCaptureWithHandler:^(NSError * _Nullable error) {
+                        
+                    }];
+                }
             }
         }];
     }
@@ -251,7 +279,6 @@
          if (error == nil) {
              [weakSelf.timeLabel setHidden:NO];
              [weakSelf startTimer];
-             
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                  AVAudioSession *audioSession = [AVAudioSession sharedInstance];
                  [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord  withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];

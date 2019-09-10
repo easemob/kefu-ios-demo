@@ -1,5 +1,5 @@
 /*
- * This file is part of the SDWebImage package.
+ * This file is part of the HDSDWebImage package.
  * (c) Olivier Poitrey <rs@dailymotion.com>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SDWebImageOperation <NSObject>
+@protocol HDSDWebImageOperation <NSObject>
 
 - (void)cancel;
 

@@ -1,29 +1,29 @@
 /*
- * This file is part of the SDWebImage package.
+ * This file is part of the HDSDWebImage package.
  * (c) Olivier Poitrey <rs@dailymotion.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-#import "SDWebImagePrefetcher.h"
+#import "HDSDWebImagePrefetcher.h"
 
-@interface SDWebImagePrefetcher ()
+@interface HDSDWebImagePrefetcher ()
 
-@property (strong, nonatomic) SDWebImageManager *manager;
+@property (strong, nonatomic) HDSDWebImageManager *manager;
 @property (strong, nonatomic) NSArray *prefetchURLs;
 @property (assign, nonatomic) NSUInteger requestedCount;
 @property (assign, nonatomic) NSUInteger skippedCount;
 @property (assign, nonatomic) NSUInteger finishedCount;
 @property (assign, nonatomic) NSTimeInterval startedTime;
-@property (copy, nonatomic) SDWebImagePrefetcherCompletionBlock completionBlock;
-@property (copy, nonatomic) SDWebImagePrefetcherProgressBlock progressBlock;
+@property (copy, nonatomic) HDSDWebImagePrefetcherCompletionBlock completionBlock;
+@property (copy, nonatomic) HDSDWebImagePrefetcherProgressBlock progressBlock;
 
 @end
 
-@implementation SDWebImagePrefetcher
+@implementation HDSDWebImagePrefetcher
 
-+ (SDWebImagePrefetcher *)sharedImagePrefetcher {
++ (HDSDWebImagePrefetcher *)sharedImagePrefetcher {
     static dispatch_once_t once;
     static id instance;
     dispatch_once(&once, ^{
@@ -33,13 +33,13 @@
 }
 
 - (id)init {
-    return [self initWithImageManager:[SDWebImageManager new]];
+    return [self initWithImageManager:[HDSDWebImageManager new]];
 }
 
-- (id)initWithImageManager:(SDWebImageManager *)manager {
+- (id)initWithImageManager:(HDSDWebImageManager *)manager {
     if ((self = [super init])) {
         _manager = manager;
-        _options = SDWebImageLowPriority;
+        _options = HDSDWebImageLowPriority;
         _prefetcherQueue = dispatch_get_main_queue();
         self.maxConcurrentDownloads = 3;
     }
@@ -57,7 +57,7 @@
 - (void)startPrefetchingAtIndex:(NSUInteger)index {
     if (index >= self.prefetchURLs.count) return;
     self.requestedCount++;
-    [self.manager downloadImageWithURL:self.prefetchURLs[index] options:self.options progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+    [self.manager downloadImageWithURL:self.prefetchURLs[index] options:self.options progress:nil completed:^(UIImage *image, NSError *error, HDSDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
         if (!finished) return;
         self.finishedCount++;
 
@@ -109,7 +109,7 @@
     [self prefetchURLs:urls progress:nil completed:nil];
 }
 
-- (void)prefetchURLs:(NSArray *)urls progress:(SDWebImagePrefetcherProgressBlock)progressBlock completed:(SDWebImagePrefetcherCompletionBlock)completionBlock {
+- (void)prefetchURLs:(NSArray *)urls progress:(HDSDWebImagePrefetcherProgressBlock)progressBlock completed:(HDSDWebImagePrefetcherCompletionBlock)completionBlock {
     [self cancelPrefetching]; // Prevent duplicate prefetch request
     self.startedTime = CFAbsoluteTimeGetCurrent();
     self.prefetchURLs = urls;

@@ -83,9 +83,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self routerEventWithName:HRouterEventTapMenu userInfo:@{@"clickItem":self.options[indexPath.row]}];
+    /*
     if ([self isItems]) {
         HDMenuItem *item = self.options[indexPath.row];
-        
         
         NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
         if (item.menuName) {
@@ -102,14 +103,19 @@
                 userInfo[@"queueId"] = item.queueId;
             }
             
-            if (item.itemType) {
-                userInfo[@"queueType"] = item.itemType;
+            if (item.queueType) {
+                userInfo[@"queueType"] = item.queueType;
+            }
+            
+            if (item.queueName) {
+                userInfo[@"queueName"] = item.queueName;
             }
         }
         [self routerEventWithName:HRouterEventTapMenu userInfo:userInfo];
     } else {
         [self routerEventWithName:HRouterEventTapMenu userInfo:@{@"clickText":self.options[indexPath.row]}];
     }
+     */
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {

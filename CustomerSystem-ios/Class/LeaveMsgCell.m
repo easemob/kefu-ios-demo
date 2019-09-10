@@ -98,7 +98,7 @@
     [super layoutSubviews];
     CGRect frame = self.imageView.frame;
     
-    [self.imageView sd_setImageWithURL:_imageURL placeholderImage:_placeholderImage];
+    [self.imageView hdSD_setImageWithURL:_imageURL placeholderImage:_placeholderImage];
     self.imageView.frame = CGRectMake(10, 7, 45, 45);
     self.imageView.layer.cornerRadius = CGRectGetWidth(self.imageView.frame)/2;
     self.imageView.contentMode = UIViewContentModeCenter;

@@ -1,5 +1,5 @@
 /*
- * This file is part of the SDWebImage package.
+ * This file is part of the HDSDWebImage package.
  * (c) Olivier Poitrey <rs@dailymotion.com>
  * (c) Jamie Pinkham
  *
@@ -10,11 +10,11 @@
 #import <TargetConditionals.h>
 
 #ifdef __OBJC_GC__
-#error SDWebImage does not support Objective-C Garbage Collection
+#error HDSDWebImage does not support Objective-C Garbage Collection
 #endif
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED != 20000 && __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_5_0
-#error SDWebImage doesn't support Deployment Target version < 5.0
+#error HDSDWebImage doesn't support Deployment Target version < 5.0
 #endif
 
 #if !TARGET_OS_IPHONE
@@ -40,22 +40,22 @@
 #endif
 
 #if OS_OBJECT_USE_OBJC
-    #undef SDDispatchQueueRelease
-    #undef SDDispatchQueueSetterSementics
-    #define SDDispatchQueueRelease(q)
-    #define SDDispatchQueueSetterSementics strong
+    #undef HDSDDispatchQueueRelease
+    #undef HDSDDispatchQueueSetterSementics
+    #define HDSDDispatchQueueRelease(q)
+    #define HDSDDispatchQueueSetterSementics strong
 #else
-#undef SDDispatchQueueRelease
-#undef SDDispatchQueueSetterSementics
-#define SDDispatchQueueRelease(q) (dispatch_release(q))
-#define SDDispatchQueueSetterSementics assign
+#undef HDSDDispatchQueueRelease
+#undef HDSDDispatchQueueSetterSementics
+#define HDSDDispatchQueueRelease(q) (dispatch_release(q))
+#define HDSDDispatchQueueSetterSementics assign
 #endif
 
-extern UIImage *SDScaledImageForKey(NSString *key, UIImage *image);
+extern UIImage *HDSDScaledImageForKey(NSString *key, UIImage *image);
 
-typedef void(^SDWebImageNoParamsBlock)();
+typedef void(^HDSDWebImageNoParamsBlock)();
 
-extern NSString *const SDWebImageErrorDomain;
+extern NSString *const HDSDWebImageErrorDomain;
 
 #define dispatch_main_sync_safe(block)\
     if ([NSThread isMainThread]) {\
