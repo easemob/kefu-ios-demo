@@ -23,6 +23,8 @@ extern NSString *const HRouterEventTapArticle; //图文消息
 
 extern NSString *const HRouterEventTextURLTapEventName;
 extern NSString *const HRouterEventTransformURLTapEventName;
+extern NSString *const HRouterEventRebotSolveTapEventName;
+extern NSString *const HRouterEventRebotUnsolveTapEventName;
 
 extern NSString *const HDMessageCellIdentifierSendText;
 extern NSString *const HDMessageCellIdentifierSendLocation;

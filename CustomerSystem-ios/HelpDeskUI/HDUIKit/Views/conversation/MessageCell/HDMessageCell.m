@@ -73,6 +73,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 {
     NSDataDetector *_detector;
     NSArray *_urlMatches;
+    NSRange _solveRange;
+    NSRange _unsolveRange;
 }
 
 @synthesize statusButton = _statusButton;
@@ -383,6 +385,36 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         switch (model.bodyType) {
             case EMMessageBodyTypeText:
             {
+                // 是否是打分消息
+                if (model.isScoreMsg) {
+                    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:model.text];
+                    NSRange range = [[attrStr string] rangeOfString:@"解决 / 未解决"];
+                    if (range.location != NSNotFound) {
+                        _solveRange = [[attrStr string] rangeOfString:@"解决" options:NSCaseInsensitiveSearch range:range];
+                                               if (_solveRange.location != NSNotFound) {
+                                                   [attrStr addAttribute:NSLinkAttributeName
+                                                                   value:@"solve://"
+                                                                   range:_solveRange];
+                                                   [attrStr addAttribute:NSForegroundColorAttributeName
+                                                                   value:[UIColor blueColor]
+                                                                   range:_solveRange];
+                                               }
+                                               
+                                               
+                                               _unsolveRange = [[attrStr string] rangeOfString:@"未解决" options:NSCaseInsensitiveSearch range:range];
+                                               if (_unsolveRange.location != NSNotFound) {
+                                                   [attrStr addAttribute:NSLinkAttributeName
+                                                                   value:@"unsolve://"
+                                                                   range:_unsolveRange];
+                                                   [attrStr addAttribute:NSForegroundColorAttributeName
+                                                                   value:[UIColor blueColor]
+                                                                   range:_unsolveRange];
+                                               }
+                    }
+                    _bubbleView.textLabel.attributedText = attrStr;
+                    return;
+                }
+                
                 _detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
                 HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
                 switch (extMsgType) {
@@ -907,6 +939,17 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     break;
                 }
             }
+        }
+        // 选中"解决"
+        if ([self isIndex:charIndex inRange:_solveRange]) {
+            [self.nextResponder routerEventWithName:HRouterEventRebotSolveTapEventName userInfo:@{@"HDMessage":_model.message}];
+            return;
+        }
+        
+        // 选中"未解决"
+        if ([self isIndex:charIndex inRange:_unsolveRange]) {
+            [self.nextResponder routerEventWithName:HRouterEventRebotUnsolveTapEventName userInfo:@{@"HDMessage":_model.message}];
+            return;
         }
     } else {
         [self.nextResponder routerEventWithName:eventName userInfo:userInfo];

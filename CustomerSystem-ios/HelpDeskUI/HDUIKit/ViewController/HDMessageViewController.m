@@ -32,6 +32,7 @@
 #import "HDFormWebViewController.h"
 #import "UIViewController+HDHUD.h"
 #import "UIViewController+AlertController.h"
+#import "HRobotUnsolveItemView.h"
 
 typedef enum : NSUInteger {
     HDRequestRecord,
@@ -39,7 +40,7 @@ typedef enum : NSUInteger {
     HDCanNotRecord,
 } HDRecordResponse;
 
-@interface HDMessageViewController ()<HDMessageCellDelegate,HDChatManagerDelegate,TransmitDeleteTrackMsgDelegate, UIGestureRecognizerDelegate>
+@interface HDMessageViewController ()<HDMessageCellDelegate,HDChatManagerDelegate,TransmitDeleteTrackMsgDelegate, UIGestureRecognizerDelegate,HRobotUnsolveItemViewDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
@@ -1605,6 +1606,17 @@ typedef enum : NSUInteger {
         if (model) {
             [formattedArray addObject:model];
         }
+        
+        // 根据是否需要评价决定是否添加“解决/未解决”
+        if (message.isNeedToScore) {
+            HDMessage *msg = message;
+            msg.status = HDMessageStatusSuccessed;
+            msg.direction = HDMessageDirectionReceive;
+            id<HDIMessageModel> solveModel = [[HDMessageModel alloc] initWithMessage:msg];
+            solveModel.isScoreMsg = YES;
+            solveModel.text = @"这样回答有没有解决您的问题呢？  解决 / 未解决";
+            [formattedArray addObject:solveModel];
+        }
     }
     
     return formattedArray;
@@ -1779,6 +1791,110 @@ typedef enum : NSUInteger {
     if ([eventName isEqualToString:HRouterEventTransformURLTapEventName]) {
         [self showTransformURL:[userInfo objectForKey:@"url"]];
     }
+    
+    // 以下为解决未解决部分实现
+    __block HDMessage *msg = userInfo[@"HDMessage"];
+    if (!msg) {
+        return;
+    }
+    if ([eventName isEqualToString:HRouterEventRebotSolveTapEventName]) {
+        [self showHudInView:self.view hint:@"提交中..."];
+        [self.view endEditing:YES];
+        [HDClient.sharedClient.chatManager asyncPostRobotQuality:msg
+                                                           solve:YES
+                                                            tags:nil
+                                                      completion:^(NSDictionary *info, HDError *error)
+        {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self hideHud];
+                if (!error) {
+                    msg.isNeedToScore = NO;
+                    [HDClient.sharedClient.chatManager updateMessage:msg
+                                                          completion:^(HDMessage *aMessage, HDError *aError)
+                    {
+                        self.messageTimeIntervalTag = -1;
+                        self.dataArray = [[self formatMessages:self.messsagesSource] mutableCopy];
+                        [self.tableView reloadData];
+                    }];
+                    [self showHint:@"感谢您的提交"];
+                }else {
+                    [self showHint:@"提交失败，请稍后再试"];
+                }
+            });
+        }];
+    }
+    
+    if ([eventName isEqualToString:HRouterEventRebotUnsolveTapEventName]) {
+        [self.view endEditing:YES];
+        [self showHudInView:self.view hint:@"获取标签中..."];
+        [HDClient.sharedClient.chatManager asyncFetchRobotQualityTags:msg
+                                                           completion:^(NSDictionary *tags, HDError *error)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self hideHud];
+                if (!error) {
+                    NSArray *ary = tags[@"entities"];
+                    NSMutableArray *tags = [NSMutableArray array];
+                    for (NSDictionary *dic in ary) {
+                        if (dic[@"name"] && [dic[@"name"] isKindOfClass:[NSString class]]) {
+                            [tags addObject:dic[@"name"]];
+                        }
+                    }
+                    if (tags.count == 0) {
+                        [self showHint:@"未设置标签"];
+                        return ;
+                    }
+                    [self showUnsolveTags:tags message:msg];
+                }else {
+                    [self showHint:@"标签获取失败，请稍后再试"];
+                }
+            });
+        }];
+    }
+    
+}
+
+- (void)showUnsolveTags:(NSArray *)aTags message:(HDMessage *)aMsg {
+    HRobotUnsolveItemView *itemView = [[HRobotUnsolveItemView alloc] initWithList:aTags
+                                                                          message:aMsg];
+    itemView.delegate = self;
+    [self.view addSubview:itemView];
+}
+
+#pragma mark - HRobotUnsolveItemViewDelegate
+- (void)submitView:(HRobotUnsolveItemView *)aView list:(NSArray *)tags message:(HDMessage *)aMsg {
+    [aView removeFromSuperview];
+    __block HDMessage *msg = aMsg;
+    [self showHudInView:self.view hint:@"提交中..."];
+    [self.view endEditing:YES];
+    [HDClient.sharedClient.chatManager asyncPostRobotQuality:aMsg
+                                                       solve:NO
+                                                        tags:tags
+                                                  completion:^(NSDictionary *info, HDError *error)
+    {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hideHud];
+            if (!error) {
+                msg.isNeedToScore = NO;
+                [HDClient.sharedClient.chatManager updateMessage:msg
+                                                      completion:^(HDMessage *aMessage, HDError *aError)
+                {
+                    self.messageTimeIntervalTag = -1;
+                    self.dataArray = [[self formatMessages:self.messsagesSource] mutableCopy];
+                    [self.tableView reloadData];
+                }];
+                [self showHint:@"感谢您的提交"];
+            }else {
+                [self showHint:@"提交失败，请稍后再试"];
+            }
+        });
+    }];
+}
+
+- (void)dismissView:(HRobotUnsolveItemView *)aView {
+    [aView removeFromSuperview];
 }
 
 - (void)showTransformURL:(NSString *)str {
