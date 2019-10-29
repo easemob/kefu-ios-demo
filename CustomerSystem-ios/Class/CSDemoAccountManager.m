@@ -49,11 +49,11 @@
 }
 
 - (NSString *)originLocalPath {
-    return [[SDImageCache sharedImageCache] defaultCachePathForKey:_originMediaId];
+    return [[HDSDImageCache sharedImageCache] defaultCachePathForKey:_originMediaId];
 }
 
 - (NSString *)thumbnailLocalPath {
-    return [[SDImageCache sharedImageCache] defaultCachePathForKey:_thumbnailMediaId];
+    return [[HDSDImageCache sharedImageCache] defaultCachePathForKey:_thumbnailMediaId];
 }
 
 - (HDEmotionType)emotionType {

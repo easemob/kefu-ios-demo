@@ -11,6 +11,7 @@
 #import "EditViewController.h"
 #import "LocalDefine.h"
 #import "HDChatViewController.h"
+#import "HelpDeskUI.h"
 
 
 @interface SettingViewController ()<UIAlertViewDelegate>
@@ -260,19 +261,19 @@
 
         case 5:
         {
-            [SVProgressHUD showWithStatus:NSLocalizedString(@"Contacting...", @"连接客服")];
+            __weak typeof(self) weakSelf = self;
+            [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
             CSDemoAccountManager *lgm = [CSDemoAccountManager shareLoginManager];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 if ([lgm loginKefuSDK]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD dismiss];
+                        [weakSelf hideHud];
                         HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
                         [self.navigationController pushViewController:chat animated:YES];
                     });
                 } else {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"loginFail", @"login fail")];
-                        [SVProgressHUD dismissWithDelay:1.0];
+                        [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
                     });
                 }
 

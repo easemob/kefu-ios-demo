@@ -10,13 +10,7 @@
 #import "HConversationTableViewCell.h"
 #import "HDChatViewController.h"
 
-@interface HConversationsViewController ()<UITableViewDelegate,UITableViewDataSource,SRRefreshDelegate>
-
-@property (nonatomic,strong) UITableView *tableView;
-
-@property (nonatomic,strong) NSArray *dataSource;
-
-@property (nonatomic, strong) SRRefreshView *slimeView;
+@interface HConversationsViewController ()
 @end
 
 @implementation HConversationsViewController
@@ -31,33 +25,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.showRefreshHeader = YES;
     [self.view addSubview:self.tableView];
-    [self.tableView addSubview:self.slimeView];
     [self refreshData];
 }
 
-- (NSArray *)dataSource {
-    if (_dataSource == nil) {
-        _dataSource = [NSMutableArray arrayWithCapacity:0];
-    }
-    return _dataSource;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dataSource.count;
+    return self.dataArray.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HConversationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (cell == nil) {
         cell = [[HConversationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    cell.model = self.dataSource[indexPath.row];
+    cell.model = self.dataArray[indexPath.row];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    HDConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
+    HDConversation *conversation = [self.dataArray objectAtIndex:indexPath.row];
     HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:conversation.conversationId];
     [self.navigationController pushViewController:chat animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -70,11 +57,11 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) { //删除
-        NSArray *datas = self.dataSource;
+        NSArray *datas = self.dataArray;
         HDConversation *conv = [datas objectAtIndex:indexPath.row];
         BOOL delete = [[HDClient sharedClient].chatManager deleteConversation:conv.conversationId deleteMessages:NO];
         if (delete) {
-            [self refreshData];
+            [self tableViewDidTriggerHeaderRefresh];
         }
     }
 }
@@ -82,6 +69,10 @@
 #pragma mark - refreshData
 
 - (void)refreshData {
+    [self tableViewDidTriggerHeaderRefresh];
+}
+
+- (void)tableViewDidTriggerHeaderRefresh {
     NSArray *hConversations = [[HDClient sharedClient].chatManager loadAllConversations];
     long badgeValue = 0;
     for (HDConversation *conv in hConversations) {
@@ -97,72 +88,10 @@
         }
     }
     self.tabBarItem.badgeValue = badge;
-    self.dataSource = hConversations;
-    [self.tableView reloadData];
+    self.dataArray = [hConversations mutableCopy];
+    [self tableViewDidFinishTriggerHeader:YES reload:YES];
 }
 
-
-#pragma mark - slimeRefresh delegate
-//加载更多
-- (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
-{
-    [self refreshData];
-    if ([_slimeView loading]) {
-        [_slimeView endRefresh];
-    }
-}
-
-#pragma mark - scrollView delegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (_slimeView) {
-        [_slimeView scrollViewDidScroll];
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (_slimeView) {
-        [_slimeView scrollViewDidEndDraging];
-    }
-}
-
-#pragma mark - UI
-- (SRRefreshView *)slimeView
-{
-    if (_slimeView == nil) {
-        _slimeView = [[SRRefreshView alloc] init];
-        _slimeView.delegate = self;
-        _slimeView.upInset = 0;
-        _slimeView.slimeMissWhenGoingBack = YES;
-        _slimeView.slime.bodyColor = [UIColor grayColor];
-        _slimeView.slime.skinColor = [UIColor grayColor];
-        _slimeView.slime.lineWith = 1;
-        _slimeView.slime.shadowBlur = 4;
-        _slimeView.slime.shadowColor = [UIColor grayColor];
-    }
-    
-    return _slimeView;
-}
-
-- (UITableView *)tableView {
-    if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-44) style:UITableViewStylePlain];
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        _tableView.rowHeight = 60;
-        _tableView.backgroundColor = [UIColor whiteColor];
-        _tableView.tableFooterView = [UIView new];
-    }
-    return _tableView;
-}
-
-#pragma mark - dealloc
-
-- (void)dealloc {
-    _slimeView.delegate = nil;
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

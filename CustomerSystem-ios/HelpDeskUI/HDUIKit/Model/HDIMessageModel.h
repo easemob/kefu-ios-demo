@@ -54,7 +54,7 @@
 @property (strong, nonatomic) NSString *thumbnailFileLocalPath;
 @property (strong, nonatomic) NSString *fileURLPath;
 @property (strong, nonatomic) NSString *thumbnailFileURLPath;
-
+@property (nonatomic) BOOL isScoreMsg;
 
 - (instancetype)initWithMessage:(HDMessage *)message;
 

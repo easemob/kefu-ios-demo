@@ -9,6 +9,7 @@
 #import "HDBubbleView+Article.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import "NSString+HDValid.h"
+#import <HelpDesk/HelpDesk.h>
 #import <UIKit/UIKit.h>
 
 
@@ -25,8 +26,25 @@
         }
         _createTime = [self timeFormatter:createTime/1000];
         _digest = [dic objectForKey:@"digest"];
-        _imageUrl = [dic objectForKey:@"thumbUrl"];
-        _url = [dic objectForKey:@"url"];
+        
+        // 封面展示原图
+        NSString *picUrl = [dic objectForKey:@"picurl"];
+        if (picUrl) {
+            if (picUrl && [picUrl hasPrefix:@"http"]) {
+                _imageUrl = picUrl;
+            }else {
+                _imageUrl = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], picUrl];
+            }
+        }
+        
+        NSString *detailUrl = [dic objectForKey:@"url"];
+        if (detailUrl) {
+            if (detailUrl && [detailUrl hasPrefix:@"http"]) {
+                _url = detailUrl;
+            }else {
+                _url = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], detailUrl];
+            }
+        }
     }
     return self;
 }
@@ -203,7 +221,7 @@
     _model = model;
     _titleLabel.text = model.title;
     _timeLabel.text = model.createTime;
-    [_imageView sd_setImageWithURL:[NSURL URLWithString:_model.imageUrl] placeholderImage:nil];
+    [_imageView hdSD_setImageWithURL:[NSURL URLWithString:_model.imageUrl] placeholderImage:nil];
     _profile.text = _model.digest;
 }
 
@@ -260,11 +278,11 @@
     _model = model;
     if (_model.type == HDCellTypeTitle) {
         _titleLabel.textColor = [UIColor whiteColor];
-        [_imageView sd_setImageWithURL:[NSURL URLWithString:model.imageUrl] placeholderImage:nil];
+        [_imageView hdSD_setImageWithURL:[NSURL URLWithString:model.imageUrl] placeholderImage:nil];
     }
     if (_model.type == HDCellTypeSub) {
         
-        [_imageView sd_setImageWithURL:[NSURL URLWithString:model.imageUrl] placeholderImage:nil];
+        [_imageView hdSD_setImageWithURL:[NSURL URLWithString:model.imageUrl] placeholderImage:nil];
     }
     _titleLabel.text = model.title;
 }

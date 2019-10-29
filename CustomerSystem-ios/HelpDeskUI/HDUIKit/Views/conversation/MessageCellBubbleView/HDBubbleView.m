@@ -28,6 +28,8 @@ NSString *const HRouterEventTapTransform = @"HRouterEventTapTransform";
 NSString *const HRouterEventTapEvaluate = @"HRouterEventTapEvaluate";
 NSString *const HRouterEventTextURLTapEventName = @"HRouterEventTextURLTapEventName";
 NSString *const HRouterEventTransformURLTapEventName = @"HRouterEventTransformURLTapEventName";
+NSString *const HRouterEventRebotSolveTapEventName = @"HRouterEventRebotSolveTapEventName";
+NSString *const HRouterEventRebotUnsolveTapEventName = @"HRouterEventRebotUnsolveTapEventName";
 @interface HDBubbleView()
 
 @end

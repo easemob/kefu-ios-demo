@@ -19,6 +19,7 @@
 @implementation HDMessageModel
 @synthesize body;
 @synthesize from;
+@synthesize isScoreMsg;
 
 - (instancetype)initWithMessage:(HDMessage *)message
 {

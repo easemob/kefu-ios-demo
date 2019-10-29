@@ -25,7 +25,7 @@
 #import "HDBubbleView+Form.h"
 #import "HDBubbleView+Article.h"
 #import "HDBubbleView+Gif.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+HDWebCache.h"
 #import "HDEmotionEscape.h"
 #import "HDLocalDefine.h"
 #import "NSString+HDValid.h"
@@ -73,6 +73,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 {
     NSDataDetector *_detector;
     NSArray *_urlMatches;
+    NSRange _solveRange;
+    NSRange _unsolveRange;
 }
 
 @synthesize statusButton = _statusButton;
@@ -113,7 +115,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-
+        _bubbleMaxWidth = 200.0;
         _messageType = model.bodyType;
         [self _setupSubviewsWithType:_messageType
                             isSender:model.isSender
@@ -309,7 +311,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 {
     [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-HDMessageCellPadding);
-        make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
+        if (self.bubbleMaxWidth > 0) {
+            make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
+        }
     }];
 
     [self.statusButton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -364,7 +368,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 - (void)_updateBubbleMaxWidthConstraint
 {
     [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
+        if (self.bubbleMaxWidth > 0) {
+            make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
+        }
     }];
 }
 
@@ -379,6 +385,36 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         switch (model.bodyType) {
             case EMMessageBodyTypeText:
             {
+                // 是否是打分消息
+                if (model.isScoreMsg) {
+                    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:model.text];
+                    NSRange range = [[attrStr string] rangeOfString:@"解决 / 未解决"];
+                    if (range.location != NSNotFound) {
+                        _solveRange = [[attrStr string] rangeOfString:@"解决" options:NSCaseInsensitiveSearch range:range];
+                                               if (_solveRange.location != NSNotFound) {
+                                                   [attrStr addAttribute:NSLinkAttributeName
+                                                                   value:@"solve://"
+                                                                   range:_solveRange];
+                                                   [attrStr addAttribute:NSForegroundColorAttributeName
+                                                                   value:[UIColor blueColor]
+                                                                   range:_solveRange];
+                                               }
+                                               
+                                               
+                                               _unsolveRange = [[attrStr string] rangeOfString:@"未解决" options:NSCaseInsensitiveSearch range:range];
+                                               if (_unsolveRange.location != NSNotFound) {
+                                                   [attrStr addAttribute:NSLinkAttributeName
+                                                                   value:@"unsolve://"
+                                                                   range:_unsolveRange];
+                                                   [attrStr addAttribute:NSForegroundColorAttributeName
+                                                                   value:[UIColor blueColor]
+                                                                   range:_unsolveRange];
+                                               }
+                    }
+                    _bubbleView.textLabel.attributedText = attrStr;
+                    return;
+                }
+                
                 _detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
                 HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
                 switch (extMsgType) {
@@ -386,7 +422,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     {
                         NSDictionary * itemDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"order"];
                         NSString *url = [itemDic objectForKey:@"img_url"];
-                        [_bubbleView.orderImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"imageDownloadFail.png"]];
+                        [_bubbleView.orderImageView hdSD_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"imageDownloadFail.png"]];
                         _bubbleView.orderTitleLabel.text = [itemDic objectForKey:@"title"];
                         _bubbleView.orderNoLabel.text = [itemDic objectForKey:@"order_title"];
                         _bubbleView.orderDescLabel.text = [itemDic objectForKey:@"desc"];
@@ -403,7 +439,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             _bubbleView.cusImageView.image = [UIImage imageNamed:@"imageDownloadFail.png"];
                         }
                         NSString *url = [itemDic objectForKey:@"img_url"];
-                        [_bubbleView.cusImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"imageDownloadFail.png"]];
+                        [_bubbleView.cusImageView hdSD_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"imageDownloadFail.png"]];
                         _bubbleView.trackTitleLabel.text = [itemDic objectForKey:@"title"];
                         _bubbleView.cusDescLabel.text = [itemDic objectForKey:@"desc"];
                         _bubbleView.cusPriceLabel.text = [itemDic objectForKey:@"price"];
@@ -416,34 +452,27 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             _urlMatches = [_detector matchesInString:content options:0 range:NSMakeRange(0, content.length)];
                             _bubbleView.textLabel.attributedText = [self highlightLinksWithIndex:0 attributedString:[[HDEmotionEscape sharedInstance] attStringFromTextForChatting:content textFont:self.messageTextFont]];
                         } else {
-                            NSDictionary *choiceDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"choice"];
-                            NSArray *menus = [NSArray array];
-                            NSMutableArray *array = [NSMutableArray array];
-                            menus = [choiceDic objectForKey:@"list"];
+                            HDMenuInfo *info = [model.message menuInfo];
                             CGFloat maxWidth = 0;
-                            for (NSString *string in menus) {
-                                CGSize textSize = [string boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size;
+                            if (info) {
+                                NSString *str = @"";
+                                for (id obj in info.items) {
+                                    if ([obj isKindOfClass:[HDMenuItem class]]) {
+                                        HDMenuItem *item = (HDMenuItem *)obj;
+                                        str = item.menuName;
+                                    }else if([obj isKindOfClass: [NSString class]]) {
+                                        str = obj;
+                                    }
+                                }
+                                
+                                CGSize textSize = [str boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size;
                                 maxWidth = MAX(maxWidth, textSize.width);
-                                [array addObject:string];
                             }
-                            
-                            NSString *title = [choiceDic objectForKey:@"title"];
-                            CGSize textSize = [title boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size;
+                           
+                            CGSize textSize = [info.title boundingRectWithSize:CGSizeMake(self.bubbleMaxWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size;
                             maxWidth = MAX(maxWidth, textSize.width);
                             
-                            //机器人菜单更新
-                            if ([choiceDic.allKeys containsObject:@"items"]) {
-                                [array removeAllObjects];
-                                menus = [choiceDic objectForKey:@"items"];
-                                for (NSDictionary *itemDic in menus) {
-                                    HDMenuItem *item = [HDMenuItem new];
-                                    item.menuId = [itemDic valueForKey:@"id"];
-                                    item.name = [itemDic valueForKey:@"name"];
-                                    [array addObject:item];
-                                }
-                            }
-                            _bubbleView.options = array;
-                            _bubbleView.menuTitle = title;
+                            _bubbleView.menuInfo = info;
                             _bubbleView.tableViewWidth = maxWidth + 10;
                             [_bubbleView reloadData];
                         }
@@ -494,7 +523,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         if (emojiDic) {
                             emojiUrl = [emojiDic objectForKey:@"url"];
                         }
-                        [_bubbleView.imageView sd_setImageWithURL:[NSURL URLWithString:emojiUrl] placeholderImage:[UIImage imageNamed:_model.failImageName]];
+                        [_bubbleView.imageView hdSD_setImageWithURL:[NSURL URLWithString:emojiUrl] placeholderImage:[UIImage imageNamed:_model.failImageName]];
                         break;
                     }
                     default:
@@ -514,7 +543,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 if (!image) {
                     image = _model.image;
                     if (!image) {
-                        [_bubbleView.imageView sd_setImageWithURL:[NSURL URLWithString:_model.fileURLPath] placeholderImage:[UIImage imageNamed:_model.failImageName]];
+                        [_bubbleView.imageView hdSD_setImageWithURL:[NSURL URLWithString:_model.fileURLPath] placeholderImage:[UIImage imageNamed:_model.failImageName]];
                     } else {
                         _bubbleView.imageView.image = image;
                     }
@@ -911,6 +940,17 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 }
             }
         }
+        // 选中"解决"
+        if ([self isIndex:charIndex inRange:_solveRange]) {
+            [self.nextResponder routerEventWithName:HRouterEventRebotSolveTapEventName userInfo:@{@"HDMessage":_model.message}];
+            return;
+        }
+        
+        // 选中"未解决"
+        if ([self isIndex:charIndex inRange:_unsolveRange]) {
+            [self.nextResponder routerEventWithName:HRouterEventRebotUnsolveTapEventName userInfo:@{@"HDMessage":_model.message}];
+            return;
+        }
     } else {
         [self.nextResponder routerEventWithName:eventName userInfo:userInfo];
     }
@@ -1036,34 +1076,31 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     
     HDMessageCell *cell = [self appearance];
     CGFloat bubbleMaxWidth = cell.bubbleMaxWidth;
-    bubbleMaxWidth -= (cell.leftBubbleMargin.left + cell.leftBubbleMargin.right + cell.rightBubbleMargin.left + cell.rightBubbleMargin.right)/2;
+    bubbleMaxWidth -= (cell.leftBubbleMargin.left + cell.leftBubbleMargin.right + cell.rightBubbleMargin.left + cell.rightBubbleMargin.right) / 2;
     CGFloat height = HDMessageCellPadding + cell.bubbleMargin.top + cell.bubbleMargin.bottom;
     
     switch (model.bodyType) {
         case EMMessageBodyTypeText: {
-            CGFloat tableWidth = 200-cell.bubbleMargin.left-cell.bubbleMargin.right;
+            CGFloat tableWidth = 200 - cell.bubbleMargin.left - cell.bubbleMargin.right;
             HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
             switch (extMsgType) {
                 case HDExtRobotMenuMsg:{
-                    NSDictionary *choiceDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"choice"];
-                    NSArray *menu = [choiceDic objectForKey:@"list"];
-                    NSString *menuTitle = [choiceDic objectForKey:@"title"];
-                    if ([choiceDic objectForKey:@"items"]) {
-                        NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
-                        for (NSDictionary *dic in [choiceDic objectForKey:@"items"]) {
-                            [arr addObject:[dic valueForKey:@"name"]];
-                        }
-                        menu = arr.copy;
+                    HDMenuInfo *info = [model.message menuInfo];
+                    NSMutableArray *itemTitleAry = [NSMutableArray array];
+                    for (HDMenuItem *item in info.items) {
+                        [itemTitleAry addObject:item.menuName];
                     }
-                    int leftPadding = 15, rightPadding = 10;
+                    
+                    int leftPadding = 15;
+                    int rightPadding = 10;
                     int topMargin = 8;
                     int bottomMargin = 8;
                     int allPadding = leftPadding + rightPadding;
                     int rowPaddingTopAndBottom = 5;
                     // 修改订单，轨迹类消息宽度
-                    height += [menuTitle boundingRectWithSize:CGSizeMake(tableWidth - allPadding , MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
-                    for (NSString *string in menu) {
-                        height += [string boundingRectWithSize:CGSizeMake(tableWidth - allPadding, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height + rowPaddingTopAndBottom;
+                    height += [info.title boundingRectWithSize:CGSizeMake(tableWidth - allPadding , MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
+                    for (NSString *itemTitle in itemTitleAry) {
+                        height += [itemTitle boundingRectWithSize:CGSizeMake(tableWidth - allPadding, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height + rowPaddingTopAndBottom;
                     }
                     height += (topMargin + bottomMargin);
                     return height;

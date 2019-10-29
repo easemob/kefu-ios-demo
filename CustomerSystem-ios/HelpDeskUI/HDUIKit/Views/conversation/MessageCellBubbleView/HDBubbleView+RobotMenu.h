@@ -8,14 +8,9 @@
 
 #import "HDBubbleView.h"
 
-@interface HDMenuItem : NSObject
-
-@property (nonatomic,copy) NSString *menuId;
-@property (nonatomic,copy) NSString *name;
-@end
-
 @interface HDBubbleView (RobotMenu) <UITableViewDelegate,UITableViewDataSource>
 
+@property (nonatomic, strong) HDMenuInfo *menuInfo;
 
 - (void)setupRobotMenuBubbleView;
 

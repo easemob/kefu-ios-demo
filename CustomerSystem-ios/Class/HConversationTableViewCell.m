@@ -83,7 +83,7 @@
         }
         _tipView.tipNumber = string;
     }
-    [_headerImageView sd_setImageWithURL:[NSURL URLWithString:model.officialAccount.img] placeholderImage:[UIImage imageNamed:@"default_customer_avatar"]];
+    [_headerImageView hdSD_setImageWithURL:[NSURL URLWithString:model.officialAccount.img] placeholderImage:[UIImage imageNamed:@"default_customer_avatar"]];
     
     NSString *name = model.conversationId;
     

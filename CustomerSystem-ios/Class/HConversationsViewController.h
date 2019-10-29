@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HConversationsViewController : UIViewController
+@interface HConversationsViewController : HDRefreshTableViewController
 
 //刷新会话列表
 - (void)refreshData;

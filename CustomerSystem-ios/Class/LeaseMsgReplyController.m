@@ -621,7 +621,7 @@ const NSInteger baseTag=123;
         if ([[filename pathExtension] isEqualToString:@"wav"]) {
             BOOL success =  [fileManager removeItemAtPath:[cachesPath stringByAppendingPathComponent:filename] error:NULL];
             if (success) {
-                NSLog(@"success");
+                NSLog(@"clearTempWav success");
             }
         }
     }
@@ -638,7 +638,7 @@ const NSInteger baseTag=123;
         if ([[filename pathExtension] isEqualToString:@"amr"]) {
             BOOL success =  [fileManager removeItemAtPath:[cachesPath stringByAppendingPathComponent:filename] error:NULL];
             if (success) {
-                NSLog(@"success");
+                NSLog(@"resetFile success");
             }
         }
     }

@@ -15,15 +15,14 @@
 #import "HelpDeskUI.h"
 #import "CSDemoAccountManager.h"
 #import "SRRefreshView.h"
-#import "UIImageView+WebCache.h"
-#import "UIButton+WebCache.h"
+#import "UIImageView+HDWebCache.h"
+#import "UIButton+HDWebCache.h"
 #import "UIView+FLExtension.h"
 #import "NSObject+SCAdd.h"
 #import "UIBarButtonItem+KFAdd.h"
 #import "UIViewController+KFAdd.h"
 #define MAS_SHORTHAND_GLOBALS
 #import "Masonry.h"
-#import "SVProgressHUD.h"
 
 #define fKeyWindow [UIApplication sharedApplication].keyWindow
 #define fUserDefaults [NSUserDefaults standardUserDefaults]

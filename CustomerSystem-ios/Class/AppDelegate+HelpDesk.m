@@ -47,8 +47,10 @@
     //注册kefu_sdk
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     HDOptions *option = [[HDOptions alloc] init];
+
     option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;
+    option.kefuRestServer = @"http://kefu.easemob.com";
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.apnsCertName = apnsCertName;
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
@@ -76,8 +78,6 @@
 #warning "changeAppKey 为内部方法，不建议使用"
     HDError *er = [client changeAppKey:lgM.appkey];
     if (er == nil) {
-        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"appkey_updated", @"Appkey has been updated")]; 
-        [SVProgressHUD dismissWithDelay:1.0];
         NSLog(@"appkey 已更新");
     } else {
         NSLog(@"appkey 更新失败,请手动重启");
