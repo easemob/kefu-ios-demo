@@ -191,13 +191,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             if (queue) {
                 queueIdentityInfo = [[HDQueueIdentityInfo alloc] initWithValue:queue];
             }
-            HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
-            if (queue) {
-                chat.queueInfo = queueIdentityInfo;
-            }
-
-            chat.visitorInfo = [self visitorInfo];
-            chat.commodityInfo = (NSDictionary *)notification.object;
             if ([notification.object objectForKey:kpreSell]) {
 //                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
             } else {
@@ -205,6 +198,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf hideHud];
+                HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
+                if (queue) {
+                    chat.queueInfo = queueIdentityInfo;
+                }
+
+                chat.visitorInfo = [self visitorInfo];
+                chat.commodityInfo = (NSDictionary *)notification.object;
                  [self.navigationController pushViewController:chat animated:YES];
             });
            
@@ -330,57 +330,82 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     }
     //商城
     _mallController = [[MallViewController alloc] initWithNibName:nil bundle:nil];
-    _mallController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.mall", @"Mall") image:[[UIImage imageNamed:@"em_nav_shop_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal ]selectedImage:[UIImage imageNamed:@"em_nav_shop_select"]];
-    _mallController.tabBarItem.tag = 0;
+    [self setupController:_mallController
+                    title:NSLocalizedString(@"title.mall", @"Mall")
+                imageName:@"em_nav_shop_normal"
+        selectedImageName:@"em_nav_shop_select"
+                      tag:0];
 
-    [self unSelectedTapTabBarItems:_mallController.tabBarItem];
-    [self selectedTapTabBarItems:_mallController.tabBarItem];
-    
     //留言
     _leaveMsgVC = [[MessageViewController alloc] initWithNibName:nil bundle:nil];
-    _leaveMsgVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.messagebox", @"Message Box") image:nil tag:1];
-    [_leaveMsgVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_ticket_select"] withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_ticket_normal"]];
-    [self unSelectedTapTabBarItems:_leaveMsgVC.tabBarItem];
-    [self selectedTapTabBarItems:_leaveMsgVC.tabBarItem];
+        
+    [self setupController:_leaveMsgVC
+                    title:NSLocalizedString(@"title.messagebox", @"Message Box")
+                imageName:@"em_nav_ticket_select"
+        selectedImageName:@"em_nav_ticket_normal"
+                      tag:1];
+    
+    
     
     //会话列表
     _conversationsVC = [[HConversationsViewController alloc] init];
-    _conversationsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.conversationTitle", @"conversationList") image:[UIImage imageNamed:@"list"] selectedImage:[UIImage imageNamed:@"list2"]];
-    _conversationsVC.tabBarItem.tag = 2;
-//    [_conversationsVC viewDidLoad];
-    [self unSelectedTapTabBarItems:_conversationsVC.tabBarItem];
-    [self selectedTapTabBarItems:_conversationsVC.tabBarItem];
+    
+    [self setupController:_conversationsVC
+                    title:NSLocalizedString(@"title.conversationTitle", @"conversationList")
+                imageName:@"list"
+        selectedImageName:@"list2"
+                      tag:2];
+    
     
     //设置
     _settingController = [[SettingViewController alloc] initWithNibName:nil bundle:nil];
-    _settingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting") image:nil tag:3];
-    [_settingController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"em_nav_setting_select"]
-                         withFinishedUnselectedImage:[UIImage imageNamed:@"em_nav_setting_normal"]];
-    _settingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    [self unSelectedTapTabBarItems:_settingController.tabBarItem];
-    [self selectedTapTabBarItems:_settingController.tabBarItem];
+    
+    
+    [self setupController:_settingController
+                    title:NSLocalizedString(@"title.setting", @"Setting")
+                imageName:@"em_nav_setting_select"
+        selectedImageName:@"em_nav_setting_normal"
+                      tag:3];
+    
+    [self setupController:_settingController
+                    title:NSLocalizedString(@"title.setting", @"Setting")
+                imageName:@"em_nav_setting_select"
+        selectedImageName:@"em_nav_setting_normal"
+                      tag:3];
     
     self.viewControllers = @[_mallController, _leaveMsgVC ,_conversationsVC,_settingController];
-    [self selectedTapTabBarItems:_mallController.tabBarItem];
+    
+    
+    [self tabBar:self.tabBar didSelectItem:_mallController.tabBarItem];
     
     _choiceView = [[MoreChoiceView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
     _choiceView.hidden = YES;
     [self.view addSubview:_choiceView];
 }
 
--(void)unSelectedTapTabBarItems:(UITabBarItem *)tabBarItem
-{
+- (void)setupController:(UIViewController *)aController
+                  title:(NSString *)aItemTitle
+              imageName:(NSString *)aImageName
+      selectedImageName:(NSString *)aSelectedImageName
+                    tag:(int)tag{
+    
+    UITabBarItem *tabBarItem = [[UITabBarItem alloc] initWithTitle:aItemTitle
+            image:[UIImage imageNamed:aImageName]
+    selectedImage:[UIImage imageNamed:aSelectedImageName]];
+    tabBarItem.tag = tag;
+    
     [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIFont systemFontOfSize:10], UITextAttributeFont,[UIColor grayColor],UITextAttributeTextColor,
+                                        [UIFont systemFontOfSize:10], UITextAttributeFont,[UIColor blackColor],UITextAttributeTextColor,
                                         nil] forState:UIControlStateNormal];
-}
-
--(void)selectedTapTabBarItems:(UITabBarItem *)tabBarItem
-{
+    
     [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                         [UIFont systemFontOfSize:10],
                                         UITextAttributeFont,RGBACOLOR(184, 22, 22, 1),UITextAttributeTextColor,
                                         nil] forState:UIControlStateSelected];
+    
+    aController.tabBarItem = tabBarItem;
+
+    aController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 }
 
 /*
@@ -459,7 +484,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         notification.alertBody = NSLocalizedString(@"receiveMessage", @"you have a new message");
     }
     
-#warning 去掉注释会显示[本地]开头, 方便在开发中区分是否为本地推送
     //notification.alertBody = [[NSString alloc] initWithFormat:@"[本地]%@", notification.alertBody];
     
     notification.alertAction = NSLocalizedString(@"open", @"Open");
@@ -536,9 +560,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                                                                               avatarStr:@"HelpDeskUIResource.bundle/user"
                                                                                nickName:[CSDemoAccountManager shareLoginManager].nickname];
     hdCallVC.hangUpCallback = ^(UIViewController *callVC, NSString *timeStr) {
-        NSLog(@"通话时长: ---- %@",timeStr);
         [callVC dismissViewControllerAnimated:YES completion:nil];
     };
+    hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:hdCallVC animated:YES completion:nil];
 }
 @end

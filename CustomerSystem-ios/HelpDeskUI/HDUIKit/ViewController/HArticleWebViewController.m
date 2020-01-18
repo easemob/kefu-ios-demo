@@ -7,6 +7,7 @@
 //
 
 #import "HArticleWebViewController.h"
+#import <WebKit/WebKit.h>
 
 @interface HArticleWebViewController ()
 
@@ -22,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
     NSURL *trueUrl = nil;
     if (_url) {
         trueUrl = [NSURL URLWithString:_url];

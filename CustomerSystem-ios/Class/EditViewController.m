@@ -80,6 +80,7 @@
     
     _editField = [[UITextField alloc] initWithFrame:CGRectMake(10, 0, contentView.frame.size.width - 20, contentView.frame.size.height)];
     _editField.backgroundColor = [UIColor whiteColor];
+    _editField.textColor = UIColor.blackColor;
     _editField.text = _content;
     _editField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _editField.returnKeyType = UIReturnKeyDone;

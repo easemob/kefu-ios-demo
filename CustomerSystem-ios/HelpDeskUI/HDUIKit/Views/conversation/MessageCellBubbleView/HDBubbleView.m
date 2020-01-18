@@ -58,11 +58,9 @@ NSString *const HRouterEventRebotUnsolveTapEventName = @"HRouterEventRebotUnsolv
 
 - (void)_setupBackgroundImageViewConstraints
 {
-    
     [_backgroundImageView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_top).offset(0);
         make.bottom.equalTo(self.mas_bottom).offset(0);
-        make.centerY.equalTo(self.mas_centerY).offset(0);
         make.right.equalTo(self.mas_right).offset(0);
         make.left.equalTo(self.mas_left).offset(0);
     }];

@@ -455,6 +455,7 @@ const NSInteger baseTag=123;
     [self _stopAudioPlayingWithChangeCategory];
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+    self.imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
 }
 

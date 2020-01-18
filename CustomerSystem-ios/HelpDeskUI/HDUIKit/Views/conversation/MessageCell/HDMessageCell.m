@@ -382,39 +382,39 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     if ([self respondsToSelector:@selector(isCustomBubbleView:)] && [self isCustomBubbleView:model]) {
         [self setCustomModel:model];
     } else {
+        // 是否是打分消息
+        if (model.isScoreMsg) {
+            NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:model.text];
+            NSRange range = [[attrStr string] rangeOfString:@"解决 / 未解决"];
+            if (range.location != NSNotFound) {
+                _solveRange = [[attrStr string] rangeOfString:@"解决" options:NSCaseInsensitiveSearch range:range];
+                                       if (_solveRange.location != NSNotFound) {
+                                           [attrStr addAttribute:NSLinkAttributeName
+                                                           value:@"solve://"
+                                                           range:_solveRange];
+                                           [attrStr addAttribute:NSForegroundColorAttributeName
+                                                           value:[UIColor blueColor]
+                                                           range:_solveRange];
+                                       }
+                                       
+                                       
+                                       _unsolveRange = [[attrStr string] rangeOfString:@"未解决" options:NSCaseInsensitiveSearch range:range];
+                                       if (_unsolveRange.location != NSNotFound) {
+                                           [attrStr addAttribute:NSLinkAttributeName
+                                                           value:@"unsolve://"
+                                                           range:_unsolveRange];
+                                           [attrStr addAttribute:NSForegroundColorAttributeName
+                                                           value:[UIColor blueColor]
+                                                           range:_unsolveRange];
+                                       }
+            }
+            _bubbleView.textLabel.attributedText = attrStr;
+            return;
+        }
+        
         switch (model.bodyType) {
             case EMMessageBodyTypeText:
             {
-                // 是否是打分消息
-                if (model.isScoreMsg) {
-                    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:model.text];
-                    NSRange range = [[attrStr string] rangeOfString:@"解决 / 未解决"];
-                    if (range.location != NSNotFound) {
-                        _solveRange = [[attrStr string] rangeOfString:@"解决" options:NSCaseInsensitiveSearch range:range];
-                                               if (_solveRange.location != NSNotFound) {
-                                                   [attrStr addAttribute:NSLinkAttributeName
-                                                                   value:@"solve://"
-                                                                   range:_solveRange];
-                                                   [attrStr addAttribute:NSForegroundColorAttributeName
-                                                                   value:[UIColor blueColor]
-                                                                   range:_solveRange];
-                                               }
-                                               
-                                               
-                                               _unsolveRange = [[attrStr string] rangeOfString:@"未解决" options:NSCaseInsensitiveSearch range:range];
-                                               if (_unsolveRange.location != NSNotFound) {
-                                                   [attrStr addAttribute:NSLinkAttributeName
-                                                                   value:@"unsolve://"
-                                                                   range:_unsolveRange];
-                                                   [attrStr addAttribute:NSForegroundColorAttributeName
-                                                                   value:[UIColor blueColor]
-                                                                   range:_unsolveRange];
-                                               }
-                    }
-                    _bubbleView.textLabel.attributedText = attrStr;
-                    return;
-                }
-                
                 _detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
                 HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:model.message];
                 switch (extMsgType) {
@@ -861,6 +861,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 return;
             }
         }
+        
         switch (_model.bodyType) {
             case EMMessageBodyTypeText: {
                 if ([HDMessageHelper getMessageExtType:_model.message] == HDExtFormMsg) {
@@ -1042,27 +1043,27 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     default:
                         cellIdentifier = HDMessageCellIdentifierRecvText;
                         break;
+                    }
                 }
+                    break;
+                case EMMessageBodyTypeImage:
+                    cellIdentifier = HDMessageCellIdentifierRecvImage;
+                    break;
+                case EMMessageBodyTypeVideo:
+                    cellIdentifier = HDMessageCellIdentifierRecvVideo;
+                    break;
+                case EMMessageBodyTypeLocation:
+                    cellIdentifier = HDMessageCellIdentifierRecvLocation;
+                    break;
+                case EMMessageBodyTypeVoice:
+                    cellIdentifier = HDMessageCellIdentifierRecvVoice;
+                    break;
+                case EMMessageBodyTypeFile:
+                    cellIdentifier = HDMessageCellIdentifierRecvFile;
+                    break;
+                default:
+                    break;
             }
-                break;
-            case EMMessageBodyTypeImage:
-                cellIdentifier = HDMessageCellIdentifierRecvImage;
-                break;
-            case EMMessageBodyTypeVideo:
-                cellIdentifier = HDMessageCellIdentifierRecvVideo;
-                break;
-            case EMMessageBodyTypeLocation:
-                cellIdentifier = HDMessageCellIdentifierRecvLocation;
-                break;
-            case EMMessageBodyTypeVoice:
-                cellIdentifier = HDMessageCellIdentifierRecvVoice;
-                break;
-            case EMMessageBodyTypeFile:
-                cellIdentifier = HDMessageCellIdentifierRecvFile;
-                break;
-            default:
-                break;
-        }
     }
     
     return cellIdentifier;
@@ -1111,9 +1112,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 }
                 case HDExtTrackMsg:
                     // 修改轨迹消息的高度
-                    return 2*HDMessageCellPadding + kImageHeight + kTitleHeight + 60;
+                    return 2 * HDMessageCellPadding + kImageHeight + kTitleHeight + 60;
                 case HDExtOrderMsg:
-                    return 2*HDMessageCellPadding + kImageHeight + 2*kTitleHeight + 20;
+                    return 2 * HDMessageCellPadding + kImageHeight + 2 * kTitleHeight + 20;
                 case HDExtFormMsg:
                     return kImageHeight;
                 case HDExtBigExpressionMsg:
@@ -1208,15 +1209,15 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     }
     if (arr.count == 1) {
         HDSubItem *item = [arr firstObject];
-        CGSize size = CGSizeMake(kScreenWidth-2*kLeftMargin - 2*kLeftMargin, MAXFLOAT);
+        CGSize size = CGSizeMake(kScreenWidth - 2 * kLeftMargin - 2 * kLeftMargin, MAXFLOAT);
         CGFloat titleH = kTitleFontSize;
         CGFloat timeH = kTimeFontSize;
         CGFloat imageH = kTitleImageHeight;
         CGFloat digistH = [NSString rectOfString:item.digest fontSize:kDigistFontSize size:size].size.height;
-        CGFloat h = titleH+timeH+imageH+digistH+6*kMarginNormal+44+kMarginNormal;
+        CGFloat h = titleH + timeH + imageH + digistH + 6 * kMarginNormal + 50 + kMarginNormal;
         return h;
     } else {
-        return kTitleImageHeight+(arr.count-1)*70+kTopMargin;
+        return kTitleImageHeight + (arr.count - 1) * 70 + kTopMargin;
     }
 }
 

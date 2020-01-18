@@ -22,7 +22,7 @@
 @property (strong, nonatomic, readonly) HDMessage *message;
 @property (strong, nonatomic, readonly) NSString *messageId;
 @property (nonatomic, readonly) HDMessageStatus messageStatus;
-@property (nonatomic, readonly) EMMessageBodyType bodyType;
+@property (nonatomic) EMMessageBodyType bodyType;
 @property (nonatomic,readonly) EMMessageBody *body;
 @property (nonatomic) BOOL isMessageRead;
 @property (nonatomic) NSString *from;

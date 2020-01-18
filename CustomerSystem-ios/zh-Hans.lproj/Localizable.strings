@@ -290,7 +290,7 @@
 "qrcode_invalid" = "二维码无效";
 "qrcode_box" = "将二维码放入框中,即可自动扫描";
 
-"comment_suc" = "评价成功";
+"comment_suc" = "发送评价成功";
 "comment_fail" = "评价失败";
 "comment_submit" = "评价提交";
 
@@ -313,6 +313,7 @@
 "cov_voice" = "[语音]";
 "cov_file" = "[文件]";
 "cov_location" = "[位置]";
+"cov_video" = "[视频]";
 "big_expression" ="[表情]";
 
 "file" = "文件";

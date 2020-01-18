@@ -47,7 +47,6 @@ typedef enum : NSUInteger {
     BOOL _isRecording;
     dispatch_queue_t _messageQueue;
     BOOL _isSendingTransformMessage; //正在发送转人工消息
-    BOOL _isSendingEvaluateMessage;//点击立即评价按钮
 }
 
 @property (nonatomic, assign) HDemoSaleType saleType;
@@ -99,7 +98,7 @@ typedef enum : NSUInteger {
     }
     self.title = _title;
     [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
-    self.view.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
+    self.view.backgroundColor = UIColor.whiteColor;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatToolbarState) name:@"chatToolbarState" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeRecording) name:@"closeRecording" object:nil];
     
@@ -534,6 +533,7 @@ typedef enum : NSUInteger {
         AVPlayerViewController * pVC = [AVPlayerViewController new];
         pVC.player = [AVPlayer playerWithURL:videoURL];
         [pVC.player play];
+        pVC.modalPresentationStyle = UIModalPresentationFullScreen;
         [self presentViewController:pVC animated:YES completion:nil];
     };
     
@@ -561,6 +561,7 @@ typedef enum : NSUInteger {
     NSDictionary *htmlDic = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"html"];
     NSString *strUrl = [htmlDic objectForKey:@"url"];
     formVC.url = strUrl;
+    formVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:formVC animated:YES completion:nil];
 
 }
@@ -573,7 +574,6 @@ typedef enum : NSUInteger {
         if (imageBody.thumbnailDownloadStatus == EMDownloadStatusSuccessed) {
             if (imageBody.downloadStatus == EMDownloadStatusSuccessed)
             {
-                //send the acknowledgementpo
                 NSString *localPath = model.message == nil ? model.fileLocalPath : [imageBody localPath];
                 if (localPath && localPath.length > 0) {
                     UIImage *image = [UIImage imageWithContentsOfFile:localPath];
@@ -1061,6 +1061,7 @@ typedef enum : NSUInteger {
 #pragma mark - HDMessageCellDelegate
 
 - (void)messageCellSelected:(id<HDIMessageModel>)model {
+    
     switch (model.bodyType) {
         case EMMessageBodyTypeText: {
             if([HDMessageHelper getMessageExtType:model.message] == HDExtFormMsg){
@@ -1294,6 +1295,7 @@ typedef enum : NSUInteger {
     // Pop image picker
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+    self.imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
     
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:YES];
@@ -1312,6 +1314,7 @@ typedef enum : NSUInteger {
 #elif TARGET_OS_IPHONE
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+    self.imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
 
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:YES];
@@ -1376,47 +1379,56 @@ typedef enum : NSUInteger {
     }
     
     __block NSString *sessionId = nil;
-    id service_session = model.message.ext[@"service_session"];
+    id service_session = model.message.ext[@"weichat"][@"service_session"];
     if (service_session != [NSNull null]) {
         sessionId = service_session[@"serviceSessionId"] == [NSNull null] ? nil : service_session[@"serviceSessionId"];
     }
-    
-    if (_isSendingEvaluateMessage) return;
+
     [self showHudInView:self.view hint:@"获取中..."];
-    if (!sessionId) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-            [HDClient.sharedClient.chatManager asyncFetchSessionWithConversationId:self.conversation.conversationId
-                                                                       sessionType:HSessionType_Processing
-                                                                        completion:^(NSArray *sessions, HDError *error)
-             {
-                 sessionId = sessions.firstObject;
-                 dispatch_semaphore_signal(semaphore);
-             }];
-            
-            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-        });
-        
+    
+    void(^block)(NSString *sessionId) = ^(NSString *sessionId) {
         [HDClient.sharedClient.chatManager asyncFetchEvaluationDegreeInfoWithCompletion:^(NSDictionary *info, HDError *error)
-         {
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [self hideHud];
-                 if (!error) {
-                     SatisfactionViewController *vc = [[SatisfactionViewController alloc] init];
-                     HDMessage *msg = model.message;
-                     NSMutableDictionary *ext = [[NSMutableDictionary alloc] initWithDictionary:@{@"weichat":@{@"ctrlArgs":@{@"evaluationDegree":info[@"entities"]}}}];
-                     if (sessionId) {
-                         [ext setValue:sessionId forKey:@"serviceSessionId"];
-                     }
-                     msg.ext = ext;
-                     vc.messageModel = [[HDMessageModel alloc] initWithMessage:msg];
-                     vc.delegate = self;
-                     [self.navigationController pushViewController:vc animated:YES];
-                 }else {
-                     [self showHint:@"获取评价信息失败"];
-                 }
-             });
-         }];
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self hideHud];
+                if (!error) {
+                    SatisfactionViewController *vc = [[SatisfactionViewController alloc] init];
+                    vc.delegate = self;
+                    HDMessage *msg = model.message;
+                    
+                    NSMutableDictionary *ext = [[NSMutableDictionary alloc] initWithDictionary:@{@"weichat":@{@"ctrlArgs":@{@"evaluationDegree":info[@"entities"]}}}];
+                    if (sessionId) {
+                        [ext setValue:sessionId forKey:@"serviceSessionId"];
+                    }
+                    [ext setValue:@"inviteId" forKey:@"0"];
+                    msg.ext = ext;
+                    vc.messageModel = [[HDMessageModel alloc] initWithMessage:msg];
+                    vc.delegate = self;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }else {
+                    [self showHint:@"获取评价信息失败"];
+                }
+            });
+        }];
+    };
+    
+    if (!sessionId) {
+        [HDClient.sharedClient.chatManager asyncFetchSessionWithConversationId:self.conversation.conversationId
+                                                                  sessionType:HSessionType_Processing
+                                                                   completion:^(NSArray *sessions, HDError *error)
+        {
+            if (!error) {
+                NSString *aSessionId = sessions.firstObject;
+                block(aSessionId);
+            }else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self hideHud];
+                    [self showHint:@"获取评价信息失败"];
+                });
+            }
+        }];
+    }else {
+        block(sessionId);
     }
 }
 
@@ -1609,10 +1621,14 @@ typedef enum : NSUInteger {
         
         // 根据是否需要评价决定是否添加“解决/未解决”
         if (message.isNeedToScore) {
-            HDMessage *msg = message;
+            HDMessage *msg = [HDMessage createTxtSendMessageWithContent:@"" to:message.from];
+            NSMutableDictionary *extDic = [message.ext mutableCopy];
+            [extDic removeObjectForKey:@"msgtype"];
+            msg.ext = extDic;
             msg.status = HDMessageStatusSuccessed;
             msg.direction = HDMessageDirectionReceive;
             id<HDIMessageModel> solveModel = [[HDMessageModel alloc] initWithMessage:msg];
+            solveModel.bodyType = EMMessageBodyTypeText;
             solveModel.isScoreMsg = YES;
             solveModel.text = @"这样回答有没有解决您的问题呢？  解决 / 未解决";
             [formattedArray addObject:solveModel];
@@ -1759,7 +1775,9 @@ typedef enum : NSUInteger {
             HDMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId];
             [aHMessage addCompositeContent:hcont];
             __weak typeof(self) weakSelf = self;
-            [[HDClient sharedClient].chatManager sendMessage:aHMessage progress:nil completion:^(HDMessage *aMessage, HDError *aError)
+            [[HDClient sharedClient].chatManager sendMessage:aHMessage
+                                                    progress:nil
+                                                  completion:^(HDMessage *aMessage, HDError *aError)
             {
                 _isSendingTransformMessage = NO;
                 if (!aError) {
@@ -1774,8 +1792,6 @@ typedef enum : NSUInteger {
         }
     }
     if ([eventName isEqualToString:HRouterEventTapEvaluate]) {
-        if (_isSendingEvaluateMessage) return;
-//        _isSendingEvaluateMessage = YES; 设置后再设置为YES
         SatisfactionViewController *view = [[SatisfactionViewController alloc] init];
         id <HDIMessageModel> model = nil;
         model = [[HDMessageModel alloc] initWithMessage:[userInfo objectForKey:@"HDMessage"]];
@@ -1931,11 +1947,13 @@ typedef enum : NSUInteger {
 }
 
 - (void)backFromSatisfactionViewController {
-    _isSendingEvaluateMessage = NO;
 }
 
 
-- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments type:(ControlType *)type evaluationTagsArray:(NSMutableArray *)tags{
+- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments
+                                          type:(ControlType *)type
+                           evaluationTagsArray:(NSMutableArray *)tags
+                            evaluationDegreeId:(NSNumber *)evaluationDegreeId{
     HDMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
     HDControlMessage *hCtrl = [HDControlMessage new];
     hCtrl.type = type;
@@ -1946,19 +1964,22 @@ typedef enum : NSUInteger {
     NSMutableDictionary *ctrlArgs = [[ext objectForKey:@"weichat"] objectForKey:@"ctrlArgs"];
     NSArray *tagsArray = [NSArray arrayWithArray:tags];
     [ctrlArgs setObject:tagsArray forKey:@"appraiseTags"];
+    [ctrlArgs setValue:evaluationDegreeId forKey:@"evaluationDegreeId"];
+    [ctrlArgs setValue:@"0" forKey:@"inviteId"];
     message.ext = [ext copy];
     
     __weak typeof(self) weakself = self;
     [self showHudInView:self.view hint:NSLocalizedString(@"comment_submit", @"Comment Submit.")];
-    [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
+    [[HDClient sharedClient].chatManager sendMessage:message
+                                            progress:nil
+                                          completion:^(HDMessage *aMessage, HDError *aError)
+    {
         [self hideHud];
         if (!aError) {
-            [weakself.tableView reloadData];
-            [weakself showHint:NSLocalizedString(@"comment_suc", @"Add comment successful.")];
+            [weakself showHint:NSLocalizedString(@"comment_suc", @"send comment successful.")];
         } else {
-            [weakself showHint:NSLocalizedString(@"comment_fail", @"Add comment fail.")];
+            [weakself showHint:NSLocalizedString(@"comment_fail", @"send comment fail.")];
         }
-        [_conversation removeMessageWithMessageId:aMessage.messageId error:nil];
     }];
 }
 

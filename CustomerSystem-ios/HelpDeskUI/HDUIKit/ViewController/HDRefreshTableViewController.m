@@ -55,6 +55,7 @@
     _tableView.estimatedSectionFooterHeight = 0;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.tableFooterView = self.defaultFooterView;
+    _tableView.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:_tableView];
     
     _page = 0;

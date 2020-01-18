@@ -21,7 +21,7 @@
 @property (strong, nonatomic, readonly) HDMessage *message;
 @property (strong, nonatomic, readonly) EMMessageBody *firstMessageBody;
 @property (strong, nonatomic, readonly) NSString *messageId;
-@property (nonatomic, readonly) EMMessageBodyType bodyType;
+@property (nonatomic) EMMessageBodyType bodyType;
 @property (nonatomic, readonly) HDMessageStatus messageStatus;
 @property (nonatomic) BOOL isMessageRead;
 // if the current login user is message sender
@@ -53,7 +53,6 @@
 @property (strong, nonatomic) NSString *thumbnailFileLocalPath;
 @property (strong, nonatomic) NSString *fileURLPath;
 @property (strong, nonatomic) NSString *thumbnailFileURLPath;
-
 
 - (instancetype)initWithMessage:(HDMessage *)message;
 

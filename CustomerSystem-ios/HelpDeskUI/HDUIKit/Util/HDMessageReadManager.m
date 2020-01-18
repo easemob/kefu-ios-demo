@@ -145,6 +145,7 @@ static HDMessageReadManager *detailInstance = nil;
     }
     
     UIViewController *rootController = [self.keyWindow rootViewController];
+    rootController.modalPresentationStyle = UIModalPresentationFullScreen;
     [rootController presentViewController:self.photoNavigationController animated:YES completion:nil];
 }
 

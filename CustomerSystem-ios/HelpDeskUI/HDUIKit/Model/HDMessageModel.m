@@ -30,6 +30,7 @@
         _firstMessageBody = message.body;
         _isMediaPlaying = NO;
         _isSender = message.direction == HDMessageDirectionSend ? YES : NO;
+        _bodyType = _firstMessageBody.type;
         if (!_isSender) {
             NSDictionary *weichat = [message.ext objectForKey:@"weichat"];
             if (weichat) {
@@ -113,6 +114,7 @@
                 self.fileIconName = @"messageVideo";
                 self.fileName = videoBody.displayName;
                 self.fileSize = videoBody.fileLength;
+                self.thumbnailFileURLPath = videoBody.thumbnailRemotePath;
                 
                 if (self.fileSize < 1024) {
                     self.fileSizeDes = [NSString stringWithFormat:@"%.2fB", self.fileSize];
@@ -183,11 +185,6 @@
 - (HDMessageStatus)messageStatus
 {
     return _message.status;
-}
-
-- (EMMessageBodyType)bodyType
-{
-    return self.firstMessageBody.type;
 }
 
 - (NSString *)fileLocalPath

@@ -100,6 +100,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
         _textView = [[FLTextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight * 0.35)];
         [_textView setPlaceholderText:[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"leave_content",@"Input content"),@"..."]];
         _textView.delegate = self;
+        _textView.backgroundColor = UIColor.whiteColor;
         _textView.fontSize = 16.0;
         _textView.returnKeyType = UIReturnKeyDone;
         _textView.font = [UIFont systemFontOfSize:16];

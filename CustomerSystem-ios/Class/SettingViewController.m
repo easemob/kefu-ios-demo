@@ -199,6 +199,8 @@
         default:
             break;
     }
+    cell.backgroundColor = UIColor.whiteColor;
+    cell.textLabel.textColor = UIColor.blackColor;
     
     return cell;
 }

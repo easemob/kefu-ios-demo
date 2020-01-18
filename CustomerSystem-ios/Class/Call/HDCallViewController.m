@@ -146,6 +146,7 @@
 - (IBAction)camBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     [[HDClient sharedClient].callManager switchCamera];
+    
 }
 
 // 静音事件
@@ -181,6 +182,14 @@
 - (IBAction)shareDesktopBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     if(btn.selected){
+        [[HDClient sharedClient].callManager publishWindow:self.view completion:^(id obj, HDError * error) {
+            if(error){
+                NSLog(@"desktop shared fail, error: %@", error.errorDescription);
+            }else{
+                NSLog(@"desktop shared success.");
+            }
+        }];
+        /*
         if (@available(iOS 11.0, *)) {
             [[HDClient sharedClient].callManager publishWindow:nil completion:^(id obj, HDError * error) {
                 if(error){
@@ -211,6 +220,7 @@
                 }
             }];
         }
+         */
     }else{
         [[HDClient sharedClient].callManager unPublishWindowWithCompletion:^(id obj, HDError * error) {
             if(error){

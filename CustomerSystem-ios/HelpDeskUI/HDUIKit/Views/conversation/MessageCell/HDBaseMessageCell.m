@@ -84,6 +84,7 @@
         default:
             break;
     }
+    
     switch (self.model.bodyType) {
         case EMMessageBodyTypeText: {
             HDExtMsgType extMsgType = [HDMessageHelper getMessageExtType:self.model.message];
@@ -166,7 +167,7 @@
     //bubble view
     [self.bubbleView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).offset(HDMessageCellPadding);
-        make.bottom.equalTo(self.contentView.mas_bottom).offset(HDMessageCellPadding);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-HDMessageCellPadding);
         make.centerX.equalTo(self.contentView.mas_centerX).offset(0);
         make.width.equalTo(kScreenWidth - 20);
     }];
