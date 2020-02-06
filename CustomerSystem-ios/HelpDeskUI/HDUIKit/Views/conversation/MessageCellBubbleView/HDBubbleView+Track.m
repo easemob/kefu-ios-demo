@@ -65,6 +65,7 @@
     self.trackTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.trackTitleLabel.backgroundColor = [UIColor clearColor];
     self.trackTitleLabel.font = [UIFont systemFontOfSize:13];
+    self.trackTitleLabel.textColor = UIColor.blackColor;
     [self.trackBgView addSubview:self.trackTitleLabel];
     
     self.cusImageView = [[UIImageView alloc] init];
@@ -77,6 +78,7 @@
     self.cusDescLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.cusDescLabel.backgroundColor = [UIColor clearColor];
     self.cusDescLabel.font = [UIFont systemFontOfSize:13];
+    self.cusDescLabel.textColor = UIColor.blackColor;
     self.cusDescLabel.numberOfLines = 2;
     [self.trackBgView addSubview:self.cusDescLabel];
     

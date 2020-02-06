@@ -31,6 +31,7 @@
     self.transTitle.backgroundColor = [UIColor clearColor];
     self.transTitle.font = [UIFont systemFontOfSize:15];
     self.transTitle.numberOfLines = 0;
+    self.transTitle.textColor = UIColor.blackColor;
     [self.backgroundImageView addSubview:self.transTitle];
     
     self.transformButton = [UIButton buttonWithType:UIButtonTypeCustom];
