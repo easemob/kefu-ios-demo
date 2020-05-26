@@ -179,7 +179,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
         body.subject = subject;
         CSDemoAccountManager *logM = [CSDemoAccountManager shareLoginManager];
         [self showHudInView:self.view hint:NSLocalizedString(@"recorder_video_processing", @"processing...")];
-        [[[HDClient sharedClient] leaveMsgManager]createLeaveMsgWithProjectId:logM.projectId targetUser:logM.cname requestBody:body completion:^(id responseObject, NSError *error) {
+        [[[HDClient sharedClient] leaveMsgManager] createLeaveMsgWithProjectId:logM.projectId targetUser:logM.cname requestBody:body completion:^(id responseObject, NSError *error) {
             if (error == nil) {
                 NSLog(@"发送留言成功");
                 [self hideHud];

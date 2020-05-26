@@ -163,6 +163,7 @@
         _textView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         _textView.layer.cornerRadius = 5.f;
         _textView.layer.borderWidth = 0.5;
+        _textView.textColor = UIColor.blackColor;
         _textView.backgroundColor = [UIColor whiteColor];
         _textView.returnKeyType = UIReturnKeyDone;
         _textView.font = [UIFont systemFontOfSize:15];

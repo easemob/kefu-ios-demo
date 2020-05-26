@@ -77,4 +77,6 @@
 
 - (void)cacheBigExpression;
 
+- (HDVisitorInfo *)visitorInfo;
+
 @end

@@ -203,7 +203,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                     chat.queueInfo = queueIdentityInfo;
                 }
 
-                chat.visitorInfo = [self visitorInfo];
+                chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
                 chat.commodityInfo = (NSDictionary *)notification.object;
                  [self.navigationController pushViewController:chat animated:YES];
             });
@@ -254,18 +254,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //    return NO;
 //}
 
-
-- (HDVisitorInfo *)visitorInfo {
-    HDVisitorInfo *visitor = [[HDVisitorInfo alloc] init];
-    visitor.name = @"小明儿";
-    visitor.qq = @"12345678";
-    visitor.phone = @"13636362637";
-    visitor.companyName = @"环信";
-    visitor.nickName = [CSDemoAccountManager shareLoginManager].nickname;
-    visitor.email = @"abv@126.com";
-    visitor.desc = @"环信移动客服";
-    return visitor;
-}
 #pragma mark - UITabBarDelegate
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item

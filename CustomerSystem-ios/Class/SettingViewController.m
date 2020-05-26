@@ -271,6 +271,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [weakSelf hideHud];
                         HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
+                        chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
                         [self.navigationController pushViewController:chat animated:YES];
                     });
                 } else {

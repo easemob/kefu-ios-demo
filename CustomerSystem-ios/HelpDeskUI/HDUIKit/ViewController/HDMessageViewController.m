@@ -1359,80 +1359,25 @@ typedef enum : NSUInteger {
     [self _stopAudioPlayingWithChangeCategory:YES];
 }
 
-// 评价
+// 主动获取评价
 - (void)moveViewEvaluationAction:(HDChatBarMoreView *)moreView {
     [self.chatToolbar endEditing:YES];
     [self _stopAudioPlayingWithChangeCategory:YES];
 
-    NSArray* reversedArray = [[self.messsagesSource reverseObjectEnumerator] allObjects];
-    id <HDIMessageModel> model = nil;
-    
-    for (HDMessage *msg in reversedArray) {
-        if (![msg.from isEqualToString:HDClient.sharedClient.currentUsername]) {
-            model = [[HDMessageModel alloc] initWithMessage:msg];
-            break;
-        }
-    }
-    if (!model) {
-        [self showHint:@"没有客服应答，暂时无法评价客服" duration:2.0];
-        return;
-    }
-    
-    __block NSString *sessionId = nil;
-    id service_session = model.message.ext[@"weichat"][@"service_session"];
-    if (service_session != [NSNull null]) {
-        sessionId = service_session[@"serviceSessionId"] == [NSNull null] ? nil : service_session[@"serviceSessionId"];
-    }
-
     [self showHudInView:self.view hint:@"获取中..."];
-    
-    void(^block)(NSString *sessionId) = ^(NSString *sessionId) {
-        [HDClient.sharedClient.chatManager asyncFetchEvaluationDegreeInfoWithCompletion:^(NSDictionary *info, HDError *error)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self hideHud];
-                if (!error) {
-                    SatisfactionViewController *vc = [[SatisfactionViewController alloc] init];
-                    vc.delegate = self;
-                    HDMessage *msg = model.message;
-                    
-                    NSMutableDictionary *ext = [[NSMutableDictionary alloc] initWithDictionary:@{@"weichat":@{@"ctrlArgs":@{@"evaluationDegree":info[@"entities"]}}}];
-                    if (sessionId) {
-                        [ext setValue:sessionId forKey:@"serviceSessionId"];
-                    }
-                    [ext setValue:@"inviteId" forKey:@"0"];
-                    msg.ext = ext;
-                    vc.messageModel = [[HDMessageModel alloc] initWithMessage:msg];
-                    vc.delegate = self;
-                    [self.navigationController pushViewController:vc animated:YES];
-                }else {
-                    [self showHint:@"获取评价信息失败"];
-                }
-            });
-        }];
-    };
-    
-    if (!sessionId) {
-        [HDClient.sharedClient.chatManager asyncFetchSessionWithConversationId:self.conversation.conversationId
-                                                                  sessionType:HSessionType_Processing
-                                                                   completion:^(NSArray *sessions, HDError *error)
-        {
-            if (!error) {
-                NSString *aSessionId = sessions.firstObject;
-                block(aSessionId);
+    [HDClient.sharedClient.chatManager asyncSendInviteEvaluationMessage:self.conversation.conversationId
+                                                             completion:^(HDMessage *msg ,HDError *error)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hideHud];
+            if (error) {
+                [self showHint:@"获取评价信息失败"];
             }else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self hideHud];
-                    [self showHint:@"获取评价信息失败"];
-                });
+                [self messagesDidReceive:@[msg]];
             }
-        }];
-    }else {
-        block(sessionId);
-    }
+        });
+    }];
 }
-
-
 
 #pragma mark - EMLocationViewDelegate
 
@@ -1732,6 +1677,7 @@ typedef enum : NSUInteger {
     [self sendTextMessage:text withExt:nil];
 }
 
+// cell点击
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo {
     
     if ([eventName isEqualToString:HRouterEventTapMenu]) {

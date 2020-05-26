@@ -119,6 +119,8 @@
             [self restarTheApp];
         } else if([_type isEqualToString:@"tenantId"]) {
             [self changeTenantId];
+        } else if([_type isEqualToString:@"nickname"]) {
+            
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_SETTINGCHANGE object:@{@"type":_type, @"content":_editField.text}];
             NSLog(@"text---%@", _editField.text);
@@ -155,6 +157,12 @@
     lgM.tenantId = _editField.text;
     NSLog(@"new tenantId :%@",lgM.tenantId);
     [[HDClient sharedClient] changeTenantId:lgM.tenantId];
+}
+
+- (void)changeNickname {
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    lgM.nickname = _editField.text;
+    NSLog(@"new nickname :%@",lgM.tenantId);
 }
 
 -(void)keyBoardHidden:(UITapGestureRecognizer *)tapRecognizer

@@ -45,7 +45,6 @@
     self.showRefreshHeader = YES;
     self.delegate = self;
     self.dataSource = self;
-    self.visitorInfo = [self visitorInfo];
     [[HDClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
