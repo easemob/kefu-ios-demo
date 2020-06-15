@@ -108,7 +108,8 @@
     if (self.subModels.count == 1) { //没有sub cell
         if (indexPath.row == 0) {
             HDSubItem *subItem = self.subModels[indexPath.row];
-           cell = (HDDetailTitleCell *)[[HDDetailTitleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell = (HDDetailTitleCell *)[[HDDetailTitleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.backgroundColor = UIColor.whiteColor;
             ((HDDetailTitleCell *)cell).model = subItem;
             return cell;
         }
@@ -116,7 +117,9 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.contentView.tag = 1990;
+            cell.backgroundColor = UIColor.whiteColor;
             cell.textLabel.text = @"阅读全文";
+            cell.textLabel.textColor = UIColor.blackColor;
             return cell;
         }
         return nil;

@@ -1567,6 +1567,7 @@ typedef enum : NSUInteger {
         // 根据是否需要评价决定是否添加“解决/未解决”
         if (message.isNeedToScore) {
             HDMessage *msg = [HDMessage createTxtSendMessageWithContent:@"" to:message.from];
+            msg.messageId = message.messageId;
             NSMutableDictionary *extDic = [message.ext mutableCopy];
             [extDic removeObjectForKey:@"msgtype"];
             msg.ext = extDic;
@@ -1762,6 +1763,7 @@ typedef enum : NSUInteger {
     if ([eventName isEqualToString:HRouterEventRebotSolveTapEventName]) {
         [self showHudInView:self.view hint:@"提交中..."];
         [self.view endEditing:YES];
+        
         [HDClient.sharedClient.chatManager asyncPostRobotQuality:msg
                                                            solve:YES
                                                             tags:nil
@@ -1771,13 +1773,12 @@ typedef enum : NSUInteger {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self hideHud];
                 if (!error) {
-                    msg.isNeedToScore = NO;
-                    [HDClient.sharedClient.chatManager updateMessage:msg
+                    HDMessage *needUpdateMsg = [_conversation loadMessageWithId:msg.messageId error:nil];
+                    needUpdateMsg.isNeedToScore = NO;
+                    [HDClient.sharedClient.chatManager updateMessage:needUpdateMsg
                                                           completion:^(HDMessage *aMessage, HDError *aError)
                     {
-                        self.messageTimeIntervalTag = -1;
-                        self.dataArray = [[self formatMessages:self.messsagesSource] mutableCopy];
-                        [self.tableView reloadData];
+                        [self _loadMessagesBefore:nil count:self.messageCountOfPage append:NO];
                     }];
                     [self showHint:@"感谢您的提交"];
                 }else {
@@ -1839,15 +1840,13 @@ typedef enum : NSUInteger {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self hideHud];
             if (!error) {
-                msg.isNeedToScore = NO;
-                [HDClient.sharedClient.chatManager updateMessage:msg
+                HDMessage *needUpdateMessage = [_conversation loadMessageWithId:msg.messageId error:nil];
+                needUpdateMessage.isNeedToScore = NO;
+                [HDClient.sharedClient.chatManager updateMessage:needUpdateMessage
                                                       completion:^(HDMessage *aMessage, HDError *aError)
                 {
-                    self.messageTimeIntervalTag = -1;
-                    self.dataArray = [[self formatMessages:self.messsagesSource] mutableCopy];
-                    [self.tableView reloadData];
-                }];
-                [self showHint:@"感谢您的提交"];
+                    [self _loadMessagesBefore:nil count:self.messageCountOfPage append:NO];
+                }];                [self showHint:@"感谢您的提交"];
             }else {
                 [self showHint:@"提交失败，请稍后再试"];
             }
