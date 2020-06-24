@@ -405,7 +405,8 @@ typedef enum : NSUInteger {
         }
     
         if (indexPath) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            
+            hd_dispatch_main_async_safe(^(){
                 [self.tableView beginUpdates];
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
                 [self.tableView endUpdates];
@@ -662,7 +663,7 @@ typedef enum : NSUInteger {
             [[HDCDDeviceManager sharedInstance] enableProximitySensor];
             [[HDCDDeviceManager sharedInstance] asyncPlayingWithPath:model.fileLocalPath completion:^(NSError *error) {
                 [[HDMessageReadManager defaultManager] stopMessageAudioModel];
-                dispatch_async(dispatch_get_main_queue(), ^{
+                hd_dispatch_main_async_safe(^(){
                     [weakSelf.tableView reloadData];
                     [[HDCDDeviceManager sharedInstance] disableProximitySensor];
                 });
@@ -697,7 +698,7 @@ typedef enum : NSUInteger {
             //Format the message
             NSArray *formattedMessages = [weakSelf formatMessages:messages];
             //Refresh the page
-            dispatch_async(dispatch_get_main_queue(), ^{
+            hd_dispatch_main_async_safe(^(){
                 HDMessageViewController *strongSelf = weakSelf;
                 if (strongSelf) {
                     NSInteger scrollToIndex = 0;
@@ -1368,7 +1369,7 @@ typedef enum : NSUInteger {
     [HDClient.sharedClient.chatManager asyncSendInviteEvaluationMessage:self.conversation.conversationId
                                                              completion:^(HDMessage *msg ,HDError *error)
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        hd_dispatch_main_async_safe(^(){
             [self hideHud];
             if (error) {
                 [self showHint:@"获取评价信息失败"];
@@ -1770,7 +1771,7 @@ typedef enum : NSUInteger {
                                                       completion:^(NSDictionary *info, HDError *error)
         {
             
-            dispatch_async(dispatch_get_main_queue(), ^{
+            hd_dispatch_main_async_safe(^(){
                 [self hideHud];
                 if (!error) {
                     HDMessage *needUpdateMsg = [_conversation loadMessageWithId:msg.messageId error:nil];
@@ -1794,7 +1795,7 @@ typedef enum : NSUInteger {
         [HDClient.sharedClient.chatManager asyncFetchRobotQualityTags:msg
                                                            completion:^(NSDictionary *tags, HDError *error)
         {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            hd_dispatch_main_async_safe(^(){
                 [self hideHud];
                 if (!error) {
                     NSArray *ary = tags[@"entities"];
@@ -1837,7 +1838,7 @@ typedef enum : NSUInteger {
                                                   completion:^(NSDictionary *info, HDError *error)
     {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        hd_dispatch_main_async_safe(^(){
             [self hideHud];
             if (!error) {
                 HDMessage *needUpdateMessage = [_conversation loadMessageWithId:msg.messageId error:nil];
@@ -1938,7 +1939,7 @@ typedef enum : NSUInteger {
     __weak typeof(self) weakSelf = self;
     [[HDClient sharedClient].chatManager updateMessage:_message completion:^(HDMessage *aMessage, HDError *aError) {
         if (!aError) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            hd_dispatch_main_async_safe(^(){
                 [weakSelf.tableView reloadData];
             });
         }

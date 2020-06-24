@@ -457,7 +457,7 @@
     }
     
     if (indexPath) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        hd_dispatch_main_async_safe(^(){
             [self.tableView beginUpdates];
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             [self.tableView endUpdates];

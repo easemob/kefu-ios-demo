@@ -62,7 +62,7 @@
 }
 
 -(void)closeWindow{
-    dispatch_async(dispatch_get_main_queue(), ^{
+    hd_dispatch_main_async_safe(^(){
         [super dismissViewControllerAnimated:YES completion:nil];
     });
 }

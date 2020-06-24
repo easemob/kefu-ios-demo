@@ -196,7 +196,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             } else {
 //                chat.title = [CSDemoAccountManager shareLoginManager].cname;
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
+            hd_dispatch_main_async_safe(^(){
                 [weakSelf hideHud];
                 HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
                 if (queue) {
@@ -209,7 +209,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             });
            
         } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            hd_dispatch_main_async_safe(^(){
                 [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
             });
             NSLog(@"登录失败");
@@ -258,6 +258,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
+    
     if (item.tag == 0) {
         [self setNavTitleView];
         self.title = nil;

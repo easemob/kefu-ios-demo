@@ -192,7 +192,7 @@
 - (void)tableViewDidFinishTriggerHeader:(BOOL)isHeader reload:(BOOL)reload
 {
     __weak HDRefreshTableViewController *weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    hd_dispatch_main_async_safe(^(){
         if (reload) {
             [weakSelf.tableView reloadData];
         }
