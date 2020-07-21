@@ -52,11 +52,12 @@
     static NSString *identify = @"DetailListCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
+        cell.textLabel.textColor = UIColor.grayColor;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+        cell.backgroundColor = [UIColor whiteColor];
         UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, tableView.frame.size.width - 120, CGRectGetHeight(self.frame)/8)];
-        contentLabel.textColor = [UIColor blackColor];
+        contentLabel.textColor = [UIColor grayColor];
         contentLabel.tag = 99;
-        contentLabel.backgroundColor = [UIColor clearColor];
         contentLabel.font = [UIFont systemFontOfSize:15];
         [cell.contentView addSubview:contentLabel];
     }
@@ -67,26 +68,42 @@
     tempLabel.frame = frame;
     tempLabel.textAlignment = NSTextAlignmentRight;
     tempLabel.numberOfLines = frame.size.height/15;
+    tempLabel.textColor = [UIColor grayColor];
    if (indexPath.row == 0) {
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.mail", @"Mail:");
+       cell.textLabel.textColor = UIColor.grayColor;
         tempLabel.text = _msgDetailModel.comment.creator.email;
     } else if (indexPath.row == 1) {
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.theme", @"theme:");
+        cell.textLabel.textColor = UIColor.grayColor;
         tempLabel.text = _msgDetailModel.comment.subject;
     } else if (indexPath.row == 2) {
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.content", @"content:");
+        cell.textLabel.textColor = UIColor.grayColor;
+        NSString *name = [_msgDetailModel.comment.content stringByReplacingOccurrencesOfString:@"联系人姓名"
+                                                                                    withString:@"Contact Name"];
         
-        NSString *name = [_msgDetailModel.comment.content stringByReplacingOccurrencesOfString:@"联系人姓名"withString:@"Contact Name"];
-        NSString *phone = [name stringByReplacingOccurrencesOfString:@"联系人电话"withString:@"Contact Phone"];
-        NSString *mail = [phone stringByReplacingOccurrencesOfString:@"联系人邮箱"withString:@"Contact Email"];
+        NSString *phone = [name stringByReplacingOccurrencesOfString:@"联系人电话"
+                                                          withString:@"Contact Phone"];
         
-        NSString *nameStr = [mail stringByReplacingOccurrencesOfString:@"Contact Name" withString:NSLocalizedString(@"contact_name", @"Contact_Name")];
-        NSString *phoneStr = [nameStr stringByReplacingOccurrencesOfString:@"Contact Phone" withString:NSLocalizedString(@"contact_phone", @"Contact_Phone")];
-        NSString *mailStr = [phoneStr stringByReplacingOccurrencesOfString:@"Contact Email" withString:NSLocalizedString(@"contact_email", @"Contact_Email")];
+        NSString *mail = [phone stringByReplacingOccurrencesOfString:@"联系人邮箱"
+                                                          withString:@"Contact Email"];
+        
+        NSString *nameStr = [mail stringByReplacingOccurrencesOfString:@"Contact Name"
+                                                            withString:NSLocalizedString(@"contact_name", @"Contact_Name")];
+        
+        NSString *phoneStr = [nameStr stringByReplacingOccurrencesOfString:@"Contact Phone"
+                                                                withString:NSLocalizedString(@"contact_phone", @"Contact_Phone")];
+        
+        NSString *mailStr = [phoneStr stringByReplacingOccurrencesOfString:@"Contact Email"
+                                                                withString:NSLocalizedString(@"contact_email", @"Contact_Email")];
+        
         
         tempLabel.text = mailStr;
+        
     } else if (indexPath.row == 3) {
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.time", @"Time:");
+        cell.textLabel.textColor = UIColor.grayColor;
         tempLabel.text = [self dateformatWithTimeStr:_msgDetailModel.comment.created_at];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

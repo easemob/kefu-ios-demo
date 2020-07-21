@@ -63,7 +63,7 @@
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _edit ? CGRectGetWidth(self.frame) - CGRectGetHeight(self.frame):CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
 //        _nameLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.attachmentname", @"Attachment");
-        _nameLabel.textColor = [UIColor whiteColor];
+        _nameLabel.textColor = [UIColor grayColor];
         _nameLabel.textAlignment = _edit ? NSTextAlignmentLeft : NSTextAlignmentCenter;
         _nameLabel.font = [UIFont systemFontOfSize:14.f];
         _nameLabel.userInteractionEnabled = YES;
@@ -74,7 +74,7 @@
 - (UILabel *)durationLabel {
     if (!_durationLabel) {
         _durationLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.frame)/2, 0, CGRectGetHeight(self.frame), CGRectGetHeight(self.frame))];
-        _durationLabel.textColor = [UIColor whiteColor];
+        _durationLabel.textColor = [UIColor grayColor];
         _durationLabel.textAlignment = NSTextAlignmentRight;
     }
     return _durationLabel;

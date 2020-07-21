@@ -34,6 +34,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     beforeLabel.text = [NSString stringWithFormat:@"%@:", placeholder];
     beforeLabel.textAlignment = NSTextAlignmentLeft;
     beforeLabel.font = [UIFont systemFontOfSize:15];
+    beforeLabel.textColor = UIColor.grayColor;
     
     UILabel *lateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(beforeLabel.frame), y + 4, kScreenWidth - CGRectGetMaxX(beforeLabel.frame) - 20, 40)];
     lateLabel.text = _leaveMessageArray[i];
@@ -81,18 +82,21 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     commitLabel.text = NSLocalizedString(@"new_leave_send_success", @"Submit successful");
     commitLabel.font = [UIFont systemFontOfSize:20];
     commitLabel.textAlignment = NSTextAlignmentCenter;
+    commitLabel.textColor = UIColor.grayColor;
     [self.view addSubview:commitLabel];
     
     UILabel *thankLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(commitLabel.frame) + 10, kScreenWidth, 20)];
     thankLabel.text = NSLocalizedString(@"new_leave_send_descriptionOne", @"Thank you for your leave message.");
     thankLabel.font = [UIFont systemFontOfSize:15];
     thankLabel.textAlignment = NSTextAlignmentCenter;
+    thankLabel.textColor = UIColor.grayColor;
     [self.view addSubview:thankLabel];
     
     UILabel *thankLabelOther = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(thankLabel.frame) + 5, kScreenWidth, 20)];
     thankLabelOther.text = NSLocalizedString(@"new_leave_send_descriptionTwo", @"We will give you a response at the first time.");
     thankLabelOther.font = [UIFont systemFontOfSize:15];
     thankLabelOther.textAlignment = NSTextAlignmentCenter;
+    thankLabelOther.textColor = UIColor.grayColor;
     [self.view addSubview:thankLabelOther];
     
     NSArray *placeholders = @[NSLocalizedString(@"ticket_name", @"Name"),NSLocalizedString(@"ticket_phone", @"Phone"),NSLocalizedString(@"ticket_email", @"Email"),NSLocalizedString(@"ticket_theme", @"Theme"),NSLocalizedString(@"ticket_detail", @"Detail")];

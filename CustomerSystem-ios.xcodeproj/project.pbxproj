@@ -3116,7 +3116,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3142,7 +3142,7 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;
@@ -3161,7 +3161,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3186,7 +3186,7 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;

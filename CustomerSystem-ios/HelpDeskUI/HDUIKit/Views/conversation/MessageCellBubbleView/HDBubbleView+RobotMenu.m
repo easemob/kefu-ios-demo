@@ -78,7 +78,10 @@
     } else {
         text = self.options[indexPath.row];
     }
-    return [text boundingRectWithSize:CGSizeMake(self.tableViewWidth + 25, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
+    return [text boundingRectWithSize:CGSizeMake(self.tableViewWidth - 25, MAXFLOAT)
+                              options:NSStringDrawingUsesLineFragmentOrigin
+                           attributes:attributes
+                              context:nil].size.height + 5;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

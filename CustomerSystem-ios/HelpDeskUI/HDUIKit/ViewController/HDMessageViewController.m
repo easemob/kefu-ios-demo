@@ -1146,7 +1146,10 @@ typedef enum : NSUInteger {
 
 - (void)inputTextViewDidChange:(HDTextView *)inputTextView {
     
-    [[HDClient sharedClient].chatManager postContent:inputTextView.text conversationId:_conversation.conversationId completion:^(id responseObject, HDError *error) {
+    [[HDClient sharedClient].chatManager postContent:inputTextView.text
+                                      conversationId:_conversation.conversationId
+                                          completion:^(id responseObject, HDError *error)
+    {
     }];
 }
 

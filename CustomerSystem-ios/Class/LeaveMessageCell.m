@@ -29,16 +29,19 @@
         UILabel *subjectLabel = [[UILabel alloc] init];
         subjectLabel.font = SubjectFont;
         subjectLabel.textAlignment = NSTextAlignmentLeft;
+        subjectLabel.textColor = UIColor.grayColor;
         [self.contentView addSubview:subjectLabel];
         self.subjectLabel = subjectLabel;
         
         UILabel *detailsLabel = [[UILabel alloc] init];
+        detailsLabel.textColor = UIColor.grayColor;
         detailsLabel.font = DetailsFont;
         detailsLabel.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:detailsLabel];
         self.detailsLabel = detailsLabel;
         
         UILabel *timeLabel = [[UILabel alloc] init];
+        timeLabel.textColor = UIColor.grayColor;
         timeLabel.font = TimeFont;
         timeLabel.textAlignment = NSTextAlignmentRight;
 
@@ -65,7 +68,6 @@
 {
     _leaveMessageModel = leaveMessageModel;
     self.subjectLabel.text = [NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"ticket_theme", @"Theme"),leaveMessageModel.subject];
-    
     if (leaveMessageModel.attachments) {
         self.detailsLabel.text = [NSString stringWithFormat:@"%@:%@-[%@]",NSLocalizedString(@"leaveMessage.content", @"Content"),leaveMessageModel.content,NSLocalizedString(@"leaveMessage.leavemsg.attachment", @"Attachment")];
     } else {

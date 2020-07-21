@@ -9,6 +9,7 @@
 #import "HDLeaveMsgViewController.h"
 #import "CustomButton.h"
 #import "FLTextView.h"
+#import "Masonry.h"
 #import "HLeaveMessageSucceedViewController.h"
 typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     NSTextFieldTagName=1,
@@ -67,11 +68,13 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     _textFieldOne.delegate = self;
     _textFieldOne.returnKeyType = UIReturnKeyNext;
     _textFieldOne.font = [UIFont systemFontOfSize:15];
+    _textFieldOne.textColor = UIColor.grayColor;
     _textFieldOne.tag = 1;
     [_backView addSubview:_textFieldOne];
     
     _textFieldTwo = [[UITextField alloc] initWithFrame:CGRectMake(75, 50, kScreenWidth-160, 40)];
     _textFieldTwo.delegate = self;
+    _textFieldTwo.textColor = UIColor.grayColor;
     _textFieldTwo.returnKeyType = UIReturnKeyNext;
     _textFieldTwo.font = [UIFont systemFontOfSize:15];
     _textFieldTwo.tag = 2;
@@ -80,6 +83,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     
     _textFieldThree = [[UITextField alloc] initWithFrame:CGRectMake(75, 100, kScreenWidth-160, 40)];
     _textFieldThree.delegate = self;
+    _textFieldThree.textColor = UIColor.grayColor;
     _textFieldThree.returnKeyType = UIReturnKeyNext;
     _textFieldThree.font = [UIFont systemFontOfSize:15];
     _textFieldThree.tag = 3;
@@ -87,6 +91,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     
     _textFieldFour = [[UITextField alloc] initWithFrame:CGRectMake(75, 150, kScreenWidth-160, 40)];
     _textFieldFour.delegate = self;
+    _textFieldFour.textColor = UIColor.grayColor;
     _textFieldFour.returnKeyType = UIReturnKeyDone;
     _textFieldFour.font = [UIFont systemFontOfSize:15];
     _textFieldFour.tag = 4;
@@ -99,8 +104,10 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     if (_textView == nil) {
         _textView = [[FLTextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight * 0.35)];
         [_textView setPlaceholderText:[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"leave_content",@"Input content"),@"..."]];
+        _textView.placeholderTextColor = UIColor.grayColor;
         _textView.delegate = self;
         _textView.backgroundColor = UIColor.whiteColor;
+        _textView.textColor = UIColor.blackColor;
         _textView.fontSize = 16.0;
         _textView.returnKeyType = UIReturnKeyDone;
         _textView.font = [UIFont systemFontOfSize:16];
@@ -116,6 +123,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     UILabel *beforeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, y + 4, 55, 30)];
     beforeLabel.text = [NSString stringWithFormat:@"%@:", placeholder];
     beforeLabel.font = [UIFont systemFontOfSize:15];
+    beforeLabel.textColor = UIColor.grayColor;
     
     UILabel *lateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_textFieldOne.frame), y + 4, 70, 30)];
     lateLabel.text = NSLocalizedString(@"new_leave_item_hint_text", @"Required");
@@ -294,8 +302,6 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     UIBarButtonItem *nagetiveSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     nagetiveSpacer.width = -16;
     self.navigationItem.leftBarButtonItems = @[nagetiveSpacer,backItem];
-
-    
     
     _backView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.textView.frame), kScreenWidth, kScreenHeight -CGRectGetMaxY(self.textView.frame) - 140)];
     _backView.backgroundColor = [UIColor whiteColor];
@@ -305,13 +311,18 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     _bottomView.backgroundColor = RGBACOLOR(184, 22, 22, 1);
     [self.view addSubview:_bottomView];
     
+    [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.height.equalTo(@50);
+        make.bottom.equalTo(self.view);
+    }];
+    
+    
     UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth - 55, 0, 50, 50)];
     [sendButton setTitle:NSLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
     [sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [sendButton addTarget:self action:@selector(leaveMessage) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *sendItem = [[UIBarButtonItem alloc] initWithCustomView:sendButton];
-//    [self.navigationItem setRightBarButtonItem:sendItem];
-    
     [_bottomView addSubview:sendButton];
     
 }

@@ -228,10 +228,6 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [HDClient.sharedClient logout:YES];
-    
-    return;
-    
     NSInteger section = indexPath.section;
     switch (section) {
         case 0:

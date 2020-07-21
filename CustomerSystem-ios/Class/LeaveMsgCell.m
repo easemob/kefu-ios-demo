@@ -39,11 +39,12 @@
         _timeLabel.font = [UIFont systemFontOfSize:13];
         _timeLabel.textAlignment = NSTextAlignmentRight;
         _timeLabel.backgroundColor = [UIColor clearColor];
+        _timeLabel.textColor = UIColor.grayColor;
         [self.contentView addSubview:_timeLabel];
         
         _unreadLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 45, CGRectGetMaxY(_timeLabel.frame) + 5.f, 20, 20)];
         _unreadLabel.backgroundColor = RGBACOLOR(242, 83, 131, 1);
-        _unreadLabel.textColor = [UIColor whiteColor];
+        _unreadLabel.textColor = UIColor.grayColor;
         
         _unreadLabel.textAlignment = NSTextAlignmentCenter;
         _unreadLabel.font = [UIFont systemFontOfSize:11];
@@ -54,10 +55,11 @@
         _detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 30, 175, 20)];
         _detailLabel.backgroundColor = [UIColor clearColor];
         _detailLabel.font = [UIFont systemFontOfSize:15];
-        _detailLabel.textColor = [UIColor lightGrayColor];
+        _detailLabel.textColor = UIColor.grayColor;
         [self.contentView addSubview:_detailLabel];
         
         self.textLabel.backgroundColor = [UIColor clearColor];
+        self.textLabel.textColor = UIColor.grayColor;
         
         _attchmentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0)];
         _attchmentView.userInteractionEnabled = YES;

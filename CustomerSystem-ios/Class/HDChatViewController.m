@@ -71,6 +71,12 @@
             });
         }
     }];
+     
+    // 获取有效会话，如果sessionId有值，则表示当前存在会话，如果为nil且没有error的情况，则表示当前没有会话。
+    [HDClient.sharedClient.chatManager fetchCurrentSessionId:self.conversation.conversationId
+                                                  completion:^(NSString *sessionId, HDError *aError) {
+        
+    }];
      */
 }
 
