@@ -8,10 +8,11 @@
 
 #import "HDFormWebViewController.h"
 #import <JavaScriptCore/JavaScriptCore.h>
+#import <WebKit/WebKit.h>
 
-@interface HDFormWebViewController ()<UIWebViewDelegate, EasemobWebViewInterface>
+@interface HDFormWebViewController ()<EasemobWebViewInterface>
 @property (nonatomic, strong) JSContext *jsContext;
-@property (nonatomic, strong) UIWebView *web;
+@property (nonatomic, strong) WKWebView *webView;
 @end
 
 @implementation HDFormWebViewController
@@ -26,37 +27,34 @@
 - (void)configWebView
 {
     CGRect frame = CGRectMake(20, 40, kScreenWidth - 40 , kScreenHeight - 80);
-    _web = [[UIWebView alloc]initWithFrame:frame];
+    _webView = [[WKWebView alloc] initWithFrame:frame];
     NSURL *trueUrl = nil;
     if (_url) {
         trueUrl = [NSURL URLWithString:_url];
     }
     NSURLRequest *request = [NSURLRequest requestWithURL:trueUrl];
-    _web.delegate = self;
-    [self.view addSubview:_web];
-    [_web loadRequest:request];
+    [self.view addSubview:_webView];
+    [_webView loadRequest:request];
     
 }
 
 #pragma mark - delegate
 
-#pragma mark - UIWebViewDelegate
-
--(void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    if (!self.jsContext) {
-        self.jsContext = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-        
-        // 关联打印异常
-        self.jsContext.exceptionHandler = ^(JSContext *context, JSValue *exception) {
-//            context.exception = exception;
-            NSLog(@"exception:%@", exception);
-        };
-        
-    }
-     self.jsContext[@"easemob"]=self;
-
-}
+//-(void)webViewDidFinishLoad:(UIWebView *)webView
+//{
+//    if (!self.jsContext) {
+//        self.jsContext = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+//
+//        // 关联打印异常
+//        self.jsContext.exceptionHandler = ^(JSContext *context, JSValue *exception) {
+////            context.exception = exception;
+//            NSLog(@"exception:%@", exception);
+//        };
+//
+//    }
+//     self.jsContext[@"easemob"] = self;
+//
+//}
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 
@@ -64,7 +62,7 @@
 }
 
 -(void)closeWindow{
-    dispatch_async(dispatch_get_main_queue(), ^{
+    hd_dispatch_main_async_safe(^(){
         [super dismissViewControllerAnimated:YES completion:nil];
     });
 }
@@ -106,7 +104,6 @@
 - (void)dealloc
 {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    _web.delegate = nil;
-    _web = nil;
+    _webView = nil;
 }
 @end

@@ -18,7 +18,7 @@
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
-        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(5);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
         make.width.equalTo(self.tableViewWidth);
     }];
 }
@@ -53,7 +53,7 @@
     } else {
         cell.menu = self.options[indexPath.row];
     }
-    cell.width = self.tableViewWidth + 25;
+    cell.width = self.tableViewWidth - 25;
     
     return cell;
 }
@@ -78,7 +78,10 @@
     } else {
         text = self.options[indexPath.row];
     }
-    return [text boundingRectWithSize:CGSizeMake(self.tableViewWidth + 25, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
+    return [text boundingRectWithSize:CGSizeMake(self.tableViewWidth - 25, MAXFLOAT)
+                              options:NSStringDrawingUsesLineFragmentOrigin
+                           attributes:attributes
+                              context:nil].size.height + 5;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

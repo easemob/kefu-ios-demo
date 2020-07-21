@@ -151,6 +151,10 @@
             content = NSLocalizedString(@"cov_location", @"[Location]");
             break;
         }
+        case EMMessageBodyTypeVideo:{
+            content = NSLocalizedString(@"cov_video", @"[Video]");
+            break;
+        }
         default:
             break;
     }

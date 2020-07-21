@@ -80,6 +80,7 @@
     
     _editField = [[UITextField alloc] initWithFrame:CGRectMake(10, 0, contentView.frame.size.width - 20, contentView.frame.size.height)];
     _editField.backgroundColor = [UIColor whiteColor];
+    _editField.textColor = UIColor.blackColor;
     _editField.text = _content;
     _editField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _editField.returnKeyType = UIReturnKeyDone;
@@ -118,6 +119,8 @@
             [self restarTheApp];
         } else if([_type isEqualToString:@"tenantId"]) {
             [self changeTenantId];
+        } else if([_type isEqualToString:@"nickname"]) {
+            
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_SETTINGCHANGE object:@{@"type":_type, @"content":_editField.text}];
             NSLog(@"text---%@", _editField.text);
@@ -154,6 +157,12 @@
     lgM.tenantId = _editField.text;
     NSLog(@"new tenantId :%@",lgM.tenantId);
     [[HDClient sharedClient] changeTenantId:lgM.tenantId];
+}
+
+- (void)changeNickname {
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    lgM.nickname = _editField.text;
+    NSLog(@"new nickname :%@",lgM.tenantId);
 }
 
 -(void)keyBoardHidden:(UITapGestureRecognizer *)tapRecognizer

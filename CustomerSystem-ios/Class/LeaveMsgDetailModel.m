@@ -172,7 +172,7 @@
     }
     
     if ([dictionary objectForKey:@"attachments"] && [[dictionary objectForKey:@"attachments"] isKindOfClass:[NSArray class]]) {
-        if ([[dictionary objectForKey:@"attachments"] count] > 0) {
+        if (((NSArray *)[dictionary objectForKey:@"attachments"]).count > 0) {
             if (_attachments == nil) {
                 _attachments = [NSMutableArray array];
             } else {

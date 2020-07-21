@@ -43,6 +43,7 @@
     CGFloat space = 5;
     self.name = [[UILabel alloc] initWithFrame:CGRectMake(space, 0, width*0.6, height*0.8)];
     self.name.text = NSLocalizedString([_comDataSource[tag] objectForKey:@"name"], @"em_example1_text");
+    self.name.textColor = UIColor.blackColor;
     self.name.numberOfLines = 2;
     self.name.lineBreakMode = NSLineBreakByCharWrapping;
     self.name.font = [UIFont systemFontOfSize:13];
@@ -63,24 +64,23 @@
     self.novemberSales = [[UILabel alloc] initWithFrame:CGRectMake(space, CGRectGetMaxY(self.name.frame), width*0.7, height*0.2)];
     self.novemberSales.text = NSLocalizedString([_comDataSource[tag] objectForKey:@"novemberSales"], @"em_example1_text_description");
     self.novemberSales.font = [UIFont systemFontOfSize:8];
+    self.novemberSales.textColor = UIColor.blackColor;
     self.name.textAlignment = NSTextAlignmentLeft;
     [self addSubview:self.novemberSales];
     
     self.originalPrice = [[UILabel alloc] initWithFrame:CGRectMake(width - width/3 - space, CGRectGetMaxY(self.name.frame), width*0.3, height*0.2)];
     self.originalPrice.font = [UIFont systemFontOfSize:8];
     self.originalPrice.textAlignment = NSTextAlignmentRight;
+    self.originalPrice.textColor = UIColor.blackColor;
 
     NSString *textStr = [_comDataSource[tag] objectForKey:@"originalPrice"];
     
 //    中划线
     NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
     NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
-    
     // 赋值
     self.originalPrice.attributedText = attribtStr;
     [self addSubview:self.originalPrice];
-    
-    
     
 }
 

@@ -76,12 +76,13 @@
             [self.button addTarget:self action:@selector(mallImageAction:) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:self.button];
             
-            CommodityInfoView *civ = [[CommodityInfoView alloc] initWithFrame:CGRectMake(i * (margin + width), CGRectGetMaxY(self.button.frame), width-2, height/4) tag:self.button.tag];
+            CommodityInfoView *civ = [[CommodityInfoView alloc] initWithFrame:CGRectMake(i * (margin + width),
+                                                                                         CGRectGetMaxY(self.button.frame),
+                                                                                         width-2,
+                                                                                         height/4)
+                                                                          tag:self.button.tag];
            
             [_scrollView addSubview:civ];
-               
-
-            
         }
     }
     _infoArray = [NSArray arrayWithObjects:

@@ -176,7 +176,7 @@
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.backgroundColor = RGBACOLOR(238, 238, 245, 1);;
+        _tableView.backgroundColor = UIColor.whiteColor;
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
@@ -212,10 +212,12 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"titleCell"];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"titleCell"];
+            cell.backgroundColor = UIColor.whiteColor;
             CGFloat height = [self tableView:tableView heightForRowAtIndexPath:indexPath];
             UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, height - 1, kScreenWidth, 1)];
             lineView.backgroundColor = RGBACOLOR(207, 210, 213, 0.7);
             [cell.contentView addSubview:lineView];
+            cell.textLabel.textColor = UIColor.grayColor;
         }
         cell.textLabel.textAlignment = NSTextAlignmentLeft;
         cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.comment", @"comment");
@@ -226,6 +228,7 @@
     LeaveMsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
         cell = [[LeaveMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+        cell.backgroundColor = UIColor.whiteColor;
         cell.delegate = self;
     }
     LeaveMsgCommentModel *comment = [self.dataArray objectAtIndex:indexPath.row - 1];
@@ -345,6 +348,7 @@
     activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
                                          UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
     
+    activityVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:activityVC animated:YES completion:nil];
 }
 

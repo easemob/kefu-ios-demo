@@ -199,6 +199,8 @@
         default:
             break;
     }
+    cell.backgroundColor = UIColor.whiteColor;
+    cell.textLabel.textColor = UIColor.blackColor;
     
     return cell;
 }
@@ -266,13 +268,14 @@
             CSDemoAccountManager *lgm = [CSDemoAccountManager shareLoginManager];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 if ([lgm loginKefuSDK]) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
+                    hd_dispatch_main_async_safe(^(){
                         [weakSelf hideHud];
                         HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:_cname];
+                        chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
                         [self.navigationController pushViewController:chat animated:YES];
                     });
                 } else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
+                    hd_dispatch_main_async_safe(^(){
                         [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
                     });
                 }

@@ -57,6 +57,8 @@
     option.showAgentInputState = YES; // 是否显示坐席输入状态
     HDClient *client = [HDClient sharedClient];
     HDError *initError = [client initializeSDKWithOptions:option];
+    
+    
     if (initError) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"initialization_error", @"Initialization error!") message:initError.errorDescription delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
         [alert show];

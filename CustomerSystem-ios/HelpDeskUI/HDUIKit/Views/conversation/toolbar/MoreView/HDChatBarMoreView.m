@@ -13,7 +13,7 @@
 #import "HDChatBarMoreView.h"
 
 //#define CHAT_BUTTON_SIZE CGSizeMake(50,60)
-#define CHAT_BUTTON_SIZE CGSizeMake(40,48)
+#define CHAT_BUTTON_SIZE CGSizeMake(50,58)
 #define INSETS 10
 
 #define MOREVIEW_COL 4
@@ -174,15 +174,19 @@
     _pageControl.hidden = _pageControl.numberOfPages<=1;
 }
 
-- (UIButton *)btnWithImage:(UIImage *)aImage highlightedImage:(UIImage *)aHighLightedImage title:(NSString *)aTitle {
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+- (HDItemButton *)btnWithImage:(UIImage *)aImage highlightedImage:(UIImage *)aHighLightedImage title:(NSString *)aTitle {
+    HDItemButton *btn = [HDItemButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:aImage forState:UIControlStateNormal];
     [btn setImage:aHighLightedImage forState:UIControlStateHighlighted];
     [btn setTitle:aTitle forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
-    btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0);
-    btn.titleEdgeInsets = UIEdgeInsetsMake(0, -100, -60, -20);
+    [btn.titleLabel sizeToFit];
+    btn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    btn.titleRect = CGRectMake(0, CHAT_BUTTON_SIZE.height - btn.titleLabel.size.height, CHAT_BUTTON_SIZE.width, btn.titleLabel.size.height);
+    btn.imageRect = CGRectMake(0, 0, CHAT_BUTTON_SIZE.width, CHAT_BUTTON_SIZE.height - btn.titleLabel.size.height);
+    
+    
     return btn;
 }
 
@@ -389,6 +393,26 @@
     if (button && _delegate && [_delegate respondsToSelector:@selector(moreView:didItemInMoreViewAtIndex:)]) {
         [_delegate moreView:self didItemInMoreViewAtIndex:button.tag-MOREVIEW_BUTTON_TAG];
     }
+}
+
+@end
+
+
+@implementation HDItemButton
+
+- (CGRect)titleRectForContentRect:(CGRect)contentRect{
+    if (!CGRectIsEmpty(self.titleRect) && !CGRectEqualToRect(self.titleRect, CGRectZero)) {
+        return self.titleRect;
+    }
+    return [super titleRectForContentRect:contentRect];
+}
+
+- (CGRect)imageRectForContentRect:(CGRect)contentRect{
+    
+    if (!CGRectIsEmpty(self.imageRect) && !CGRectEqualToRect(self.imageRect, CGRectZero)) {
+        return self.imageRect;
+    }
+    return [super imageRectForContentRect:contentRect];
 }
 
 @end

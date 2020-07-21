@@ -11,7 +11,7 @@
 @protocol SatisfactionDelegate <NSObject>
 
 @optional
-- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments type:(ControlType *)type evaluationTagsArray:(NSMutableArray *)tags;
+- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments type:(ControlType *)type evaluationTagsArray:(NSMutableArray *)tags evaluationDegreeId:(NSNumber *)evaluationDegreeId;
 
 @required
 

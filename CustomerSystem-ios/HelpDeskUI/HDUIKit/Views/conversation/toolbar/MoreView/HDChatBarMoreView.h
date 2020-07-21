@@ -53,3 +53,8 @@ typedef enum{
 - (void)moreView:(HDChatBarMoreView *)moreView didItemInMoreViewAtIndex:(NSInteger)index;
 
 @end
+
+@interface HDItemButton : UIButton
+@property (nonatomic,assign) CGRect titleRect;
+@property (nonatomic,assign) CGRect imageRect;
+@end

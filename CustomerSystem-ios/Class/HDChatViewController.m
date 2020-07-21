@@ -45,8 +45,6 @@
     self.showRefreshHeader = YES;
     self.delegate = self;
     self.dataSource = self;
-    self.visitorInfo = [self visitorInfo];
-    
     [[HDClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
@@ -72,6 +70,12 @@
                 [self.conversation addMessage:msg error:nil];
             });
         }
+    }];
+     
+    // 获取有效会话，如果sessionId有值，则表示当前存在会话，如果为nil且没有error的情况，则表示当前没有会话。
+    [HDClient.sharedClient.chatManager fetchCurrentSessionId:self.conversation.conversationId
+                                                  completion:^(NSString *sessionId, HDError *aError) {
+        
     }];
      */
 }
@@ -459,7 +463,7 @@
     }
     
     if (indexPath) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        hd_dispatch_main_async_safe(^(){
             [self.tableView beginUpdates];
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             [self.tableView endUpdates];

@@ -66,7 +66,7 @@
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
-        make.height.equalTo(self.backgroundImageView.mas_height).offset(-self.margin.top-self.margin.bottom);
+        make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
     }];
 }
 
@@ -108,7 +108,8 @@
     if (self.subModels.count == 1) { //没有sub cell
         if (indexPath.row == 0) {
             HDSubItem *subItem = self.subModels[indexPath.row];
-           cell = (HDDetailTitleCell *)[[HDDetailTitleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell = (HDDetailTitleCell *)[[HDDetailTitleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.backgroundColor = UIColor.whiteColor;
             ((HDDetailTitleCell *)cell).model = subItem;
             return cell;
         }
@@ -116,7 +117,9 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.contentView.tag = 1990;
+            cell.backgroundColor = UIColor.whiteColor;
             cell.textLabel.text = @"阅读全文";
+            cell.textLabel.textColor = UIColor.blackColor;
             return cell;
         }
         return nil;
@@ -149,17 +152,17 @@
 - (CGFloat)articleTableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.subModels.count == 1) { //style:detail
         HDSubItem *item = [self.subModels firstObject];
-        CGSize size = CGSizeMake(kScreenWidth-2*kLeftMargin-2*kLeftMargin, MAXFLOAT);
+        CGSize size = CGSizeMake(kScreenWidth - 2 * kLeftMargin - 2 * kLeftMargin, MAXFLOAT);
         if (indexPath.row == 0) {
             CGFloat titleH = kTitleFontSize;
             CGFloat timeH = kDigistFontSize;
             CGFloat imageH = kTitleImageHeight;
             CGFloat digistH = [NSString rectOfString:item.digest fontSize:kDigistFontSize size:size].size.height;
-            CGFloat h = titleH+timeH+imageH+digistH+6*kMarginNormal;
+            CGFloat h = titleH + timeH + imageH + digistH + 6 * kMarginNormal;
             return h;
         }
         if (indexPath.row == 1) {
-            return 44;
+            return 45;
         }
     } else {//style:sub
         if (indexPath.row == 0) {
@@ -167,7 +170,7 @@
         }
         return 70;
     }
-    return 44;
+    return 45;
 }
 
 @end
@@ -189,8 +192,6 @@
     }
     return self;
 }
-
-
 
 - (void)setUI {
     //标题
@@ -239,12 +240,12 @@
 }
 
 - (void)layoutSubviews {
-    CGSize size = CGSizeMake(self.width-2*kLeftMargin, MAXFLOAT);
-    _titleLabel.frame = CGRectMake(kLeftMargin, kTopMargin, self.width-2*kLeftMargin, kTitleFontSize);
+    CGSize size = CGSizeMake(self.width - 2 * kLeftMargin, MAXFLOAT);
+    _titleLabel.frame = CGRectMake(kLeftMargin, kTopMargin, self.width - 2 * kLeftMargin, kTitleFontSize);
     _timeLabel.frame = CGRectMake(kLeftMargin, CGRectGetMaxY(_titleLabel.frame)+kTopMargin, 200,kDigistFontSize);
-    _imageView.frame = CGRectMake(kLeftMargin, CGRectGetMaxY(_timeLabel.frame)+kTopMargin, self.width-2*kLeftMargin, kTitleImageHeight);
+    _imageView.frame = CGRectMake(kLeftMargin, CGRectGetMaxY(_timeLabel.frame)+kTopMargin, self.width - 2 * kLeftMargin, kTitleImageHeight);
     CGRect imgRect = [_model.digest boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:kDigistFontSize]} context:nil];
-    _profile.frame = CGRectMake(kLeftMargin, CGRectGetMaxY(_imageView.frame)+kTopMargin, self.width-2*kLeftMargin, imgRect.size.height+kTopMargin);
+    _profile.frame = CGRectMake(kLeftMargin, CGRectGetMaxY(_imageView.frame) + kTopMargin, self.width - 2 * kLeftMargin, imgRect.size.height+kTopMargin);
 }
 
 @end
@@ -296,21 +297,21 @@
     //    CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width, 0.5));
     //下分割线
     CGContextSetStrokeColorWithColor(context, RGBACOLOR(0xe5, 0xe5, 0xe5, 1).CGColor);
-    CGContextStrokeRect(context, CGRectMake(kLeftMargin, rect.size.height - 0.5, rect.size.width-2*kLeftMargin, 0.5f));
+    CGContextStrokeRect(context, CGRectMake(kLeftMargin, rect.size.height - 0.5, rect.size.width - 2 * kLeftMargin, 0.5f));
 }
 
 - (void)layoutSubviews {
-    CGFloat wh = self.height-20;
+    CGFloat wh = self.height - 20;
     if (_model.type == HDCellTypeTitle) {
-        _titleLabel.frame = CGRectMake(10, self.height-kTopMargin-20, self.width-20, 15);
-        _imageView.frame = CGRectMake(10, 10, self.width-2*kLeftMargin, self.height-2*kTopMargin);
+        _titleLabel.frame = CGRectMake(10, self.height - kTopMargin - 20, self.width - 20, 15);
+        _imageView.frame = CGRectMake(10, 10, self.width - 2 * kLeftMargin, self.height - 2 * kTopMargin);
     }
     if (_model.type == HDCellTypeSub) {
-        CGSize size = CGSizeMake(self.width-20-wh-10, MAXFLOAT);
+        CGSize size = CGSizeMake(self.width - 20 - wh - 10, MAXFLOAT);
         CGRect rect = [_model.title boundingRectWithSize:size options: NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0]} context:nil];
-        CGFloat height = rect.size.height > wh ? wh:rect.size.height;
-        _titleLabel.frame = CGRectMake(kLeftMargin, kTopMargin, self.width-20-wh-10, height);
-        _imageView.frame = CGRectMake(self.width-wh-10, 10, wh, wh);
+        CGFloat height = rect.size.height > wh ? wh : rect.size.height;
+        _titleLabel.frame = CGRectMake(kLeftMargin, kTopMargin, self.width - 20 - wh - 10, height);
+        _imageView.frame = CGRectMake(self.width - wh - 10, 10, wh, wh);
     }
 }
 

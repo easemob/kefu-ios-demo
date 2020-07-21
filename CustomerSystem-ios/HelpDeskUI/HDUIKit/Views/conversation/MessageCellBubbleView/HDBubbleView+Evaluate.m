@@ -30,6 +30,7 @@
     self.evaluateTitle.translatesAutoresizingMaskIntoConstraints = NO;
     self.evaluateTitle.backgroundColor = [UIColor clearColor];
     self.evaluateTitle.font = [UIFont systemFontOfSize:15];
+    self.evaluateTitle.textColor = [UIColor blackColor];
     self.evaluateTitle.numberOfLines = 0;
     [self.backgroundImageView addSubview:self.evaluateTitle];
     

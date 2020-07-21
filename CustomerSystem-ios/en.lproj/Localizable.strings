@@ -287,7 +287,7 @@
 "qrcode_invalid" = "QrCode Invalid";
 "qrcode_box" = "Qr code to be included in the box, can automatically scan";
 
-"comment_suc" = "Add comment successful.";
+"comment_suc" = "send comment successful.";
 "comment_fail" = "Add comment fail.";
 "comment_submit" = "Comment submit.";
 
@@ -310,6 +310,7 @@
 "cov_voice" = "[Vioce]";
 "cov_file" = "[File]";
 "cov_location" = "[Location]";
+"cov_video" = "[Video]";
 "big_expression" = "[Emoji]";
 
 "file" = "File";
