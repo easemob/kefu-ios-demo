@@ -8,7 +8,6 @@
 
 #import "AppDelegate+HelpDesk.h"
 #import "LocalDefine.h"
-#import <Bugly/Bugly.h>
 
 /**
  *  本类中做了EaseMob初始化和推送等操作
@@ -18,7 +17,6 @@
 - (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    [Bugly startWithAppId:@"b336efe49a"];
     //ios8注册apns
     [self registerRemoteNotification];
     //初始化环信客服sdk

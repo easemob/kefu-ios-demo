@@ -35,7 +35,7 @@
 + (instancetype)shareHelper;
 
 #pragma mark - send message new
-+ (HDMessage *)cmdMessageFormatTo:(NSString *)to;
++ (HDMessage *)cmdMessageFormatTo:(NSString *)to action:(NSString *)action;
 
 + (HDMessage *)textHMessageFormatWithText:(NSString *)text
                                       to:(NSString *)toUser;

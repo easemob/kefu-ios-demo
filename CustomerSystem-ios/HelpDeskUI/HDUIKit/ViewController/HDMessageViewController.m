@@ -1714,8 +1714,10 @@ typedef enum : NSUInteger {
         if (_isSendingTransformMessage) return;
         _isSendingTransformMessage = YES;
         __block HDMessage *message = [userInfo objectForKey:@"HDMessage"];
-        NSDictionary *weichat = [message.ext objectForKey:kMesssageExtWeChat];
-        NSDictionary *ctrlArgs = [weichat objectForKey:kMesssageExtWeChat_ctrlArgs];
+        NSDictionary *weichat = [message.ext objectForKey:kMessageExtWeChat];
+        NSDictionary *ctrlArgs = [weichat objectForKey:kMessageExtWeChat_ctrlArgs];
+        NSDictionary *transferHumanInfo = [weichat objectForKey:kMessageExtWeChat_transferToHuman];
+        NSString *action = transferHumanInfo[@"transferToHumanId"];
         ControlArguments *arguments = [ControlArguments new];
         arguments.identity = [ctrlArgs valueForKey:@"id"];
         arguments.sessionId = [ctrlArgs valueForKey:@"serviceSessionId"];
@@ -1723,7 +1725,7 @@ typedef enum : NSUInteger {
         hcont.arguments = arguments;
         if ([HDMessageHelper getMessageExtType:message] == HDExtToCustomServiceMsg) {
             //发送透传消息
-            HDMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId];
+            HDMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId action:action];
             [aHMessage addCompositeContent:hcont];
             __weak typeof(self) weakSelf = self;
             [[HDClient sharedClient].chatManager sendMessage:aHMessage
@@ -1937,7 +1939,7 @@ typedef enum : NSUInteger {
     HDMessage *_message = message;
     NSMutableDictionary *_ext = [NSMutableDictionary dictionaryWithDictionary:message.ext];
     
-    [_ext setValue:@YES forKey:kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer];
+    [_ext setValue:@YES forKey:kMessageExtWeChat_ctrlType_transferToKf_HasTransfer];
     _message.ext = [_ext copy];
     __weak typeof(self) weakSelf = self;
     [[HDClient sharedClient].chatManager updateMessage:_message completion:^(HDMessage *aMessage, HDError *aError) {

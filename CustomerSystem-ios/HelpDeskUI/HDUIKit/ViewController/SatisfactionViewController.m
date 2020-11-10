@@ -203,12 +203,12 @@
 
 - (void)parseAppraiseTagExt:(CGFloat)ScorePercent
 {
-    if ([self.messageModel.message.ext objectForKey:kMesssageExtWeChat]) {
-        NSDictionary *weichat = [self.messageModel.message.ext objectForKey:kMesssageExtWeChat];
-        if ([weichat objectForKey:kMesssageExtWeChat_ctrlArgs]) {
-            NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMesssageExtWeChat_ctrlArgs]];
+    if ([self.messageModel.message.ext objectForKey:kMessageExtWeChat]) {
+        NSDictionary *weichat = [self.messageModel.message.ext objectForKey:kMessageExtWeChat];
+        if ([weichat objectForKey:kMessageExtWeChat_ctrlArgs]) {
+            NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMessageExtWeChat_ctrlArgs]];
             NSLog(@"ctrlArgs--%@", ctrlArgs);
-            NSMutableArray *evaluationDegree = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_evaluationDegree];
+            NSMutableArray *evaluationDegree = [ctrlArgs objectForKey:kMessageExtWeChat_ctrlArgs_evaluationDegree];
             NSDictionary *appraiseTagsDict = nil;
             if (ScorePercent == 1.0) {
                 appraiseTagsDict = [evaluationDegree objectAtIndex:0];
@@ -255,20 +255,20 @@
         return;
     }
     if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithControlArguments:type:evaluationTagsArray:evaluationDegreeId:)]) {
-        if ([self.messageModel.message.ext objectForKey:kMesssageExtWeChat]) {
+        if ([self.messageModel.message.ext objectForKey:kMessageExtWeChat]) {
             HDMessage *msg = self.messageModel.message;
-            NSDictionary *weichat = [msg.ext objectForKey:kMesssageExtWeChat];
-            if ([weichat objectForKey:kMesssageExtWeChat_ctrlArgs]) {
-                NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMesssageExtWeChat_ctrlArgs]];
+            NSDictionary *weichat = [msg.ext objectForKey:kMessageExtWeChat];
+            if ([weichat objectForKey:kMessageExtWeChat_ctrlArgs]) {
+                NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMessageExtWeChat_ctrlArgs]];
                 ControlType *type = [[ControlType alloc] initWithValue:@"enquiry"];
                 ControlArguments *arguments = [ControlArguments new];
-                arguments.sessionId = [msg.ext objectForKey:kMesssageExtWeChat_ctrlArgs_serviceSessionId];
+                arguments.sessionId = [msg.ext objectForKey:kMessageExtWeChat_ctrlArgs_serviceSessionId];
                 if (!arguments.sessionId) {
                     if (msg.ext[@"weichat"][@"service_session"][@"serviceSessionId"]) {
                         arguments.sessionId = msg.ext[@"weichat"][@"service_session"][@"serviceSessionId"];
                     }
                 }
-                arguments.inviteId = [ctrlArgs objectForKey:kMesssageExtWeChat_ctrlArgs_inviteId];
+                arguments.inviteId = [ctrlArgs objectForKey:kMessageExtWeChat_ctrlArgs_inviteId];
                 arguments.detail = self.textView.text;
                 arguments.summary = [NSString stringWithFormat:@"%d",(int)(_starRateView.scorePercent * 5)];
                 if (self.evaluationTagsArray.count == 0 && self.evaluationTagView.evaluationDegreeModel.appraiseTags.count>0) {

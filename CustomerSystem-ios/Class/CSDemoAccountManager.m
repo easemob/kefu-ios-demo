@@ -306,13 +306,13 @@ static CSDemoAccountManager *_manager = nil;
 
  - (HDVisitorInfo *)visitorInfo {
     HDVisitorInfo *visitor = [[HDVisitorInfo alloc] init];
-    visitor.name = @"小明";
-    visitor.qq = @"12345678";
-    visitor.phone = @"13636362637";
-    visitor.companyName = @"环信";
+    visitor.name = @"";
+    visitor.qq = @"";
+    visitor.phone = @"";
+    visitor.companyName = @"";
     visitor.nickName = self.nickname;
-    visitor.email = @"abv@126.com";
-    visitor.desc = @"环信移动客服";
+    visitor.email = @"";
+    visitor.desc = @"";
     return visitor;
 }
 

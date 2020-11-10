@@ -44,18 +44,18 @@
 #import "Masonry.h"
 
 //Ext keyWord
-#define kMesssageExtWeChat @"weichat"
-#define kMesssageExtWeChat_ctrlType @"ctrlType"
-#define kMesssageExtWeChat_ctrlType_enquiry @"enquiry"
-#define kMesssageExtWeChat_ctrlType_inviteEnquiry @"inviteEnquiry"
-#define kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer @"hasTransfer"
-#define kMesssageExtWeChat_ctrlArgs @"ctrlArgs"
-#define kMesssageExtWeChat_ctrlArgs_evaluationDegree @"evaluationDegree"
-#define kMesssageExtWeChat_ctrlType_transferToKfHint  @"TransferToKfHint"
-#define kMesssageExtWeChat_ctrlArgs_inviteId @"inviteId"
-#define kMesssageExtWeChat_ctrlArgs_serviceSessionId @"serviceSessionId"
-#define kMesssageExtWeChat_ctrlArgs_detail @"detail"
-#define kMesssageExtWeChat_ctrlArgs_summary @"summary"
+#define kMessageExtWeChat @"weichat"
+#define kMessageExtWeChat_ctrlType @"ctrlType"
+#define kMessageExtWeChat_ctrlType_enquiry @"enquiry"
+#define kMessageExtWeChat_ctrlType_inviteEnquiry @"inviteEnquiry"
+#define kMessageExtWeChat_ctrlType_transferToKf_HasTransfer @"hasTransfer"
+#define kMessageExtWeChat_ctrlArgs @"ctrlArgs"
+#define kMessageExtWeChat_ctrlArgs_evaluationDegree @"evaluationDegree"
+#define kMessageExtWeChat_ctrlType_transferToKfHint  @"TransferToKfHint"
+#define kMessageExtWeChat_ctrlArgs_inviteId @"inviteId"
+#define kMessageExtWeChat_ctrlArgs_serviceSessionId @"serviceSessionId"
+#define kMessageExtWeChat_ctrlArgs_detail @"detail"
+#define kMessageExtWeChat_ctrlArgs_summary @"summary"
 
 #define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 #define iPhoneXBottomHeight  ([UIScreen mainScreen].bounds.size.height==812?34:0)
