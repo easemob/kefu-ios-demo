@@ -222,10 +222,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)setPushOptions {
 
     if ([[CSDemoAccountManager shareLoginManager] loginKefuSDK]) {
-        HDPushOptions *HDOptions = [[HDClient sharedClient] getPushOptionsFromServerWithError:nil];
-        HDOptions.displayStyle = HDPushDisplayStyleMessageSummary;
-        HDError *error =  [[HDClient sharedClient] updatePushOptionsToServer:HDOptions];
-        NSLog(@" error:%@",error.errorDescription);
+        [HDClient.sharedClient.pushManager updatePushDisplayStyle:HDPushDisplayStyleMessageSummary completion:^(HDError * error) {
+            NSLog(@" error:%@",error.errorDescription);
+        }];
     }
 }
 
