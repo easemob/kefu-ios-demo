@@ -8,6 +8,7 @@
 
 #import "EditViewController.h"
 #import "AppDelegate+HelpDesk.h"
+#import "CSDemoAccountManager.h"
 #import "LocalDefine.h"
 
 @interface EditViewController () <UITextFieldDelegate,UIGestureRecognizerDelegate>

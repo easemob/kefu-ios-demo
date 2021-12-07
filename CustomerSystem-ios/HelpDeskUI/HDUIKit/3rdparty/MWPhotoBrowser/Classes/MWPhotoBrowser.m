@@ -1555,9 +1555,9 @@
 
 #pragma mark - Action Progress
 
-- (MBProgressHUD *)progressHUD {
+- (HDMBProgressHUD *)progressHUD {
     if (!_progressHUD) {
-        _progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
+        _progressHUD = [[HDMBProgressHUD alloc] initWithView:self.view];
         _progressHUD.minSize = CGSizeMake(120, 120);
         _progressHUD.minShowTime = 1;
         // The sample image is based on the
@@ -1571,7 +1571,7 @@
 
 - (void)showProgressHUDWithMessage:(NSString *)message {
     self.progressHUD.labelText = message;
-    self.progressHUD.mode = MBProgressHUDModeIndeterminate;
+    self.progressHUD.mode = HDMBProgressHUDModeIndeterminate;
     [self.progressHUD show:YES];
     self.navigationController.navigationBar.userInteractionEnabled = NO;
 }
@@ -1585,7 +1585,7 @@
     if (message) {
         if (self.progressHUD.isHidden) [self.progressHUD show:YES];
         self.progressHUD.labelText = message;
-        self.progressHUD.mode = MBProgressHUDModeCustomView;
+        self.progressHUD.mode = HDMBProgressHUDModeCustomView;
         [self.progressHUD hide:YES afterDelay:1.5];
     } else {
         [self.progressHUD hide:YES];

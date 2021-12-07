@@ -15,11 +15,14 @@
 #import "LeaveMsgAttatchmentView.h"
 #import "LeaveMsgDetailModel.h"
 #import "HDMessageReadManager.h"
-#import "MBProgressHUD+Add.h"
+#import "HDMBProgressHUD+Add.h"
 #import "HDMicView.h"
 #import "SCAudioPlay.h"
 #import "CustomButton.h"
 #import "HDRecordView.h"
+#import "CSDemoAccountManager.h"
+#import "NSObject+SCAdd.h"
+
 #define kDefaultLeft 20
 const NSInteger baseTag=123;
 @interface LeaseMsgReplyController () <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, LeaveMsgAttatchmentViewDelegate,SCAudioPlayDelegate, HDRecordViewDelegate, HDCDDeviceManagerDelegate>
@@ -248,9 +251,9 @@ const NSInteger baseTag=123;
             NSString *fileName =[[recordPath componentsSeparatedByString:@"/"] lastObject];
             
             NSData *data = [NSData dataWithContentsOfFile:recordPath];
-            MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
+            HDMBProgressHUD *hud = [HDMBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
             hud.layer.zPosition = 1.f;
-            __weak MBProgressHUD *weakHud = hud;
+            __weak HDMBProgressHUD *weakHud = hud;
             CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
             //此方法只为演示用，用户应把录制的附件放到自己服务器，环信服务器不存储留言的附件
             [[[HDClient sharedClient] leaveMsgManager] uploadWithTenantId:lgM.tenantId File:data parameters:@{@"fileName":fileName} completion:^(id responseObject, NSError *error) {
@@ -471,9 +474,9 @@ const NSInteger baseTag=123;
         NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
         
         __weak typeof(self) weakSelf = self;
-        MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
+        HDMBProgressHUD *hud = [HDMBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
         hud.layer.zPosition = 1.f;
-        __weak MBProgressHUD *weakHud = hud;
+        __weak HDMBProgressHUD *weakHud = hud;
         ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset) {
             ALAssetRepresentation *representation = [myasset defaultRepresentation];
             NSString *fileName = [representation filename];

@@ -126,8 +126,8 @@ static HDSDKHelper *helper = nil;
 #pragma mark - send message new
 
 //构造cmd消息
-+ (HDMessage *)cmdMessageFormatTo:(NSString *)to{
-    EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"TransferToKf"];
++ (HDMessage *)cmdMessageFormatTo:(NSString *)to action:(NSString *)action{
+    EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:action ?: @"TransferToKf"];
     NSString *from = [[HDClient sharedClient] currentUsername];
     HDMessage *message = [[HDMessage alloc] initWithConversationID:to from:from to:to body:body];
     return message;
@@ -150,7 +150,9 @@ static HDSDKHelper *helper = nil;
                                           to:(NSString *)to
                                   messageExt:(NSDictionary *)messageExt
 {
-    HDMessage *message = [HDMessage createImageSendMessageWithData:imageData displayName:@"image.jpg" to:to];
+    HDMessage *message = [HDMessage createImageSendMessageWithData:imageData
+                                                          original:NO
+                                                       displayName:@"image.jpg" to:to];
     if(messageExt){
         [message addAttributeDictionary:messageExt];
     }

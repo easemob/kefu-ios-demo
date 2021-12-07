@@ -23,37 +23,37 @@
     if (self.isSender) {
         self.isReadView.hidden = YES;
     }
-    [self.voiceImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.voiceImageView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
     }];
     
-    [self.voiceDurationLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.voiceDurationLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
     }];
     
     if(self.isSender){
-        [self.voiceImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        [self.voiceImageView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
             make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
         }];
         
-        [self.voiceDurationLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        [self.voiceDurationLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
             make.right.equalTo(self.voiceImageView.mas_left).offset(-HDMessageCellPadding);
             make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         }];
     }
     else{
-        [self.voiceImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        [self.voiceImageView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
             make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         }];
         
-        [self.voiceDurationLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        [self.voiceDurationLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
             make.left.equalTo(self.voiceImageView.mas_right).offset(HDMessageCellPadding);
             make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
         }];
         
-        [self.isReadView mas_updateConstraints:^(MASConstraintMaker *make) {
+        [self.isReadView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
             make.top.equalTo(self.backgroundImageView.mas_top).offset(0);
             make.left.equalTo(self.backgroundImageView.mas_right).offset(-ISREAD_VIEW_SIZE/2);
             make.bottom.equalTo(self.backgroundImageView.mas_top).offset(ISREAD_VIEW_SIZE);

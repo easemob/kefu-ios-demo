@@ -14,7 +14,7 @@
 @dynamic menuInfo;
 
 - (void)_setupRobotMenuBubbleConstraints {
-    [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.tableView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
@@ -87,38 +87,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self routerEventWithName:HRouterEventTapMenu userInfo:@{@"clickItem":self.options[indexPath.row]}];
-    /*
-    if ([self isItems]) {
-        HDMenuItem *item = self.options[indexPath.row];
-        
-        NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-        if (item.menuName) {
-            userInfo[@"clickText"] = item.menuName;
-        }
-        
-        if (item.menuId) {
-            userInfo[@"menuId"] = item.menuId;
-        }
-
-        if (item.isTransferManualGuide) {
-            userInfo[@"isTransferManualGuide"] = @YES;
-            if (item.queueId) {
-                userInfo[@"queueId"] = item.queueId;
-            }
-            
-            if (item.queueType) {
-                userInfo[@"queueType"] = item.queueType;
-            }
-            
-            if (item.queueName) {
-                userInfo[@"queueName"] = item.queueName;
-            }
-        }
-        [self routerEventWithName:HRouterEventTapMenu userInfo:userInfo];
-    } else {
-        [self routerEventWithName:HRouterEventTapMenu userInfo:@{@"clickText":self.options[indexPath.row]}];
-    }
-     */
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {

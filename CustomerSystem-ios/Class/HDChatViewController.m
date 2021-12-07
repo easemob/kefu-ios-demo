@@ -45,6 +45,7 @@
     self.showRefreshHeader = YES;
     self.delegate = self;
     self.dataSource = self;
+    
     [[HDClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
     [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
@@ -55,29 +56,13 @@
     
     [self tableViewDidTriggerHeaderRefresh];
     
-    /*
-    // 获取询前引导
-    [HDClient.sharedClient.chatManager asyncFetchMenuWithConversationId:self.conversation.conversationId
-                                                             completion:^(NSDictionary *info, HDError *error)
+    
+    [HDClient.sharedClient.leaveMsgManager getWorkStatusWithToUser:self.conversation.conversationId
+                                                        completion:^(BOOL isOn, NSError *aError)
     {
-        if (!error) {
-            HDMessage *msg = [HDMessage createTxtSendMessageWithContent:@"" to:self.conversation.conversationId];
-            msg.status = HDMessageStatusSuccessed;
-            msg.direction = HDMessageDirectionReceive;
-            msg.ext = info;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self addMessageToDataSource:msg progress:nil];
-                [self.conversation addMessage:msg error:nil];
-            });
-        }
-    }];
-     
-    // 获取有效会话，如果sessionId有值，则表示当前存在会话，如果为nil且没有error的情况，则表示当前没有会话。
-    [HDClient.sharedClient.chatManager fetchCurrentSessionId:self.conversation.conversationId
-                                                  completion:^(NSString *sessionId, HDError *aError) {
         
     }];
-     */
+
 }
 
 //请求视频通话

@@ -11,6 +11,9 @@
 #import "FLTextView.h"
 #import "Masonry.h"
 #import "HLeaveMessageSucceedViewController.h"
+#import "CSDemoAccountManager.h"
+#import "LocalDefine.h"
+
 typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     NSTextFieldTagName=1,
     NSTextFieldTagTel,
@@ -126,7 +129,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     beforeLabel.textColor = UIColor.grayColor;
     
     UILabel *lateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_textFieldOne.frame), y + 4, 70, 30)];
-    lateLabel.text = NSLocalizedString(@"new_leave_item_hint_text", @"Required");
+    lateLabel.text = @"";
     lateLabel.textColor = [UIColor grayColor];
     lateLabel.textAlignment = NSTextAlignmentRight;
     lateLabel.font = [UIFont systemFontOfSize:15];
@@ -168,7 +171,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 //    [parameters setValue:subject forKey:@"subject"];
 //    [parameters setObject:content.length>0 ? content:@"" forKey:@"content"];
     
-    if (([name isEqualToString:@""] || [tel isEqualToString:@""] || [mail isEqualToString:@""] || [subject isEqualToString:@""] || [content isEqualToString:@""])) {
+    if (([name isEqualToString:@""] || [tel isEqualToString:@""] || /*[mail isEqualToString:@""] ||*/ [subject isEqualToString:@""] || [content isEqualToString:@""])) {
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"Please_fill_out_the_information", @"addinformation") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil];
         [alert show];
@@ -178,8 +181,6 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
         creator.name = name;
         creator.email = mail;
         creator.phone = tel;
-        creator.qq = @"123456";
-        creator.desc = @"我是一只丑小鸭";
         creator.companyName = @"环信客服";
         LeaveMsgRequestBody *body = [LeaveMsgRequestBody new];
         body.creator = creator;

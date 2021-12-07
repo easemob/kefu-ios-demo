@@ -12,7 +12,7 @@
 
 #import "HDRefreshTableViewController.h"
 
-#import "MJRefresh.h"
+#import "HDMJRefresh.h"
 
 @interface HDRefreshTableViewController ()
 
@@ -77,7 +77,7 @@
         _showRefreshHeader = showRefreshHeader;
         if (_showRefreshHeader) {
             __weak HDRefreshTableViewController *weakSelf = self;
-            self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            self.tableView.mj_header = [HDMJRefreshNormalHeader headerWithRefreshingBlock:^{
                 [weakSelf tableViewDidTriggerHeaderRefresh];
             }];
             //            header.updatedTimeHidden = YES;
@@ -94,7 +94,7 @@
         _showRefreshFooter = showRefreshFooter;
         if (_showRefreshFooter) {
             __weak HDRefreshTableViewController *weakSelf = self;
-            self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+            self.tableView.mj_footer = [HDMJRefreshBackNormalFooter footerWithRefreshingBlock:^{
                 [weakSelf tableViewDidTriggerFooterRefresh];
             }];
         }

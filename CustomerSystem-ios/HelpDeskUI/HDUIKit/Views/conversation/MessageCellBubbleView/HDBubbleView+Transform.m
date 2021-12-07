@@ -11,12 +11,12 @@
 @implementation HDBubbleView (Transform)
 
 - (void)_setupTransformBubbleConstraints {
-    [self.transTitle mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.transTitle hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.left);
     }];
-    [self.transformButton mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.transformButton hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.width.equalTo(100);
         make.height.equalTo(50);
         make.top.equalTo(self.transTitle.mas_bottom).offset(3);

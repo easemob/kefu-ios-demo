@@ -12,23 +12,23 @@
 
 #import "UIViewController+HDHUD.h"
 
-#import "MBProgressHUD.h"
+#import "HDMBProgressHUD.h"
 #import <objc/runtime.h>
 
 static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
 
 @implementation UIViewController (HDHUD)
 
-- (MBProgressHUD *)HUD{
+- (HDMBProgressHUD *)HUD{
     return objc_getAssociatedObject(self, HttpRequestHUDKey);
 }
 
-- (void)setHUD:(MBProgressHUD *)HUD{
+- (void)setHUD:(HDMBProgressHUD *)HUD{
     objc_setAssociatedObject(self, HttpRequestHUDKey, HUD, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)showHudInView:(UIView *)view duration:(NSTimeInterval)duration {
-    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
+    HDMBProgressHUD *HUD = [[HDMBProgressHUD alloc] initWithView:view];
     HUD.labelText = @"";
     [view addSubview:HUD];
     [HUD show:YES];
@@ -37,7 +37,7 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
 }
 
 - (void)showHudInView:(UIView *)view hint:(NSString *)hint{
-    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
+    HDMBProgressHUD *HUD = [[HDMBProgressHUD alloc] initWithView:view];
     HUD.labelText = hint;
     [view addSubview:HUD];
     [HUD show:YES];
@@ -47,10 +47,10 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
 - (void)showHint:(NSString *)hint
 {
     UIView *view = [[UIApplication sharedApplication].delegate window];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    HDMBProgressHUD *hud = [HDMBProgressHUD showHUDAddedTo:view animated:YES];
     hud.userInteractionEnabled = NO;
     // Configure for text only and offset down
-    hud.mode = MBProgressHUDModeText;
+    hud.mode = HDMBProgressHUDModeText;
     hud.labelText = hint;
     hud.margin = 10.f;
     hud.yOffset = 180;
@@ -62,10 +62,10 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
 {
     [self hideHud];
     UIView *view = [[UIApplication sharedApplication].delegate window];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    HDMBProgressHUD *hud = [HDMBProgressHUD showHUDAddedTo:view animated:YES];
     hud.userInteractionEnabled = NO;
     // Configure for text only and offset down
-    hud.mode = MBProgressHUDModeText;
+    hud.mode = HDMBProgressHUDModeText;
     hud.labelText = hint;
     hud.margin = 10.f;
     hud.yOffset = 180;
@@ -77,10 +77,10 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
 - (void)showHint:(NSString *)hint yOffset:(float)yOffset
 {
     UIView *view = [[UIApplication sharedApplication].delegate window];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    HDMBProgressHUD *hud = [HDMBProgressHUD showHUDAddedTo:view animated:YES];
     hud.userInteractionEnabled = NO;
     // Configure for text only and offset down
-    hud.mode = MBProgressHUDModeText;
+    hud.mode = HDMBProgressHUDModeText;
     hud.labelText = hint;
     hud.margin = 10.f;
     hud.yOffset = 180;

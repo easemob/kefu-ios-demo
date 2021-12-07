@@ -316,7 +316,7 @@
                                    selector:@selector(updateTime)
                                    userInfo:nil
                                     repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)updateTime {

@@ -10,34 +10,36 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #ifdef __OBJC__
-#import "LocalDefine.h"
-#import <HelpDesk/HelpDesk.h>
-#import "HelpDeskUI.h"
-#import "CSDemoAccountManager.h"
-#import "SRRefreshView.h"
-#import "UIImageView+HDWebCache.h"
-#import "UIButton+HDWebCache.h"
-#import "UIView+FLExtension.h"
-#import "NSObject+SCAdd.h"
-#import "UIBarButtonItem+KFAdd.h"
-#import "UIViewController+KFAdd.h"
-#define MAS_SHORTHAND_GLOBALS
-#import "Masonry.h"
-
-#define fKeyWindow [UIApplication sharedApplication].keyWindow
-#define fUserDefaults [NSUserDefaults standardUserDefaults]
-
-//Ext keyWord
-#define kMesssageExtWeChat @"weichat"
-#define kMesssageExtWeChat_ctrlType @"ctrlType"
-#define kMesssageExtWeChat_ctrlType_enquiry @"enquiry"
-#define kMesssageExtWeChat_ctrlType_inviteEnquiry @"inviteEnquiry"
-#define kMesssageExtWeChat_ctrlType_transferToKf_HasTransfer @"hasTransfer"
-#define kMesssageExtWeChat_ctrlArgs @"ctrlArgs"
-#define kMesssageExtWeChat_ctrlType_transferToKfHint  @"TransferToKfHint"
-#define kMesssageExtWeChat_ctrlArgs_inviteId @"inviteId"
-#define kMesssageExtWeChat_ctrlArgs_serviceSessionId @"serviceSessionId"
-#define kMesssageExtWeChat_ctrlArgs_detail @"detail"
-#define kMesssageExtWeChat_ctrlArgs_summary @"summary"
+#import "HelpDeskUI/HelpDeskUI.h"
+//#import "LocalDefine.h"
+//#import <HelpDesk/HelpDesk.h>
+//#import "HelpDeskUI.h"
+//#import "CSDemoAccountManager.h"
+//#import "SRRefreshView.h"
+//#import "UIImageView+HDWebCache.h"
+//#import "UIButton+HDWebCache.h"
+//#import "UIView+FLExtension.h"
+//#import "NSObject+SCAdd.h"
+//#import "UIBarButtonItem+KFAdd.h"
+//#import "UIViewController+KFAdd.h"
+//#define MAS_SHORTHAND_GLOBALS
+//#import "Masonry.h"
+//
+//#define fKeyWindow [UIApplication sharedApplication].keyWindow
+//#define fUserDefaults [NSUserDefaults standardUserDefaults]
+//
+////Ext keyWord
+//#define kMessageExtWeChat @"weichat"
+//#define kMessageExtWeChat_ctrlType @"ctrlType"
+//#define kMessageExtWeChat_ctrlType_enquiry @"enquiry"
+//#define kMessageExtWeChat_ctrlType_inviteEnquiry @"inviteEnquiry"
+//#define kMessageExtWeChat_ctrlType_transferToKf_HasTransfer @"hasTransfer"
+//#define kMessageExtWeChat_ctrlArgs @"ctrlArgs"
+//#define kMessageExtWeChat_transferToHuman @"transferToHumanButtonInfo"
+//#define kMessageExtWeChat_ctrlType_transferToKfHint  @"TransferToKfHint"
+//#define kMessageExtWeChat_ctrlArgs_inviteId @"inviteId"
+//#define kMessageExtWeChat_ctrlArgs_serviceSessionId @"serviceSessionId"
+//#define kMessageExtWeChat_ctrlArgs_detail @"detail"
+//#define kMessageExtWeChat_ctrlArgs_summary @"summary"
 
 #endif

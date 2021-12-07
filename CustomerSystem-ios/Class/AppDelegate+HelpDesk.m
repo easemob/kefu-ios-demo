@@ -8,7 +8,7 @@
 
 #import "AppDelegate+HelpDesk.h"
 #import "LocalDefine.h"
-#import <Bugly/Bugly.h>
+#import "CSDemoAccountManager.h"
 
 /**
  *  本类中做了EaseMob初始化和推送等操作
@@ -18,11 +18,11 @@
 - (void)easemobApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    [Bugly startWithAppId:@"b336efe49a"];
     //ios8注册apns
     [self registerRemoteNotification];
     //初始化环信客服sdk
     [self initializeCustomerServiceSdk];
+    
     
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
@@ -51,6 +51,7 @@
     option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;
     option.kefuRestServer = @"http://kefu.easemob.com";
+//    option.kefuRestServer = @"http://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.apnsCertName = apnsCertName;
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
