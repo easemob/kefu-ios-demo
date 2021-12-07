@@ -14,7 +14,7 @@
 @dynamic menuInfo;
 
 - (void)_setupRobotMenuBubbleConstraints {
-    [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.tableView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);

@@ -18,7 +18,7 @@
 
 - (void)_setupTextBubbleConstraints
 {
-    [self.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.textLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);

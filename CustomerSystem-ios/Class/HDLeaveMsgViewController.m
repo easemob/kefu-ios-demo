@@ -11,6 +11,9 @@
 #import "FLTextView.h"
 #import "Masonry.h"
 #import "HLeaveMessageSucceedViewController.h"
+#import "CSDemoAccountManager.h"
+#import "LocalDefine.h"
+
 typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     NSTextFieldTagName=1,
     NSTextFieldTagTel,

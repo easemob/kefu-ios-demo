@@ -12,6 +12,18 @@
 
 #import <Foundation/Foundation.h>
 
+
+#if __has_include(<HelpDesk/HelpDesk.h>)
+#import <Hyphenate/Hyphenate.h>
+#import <HelpDesk/HelpDesk.h>
+#else
+#import <HyphenateLite/HyphenateLite.h>
+#import <HelpDeskLite/HelpDeskLite.h>
+#endif
+
+//#import <Hyphenate/Hyphenate.h>
+//#import <HelpDesk/HelpDesk.h>
+
 #import "HDMessageViewController.h"
 #import "HDViewController.h"
 
@@ -40,14 +52,15 @@
 #import "HDLocalDefine.h"
 
 
-#define MAS_SHORTHAND_GLOBALS
-#import "Masonry.h"
+#define HDMAS_SHORTHAND_GLOBALS
+#import "HDMasonry.h"
 
 //Ext keyWord
 #define kMessageExtWeChat @"weichat"
 #define kMessageExtWeChat_ctrlType @"ctrlType"
 #define kMessageExtWeChat_ctrlType_enquiry @"enquiry"
 #define kMessageExtWeChat_ctrlType_inviteEnquiry @"inviteEnquiry"
+#define kMessageExtWeChat_transferToHuman @"transferToHumanButtonInfo"
 #define kMessageExtWeChat_ctrlType_transferToKf_HasTransfer @"hasTransfer"
 #define kMessageExtWeChat_ctrlArgs @"ctrlArgs"
 #define kMessageExtWeChat_ctrlArgs_evaluationDegree @"evaluationDegree"

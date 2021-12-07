@@ -17,6 +17,7 @@
 #import "LeaveMsgAttatchmentView.h"
 #import <objc/runtime.h>
 #import "CustomButton.h"
+#import "CSDemoAccountManager.h"
 
 @interface LeaveMsgDetailViewController () <UITableViewDelegate,UITableViewDataSource,LeaveMsgCellDelegate,SCAudioPlayDelegate,LeaseMsgReplyControllerDelegate,HDChatManagerDelegate>
 {

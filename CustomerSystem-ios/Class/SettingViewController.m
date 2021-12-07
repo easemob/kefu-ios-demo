@@ -12,6 +12,7 @@
 #import "LocalDefine.h"
 #import "HDChatViewController.h"
 #import "HelpDeskUI.h"
+#import "CSDemoAccountManager.h"
 
 
 @interface SettingViewController ()<UIAlertViewDelegate>

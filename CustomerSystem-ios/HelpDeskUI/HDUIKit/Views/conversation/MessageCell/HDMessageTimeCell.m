@@ -61,7 +61,7 @@ CGFloat const HDMessageTimeCellPadding = 5;
 
 - (void)_setupTitleLabelConstraints
 {
-    [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).offset(HDMessageTimeCellPadding);
         make.left.equalTo(self.contentView.mas_left).offset(HDMessageTimeCellPadding);
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-HDMessageTimeCellPadding);

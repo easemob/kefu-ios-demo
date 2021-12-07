@@ -11,6 +11,9 @@
 #import "LeaveMsgCell.h"
 #import "LeaveMessageCell.h"
 #import "LeaveMsgDetailViewController.h"
+#import "SRRefreshView.h"
+#import "CSDemoAccountManager.h"
+#import "LocalDefine.h"
 
 @interface MessageViewController () <UITableViewDelegate,UITableViewDataSource,HDChatManagerDelegate,SRRefreshDelegate>
 {

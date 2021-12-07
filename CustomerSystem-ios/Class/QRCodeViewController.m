@@ -8,6 +8,7 @@
 
 #import "QRCodeViewController.h"
 #import "ScanningView.h"
+#import "UIViewController+KFAdd.h"
 #import <AVFoundation/AVFoundation.h>
 
 #define kClearRectWH [UIScreen mainScreen].bounds.size.width*2/3

@@ -8,6 +8,7 @@
 
 #import "CSDemoAccountManager.h"
 #import <objc/runtime.h>
+#import "LocalDefine.h"
 
 @implementation HEmojiPackage
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {

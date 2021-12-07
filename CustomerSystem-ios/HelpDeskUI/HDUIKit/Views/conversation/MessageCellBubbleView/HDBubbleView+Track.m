@@ -12,40 +12,40 @@
 
 - (void)_setupTrackBubbleConstraints  {
     
-    [self.trackTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.trackTitleLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
         make.height.equalTo(15);
     }];
     
-    [self.trackBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.trackBgView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.top.equalTo(self.trackTitleLabel.mas_bottom).offset(5);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(5);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-10.0);
         make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-5);
     }];
     
-    [self.cusImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.cusImageView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.top.equalTo(self.trackBgView.mas_top).offset(5);
         make.left.equalTo(self.trackBgView.mas_left).offset(self.margin.left);
         make.bottom.equalTo(self.sendButton.mas_top).offset(-self.margin.bottom);
         make.width.equalTo(self.cusImageView.mas_height).offset(0);
     }];
     
-    [self.cusDescLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.cusDescLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.top.equalTo(self.trackBgView.mas_top).offset(10);
         make.left.equalTo(self.cusImageView.mas_right).offset(self.margin.left);
         make.right.equalTo(self.trackBgView.mas_right).offset(-self.margin.right);
     }];
     
-    [self.cusPriceLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.cusPriceLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.bottom.equalTo(self.sendButton.mas_top).offset(-10);
         make.left.equalTo(self.cusDescLabel.mas_left).offset(0);
         make.right.equalTo(self.cusDescLabel.mas_right).offset(0);
     }];
     
-    [self.sendButton mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.sendButton hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
         make.left.equalTo(self.trackBgView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.trackBgView.mas_right).offset(-self.margin.left);
         make.bottom.equalTo(self.trackBgView.mas_bottom).offset(-self.margin.bottom);

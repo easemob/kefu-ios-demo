@@ -19,7 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // 初始化环信客服SDK，详细内容在AppDelegate+EaseMob.m 文件中
+    // 初始化环信客服SDK，详细内容在AppDelegate+HelpDesk.m 文件中
     [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -60,7 +60,6 @@
 {
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0)
     {
-        // dujiepeng  设置title
         [[UINavigationBar appearance] setBarTintColor:RGBACOLOR(184, 22, 22, 1)];
         [[UINavigationBar appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:18.0], NSFontAttributeName, nil]];
