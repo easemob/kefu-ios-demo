@@ -9,7 +9,7 @@
 #import "HDLeaveMsgViewController.h"
 #import "CustomButton.h"
 #import "FLTextView.h"
-#import "Masonry.h"
+#import "HDMasonry.h"
 #import "HLeaveMessageSucceedViewController.h"
 #import "CSDemoAccountManager.h"
 #import "LocalDefine.h"
@@ -312,7 +312,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     _bottomView.backgroundColor = RGBACOLOR(184, 22, 22, 1);
     [self.view addSubview:_bottomView];
     
-    [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_bottomView hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
         make.height.equalTo(@50);
