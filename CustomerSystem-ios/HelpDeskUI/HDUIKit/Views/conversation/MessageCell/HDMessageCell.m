@@ -587,7 +587,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 break;
             case EMMessageBodyTypeVideo:
             {
-                _bubbleView.fileIconView.image = [UIImage imageNamed:[NSString stringWithFormat:@"HelpDeskUIResource.bundle/%@",_model.fileIconName]];
+                //下载视频缩略图
+                [_bubbleView.fileIconView hdSD_setImageWithURL:[NSURL URLWithString:_model.thumbnailFileURLPath] placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"HelpDeskUIResource.bundle/%@",_model.fileIconName]]];
+//                _bubbleView.fileIconView.image = [UIImage imageNamed:[NSString stringWithFormat:@"HelpDeskUIResource.bundle/%@",_model.fileIconName]];
                 _bubbleView.fileNameLabel.text = _model.fileName;
                 _bubbleView.fileSizeLabel.text = _model.fileSizeDes;
             }

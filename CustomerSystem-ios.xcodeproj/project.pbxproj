@@ -118,6 +118,7 @@
 		93A00AEA276083F50050425C /* HDMJRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00AD5276083F50050425C /* HDMJRefreshFooter.m */; };
 		93A00AEB276083F50050425C /* HDMJRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00AD6276083F50050425C /* HDMJRefreshHeader.m */; };
 		93A00AEC276083F50050425C /* HDMJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00AD7276083F50050425C /* HDMJRefreshAutoFooter.m */; };
+		93A00AEE276089CD0050425C /* HelpDesk.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93A00A4F2760780B0050425C /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
 		D20066391EF23274005B558D /* em_example_image_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066131EF23274005B558D /* em_example_image_2.png */; };
 		D200663A1EF23274005B558D /* em_example_image_3.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066141EF23274005B558D /* em_example_image_3.png */; };
@@ -462,6 +463,16 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		93A00AED276089AC0050425C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				93A00AEE276089CD0050425C /* HelpDesk.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -642,6 +653,7 @@
 		93A00AD5276083F50050425C /* HDMJRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshFooter.m; sourceTree = "<group>"; };
 		93A00AD6276083F50050425C /* HDMJRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshHeader.m; sourceTree = "<group>"; };
 		93A00AD7276083F50050425C /* HDMJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshAutoFooter.m; sourceTree = "<group>"; };
+		93E792F9277ADA290019FD80 /* CustomerSystem-iosRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-iosRelease.entitlements"; sourceTree = "<group>"; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		D20066121EF23274005B558D /* em_example_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_1.png; sourceTree = "<group>"; };
 		D20066131EF23274005B558D /* em_example_image_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_2.png; sourceTree = "<group>"; };
@@ -1241,12 +1253,12 @@
 			isa = PBXGroup;
 			children = (
 				9094F1F221E83C8D00037601 /* sr_refresh.png */,
-				9094F1F321E83C8D00037601 /* SRSlimeView.h */,
-				9094F1F421E83C8D00037601 /* SRRefreshView.m */,
-				9094F1F521E83C8D00037601 /* SRSlimeView.m */,
-				9094F1F621E83C8D00037601 /* SRDefine.h */,
 				9094F1F721E83C8D00037601 /* sr_refresh@2X.png */,
+				9094F1F621E83C8D00037601 /* SRDefine.h */,
 				9094F1F821E83C8D00037601 /* SRRefreshView.h */,
+				9094F1F421E83C8D00037601 /* SRRefreshView.m */,
+				9094F1F321E83C8D00037601 /* SRSlimeView.h */,
+				9094F1F521E83C8D00037601 /* SRSlimeView.m */,
 			);
 			path = SlimeRefresh;
 			sourceTree = "<group>";
@@ -1305,35 +1317,35 @@
 		93A00A78276083BA0050425C /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
-				93A00A79276083BA0050425C /* HDSDWebImageDownloader.h */,
-				93A00A7A276083BA0050425C /* UIView+HDWebCacheOperation.h */,
-				93A00A7B276083BA0050425C /* UIImage+HDGIF.h */,
-				93A00A7C276083BA0050425C /* UIImageView+HDHighlightedWebCache.h */,
-				93A00A7D276083BA0050425C /* UIButton+HDWebCache.h */,
-				93A00A7E276083BA0050425C /* HDSDWebImageDecoder.h */,
-				93A00A7F276083BA0050425C /* HDSDWebImageManager.h */,
-				93A00A80276083BA0050425C /* HDSDWebImagePrefetcher.h */,
-				93A00A81276083BA0050425C /* HDSDWebImageDownloaderOperation.m */,
-				93A00A82276083BA0050425C /* UIImageView+HDWebCache.h */,
-				93A00A83276083BA0050425C /* UIImage+HDMultiFormat.m */,
-				93A00A84276083BA0050425C /* HDSDWebImageCompat.m */,
-				93A00A85276083BA0050425C /* NSData+HDImageContentType.h */,
-				93A00A86276083BA0050425C /* HDSDImageCache.m */,
-				93A00A87276083BA0050425C /* UIImageView+HDHighlightedWebCache.m */,
-				93A00A88276083BA0050425C /* UIImage+HDGIF.m */,
-				93A00A89276083BA0050425C /* HDSDWebImageDownloader.m */,
-				93A00A8A276083BA0050425C /* UIView+HDWebCacheOperation.m */,
-				93A00A8B276083BA0050425C /* HDSDWebImagePrefetcher.m */,
-				93A00A8C276083BA0050425C /* HDSDWebImageManager.m */,
-				93A00A8D276083BA0050425C /* UIButton+HDWebCache.m */,
-				93A00A8E276083BA0050425C /* HDSDWebImageDecoder.m */,
-				93A00A8F276083BA0050425C /* HDSDWebImageCompat.h */,
-				93A00A90276083BA0050425C /* UIImage+HDMultiFormat.h */,
-				93A00A91276083BA0050425C /* UIImageView+HDWebCache.m */,
-				93A00A92276083BA0050425C /* HDSDWebImageOperation.h */,
-				93A00A93276083BA0050425C /* HDSDWebImageDownloaderOperation.h */,
 				93A00A94276083BA0050425C /* HDSDImageCache.h */,
+				93A00A86276083BA0050425C /* HDSDImageCache.m */,
+				93A00A8F276083BA0050425C /* HDSDWebImageCompat.h */,
+				93A00A84276083BA0050425C /* HDSDWebImageCompat.m */,
+				93A00A7E276083BA0050425C /* HDSDWebImageDecoder.h */,
+				93A00A8E276083BA0050425C /* HDSDWebImageDecoder.m */,
+				93A00A79276083BA0050425C /* HDSDWebImageDownloader.h */,
+				93A00A89276083BA0050425C /* HDSDWebImageDownloader.m */,
+				93A00A93276083BA0050425C /* HDSDWebImageDownloaderOperation.h */,
+				93A00A81276083BA0050425C /* HDSDWebImageDownloaderOperation.m */,
+				93A00A7F276083BA0050425C /* HDSDWebImageManager.h */,
+				93A00A8C276083BA0050425C /* HDSDWebImageManager.m */,
+				93A00A92276083BA0050425C /* HDSDWebImageOperation.h */,
+				93A00A80276083BA0050425C /* HDSDWebImagePrefetcher.h */,
+				93A00A8B276083BA0050425C /* HDSDWebImagePrefetcher.m */,
+				93A00A85276083BA0050425C /* NSData+HDImageContentType.h */,
 				93A00A95276083BA0050425C /* NSData+HDImageContentType.m */,
+				93A00A7D276083BA0050425C /* UIButton+HDWebCache.h */,
+				93A00A8D276083BA0050425C /* UIButton+HDWebCache.m */,
+				93A00A7B276083BA0050425C /* UIImage+HDGIF.h */,
+				93A00A88276083BA0050425C /* UIImage+HDGIF.m */,
+				93A00A90276083BA0050425C /* UIImage+HDMultiFormat.h */,
+				93A00A83276083BA0050425C /* UIImage+HDMultiFormat.m */,
+				93A00A7C276083BA0050425C /* UIImageView+HDHighlightedWebCache.h */,
+				93A00A87276083BA0050425C /* UIImageView+HDHighlightedWebCache.m */,
+				93A00A82276083BA0050425C /* UIImageView+HDWebCache.h */,
+				93A00A91276083BA0050425C /* UIImageView+HDWebCache.m */,
+				93A00A7A276083BA0050425C /* UIView+HDWebCacheOperation.h */,
+				93A00A8A276083BA0050425C /* UIView+HDWebCacheOperation.m */,
 			);
 			path = SDWebImage;
 			sourceTree = "<group>";
@@ -2468,6 +2480,7 @@
 		EB62E1FB1A8DD92D00705655 /* CustomerSystem-ios */ = {
 			isa = PBXGroup;
 			children = (
+				93E792F9277ADA290019FD80 /* CustomerSystem-iosRelease.entitlements */,
 				9094F1CA21E83C8C00037601 /* 3rdParty */,
 				9086150920B43A54002E71DA /* Call */,
 				D39AD9091DFAA6BE00895FCF /* CustomerSystem-ios.entitlements */,
@@ -2521,6 +2534,7 @@
 				EB62E1F61A8DD92D00705655 /* Frameworks */,
 				EB62E1F71A8DD92D00705655 /* Resources */,
 				909614F32153BF2800B1F8E3 /* Embed Frameworks */,
+				93A00AED276089AC0050425C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -3182,10 +3196,10 @@
 				MARKETING_VERSION = 2.2.3;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.easemob.wildcard.-";
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = wildcard;
+				PROVISIONING_PROFILE_SPECIFIER = ease_wildcard;
 			};
 			name = Debug;
 		};
@@ -3195,9 +3209,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-iosRelease.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: EaseMob Inc.";
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
@@ -3226,10 +3240,10 @@
 				MARKETING_VERSION = 2.2.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.easemob.wildcard.-";
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = wildcard;
+				PROVISIONING_PROFILE_SPECIFIER = com.easemob.enterprise.demo.customer;
 			};
 			name = Release;
 		};
