@@ -119,6 +119,7 @@
 		93A00AEB276083F50050425C /* HDMJRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00AD6276083F50050425C /* HDMJRefreshHeader.m */; };
 		93A00AEC276083F50050425C /* HDMJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00AD7276083F50050425C /* HDMJRefreshAutoFooter.m */; };
 		93A00AEE276089CD0050425C /* HelpDesk.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93A00A4F2760780B0050425C /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E79304277C67BB0019FD80 /* Bugly.framework */; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
 		D20066391EF23274005B558D /* em_example_image_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066131EF23274005B558D /* em_example_image_2.png */; };
 		D200663A1EF23274005B558D /* em_example_image_3.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066141EF23274005B558D /* em_example_image_3.png */; };
@@ -656,6 +657,7 @@
 		93E792F9277ADA290019FD80 /* CustomerSystem-iosRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-iosRelease.entitlements"; sourceTree = "<group>"; };
 		93E79300277C0A430019FD80 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		93E79301277C0A430019FD80 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		93E79304277C67BB0019FD80 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		D20066121EF23274005B558D /* em_example_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_1.png; sourceTree = "<group>"; };
 		D20066131EF23274005B558D /* em_example_image_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_2.png; sourceTree = "<group>"; };
@@ -1145,6 +1147,7 @@
 			files = (
 				93A00A502760780B0050425C /* HelpDesk.framework in Frameworks */,
 				D378E6061F5669A400E3AB74 /* Security.framework in Frameworks */,
+				93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */,
 				D3E4B4471E7AA41B004FEA49 /* libiconv.tbd in Frameworks */,
 				D3AA4B261ED45B7300B5C509 /* hdlibopencore-amrwb.a in Frameworks */,
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
@@ -1644,6 +1647,7 @@
 		D35726071DE315640033D4E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93E79304277C67BB0019FD80 /* Bugly.framework */,
 				93A00A4F2760780B0050425C /* HelpDesk.framework */,
 				93A00A4C27605C6C0050425C /* Hyphenate.framework */,
 				D378E6051F5669A400E3AB74 /* Security.framework */,
@@ -3168,7 +3172,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: LI HOU (UGP7ZG964L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: LI HOU (UGP7ZG964L)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
@@ -3247,7 +3251,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = ease_wildcard;
+				PROVISIONING_PROFILE_SPECIFIER = com.easemob.enterprise.demo.customer;
 			};
 			name = Release;
 		};

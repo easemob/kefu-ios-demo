@@ -10,8 +10,8 @@
 #import "LocalDefine.h"
 #import "HomeViewController.h"
 #import "AppDelegate+HelpDesk.h"
-
-@interface AppDelegate ()
+#import <Bugly/Bugly.h>
+@interface AppDelegate ()<BuglyDelegate>
 @end
 
 
@@ -19,6 +19,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //初始化bugly
+    BuglyConfig * config = [[BuglyConfig alloc] init];
+    // 设置自定义日志上报的级别，默认不上报自定义日志
+    config.reportLogLevel = BuglyLogLevelWarn;
+    config.delegate = self;
+    [Bugly startWithAppId:@"b336efe49a" config:config];
+     
     // 初始化环信客服SDK，详细内容在AppDelegate+HelpDesk.m 文件中
     [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

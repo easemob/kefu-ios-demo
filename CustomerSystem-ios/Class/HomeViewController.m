@@ -580,6 +580,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //        }
 //    });
     
+    
+    
         [self lxLogout];
         [self lxLogin];
 
