@@ -68,6 +68,7 @@
 		90AA02B023D2A6F700BDD85D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB62E3BB1A8E0B8700705655 /* InfoPlist.strings */; };
 		90BE1E3D2216C656007D17A1 /* UIViewController+AlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BE1E3C2216C656007D17A1 /* UIViewController+AlertController.m */; };
 		90EE4C5523548CD200DEE8CA /* HRobotUnsolveItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */; };
+		937D74B627853E500022B707 /* AgoraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937D74B527853E500022B707 /* AgoraViewController.m */; };
 		93A00A4D27605C6C0050425C /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A00A4C27605C6C0050425C /* Hyphenate.framework */; };
 		93A00A4E27605C6C0050425C /* Hyphenate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93A00A4C27605C6C0050425C /* Hyphenate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93A00A502760780B0050425C /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A00A4F2760780B0050425C /* HelpDesk.framework */; };
@@ -554,6 +555,8 @@
 		90BE1E3C2216C656007D17A1 /* UIViewController+AlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AlertController.m"; sourceTree = "<group>"; };
 		90EE4C5323548CD200DEE8CA /* HRobotUnsolveItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HRobotUnsolveItemView.h; sourceTree = "<group>"; };
 		90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HRobotUnsolveItemView.m; sourceTree = "<group>"; };
+		937D74B427853E500022B707 /* AgoraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgoraViewController.h; sourceTree = "<group>"; };
+		937D74B527853E500022B707 /* AgoraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AgoraViewController.m; sourceTree = "<group>"; };
 		93A00A4C27605C6C0050425C /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hyphenate.framework; sourceTree = "<group>"; };
 		93A00A4F2760780B0050425C /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93A00A5227607A850050425C /* NSArray+HDMASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+HDMASShorthandAdditions.h"; sourceTree = "<group>"; };
@@ -1275,6 +1278,15 @@
 				90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */,
 			);
 			path = RobotUnsolveItemView;
+			sourceTree = "<group>";
+		};
+		937D74B327853E220022B707 /* Agora */ = {
+			isa = PBXGroup;
+			children = (
+				937D74B427853E500022B707 /* AgoraViewController.h */,
+				937D74B527853E500022B707 /* AgoraViewController.m */,
+			);
+			name = Agora;
 			sourceTree = "<group>";
 		};
 		93A00A5127607A850050425C /* HDMasonry */ = {
@@ -2517,6 +2529,7 @@
 		EB62E2981A8DDA4800705655 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				937D74B327853E220022B707 /* Agora */,
 				D35579581EE948BF00F6B54E /* ConversationList */,
 				D3D1BB461DE84891004B3557 /* Category */,
 				D3D1BB1C1DE83D38004B3557 /* LeaveMsg */,
@@ -2930,6 +2943,7 @@
 				9042C2632514A1A100DC5BE1 /* AFURLSessionManager.m in Sources */,
 				D3394AF11E5562FE009370BF /* HDChatViewController.m in Sources */,
 				D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */,
+				937D74B627853E500022B707 /* AgoraViewController.m in Sources */,
 				D3394AEE1E548898009370BF /* HDViewController.m in Sources */,
 				EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */,
 				D3CB64481E4888F30022A6BA /* HDCDDeviceManagerBase.m in Sources */,

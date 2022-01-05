@@ -19,7 +19,7 @@
 #import "HConversationsViewController.h"
 
 #import "HDCallViewController.h"
-
+#import "AgoraViewController.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
@@ -62,7 +62,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [super viewWillAppear:animated ];
     [_conversationsVC refreshData];
     //测试理想打开
-//    [self testButton];
+    [self testButton];
 }
 
 - (void)viewDidLoad
@@ -139,7 +139,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     UIButton *testButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 17)];
     [testButton setBackgroundImage:[UIImage imageNamed:@"hd_chat_icon.png"] forState:UIControlStateNormal];
-    [testButton addTarget:self action:@selector(lxdemo) forControlEvents:UIControlEventTouchUpInside];
+    [testButton addTarget:self action:@selector(agorademo) forControlEvents:UIControlEventTouchUpInside];
     _testItem = [[UIBarButtonItem alloc] initWithCustomView:testButton];
     self.navigationItem.leftBarButtonItem = _testItem;
     
@@ -567,25 +567,24 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [self presentViewController:hdCallVC animated:YES completion:nil];
 }
 
-//理想汽车crash
-- (void)lxdemo{
+//声网
+- (void)agorademo{
     
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        for (int i = 0; i < 10000; i++ ) {
-//
-//            [self lxLogout];
-//
-//            [self lxLogin];
-//
-//        }
-//    });
-    
-    
-    
-        [self lxLogout];
-        [self lxLogin];
+    AgoraViewController * agoraVC = [[AgoraViewController alloc] init];
+    [self.navigationController pushViewController:agoraVC animated:YES];
 
 }
+//理想汽车crash
+//- (void)lxdemo{
+//
+//
+//    /
+//
+//
+////        [self lxLogout];
+////        [self lxLogin];
+//
+//}
 
 //退出IM【测试】
 -(void)lxLogout{
