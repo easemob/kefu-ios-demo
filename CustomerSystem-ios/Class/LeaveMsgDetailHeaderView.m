@@ -60,7 +60,16 @@
         contentLabel.tag = 99;
         contentLabel.font = [UIFont systemFontOfSize:15];
         [cell.contentView addSubview:contentLabel];
+        
+       
     }
+    //由于 iphone 6 plus 12.4.8 系统 系统的cell.textLabel 宽度不能正常 所以自定义重写 label 显示标题
+    UILabel *contenLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0,100, cell.frame.size.height)];
+    contenLabel.textColor = [UIColor grayColor];
+//    contenLabel.backgroundColor = [UIColor redColor];
+    contenLabel.tag = 98;
+    contenLabel.font = [UIFont systemFontOfSize:15];
+    [cell addSubview:contenLabel];
     
     UILabel *tempLabel = (UILabel *)[cell.contentView viewWithTag:99];
     CGRect frame = tempLabel.frame;
@@ -69,17 +78,18 @@
     tempLabel.textAlignment = NSTextAlignmentRight;
     tempLabel.numberOfLines = frame.size.height/15;
     tempLabel.textColor = [UIColor grayColor];
+    
    if (indexPath.row == 0) {
-        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.mail", @"Mail:");
-       cell.textLabel.textColor = UIColor.grayColor;
+       contenLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.mail", @"Mail:");
+       contenLabel.textColor = UIColor.grayColor;
         tempLabel.text = _msgDetailModel.comment.creator.email;
     } else if (indexPath.row == 1) {
-        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.theme", @"theme:");
-        cell.textLabel.textColor = UIColor.grayColor;
+        contenLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.theme", @"theme:");
+        contenLabel.textColor = UIColor.grayColor;
         tempLabel.text = _msgDetailModel.comment.subject;
     } else if (indexPath.row == 2) {
-        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.content", @"content:");
-        cell.textLabel.textColor = UIColor.grayColor;
+        contenLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.content", @"content:");
+        contenLabel.textColor = UIColor.grayColor;
         NSString *name = [_msgDetailModel.comment.content stringByReplacingOccurrencesOfString:@"联系人姓名"
                                                                                     withString:@"Contact Name"];
         
@@ -102,8 +112,8 @@
         tempLabel.text = mailStr;
         
     } else if (indexPath.row == 3) {
-        cell.textLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.time", @"Time:");
-        cell.textLabel.textColor = UIColor.grayColor;
+        contenLabel.text = NSLocalizedString(@"leaveMessage.leavemsg.time", @"Time:");
+        contenLabel.textColor = UIColor.grayColor;
         tempLabel.text = [self dateformatWithTimeStr:_msgDetailModel.comment.created_at];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
