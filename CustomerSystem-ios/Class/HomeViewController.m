@@ -19,13 +19,13 @@
 #import "HConversationsViewController.h"
 
 #import "HDCallViewController.h"
-#import "AgoraViewController.h"
+#import "HDAgoraCallViewController.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate, HDCallManagerDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate, HDCallManagerDelegate,HDAgoraCallManagerDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -71,6 +71,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
+    
+    // 用于添加语音呼入的监听 onCallReceivedNickName:
+    [HDClient.sharedClient.agoraCallManager addDelegate:self delegateQueue:nil];
     
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
@@ -557,6 +560,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 #pragma mark - HDCallManagerDelegate
 - (void)onCallReceivedNickName:(NSString *)nickName {
+    
     HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithAgentName:nickName
                                                                               avatarStr:@"HelpDeskUIResource.bundle/user"
                                                                                nickName:[CSDemoAccountManager shareLoginManager].nickname];
@@ -566,11 +570,22 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:hdCallVC animated:YES completion:nil];
 }
-
+- (void)onAgoraCallReceivedNickName:(NSString *)nickName{
+    
+        HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithAgentName:nickName
+                                                                                  avatarStr:@"HelpDeskUIResource.bundle/user"
+                                                                                   nickName:[CSDemoAccountManager shareLoginManager].nickname];
+        hdCallVC.hangUpCallback = ^(UIViewController *callVC, NSString *timeStr) {
+            [callVC dismissViewControllerAnimated:YES completion:nil];
+        };
+        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:hdCallVC animated:YES completion:nil];
+    
+}
 //声网
 - (void)agorademo{
     
-    AgoraViewController * agoraVC = [[AgoraViewController alloc] init];
+    HDAgoraCallViewController * agoraVC = [[HDAgoraCallViewController alloc] init];
     [self.navigationController pushViewController:agoraVC animated:YES];
 
 }
