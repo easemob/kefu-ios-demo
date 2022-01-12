@@ -442,8 +442,6 @@
 		EB62E3B91A8E08EB00705655 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB62E3B71A8E08EA00705655 /* Localizable.strings */; };
 		EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4381A8E2D5000705655 /* CoreText.framework */; };
 		EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E43A1A8E2D5600705655 /* ImageIO.framework */; };
-		EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E43C1A8E2D5C00705655 /* MapKit.framework */; };
-		EB62E43F1A8E2D6200705655 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E43E1A8E2D6200705655 /* CoreLocation.framework */; };
 		EB62E4431A8E2D7300705655 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4421A8E2D7300705655 /* SystemConfiguration.framework */; };
 		EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4441A8E2D7900705655 /* MobileCoreServices.framework */; };
 		EB62E44B1A8E2D8D00705655 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E44A1A8E2D8D00705655 /* AddressBook.framework */; };
@@ -1158,8 +1156,6 @@
 				EB62E44B1A8E2D8D00705655 /* AddressBook.framework in Frameworks */,
 				EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */,
 				EB62E4431A8E2D7300705655 /* SystemConfiguration.framework in Frameworks */,
-				EB62E43F1A8E2D6200705655 /* CoreLocation.framework in Frameworks */,
-				EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */,
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
 			);
