@@ -37,6 +37,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     UIBarButtonItem *_settingleftItem;
     UIBarButtonItem *_settingRightItem;
     UIWindow *_window;
+    UIBarButtonItem *_testItem;
 }
 
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;
@@ -60,6 +61,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated ];
     [_conversationsVC refreshData];
+    //测试理想打开
+//    [self testButton];
 }
 
 - (void)viewDidLoad
@@ -129,8 +132,18 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     _leaveItem = [[UIBarButtonItem alloc] initWithCustomView:leaveButton];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
+    
+   
 }
-
+- (void)testButton{
+    
+    UIButton *testButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 17)];
+    [testButton setBackgroundImage:[UIImage imageNamed:@"hd_chat_icon.png"] forState:UIControlStateNormal];
+    [testButton addTarget:self action:@selector(lxdemo) forControlEvents:UIControlEventTouchUpInside];
+    _testItem = [[UIBarButtonItem alloc] initWithCustomView:testButton];
+    self.navigationItem.leftBarButtonItem = _testItem;
+    
+}
 - (void)setNavTitleView
 {
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 97, 17)];//初始化图片视图控件
@@ -234,7 +247,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //    if (client.isLoggedInBefore) {
 //        [client logout:NO];
 //    }
-//    
+//
 //    NSString *username = @"";
 //    if (isShouqian) {
 //        username = @"shouqian";
@@ -552,5 +565,74 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     };
     hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:hdCallVC animated:YES completion:nil];
+}
+
+//理想汽车crash
+- (void)lxdemo{
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        for (int i = 0; i < 10000; i++ ) {
+//
+//            [self lxLogout];
+//
+//            [self lxLogin];
+//
+//        }
+//    });
+    
+    
+    
+        [self lxLogout];
+        [self lxLogin];
+
+}
+
+//退出IM【测试】
+-(void)lxLogout{
+    HDClient *client = [HDClient sharedClient];
+    [client logout:YES completion:^(HDError *error) {
+        
+        if (!error) { //IM登录成功
+            NSLog(@"lx ----退出成功");
+        } else { //登录失败
+            NSLog(@"lx ----退出失败 error code :%d,error description:%@",error.code,error.errorDescription);
+        }
+    }];
+}
+//登录IM【测试】
+-(void)lxLogin{
+    NSString *username = @"shouqian";
+    HDClient *client = [HDClient sharedClient];
+    [client loginWithUsername:username password:hxPassWord completion:^(HDError *error) {
+        if (!error) { //IM登录成功
+            NSLog(@"lx ----登录成功");
+            [self lxSendText];
+        } else { //登录失败
+            NSLog(@"lx ----登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
+        }
+    }];
+}
+//登录绑定【测试】
+-(void)lxBindDeviceToken{
+    
+    
+}
+//发文本消息【测试】
+-(void)lxSendText{
+    HDMessage *message = [HDMessage createTxtSendMessageWithContent:@"sendtextfirst33333" to:@"kefuchannelimid_851754"];
+    //添加获取会话
+    [[HDClient sharedClient].chatManager getConversation:message.conversationId];
+    [[HDClient sharedClient].chatManager sendMessage:message progress:^(int progress)
+    { //发送消息进度
+        
+    }
+    completion:^(HDMessage *aMessage, HDError *aError)
+    { //发送消息完成，aError为空则为发送成功
+        if (!aError) { //
+            NSLog(@"lx ----发送消息成功");
+        } else { //登录失败
+            NSLog(@"lx ----发送消息失败 aError code :%d,aError description:%@",aError.code,aError.errorDescription);
+        }
+    }];
 }
 @end

@@ -12,7 +12,7 @@
 #import "HEvaluationTagView.h"
 #import "HEvaluationDegreeModel.h"
 #import "HAppraiseTagsModel.h"
-
+#import "CSDemoAccountManager.h"
 #define kViewSpace 20.f
 
 @interface SatisfactionViewController () <UITextViewDelegate,CWStarRateViewDelegate, HEvaluationTagSelectDelegate>
@@ -60,6 +60,13 @@
     [self.view addGestureRecognizer:tapGr];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    self.messageModel.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
+    self.messageModel.avatarURLPath = [CSDemoAccountManager shareLoginManager].avatarStr;
+    self.messageModel.nickname = [CSDemoAccountManager shareLoginManager].nickname;
+
+    self.nickLabel.text = self.messageModel.nickname;
+    [self.headImage hdSD_setImageWithURL:[NSURL URLWithString:self.messageModel.avatarURLPath] placeholderImage:[UIImage imageNamed:@"customer"]];
+    
 }
 
 - (void)topAction:(UITapGestureRecognizer *)gesture {
@@ -102,6 +109,8 @@
         _headImage.layer.cornerRadius = CGRectGetWidth(_headImage.frame)/2;
         _headImage.backgroundColor = [UIColor whiteColor];
         _headImage.image = [UIImage imageNamed:@"customer"];
+        _headImage.layer.masksToBounds = YES;
+        
     }
     return _headImage;
 }
@@ -340,6 +349,59 @@
     }
 
 }
+//对应于 ContentMode UIViewContentModeScaleAspectFit
+- (CGSize)CGSizeAspectFit:(CGSize)aspectRatio bounding:(CGSize) boundingSize
+{
+    float mW = boundingSize.width / aspectRatio.width;
+    float mH = boundingSize.height / aspectRatio.height;
+    if( mH < mW )
+        boundingSize.width = mH * aspectRatio.width;
+    else if( mW < mH )
+        boundingSize.height = mW * aspectRatio.height;
+    return boundingSize;
+}
+
+//对应于 ContentMode UIViewContentModeScaleAspectFill
+- (CGSize)CGSizeAspectFill:(CGSize)aspectRatio minSize:(CGSize)minimumSize
+{
+    float mW = minimumSize.width / aspectRatio.width;
+    float mH = minimumSize.height / aspectRatio.height;
+    if( mH > mW )
+        minimumSize.width = mH * aspectRatio.width;
+    else if( mW > mH )
+        minimumSize.height = mW * aspectRatio.height;
+    return minimumSize;
+}
+
+- (UIImage *)imageScaledToSize:(CGSize)size boundingSize:(CGSize)boundingSize cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor
+{
+    //create drawing context
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
+
+    //需要将可视区域画到图片的中心
+    CGFloat originX = (size.width-boundingSize.width)/2;
+    originX = originX < 0 ? 0 : originX;
+
+    CGFloat originY = (size.height-boundingSize.height)/2;
+    originY = originY < 0 ? 0 : originY;
+
+    [borderColor setStroke];
+    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(originX, originY, boundingSize.width, boundingSize.height) cornerRadius:cornerRadius];
+    [bezierPath setLineWidth:borderWidth];
+    [bezierPath stroke];
+    [bezierPath addClip];
+
+    //draw
+    [self.headImage.image drawInRect:CGRectMake(0.0f, 0.0f, size.width, size.height)];
+
+    //capture resultant image
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return image;
+}
+
+
 
 /*
 #pragma mark - Navigation

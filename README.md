@@ -58,7 +58,7 @@
     //您注册了推送功能，iOS 会自动回调以下方法，得到 deviceToken，您需要将 deviceToken 传给 SDK。
     // 将得到的deviceToken传给SDK
     - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
-        [[HChatClient sharedClient] bindDeviceToken:deviceToken];
+        [[HDClient sharedClient] bindDeviceToken:deviceToken];
     }
 
     // 注册deviceToken失败
@@ -69,13 +69,13 @@
 ```
 #### <A NAME="Guide_init"></A>初始化
 ```
- HOptions *option = [[HOptions alloc] init];
+ HDOptions *option = [[HDOptions alloc] init];
  option.appkey = @"Your appkey"; //(必填项)
  option.tenantId = @"Your tenantId";//(必填项)
  //推送证书名字
  option.apnsCertName = @"your apnsCerName";//(集成离线推送必填)
  //Kefu SDK 初始化,初始化失败后将不能使用Kefu SDK
- HError *initError = [[HChatClient sharedClient] initializeSDKWithOptions:option];
+ HDError *initError = [[HDClient sharedClient] initializeSDKWithOptions:option];
  if (initError) { // 初始化错误
  }
  ```
@@ -84,19 +84,19 @@
 
 注册建议在服务端创建，而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器。
 ```
-HError *error = [[HChatClient sharedClient] registerWithUsername:@"username" password:@"password"];
+HDError *error = [[HDClient sharedClient] registerWithUsername:@"username" password:@"password"];
 error.code:
-HErrorNetworkUnavailable 网络不可用
-HErrorUserAlreadyExist 用户已存在
-HErrorUserAuthenticationFailed 无开放注册权限（后台管理界面设置[开放|授权]）
-HErrorUserIllegalArgument 用户名非法
+HDErrorNetworkUnavailable 网络不可用
+HDErrorUserAlreadyExist 用户已存在
+HDErrorUserAuthenticationFailed 无开放注册权限（后台管理界面设置[开放|授权]）
+HDErrorUserIllegalArgument 参数不合法
 ```
 #### <A NAME="Guide_login"></A>登录
-由于HChatClient有一个isLoggedInBefore(BOOL)，登录操作前可以先做个判断。
+由于HDClient有一个isLoggedInBefore(BOOL)，登录操作前可以先做个判断。
 ```
-HChatClient *client = [HChatClient sharedClient];
+HDClient *client = [HDClient sharedClient];
     if (client.isLoggedInBefore != YES) {
-        HError *error = [client loginWithUsername:@"username" password:@"password"];
+        HDError *error = [client loginWithUsername:@"username" password:@"password"];
         if (!error) { //登录成功
             HDMessageViewController *chatVC = [[HDMessageViewController alloc] initWithConversationChatter:@"IM 服务号"];
             [self.navigationController pushViewController:chatVC animated:YES];
@@ -120,7 +120,7 @@ HDMessageViewController *chatVC = [[HDMessageViewController alloc] initWithConve
 #### <A NAME="Guide_Login_Status"></A>判断是否已经登录
 
 ```
-HChatClient *client = [HChatClient sharedClient];
+HDClient *client = [HDClient sharedClient];
 if(client.isLoggedInBefore){
     //已经登录，可以直接进入会话界面
 }else{
@@ -131,7 +131,7 @@ if(client.isLoggedInBefore){
 >登出后则无法收到客服发来的消息
 ```
 //参数为是否解绑推送的devicetoken
-HError *error = [[HChatClient sharedClient] logout:YES];
+HDError *error = [[HDClient sharedClient] logout:YES];
 if (error) { //登出出错
 } else {//登出成功
 }
@@ -142,9 +142,9 @@ if (error) { //登出出错
 
 ```
 //添加网络监控，一般在app初始化的时候添加监控，第二个参数是执行代理方法的队列，默认是主队列
-[[HChatClient sharedClient] addDelegate:self delegateQueue:nil];
+[[HDClient sharedClient] addDelegate:self delegateQueue:nil];
 //移除网络监控
-[[HChatClient sharedClient] removeDelegate:self];
+[[HDClient sharedClient] removeDelegate:self];
 /* 有以下几种情况, 会引起该方法的调用:
 * 1. 登录成功后, 手机无法上网时, 会调用该回调
 * 2. 登录成功后, 网络状态变化时, 会调用该回调*/
@@ -173,24 +173,24 @@ if (error) { //登出出错
 
 ```
 //添加消息监控，第二个参数是执行代理方法的队列，默认是主队列
-[[HChatClient sharedClient].chat addDelegate:self delegateQueue:nil];
+[[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 //移除消息监控
-[[HChatClient sharedClient].chat removeDelegate:self];
+[[HDClient sharedClient].chatManager removeDelegate:self];
 
 - (void)messagesDidReceive:(NSArray *)aMessages{
-     //收到普通消息,格式:<HMessage *>
+     //收到普通消息,格式:<HDMessage *>
 }
 
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages{
-     //收到命令消息,格式:<HMessage *>，命令消息不存数据库，一般用来作为系统通知，例如留言评论更新，
+     //收到命令消息,格式:<HDMessage *>，命令消息不存数据库，一般用来作为系统通知，例如留言评论更新，
      //会话被客服接入，被转接，被关闭提醒
 }
 
-- (void)messageStatusDidChange:(HMessage *)aMessage error:(HError *)aError{
+- (void)messageStatusDidChange:(HDMessage *)aMessage error:(HDError *)aError{
      //消息的状态修改，一般可以用来刷新列表，显示最新的状态
 }
 
-- (void)messageAttachmentStatusDidChange:(HMessage *)aMessage error:(HError *)aError{
+- (void)messageAttachmentStatusDidChange:(HDMessage *)aMessage error:(HDError *)aError{
     //发送消息后，会调用，可以在此刷新列表，显示最新的消息
 }
 ```

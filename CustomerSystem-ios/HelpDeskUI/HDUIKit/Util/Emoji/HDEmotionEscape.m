@@ -70,8 +70,9 @@ static HDEmotionEscape *_sharedInstance = nil;
     }
     NSString *urlPattern = _urlPattern;
     NSError *error = nil;
+    //todo 这个地方 遇到 swift工程集成oc环境 出现urlPattern 转换 正则表达报 code 2048 问题 直接写表达式就正常 奇怪 打印log 还正常
+//    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\[[^\\[\\]]{1,3}\\]" options:NSRegularExpressionCaseInsensitive error:&error ];
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:urlPattern options:NSRegularExpressionCaseInsensitive error:&error ];
-    
     NSArray* matches = [regex matchesInString:aInputText options:NSMatchingReportCompletion range:NSMakeRange(0, [aInputText length])];
     NSMutableAttributedString * string = [[ NSMutableAttributedString alloc ] initWithString:aInputText attributes:nil ];
     
