@@ -7,14 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+@class HDCallViewCollectionViewCellItem;
 @interface HDAgoraVideoSession : NSObject
 @property (assign, nonatomic) NSUInteger uid;
 @property (strong, nonatomic) UIView *hostingView;
 @property (strong, nonatomic) HDAgoraRtcVideoCanvas *canvas;
-@property (assign, nonatomic) CGSize size;
-@property (assign, nonatomic) BOOL isVideoMuted;
-@property (nonatomic, strong) NSString * memberName;
-@property (nonatomic, strong) NSDictionary * extension;
+@property (nonatomic, strong) HDCallViewCollectionViewCellItem  * item;
 + (instancetype)localSession;
 - (instancetype)initWithUid:(NSUInteger)uid;
 
