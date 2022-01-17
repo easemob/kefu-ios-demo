@@ -94,6 +94,20 @@
 		936BF0152786DF1C00CB1F58 /* AgoraVideoProcessExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 936BEFFC2786DF1800CB1F58 /* AgoraVideoProcessExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		936BF0162786DF1C00CB1F58 /* AgoraVideoSegmentationExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936BEFFD2786DF1800CB1F58 /* AgoraVideoSegmentationExtension.xcframework */; };
 		936BF0172786DF1C00CB1F58 /* AgoraVideoSegmentationExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 936BEFFD2786DF1800CB1F58 /* AgoraVideoSegmentationExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93767A1627951CA80079A60F /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FFE62827901077009FFC6E /* ReplayKit.framework */; };
+		93767A1A27951CA80079A60F /* SampleHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93767A1927951CA80079A60F /* SampleHandler.m */; };
+		93767A2127951CA80079A60F /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FFE62827901077009FFC6E /* ReplayKit.framework */; };
+		93767A2227951CA80079A60F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4521A8E2DA400705655 /* UIKit.framework */; };
+		93767A2627951CA80079A60F /* BroadcastSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93767A2527951CA80079A60F /* BroadcastSetupViewController.m */; };
+		93767A2A27951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 93767A2027951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		93767A2D27951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 93767A1527951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		93767A3D27951D610079A60F /* HDAgoraUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 93767A3427951D5F0079A60F /* HDAgoraUploader.m */; };
+		93767A3E27951D610079A60F /* AgoraAudioProcessing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 93767A3527951D5F0079A60F /* AgoraAudioProcessing.mm */; };
+		93767A3F27951D610079A60F /* AgoraAudioTube.mm in Sources */ = {isa = PBXBuildFile; fileRef = 93767A3A27951D600079A60F /* AgoraAudioTube.mm */; };
+		93767A4027951D610079A60F /* libios_resampler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93767A3C27951D610079A60F /* libios_resampler.a */; };
+		93767A4227951D820079A60F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93767A4127951D820079A60F /* Accelerate.framework */; };
+		93767A4427951D8B0079A60F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93767A4327951D8B0079A60F /* CoreMedia.framework */; };
+		93767A4B27955E770079A60F /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A00A4F2760780B0050425C /* HelpDesk.framework */; };
 		937D74B627853E500022B707 /* HDAgoraCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937D74B527853E500022B707 /* HDAgoraCallViewController.m */; };
 		93A00A4D27605C6C0050425C /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A00A4C27605C6C0050425C /* Hyphenate.framework */; };
 		93A00A4E27605C6C0050425C /* Hyphenate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93A00A4C27605C6C0050425C /* Hyphenate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -479,6 +493,23 @@
 		EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4541A8E2DAB00705655 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		93767A2827951CA80079A60F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EB62E1F11A8DD92D00705655 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93767A1F27951CA80079A60F;
+			remoteInfo = "CustomerSystem-ScreenShare-ExtensionSetupUI";
+		};
+		93767A2B27951CA80079A60F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EB62E1F11A8DD92D00705655 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93767A1427951CA80079A60F;
+			remoteInfo = "CustomerSystem-ScreenShare-Extension";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		909614F32153BF2800B1F8E3 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -512,6 +543,18 @@
 			files = (
 				93A00AEE276089CD0050425C /* HelpDesk.framework in CopyFiles */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93FFE63227901077009FFC6E /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				93767A2A27951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex in Embed App Extensions */,
+				93767A2D27951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -607,6 +650,25 @@
 		936BEFFB2786DF1800CB1F58 /* AgoraSuperResolutionExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraSuperResolutionExtension.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/libs/AgoraSuperResolutionExtension.xcframework"; sourceTree = "<group>"; };
 		936BEFFC2786DF1800CB1F58 /* AgoraVideoProcessExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraVideoProcessExtension.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/libs/AgoraVideoProcessExtension.xcframework"; sourceTree = "<group>"; };
 		936BEFFD2786DF1800CB1F58 /* AgoraVideoSegmentationExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraVideoSegmentationExtension.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/libs/AgoraVideoSegmentationExtension.xcframework"; sourceTree = "<group>"; };
+		93767A1527951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CustomerSystem-ScreenShare-Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93767A1827951CA80079A60F /* SampleHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleHandler.h; sourceTree = "<group>"; };
+		93767A1927951CA80079A60F /* SampleHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleHandler.m; sourceTree = "<group>"; };
+		93767A1B27951CA80079A60F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93767A2027951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CustomerSystem-ScreenShare-ExtensionSetupUI.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93767A2427951CA80079A60F /* BroadcastSetupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BroadcastSetupViewController.h; sourceTree = "<group>"; };
+		93767A2527951CA80079A60F /* BroadcastSetupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BroadcastSetupViewController.m; sourceTree = "<group>"; };
+		93767A2727951CA80079A60F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93767A3427951D5F0079A60F /* HDAgoraUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDAgoraUploader.m; sourceTree = "<group>"; };
+		93767A3527951D5F0079A60F /* AgoraAudioProcessing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AgoraAudioProcessing.mm; sourceTree = "<group>"; };
+		93767A3627951D5F0079A60F /* external_resampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = external_resampler.h; sourceTree = "<group>"; };
+		93767A3727951D600079A60F /* AgoraAudioCriticalSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgoraAudioCriticalSection.h; sourceTree = "<group>"; };
+		93767A3827951D600079A60F /* HDAgoraUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDAgoraUploader.h; sourceTree = "<group>"; };
+		93767A3927951D600079A60F /* AgoraAudioProcessing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgoraAudioProcessing.h; sourceTree = "<group>"; };
+		93767A3A27951D600079A60F /* AgoraAudioTube.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AgoraAudioTube.mm; sourceTree = "<group>"; };
+		93767A3B27951D600079A60F /* AgoraAudioTube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgoraAudioTube.h; sourceTree = "<group>"; };
+		93767A3C27951D610079A60F /* libios_resampler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libios_resampler.a; sourceTree = "<group>"; };
+		93767A4127951D820079A60F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		93767A4327951D8B0079A60F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		937D74B427853E500022B707 /* HDAgoraCallViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAgoraCallViewController.h; sourceTree = "<group>"; };
 		937D74B527853E500022B707 /* HDAgoraCallViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAgoraCallViewController.m; sourceTree = "<group>"; };
 		93A00A4C27605C6C0050425C /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hyphenate.framework; sourceTree = "<group>"; };
@@ -716,6 +778,7 @@
 		93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDAgoraCallViewController.xib; sourceTree = "<group>"; };
 		93EB33EF278C3E47002AB1ED /* HDAgoraVideoSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAgoraVideoSession.h; sourceTree = "<group>"; };
 		93EB33F0278C3E47002AB1ED /* HDAgoraVideoSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAgoraVideoSession.m; sourceTree = "<group>"; };
+		93FFE62827901077009FFC6E /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		D20066121EF23274005B558D /* em_example_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_1.png; sourceTree = "<group>"; };
 		D20066131EF23274005B558D /* em_example_image_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_2.png; sourceTree = "<group>"; };
@@ -1199,6 +1262,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		93767A1227951CA80079A60F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93767A4B27955E770079A60F /* HelpDesk.framework in Frameworks */,
+				93767A4427951D8B0079A60F /* CoreMedia.framework in Frameworks */,
+				93767A4227951D820079A60F /* Accelerate.framework in Frameworks */,
+				93767A1627951CA80079A60F /* ReplayKit.framework in Frameworks */,
+				93767A4027951D610079A60F /* libios_resampler.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93767A1D27951CA80079A60F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93767A2127951CA80079A60F /* ReplayKit.framework in Frameworks */,
+				93767A2227951CA80079A60F /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB62E1F61A8DD92D00705655 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1225,8 +1309,6 @@
 				936BF0122786DF1B00CB1F58 /* AgoraSuperResolutionExtension.xcframework in Frameworks */,
 				936BF00E2786DF1B00CB1F58 /* AgoraRtcKit.xcframework in Frameworks */,
 				936BF0082786DF1900CB1F58 /* Agorafdkaac.xcframework in Frameworks */,
-				EB62E43F1A8E2D6200705655 /* CoreLocation.framework in Frameworks */,
-				EB62E43D1A8E2D5C00705655 /* MapKit.framework in Frameworks */,
 				936BF0142786DF1C00CB1F58 /* AgoraVideoProcessExtension.xcframework in Frameworks */,
 				EB62E43B1A8E2D5600705655 /* ImageIO.framework in Frameworks */,
 				EB62E4391A8E2D5000705655 /* CoreText.framework in Frameworks */,
@@ -1346,6 +1428,35 @@
 				90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */,
 			);
 			path = RobotUnsolveItemView;
+			sourceTree = "<group>";
+		};
+		93767A1727951CA80079A60F /* CustomerSystem-ScreenShare-Extension */ = {
+			isa = PBXGroup;
+			children = (
+				93767A3727951D600079A60F /* AgoraAudioCriticalSection.h */,
+				93767A3927951D600079A60F /* AgoraAudioProcessing.h */,
+				93767A3527951D5F0079A60F /* AgoraAudioProcessing.mm */,
+				93767A3B27951D600079A60F /* AgoraAudioTube.h */,
+				93767A3A27951D600079A60F /* AgoraAudioTube.mm */,
+				93767A3627951D5F0079A60F /* external_resampler.h */,
+				93767A3827951D600079A60F /* HDAgoraUploader.h */,
+				93767A3427951D5F0079A60F /* HDAgoraUploader.m */,
+				93767A3C27951D610079A60F /* libios_resampler.a */,
+				93767A1827951CA80079A60F /* SampleHandler.h */,
+				93767A1927951CA80079A60F /* SampleHandler.m */,
+				93767A1B27951CA80079A60F /* Info.plist */,
+			);
+			path = "CustomerSystem-ScreenShare-Extension";
+			sourceTree = "<group>";
+		};
+		93767A2327951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI */ = {
+			isa = PBXGroup;
+			children = (
+				93767A2427951CA80079A60F /* BroadcastSetupViewController.h */,
+				93767A2527951CA80079A60F /* BroadcastSetupViewController.m */,
+				93767A2727951CA80079A60F /* Info.plist */,
+			);
+			path = "CustomerSystem-ScreenShare-ExtensionSetupUI";
 			sourceTree = "<group>";
 		};
 		937D74B327853E220022B707 /* Agora */ = {
@@ -1730,6 +1841,8 @@
 		D35726071DE315640033D4E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93767A4327951D8B0079A60F /* CoreMedia.framework */,
+				93767A4127951D820079A60F /* Accelerate.framework */,
 				936BEFF12786DF1800CB1F58 /* AgoraAIDenoiseExtension.xcframework */,
 				936BEFF22786DF1800CB1F58 /* AgoraCIExtension.xcframework */,
 				936BEFF32786DF1800CB1F58 /* AgoraCore.xcframework */,
@@ -1761,6 +1874,7 @@
 				EB62E43A1A8E2D5600705655 /* ImageIO.framework */,
 				EB62E4381A8E2D5000705655 /* CoreText.framework */,
 				C9AAF3A61CC7495E00211B1B /* libc++.tbd */,
+				93FFE62827901077009FFC6E /* ReplayKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2567,6 +2681,8 @@
 			children = (
 				93E79301277C0A430019FD80 /* LICENSE */,
 				93E79300277C0A430019FD80 /* README.md */,
+				93767A1727951CA80079A60F /* CustomerSystem-ScreenShare-Extension */,
+				93767A2327951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI */,
 				D35726071DE315640033D4E3 /* Frameworks */,
 				EB62E1FB1A8DD92D00705655 /* CustomerSystem-ios */,
 				EB62E1FA1A8DD92D00705655 /* Products */,
@@ -2577,6 +2693,8 @@
 			isa = PBXGroup;
 			children = (
 				EB62E1F91A8DD92D00705655 /* CustomerSystem-ios.app */,
+				93767A1527951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex */,
+				93767A2027951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2631,6 +2749,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		93767A1427951CA80079A60F /* CustomerSystem-ScreenShare-Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93767A3127951CA80079A60F /* Build configuration list for PBXNativeTarget "CustomerSystem-ScreenShare-Extension" */;
+			buildPhases = (
+				93767A1127951CA80079A60F /* Sources */,
+				93767A1227951CA80079A60F /* Frameworks */,
+				93767A1327951CA80079A60F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CustomerSystem-ScreenShare-Extension";
+			productName = "CustomerSystem-ScreenShare-Extension";
+			productReference = 93767A1527951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		93767A1F27951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93767A2E27951CA80079A60F /* Build configuration list for PBXNativeTarget "CustomerSystem-ScreenShare-ExtensionSetupUI" */;
+			buildPhases = (
+				93767A1C27951CA80079A60F /* Sources */,
+				93767A1D27951CA80079A60F /* Frameworks */,
+				93767A1E27951CA80079A60F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CustomerSystem-ScreenShare-ExtensionSetupUI";
+			productName = "CustomerSystem-ScreenShare-ExtensionSetupUI";
+			productReference = 93767A2027951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		EB62E1F81A8DD92D00705655 /* CustomerSystem-ios */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB62E21C1A8DD92D00705655 /* Build configuration list for PBXNativeTarget "CustomerSystem-ios" */;
@@ -2640,10 +2792,13 @@
 				EB62E1F71A8DD92D00705655 /* Resources */,
 				909614F32153BF2800B1F8E3 /* Embed Frameworks */,
 				93A00AED276089AC0050425C /* CopyFiles */,
+				93FFE63227901077009FFC6E /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				93767A2927951CA80079A60F /* PBXTargetDependency */,
+				93767A2C27951CA80079A60F /* PBXTargetDependency */,
 			);
 			name = "CustomerSystem-ios";
 			productName = "CustomerSystem-ios";
@@ -2657,9 +2812,16 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = H;
+				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = easemob;
 				TargetAttributes = {
+					93767A1427951CA80079A60F = {
+						CreatedOnToolsVersion = 13.1;
+					};
+					93767A1F27951CA80079A60F = {
+						CreatedOnToolsVersion = 13.1;
+					};
 					EB62E1F81A8DD92D00705655 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 499WYUV8Q2;
@@ -2691,11 +2853,27 @@
 			projectRoot = "";
 			targets = (
 				EB62E1F81A8DD92D00705655 /* CustomerSystem-ios */,
+				93767A1427951CA80079A60F /* CustomerSystem-ScreenShare-Extension */,
+				93767A1F27951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		93767A1327951CA80079A60F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93767A1E27951CA80079A60F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB62E1F71A8DD92D00705655 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2951,6 +3129,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		93767A1127951CA80079A60F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93767A3D27951D610079A60F /* HDAgoraUploader.m in Sources */,
+				93767A3F27951D610079A60F /* AgoraAudioTube.mm in Sources */,
+				93767A3E27951D610079A60F /* AgoraAudioProcessing.mm in Sources */,
+				93767A1A27951CA80079A60F /* SampleHandler.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93767A1C27951CA80079A60F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93767A2627951CA80079A60F /* BroadcastSetupViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB62E1F51A8DD92D00705655 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3142,6 +3339,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		93767A2927951CA80079A60F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93767A1F27951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI */;
+			targetProxy = 93767A2827951CA80079A60F /* PBXContainerItemProxy */;
+		};
+		93767A2C27951CA80079A60F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93767A1427951CA80079A60F /* CustomerSystem-ScreenShare-Extension */;
+			targetProxy = 93767A2B27951CA80079A60F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		EB62E3B71A8E08EA00705655 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -3164,6 +3374,210 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		93767A2F27951CA80079A60F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer: LI HOU (UGP7ZG964L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: LI HOU (UGP7ZG964L)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CustomerSystem-ScreenShare-ExtensionSetupUI/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "CustomerSystem-ScreenShare-ExtensionSetupUI";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 easemob. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.easemob.enterprise.demo.customer.CustomerSystem-ScreenShare-ExtensionSetupUI";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = ease_wildcard;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		93767A3027951CA80079A60F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: EaseMob Inc.";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CustomerSystem-ScreenShare-ExtensionSetupUI/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "CustomerSystem-ScreenShare-ExtensionSetupUI";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 easemob. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.easemob.enterprise.demo.customer.CustomerSystem-ScreenShare-ExtensionSetupUI";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		93767A3227951CA80079A60F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer: LI HOU (UGP7ZG964L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: LI HOU (UGP7ZG964L)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CustomerSystem-ScreenShare-Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "CustomerSystem-ScreenShare-Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 easemob. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CustomerSystem-ScreenShare-Extension",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.easemob.enterprise.demo.customer.CustomerSystem-ScreenShare-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = ease_wildcard;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		93767A3327951CA80079A60F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: EaseMob Inc.";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CustomerSystem-ScreenShare-Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "CustomerSystem-ScreenShare-Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 easemob. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CustomerSystem-ScreenShare-Extension",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.easemob.enterprise.demo.customer.CustomerSystem-ScreenShare-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		EB62E21A1A8DD92D00705655 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3364,6 +3778,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		93767A2E27951CA80079A60F /* Build configuration list for PBXNativeTarget "CustomerSystem-ScreenShare-ExtensionSetupUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93767A2F27951CA80079A60F /* Debug */,
+				93767A3027951CA80079A60F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93767A3127951CA80079A60F /* Build configuration list for PBXNativeTarget "CustomerSystem-ScreenShare-Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93767A3227951CA80079A60F /* Debug */,
+				93767A3327951CA80079A60F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EB62E1F41A8DD92D00705655 /* Build configuration list for PBXProject "CustomerSystem-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

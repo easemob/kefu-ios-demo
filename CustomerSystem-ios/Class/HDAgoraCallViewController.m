@@ -12,7 +12,7 @@
 #import <ReplayKit/ReplayKit.h>
 #import "HDAgoraVideoSession.h"
 #define kCamViewTag 100001
-
+#define TAG_SHARESCREEN 10086
 @interface HDAgoraCallViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,HDAgoraCallManagerDelegate>
 {
     NSMutableArray *_members; // 通话人
@@ -44,7 +44,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *hiddenBtn;
 @property (weak, nonatomic) IBOutlet UIButton *offBtn;
 @property (weak, nonatomic) IBOutlet UIView *videoView;
+@property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));
 
+@property (nonatomic, strong) UIView *localView;
 @end
 
 @implementation HDAgoraCallViewController
@@ -85,11 +87,7 @@
 
     // 初始化数据源
     _members = [NSMutableArray array];
-  
-    [self.videoView layoutIfNeeded];
-    [self.view sendSubviewToBack:self.videoView];
     [self setAgoraVideo];
-
     // 设置 ui
     [self.timeLabel setHidden:YES];
     [self.callingView setHidden:YES];
@@ -97,25 +95,24 @@
     // 响铃
 //    [self startRing];
     [self updateInfoLabel]; // 尝试更新“正在通话中...(n)”中的n。
+    
+    [self initBroadPickerView];
 }
 
-
 - (void)setAgoraVideo{
-//    [self initView];
     // 设置音视频 options
     HDAgoraCallOptions *options = [[HDAgoraCallOptions alloc] init];
     options.videoOff = NO; // 这个值要和按钮状态统一。
     options.mute = NO; // 这个值要和按钮状态统一。
-    options.uid = 1233;
     [[HDClient sharedClient].agoraCallManager setCallOptions:options];
-    [[HDClient sharedClient].agoraCallManager loadAgoraInit];
     //add local render view and start preview
     [self  addLocalSession];
     // Bind local video stream to view
     [[HDClient sharedClient].agoraCallManager startPreview];
-//    [self joinChannel];
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
     // 添加监听
     [HDClient.sharedClient.agoraCallManager addDelegate:self delegateQueue:nil];
+    
 }
 - (void)addLocalSession{
 //    // 设置第一个item的头像，昵称都为自己。
@@ -123,8 +120,7 @@
     item.isSelected = YES; // 默认自己会被选中
     // 随机给一个memberNumber
     item.memberName = [NSString stringWithFormat:@"%f", [NSDate timeIntervalSinceReferenceDate]];
-    HDAgoraCallLocalView * localView = [[HDAgoraCallLocalView alloc] init];
-//    UIView * localView = [self.view viewWithTag:kCamViewTag];
+    UIView * localView = [[UIView alloc] init];
    // 将自己的item添加到datasource中
     HDAgoraVideoSession *localSession = [HDAgoraVideoSession localSession];
     localSession.hostingView =  localView;
@@ -134,11 +130,7 @@
     
     [_members addObject:localSession];
 }
-- (void)joinChannel {
-    [[HDClient sharedClient].agoraCallManager hd_joinChannelByToken:nil channelId:nil info:nil uid:0 joinSuccess:nil];
-    [[HDClient sharedClient].agoraCallManager setEnableSpeakerphone:YES];
-    [UIApplication sharedApplication].idleTimerDisabled = YES;
-}
+
 - (void)setupCollectionView {
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
@@ -148,16 +140,14 @@
 
 // 监听屏幕方向变化
 - (void)handleStatusBarOrientationChange {
-    EMCallRemoteView *view = (EMCallRemoteView *)[self.view viewWithTag:kCamViewTag];
-    view.scaleMode = self.screenBtn.selected ? EMCallViewScaleModeAspectFill : EMCallViewScaleModeAspectFit;
-    view.frame = UIScreen.mainScreen.bounds;
+
 }
 // 根据HDCallMember 创建cellItem
 - (HDAgoraVideoSession *)createCallerWithMember2:(HDCallMember *)aMember {
     
     HDAgoraVideoSession *userSession = [self videoSessionOfUid:[aMember.memberName integerValue] ];
     
-    HDAgoraCallRemoteView * remoteView = [[HDAgoraCallRemoteView alloc] init];
+    UIView * remoteView = [[UIView alloc] init];
     userSession.hostingView = remoteView;
     [[HDClient sharedClient].agoraCallManager setupRemoteVideo:userSession.canvas];
     
@@ -175,6 +165,25 @@
     if (!self.callingView.isHidden) { // 只有在已经通话中的情况下，才回去更新。
         self.infoLabel.text = [NSString stringWithFormat:@"正在通话中...(%d)",(int)_members.count];
     }
+}
+
+
+/// 初始化直播view
+- (void)initBroadPickerView{
+    if (@available(iOS 12.0, *)) {
+        _broadPickerView = [[RPSystemBroadcastPickerView alloc] init];
+        _broadPickerView.preferredExtension = @"com.easemob.enterprise.demo.customer.CustomerSystem-ScreenShare-Extension";
+//        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(50, 50, 300, 40)];
+//        [button setTitle:@"点我就好了" forState:UIControlStateNormal];
+//        [button addTarget:self action:@selector(clickedOnStartRecordButton:) forControlEvents:UIControlEventTouchUpInside];
+//        [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//        button.tag = TAG_SHARESCREEN;
+//        [self.view addSubview:button];
+    } else {
+        // Fallback on earlier versions
+    }
+     
+    
 }
 
 // 切换摄像头事件
@@ -215,12 +224,23 @@
 // 屏幕共享事件
 - (IBAction)shareDesktopBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
+    
+    for (UIView *view in _broadPickerView.subviews)
+    {
+        if ([view isKindOfClass:[UIButton class]])
+        {
+            //调起录像方法，UIControlEventTouchUpInside的方法看其他文章用的是UIControlEventTouchDown，
+            //我使用时用UIControlEventTouchUpInside用好使，看个人情况决定
+            [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
+        }
+    }
+    
 }
 
 // 切换屏幕尺寸事件
 - (IBAction)screenBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
-    HDAgoraCallRemoteView * view = [self.view viewWithTag:kCamViewTag];
+    UIView * view = [self.view viewWithTag:kCamViewTag];
     CGRect frame = self.videoView.frame;
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2];
@@ -333,7 +353,7 @@
     HDAgoraVideoSession *videoSession = [_members objectAtIndex:indexPath.section];
     _currentItem = videoSession.item;
     CGRect frame = self.videoView.frame;
-    HDAgoraCallRemoteView *view = (HDAgoraCallRemoteView *)videoSession.item.camView;
+    UIView *view = videoSession.item.camView;
     view.frame = self.screenBtn.selected ? UIScreen.mainScreen.bounds : frame;
     [self.view addSubview:view];
     [self.view sendSubviewToBack:view];

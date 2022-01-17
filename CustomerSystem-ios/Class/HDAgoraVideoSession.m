@@ -10,7 +10,7 @@
 
 @implementation HDAgoraVideoSession
 + (instancetype)localSession {
-    return [[HDAgoraVideoSession alloc] initWithUid:123456];
+    return [[HDAgoraVideoSession alloc] initWithUid:0];
 }
 
 - (instancetype)initWithUid:(NSUInteger)uid {
