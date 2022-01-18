@@ -116,7 +116,7 @@
 }
 - (void)addLocalSession{
 //    // 设置第一个item的头像，昵称都为自己。
-    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:@"url" defaultImage:[UIImage imageNamed:@"url"] nickname:self.nickname];
+    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:@"url" defaultImage:[UIImage imageNamed:self.avatarStr] nickname:self.nickname];
     item.isSelected = YES; // 默认自己会被选中
     // 随机给一个memberNumber
     item.memberName = [NSString stringWithFormat:@"%f", [NSDate timeIntervalSinceReferenceDate]];
