@@ -62,7 +62,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [super viewWillAppear:animated ];
     [_conversationsVC refreshData];
     //测试理想打开
-    [self testButton];
+//    [self testButton];
 }
 
 - (void)viewDidLoad

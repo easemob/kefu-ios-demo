@@ -13,6 +13,7 @@
 #import "HDAgoraVideoSession.h"
 #define kCamViewTag 100001
 #define TAG_SHARESCREEN 10086
+#define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
 @interface HDAgoraCallViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,HDAgoraCallManagerDelegate>
 {
     NSMutableArray *_members; // 通话人
@@ -98,6 +99,12 @@
     
     [self initBroadPickerView];
 }
+- (void)viewDidDisappear:(BOOL)animated{
+    
+    [super viewDidDisappear:animated];
+    [[HDClient sharedClient].agoraCallManager endCall];
+    [[HDClient sharedClient].agoraCallManager destroy];
+}
 
 - (void)setAgoraVideo{
     // 设置音视频 options
@@ -172,7 +179,7 @@
 - (void)initBroadPickerView{
     if (@available(iOS 12.0, *)) {
         _broadPickerView = [[RPSystemBroadcastPickerView alloc] init];
-        _broadPickerView.preferredExtension = @"com.easemob.enterprise.demo.customer.CustomerSystem-ScreenShare-Extension";
+        _broadPickerView.preferredExtension = kScreenShareExtensionBundleId;
 //        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(50, 50, 300, 40)];
 //        [button setTitle:@"点我就好了" forState:UIControlStateNormal];
 //        [button addTarget:self action:@selector(clickedOnStartRecordButton:) forControlEvents:UIControlEventTouchUpInside];
