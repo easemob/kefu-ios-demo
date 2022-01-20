@@ -29,12 +29,14 @@ static HDAgoraUploader *manager = nil;
     return manager;
 }
 
-- (void)startBroadcast:(NSString *)channel{
+- (void)startBroadcast{
+    
+   NSArray * array = [[HDClient sharedClient].agoraCallManager getBroadcastParameter];
     
     //先注册audio
     [AgoraAudioProcessing registerAudioPreprocessing:[[HDClient sharedClient].agoraCallManager getBroadcastRtcEngine]];
     //在开启
-    [[HDClient sharedClient].agoraCallManager startBroadcast:channel];
+    [[HDClient sharedClient].agoraCallManager startBroadcast];
     
 }
 - (void)sendVideoBuffer:(CMSampleBufferRef _Nullable )sampleBuffer{

@@ -674,6 +674,7 @@
 		93767A4327951D8B0079A60F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		937D74B427853E500022B707 /* HDAgoraCallViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAgoraCallViewController.h; sourceTree = "<group>"; };
 		937D74B527853E500022B707 /* HDAgoraCallViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAgoraCallViewController.m; sourceTree = "<group>"; };
+		937DEBEE27993987004EE6BB /* CustomerSystem-ScreenShare-ExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ScreenShare-ExtensionDebug.entitlements"; sourceTree = "<group>"; };
 		93A00A4C27605C6C0050425C /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hyphenate.framework; sourceTree = "<group>"; };
 		93A00A4F2760780B0050425C /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93A00A5227607A850050425C /* NSArray+HDMASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+HDMASShorthandAdditions.h"; sourceTree = "<group>"; };
@@ -1436,6 +1437,7 @@
 		93767A1727951CA80079A60F /* CustomerSystem-ScreenShare-Extension */ = {
 			isa = PBXGroup;
 			children = (
+				937DEBEE27993987004EE6BB /* CustomerSystem-ScreenShare-ExtensionDebug.entitlements */,
 				93767A3727951D600079A60F /* AgoraAudioCriticalSection.h */,
 				93767A3927951D600079A60F /* AgoraAudioProcessing.h */,
 				93767A3527951D5F0079A60F /* AgoraAudioProcessing.mm */,
@@ -3492,6 +3494,7 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ScreenShare-Extension/CustomerSystem-ScreenShare-ExtensionDebug.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: LI HOU (UGP7ZG964L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: LI HOU (UGP7ZG964L)";
 				CODE_SIGN_STYLE = Manual;

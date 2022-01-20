@@ -29,11 +29,11 @@
     if([[setupInfo allKeys] containsObject:@"channelName"]){
 
         NSString *channelName = (NSString *)[setupInfo valueForKey:@"channelName"];
-        [[HDAgoraUploader sharedAgoraEngine] startBroadcast:channelName];
+        [[HDAgoraUploader sharedAgoraEngine] startBroadcast];
 
     }else{
 
-        [[HDAgoraUploader sharedAgoraEngine] startBroadcast:@"huanxin"];
+        [[HDAgoraUploader sharedAgoraEngine] startBroadcast];
 
     }
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -44,7 +44,7 @@
 
         NSLog(@"elapse===%lu",(unsigned long)elapse);
 
-        if(elapse > 300) {
+        if(elapse > 200) {
             if (weakSelf.bufferCopy){
                 [weakSelf processSampleBuffer:weakSelf.bufferCopy withType:RPSampleBufferTypeVideo];
             }
@@ -91,11 +91,11 @@
                 weakSelf.bufferCopy = sampleBuffer;
                 weakSelf.lastSendTs = [weakSelf getNowTime];
                 [[HDAgoraUploader sharedAgoraEngine] sendVideoBuffer:sampleBuffer];
-                NSLog(@"RPSampleBufferTypeVideo App~~~~");
+//                NSLog(@"RPSampleBufferTypeVideo App~~~~");
                 break;
             case RPSampleBufferTypeAudioApp:
                 [[HDAgoraUploader sharedAgoraEngine] sendAudioAppBuffer:sampleBuffer];
-                NSLog(@"RPSampleBufferTypeAudio App+++");
+//                NSLog(@"RPSampleBufferTypeAudio App+++");
                 break;
             case RPSampleBufferTypeAudioMic:
                 [[HDAgoraUploader sharedAgoraEngine] sendAudioMicBuffer:sampleBuffer];

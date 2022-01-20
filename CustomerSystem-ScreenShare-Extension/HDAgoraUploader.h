@@ -11,8 +11,7 @@
 
 + (instancetype _Nullable )sharedAgoraEngine;
 /// 开始录屏
-/// @param channel 频道名
-- (void)startBroadcast:(NSString *_Nullable)channel;
+- (void)startBroadcast;
 - (void)sendVideoBuffer:(CMSampleBufferRef _Nullable )sampleBuffer;
 - (void)sendAudioAppBuffer:(CMSampleBufferRef _Nullable )sampleBuffer;
 - (void)sendAudioMicBuffer:(CMSampleBufferRef _Nullable )sampleBuffer;
