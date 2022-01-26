@@ -161,9 +161,9 @@
 		93A00AEB276083F50050425C /* HDMJRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00AD6276083F50050425C /* HDMJRefreshHeader.m */; };
 		93A00AEC276083F50050425C /* HDMJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00AD7276083F50050425C /* HDMJRefreshAutoFooter.m */; };
 		93A00AEE276089CD0050425C /* HelpDesk.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93A00A4F2760780B0050425C /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93D8EC6B279A647F0005E7AE /* HDCallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D8EC6A279A647F0005E7AE /* HDCallView.m */; };
 		93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E79304277C67BB0019FD80 /* Bugly.framework */; };
 		93EB33EE278C17A0002AB1ED /* HDAgoraCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */; };
-		93EB33F1278C3E48002AB1ED /* HDAgoraVideoSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EB33F0278C3E47002AB1ED /* HDAgoraVideoSession.m */; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
 		D20066391EF23274005B558D /* em_example_image_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066131EF23274005B558D /* em_example_image_2.png */; };
 		D200663A1EF23274005B558D /* em_example_image_3.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066141EF23274005B558D /* em_example_image_3.png */; };
@@ -775,13 +775,13 @@
 		93A00AD5276083F50050425C /* HDMJRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshFooter.m; sourceTree = "<group>"; };
 		93A00AD6276083F50050425C /* HDMJRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshHeader.m; sourceTree = "<group>"; };
 		93A00AD7276083F50050425C /* HDMJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshAutoFooter.m; sourceTree = "<group>"; };
+		93D8EC69279A647F0005E7AE /* HDCallView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCallView.h; sourceTree = "<group>"; };
+		93D8EC6A279A647F0005E7AE /* HDCallView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDCallView.m; sourceTree = "<group>"; };
 		93E792F9277ADA290019FD80 /* CustomerSystem-iosRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-iosRelease.entitlements"; sourceTree = "<group>"; };
 		93E79300277C0A430019FD80 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		93E79301277C0A430019FD80 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		93E79304277C67BB0019FD80 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDAgoraCallViewController.xib; sourceTree = "<group>"; };
-		93EB33EF278C3E47002AB1ED /* HDAgoraVideoSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAgoraVideoSession.h; sourceTree = "<group>"; };
-		93EB33F0278C3E47002AB1ED /* HDAgoraVideoSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAgoraVideoSession.m; sourceTree = "<group>"; };
 		93FFE62827901077009FFC6E /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		D20066121EF23274005B558D /* em_example_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = em_example_image_1.png; sourceTree = "<group>"; };
@@ -1470,8 +1470,8 @@
 				937D74B427853E500022B707 /* HDAgoraCallViewController.h */,
 				937D74B527853E500022B707 /* HDAgoraCallViewController.m */,
 				93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */,
-				93EB33EF278C3E47002AB1ED /* HDAgoraVideoSession.h */,
-				93EB33F0278C3E47002AB1ED /* HDAgoraVideoSession.m */,
+				93D8EC69279A647F0005E7AE /* HDCallView.h */,
+				93D8EC6A279A647F0005E7AE /* HDCallView.m */,
 			);
 			name = Agora;
 			sourceTree = "<group>";
@@ -2134,14 +2134,14 @@
 		D3CB63D31E4888F30022A6BA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D29E0A001F4FF90F0089506D /* HAppraiseTagsModel.h */,
+				D29E0A011F4FF90F0089506D /* HAppraiseTagsModel.m */,
 				D3CB63D41E4888F30022A6BA /* HDIMessageModel.h */,
 				D3CB63D51E4888F30022A6BA /* HDIModelCell.h */,
 				D3CB63D61E4888F30022A6BA /* HDIModelChatCell.h */,
 				D3CB63D71E4888F30022A6BA /* HDIUserModel.h */,
 				D3CB63D81E4888F30022A6BA /* HDMessageModel.h */,
 				D3CB63D91E4888F30022A6BA /* HDMessageModel.m */,
-				D29E0A001F4FF90F0089506D /* HAppraiseTagsModel.h */,
-				D29E0A011F4FF90F0089506D /* HAppraiseTagsModel.m */,
 				D29E0A021F4FF90F0089506D /* HEvaluationDegreeModel.h */,
 				D29E0A031F4FF90F0089506D /* HEvaluationDegreeModel.m */,
 			);
@@ -3164,7 +3164,6 @@
 				9086153520B43A54002E71DA /* HDCallViewCollectionViewCell.m in Sources */,
 				D29E0A051F4FF90F0089506D /* HEvaluationDegreeModel.m in Sources */,
 				D3AA4B241ED45B7300B5C509 /* HDVoiceConverter.mm in Sources */,
-				93EB33F1278C3E48002AB1ED /* HDAgoraVideoSession.m in Sources */,
 				D3CB64A61E4888F30022A6BA /* HDBubbleView+Image.m in Sources */,
 				D29E0A041F4FF90F0089506D /* HAppraiseTagsModel.m in Sources */,
 				93A00AA3276083BA0050425C /* HDSDWebImageDecoder.m in Sources */,
@@ -3265,6 +3264,7 @@
 				D3D1BB451DE84862004B3557 /* LeaveMsgCell.m in Sources */,
 				93A00AE8276083F50050425C /* HDMJRefreshBackFooter.m in Sources */,
 				93A00A6F27607A860050425C /* HDMASConstraint.m in Sources */,
+				93D8EC6B279A647F0005E7AE /* HDCallView.m in Sources */,
 				D3CB64A91E4888F30022A6BA /* HDBubbleView+RobotMenu.m in Sources */,
 				D3CB64981E4888F30022A6BA /* HDChineseToPinyin.m in Sources */,
 				D3D1BB261DE83D6B004B3557 /* LeaveMsgDetailViewController.m in Sources */,

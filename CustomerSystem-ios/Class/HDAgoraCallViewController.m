@@ -10,17 +10,15 @@
 #import <HelpDesk/HelpDesk.h>
 #import "HDCallViewCollectionViewCell.h"
 #import <ReplayKit/ReplayKit.h>
-#import "HDAgoraVideoSession.h"
 #define kCamViewTag 100001
-#define TAG_SHARESCREEN 10086
 #define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
-@interface HDAgoraCallViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,HDAgoraCallManagerDelegate>
+@interface HDAgoraCallViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,HDAgoraCallManagerDelegate,HDChatManagerDelegate>
 {
     NSMutableArray *_members; // 通话人
     NSTimer *_timer;
     NSInteger _time;
     HDCallViewCollectionViewCellItem *_currentItem;
-    NSUInteger _remoteuid;
+    NSUInteger _localUid;
     
 }
 @property (nonatomic, strong) NSString *agentName;
@@ -75,11 +73,13 @@
     callVC.agentName = aAgentName;
     callVC.avatarStr = aAvatarStr;
     callVC.nickname = aNickname;
+         
     return callVC;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _localUid= 12344;
     // 监听屏幕旋转
     [[NSNotificationCenter defaultCenter] addObserver:self
                                             selector:@selector(handleStatusBarOrientationChange)
@@ -96,7 +96,6 @@
     // 响铃
 //    [self startRing];
     [self updateInfoLabel]; // 尝试更新“正在通话中...(n)”中的n。
-    
     [self initBroadPickerView];
 }
 - (void)viewDidDisappear:(BOOL)animated{
@@ -111,93 +110,71 @@
     HDAgoraCallOptions *options = [[HDAgoraCallOptions alloc] init];
     options.videoOff = NO; // 这个值要和按钮状态统一。
     options.mute = NO; // 这个值要和按钮状态统一。
+    options.shareUid = 1234; //屏幕分享uid
+    options.uid = _localUid;
     [[HDClient sharedClient].agoraCallManager setCallOptions:options];
-    //add local render view and start preview
-    [self  addLocalSession];
-    // Bind local video stream to view
-    [[HDClient sharedClient].agoraCallManager startPreview];
+    //add local render view
+    [self  addLocalSessionWithUid:options.uid];
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     // 添加监听
     [HDClient.sharedClient.agoraCallManager addDelegate:self delegateQueue:nil];
-    
-}
-- (void)addLocalSession{
-//    // 设置第一个item的头像，昵称都为自己。
-    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:@"url" defaultImage:[UIImage imageNamed:self.avatarStr] nickname:self.nickname];
-    item.isSelected = YES; // 默认自己会被选中
-    // 随机给一个memberNumber
-    item.memberName = [NSString stringWithFormat:@"%f", [NSDate timeIntervalSinceReferenceDate]];
-    UIView * localView = [[UIView alloc] init];
-   // 将自己的item添加到datasource中
-    HDAgoraVideoSession *localSession = [HDAgoraVideoSession localSession];
-    localSession.hostingView =  localView;
-    localSession.item = item;
-    item.camView = localSession.hostingView;
-    [[HDClient sharedClient].agoraCallManager setupLocalVideo:localSession.canvas];
-    
-    [_members addObject:localSession];
 }
 
+
+///  添加本地视频流
+/// @param localUid   本地用户id
+- (void)addLocalSessionWithUid:(NSInteger )localUid{
+//    // 设置第一个item的头像，昵称都为自己。HDCallViewCollectionViewCellItem 界面展示类
+    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:@"url" defaultImage:[UIImage imageNamed:self.avatarStr] nickname:self.nickname];
+    item.isSelected = YES; // 默认自己会被选中
+    item.uid = localUid;
+    UIView * localView = [[UIView alloc] init];
+    item.camView = localView;
+    //设置本地试图
+    [[HDClient sharedClient].agoraCallManager setupLocalVideoView:item.camView];
+    //添加数据源
+    [_members addObject:item];
+}
 - (void)setupCollectionView {
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     UINib *cellNib = [UINib nibWithNibName:@"HDCallViewCollectionViewCell" bundle:nil];
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"cellid"];
 }
-
 // 监听屏幕方向变化
 - (void)handleStatusBarOrientationChange {
 
 }
 // 根据HDCallMember 创建cellItem
-- (HDAgoraVideoSession *)createCallerWithMember2:(HDCallMember *)aMember {
-    
-    HDAgoraVideoSession *userSession = [self videoSessionOfUid:[aMember.memberName integerValue] ];
-    
+- (HDCallViewCollectionViewCellItem *)createCallerWithMember2:(HDCallMember *)aMember {
     UIView * remoteView = [[UIView alloc] init];
-    userSession.hostingView = remoteView;
-    [[HDClient sharedClient].agoraCallManager setupRemoteVideo:userSession.canvas];
-    
     HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:aMember.extension[@"avatarUrl"] defaultImage:[UIImage imageNamed:@"default_customer_avatar"] nickname:aMember.extension[@"nickname"]];
-    item.memberName = aMember.memberName;
-    item.camView = userSession.hostingView;
-    userSession.item = item;
-    
-    return userSession;
+    item.uid = [aMember.memberName integerValue];
+    item.camView = remoteView;
+    //设置远端试图
+    [[HDClient sharedClient].agoraCallManager setupRemoteVideoView:item.camView withRemoteUid:item.uid];
+    return item;
 }
-
-
 // 更新详情显示
 - (void)updateInfoLabel {
     if (!self.callingView.isHidden) { // 只有在已经通话中的情况下，才回去更新。
         self.infoLabel.text = [NSString stringWithFormat:@"正在通话中...(%d)",(int)_members.count];
     }
 }
-
-
-/// 初始化直播view
+/// 初始化屏幕分享view
 - (void)initBroadPickerView{
     if (@available(iOS 12.0, *)) {
         _broadPickerView = [[RPSystemBroadcastPickerView alloc] init];
         _broadPickerView.preferredExtension = kScreenShareExtensionBundleId;
-//        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(50, 50, 300, 40)];
-//        [button setTitle:@"点我就好了" forState:UIControlStateNormal];
-//        [button addTarget:self action:@selector(clickedOnStartRecordButton:) forControlEvents:UIControlEventTouchUpInside];
-//        [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-//        button.tag = TAG_SHARESCREEN;
-//        [self.view addSubview:button];
     } else {
         // Fallback on earlier versions
     }
-     
-    
 }
 
 // 切换摄像头事件
 - (IBAction)camBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     [[HDClient sharedClient].agoraCallManager switchCamera];
-    
 }
 
 // 静音事件
@@ -213,7 +190,7 @@
 // 停止发送视频流事件
 - (IBAction)videoBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
-    UIView *selfView = [_members.firstObject hostingView];
+    UIView *selfView = [_members.firstObject camView];
     if (btn.selected) {
         [[HDClient sharedClient].agoraCallManager pauseVideo];
     } else {
@@ -231,7 +208,6 @@
 // 屏幕共享事件
 - (IBAction)shareDesktopBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
-    
     for (UIView *view in _broadPickerView.subviews)
     {
         if ([view isKindOfClass:[UIButton class]])
@@ -241,7 +217,6 @@
             [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
         }
     }
-    
 }
 
 // 切换屏幕尺寸事件
@@ -269,12 +244,13 @@
     [self.shareDeskTopBtn setHidden:btn.selected];
     [self.screenBtn setHidden:btn.selected];
     [self.offBtn setHidden:btn.selected];
+    
 }
 
 // 挂断事件
 - (IBAction)offBtnClicked:(id)sender
 {
-//    [self stopRing];
+    //挂断和拒接 都走这个
     [[HDClient sharedClient].agoraCallManager endCall];
     [self stopTimer];
     if (self.hangUpCallback) {
@@ -284,7 +260,6 @@
 
 // 应答事件
 - (IBAction)anwersBtnClicked:(id)sender {
-//    [self stopRing];
     [self.callinView setHidden:YES];
     [self.infoLabel setHidden:NO];
     [self.callingView setHidden:NO];
@@ -293,7 +268,6 @@
     [self updateInfoLabel];
     // 设置选中 collectionView 第一项
     [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
-    
     __weak typeof(self) weakSelf = self;
     [[HDClient sharedClient].agoraCallManager acceptCallWithNickname:self.agentName
                                                         completion:^(id obj, HDError *error)
@@ -306,7 +280,13 @@
                  [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord  withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
                  [audioSession setActive:YES error:nil];
              });
-         }
+        }else{
+            // 加入失败 或者视频网络断开
+            if (self.hangUpCallback) {
+                self.hangUpCallback(self, self.timeLabel.text);
+            }
+            NSLog(@"VC=Occur error%d",error.code);
+        }
      }];
 }
 
@@ -339,8 +319,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     HDCallViewCollectionViewCell * cell  = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellid" forIndexPath:indexPath];
-    HDAgoraVideoSession *videoSession =_members[indexPath.section];
-    cell.item = videoSession.item;
+    cell.item = _members[indexPath.section];
     return cell;
 }
 
@@ -355,12 +334,11 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    [self.videoView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [[self.view viewWithTag:kCamViewTag] removeFromSuperview];
-    HDAgoraVideoSession *videoSession = [_members objectAtIndex:indexPath.section];
-    _currentItem = videoSession.item;
+    HDCallViewCollectionViewCellItem *item = [_members objectAtIndex:indexPath.section];
+    _currentItem = item;
     CGRect frame = self.videoView.frame;
-    UIView *view = videoSession.item.camView;
+    UIView *view = item.camView;
     view.frame = self.screenBtn.selected ? UIScreen.mainScreen.bounds : frame;
     [self.view addSubview:view];
     [self.view sendSubviewToBack:view];
@@ -374,7 +352,19 @@
 - (void)onMemberJoin:(HDCallMember *)member {
     // 有 member 加入，添加到datasource中。
     if (!self.callingView.isHidden) { // 只有在已经通话中的情况下，才回去在ui加入，否则都在接听时加入。
-        [_members addObject: [self createCallerWithMember2:member]];
+        @synchronized(_members){
+            BOOL isNeedAdd = YES;
+            for (HDCallViewCollectionViewCellItem *item in _members) {
+                if (item.uid  == [member.memberName integerValue] ) {
+                    isNeedAdd = NO;
+                    break;
+                }
+            }
+            if (isNeedAdd) {
+                [_members addObject: [self createCallerWithMember2:member]];
+            }
+        };
+        
         [self.collectionView reloadData];
         [self updateInfoLabel];
     }
@@ -384,59 +374,35 @@
 - (void)onMemberExit:(HDCallMember *)member {
     // 有 member 离开，清理datasource
     // 如果移除的是当前显示的客服
-    if ([_currentItem.memberName isEqualToString:member.memberName]) {
+    if (_currentItem.uid == [member.memberName integerValue]) {
         [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
     }
-    HDAgoraVideoSession *deleteSession;
-    for (HDAgoraVideoSession *session in _members) {
-        if (session.uid == [member.memberName integerValue]) {
-            deleteSession = session;
+    HDCallViewCollectionViewCellItem *deleteItem;
+    for (HDCallViewCollectionViewCellItem *item in _members) {
+        if (item.uid == [member.memberName integerValue]) {
+            deleteItem = item;
             break;
         }
     }
-    if (deleteSession) {
-        [_members removeObject:deleteSession];
-        // release canvas's view
-        deleteSession.canvas.view = nil;
-    [[HDClient sharedClient].agoraCallManager setupRemoteVideo:deleteSession.canvas];
-    [self.collectionView reloadData];
-    [self updateInfoLabel];
-    
+    if (deleteItem) {
+        [_members removeObject:deleteItem];
+        [[HDClient sharedClient].agoraCallManager setupRemoteVideoView:deleteItem.camView withRemoteUid:deleteItem.uid];
+        [self.collectionView reloadData];
+        [self updateInfoLabel];
     }
 }
-- (HDAgoraVideoSession *)videoSessionOfUid:(NSUInteger)uid {
-    HDAgoraVideoSession *fetchedSession = [self fetchSessionOfUid:uid];
-    if (fetchedSession) {
-        return fetchedSession;
-    } else {
-        HDAgoraVideoSession *newSession = [[HDAgoraVideoSession alloc] initWithUid:uid];
-        return newSession;
+// 坐席主动 挂断 结束回调
+- (void)onCallEndReason:(int)reason desc:(NSString *)desc {
+    [self stopTimer];
+    if (self.hangUpCallback) {
+        self.hangUpCallback(self, self.timeLabel.text);
     }
-}
-- (HDAgoraVideoSession *)fetchSessionOfUid:(NSUInteger)uid {
-    for (HDAgoraVideoSession *session in _members) {
-        if (session.uid == uid) {
-            return session;
-        }
-    }
-    return nil;
 }
 
 #pragma mark - HDAgoraCallManagerDelegate
-///
+/// 加入声网 返回的错误码 判断 加入失败 依据
 - (void)hd_rtcEngine:(HDAgoraCallManager *)agoraCallManager didOccurError:(HDError *)error{
     
     NSLog(@"Occur error%d",error.code);
 }
-
--(void)hd_rtcEngine:(HDAgoraCallManager *)agoraCallManager didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed{
-    
-    NSLog(@"远端视频进来了uid = %lu",(unsigned long)uid);
-    
-}
-- (void)hd_rtcEngine:(HDAgoraCallManager *)agoraCallManager didOfflineOfUid:(NSUInteger)uid reason:(HDAgoraUserOfflineReason)reason{
-    
-    NSLog(@"远端视频离开了uid = %lu",(unsigned long)uid);
-}
-
 @end

@@ -62,7 +62,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [super viewWillAppear:animated ];
     [_conversationsVC refreshData];
     //测试理想打开
-//    [self testButton];
+    [self testButton];
 }
 
 - (void)viewDidLoad
@@ -584,10 +584,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 //声网
 - (void)agorademo{
-    
-    HDAgoraCallViewController * agoraVC = [[HDAgoraCallViewController alloc] init];
-    [self.navigationController pushViewController:agoraVC animated:YES];
+    [self lxLogout];
+          [self lxLogin];
+//    HDAgoraCallViewController * agoraVC = [[HDAgoraCallViewController alloc] init];
+//    [self.navigationController pushViewController:agoraVC animated:YES];
 
+    
+    
 }
 //理想汽车crash
 //- (void)lxdemo{
