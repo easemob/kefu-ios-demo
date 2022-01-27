@@ -576,7 +576,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                                                                                   avatarStr:@"HelpDeskUIResource.bundle/user"
                                                                                    nickName:[CSDemoAccountManager shareLoginManager].nickname];
         hdCallVC.hangUpCallback = ^(UIViewController *callVC, NSString *timeStr) {
-            [callVC dismissViewControllerAnimated:YES completion:nil];
+//            [callVC dismissViewControllerAnimated:YES completion:nil];
         };
         hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
         [self presentViewController:hdCallVC animated:YES completion:nil];

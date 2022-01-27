@@ -12,6 +12,7 @@
 #import <ReplayKit/ReplayKit.h>
 #define kCamViewTag 100001
 #define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
+#define kNotificationShareWindow kScreenShareExtensionBundleId
 @interface HDAgoraCallViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,HDAgoraCallManagerDelegate,HDChatManagerDelegate>
 {
     NSMutableArray *_members; // 通话人
@@ -76,7 +77,6 @@
          
     return callVC;
 }
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     _localUid= 12344;
@@ -97,6 +97,7 @@
 //    [self startRing];
     [self updateInfoLabel]; // 尝试更新“正在通话中...(n)”中的n。
     [self initBroadPickerView];
+    [self  addNotifications];
 }
 - (void)viewDidDisappear:(BOOL)animated{
     
@@ -110,8 +111,10 @@
     HDAgoraCallOptions *options = [[HDAgoraCallOptions alloc] init];
     options.videoOff = NO; // 这个值要和按钮状态统一。
     options.mute = NO; // 这个值要和按钮状态统一。
-    options.shareUid = 1234; //屏幕分享uid
-    options.uid = _localUid;
+    options.shareUid = 1234; //屏幕分享uid 不设置 走默认
+    options.uid = _localUid; // 不设置 走随机 uid 最好设置用户自己登陆后的uid
+    NSDictionary * dic = @{ @"call_agoraToken":@"call_agoraToken",@"call_agoraChannel":@"call_agoraChannel",@"call_agoraAppid":@"call_agoraAppid"};
+    options.extension =dic;
     [[HDClient sharedClient].agoraCallManager setCallOptions:options];
     //add local render view
     [self  addLocalSessionWithUid:options.uid];
@@ -207,7 +210,6 @@
 
 // 屏幕共享事件
 - (IBAction)shareDesktopBtnClicked:(UIButton *)btn {
-    btn.selected = !btn.selected;
     for (UIView *view in _broadPickerView.subviews)
     {
         if ([view isKindOfClass:[UIButton class]])
@@ -244,7 +246,6 @@
     [self.shareDeskTopBtn setHidden:btn.selected];
     [self.screenBtn setHidden:btn.selected];
     [self.offBtn setHidden:btn.selected];
-    
 }
 
 // 挂断事件
@@ -404,5 +405,69 @@
 - (void)hd_rtcEngine:(HDAgoraCallManager *)agoraCallManager didOccurError:(HDError *)error{
     
     NSLog(@"Occur error%d",error.code);
+}
+
+#pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。
+void NotificationCallback(CFNotificationCenterRef center,
+                                   void * observer,
+                                   CFStringRef name,
+                                   void const * object,
+                                   CFDictionaryRef userInfo) {
+    NSString *identifier = (__bridge NSString *)name;
+    NSObject *sender = (__bridge NSObject *)observer;
+    //NSDictionary *info = (__bridge NSDictionary *)userInfo;
+//    NSDictionary *info = CFBridgingRelease(userInfo);
+    NSDictionary *notiUserInfo = @{@"identifier":identifier};
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShareWindow
+                                                        object:sender
+                                                      userInfo:notiUserInfo];
+}
+- (void)addNotifications {
+    [self registerNotificationsWithIdentifier:@"broadcastStartedWithSetupInfo"];
+    [self registerNotificationsWithIdentifier:@"broadcastPaused"];
+    [self registerNotificationsWithIdentifier:@"broadcastResumed"];
+    [self registerNotificationsWithIdentifier:@"broadcastFinished"];
+    [self registerNotificationsWithIdentifier:@"processSampleBuffer"];
+    //这里同时注册了分发消息的通知，在宿主App中使用
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(NotificationAction:) name:kNotificationShareWindow object:nil];
+}
+
+- (void)registerNotificationsWithIdentifier:(nullable NSString *)identifier{
+    CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();
+    CFStringRef str = (__bridge CFStringRef)identifier;
+   
+    CFNotificationCenterAddObserver(center,
+                                    (__bridge const void *)(self),
+                                    NotificationCallback,
+                                    str,
+                                    NULL,
+                                    CFNotificationSuspensionBehaviorDeliverImmediately);
+}
+- (void)NotificationAction:(NSNotification *)noti {
+    NSDictionary *userInfo = noti.userInfo;
+    NSString *identifier = userInfo[@"identifier"];
+    
+    if ([identifier isEqualToString:@"broadcastStartedWithSetupInfo"]) {
+        
+        self.shareDeskTopBtn.selected =YES;
+        
+        NSLog(@"broadcastStartedWithSetupInfo");
+    }
+    if ([identifier isEqualToString:@"broadcastPaused"]) {
+        NSLog(@"broadcastPaused");
+    }
+    if ([identifier isEqualToString:@"broadcastResumed"]) {
+        NSLog(@"broadcastResumed");
+    }
+    if ([identifier isEqualToString:@"broadcastFinished"]) {
+        
+        //更改按钮的状态
+        self.shareDeskTopBtn.selected =NO;
+        
+        NSLog(@"broadcastFinished");
+    }
+    if ([identifier isEqualToString:@"processSampleBuffer"]) {
+        NSLog(@"processSampleBuffer");
+    }
 }
 @end

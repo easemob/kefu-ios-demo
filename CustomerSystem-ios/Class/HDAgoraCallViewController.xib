@@ -30,7 +30,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="gHf-bz-AGb" customClass="HDCallView">
+        <view contentMode="scaleToFill" id="gHf-bz-AGb">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -190,7 +190,6 @@
                                     </constraints>
                                     <state key="normal" image="on.png"/>
                                     <connections>
-                                        <action selector="anwersBtnClicked:" destination="gHf-bz-AGb" eventType="touchUpInside" id="5ov-cf-yWu"/>
                                         <action selector="anwersBtnClicked:" destination="-1" eventType="touchUpInside" id="IBf-q5-9bc"/>
                                     </connections>
                                 </button>

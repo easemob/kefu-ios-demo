@@ -25,6 +25,8 @@
 - (void)broadcastStartedWithSetupInfo:(NSDictionary<NSString *,NSObject *> *)setupInfo {
     // User has requested to start the broadcast. Setup info from the UI extension can be supplied but optional.
     
+    [self sendNotificationWithIdentifier:@"broadcastStartedWithSetupInfo" userInfo:setupInfo];
+    
     self.lastSendTs = [self getNowTime];
     if([[setupInfo allKeys] containsObject:@"channelName"]){
 
@@ -66,14 +68,17 @@
 
 - (void)broadcastPaused {
     // User has requested to pause the broadcast. Samples will stop being delivered.
+    [self sendNotificationWithIdentifier:@"broadcastPaused" userInfo:nil];
 }
 
 - (void)broadcastResumed {
     // User has requested to resume the broadcast. Samples delivery will resume.
+    [self sendNotificationWithIdentifier:@"broadcastResumed" userInfo:nil];
 }
 
 - (void)broadcastFinished {
     // User has requested to finish the broadcast.
+    [self sendNotificationWithIdentifier:@"broadcastFinished" userInfo:nil];
     
     if (self.timer) {
         [self.timer invalidate];
@@ -115,13 +120,12 @@
 }
 
 // 录屏直播 主App和宿主App数据共享，通信功能实现 如果我们要将开始、暂停、结束这些事件以消息的形式发送到宿主App中，需要使用CFNotificationCenterGetDarwinNotifyCenter。
-- (void)sendNotificationForMessageWithIdentifier:(nullable NSString *)identifier userInfo:(NSDictionary *)info {
+- (void)sendNotificationWithIdentifier:(nullable NSString *)identifier userInfo:(NSDictionary *)info {
     CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();
     CFDictionaryRef userInfo = (__bridge CFDictionaryRef)info;
     BOOL const deliverImmediately = YES;
     CFStringRef identifierRef = (__bridge CFStringRef)identifier;
     CFNotificationCenterPostNotification(center, identifierRef, NULL, userInfo, deliverImmediately);
 }
-
 
 @end
