@@ -491,13 +491,13 @@ typedef enum : NSUInteger {
             [[HDClient sharedClient].chatManager downloadAttachment:message progress:nil completion:completion];
         }
     }else if ([messageBody type] == EMMessageBodyTypeVideo) {
-        /* 目前后台没有提供缩略图，暂时不自动下载视频缩略图
+        /* 目前后台没有提供缩略图，暂时不自动下载视频缩略图*/
          EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
          if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
          //download the message thumbnail
-         [[HDClient sharedClient].chatManager downloadThumbnail:message progress:nil completion:completion];
+         [[HDClient sharedClient].chatManager hd_downloadThumbnail:message progress:nil completion:completion];
          }
-         */
+         
     }else if ([messageBody type] == EMMessageBodyTypeVoice)
     {
         EMVoiceMessageBody *voiceBody = (EMVoiceMessageBody*)messageBody;
