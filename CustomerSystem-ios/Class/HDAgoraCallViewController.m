@@ -350,7 +350,7 @@
 
 #pragma mark - Call
 // 成员加入回调
-- (void)onMemberJoin:(HDCallMember *)member {
+- (void)onMemberJoin:(HDAgoraCallMember *)member {
     // 有 member 加入，添加到datasource中。
     if (!self.callingView.isHidden) { // 只有在已经通话中的情况下，才回去在ui加入，否则都在接听时加入。
         @synchronized(_members){
@@ -372,7 +372,7 @@
 }
 
 // 成员离开回调
-- (void)onMemberExit:(HDCallMember *)member {
+- (void)onMemberExit:(HDAgoraCallMember *)member {
     // 有 member 离开，清理datasource
     // 如果移除的是当前显示的客服
     if (_currentItem.uid == [member.memberName integerValue]) {
