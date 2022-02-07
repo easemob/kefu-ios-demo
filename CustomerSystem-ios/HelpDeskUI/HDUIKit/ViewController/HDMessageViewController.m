@@ -495,7 +495,7 @@ typedef enum : NSUInteger {
          EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
          if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
          //download the message thumbnail
-         [[HDClient sharedClient].chatManager downloadThumbnail:message progress:nil completion:completion];
+         [[HDClient sharedClient].chatManager hd_downloadThumbnail:message progress:nil completion:completion];
          }
          
     }else if ([messageBody type] == EMMessageBodyTypeVoice)
