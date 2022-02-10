@@ -1409,7 +1409,22 @@ typedef enum : NSUInteger {
     for (HDMessage *message in aMessages) {
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             [_conversation markAllMessagesAsRead:nil];
-            [self addMessageToDataSource:message progress:nil];
+            //收到消息以后 判断 最新消息都时间 如果 是之前 的消息 进行排序。否则 走一下方法
+            HDMessageModel * lastMessageModel = [self.dataArray lastObject];
+            if (lastMessageModel &&[lastMessageModel isKindOfClass:[HDMessageModel class]]) {
+                if( lastMessageModel.message.messageTime - message.messageTime > 0){
+                    //lastMessageModel.message.messageTime 大
+                    [self  _loadMessagesBefore:nil count:self.messageCountOfPage append:YES];
+                           
+                }else{
+                    //message.messageTime 大
+                    [self addMessageToDataSource:message progress:nil];
+                }
+            }else{
+            
+                [self addMessageToDataSource:message progress:nil];
+                
+            }
         }
     }
 }
