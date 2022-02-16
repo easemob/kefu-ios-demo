@@ -54,7 +54,7 @@
 //    option.kefuRestServer = @"http://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"http://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
-//    option.isAgroaSdk = NO;
+    option.isAgroaSdk = NO;
     option.apnsCertName = apnsCertName;
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
     option.showAgentInputState = YES; // 是否显示坐席输入状态

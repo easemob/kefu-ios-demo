@@ -149,7 +149,7 @@
 
 }
 // 根据HDCallMember 创建cellItem
-- (HDCallViewCollectionViewCellItem *)createCallerWithMember2:(HDCallMember *)aMember {
+- (HDCallViewCollectionViewCellItem *)createCallerWithMember2:(HDAgoraCallMember *)aMember {
     UIView * remoteView = [[UIView alloc] init];
     HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:aMember.extension[@"avatarUrl"] defaultImage:[UIImage imageNamed:@"default_customer_avatar"] nickname:aMember.extension[@"nickname"]];
     item.uid = [aMember.memberName integerValue];
