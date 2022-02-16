@@ -16,6 +16,7 @@
 
 @interface HDCallViewCollectionViewCellItem : NSObject
 @property (nonatomic, strong) NSString *memberName; // Call中的属性，用于区分当前属于哪一个member
+@property (nonatomic, assign) NSInteger  uid; // Call中的属性，用于区分当前属于哪一个uid
 @property (nonatomic, strong) NSString *avatarUrl;
 @property (nonatomic, strong) UIImage *defaultImage;
 @property (nonatomic, strong) NSString *nickname;

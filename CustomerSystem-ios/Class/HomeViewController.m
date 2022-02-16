@@ -19,13 +19,13 @@
 #import "HConversationsViewController.h"
 
 #import "HDCallViewController.h"
-
+#import "HDAgoraCallViewController.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate, HDCallManagerDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate, HDCallManagerDelegate,HDAgoraCallManagerDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -62,7 +62,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [super viewWillAppear:animated ];
     [_conversationsVC refreshData];
     //测试理想打开
-//    [self testButton];
+    [self testButton];
 }
 
 - (void)viewDidLoad
@@ -71,6 +71,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
+    
+    // 用于添加语音呼入的监听 onCallReceivedNickName:
+    [HDClient.sharedClient.agoraCallManager addDelegate:self delegateQueue:nil];
     
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
@@ -139,7 +142,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     UIButton *testButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 17)];
     [testButton setBackgroundImage:[UIImage imageNamed:@"hd_chat_icon.png"] forState:UIControlStateNormal];
-    [testButton addTarget:self action:@selector(lxdemo) forControlEvents:UIControlEventTouchUpInside];
+    [testButton addTarget:self action:@selector(agorademo) forControlEvents:UIControlEventTouchUpInside];
     _testItem = [[UIBarButtonItem alloc] initWithCustomView:testButton];
     self.navigationItem.leftBarButtonItem = _testItem;
     
@@ -557,6 +560,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 #pragma mark - HDCallManagerDelegate
 - (void)onCallReceivedNickName:(NSString *)nickName {
+    
     HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithAgentName:nickName
                                                                               avatarStr:@"HelpDeskUIResource.bundle/user"
                                                                                nickName:[CSDemoAccountManager shareLoginManager].nickname];
@@ -566,26 +570,39 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:hdCallVC animated:YES completion:nil];
 }
-
-//理想汽车crash
-- (void)lxdemo{
+- (void)onAgoraCallReceivedNickName:(NSString *)nickName{
     
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        for (int i = 0; i < 10000; i++ ) {
-//
-//            [self lxLogout];
-//
-//            [self lxLogin];
-//
-//        }
-//    });
+        HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithAgentName:nickName
+                                                                                  avatarStr:@"HelpDeskUIResource.bundle/user"
+                                                                                   nickName:[CSDemoAccountManager shareLoginManager].nickname];
+        hdCallVC.hangUpCallback = ^(UIViewController *callVC, NSString *timeStr) {
+//            [callVC dismissViewControllerAnimated:YES completion:nil];
+        };
+        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:hdCallVC animated:YES completion:nil];
     
-    
-    
-        [self lxLogout];
-        [self lxLogin];
-
 }
+//声网
+- (void)agorademo{
+    [self lxLogout];
+          [self lxLogin];
+//    HDAgoraCallViewController * agoraVC = [[HDAgoraCallViewController alloc] init];
+//    [self.navigationController pushViewController:agoraVC animated:YES];
+
+    
+    
+}
+//理想汽车crash
+//- (void)lxdemo{
+//
+//
+//    /
+//
+//
+////        [self lxLogout];
+////        [self lxLogin];
+//
+//}
 
 //退出IM【测试】
 -(void)lxLogout{

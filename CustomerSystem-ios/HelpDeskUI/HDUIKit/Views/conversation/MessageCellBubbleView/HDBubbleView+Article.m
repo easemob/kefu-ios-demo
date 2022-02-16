@@ -35,6 +35,14 @@
             }else {
                 _imageUrl = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], picUrl];
             }
+        }else{
+            //返回的封面原图地址都一样 做个判断
+            NSString *thumbUrl = [dic objectForKey:@"thumbUrl"];
+            if (thumbUrl && [thumbUrl hasPrefix:@"http"]) {
+                _imageUrl = thumbUrl;
+            }else {
+                _imageUrl = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], thumbUrl];
+            }
         }
         
         NSString *detailUrl = [dic objectForKey:@"url"];

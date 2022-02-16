@@ -115,9 +115,12 @@
                 self.fileName = videoBody.displayName;
                 self.fileSize = videoBody.fileLength;
                 self.thumbnailFileURLPath = videoBody.thumbnailRemotePath;
-                
+                NSData *imageData = [NSData dataWithContentsOfFile:videoBody.thumbnailLocalPath];
+                if (imageData.length) {
+                    self.thumbnailImage = [UIImage imageWithData:imageData];
+                }
                 if (self.fileSize < 1024) {
-                    self.fileSizeDes = [NSString stringWithFormat:@"%.2fB", self.fileSize];
+                    self.fileSizeDes = [NSString    stringWithFormat:@"%.2fB", self.fileSize];
                 }
                 else if(self.fileSize < 1024 * 1024){
                     self.fileSizeDes = [NSString stringWithFormat:@"%.2fkB", self.fileSize / 1024];

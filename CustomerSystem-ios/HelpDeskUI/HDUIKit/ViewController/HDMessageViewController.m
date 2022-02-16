@@ -491,13 +491,13 @@ typedef enum : NSUInteger {
             [[HDClient sharedClient].chatManager downloadAttachment:message progress:nil completion:completion];
         }
     }else if ([messageBody type] == EMMessageBodyTypeVideo) {
-        /* 目前后台没有提供缩略图，暂时不自动下载视频缩略图
+        /* 目前后台没有提供缩略图，暂时不自动下载视频缩略图*/
          EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
          if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
          //download the message thumbnail
-         [[HDClient sharedClient].chatManager downloadThumbnail:message progress:nil completion:completion];
+         [[HDClient sharedClient].chatManager hd_downloadThumbnail:message progress:nil completion:completion];
          }
-         */
+         
     }else if ([messageBody type] == EMMessageBodyTypeVoice)
     {
         EMVoiceMessageBody *voiceBody = (EMVoiceMessageBody*)messageBody;
@@ -1409,7 +1409,22 @@ typedef enum : NSUInteger {
     for (HDMessage *message in aMessages) {
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             [_conversation markAllMessagesAsRead:nil];
-            [self addMessageToDataSource:message progress:nil];
+            //收到消息以后 判断 最新消息都时间 如果 是之前 的消息 进行排序。否则 走一下方法
+            HDMessageModel * lastMessageModel = [self.dataArray lastObject];
+            if (lastMessageModel &&[lastMessageModel isKindOfClass:[HDMessageModel class]]) {
+                if( lastMessageModel.message.messageTime - message.messageTime > 0){
+                    //lastMessageModel.message.messageTime 大
+                    [self  _loadMessagesBefore:nil count:self.messageCountOfPage append:YES];
+                           
+                }else{
+                    //message.messageTime 大
+                    [self addMessageToDataSource:message progress:nil];
+                }
+            }else{
+            
+                [self addMessageToDataSource:message progress:nil];
+                
+            }
         }
     }
 }
@@ -2087,11 +2102,10 @@ typedef enum : NSUInteger {
                     {
                         newModel = [[HDMessageModel alloc] initWithMessage:message];
                     }
-                    
-                    [self.tableView beginUpdates];
-                    [self.dataArray replaceObjectAtIndex:i withObject:newModel];
-                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                    [self.tableView endUpdates];
+                        [self.tableView beginUpdates];
+                        [self.dataArray replaceObjectAtIndex:i withObject:newModel];
+                        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                        [self.tableView endUpdates];
                     break;
                 }
             }
