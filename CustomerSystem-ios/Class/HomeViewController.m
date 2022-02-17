@@ -17,15 +17,13 @@
 #import "HDMessageViewController.h"
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
-
-#import "HDCallViewController.h"
 #import "HDAgoraCallViewController.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate, HDCallManagerDelegate,HDAgoraCallManagerDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate,HDAgoraCallManagerDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -68,9 +66,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // 用于添加语音呼入的监听 onCallReceivedNickName:
-    [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.agoraCallManager addDelegate:self delegateQueue:nil];
@@ -559,17 +554,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 
 #pragma mark - HDCallManagerDelegate
-- (void)onCallReceivedNickName:(NSString *)nickName {
-    
-    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithAgentName:nickName
-                                                                              avatarStr:@"HelpDeskUIResource.bundle/user"
-                                                                               nickName:[CSDemoAccountManager shareLoginManager].nickname];
-    hdCallVC.hangUpCallback = ^(UIViewController *callVC, NSString *timeStr) {
-        [callVC dismissViewControllerAnimated:YES completion:nil];
-    };
-    hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:hdCallVC animated:YES completion:nil];
-}
 - (void)onAgoraCallReceivedNickName:(NSString *)nickName{
     
         HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithAgentName:nickName

@@ -17,12 +17,12 @@
 //#import "EMSDK.h"
 
 #if __has_include(<HelpDesk/HelpDesk.h>)
-#import <Hyphenate/Hyphenate.h>
 #import <HelpDesk/HelpDesk.h>
 #else
-#import <HyphenateLite/HyphenateLite.h>
 #import <HelpDeskLite/HelpDeskLite.h>
 #endif
+
+#import <HyphenateChat/HyphenateChat.h>
 
 #define KNOTIFICATION_LOGINCHANGE @"loginStateChange"
 #define KNOTIFICATION_CALL @"callOutWithChatter"
