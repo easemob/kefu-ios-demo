@@ -18,6 +18,7 @@
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
 #import "HDAgoraCallViewController.h"
+#import "HDFastbordViewController.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
@@ -568,12 +569,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 //声网
 - (void)agorademo{
-    [self lxLogout];
-          [self lxLogin];
+//    [self lxLogout];
+//          [self lxLogin];
 //    HDAgoraCallViewController * agoraVC = [[HDAgoraCallViewController alloc] init];
 //    [self.navigationController pushViewController:agoraVC animated:YES];
 
-    
+    HDFastbordViewController * agoraVC = [[HDFastbordViewController alloc] init];
+        [self.navigationController pushViewController:agoraVC animated:YES];
     
 }
 //理想汽车crash

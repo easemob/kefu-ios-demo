@@ -68,6 +68,18 @@
 		90EE4C5523548CD200DEE8CA /* HRobotUnsolveItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */; };
 		930CFC5E27BD156100FFEA53 /* HyphenateChat.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */; };
 		930CFC5F27BD156100FFEA53 /* HyphenateChat.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		930CFC6C27BDF1EE00FFEA53 /* dsBridge.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6527BDEF1800FFEA53 /* dsBridge.xcframework */; };
+		930CFC6D27BDF1EE00FFEA53 /* dsBridge.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6527BDEF1800FFEA53 /* dsBridge.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		930CFC6E27BDF1F000FFEA53 /* Fastboard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6627BDEF1800FFEA53 /* Fastboard.xcframework */; };
+		930CFC6F27BDF1F000FFEA53 /* Fastboard.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6627BDEF1800FFEA53 /* Fastboard.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		930CFC7027BDF1F800FFEA53 /* Whiteboard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6427BDEF1800FFEA53 /* Whiteboard.xcframework */; };
+		930CFC7127BDF1F800FFEA53 /* Whiteboard.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6427BDEF1800FFEA53 /* Whiteboard.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		930CFC7227BDF1FA00FFEA53 /* YYModel.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6727BDEF1800FFEA53 /* YYModel.xcframework */; };
+		930CFC7327BDF1FA00FFEA53 /* YYModel.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6727BDEF1800FFEA53 /* YYModel.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		930CFC7927BDF32B00FFEA53 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 930CFC7627BDF32A00FFEA53 /* Utility.m */; };
+		930CFC7A27BDF32B00FFEA53 /* CustomFastboardOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 930CFC7727BDF32A00FFEA53 /* CustomFastboardOverlay.m */; };
+		930CFC7D27BDF33500FFEA53 /* RoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 930CFC7B27BDF33400FFEA53 /* RoomInfo.m */; };
+		930CFC8027BDF36700FFEA53 /* HDFastbordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930CFC7F27BDF36700FFEA53 /* HDFastbordViewController.m */; };
 		930E4D552796AC37007CFE50 /* AgoraAIDenoiseExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930E4D482796AC37007CFE50 /* AgoraAIDenoiseExtension.xcframework */; };
 		930E4D562796AC37007CFE50 /* AgoraAIDenoiseExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930E4D482796AC37007CFE50 /* AgoraAIDenoiseExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		930E4D572796AC37007CFE50 /* AgoraCIExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930E4D492796AC37007CFE50 /* AgoraCIExtension.xcframework */; };
@@ -159,7 +171,6 @@
 		93A00AEB276083F50050425C /* HDMJRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00AD6276083F50050425C /* HDMJRefreshHeader.m */; };
 		93A00AEC276083F50050425C /* HDMJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00AD7276083F50050425C /* HDMJRefreshAutoFooter.m */; };
 		93A00AEE276089CD0050425C /* HelpDesk.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93A00A4F2760780B0050425C /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		93D8EC6B279A647F0005E7AE /* HDCallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D8EC6A279A647F0005E7AE /* HDCallView.m */; };
 		93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E79304277C67BB0019FD80 /* Bugly.framework */; };
 		93EB33EE278C17A0002AB1ED /* HDAgoraCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
@@ -518,10 +529,14 @@
 			files = (
 				930E4D562796AC37007CFE50 /* AgoraAIDenoiseExtension.xcframework in Embed Frameworks */,
 				930E4D602796AC37007CFE50 /* Agorafdkaac.xcframework in Embed Frameworks */,
+				930CFC6F27BDF1F000FFEA53 /* Fastboard.xcframework in Embed Frameworks */,
+				930CFC7327BDF1FA00FFEA53 /* YYModel.xcframework in Embed Frameworks */,
 				930E4D5E2796AC37007CFE50 /* AgoraFDExtension.xcframework in Embed Frameworks */,
+				930CFC6D27BDF1EE00FFEA53 /* dsBridge.xcframework in Embed Frameworks */,
 				930E4D682796AC37007CFE50 /* AgoraSoundTouch.xcframework in Embed Frameworks */,
 				930E4D582796AC37007CFE50 /* AgoraCIExtension.xcframework in Embed Frameworks */,
 				930E4D642796AC37007CFE50 /* AgoraJNDExtension.xcframework in Embed Frameworks */,
+				930CFC7127BDF1F800FFEA53 /* Whiteboard.xcframework in Embed Frameworks */,
 				930E4D622796AC37007CFE50 /* Agoraffmpeg.xcframework in Embed Frameworks */,
 				930E4D662796AC37007CFE50 /* AgoraRtcKit.xcframework in Embed Frameworks */,
 				930E4D5C2796AC37007CFE50 /* AgoraDav1dExtension.xcframework in Embed Frameworks */,
@@ -634,6 +649,18 @@
 		90EE4C5323548CD200DEE8CA /* HRobotUnsolveItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HRobotUnsolveItemView.h; sourceTree = "<group>"; };
 		90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HRobotUnsolveItemView.m; sourceTree = "<group>"; };
 		930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = HyphenateChat.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/imsdk/HyphenateChat.xcframework"; sourceTree = "<group>"; };
+		930CFC6427BDEF1800FFEA53 /* Whiteboard.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Whiteboard.xcframework; sourceTree = "<group>"; };
+		930CFC6527BDEF1800FFEA53 /* dsBridge.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = dsBridge.xcframework; sourceTree = "<group>"; };
+		930CFC6627BDEF1800FFEA53 /* Fastboard.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Fastboard.xcframework; sourceTree = "<group>"; };
+		930CFC6727BDEF1800FFEA53 /* YYModel.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = YYModel.xcframework; sourceTree = "<group>"; };
+		930CFC7527BDF32A00FFEA53 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		930CFC7627BDF32A00FFEA53 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
+		930CFC7727BDF32A00FFEA53 /* CustomFastboardOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomFastboardOverlay.m; sourceTree = "<group>"; };
+		930CFC7827BDF32B00FFEA53 /* CustomFastboardOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomFastboardOverlay.h; sourceTree = "<group>"; };
+		930CFC7B27BDF33400FFEA53 /* RoomInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomInfo.m; sourceTree = "<group>"; };
+		930CFC7C27BDF33400FFEA53 /* RoomInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomInfo.h; sourceTree = "<group>"; };
+		930CFC7E27BDF36700FFEA53 /* HDFastbordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDFastbordViewController.h; sourceTree = "<group>"; };
+		930CFC7F27BDF36700FFEA53 /* HDFastbordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDFastbordViewController.m; sourceTree = "<group>"; };
 		930E4D482796AC37007CFE50 /* AgoraAIDenoiseExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraAIDenoiseExtension.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/libs/AgoraAIDenoiseExtension.xcframework"; sourceTree = "<group>"; };
 		930E4D492796AC37007CFE50 /* AgoraCIExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraCIExtension.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/libs/AgoraCIExtension.xcframework"; sourceTree = "<group>"; };
 		930E4D4A2796AC37007CFE50 /* AgoraCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraCore.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/libs/AgoraCore.xcframework"; sourceTree = "<group>"; };
@@ -770,8 +797,6 @@
 		93A00AD5276083F50050425C /* HDMJRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshFooter.m; sourceTree = "<group>"; };
 		93A00AD6276083F50050425C /* HDMJRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshHeader.m; sourceTree = "<group>"; };
 		93A00AD7276083F50050425C /* HDMJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshAutoFooter.m; sourceTree = "<group>"; };
-		93D8EC69279A647F0005E7AE /* HDCallView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCallView.h; sourceTree = "<group>"; };
-		93D8EC6A279A647F0005E7AE /* HDCallView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDCallView.m; sourceTree = "<group>"; };
 		93E792F9277ADA290019FD80 /* CustomerSystem-iosRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-iosRelease.entitlements"; sourceTree = "<group>"; };
 		93E79300277C0A430019FD80 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		93E79301277C0A430019FD80 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -1288,6 +1313,7 @@
 			files = (
 				930E4D692796AC37007CFE50 /* AgoraSuperResolutionExtension.xcframework in Frameworks */,
 				93A00A502760780B0050425C /* HelpDesk.framework in Frameworks */,
+				930CFC6E27BDF1F000FFEA53 /* Fastboard.xcframework in Frameworks */,
 				930E4D5F2796AC37007CFE50 /* Agorafdkaac.xcframework in Frameworks */,
 				D378E6061F5669A400E3AB74 /* Security.framework in Frameworks */,
 				930E4D552796AC37007CFE50 /* AgoraAIDenoiseExtension.xcframework in Frameworks */,
@@ -1298,13 +1324,16 @@
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
 				930E4D6D2796AC38007CFE50 /* AgoraVideoSegmentationExtension.xcframework in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
+				930CFC7227BDF1FA00FFEA53 /* YYModel.xcframework in Frameworks */,
 				EB62E44D1A8E2D9300705655 /* CFNetwork.framework in Frameworks */,
+				930CFC6C27BDF1EE00FFEA53 /* dsBridge.xcframework in Frameworks */,
 				930E4D572796AC37007CFE50 /* AgoraCIExtension.xcframework in Frameworks */,
 				930E4D5D2796AC37007CFE50 /* AgoraFDExtension.xcframework in Frameworks */,
 				930E4D632796AC37007CFE50 /* AgoraJNDExtension.xcframework in Frameworks */,
 				D3AA4B251ED45B7300B5C509 /* hdlibopencore-amrnb.a in Frameworks */,
 				EB62E44B1A8E2D8D00705655 /* AddressBook.framework in Frameworks */,
 				930E4D652796AC37007CFE50 /* AgoraRtcKit.xcframework in Frameworks */,
+				930CFC7027BDF1F800FFEA53 /* Whiteboard.xcframework in Frameworks */,
 				930E4D672796AC37007CFE50 /* AgoraSoundTouch.xcframework in Frameworks */,
 				930E4D592796AC37007CFE50 /* AgoraCore.xcframework in Frameworks */,
 				EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */,
@@ -1344,9 +1373,13 @@
 		9086150920B43A54002E71DA /* Call */ = {
 			isa = PBXGroup;
 			children = (
+				930CFC7427BDF2F300FFEA53 /* Fastboard */,
 				9086150F20B43A54002E71DA /* HDCallViewCollectionViewCell.xib */,
 				9086150A20B43A54002E71DA /* HDCallViewCollectionViewCell.h */,
 				9086150D20B43A54002E71DA /* HDCallViewCollectionViewCell.m */,
+				937D74B427853E500022B707 /* HDAgoraCallViewController.h */,
+				937D74B527853E500022B707 /* HDAgoraCallViewController.m */,
+				93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */,
 				9086151020B43A54002E71DA /* HCallResources */,
 			);
 			name = Call;
@@ -1397,6 +1430,7 @@
 		9094F1CA21E83C8C00037601 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				930CFC6327BDEF1800FFEA53 /* Build */,
 				9042C2522514A1A000DC5BE1 /* AFNetworking */,
 				9094F1F121E83C8C00037601 /* SlimeRefresh */,
 			);
@@ -1424,6 +1458,32 @@
 				90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */,
 			);
 			path = RobotUnsolveItemView;
+			sourceTree = "<group>";
+		};
+		930CFC6327BDEF1800FFEA53 /* Build */ = {
+			isa = PBXGroup;
+			children = (
+				930CFC6427BDEF1800FFEA53 /* Whiteboard.xcframework */,
+				930CFC6527BDEF1800FFEA53 /* dsBridge.xcframework */,
+				930CFC6627BDEF1800FFEA53 /* Fastboard.xcframework */,
+				930CFC6727BDEF1800FFEA53 /* YYModel.xcframework */,
+			);
+			path = Build;
+			sourceTree = "<group>";
+		};
+		930CFC7427BDF2F300FFEA53 /* Fastboard */ = {
+			isa = PBXGroup;
+			children = (
+				930CFC7C27BDF33400FFEA53 /* RoomInfo.h */,
+				930CFC7B27BDF33400FFEA53 /* RoomInfo.m */,
+				930CFC7827BDF32B00FFEA53 /* CustomFastboardOverlay.h */,
+				930CFC7727BDF32A00FFEA53 /* CustomFastboardOverlay.m */,
+				930CFC7527BDF32A00FFEA53 /* Utility.h */,
+				930CFC7627BDF32A00FFEA53 /* Utility.m */,
+				930CFC7E27BDF36700FFEA53 /* HDFastbordViewController.h */,
+				930CFC7F27BDF36700FFEA53 /* HDFastbordViewController.m */,
+			);
+			path = Fastboard;
 			sourceTree = "<group>";
 		};
 		93767A1727951CA80079A60F /* CustomerSystem-ScreenShare-Extension */ = {
@@ -1454,18 +1514,6 @@
 				93767A2727951CA80079A60F /* Info.plist */,
 			);
 			path = "CustomerSystem-ScreenShare-ExtensionSetupUI";
-			sourceTree = "<group>";
-		};
-		937D74B327853E220022B707 /* Agora */ = {
-			isa = PBXGroup;
-			children = (
-				937D74B427853E500022B707 /* HDAgoraCallViewController.h */,
-				937D74B527853E500022B707 /* HDAgoraCallViewController.m */,
-				93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */,
-				93D8EC69279A647F0005E7AE /* HDCallView.h */,
-				93D8EC6A279A647F0005E7AE /* HDCallView.m */,
-			);
-			name = Agora;
 			sourceTree = "<group>";
 		};
 		93A00A5127607A850050425C /* HDMasonry */ = {
@@ -2730,7 +2778,6 @@
 		EB62E2981A8DDA4800705655 /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				937D74B327853E220022B707 /* Agora */,
 				D35579581EE948BF00F6B54E /* ConversationList */,
 				D3D1BB461DE84891004B3557 /* Category */,
 				D3D1BB1C1DE83D38004B3557 /* LeaveMsg */,
@@ -3167,6 +3214,7 @@
 				D3CB648F1E4888F30022A6BA /* NSString+HDValid.m in Sources */,
 				D34D6CEA1DEC08CA0099EE23 /* LeaveMsgDetailHeaderView.m in Sources */,
 				D3CB64691E4888F30022A6BA /* MWTapDetectingView.m in Sources */,
+				930CFC8027BDF36700FFEA53 /* HDFastbordViewController.m in Sources */,
 				9078071B2087584700ED9324 /* HDMicView.m in Sources */,
 				D3CB64671E4888F30022A6BA /* MWPhotoBrowser.m in Sources */,
 				93A00AE2276083F50050425C /* HDMJRefreshAutoNormalFooter.m in Sources */,
@@ -3194,6 +3242,7 @@
 				D29E09F91F4ECE5A0089506D /* HEvaluationTagView.m in Sources */,
 				D3D87C141F3847C300FB7C84 /* HArticleWebViewController.m in Sources */,
 				D3CB64A41E4888F30022A6BA /* HDBubbleView+File.m in Sources */,
+				930CFC7D27BDF33500FFEA53 /* RoomInfo.m in Sources */,
 				93A00A9B276083BA0050425C /* HDSDImageCache.m in Sources */,
 				93A00A9D276083BA0050425C /* UIImage+HDGIF.m in Sources */,
 				D34D6CED1DEC12850099EE23 /* LeaveMsgAttatchmentView.m in Sources */,
@@ -3204,6 +3253,7 @@
 				D34D6D7E1DEC1C510099EE23 /* LeaseMsgReplyController.m in Sources */,
 				D2769D231B9041DA003D9E3D /* MoreChoiceView.m in Sources */,
 				D3CB648A1E4888F30022A6BA /* HDSDKHelper.m in Sources */,
+				930CFC7A27BDF32B00FFEA53 /* CustomFastboardOverlay.m in Sources */,
 				93A00A6E27607A860050425C /* View+HDMASAdditions.m in Sources */,
 				93A00ADB276083F50050425C /* UIScrollView+HDMJExtension.m in Sources */,
 				93A00A9C276083BA0050425C /* UIImageView+HDHighlightedWebCache.m in Sources */,
@@ -3255,7 +3305,6 @@
 				D3D1BB451DE84862004B3557 /* LeaveMsgCell.m in Sources */,
 				93A00AE8276083F50050425C /* HDMJRefreshBackFooter.m in Sources */,
 				93A00A6F27607A860050425C /* HDMASConstraint.m in Sources */,
-				93D8EC6B279A647F0005E7AE /* HDCallView.m in Sources */,
 				D3CB64A91E4888F30022A6BA /* HDBubbleView+RobotMenu.m in Sources */,
 				D3CB64981E4888F30022A6BA /* HDChineseToPinyin.m in Sources */,
 				D3D1BB261DE83D6B004B3557 /* LeaveMsgDetailViewController.m in Sources */,
@@ -3283,6 +3332,7 @@
 				D3CB649C1E4888F30022A6BA /* HDMessageViewController.m in Sources */,
 				D298641D1EE3A89700AF4A4C /* LeaveMessageCell.m in Sources */,
 				D3CB64801E4888F30022A6BA /* PSTCollectionViewData.m in Sources */,
+				930CFC7927BDF32B00FFEA53 /* Utility.m in Sources */,
 				D33946F21E54381B009370BF /* UIView+FLExtension.m in Sources */,
 				93A00ADE276083F50050425C /* HDMJRefreshBackGifFooter.m in Sources */,
 				D3CB64AD1E4888F30022A6BA /* HDBubbleView+Video.m in Sources */,
