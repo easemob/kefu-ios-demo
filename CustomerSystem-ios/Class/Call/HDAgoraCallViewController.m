@@ -19,8 +19,6 @@
     NSTimer *_timer;
     NSInteger _time;
     HDCallViewCollectionViewCellItem *_currentItem;
-    NSUInteger _localUid;
-    
 }
 @property (nonatomic, strong) NSString *agentName;
 @property (nonatomic, strong) NSString *avatarStr;
@@ -79,7 +77,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _localUid= 12344;
+
     // 监听屏幕旋转
     [[NSNotificationCenter defaultCenter] addObserver:self
                                             selector:@selector(handleStatusBarOrientationChange)
@@ -111,13 +109,9 @@
     HDAgoraCallOptions *options = [[HDAgoraCallOptions alloc] init];
     options.videoOff = NO; // 这个值要和按钮状态统一。
     options.mute = NO; // 这个值要和按钮状态统一。
-    options.shareUid = 1234; //屏幕分享uid 不设置 走默认
-    options.uid = _localUid; // 不设置 走随机 uid 最好设置用户自己登陆后的uid
-    NSDictionary * dic = @{ @"call_agoraToken":@"call_agoraToken",@"call_agoraChannel":@"call_agoraChannel",@"call_agoraAppid":@"call_agoraAppid"};
-    options.extension =dic;
     [[HDClient sharedClient].agoraCallManager setCallOptions:options];
     //add local render view
-    [self  addLocalSessionWithUid:options.uid];
+    [self  addLocalSessionWithUid:0];//本地用户的id demo 切换的时候 有根据uid 判断 传入的时候尽量避免跟我们远端用户穿过来的相
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     // 添加监听
     [HDClient.sharedClient.agoraCallManager addDelegate:self delegateQueue:nil];
