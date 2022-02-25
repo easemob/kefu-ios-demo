@@ -5,11 +5,11 @@
 //  Copyright (c) 2013 itcast. All rights reserved.
 //
 
-#import "HDMBProgressHUD.h"
+#import "MBProgressHUD.h"
 
-@interface HDMBProgressHUD (Add)
+@interface MBProgressHUD (Add)
 + (void)showError:(NSString *)error toView:(UIView *)view;
 + (void)showSuccess:(NSString *)success toView:(UIView *)view;
 
-+ (HDMBProgressHUD *)showMessag:(NSString *)message toView:(UIView *)view;
++ (MBProgressHUD *)showMessag:(NSString *)message toView:(UIView *)view;
 @end

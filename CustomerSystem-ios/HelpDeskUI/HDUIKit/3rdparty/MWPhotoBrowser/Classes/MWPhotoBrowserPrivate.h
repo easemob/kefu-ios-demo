@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HDMBProgressHUD.h"
+#import "MBProgressHUD.h"
 #import "MWGridViewController.h"
 #import "MWZoomingScrollView.h"
 
@@ -34,7 +34,7 @@
 	UIToolbar *_toolbar;
 	NSTimer *_controlVisibilityTimer;
 	UIBarButtonItem *_previousButton, *_nextButton, *_actionButton, *_doneButton;
-    HDMBProgressHUD *_progressHUD;
+    MBProgressHUD *_progressHUD;
     UIActionSheet *_actionsSheet;
     
     // Grid

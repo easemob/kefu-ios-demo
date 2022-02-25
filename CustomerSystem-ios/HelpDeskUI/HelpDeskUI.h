@@ -50,7 +50,6 @@
 
 #define HDMAS_SHORTHAND_GLOBALS
 #import "HDMasonry.h"
-
 //Ext keyWord
 #define kMessageExtWeChat @"weichat"
 #define kMessageExtWeChat_ctrlType @"ctrlType"

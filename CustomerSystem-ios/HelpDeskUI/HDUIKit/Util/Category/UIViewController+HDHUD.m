@@ -12,85 +12,87 @@
 
 #import "UIViewController+HDHUD.h"
 
-#import "HDMBProgressHUD.h"
+#import "MBProgressHUD.h"
 #import <objc/runtime.h>
 
 static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
 
 @implementation UIViewController (HDHUD)
 
-- (HDMBProgressHUD *)HUD{
+- (MBProgressHUD *)HUD{
     return objc_getAssociatedObject(self, HttpRequestHUDKey);
 }
 
-- (void)setHUD:(HDMBProgressHUD *)HUD{
+- (void)setHUD:(MBProgressHUD *)HUD{
     objc_setAssociatedObject(self, HttpRequestHUDKey, HUD, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)showHudInView:(UIView *)view duration:(NSTimeInterval)duration {
-    HDMBProgressHUD *HUD = [[HDMBProgressHUD alloc] initWithView:view];
-    HUD.labelText = @"";
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
+    HUD.label.text = @"";
     [view addSubview:HUD];
-    [HUD show:YES];
-    [HUD hide:YES afterDelay:duration];
+    [HUD showAnimated:YES];
+    [HUD hideAnimated:YES afterDelay:duration];
     [self setHUD:HUD];
 }
 
 - (void)showHudInView:(UIView *)view hint:(NSString *)hint{
-    HDMBProgressHUD *HUD = [[HDMBProgressHUD alloc] initWithView:view];
-    HUD.labelText = hint;
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
+    HUD.label.text  = hint;
     [view addSubview:HUD];
-    [HUD show:YES];
+    [HUD showAnimated:YES];
     [self setHUD:HUD];
 }
 
 - (void)showHint:(NSString *)hint
 {
     UIView *view = [[UIApplication sharedApplication].delegate window];
-    HDMBProgressHUD *hud = [HDMBProgressHUD showHUDAddedTo:view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.userInteractionEnabled = NO;
     // Configure for text only and offset down
-    hud.mode = HDMBProgressHUDModeText;
-    hud.labelText = hint;
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = hint;
     hud.margin = 10.f;
-    hud.yOffset = 180;
+    hud.offset = CGPointMake(0, 180);
     hud.removeFromSuperViewOnHide = YES;
-    [hud hide:YES afterDelay:2];
+    [hud hideAnimated:YES afterDelay:2];
 }
 
 - (void)showHint:(NSString *)hint duration:(NSTimeInterval)duration
 {
     [self hideHud];
     UIView *view = [[UIApplication sharedApplication].delegate window];
-    HDMBProgressHUD *hud = [HDMBProgressHUD showHUDAddedTo:view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.userInteractionEnabled = NO;
     // Configure for text only and offset down
-    hud.mode = HDMBProgressHUDModeText;
-    hud.labelText = hint;
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = hint;
     hud.margin = 10.f;
-    hud.yOffset = 180;
+    hud.offset = CGPointMake(0, 180);
     hud.removeFromSuperViewOnHide = YES;
-    [hud hide:YES afterDelay:duration];
+    [hud hideAnimated:YES afterDelay:duration];
 }
 
 
 - (void)showHint:(NSString *)hint yOffset:(float)yOffset
 {
     UIView *view = [[UIApplication sharedApplication].delegate window];
-    HDMBProgressHUD *hud = [HDMBProgressHUD showHUDAddedTo:view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.userInteractionEnabled = NO;
     // Configure for text only and offset down
-    hud.mode = HDMBProgressHUDModeText;
-    hud.labelText = hint;
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = hint;
     hud.margin = 10.f;
-    hud.yOffset = 180;
-    hud.yOffset += yOffset;
+    hud.offset = CGPointMake(0, 180);
+    CGFloat y =hud.offset.y;
+    y += y;
+    hud.offset = CGPointMake(0, y);
     hud.removeFromSuperViewOnHide = YES;
-    [hud hide:YES afterDelay:2];
+    [hud hideAnimated:YES afterDelay:2];
 }
 
 - (void)hideHud{
-    [[self HUD] hide:YES];
+    [[self HUD] hideAnimated:YES];
 }
 
 @end

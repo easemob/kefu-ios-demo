@@ -5,22 +5,22 @@
 //  Copyright (c) 2013年 itcast. All rights reserved.
 //
 
-#import "HDMBProgressHUD+Add.h"
+#import "MBProgressHUD+Add.h"
 
-@implementation HDMBProgressHUD (Add)
+@implementation MBProgressHUD (Add)
 
 + (void)show:(NSString *)text icon:(NSString *)icon view:(UIView *)view
 {
     if (view == nil) view = [UIApplication sharedApplication].keyWindow;
    
-    HDMBProgressHUD *hud = [HDMBProgressHUD showHUDAddedTo:view animated:YES];
-    hud.labelText = text;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.label.text = text;
     hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"HDMBProgressHUD.bundle/%@", icon]]];
-    hud.mode = HDMBProgressHUDModeCustomView;
+    hud.mode = MBProgressHUDModeCustomView;
     
     hud.removeFromSuperViewOnHide = YES;
     
-    [hud hide:YES afterDelay:0.7];
+    [hud hideAnimated:YES afterDelay:0.7];
 }
 
 + (void)showError:(NSString *)error toView:(UIView *)view{
@@ -32,12 +32,11 @@
     [self show:success icon:@"success.png" view:view];
 }
 
-+ (HDMBProgressHUD *)showMessag:(NSString *)message toView:(UIView *)view {
++ (MBProgressHUD *)showMessag:(NSString *)message toView:(UIView *)view {
     if (view == nil) view = [UIApplication sharedApplication].keyWindow;
-    HDMBProgressHUD *hud = [HDMBProgressHUD showHUDAddedTo:view animated:YES];
-    hud.labelText = message;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.label.text = message;
     hud.removeFromSuperViewOnHide = YES;
-    hud.dimBackground = YES;
     return hud;
 }
 @end
