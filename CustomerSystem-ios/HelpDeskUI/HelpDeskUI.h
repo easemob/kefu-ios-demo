@@ -46,7 +46,7 @@
 #import "UIViewController+DismissKeyboard.h"
 #import "UIResponder+HRouter.h"
 #import "HDLocalDefine.h"
-
+#import "HDSDWebImageManager.h"
 
 #define HDMAS_SHORTHAND_GLOBALS
 #import "HDMasonry.h"

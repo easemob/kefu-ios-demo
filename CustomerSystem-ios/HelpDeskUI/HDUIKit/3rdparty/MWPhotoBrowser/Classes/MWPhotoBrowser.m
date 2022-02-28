@@ -10,7 +10,7 @@
 #import "MWCommon.h"
 #import "MWPhotoBrowser.h"
 #import "MWPhotoBrowserPrivate.h"
-#import "HDSDImageCache.h"
+//#import "HDSDImageCache.h"
 #import "HDLocalDefine.h"
 
 #define PADDING                  10
@@ -98,7 +98,9 @@
     _pagingScrollView.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self releaseAllUnderlyingPhotos:NO];
-    [[HDSDImageCache sharedImageCache] clearMemory]; // clear memory
+//    [[HDSDImageCache sharedImageCache] clearMemory]; // clear memory
+    //替换封装的第三方 方便以后升级
+    [[HDSDWebImageManager shareInstance] clearMemory];
 }
 
 - (void)releaseAllUnderlyingPhotos:(BOOL)preserveCurrent {
