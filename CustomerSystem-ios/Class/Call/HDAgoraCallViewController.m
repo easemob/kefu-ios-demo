@@ -19,6 +19,7 @@
     NSTimer *_timer;
     NSInteger _time;
     HDCallViewCollectionViewCellItem *_currentItem;
+    BOOL isCalling; //是否正在通话
 }
 @property (nonatomic, strong) NSString *agentName;
 @property (nonatomic, strong) NSString *avatarStr;
@@ -245,6 +246,7 @@
 // 挂断事件
 - (IBAction)offBtnClicked:(id)sender
 {
+    isCalling = NO;
     //挂断和拒接 都走这个
     [[HDClient sharedClient].agoraCallManager endCall];
     [self stopTimer];
@@ -270,6 +272,7 @@
         if (error == nil){
              [weakSelf.timeLabel setHidden:NO];
              [weakSelf startTimer];
+            isCalling = YES;
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                  AVAudioSession *audioSession = [AVAudioSession sharedInstance];
                  [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord  withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
