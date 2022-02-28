@@ -48,7 +48,6 @@
 #import "HDLocalDefine.h"
 #import "HDSDWebImageManager.h"
 
-#define HDMAS_SHORTHAND_GLOBALS
 #import "HDMasonry.h"
 //Ext keyWord
 #define kMessageExtWeChat @"weichat"

@@ -47,14 +47,14 @@
 - (void)onDirection {
     if (FastboardView.appearance.operationBarDirection == OperationBarDirectionLeft) {
         FastboardView.appearance.operationBarDirection = OperationBarDirectionRight;
-        [self.stackView hdmas_remakeConstraints:^(HDMASConstraintMaker *make) {
+        [self.stackView hdmas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.view).inset(10);
             make.left.equalTo(self.view).inset(88);
             make.width.equalTo(@120);
         }];
     } else {
         FastboardView.appearance.operationBarDirection = OperationBarDirectionLeft;
-        [self.stackView hdmas_remakeConstraints:^(HDMASConstraintMaker *make) {
+        [self.stackView hdmas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.view).inset(10);
             make.right.equalTo(self.view).inset(88);
             make.width.equalTo(@120);
@@ -176,22 +176,22 @@
     NSObject<FastboardOverlay>* overlay = _fastboard.view.overlay;
     if ([overlay isKindOfClass:[RegularFastboardOverlay class]]) {
         RegularFastboardOverlay* regular = overlay;
-        [regular.operationPanel.view hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+        [regular.operationPanel.view hdmas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(regular.operationPanel.view.superview).inset(20);
             make.centerY.equalTo(regular.operationPanel.view.superview);
         }];
         
-        [regular.deleteSelectionPanel.view hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+        [regular.deleteSelectionPanel.view hdmas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(regular.operationPanel.view);
             make.bottom.equalTo(regular.operationPanel.view.mas_top).offset(-8);
         }];
         
-        [regular.undoRedoPanel.view hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+        [regular.undoRedoPanel.view hdmas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(regular.undoRedoPanel.view.superview).inset(20);
             make.bottom.equalTo(_fastboard.view.whiteboardView);
         }];
         
-        [regular.scenePanel.view hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+        [regular.scenePanel.view hdmas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(_fastboard.view.whiteboardView);
             make.centerX.equalTo(regular.scenePanel.view.superview);
         }];
@@ -199,25 +199,25 @@
     
     if ([overlay isKindOfClass:[CompactFastboardOverlay class]]) {
         CompactFastboardOverlay* compact = overlay;
-        [compact.operationPanel.view hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+        [compact.operationPanel.view hdmas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_fastboard.view.whiteboardView);
             make.centerY.equalTo(@0);
         }];
         
-        [compact.colorAndStrokePanel.view hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+        [compact.colorAndStrokePanel.view hdmas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_fastboard.view.whiteboardView);
             make.bottom.equalTo(compact.operationPanel.view.mas_top).offset(-8);
         }];
         
-        [compact.deleteSelectionPanel.view hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+        [compact.deleteSelectionPanel.view hdmas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(compact.colorAndStrokePanel.view);
         }];
         
-        [compact.undoRedoPanel.view hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
-            make.left.hdbottom.equalTo(_fastboard.view.whiteboardView);
+        [compact.undoRedoPanel.view hdmas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.bottom.equalTo(_fastboard.view.whiteboardView);
         }];
         
-        [compact.scenePanel.view hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+        [compact.scenePanel.view hdmas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(@0);
             make.bottom.equalTo(_fastboard.view.whiteboardView);
         }];
@@ -256,7 +256,7 @@
     [self.view addSubview:self.stackView];
     self.stackView.axis = UILayoutConstraintAxisVertical;
     self.stackView.distribution = UIStackViewDistributionFillEqually;
-    [self.stackView hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+    [self.stackView hdmas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).inset(10);
         make.right.equalTo(self.view).inset(88);
         make.width.equalTo(@120);

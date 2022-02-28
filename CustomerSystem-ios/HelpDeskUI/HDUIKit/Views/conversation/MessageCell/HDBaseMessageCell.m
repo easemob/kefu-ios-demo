@@ -124,7 +124,7 @@
             
             CGFloat margin = [HDMessageCell appearance].leftBubbleMargin.left + [HDMessageCell appearance].leftBubbleMargin.right;
             
-            [self.bubbleView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+            [self.bubbleView hdmas_updateConstraints:^(MASConstraintMaker *make) {
                 make.width.equalTo(retSize.width + margin);
             }];
         }
@@ -165,7 +165,7 @@
 
 - (void)configArticleConstraints {
     //bubble view
-    [self.bubbleView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.bubbleView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).offset(HDMessageCellPadding);
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-HDMessageCellPadding);
         make.centerX.equalTo(self.contentView.mas_centerX).offset(0);
@@ -175,52 +175,52 @@
 
 - (void)configureSendLayoutConstraints
 {
-    [self.avatarView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.avatarView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).offset(HDMessageCellPadding);
         make.right.equalTo(self.contentView.mas_right).offset(-HDMessageCellPadding);
         make.width.equalTo(self.avatarSize);
         make.height.equalTo(self.avatarView.mas_width);
     }];
 
-    [self.nameLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.nameLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).offset(0);
         make.right.equalTo(self.avatarView.mas_left).offset(-HDMessageCellPadding);
         make.height.equalTo(self.messageNameHeight);
     }];
     
-    [self.bubbleView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.bubbleView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.avatarView.mas_left).offset(-HDMessageCellPadding);
         make.top.equalTo(self.nameLabel.mas_bottom).offset(0);
     }];
     
-    [self.statusButton hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.statusButton hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.bubbleView.mas_left).offset(-HDMessageCellPadding);
     }];
     
-    [self.activity hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.activity hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.bubbleView.mas_left).offset(-HDMessageCellPadding);
     }];
     
-    [self.hasRead hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.hasRead hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.bubbleView.mas_left).offset(-HDMessageCellPadding);
     }];
 }
 
 - (void)configureRecvLayoutConstraints
 {
-    [self.avatarView hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+    [self.avatarView hdmas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).offset(HDMessageCellPadding);
         make.left.equalTo(self.contentView.mas_left).offset(HDMessageCellPadding);
         make.width.equalTo(self.avatarSize);
         make.height.equalTo(self.avatarView.mas_width);
     }];
     
-    [self.nameLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.nameLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).offset(0);
         make.left.equalTo(self.avatarView.mas_right).offset(HDMessageCellPadding);
         make.height.equalTo(self.messageNameHeight);
     }];
-    [self.bubbleView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.bubbleView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarView.mas_right).offset(HDMessageCellPadding);
         make.top.equalTo(self.nameLabel.mas_bottom).offset(0);
     }];
@@ -231,7 +231,7 @@
 - (void)_updateAvatarViewWidthConstraint
 {
     if (self.avatarView) {
-        [self.avatarView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+        [self.avatarView hdmas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(self.avatarSize);
         }];
     }
@@ -240,7 +240,7 @@
 - (void)_updateNameHeightConstraint
 {
     if (_nameLabel) {
-        [self.nameLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+        [self.nameLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(self.messageNameHeight);
         }];
     }

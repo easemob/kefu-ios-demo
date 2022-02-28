@@ -309,20 +309,20 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 
 - (void)_setupConstraints
 {
-    [self.bubbleView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.bubbleView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-HDMessageCellPadding);
         if (self.bubbleMaxWidth > 0) {
             make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
         }
     }];
 
-    [self.statusButton hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.statusButton hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(self.statusSize);
         make.height.equalTo(self.statusButton.mas_width);
         make.centerY.equalTo(self.contentView.mas_centerY).offset(0);
     }];
     
-    [self.activity hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.activity hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(self.activitySize);
         make.width.equalTo(self.activity.mas_height);
         make.centerY.equalTo(self.contentView.mas_centerY).offset(0);
@@ -330,7 +330,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     
     [self _updateHasReadWidthConstraint];
 
-    [self.hasRead hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.hasRead hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView.mas_centerY).offset(0);
         make.height.equalTo(self.statusButton.mas_width).offset(0);
     }];
@@ -341,16 +341,20 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 - (void)_updateHasReadWidthConstraint
 {
     if (_hasRead) {
-        [_hasRead hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+        [_hasRead mas_updateConstraints:^(MASConstraintMaker *make) {
+                    
             make.width.equalTo(40);
         }];
+//        [_hasRead hdmas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.width.equalTo(40);
+//        }];
     }
 }
 
 - (void)_updateStatusButtonWidthConstraint
 {
     if (_statusButton) {
-        [self.statusButton hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+        [self.statusButton hdmas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(self.statusSize);
         }];
     }
@@ -359,7 +363,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 - (void)_updateActivityWidthConstraint
 {
     if (_activity) {
-        [self.activity hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+        [self.activity hdmas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(self.activitySize);
         }];
     }
@@ -367,7 +371,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
 
 - (void)_updateBubbleMaxWidthConstraint
 {
-    [self.bubbleView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.bubbleView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         if (self.bubbleMaxWidth > 0) {
             make.width.lessThanOrEqualTo(self.bubbleMaxWidth);
         }

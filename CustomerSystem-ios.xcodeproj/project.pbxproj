@@ -114,6 +114,7 @@
 		9374FEB727CC7C0000DE1185 /* UIImageView+HDWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9374FEB627CC7C0000DE1185 /* UIImageView+HDWebCache.m */; };
 		9374FEBA27CCA5BE00DE1185 /* UIImage+HDGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 9374FEB827CCA5BE00DE1185 /* UIImage+HDGIF.m */; };
 		9374FEBD27CCA64E00DE1185 /* UIButton+HDWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9374FEBC27CCA64E00DE1185 /* UIButton+HDWebCache.m */; };
+		9374FEC027CCB4CD00DE1185 /* UIView+HDMASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9374FEBF27CCB4CD00DE1185 /* UIView+HDMASAdditions.m */; };
 		93767A1627951CA80079A60F /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FFE62827901077009FFC6E /* ReplayKit.framework */; };
 		93767A1A27951CA80079A60F /* SampleHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93767A1927951CA80079A60F /* SampleHandler.m */; };
 		93767A2127951CA80079A60F /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FFE62827901077009FFC6E /* ReplayKit.framework */; };
@@ -148,16 +149,6 @@
 		938CCA6627C8F53500F470B5 /* HDMJRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CCA5327C8F53500F470B5 /* HDMJRefreshFooter.m */; };
 		938CCA6727C8F53500F470B5 /* HDMJRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CCA5427C8F53500F470B5 /* HDMJRefreshHeader.m */; };
 		938CCA6827C8F53500F470B5 /* HDMJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CCA5527C8F53500F470B5 /* HDMJRefreshAutoFooter.m */; };
-		93A00A6B27607A860050425C /* HDMASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00A5D27607A850050425C /* HDMASViewConstraint.m */; };
-		93A00A6C27607A860050425C /* HDMASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00A5E27607A850050425C /* HDMASCompositeConstraint.m */; };
-		93A00A6D27607A860050425C /* NSLayoutConstraint+HDMASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00A5F27607A850050425C /* NSLayoutConstraint+HDMASDebugAdditions.m */; };
-		93A00A6E27607A860050425C /* View+HDMASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00A6027607A850050425C /* View+HDMASAdditions.m */; };
-		93A00A6F27607A860050425C /* HDMASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00A6127607A850050425C /* HDMASConstraint.m */; };
-		93A00A7027607A860050425C /* HDMASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00A6227607A850050425C /* HDMASConstraintMaker.m */; };
-		93A00A7127607A860050425C /* HDMASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00A6427607A850050425C /* HDMASLayoutConstraint.m */; };
-		93A00A7227607A860050425C /* HDMASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00A6627607A850050425C /* HDMASViewAttribute.m */; };
-		93A00A7327607A860050425C /* ViewController+HDMASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00A6927607A850050425C /* ViewController+HDMASAdditions.m */; };
-		93A00A7427607A860050425C /* NSArray+HDMASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A00A6A27607A850050425C /* NSArray+HDMASAdditions.m */; };
 		93D9D08127C37EC600BD037D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; };
 		93D9D08227C37EC600BD037D /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E79304277C67BB0019FD80 /* Bugly.framework */; };
@@ -672,6 +663,9 @@
 		9374FEB927CCA5BE00DE1185 /* UIImage+HDGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HDGIF.h"; sourceTree = "<group>"; };
 		9374FEBB27CCA64E00DE1185 /* UIButton+HDWebCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+HDWebCache.h"; sourceTree = "<group>"; };
 		9374FEBC27CCA64E00DE1185 /* UIButton+HDWebCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+HDWebCache.m"; sourceTree = "<group>"; };
+		9374FEBE27CCB4CD00DE1185 /* UIView+HDMASAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+HDMASAdditions.h"; sourceTree = "<group>"; };
+		9374FEBF27CCB4CD00DE1185 /* UIView+HDMASAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+HDMASAdditions.m"; sourceTree = "<group>"; };
+		9374FEC127CCB6DC00DE1185 /* HDMasonry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDMasonry.h; sourceTree = "<group>"; };
 		93767A1527951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CustomerSystem-ScreenShare-Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93767A1827951CA80079A60F /* SampleHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleHandler.h; sourceTree = "<group>"; };
 		93767A1927951CA80079A60F /* SampleHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleHandler.m; sourceTree = "<group>"; };
@@ -734,31 +728,6 @@
 		938CCA5327C8F53500F470B5 /* HDMJRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshFooter.m; sourceTree = "<group>"; };
 		938CCA5427C8F53500F470B5 /* HDMJRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshHeader.m; sourceTree = "<group>"; };
 		938CCA5527C8F53500F470B5 /* HDMJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshAutoFooter.m; sourceTree = "<group>"; };
-		93A00A5227607A850050425C /* NSArray+HDMASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+HDMASShorthandAdditions.h"; sourceTree = "<group>"; };
-		93A00A5327607A850050425C /* View+HDMASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+HDMASAdditions.h"; sourceTree = "<group>"; };
-		93A00A5427607A850050425C /* NSLayoutConstraint+HDMASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+HDMASDebugAdditions.h"; sourceTree = "<group>"; };
-		93A00A5527607A850050425C /* HDMASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMASCompositeConstraint.h; sourceTree = "<group>"; };
-		93A00A5627607A850050425C /* HDMASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HDMASConstraint+Private.h"; sourceTree = "<group>"; };
-		93A00A5727607A850050425C /* HDMASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMASConstraintMaker.h; sourceTree = "<group>"; };
-		93A00A5827607A850050425C /* HDMASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMASConstraint.h; sourceTree = "<group>"; };
-		93A00A5927607A850050425C /* HDMASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMASViewAttribute.h; sourceTree = "<group>"; };
-		93A00A5A27607A850050425C /* HDMASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMASLayoutConstraint.h; sourceTree = "<group>"; };
-		93A00A5B27607A850050425C /* NSArray+HDMASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+HDMASAdditions.h"; sourceTree = "<group>"; };
-		93A00A5C27607A850050425C /* ViewController+HDMASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+HDMASAdditions.h"; sourceTree = "<group>"; };
-		93A00A5D27607A850050425C /* HDMASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMASViewConstraint.m; sourceTree = "<group>"; };
-		93A00A5E27607A850050425C /* HDMASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMASCompositeConstraint.m; sourceTree = "<group>"; };
-		93A00A5F27607A850050425C /* NSLayoutConstraint+HDMASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+HDMASDebugAdditions.m"; sourceTree = "<group>"; };
-		93A00A6027607A850050425C /* View+HDMASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+HDMASAdditions.m"; sourceTree = "<group>"; };
-		93A00A6127607A850050425C /* HDMASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMASConstraint.m; sourceTree = "<group>"; };
-		93A00A6227607A850050425C /* HDMASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMASConstraintMaker.m; sourceTree = "<group>"; };
-		93A00A6327607A850050425C /* HDMASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMASUtilities.h; sourceTree = "<group>"; };
-		93A00A6427607A850050425C /* HDMASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMASLayoutConstraint.m; sourceTree = "<group>"; };
-		93A00A6527607A850050425C /* HDMasonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMasonry.h; sourceTree = "<group>"; };
-		93A00A6627607A850050425C /* HDMASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMASViewAttribute.m; sourceTree = "<group>"; };
-		93A00A6727607A850050425C /* View+HDMASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+HDMASShorthandAdditions.h"; sourceTree = "<group>"; };
-		93A00A6827607A850050425C /* HDMASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMASViewConstraint.h; sourceTree = "<group>"; };
-		93A00A6927607A850050425C /* ViewController+HDMASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+HDMASAdditions.m"; sourceTree = "<group>"; };
-		93A00A6A27607A850050425C /* NSArray+HDMASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+HDMASAdditions.m"; sourceTree = "<group>"; };
 		93D9D08027C37EC600BD037D /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93E792F9277ADA290019FD80 /* CustomerSystem-iosRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-iosRelease.entitlements"; sourceTree = "<group>"; };
 		93E79300277C0A430019FD80 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -1617,31 +1586,9 @@
 		93A00A5127607A850050425C /* HDMasonry */ = {
 			isa = PBXGroup;
 			children = (
-				93A00A5527607A850050425C /* HDMASCompositeConstraint.h */,
-				93A00A5E27607A850050425C /* HDMASCompositeConstraint.m */,
-				93A00A5827607A850050425C /* HDMASConstraint.h */,
-				93A00A6127607A850050425C /* HDMASConstraint.m */,
-				93A00A5627607A850050425C /* HDMASConstraint+Private.h */,
-				93A00A5727607A850050425C /* HDMASConstraintMaker.h */,
-				93A00A6227607A850050425C /* HDMASConstraintMaker.m */,
-				93A00A5A27607A850050425C /* HDMASLayoutConstraint.h */,
-				93A00A6427607A850050425C /* HDMASLayoutConstraint.m */,
-				93A00A6527607A850050425C /* HDMasonry.h */,
-				93A00A6327607A850050425C /* HDMASUtilities.h */,
-				93A00A5927607A850050425C /* HDMASViewAttribute.h */,
-				93A00A6627607A850050425C /* HDMASViewAttribute.m */,
-				93A00A6827607A850050425C /* HDMASViewConstraint.h */,
-				93A00A5D27607A850050425C /* HDMASViewConstraint.m */,
-				93A00A5B27607A850050425C /* NSArray+HDMASAdditions.h */,
-				93A00A6A27607A850050425C /* NSArray+HDMASAdditions.m */,
-				93A00A5227607A850050425C /* NSArray+HDMASShorthandAdditions.h */,
-				93A00A5427607A850050425C /* NSLayoutConstraint+HDMASDebugAdditions.h */,
-				93A00A5F27607A850050425C /* NSLayoutConstraint+HDMASDebugAdditions.m */,
-				93A00A5327607A850050425C /* View+HDMASAdditions.h */,
-				93A00A6027607A850050425C /* View+HDMASAdditions.m */,
-				93A00A6727607A850050425C /* View+HDMASShorthandAdditions.h */,
-				93A00A5C27607A850050425C /* ViewController+HDMASAdditions.h */,
-				93A00A6927607A850050425C /* ViewController+HDMASAdditions.m */,
+				9374FEBE27CCB4CD00DE1185 /* UIView+HDMASAdditions.h */,
+				9374FEBF27CCB4CD00DE1185 /* UIView+HDMASAdditions.m */,
+				9374FEC127CCB6DC00DE1185 /* HDMasonry.h */,
 			);
 			path = HDMasonry;
 			sourceTree = "<group>";
@@ -3201,11 +3148,13 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CustomerSystem-ios/Pods-CustomerSystem-ios-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3295,7 +3244,6 @@
 				938CCA6627C8F53500F470B5 /* HDMJRefreshFooter.m in Sources */,
 				D3CB648A1E4888F30022A6BA /* HDSDKHelper.m in Sources */,
 				930CFC7A27BDF32B00FFEA53 /* CustomFastboardOverlay.m in Sources */,
-				93A00A6E27607A860050425C /* View+HDMASAdditions.m in Sources */,
 				EB395DFF1A8F0AC40083B659 /* MallViewController.m in Sources */,
 				D3CB64B81E4888F30022A6BA /* HelpDeskUI.m in Sources */,
 				938CCA6227C8F53500F470B5 /* HDMJRefreshGifHeader.m in Sources */,
@@ -3309,7 +3257,6 @@
 				D3D1BB421DE8478C004B3557 /* LeaveMsgDetailModel.m in Sources */,
 				D3CE33281F0610FA00A9649E /* CustomButton.m in Sources */,
 				9042C2622514A1A100DC5BE1 /* AFHTTPSessionManager.m in Sources */,
-				93A00A6D27607A860050425C /* NSLayoutConstraint+HDMASDebugAdditions.m in Sources */,
 				9042C2632514A1A100DC5BE1 /* AFURLSessionManager.m in Sources */,
 				D3394AF11E5562FE009370BF /* HDChatViewController.m in Sources */,
 				D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */,
@@ -3318,10 +3265,8 @@
 				EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */,
 				D3CB64481E4888F30022A6BA /* HDCDDeviceManagerBase.m in Sources */,
 				D3CB64441E4888F30022A6BA /* HDCDDeviceManager+Media.m in Sources */,
-				93A00A7127607A860050425C /* HDMASLayoutConstraint.m in Sources */,
 				D3CB64A01E4888F30022A6BA /* HDCustomMessageCell.m in Sources */,
 				D3CB64461E4888F30022A6BA /* HDCDDeviceManager+ProximitySensor.m in Sources */,
-				93A00A7427607A860050425C /* NSArray+HDMASAdditions.m in Sources */,
 				D35579631EE94BF900F6B54E /* HConversationTableViewCell.m in Sources */,
 				9374FEBA27CCA5BE00DE1185 /* UIImage+HDGIF.m in Sources */,
 				D339953F1E000EDF00F7B71D /* ScanningView.m in Sources */,
@@ -3333,16 +3278,13 @@
 				8F1281F41F3C535A00E872CA /* HDBubbleView+Form.m in Sources */,
 				938CCA6527C8F53500F470B5 /* HDMJRefreshComponent.m in Sources */,
 				D3CB647F1E4888F30022A6BA /* PSTCollectionViewController.m in Sources */,
-				93A00A7327607A860050425C /* ViewController+HDMASAdditions.m in Sources */,
 				9042C2612514A1A100DC5BE1 /* AFURLResponseSerialization.m in Sources */,
 				D3CB64451E4888F30022A6BA /* HDCDDeviceManager+Microphone.m in Sources */,
 				D3CB64A11E4888F30022A6BA /* HDMessageCell.m in Sources */,
-				93A00A6C27607A860050425C /* HDMASCompositeConstraint.m in Sources */,
 				D37983E91F31E45700E9E4EB /* HDBubbleView+Article.m in Sources */,
 				D3CB64941E4888F30022A6BA /* HDEmojiEmoticons.m in Sources */,
 				9374FEB727CC7C0000DE1185 /* UIImageView+HDWebCache.m in Sources */,
 				D3D1BB451DE84862004B3557 /* LeaveMsgCell.m in Sources */,
-				93A00A6F27607A860050425C /* HDMASConstraint.m in Sources */,
 				D3CB64A91E4888F30022A6BA /* HDBubbleView+RobotMenu.m in Sources */,
 				D3CB64981E4888F30022A6BA /* HDChineseToPinyin.m in Sources */,
 				D3D1BB261DE83D6B004B3557 /* LeaveMsgDetailViewController.m in Sources */,
@@ -3351,13 +3293,13 @@
 				EB4B07791AC696A400DCF67B /* CommodityViewController.m in Sources */,
 				D3CB64961E4888F30022A6BA /* HDEmotionManager.m in Sources */,
 				D3CB64A81E4888F30022A6BA /* HDBubbleView+Order.m in Sources */,
+				9374FEC027CCB4CD00DE1185 /* UIView+HDMASAdditions.m in Sources */,
 				D3394EA61E559A3F009370BF /* HFileViewController.m in Sources */,
 				D3CB64921E4888F30022A6BA /* UIViewController+HDHUD.m in Sources */,
 				8F6ACB2C1F41449100A5622B /* HDFormWebViewController.m in Sources */,
 				D3CB64AB1E4888F30022A6BA /* HDBubbleView+Track.m in Sources */,
 				90EE4C5523548CD200DEE8CA /* HRobotUnsolveItemView.m in Sources */,
 				D32772321F33270D0059F1BB /* HDArticleView.m in Sources */,
-				93A00A7227607A860050425C /* HDMASViewAttribute.m in Sources */,
 				D3CB64421E4888F30022A6BA /* HDAudioPlayerUtil.m in Sources */,
 				D3CB64631E4888F30022A6BA /* MWCaptionView.m in Sources */,
 				D3CB64861E4888F30022A6BA /* PSTGridLayoutItem.m in Sources */,
@@ -3381,7 +3323,6 @@
 				D3CB648D1E4888F30022A6BA /* NSDate+Category.m in Sources */,
 				938CCA6827C8F53500F470B5 /* HDMJRefreshAutoFooter.m in Sources */,
 				EB62E32E1A8DDA4800705655 /* HomeViewController.m in Sources */,
-				93A00A7027607A860050425C /* HDMASConstraintMaker.m in Sources */,
 				EB62E1FF1A8DD92D00705655 /* main.m in Sources */,
 				D3CB64881E4888F30022A6BA /* PSTGridLayoutSection.m in Sources */,
 				D3CB64B11E4888F30022A6BA /* HDChatToolbarItem.m in Sources */,
@@ -3389,7 +3330,6 @@
 				D3CB64B51E4888F30022A6BA /* HDFacialView.m in Sources */,
 				D3CB649D1E4888F30022A6BA /* HDRefreshTableViewController.m in Sources */,
 				EB395E021A8F0C8D0083B659 /* SettingViewController.m in Sources */,
-				93A00A6B27607A860050425C /* HDMASViewConstraint.m in Sources */,
 				D3D1BB4C1DE84928004B3557 /* NSDateFormatter+Category.m in Sources */,
 				938CCA2627C8E1B300F470B5 /* MBProgressHUD+Add.m in Sources */,
 				9374FEBD27CCA64E00DE1185 /* UIButton+HDWebCache.m in Sources */,

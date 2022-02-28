@@ -312,7 +312,7 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     _bottomView.backgroundColor = RGBACOLOR(184, 22, 22, 1);
     [self.view addSubview:_bottomView];
     
-    [_bottomView hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+    [_bottomView hdmas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
         make.height.equalTo(@50);

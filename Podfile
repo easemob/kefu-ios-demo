@@ -8,6 +8,7 @@ pod 'MBProgressHUD', '~> 1.2.0'
 #pod "MWPhotoBrowser"
 #pod 'MJRefresh'
 pod 'SDWebImage', '~> 5.12.3'
+pod 'Masonry', '~> 1.1.0'
 end
 
 target 'CustomerSystem-ScreenShare-Extension' do

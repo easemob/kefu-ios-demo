@@ -38,7 +38,7 @@
                               direction:direction
                                    mask:kCALayerMinXMinYCorner || kCALayerMaxXMinYCorner];
     [fastboardView addSubview:operationView];
-    [operationView hdmas_makeConstraints:^(HDMASConstraintMaker *make) {
+    [operationView hdmas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(fastboardView.whiteboardView);
         make.bottom.equalTo(fastboardView.whiteboardView);
     }];

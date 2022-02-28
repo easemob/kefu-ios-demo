@@ -19,7 +19,7 @@
 
 - (void)_setupImageBubbleConstraints
 {
-    [self.imageView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.imageView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(5);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);

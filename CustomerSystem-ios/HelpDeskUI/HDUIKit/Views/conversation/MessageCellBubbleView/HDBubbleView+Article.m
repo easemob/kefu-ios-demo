@@ -70,7 +70,7 @@
 @implementation HDBubbleView (Article)
 
 - (void)_setupArticleBubbleConstraints {
-    [self.articleView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.articleView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
