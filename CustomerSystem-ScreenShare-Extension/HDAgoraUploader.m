@@ -30,9 +30,7 @@ static HDAgoraUploader *manager = nil;
 }
 
 - (void)startBroadcast{
-    
-   NSArray * array = [[HDClient sharedClient].agoraCallManager getBroadcastParameter];
-    
+        
     //先注册audio
     [AgoraAudioProcessing registerAudioPreprocessing:[[HDClient sharedClient].agoraCallManager getBroadcastRtcEngine]];
     //在开启

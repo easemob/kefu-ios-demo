@@ -448,6 +448,8 @@ void NotificationCallback(CFNotificationCenterRef center,
         
         self.shareDeskTopBtn.selected =YES;
         
+        [[HDClient sharedClient].agoraCallManager  leaveChannel];
+        
         NSLog(@"broadcastStartedWithSetupInfo");
     }
     if ([identifier isEqualToString:@"broadcastPaused"]) {
@@ -460,7 +462,7 @@ void NotificationCallback(CFNotificationCenterRef center,
         
         //更改按钮的状态
         self.shareDeskTopBtn.selected =NO;
-        
+        [[HDClient sharedClient].agoraCallManager joinChannel];
         NSLog(@"broadcastFinished");
     }
     if ([identifier isEqualToString:@"processSampleBuffer"]) {
