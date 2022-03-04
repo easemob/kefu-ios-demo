@@ -36,6 +36,8 @@
         _theme = ThemeLight;
         [self applyTheme:ThemeLight];
     }
+    
+    
 }
 
 // MARK: - Action

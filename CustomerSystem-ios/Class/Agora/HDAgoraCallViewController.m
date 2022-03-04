@@ -10,10 +10,13 @@
 #import <HelpDesk/HelpDesk.h>
 #import "HDCallViewCollectionViewCell.h"
 #import <ReplayKit/ReplayKit.h>
+#import "HDAgoraCallMember.h"
+#import "HDAgoraCallManager.h"
+#import "HDAgoraCallManagerDelegate.h"
 #define kCamViewTag 100001
 #define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
 #define kNotificationShareWindow kScreenShareExtensionBundleId
-@interface HDAgoraCallViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,HDAgoraCallManagerDelegate,HDChatManagerDelegate>
+@interface HDAgoraCallViewController()<UICollectionViewDelegate,UICollectionViewDataSource,HDAgoraCallManagerDelegate>
 {
     NSMutableArray *_members; // 通话人
     NSTimer *_timer;
@@ -46,36 +49,28 @@
 @property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));
 
 @property (nonatomic, strong) UIView *localView;
+
 @end
 
 @implementation HDAgoraCallViewController
 
-+ (HDAgoraCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName
-                                             avatarStr:(NSString *)aAvatarStr
-                                              nickName:(NSString *)aNickname
-                                        hangUpCallBack:(HangAgroaUpCallback)callback{
++ (HDAgoraCallViewController *)hasReceivedCallWithKeyCenter:(HDKeyCenter *)keyCenter avatarStr:(NSString *)aAvatarStr nickName:(NSString *)aNickname hangUpCallBack:(HangAgroaUpCallback)callback{
+    
     HDAgoraCallViewController *callVC = [[HDAgoraCallViewController alloc]
                                     initWithNibName:@"HDAgoraCallViewController"
                                     bundle:nil];
-    callVC.agentName = aAgentName;
+
     callVC.avatarStr = aAvatarStr;
     callVC.nickname = aNickname;
+    callVC.agentName = keyCenter.agentNickName;
     callVC.hangUpCallback = callback;
+    
+    //需要必要创建房间的参数
+    [HDAgoraCallManager shareInstance].keyCenter =keyCenter;
     return callVC;
 }
 
-+ (HDAgoraCallViewController *)hasReceivedCallWithAgentName:(NSString *)aAgentName
-                                             avatarStr:(NSString *)aAvatarStr
-                                              nickName:(NSString *)aNickname {
-    HDAgoraCallViewController *callVC = [[HDAgoraCallViewController alloc]
-                                    initWithNibName:@"HDAgoraCallViewController"
-                                    bundle:nil];
-    callVC.agentName = aAgentName;
-    callVC.avatarStr = aAvatarStr;
-    callVC.nickname = aNickname;
-         
-    return callVC;
-}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -97,12 +92,14 @@
     [self updateInfoLabel]; // 尝试更新“正在通话中...(n)”中的n。
     [self initBroadPickerView];
     [self  addNotifications];
+    [HDAgoraCallManager shareInstance].roomDelegate = self;
+
 }
 - (void)viewDidDisappear:(BOOL)animated{
     
     [super viewDidDisappear:animated];
-    [[HDClient sharedClient].agoraCallManager endCall];
-    [[HDClient sharedClient].agoraCallManager destroy];
+    [[HDAgoraCallManager shareInstance] endCall];
+    [[HDAgoraCallManager shareInstance] destroy];
 }
 
 - (void)setAgoraVideo{
@@ -110,15 +107,12 @@
     HDAgoraCallOptions *options = [[HDAgoraCallOptions alloc] init];
     options.videoOff = NO; // 这个值要和按钮状态统一。
     options.mute = NO; // 这个值要和按钮状态统一。
-    [[HDClient sharedClient].agoraCallManager setCallOptions:options];
+    [[HDAgoraCallManager shareInstance] setCallOptions:options];
     //add local render view
     [self  addLocalSessionWithUid:0];//本地用户的id demo 切换的时候 有根据uid 判断 传入的时候尽量避免跟我们远端用户穿过来的相
     [UIApplication sharedApplication].idleTimerDisabled = YES;
-    // 添加监听
-    [HDClient.sharedClient.agoraCallManager addDelegate:self delegateQueue:nil];
+   
 }
-
-
 ///  添加本地视频流
 /// @param localUid   本地用户id
 - (void)addLocalSessionWithUid:(NSInteger )localUid{
@@ -129,7 +123,7 @@
     UIView * localView = [[UIView alloc] init];
     item.camView = localView;
     //设置本地试图
-    [[HDClient sharedClient].agoraCallManager setupLocalVideoView:item.camView];
+    [[HDAgoraCallManager shareInstance] setupLocalVideoView:item.camView];
     //添加数据源
     [_members addObject:item];
 }
@@ -146,11 +140,11 @@
 // 根据HDCallMember 创建cellItem
 - (HDCallViewCollectionViewCellItem *)createCallerWithMember2:(HDAgoraCallMember *)aMember {
     UIView * remoteView = [[UIView alloc] init];
-    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:aMember.extension[@"avatarUrl"] defaultImage:[UIImage imageNamed:@"default_customer_avatar"] nickname:aMember.extension[@"nickname"]];
+    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] initWithAvatarURI:aMember.extension[@"avatarUrl"] defaultImage:[UIImage imageNamed:@"default_customer_avatar"] nickname:self.agentName];
     item.uid = [aMember.memberName integerValue];
     item.camView = remoteView;
     //设置远端试图
-    [[HDClient sharedClient].agoraCallManager setupRemoteVideoView:item.camView withRemoteUid:item.uid];
+    [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
     return item;
 }
 // 更新详情显示
@@ -172,16 +166,16 @@
 // 切换摄像头事件
 - (IBAction)camBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
-    [[HDClient sharedClient].agoraCallManager switchCamera];
+    [[HDAgoraCallManager shareInstance] switchCamera];
 }
 
 // 静音事件
 - (IBAction)muteBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     if (btn.selected) {
-        [[HDClient sharedClient].agoraCallManager pauseVoice];
+        [[HDAgoraCallManager shareInstance] pauseVoice];
     } else {
-        [[HDClient sharedClient].agoraCallManager resumeVoice];
+        [[HDAgoraCallManager shareInstance] resumeVoice];
     }
 }
 
@@ -190,9 +184,9 @@
     btn.selected = !btn.selected;
     UIView *selfView = [_members.firstObject camView];
     if (btn.selected) {
-        [[HDClient sharedClient].agoraCallManager pauseVideo];
+        [[HDAgoraCallManager shareInstance] pauseVideo];
     } else {
-        [[HDClient sharedClient].agoraCallManager resumeVideo];
+        [[HDAgoraCallManager shareInstance] resumeVideo];
     }
     selfView.hidden = btn.selected;
 }
@@ -200,7 +194,7 @@
 // 扬声器事件
 - (IBAction)speakerBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
-    [[HDClient sharedClient].agoraCallManager setEnableSpeakerphone:btn.selected];
+    [[HDAgoraCallManager shareInstance] setEnableSpeakerphone:btn.selected];
 }
 
 // 屏幕共享事件
@@ -248,11 +242,16 @@
 {
     isCalling = NO;
     //挂断和拒接 都走这个
-    [[HDClient sharedClient].agoraCallManager endCall];
+    [[HDAgoraCallManager shareInstance] endCall];
     [self stopTimer];
-    if (self.hangUpCallback) {
-        self.hangUpCallback(self, self.timeLabel.text);
-    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       // UI更新代码
+        if (self.hangUpCallback) {
+            self.hangUpCallback(self, self.timeLabel.text);
+        }
+    });
+   
 }
 
 // 应答事件
@@ -266,7 +265,7 @@
     // 设置选中 collectionView 第一项
     [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
     __weak typeof(self) weakSelf = self;
-    [[HDClient sharedClient].agoraCallManager acceptCallWithNickname:self.agentName
+    [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
                                                         completion:^(id obj, HDError *error)
      {
         if (error == nil){
@@ -280,9 +279,12 @@
              });
         }else{
             // 加入失败 或者视频网络断开
-            if (self.hangUpCallback) {
-                self.hangUpCallback(self, self.timeLabel.text);
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+               // UI更新代码
+                if (self.hangUpCallback) {
+                    self.hangUpCallback(self, self.timeLabel.text);
+                }
+            });
             NSLog(@"VC=Occur error%d",error.code);
         }
      }];
@@ -384,25 +386,25 @@
     }
     if (deleteItem) {
         [_members removeObject:deleteItem];
-        [[HDClient sharedClient].agoraCallManager setupRemoteVideoView:deleteItem.camView withRemoteUid:deleteItem.uid];
+        [[HDAgoraCallManager shareInstance] setupRemoteVideoView:deleteItem.camView withRemoteUid:deleteItem.uid];
         [self.collectionView reloadData];
         [self updateInfoLabel];
     }
 }
 // 坐席主动 挂断 结束回调
-- (void)onCallEndReason:(int)reason desc:(NSString *)desc {
+- (void)onCallEndReason:(NSString *)desc {
     [self stopTimer];
-    if (self.hangUpCallback) {
-        self.hangUpCallback(self, self.timeLabel.text);
-    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       // UI更新代码
+        if (self.hangUpCallback) {
+            self.hangUpCallback(self, self.timeLabel.text);
+        }
+    });
+   
 }
 
-#pragma mark - HDAgoraCallManagerDelegate
-/// 加入声网 返回的错误码 判断 加入失败 依据
-- (void)hd_rtcEngine:(HDAgoraCallManager *)agoraCallManager didOccurError:(HDError *)error{
-    
-    NSLog(@"Occur error%d",error.code);
-}
+
 
 #pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。
 void NotificationCallback(CFNotificationCenterRef center,
@@ -448,7 +450,7 @@ void NotificationCallback(CFNotificationCenterRef center,
         
         self.shareDeskTopBtn.selected =YES;
         
-        [[HDClient sharedClient].agoraCallManager  leaveChannel];
+        [[HDAgoraCallManager shareInstance]  leaveChannel];
         
         NSLog(@"broadcastStartedWithSetupInfo");
     }
@@ -462,7 +464,7 @@ void NotificationCallback(CFNotificationCenterRef center,
         
         //更改按钮的状态
         self.shareDeskTopBtn.selected =NO;
-        [[HDClient sharedClient].agoraCallManager joinChannel];
+        [[HDAgoraCallManager shareInstance] joinChannel];
         NSLog(@"broadcastFinished");
     }
     if ([identifier isEqualToString:@"processSampleBuffer"]) {

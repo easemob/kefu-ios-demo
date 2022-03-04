@@ -32,28 +32,28 @@ static HDAgoraUploader *manager = nil;
 - (void)startBroadcast{
         
     //先注册audio
-    [AgoraAudioProcessing registerAudioPreprocessing:[[HDClient sharedClient].agoraCallManager getBroadcastRtcEngine]];
+//    [AgoraAudioProcessing registerAudioPreprocessing:[[HDClient sharedClient].agoraCallManager getBroadcastRtcEngine]];
     //在开启
-    [[HDClient sharedClient].agoraCallManager startBroadcast];
+//    [[HDClient sharedClient].agoraCallManager startBroadcast];
     
 }
 - (void)sendVideoBuffer:(CMSampleBufferRef _Nullable )sampleBuffer{
     
-    [[HDClient sharedClient].agoraCallManager sendVideoBuffer:sampleBuffer];
+//    [[HDClient sharedClient].agoraCallManager sendVideoBuffer:sampleBuffer];
 }
 - (void)sendAudioAppBuffer:(CMSampleBufferRef)sampleBuffer{
     
-    [AgoraAudioTube agoraKit: [[HDClient sharedClient].agoraCallManager getBroadcastRtcEngine] pushAudioCMSampleBuffer:sampleBuffer resampleRate:audioSampleRate type:AudioTypeApp];
+//    [AgoraAudioTube agoraKit: [[HDClient sharedClient].agoraCallManager getBroadcastRtcEngine] pushAudioCMSampleBuffer:sampleBuffer resampleRate:audioSampleRate type:AudioTypeApp];
 }
 
 - (void)sendAudioMicBuffer:(CMSampleBufferRef)sampleBuffer{
     
-    [AgoraAudioTube agoraKit: [[HDClient sharedClient].agoraCallManager getBroadcastRtcEngine] pushAudioCMSampleBuffer:sampleBuffer resampleRate:audioSampleRate type:AudioTypeMic];
+//    [AgoraAudioTube agoraKit: [[HDClient sharedClient].agoraCallManager getBroadcastRtcEngine] pushAudioCMSampleBuffer:sampleBuffer resampleRate:audioSampleRate type:AudioTypeMic];
 }
 
 - (void)stopBroadcast{
     
-    [[HDClient sharedClient].agoraCallManager stopBroadcast];
+//    [[HDClient sharedClient].agoraCallManager stopBroadcast];
     
 }
 @end

@@ -7,6 +7,7 @@ target 'CustomerSystem-ios' do
 pod 'MBProgressHUD', '~> 1.2.0'
 pod 'SDWebImage', '~> 5.12.3'
 pod 'Masonry', '~> 1.1.0'
+pod 'AgoraRtcEngine_iOS'
 end
 
 target 'CustomerSystem-ScreenShare-Extension' do

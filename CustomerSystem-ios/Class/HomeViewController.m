@@ -24,7 +24,7 @@
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate,HDAgoraCallManagerDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate,HDCallManagerDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -69,7 +69,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [super viewDidLoad];
     
     // 用于添加语音呼入的监听 onCallReceivedNickName:
-    [HDClient.sharedClient.agoraCallManager addDelegate:self delegateQueue:nil];
+    [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
@@ -555,14 +555,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 
 #pragma mark - HDCallManagerDelegate
-- (void)onAgoraCallReceivedNickName:(NSString *)nickName{
+- (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter{
     
-        HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithAgentName:nickName
-                                                                                  avatarStr:@"HelpDeskUIResource.bundle/user"
-                                                                                   nickName:[CSDemoAccountManager shareLoginManager].nickname];
-        hdCallVC.hangUpCallback = ^(UIViewController *callVC, NSString *timeStr) {
-            [callVC dismissViewControllerAnimated:YES completion:nil];
-        };
+    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+       
+        
+        [callVC dismissViewControllerAnimated:YES completion:nil];
+    }];
         hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
         [self presentViewController:hdCallVC animated:YES completion:nil];
     
