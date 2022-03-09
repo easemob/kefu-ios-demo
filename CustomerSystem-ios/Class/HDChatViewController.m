@@ -13,6 +13,7 @@
 #import "HDChatViewController.h"
 #import "AppDelegate+HelpDesk.h"
 #import "CSDemoAccountManager.h"
+#import "HDCustomEmojiManager.h"
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
 #import "HDMessageReadManager.h"

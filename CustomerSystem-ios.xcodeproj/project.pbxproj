@@ -129,6 +129,7 @@
 		93B4E97227CCD1D800ACAF5B /* HDMJRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E95F27CCD1D700ACAF5B /* HDMJRefreshFooter.m */; };
 		93B4E97327CCD1D800ACAF5B /* HDMJRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E96027CCD1D700ACAF5B /* HDMJRefreshHeader.m */; };
 		93B4E97427CCD1D800ACAF5B /* HDMJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E96127CCD1D700ACAF5B /* HDMJRefreshAutoFooter.m */; };
+		93D95EA627D8988A00E47F14 /* HDCustomEmojiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D95EA527D8988A00E47F14 /* HDCustomEmojiManager.m */; };
 		93D9D08127C37EC600BD037D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; };
 		93D9D08227C37EC600BD037D /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E79304277C67BB0019FD80 /* Bugly.framework */; };
@@ -710,6 +711,8 @@
 		93B4E95F27CCD1D700ACAF5B /* HDMJRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshFooter.m; sourceTree = "<group>"; };
 		93B4E96027CCD1D700ACAF5B /* HDMJRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshHeader.m; sourceTree = "<group>"; };
 		93B4E96127CCD1D700ACAF5B /* HDMJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMJRefreshAutoFooter.m; sourceTree = "<group>"; };
+		93D95EA427D8988A00E47F14 /* HDCustomEmojiManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCustomEmojiManager.h; sourceTree = "<group>"; };
+		93D95EA527D8988A00E47F14 /* HDCustomEmojiManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDCustomEmojiManager.m; sourceTree = "<group>"; };
 		93D9D08027C37EC600BD037D /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93E792F9277ADA290019FD80 /* CustomerSystem-iosRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-iosRelease.entitlements"; sourceTree = "<group>"; };
 		93E79300277C0A430019FD80 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -2156,6 +2159,8 @@
 				D3CB63F01E4888F30022A6BA /* HDEmotionEscape.m */,
 				D3CB63F11E4888F30022A6BA /* HDEmotionManager.h */,
 				D3CB63F21E4888F30022A6BA /* HDEmotionManager.m */,
+				93D95EA427D8988A00E47F14 /* HDCustomEmojiManager.h */,
+				93D95EA527D8988A00E47F14 /* HDCustomEmojiManager.m */,
 			);
 			path = Emoji;
 			sourceTree = "<group>";
@@ -3281,6 +3286,7 @@
 				D3CB64811E4888F30022A6BA /* PSTCollectionViewFlowLayout.m in Sources */,
 				9094F20A21E83C8D00037601 /* SRRefreshView.m in Sources */,
 				D3CB647C1E4888F30022A6BA /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
+				93D95EA627D8988A00E47F14 /* HDCustomEmojiManager.m in Sources */,
 				D33995421E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m in Sources */,
 				D3CB64831E4888F30022A6BA /* PSTCollectionViewLayout.m in Sources */,
 				D3CB64AF1E4888F30022A6BA /* HDBubbleView.m in Sources */,

@@ -9,7 +9,7 @@
 #import "AppDelegate+HelpDesk.h"
 #import "LocalDefine.h"
 #import "CSDemoAccountManager.h"
-
+#import "HDCustomEmojiManager.h"
 /**
  *  本类中做了EaseMob初始化和推送等操作
  */
@@ -50,8 +50,8 @@
 
     option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;
-//    option.kefuRestServer = @"http://kefu.easemob.com";
-    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
+    option.kefuRestServer = @"http://kefu.easemob.com";
+//    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"http://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.apnsCertName = apnsCertName;
@@ -60,7 +60,9 @@
 //    option.extension = @{@"dk_disable_upload_locationInfo":@YES};
     HDClient *client = [HDClient sharedClient];
     HDError *initError = [client initializeSDKWithOptions:option];
-    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[HDCustomEmojiManager shareManager] cacheBigExpression];
+    });
     
     if (initError) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"initialization_error", @"Initialization error!") message:initError.errorDescription delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
@@ -69,6 +71,9 @@
     }
     [self registerEaseMobNotification];
 
+    
+  
+    
 }
 
 //修改关联app后需要重新初始化
