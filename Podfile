@@ -15,7 +15,7 @@ target 'CustomerSystem-ScreenShare-Extension' do
   use_frameworks!
 
   # Pods for CustomerSystem-ScreenShare-Extension
-
+  pod 'AgoraRtcEngine_iOS'
 end
 
 target 'CustomerSystem-ScreenShare-ExtensionSetupUI' do

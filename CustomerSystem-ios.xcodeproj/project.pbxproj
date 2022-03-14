@@ -133,6 +133,7 @@
 		93D9D08127C37EC600BD037D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; };
 		93D9D08227C37EC600BD037D /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E79304277C67BB0019FD80 /* Bugly.framework */; };
+		93E7E50427DA051900EC4009 /* test.doc in Resources */ = {isa = PBXBuildFile; fileRef = 93E7E50327DA051800EC4009 /* test.doc */; };
 		93EB33EE278C17A0002AB1ED /* HDAgoraCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
 		D20066391EF23274005B558D /* em_example_image_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066131EF23274005B558D /* em_example_image_2.png */; };
@@ -718,6 +719,7 @@
 		93E79300277C0A430019FD80 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		93E79301277C0A430019FD80 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		93E79304277C67BB0019FD80 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
+		93E7E50327DA051800EC4009 /* test.doc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.doc; sourceTree = "<group>"; };
 		93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDAgoraCallViewController.xib; sourceTree = "<group>"; };
 		93FFE62827901077009FFC6E /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -2653,6 +2655,7 @@
 		EB62E1F01A8DD92D00705655 = {
 			isa = PBXGroup;
 			children = (
+				93E7E50327DA051800EC4009 /* test.doc */,
 				93E79301277C0A430019FD80 /* LICENSE */,
 				93E79300277C0A430019FD80 /* README.md */,
 				93767A1727951CA80079A60F /* CustomerSystem-ScreenShare-Extension */,
@@ -3009,6 +3012,7 @@
 				EB4B06C71AC685E900DCF67B /* chatBar_textBg.png in Resources */,
 				EB4B06AE1AC685E900DCF67B /* VoiceSearchFeedback017@2x.png in Resources */,
 				EB4B06F21AC685E900DCF67B /* chat_sender_audio_playing_003@2x.png in Resources */,
+				93E7E50427DA051900EC4009 /* test.doc in Resources */,
 				D20066431EF23274005B558D /* em_nav_shop_normal@3x.png in Resources */,
 				8FEEA5A520034A9A008CD415 /* em_icon_local_recard_on@2x.png in Resources */,
 				D20066581EF23274005B558D /* product_details_4.png in Resources */,
