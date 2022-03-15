@@ -12,7 +12,7 @@
 #import "HEvaluationTagView.h"
 #import "HEvaluationDegreeModel.h"
 #import "HAppraiseTagsModel.h"
-#import "CSDemoAccountManager.h"
+#import "HDAccountmanager.h"
 #define kViewSpace 20.f
 
 @interface SatisfactionViewController () <UITextViewDelegate,CWStarRateViewDelegate, HEvaluationTagSelectDelegate>
@@ -61,8 +61,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     self.messageModel.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
-    self.messageModel.avatarURLPath = [CSDemoAccountManager shareLoginManager].avatarStr;
-    self.messageModel.nickname = [CSDemoAccountManager shareLoginManager].nickname;
+    self.messageModel.avatarURLPath = [HDAccountmanager shareLoginManager].avatarStr;
+    self.messageModel.nickname = [HDAccountmanager shareLoginManager].nickname;
 
     self.nickLabel.text = self.messageModel.nickname;
     [self.headImage hdSD_setImageWithURL:[NSURL URLWithString:self.messageModel.avatarURLPath] placeholderImage:[UIImage imageNamed:@"customer"]];

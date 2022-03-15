@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import "LocalDefine.h"
 #import "HDCustomEmojiManager.h"
+#import "HDAccountmanager.h"
 
 @implementation CSDemoAccountManager
 
@@ -79,6 +80,7 @@ static CSDemoAccountManager *_manager = nil;
         [fUserDefaults setObject:tnickname forKey:kCustomerNickname];
         [fUserDefaults synchronize];
     }
+    [HDAccountmanager shareLoginManager].nickname = tnickname;
     return tnickname;
 }
 
