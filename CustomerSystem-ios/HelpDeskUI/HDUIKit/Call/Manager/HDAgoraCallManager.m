@@ -329,6 +329,7 @@ static HDAgoraCallManager *shareCall = nil;
 }
 
 
+
 /**
  接受视频会话
 
@@ -375,18 +376,18 @@ static HDAgoraCallManager *shareCall = nil;
     }
     NSLog(@"join Member  uid---- %lu ",(unsigned long)uid);
     HDAgoraCallMember *mem = [self getHDAgoraCallMember:uid];
-    @synchronized(_members){
-        BOOL isNeedAdd = YES;
-        for (HDAgoraCallMember *member in self.members) {
-            if ([mem.memberName isEqualToString:member.memberName]) {
-                isNeedAdd = NO;
-                break;
-            }
-        }
-        if (isNeedAdd) {
-            [self.members addObject:mem];
-        }
-    };
+//    @synchronized(_members){
+//        BOOL isNeedAdd = YES;
+//        for (HDAgoraCallMember *member in self.members) {
+//            if ([mem.memberName isEqualToString:member.memberName]) {
+//                isNeedAdd = NO;
+//                break;
+//            }
+//        }
+//        if (isNeedAdd) {
+//            [self.members addObject:mem];
+//        }
+//    };
     if([self.roomDelegate respondsToSelector:@selector(onMemberJoin:)]){
         
         [self.roomDelegate onMemberJoin:mem];

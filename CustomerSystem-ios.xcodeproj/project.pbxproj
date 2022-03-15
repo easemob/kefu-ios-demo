@@ -1318,7 +1318,6 @@
 		9086150920B43A54002E71DA /* Agora */ = {
 			isa = PBXGroup;
 			children = (
-				9333263927D0D16E004707E1 /* Call */,
 				930CFC7427BDF2F300FFEA53 /* Fastboard */,
 				9086150F20B43A54002E71DA /* HDCallViewCollectionViewCell.xib */,
 				9086150A20B43A54002E71DA /* HDCallViewCollectionViewCell.h */,
@@ -1478,13 +1477,6 @@
 				930E321727E03E9700455C7E /* HDTitleView.m */,
 			);
 			path = VideoViews;
-			sourceTree = "<group>";
-		};
-		9333263927D0D16E004707E1 /* Call */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Call;
 			sourceTree = "<group>";
 		};
 		9333263A27D0D17A004707E1 /* Manager */ = {

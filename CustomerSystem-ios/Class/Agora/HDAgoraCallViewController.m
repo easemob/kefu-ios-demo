@@ -16,13 +16,17 @@
 #define kCamViewTag 100001
 #define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
 #define kNotificationShareWindow kScreenShareExtensionBundleId
-@interface HDAgoraCallViewController()<UICollectionViewDelegate,UICollectionViewDataSource,HDAgoraCallManagerDelegate>
+@interface HDAgoraCallViewController()<UICollectionViewDelegate,UICollectionViewDataSource,HDAgoraCallManagerDelegate,HDCallManagerDelegate>
 {
     NSMutableArray *_members; // 通话人
     NSTimer *_timer;
     NSInteger _time;
     HDCallViewCollectionViewCellItem *_currentItem;
     BOOL isCalling; //是否正在通话
+    NSMutableArray *_uidArray; // 记录邀请坐席过来的uid
+    
+    NSString * _thirdAgentNickName;
+    NSString * _thirdAgentUid;
 }
 @property (nonatomic, strong) NSString *agentName;
 @property (nonatomic, strong) NSString *avatarStr;
@@ -73,7 +77,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    _uidArray = [[NSMutableArray alloc] init];
+    // 用于添加语音呼入的监听 onCallReceivedNickName:
+    [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     // 监听屏幕旋转
     [[NSNotificationCenter defaultCenter] addObserver:self
                                             selector:@selector(handleStatusBarOrientationChange)
@@ -163,6 +169,29 @@
     }
 }
 
+- (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
+    
+    
+    _thirdAgentNickName = thirdAgentNickName;
+    _thirdAgentUid = uid;
+    
+    [self updateThirdAgent];
+}
+- (void)updateThirdAgent{
+   
+    if (_thirdAgentNickName.length > 0) {
+    [_members enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+           NSLog(@"%@----%@",_members[idx],[NSThread currentThread]);
+        HDCallViewCollectionViewCellItem *item = obj;
+        if (item.uid == [_thirdAgentUid integerValue]) {
+            item.nickname = _thirdAgentNickName;
+            [_members  replaceObjectAtIndex:idx withObject:item];
+        }
+    }];
+
+    [self.collectionView reloadData];
+    }
+}
 // 切换摄像头事件
 - (IBAction)camBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
@@ -348,6 +377,7 @@
 }
 
 #pragma mark - Call
+
 // 成员加入回调
 - (void)onMemberJoin:(HDAgoraCallMember *)member {
     // 有 member 加入，添加到datasource中。
@@ -364,7 +394,7 @@
                 [_members addObject: [self createCallerWithMember2:member]];
             }
         };
-        
+        [self updateThirdAgent];
         [self.collectionView reloadData];
         [self updateInfoLabel];
     }
