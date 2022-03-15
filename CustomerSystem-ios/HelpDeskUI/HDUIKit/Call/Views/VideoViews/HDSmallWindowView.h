@@ -10,16 +10,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class HDCallViewCollectionViewCellItem;
+@class HDCallCollectionViewCellItem;
 
 @interface HDSmallWindowView : UIView
-typedef void(^ClickCellItemBlock)(HDCallViewCollectionViewCellItem *item,NSIndexPath *indexpath);
+typedef void(^ClickCellItemBlock)(HDCallCollectionViewCellItem *item,NSIndexPath *indexpath);
 @property (nonatomic, copy) ClickCellItemBlock clickCellItemBlock;
 @property (nonatomic, strong,readonly) NSArray *items;//cell 的数组
 @property(nonatomic ,assign)BOOL  isLandscape; // 判断是横竖屏 默认竖屏
 
-- (void)setItemData:(NSArray<HDCallViewCollectionViewCellItem *> *)items;
-- (void)setSelectCallItemChangeVideoView:(HDCallViewCollectionViewCellItem *)item withIndex:(NSInteger )index;
+- (void)setItemData:(NSArray<HDCallCollectionViewCellItem *> *)items;
+- (void)setSelectCallItemChangeVideoView:(HDCallCollectionViewCellItem *)item withIndex:(NSInteger )index;
 - (void)refreshView:(UIView *)view withScreen:(BOOL)landscape;
 @end
 

@@ -11,8 +11,8 @@
 #import "HDSmallWindowView.h"
 #import "HDTitleView.h"
 #import "Masonry.h"
-
-#import "HDCallViewCollectionViewCellItem.h"
+#import "HDAnswerView.h"
+#import "HDCallCollectionViewCellItem.h"
 @interface HDCallViewController (){
     
     UIView *_changeView;
@@ -24,6 +24,7 @@
 @property (nonatomic, strong) HDMiddleVideoView *midelleVideoView;
 @property (nonatomic, strong) HDSmallWindowView *smallWindowView;
 @property (nonatomic, strong) HDTitleView *hdTitleView;
+@property (nonatomic, strong) HDAnswerView *hdAnswerView;
 @property (nonatomic, strong) UIView *tmpView;
 @property (nonatomic, assign) BOOL  isLandscape;//当前屏幕 是横屏还是竖屏
 
@@ -36,14 +37,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self.view addSubview:self.hdAnswerView];
+    [self.hdAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.offset(0);
+        make.bottom.offset(0);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+    }];
+    
+    
     self.isLandscape = NO;
     _videoViews = [NSMutableArray new];
     _videoItemViews = [NSMutableArray new];
-    //添加 页面布局
-    [self addSubView];
-    //默认进来调用竖屏
-    [self updatePorttaitLayout];
-    [self initData];
+   
 }
 
 -(void)initData{
@@ -81,7 +88,7 @@
     
     [self.barView buttonFromArrBarModels:selImageArr view:self.barView];
     
-    HDCallViewCollectionViewCellItem *item = [[HDCallViewCollectionViewCellItem alloc] init];
+    HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
     item.isSelected = YES; // 默认自己会被选中
     item.nickName = @"test";
     item.uid = @"123";
@@ -89,9 +96,9 @@
     localView.backgroundColor = [UIColor yellowColor];
     item.camView = localView;
     
-    HDCallViewCollectionViewCellItem *item1 = [[HDCallViewCollectionViewCellItem alloc] init];
+    HDCallCollectionViewCellItem *item1 = [[HDCallCollectionViewCellItem alloc] init];
     item1.isSelected = NO; // 默认自己会被选中
-    item1.nickName = @"访客"; 
+    item1.nickName = @"访客";
     item1.uid = @"1234";
     UIView * localView1 = [[UIView alloc] init];
     localView1.backgroundColor = [UIColor grayColor];
@@ -103,6 +110,25 @@
     [array addObject:item1];
     
     [self.smallWindowView setItemData:array];
+    
+}
+
+/// 应答事件
+/// @param sender  button
+- (void)anwersBtnClicked:(UIButton *)sender{
+    self.hdAnswerView.hidden = YES;
+    //应答的时候 在创建view
+    //添加 页面布局
+    [self addSubView];
+    //默认进来调用竖屏
+    [self updatePorttaitLayout];
+    [self initData];
+}
+
+/// 拒接事件
+/// @param sender button
+- (void)offBtnClicked:(UIButton *)sender{
+    //拒接事件 拒接关闭当前页面
     
 }
 -(void)addSubView{
@@ -214,7 +240,7 @@
 /// 点击 cell。更改小窗试图
 /// @param item  cell 里边的model
 /// @param idx  当前点击cell 的index
-- (void)changeCallViewItem:(HDCallViewCollectionViewCellItem *)item withIndex:(NSInteger)idx{
+- (void)changeCallViewItem:(HDCallCollectionViewCellItem *)item withIndex:(NSInteger)idx{
     
      //更新小窗口
     [self updateSmallVideoView:item withIndex:idx];
@@ -223,7 +249,7 @@
     [self updateVideoView];
 }
 /// 更新视频窗口（大窗口）
--(void)updateSmallVideoView:(HDCallViewCollectionViewCellItem *)item withIndex:(NSInteger )idx{
+-(void)updateSmallVideoView:(HDCallCollectionViewCellItem *)item withIndex:(NSInteger )idx{
     
     [_videoItemViews removeAllObjects];
     //这个数组里边添加的是小窗口需要放到中间视频窗口的view 在传给cell 前先保存之前的view
@@ -261,15 +287,24 @@
             make.trailing.offset(0);
             make.height.offset([UIScreen mainScreen].bounds.size.width *9/16 );
         }];
-
-        
     }
-    
-  
     [_videoViews addObject:videoView];
 
 }
-
+- (HDAnswerView *)hdAnswerView{
+   if (!_hdAnswerView) {
+       _hdAnswerView = [[HDAnswerView alloc]init];
+       _hdAnswerView.backgroundColor = [UIColor blackColor];
+       __weak __typeof__(self) weakSelf = self;
+       _hdAnswerView.clickOnBlock = ^(UIButton * _Nonnull btn) {
+           [weakSelf anwersBtnClicked:btn];
+       };
+       _hdAnswerView.clickOffBlock = ^(UIButton * _Nonnull btn) {
+           [weakSelf offBtnClicked:btn];
+       };
+    }
+    return _hdAnswerView;
+}
 
 - (HDTitleView *)hdTitleView {
     if (!_hdTitleView) {
@@ -300,7 +335,7 @@
                     [weakSelf shareDesktopBtnClicked:btn];
                     break;
                 case HDControlBarItemTypeFlat:
-                    [weakSelf offBtnClickedFalt:btn];
+                    [weakSelf onClickedFalt:btn];
                     break;
                     
                 default:
@@ -326,7 +361,7 @@
     if (!_smallWindowView) {
         _smallWindowView = [[HDSmallWindowView alloc]init];
         __weak __typeof__(self) weakSelf = self;
-        _smallWindowView.clickCellItemBlock = ^(HDCallViewCollectionViewCellItem * _Nonnull item, NSIndexPath * _Nonnull indexpath) {
+        _smallWindowView.clickCellItemBlock = ^(HDCallCollectionViewCellItem * _Nonnull item, NSIndexPath * _Nonnull indexpath) {
             //切换逻辑
             
             [weakSelf changeCallViewItem:item withIndex:indexpath.item];
@@ -419,14 +454,8 @@
     NSLog(@"点击了隐藏按钮事件");
 }
 
-// 挂断事件
-- (void)offBtnClicked:(UIButton *)sender
-{
-    NSLog(@"点击了挂断共享事件");
-   
-}
 // 互动白板
-- (void)offBtnClickedFalt:(UIButton *)sender
+- (void)onClickedFalt:(UIButton *)sender
 {
     NSLog(@"点击了互动白板事件");
    

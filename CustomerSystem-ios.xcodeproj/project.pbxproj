@@ -91,6 +91,7 @@
 		930E322027E03E9800455C7E /* HDTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E321727E03E9700455C7E /* HDTitleView.m */; };
 		930E322127E03E9800455C7E /* HDCallCollectionViewCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E321927E03E9800455C7E /* HDCallCollectionViewCellItem.m */; };
 		930E322427E03FAE00455C7E /* HDCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E322227E03FAD00455C7E /* HDCallViewController.m */; };
+		930E322A27E0492F00455C7E /* HDAnswerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E322927E0492F00455C7E /* HDAnswerView.m */; };
 		930E4DAB2796D39F007CFE50 /* UIViewController+VLDModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E4DAA2796D39F007CFE50 /* UIViewController+VLDModal.m */; };
 		9374FEB427CC721700DE1185 /* HDSDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9374FEB327CC721700DE1185 /* HDSDWebImageManager.m */; };
 		9374FEB727CC7C0000DE1185 /* UIImageView+HDWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9374FEB627CC7C0000DE1185 /* UIImageView+HDWebCache.m */; };
@@ -631,6 +632,8 @@
 		930E321B27E03E9800455C7E /* HDTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTitleView.h; sourceTree = "<group>"; };
 		930E322227E03FAD00455C7E /* HDCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallViewController.m; sourceTree = "<group>"; };
 		930E322327E03FAE00455C7E /* HDCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCallViewController.h; sourceTree = "<group>"; };
+		930E322827E0492E00455C7E /* HDAnswerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDAnswerView.h; sourceTree = "<group>"; };
+		930E322927E0492F00455C7E /* HDAnswerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDAnswerView.m; sourceTree = "<group>"; };
 		930E4D482796AC37007CFE50 /* AgoraAIDenoiseExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraAIDenoiseExtension.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/libs/AgoraAIDenoiseExtension.xcframework"; sourceTree = "<group>"; };
 		930E4D492796AC37007CFE50 /* AgoraCIExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraCIExtension.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/libs/AgoraCIExtension.xcframework"; sourceTree = "<group>"; };
 		930E4D4A2796AC37007CFE50 /* AgoraCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraCore.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/libs/AgoraCore.xcframework"; sourceTree = "<group>"; };
@@ -1459,6 +1462,8 @@
 		930E320F27E03E6C00455C7E /* VideoViews */ = {
 			isa = PBXGroup;
 			children = (
+				930E322827E0492E00455C7E /* HDAnswerView.h */,
+				930E322927E0492F00455C7E /* HDAnswerView.m */,
 				930E321227E03E9600455C7E /* HDCallCollectionViewCell.h */,
 				930E321027E03E9600455C7E /* HDCallCollectionViewCell.m */,
 				930E321127E03E9600455C7E /* HDCallCollectionViewCellItem.h */,
@@ -3462,6 +3467,7 @@
 				EB4B07801AC6A1C100DCF67B /* EditViewController.m in Sources */,
 				930E321F27E03E9800455C7E /* HDControlBarView.m in Sources */,
 				930E321D27E03E9800455C7E /* HDMiddleVideoView.m in Sources */,
+				930E322A27E0492F00455C7E /* HDAnswerView.m in Sources */,
 				93B4E96C27CCD1D800ACAF5B /* HDMJRefreshNormalHeader.m in Sources */,
 				90BE1E3D2216C656007D17A1 /* UIViewController+AlertController.m in Sources */,
 				937FD5A627D1B2ED00EB055A /* HDSSKeychain.m in Sources */,

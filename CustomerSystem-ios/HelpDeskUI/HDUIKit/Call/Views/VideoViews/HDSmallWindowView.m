@@ -36,7 +36,7 @@
     return self;
 }
 
-- (void)setItemData:(NSArray<HDCallViewCollectionViewCellItem *> *)items{
+- (void)setItemData:(NSArray<HDCallCollectionViewCellItem *> *)items{
     
     /**
      *  加载的数据 数组里边放item
@@ -48,7 +48,7 @@
     
     [self.collectionView reloadData];
 }
-- (void)setSelectCallItemChangeVideoView:(HDCallViewCollectionViewCellItem *)item withIndex:(NSInteger)index{
+- (void)setSelectCallItemChangeVideoView:(HDCallCollectionViewCellItem *)item withIndex:(NSInteger)index{
    
     
     [_cellArray replaceObjectAtIndex:index withObject:item];
