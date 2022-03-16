@@ -572,9 +572,17 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //          [self lxLogin];
 //    HDAgoraCallViewController * agoraVC = [[HDAgoraCallViewController alloc] init];
 //    [self.navigationController pushViewController:agoraVC animated:YES];
-
-    HDFastbordViewController * agoraVC = [[HDFastbordViewController alloc] init];
-        [self.navigationController pushViewController:agoraVC animated:YES];
+    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:nil avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+       
+        
+        [callVC dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+//    [hdCallVC dismissViewControllerAnimated:YES completion:nil];
+        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:hdCallVC animated:YES completion:nil];
+//    HDFastbordViewController * agoraVC = [[HDFastbordViewController alloc] init];
+//        [self.navigationController pushViewController:agoraVC animated:YES];
     
 }
 //理想汽车crash

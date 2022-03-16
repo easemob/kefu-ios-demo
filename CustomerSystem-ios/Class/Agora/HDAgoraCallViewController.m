@@ -88,19 +88,24 @@
 
     // 初始化数据源
     _members = [NSMutableArray array];
-    [self setAgoraVideo];
     // 设置 ui
     [self.timeLabel setHidden:YES];
     [self.callingView setHidden:YES];
     [self.collectionView reloadData];
-    // 响铃
-//    [self startRing];
     [self updateInfoLabel]; // 尝试更新“正在通话中...(n)”中的n。
     [self initBroadPickerView];
-    [self  addNotifications];
-    [HDAgoraCallManager shareInstance].roomDelegate = self;
-
+    [self addNotifications];
+  
 }
+
+- (void)setAcceptCallView{
+    [HDAgoraCallManager shareInstance].roomDelegate = self;
+    [self setAgoraVideo];
+    [self saveTextByNSUserDefaults];
+    
+    
+}
+
 - (void)viewDidDisappear:(BOOL)animated{
     
     [super viewDidDisappear:animated];
@@ -164,6 +169,7 @@
     if (@available(iOS 12.0, *)) {
         _broadPickerView = [[RPSystemBroadcastPickerView alloc] init];
         _broadPickerView.preferredExtension = kScreenShareExtensionBundleId;
+        
     } else {
         // Fallback on earlier versions
     }
@@ -228,6 +234,8 @@
 
 // 屏幕共享事件
 - (IBAction)shareDesktopBtnClicked:(UIButton *)btn {
+    
+
     for (UIView *view in _broadPickerView.subviews)
     {
         if ([view isKindOfClass:[UIButton class]])
@@ -235,10 +243,46 @@
             //调起录像方法，UIControlEventTouchUpInside的方法看其他文章用的是UIControlEventTouchDown，
             //我使用时用UIControlEventTouchUpInside用好使，看个人情况决定
             [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
+//            HDKeyCenter *key = [HDAgoraCallManager shareInstance].keyCenter;
+//            NSDictionary * dict = @{
+//                @"appId": key.agoraAppid,
+//                @"channel": key.agoraChannel,
+//                @"token": key.agoraToken,
+//                @"uid": key.agoraUid,
+//                @"callId ": key.callid,
+//            };
+            
+//            NSDictionary * dict = @{
+//                         @"appId":  @"appId",
+//
+//                     };
+//            [self sendNotificationWithIdentifier:@"shareWindowUI" userInfo:dict];
+            [self saveTextByNSUserDefaults];
         }
     }
 }
-
+- (bool)writeTextByNSFileManager
+{
+    NSError *err = nil;
+    NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"com.easemob.enterprise.demo.customer"];
+    containerURL = [containerURL URLByAppendingPathComponent:@"Library/Caches/good"];
+    
+    NSString *value = @"just test";
+    BOOL result = [value writeToURL:containerURL atomically:YES encoding:NSUTF8StringEncoding error:&err];
+    return result;
+}
+- (void)saveTextByNSUserDefaults
+{
+    NSUserDefaults *shared = [[NSUserDefaults alloc]   initWithSuiteName:@"com.easemob.enterprise.demo.customer"];
+    [shared setObject:@"123456"forKey:@"cmcc"];
+    [shared synchronize];
+    
+    
+    NSUserDefaults *shared1 = [[NSUserDefaults alloc] initWithSuiteName:@"keychainGroup"];
+    [shared1 setObject:@"123"forKey:@"cmcc11111"];
+    [shared1 synchronize];
+    
+}
 // 切换屏幕尺寸事件
 - (IBAction)screenBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
@@ -291,6 +335,7 @@
     
     [self setupCollectionView];
     [self updateInfoLabel];
+    [self setAcceptCallView];
     // 设置选中 collectionView 第一项
     [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
     __weak typeof(self) weakSelf = self;
@@ -301,11 +346,6 @@
              [weakSelf.timeLabel setHidden:NO];
              [weakSelf startTimer];
             isCalling = YES;
-             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                 AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-                 [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord  withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
-                 [audioSession setActive:YES error:nil];
-             });
         }else{
             // 加入失败 或者视频网络断开
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -437,6 +477,14 @@
 
 
 #pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。
+// 录屏直播 主App和宿主App数据共享，通信功能实现 如果我们要将开始、暂停、结束这些事件以消息的形式发送到宿主App中，需要使用CFNotificationCenterGetDarwinNotifyCenter。
+- (void)sendNotificationWithIdentifier:(nullable NSString *)identifier userInfo:(NSDictionary *)info {
+    CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();
+    CFDictionaryRef userInfo = (__bridge CFDictionaryRef)info;
+    BOOL const deliverImmediately = YES;
+    CFStringRef identifierRef = (__bridge CFStringRef)identifier;
+    CFNotificationCenterPostNotification(center, identifierRef, NULL, userInfo, deliverImmediately);
+}
 void NotificationCallback(CFNotificationCenterRef center,
                                    void * observer,
                                    CFStringRef name,
@@ -481,6 +529,7 @@ void NotificationCallback(CFNotificationCenterRef center,
         self.shareDeskTopBtn.selected =YES;
         
         [[HDAgoraCallManager shareInstance]  leaveChannel];
+        [[HDAgoraCallManager shareInstance]  destroy];
         
         NSLog(@"broadcastStartedWithSetupInfo");
     }

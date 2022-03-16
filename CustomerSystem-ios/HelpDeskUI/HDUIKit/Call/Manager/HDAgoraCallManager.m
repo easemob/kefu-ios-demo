@@ -20,13 +20,14 @@
 #define kSaveAgoraChannel @"call_agoraChannel"
 #define kSaveAgoraAppID @"call_agoraAppid"
 #define kSaveAgoraShareUID @"call_agoraShareUID"
+#define kSaveAgoraCallId @"call_agoraCallId"
 
 // 存放屏幕分享的状态
 #define kSaveScreenShareState @"Easemob_ScreenShareState"
-static NSInteger audioSampleRate = 48000;
-static NSInteger audioChannels = 2;
-static uint32_t SCREEN_SHARE_UID_MIN  = 501;
-static uint32_t SCREEN_SHARE_UID_MAX  = 1000;
+//static NSInteger audioSampleRate = 48000;
+//static NSInteger audioChannels = 2;
+//static uint32_t SCREEN_SHARE_UID_MIN  = 501;
+//static uint32_t SCREEN_SHARE_UID_MAX  = 1000;
 
 @interface HDAgoraCallManager () <AgoraRtcEngineDelegate,HDChatManagerDelegate>
 {
@@ -36,6 +37,8 @@ static uint32_t SCREEN_SHARE_UID_MAX  = 1000;
     NSDictionary *_ext;
     NSString *_ticket;
     NSString *_conversationId;
+    
+    BOOL _isSetupLocalVideo; //判断是否已经设置过了；
 }
 
 @property (nonatomic, strong) NSMutableArray *members;
@@ -159,6 +162,12 @@ static HDAgoraCallManager *shareCall = nil;
 }
 - (void)setupLocalVideoView:(UIView *)localView{
     
+    //这个地方添加判断是 为了防止调用setupLocalVideo 多次导致本地view 卡死
+    if (_isSetupLocalVideo) {
+        return;
+    }
+    _isSetupLocalVideo = YES;
+    NSLog(@"======setupLocalVideoView");
     AgoraRtcVideoCanvas * canvas = [[AgoraRtcVideoCanvas alloc] init];
     canvas.uid = [[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue];
     canvas.view = localView;
@@ -225,11 +234,10 @@ static HDAgoraCallManager *shareCall = nil;
     return hdMessage;
 }
 - (void)leaveChannel{
-    
+    _isSetupLocalVideo = NO;
     [self.agoraKit leaveChannel:nil];
 }
 - (void)joinChannel{
-    
     [self hd_joinChannelByToken:[HDAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDAgoraCallManager shareInstance].keyCenter.agoraChannel info:nil uid:[[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
         _onCalling = YES;
         NSLog(@"joinSuccess joinChannelByToken channel=%@  uid=%lu",channel,(unsigned long)uid);
@@ -237,7 +245,7 @@ static HDAgoraCallManager *shareCall = nil;
     
 }
 - (void)endCall{
-    [self.agoraKit leaveChannel:nil];
+    [self leaveChannel];
     if([HDAgoraCallManager shareInstance].keyCenter.callid >0){
     //发送透传消息cmd
     EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"Agorartcmedia"];
@@ -247,7 +255,7 @@ static HDAgoraCallManager *shareCall = nil;
                           @"type":@"agorartcmedia/video",
                           @"msgtype":@{
                                   @"visitorCancelInvitation":@{
-                                          @"callId":[HDAgoraCallManager shareInstance].keyCenter.callid
+                                      @"callId":[HDAgoraCallManager shareInstance].keyCenter.callid
                                           }
                                   }
                           };
@@ -264,7 +272,7 @@ static HDAgoraCallManager *shareCall = nil;
     [self destroy];
 }
 - (void)refusedCall{
-    [self.agoraKit leaveChannel:nil];
+    [self leaveChannel];
     if([HDAgoraCallManager shareInstance].keyCenter.callid >0){
     //发送透传消息cmd
     EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"Agorartcmedia"];
@@ -298,10 +306,9 @@ static HDAgoraCallManager *shareCall = nil;
         
         [self.roomDelegate onCallEndReason:@"agent-call-colse"];
     }
-    
     //移除消息监控
     [[HDClient sharedClient].chatManager removeDelegate:self];
-    [self.agoraKit leaveChannel:nil];
+    [self leaveChannel];
     [self destroy];
 }
 - (int)startPreview{
@@ -338,11 +345,16 @@ static HDAgoraCallManager *shareCall = nil;
  */
 - (void)acceptCallWithNickname:(NSString *)nickname completion:(void (^)(id, HDError *))completion{
     self.Completion = completion;
+    
+    NSLog(@"======acceptCallWithNickname");
     [self hd_joinChannelByToken:[HDAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDAgoraCallManager shareInstance].keyCenter.agoraChannel info:nil uid:[[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
         _onCalling = YES;
         NSLog(@"joinSuccess channel=%@  uid=%lu",channel,(unsigned long)uid);
         self.Completion(nil, nil);
+        
     }];
+    //保存 分享要的数据
+    [self saveAppKeyCenter:[HDAgoraCallManager shareInstance].keyCenter];
     
 }
 - (BOOL)getCallState{
@@ -487,14 +499,11 @@ static HDAgoraCallManager *shareCall = nil;
 /// 保持动态数据 给其他app 进程通信
 /// @param keyCenter 对象参数
 - (void)saveAppKeyCenter:(HDKeyCenter *)keyCenter{
-
     [HDSSKeychain setPassword: keyCenter.agoraAppid forService:kForService account:kSaveAgoraAppID];
     [HDSSKeychain setPassword: keyCenter.agoraToken forService:kForService account:kSaveAgoraToken];
     [HDSSKeychain setPassword: keyCenter.agoraChannel forService:kForService account:kSaveAgoraChannel];
-    if (keyCenter.shareUid > 0) {
-        keyCenter.shareUid = [NSString stringWithFormat:@"%@",keyCenter.shareUid];
-        [HDSSKeychain setPassword: keyCenter.shareUid forService:kForService account:kSaveAgoraShareUID];
-    }
+    [HDSSKeychain setPassword: [NSString stringWithFormat:@"%@",keyCenter.agoraUid] forService:kForService account:kSaveAgoraShareUID];
+    [HDSSKeychain setPassword:[NSString stringWithFormat:@"%@",keyCenter.callid]  forService:kForService account:kSaveAgoraCallId];
 }
 - (HDKeyCenter *)getAppKeyCenter{
     HDKeyCenter * keycenter= [[HDKeyCenter  alloc] init];
@@ -502,19 +511,10 @@ static HDAgoraCallManager *shareCall = nil;
     keycenter.agoraToken =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraToken];
     keycenter.agoraChannel =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraChannel];
     keycenter.shareUid =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraShareUID];
-
+    keycenter.callid =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraCallId];
     return  keycenter;
 }
-- (NSArray *)getBroadcastParameter{
-    HDKeyCenter * keycenter = [self getAppKeyCenter];
-    NSMutableArray * mArray =  [NSMutableArray array];
-    [mArray addObject:keycenter.agoraAppid];
-    [mArray addObject:keycenter.agoraToken];
-    [mArray addObject:keycenter.agoraChannel];
-    [mArray addObject:keycenter.shareUid];
-    
-    return  mArray;
-}
+
 - (BOOL)isScreenShareUid:(NSUInteger)uid{
     HDKeyCenter * shareKey = [self getAppKeyCenter];
     if (shareKey.shareUid.length > 0) {
@@ -523,134 +523,8 @@ static HDAgoraCallManager *shareCall = nil;
         }
         return  NO;
     }
-    return uid >= SCREEN_SHARE_UID_MIN && uid <= SCREEN_SHARE_UID_MAX;
-}
-- (void)startBroadcast{
-    //存储状态 1 是开始。2 是 停止
-    [HDSSKeychain setPassword:@"1"  forService:kForService account:kSaveScreenShareState];
-    HDKeyCenter * shareKey = [self getAppKeyCenter];
-    [self.agoraKitScreenShare joinChannelByToken:shareKey.agoraToken channelId:shareKey.agoraChannel info:nil uid:[HDAgoraCallManager getScreenShareUid] joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed) {
-        NSLog(@"agora - join success share window =uid=%lu  channel%@=",(unsigned long)uid,channel);
-    }];
+//    return uid >= SCREEN_SHARE_UID_MIN && uid <= SCREEN_SHARE_UID_MAX;
+    return YES;
 }
 
-- (AgoraRtcEngineKit *)agoraKitScreenShare {
-    if (!_agoraKitScreenShare) {
-        //创建 AgoraRtcEngineKit 实例
-        HDKeyCenter * shareKey = [self getAppKeyCenter];
-        _agoraKitScreenShare = [AgoraRtcEngineKit sharedEngineWithAppId:shareKey.agoraAppid delegate:nil];
-        //设置频道场景
-        [_agoraKitScreenShare setChannelProfile:AgoraChannelProfileLiveBroadcasting];
-        //设置角色
-        [_agoraKitScreenShare setClientRole:AgoraClientRoleBroadcaster];
-        //启用视频模块
-        [_agoraKitScreenShare enableVideo];
-        //音频
-        [_agoraKitScreenShare disableAudio];
-        //视频自采集 (仅适用于 push 模式)
-        [_agoraKitScreenShare setExternalVideoSource:YES useTexture:YES pushMode:YES];
-        //初始化并返回一个新分配的具有指定视频分辨率的AgoraVideoEncoderConfiguration对象。
-        AgoraVideoEncoderConfiguration *configuration = [[AgoraVideoEncoderConfiguration alloc] initWithSize:[self videoDimension]
-                       frameRate:AgoraVideoFrameRateFps24 bitrate:AgoraVideoBitrateStandard orientationMode:AgoraVideoOutputOrientationModeAdaptative];
-        [_agoraKitScreenShare setVideoEncoderConfiguration:configuration];
-
-        //设置音频编码配置
-        [_agoraKitScreenShare setAudioProfile: AgoraAudioProfileMusicStandardStereo scenario:AgoraAudioScenarioDefault];
-
-        //设置采集的音频格式
-        [_agoraKitScreenShare setRecordingAudioFrameParametersWithSampleRate:audioSampleRate channel:audioChannels mode:AgoraAudioRawFrameOperationModeReadWrite samplesPerCall:1024];
-        //多人通信场景的优化策略
-        [ _agoraKitScreenShare setParameters:@"{\"che.audio.external_device\":true}"];
-        [ _agoraKitScreenShare setParameters:@"{\"che.hardware_encoding\":1}"];
-        [ _agoraKitScreenShare setParameters:@"{\"che.video.enc_auto_adjust\":0}"];
-        //取消或恢复订阅所有远端用户的音频流。
-        [_agoraKitScreenShare muteAllRemoteAudioStreams:YES];
-        //取消或恢复订阅所有远端用户的视频流。
-        [_agoraKitScreenShare muteAllRemoteVideoStreams:YES];
-    }
-    return _agoraKitScreenShare;
-}
-- (CGSize)videoDimension{
-
-    CGSize screenSize = UIScreen.mainScreen.bounds.size;
-    CGSize boundingSize = CGSizeMake(720, 1280);
-    float mW = boundingSize.width / screenSize.width;
-    float mH = boundingSize.height / screenSize.height;
-    if( mH < mW ) {
-        boundingSize.width = boundingSize.height / screenSize.height * screenSize.width;
-    }else if( mW < mH ) {
-        boundingSize.height = boundingSize.width / screenSize.width * screenSize.height;
-    }
-    return boundingSize;
-}
-+ (NSUInteger)getScreenShareUid{
-    HDKeyCenter * shareKey = [[HDAgoraCallManager shareInstance] getAppKeyCenter];
-    if (shareKey.shareUid.length > 0) {
-        return  [shareKey.shareUid integerValue];
-    }
-    NSUInteger randomUid = (NSUInteger)arc4random_uniform(SCREEN_SHARE_UID_MAX - SCREEN_SHARE_UID_MIN + 1) + SCREEN_SHARE_UID_MIN;
-    return  randomUid;
-}
-- (void)stopBroadcast{
-    
-    //存储状态 1 是开始。2 是 停止
-    [HDSSKeychain setPassword:@"2"  forService:kForService account:kSaveScreenShareState];
-    [self.agoraKitScreenShare leaveChannel:nil];
-     
-}
-- (BOOL)getBroadcastState{
-    //获取 录屏状态
-    NSString * state =  [HDSSKeychain passwordForService:kForService account:kSaveScreenShareState];
-    if ([state intValue] == 1) {
-        return  YES;
-    }else{
-        
-        return NO;
-    }
-    
-}
--(void)sendVideoBuffer:(CMSampleBufferRef)sampleBuffer{
-    CVImageBufferRef videoFrame = CMSampleBufferGetImageBuffer(sampleBuffer);
-        if (videoFrame == nil) {
-            return;
-        }
-        int rotation = 0;
-        if (@available(iOS 11.0, *)) {
-            NSNumber * orientation = CMGetAttachment(sampleBuffer, (CFStringRef)RPVideoSampleOrientationKey, nil);
-            CGImagePropertyOrientation ori = orientation.intValue;
-            switch (ori) {
-                case kCGImagePropertyOrientationUp:
-                case kCGImagePropertyOrientationUpMirrored:
-                    rotation = 0;
-                    break;
-                case kCGImagePropertyOrientationDown:
-                case kCGImagePropertyOrientationDownMirrored:
-                    rotation = 180;
-                    break;
-                case kCGImagePropertyOrientationLeft:
-                case kCGImagePropertyOrientationLeftMirrored:
-                    rotation = 90;
-                    break;
-                case kCGImagePropertyOrientationRight:
-                case kCGImagePropertyOrientationRightMirrored:
-                    rotation = 270;
-                    break;
-                default:
-                    break;
-            }
-            CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-            AgoraVideoFrame * frame = [AgoraVideoFrame new];
-            frame.format = 12;
-            frame.time = time;
-            frame.textureBuf = videoFrame;
-            frame.rotation =rotation;
-            [self.agoraKitScreenShare pushExternalVideoFrame:frame];
-
-        }
-}
-
-- (AgoraRtcEngineKit *)getBroadcastRtcEngine{
-
-    return  self.agoraKitScreenShare;
-}
 @end

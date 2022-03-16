@@ -24,27 +24,20 @@
 // 监听开始 实行 数据同步 Socket实现数据同步：
 - (void)broadcastStartedWithSetupInfo:(NSDictionary<NSString *,NSObject *> *)setupInfo {
     // User has requested to start the broadcast. Setup info from the UI extension can be supplied but optional.
-    
+
     [self sendNotificationWithIdentifier:@"broadcastStartedWithSetupInfo" userInfo:setupInfo];
     
     self.lastSendTs = [self getNowTime];
-    if([[setupInfo allKeys] containsObject:@"channelName"]){
 
-        NSString *channelName = (NSString *)[setupInfo valueForKey:@"channelName"];
-        [[HDAgoraUploader sharedAgoraEngine] startBroadcast];
+    [[HDAgoraUploader sharedAgoraEngine] startBroadcast];
 
-    }else{
-
-        [[HDAgoraUploader sharedAgoraEngine] startBroadcast];
-
-    }
     dispatch_async(dispatch_get_main_queue(), ^{
     __weak typeof(self) weakSelf = self;
     self.timer = [NSTimer timerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
 
         NSUInteger  elapse =  [weakSelf getNowTime] - weakSelf.lastSendTs;
 
-        NSLog(@"elapse===%lu",(unsigned long)elapse);
+//        NSLog(@"elapse===%lu",(unsigned long)elapse);
 
         if(elapse > 200) {
             if (weakSelf.bufferCopy){

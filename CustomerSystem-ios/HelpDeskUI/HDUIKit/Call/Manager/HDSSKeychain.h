@@ -8,7 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
-
+#define kForService @"com.easemob.enterprise.demo.customer.ScreenShare"
+#define kSaveAgoraToken @"call_agoraToken"
+#define kSaveAgoraChannel @"call_agoraChannel"
+#define kSaveAgoraAppID @"call_agoraAppid"
+#define kSaveAgoraShareUID @"call_agoraShareUID"
+#define kSaveAgoraCallId @"call_agoraCallId"
 /** Error codes that can be returned in NSError objects. */
 typedef enum {
     /** No error. */
