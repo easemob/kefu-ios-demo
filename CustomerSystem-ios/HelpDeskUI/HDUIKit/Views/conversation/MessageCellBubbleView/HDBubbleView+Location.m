@@ -19,14 +19,14 @@
 
 - (void)_setupLocationBubbleConstraints
 {
-    [self.locationImageView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.locationImageView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
     }];
     
-    [self.locationLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.locationLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.locationImageView.mas_bottom).offset(0);
         make.left.equalTo(self.locationImageView.mas_left).offset(0);
         make.right.equalTo(self.locationImageView.mas_right).offset(0);

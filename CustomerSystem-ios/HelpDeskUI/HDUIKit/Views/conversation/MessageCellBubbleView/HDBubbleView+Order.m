@@ -11,46 +11,46 @@
 @implementation HDBubbleView (Order)
 
 - (void)_setupOrderBubbleConstraints  {
-    [self.orderTitleLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.orderTitleLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
         make.height.equalTo(15);
     }];
     
-    [self.orderBgView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.orderBgView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.orderTitleLabel.mas_bottom).offset(5);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(5);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-10);
         make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-5);
     }];
     
-    [self.orderImageView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.orderImageView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.orderBgView.mas_top).offset(5);
         make.left.equalTo(self.orderBgView.mas_left).offset(self.margin.left);
         make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
         make.height.equalTo(self.orderImageView.mas_width);
     }];
     
-    [self.orderNoLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.orderNoLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.orderBgView.mas_top).offset(5);
         make.right.equalTo(self.orderBgView.mas_right).offset(-self.margin.right);
         make.left.equalTo(self.orderImageView.mas_right).offset(5);
         make.height.equalTo(13);
     }];
     
-    [self.orderDescLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.orderDescLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.orderNoLabel.mas_bottom).offset(8);
         make.left.equalTo(self.orderImageView.mas_right).offset(5);
         make.right.equalTo(self.orderBgView.mas_right).offset(5);
         make.bottom.equalTo(self.orderPriceLabel.mas_top).offset(-5);
     }];
     
-    [self.orderPriceLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.orderPriceLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.orderBgView.mas_bottom).offset(-self.margin.bottom);
     }];
     
-    [self.orderPriceLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.orderPriceLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.orderDescLabel.mas_left).offset(0);
         make.right.equalTo(self.orderDescLabel.mas_right).offset(0);
     }];

@@ -13,7 +13,6 @@
 #import "HDRefreshTableViewController.h"
 
 #import "HDMJRefresh.h"
-
 @interface HDRefreshTableViewController ()
 
 @property (nonatomic, readonly) UITableViewStyle style;

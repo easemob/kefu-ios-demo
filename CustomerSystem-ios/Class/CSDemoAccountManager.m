@@ -9,64 +9,10 @@
 #import "CSDemoAccountManager.h"
 #import <objc/runtime.h>
 #import "LocalDefine.h"
-
-@implementation HEmojiPackage
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-    self = [super init];
-    if (self) {
-        _packageId = [dictionary valueForKey:@"id"];
-        _packageName = [dictionary valueForKey:@"packageName"];
-        _emojiNum = [[dictionary valueForKey:@"fileNum"] integerValue];
-        _tenantId = [[dictionary valueForKey:@"tenantId"] stringValue];
-    }
-    return self;
-}
-
-@end
-
-@implementation HEmoji
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-    self = [super init];
-    if (self) {
-        _emojiName = [dictionary valueForKey:@"fileName"];
-        _originUrl = [dictionary valueForKey:@"originUrl"];
-        _thumbnailUrl = [dictionary valueForKey:@"thumbnailUrl"];
-        _originMediaId = [dictionary valueForKey:@"originMediaId"];
-        _thumbnailMediaId = [dictionary valueForKey:@"thumbnailMediaId"];
-        _tenantId = [dictionary valueForKey:@"tenantId"];
-    }
-    return self;
-}
-
-- (NSString *)originUrl {
-    NSString *orUrl = [[HDClient sharedClient].kefuRestServer stringByAppendingString:_originUrl];
-    return orUrl;
-}
-
-- (NSString *)thumbnailUrl {
-    NSString *thUrl = [[HDClient sharedClient].kefuRestServer stringByAppendingString:_thumbnailUrl];
-    return thUrl;
-}
-
-- (NSString *)originLocalPath {
-    return [[HDSDImageCache sharedImageCache] defaultCachePathForKey:_originMediaId];
-}
-
-- (NSString *)thumbnailLocalPath {
-    return [[HDSDImageCache sharedImageCache] defaultCachePathForKey:_thumbnailMediaId];
-}
-
-- (HDEmotionType)emotionType {
-    return HDEmotionGif;
-}
-
-@end
+#import "HDCustomEmojiManager.h"
+#import "HDAccountmanager.h"
 
 @implementation CSDemoAccountManager
-{
-    NSString *_emojiPath;
-}
 
 static CSDemoAccountManager *_manager = nil;
 + (instancetype)shareLoginManager {
@@ -134,6 +80,7 @@ static CSDemoAccountManager *_manager = nil;
         [fUserDefaults setObject:tnickname forKey:kCustomerNickname];
         [fUserDefaults synchronize];
     }
+    [HDAccountmanager shareLoginManager].nickname = tnickname;
     return tnickname;
 }
 
@@ -170,7 +117,7 @@ static CSDemoAccountManager *_manager = nil;
 //登录IM
 - (BOOL)loginKefuSDK {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self cacheBigExpression];
+        [[HDCustomEmojiManager shareManager]  cacheBigExpression];
     });
     HDClient *client = [HDClient sharedClient];
     if (client.isLoggedInBefore) {
@@ -250,61 +197,6 @@ static CSDemoAccountManager *_manager = nil;
         [self setValue:@"" forKey:key];
     }
 }
-
-- (void)createPlist {
-    NSString *path=NSTemporaryDirectory();
-    NSLog(@"path = %@",path);
-    _emojiPath =[path stringByAppendingPathComponent:@"emoji.plist"];
-    NSFileManager* fm = [NSFileManager defaultManager];
-    if (![fm fileExistsAtPath:_emojiPath]) {
-         [fm createFileAtPath:_emojiPath contents:nil attributes:nil];
-        [[NSMutableDictionary dictionaryWithCapacity:0] writeToFile:_emojiPath atomically:YES];
-    }
-}
-
-- (void)setEmojiValue:(id)value forKey:(NSString *)key {
-    NSMutableDictionary *mDic = [NSMutableDictionary dictionaryWithContentsOfFile:_emojiPath];
-    [mDic setValue:value forKey:key];
-    [mDic writeToFile:_emojiPath atomically:YES];
-}
-
-- (void)cacheBigExpression {
-    [self createPlist];
-    HDChatManager *chat = [HDClient sharedClient].chatManager;
-    [chat getEmojiPackageListCompletion:^(NSArray<NSDictionary *> *emojiPackages, HDError *error) {
-        if (error == nil) {
-            NSMutableArray *hPackages = @[].mutableCopy;
-            [self setEmojiValue:emojiPackages forKey:@"emojiPackages"];
-            for (NSDictionary *dict in emojiPackages) {
-                HEmojiPackage *emojiPackage = [[HEmojiPackage alloc] initWithDictionary:dict];
-                [hPackages addObject:emojiPackage];
-            }
-            for (HEmojiPackage *package in hPackages) {
-                [chat getEmojisWithPackageId:package.packageId completion:^(NSArray<NSDictionary *> *emojis, HDError *error) {
-                    if (error == nil) {
-                        [self setEmojiValue:emojis forKey:[NSString stringWithFormat:@"emojis%@",package.packageId]];
-                    }
-                    //                for (NSDictionary *di in emojis) {
-                    //                    HEmoji *emoji = [[HEmoji alloc] initWithDictionary:di];
-                    //                    SDWebImageManager *manager = [SDWebImageManager sharedManager];
-                    //                    NSURL *originUrl = [NSURL URLWithString:emoji.originUrl];
-                    //                    [manager downloadImageWithURL:originUrl options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                    //                        SDImageCache *cache = [SDImageCache sharedImageCache];
-                    //                        [cache storeImage:image forKey:emoji.originMediaId];
-                    //                    }];
-                    //                    NSURL *thumbUrl = [NSURL URLWithString:emoji.thumbnailUrl];
-                    //                    [manager downloadImageWithURL:thumbUrl options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                    //                        SDImageCache *cache = [SDImageCache sharedImageCache];
-                    //                        [cache storeImage:image forKey:emoji.thumbnailMediaId];
-                    //                    }];
-                    //                }
-                }];
-            }
-        }
-    }];
-}
-
-
  - (HDVisitorInfo *)visitorInfo {
     HDVisitorInfo *visitor = [[HDVisitorInfo alloc] init];
     visitor.name = @"";

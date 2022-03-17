@@ -19,20 +19,20 @@
 
 - (void)_setupFileBubbleConstraints
 {
-    [self.fileIconView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.fileIconView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.height.equalTo(self.fileIconView.mas_width).offset(0);
     }];
     
-    [self.fileNameLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.fileNameLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
         make.left.equalTo(self.fileIconView.mas_right).offset(HDMessageCellPadding);
     }];
     
-    [self.fileSizeLabel hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.fileSizeLabel hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.fileNameLabel.mas_left).offset(0);
         make.right.equalTo(self.fileNameLabel.mas_right).offset(0);
         make.top.equalTo(self.fileNameLabel.mas_bottom).offset(0);

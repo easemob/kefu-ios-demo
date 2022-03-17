@@ -1,0 +1,6 @@
+framework module Whiteboard {
+  umbrella header "Whiteboard-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -13,16 +13,12 @@
 #import <Foundation/Foundation.h>
 
 
-//#if __has_include(<HelpDesk/HelpDesk.h>)
-//#import <Hyphenate/Hyphenate.h>
-//#import <HelpDesk/HelpDesk.h>
-//#else
-//#import <HyphenateLite/HyphenateLite.h>
-//#import <HelpDeskLite/HelpDeskLite.h>
-//#endif
-
-#import <Hyphenate/Hyphenate.h>
+#if __has_include(<HelpDesk/HelpDesk.h>)
 #import <HelpDesk/HelpDesk.h>
+#else
+#import <HelpDeskLite/HelpDeskLite.h>
+#endif
+#import <HyphenateChat/HyphenateChat.h>
 
 #import "HDMessageViewController.h"
 #import "HDViewController.h"
@@ -50,11 +46,9 @@
 #import "UIViewController+DismissKeyboard.h"
 #import "UIResponder+HRouter.h"
 #import "HDLocalDefine.h"
+#import "HDSDWebImageManager.h"
 
-
-#define HDMAS_SHORTHAND_GLOBALS
 #import "HDMasonry.h"
-
 //Ext keyWord
 #define kMessageExtWeChat @"weichat"
 #define kMessageExtWeChat_ctrlType @"ctrlType"

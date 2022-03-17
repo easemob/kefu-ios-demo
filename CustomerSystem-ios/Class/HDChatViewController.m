@@ -13,6 +13,7 @@
 #import "HDChatViewController.h"
 #import "AppDelegate+HelpDesk.h"
 #import "CSDemoAccountManager.h"
+#import "HDCustomEmojiManager.h"
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
 #import "HDMessageReadManager.h"
@@ -72,6 +73,18 @@
     [message addContent:[self visitorInfo]];
     [self _sendMessage:message];
 }
+//发送文件消息
+- (void)moreViewFileAction:(HDChatBarMoreView *)moreView {
+    
+    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"doc"];
+    
+    HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:filePath displayName:@"123" to:self.conversation.conversationId];
+    
+    [message addContent:[self visitorInfo]];
+    [self _sendMessage:message];
+}
+
 
 // 留言
 - (void)moreViewLeaveMessageAction:(HDChatBarMoreView *)moreView

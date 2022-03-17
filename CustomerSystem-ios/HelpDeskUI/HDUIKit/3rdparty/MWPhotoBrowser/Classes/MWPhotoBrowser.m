@@ -10,7 +10,7 @@
 #import "MWCommon.h"
 #import "MWPhotoBrowser.h"
 #import "MWPhotoBrowserPrivate.h"
-#import "HDSDImageCache.h"
+//#import "HDSDImageCache.h"
 #import "HDLocalDefine.h"
 
 #define PADDING                  10
@@ -98,7 +98,9 @@
     _pagingScrollView.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self releaseAllUnderlyingPhotos:NO];
-    [[HDSDImageCache sharedImageCache] clearMemory]; // clear memory
+//    [[HDSDImageCache sharedImageCache] clearMemory]; // clear memory
+    //替换封装的第三方 方便以后升级
+    [[HDSDWebImageManager shareInstance] clearMemory];
 }
 
 - (void)releaseAllUnderlyingPhotos:(BOOL)preserveCurrent {
@@ -1555,9 +1557,9 @@
 
 #pragma mark - Action Progress
 
-- (HDMBProgressHUD *)progressHUD {
+- (MBProgressHUD *)progressHUD {
     if (!_progressHUD) {
-        _progressHUD = [[HDMBProgressHUD alloc] initWithView:self.view];
+        _progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
         _progressHUD.minSize = CGSizeMake(120, 120);
         _progressHUD.minShowTime = 1;
         // The sample image is based on the
@@ -1570,25 +1572,25 @@
 }
 
 - (void)showProgressHUDWithMessage:(NSString *)message {
-    self.progressHUD.labelText = message;
-    self.progressHUD.mode = HDMBProgressHUDModeIndeterminate;
-    [self.progressHUD show:YES];
+    self.progressHUD.label.text = message;
+    self.progressHUD.mode = MBProgressHUDModeIndeterminate;
+    [self.progressHUD showAnimated:YES];
     self.navigationController.navigationBar.userInteractionEnabled = NO;
 }
 
 - (void)hideProgressHUD:(BOOL)animated {
-    [self.progressHUD hide:animated];
+    [self.progressHUD hideAnimated:animated];
     self.navigationController.navigationBar.userInteractionEnabled = YES;
 }
 
 - (void)showProgressHUDCompleteMessage:(NSString *)message {
     if (message) {
-        if (self.progressHUD.isHidden) [self.progressHUD show:YES];
-        self.progressHUD.labelText = message;
-        self.progressHUD.mode = HDMBProgressHUDModeCustomView;
-        [self.progressHUD hide:YES afterDelay:1.5];
+        if (self.progressHUD.isHidden) [self.progressHUD showAnimated:YES];
+        self.progressHUD.label.text = message;
+        self.progressHUD.mode = MBProgressHUDModeCustomView;
+        [self.progressHUD hideAnimated:YES afterDelay:1.5];
     } else {
-        [self.progressHUD hide:YES];
+        [self.progressHUD hideAnimated:YES];
     }
     self.navigationController.navigationBar.userInteractionEnabled = YES;
 }

@@ -19,7 +19,7 @@
 
 - (void)_setupGifBubbleConstraints
 {
-    [self.imageView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.imageView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_top).offset(5);
         make.left.equalTo(self.mas_left).offset(self.margin.left);
         make.bottom.equalTo(self.mas_bottom).offset(-self.margin.bottom);
@@ -38,7 +38,7 @@
     [self.backgroundImageView addSubview:self.imageView];
     
     [self _setupGifBubbleConstraints];
-    [self hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(kBigExpressionHW);
     }];
 }

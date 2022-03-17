@@ -33,6 +33,7 @@
 #import "UIViewController+HDHUD.h"
 #import "UIViewController+AlertController.h"
 #import "HRobotUnsolveItemView.h"
+#import "HDCustomEmojiManager.h"
 
 typedef enum : NSUInteger {
     HDRequestRecord,
@@ -218,7 +219,7 @@ typedef enum : NSUInteger {
 - (void)setupEmotion
 {
     // 如果子类中实现了代理方法，就显示子类中的，如果没有显示就显示父类中的
-    if ([self.dataSource respondsToSelector:@selector(emotionFormessageViewController:)]) {
+    if (![self.dataSource respondsToSelector:@selector(emotionFormessageViewController:)]) {
         NSArray* emotionManagers = [self.dataSource emotionFormessageViewController:self];
         [self.faceView setEmotionManagers:emotionManagers];
     } else {
@@ -256,8 +257,54 @@ typedef enum : NSUInteger {
                                                                                emotions:customEmotions
                                                                                tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
         // 只添加自定义表情到数组中，UI上只显示自定义表情
-        [self.faceView setEmotionManagers:@[customManagerDefault]];
+//        [self.faceView setEmotionManagers:@[customManagerDefault]];
+        NSArray* emotionManagers = [self getCustomEmotion:customManagerDefault];
+        [self.faceView setEmotionManagers:emotionManagers];
+        
     }
+}
+
+-(NSArray *)getCustomEmotion:(HDEmotionManager *)customManagerDefault{
+    
+    NSMutableArray *rst = [NSMutableArray arrayWithCapacity:0];
+    //添加表情数据源
+#pragma mark smallpngface
+  
+    customManagerDefault.emotionName = NSLocalizedString(@"default", @"default");
+    [rst addObject:customManagerDefault];
+    
+    NSArray *emojiPackagesDics =[self emojiValueForKey:@"emojiPackages"];
+    for (NSDictionary *dic in emojiPackagesDics) {
+        HEmojiPackage *package = [[HEmojiPackage alloc] initWithDictionary:dic];
+        
+        if (![[HDClient sharedClient].kefuTenantId isEqualToString:package.tenantId]) {
+            continue;
+        }
+        NSMutableArray *marr = [NSMutableArray arrayWithCapacity:0];
+        NSArray *emojis = [self emojiValueForKey:[NSString stringWithFormat:@"emojis%@",package.packageId]];
+        for (NSDictionary *emojiDic in emojis) {
+            HEmoji *hemoji = [[HEmoji alloc] initWithDictionary:emojiDic];
+            HDEmotion *emotion = [[HDEmotion alloc] initWithName:hemoji.emojiName emotionId:@"123" emotionThumbnail:hemoji.thumbnailUrl emotionOriginal:hemoji.originUrl emotionOriginalURL:hemoji.originUrl emotionType:hemoji.emotionType];
+            [marr addObject:emotion];
+        }
+        if (marr.count > 0) {
+            HDEmotion *customTemp = [marr objectAtIndex:0];
+            HDEmotionManager *manager = [[HDEmotionManager alloc] initWithType:HDEmotionGif emotionRow:2 emotionCol:4 emotions:marr tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
+            manager.emotionName = package.packageName;
+            [rst addObject:manager];
+        }
+        
+    }
+    
+    return rst;
+    
+}
+
+- (id)emojiValueForKey:(NSString *)key {
+    NSString *path=NSTemporaryDirectory();
+    NSString *emojiPath =[path stringByAppendingPathComponent:@"emoji.plist"];
+    NSMutableDictionary *mDic = [NSMutableDictionary dictionaryWithContentsOfFile:emojiPath];
+    return [mDic valueForKey:key];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -491,13 +538,13 @@ typedef enum : NSUInteger {
             [[HDClient sharedClient].chatManager downloadAttachment:message progress:nil completion:completion];
         }
     }else if ([messageBody type] == EMMessageBodyTypeVideo) {
-        /* 目前后台没有提供缩略图，暂时不自动下载视频缩略图
+        
          EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
          if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
          //download the message thumbnail
-         [[HDClient sharedClient].chatManager downloadThumbnail:message progress:nil completion:completion];
+         [[HDClient sharedClient].chatManager hd_downloadThumbnail:message progress:nil completion:completion];
          }
-         */
+         
     }else if ([messageBody type] == EMMessageBodyTypeVoice)
     {
         EMVoiceMessageBody *voiceBody = (EMVoiceMessageBody*)messageBody;
@@ -1409,7 +1456,22 @@ typedef enum : NSUInteger {
     for (HDMessage *message in aMessages) {
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             [_conversation markAllMessagesAsRead:nil];
-            [self addMessageToDataSource:message progress:nil];
+            //收到消息以后 判断 最新消息都时间 如果 是之前 的消息 进行排序。否则 走一下方法
+            HDMessageModel * lastMessageModel = [self.dataArray lastObject];
+            if (lastMessageModel &&[lastMessageModel isKindOfClass:[HDMessageModel class]]) {
+                if( lastMessageModel.message.messageTime - message.messageTime > 0){
+                    //lastMessageModel.message.messageTime 大
+                    [self  _loadMessagesBefore:nil count:self.messageCountOfPage append:YES];
+                           
+                }else{
+                    //message.messageTime 大
+                    [self addMessageToDataSource:message progress:nil];
+                }
+            }else{
+            
+                [self addMessageToDataSource:message progress:nil];
+                
+            }
         }
     }
 }
@@ -2087,11 +2149,10 @@ typedef enum : NSUInteger {
                     {
                         newModel = [[HDMessageModel alloc] initWithMessage:message];
                     }
-                    
-                    [self.tableView beginUpdates];
-                    [self.dataArray replaceObjectAtIndex:i withObject:newModel];
-                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                    [self.tableView endUpdates];
+                        [self.tableView beginUpdates];
+                        [self.dataArray replaceObjectAtIndex:i withObject:newModel];
+                        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                        [self.tableView endUpdates];
                     break;
                 }
             }

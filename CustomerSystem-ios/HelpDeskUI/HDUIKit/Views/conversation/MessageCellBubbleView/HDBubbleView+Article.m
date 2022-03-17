@@ -35,6 +35,14 @@
             }else {
                 _imageUrl = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], picUrl];
             }
+        }else{
+            //返回的封面原图地址都一样 做个判断
+            NSString *thumbUrl = [dic objectForKey:@"thumbUrl"];
+            if (thumbUrl && [thumbUrl hasPrefix:@"http"]) {
+                _imageUrl = thumbUrl;
+            }else {
+                _imageUrl = [NSString stringWithFormat:@"%@%@",[HDClient.sharedClient kefuRestServer], thumbUrl];
+            }
         }
         
         NSString *detailUrl = [dic objectForKey:@"url"];
@@ -62,7 +70,7 @@
 @implementation HDBubbleView (Article)
 
 - (void)_setupArticleBubbleConstraints {
-    [self.articleView hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.articleView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);

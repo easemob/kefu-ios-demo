@@ -11,14 +11,14 @@
 @implementation HDBubbleView (Evaluate)
 
 - (void)_setupEvaluateBubbleConstraints {
-    [self.evaluateTitle hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.evaluateTitle hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
         make.bottom.equalTo(self.evaluateButton.mas_top).offset(-3);
     }];
     
-    [self.evaluateButton hdmas_updateConstraints:^(HDMASConstraintMaker *make) {
+    [self.evaluateButton hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(100);
         make.height.equalTo(50);
         make.centerX.equalTo(self.backgroundImageView.mas_centerX).offset(0);
