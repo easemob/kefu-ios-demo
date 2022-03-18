@@ -13,13 +13,39 @@
 #import "Masonry.h"
 #import "HDAnswerView.h"
 #import "HDCallCollectionViewCellItem.h"
-@interface HDCallViewController (){
+
+#import <HelpDesk/HelpDesk.h>
+#import <ReplayKit/ReplayKit.h>
+#import "HDAgoraCallManager.h"
+#import "HDAgoraCallManagerDelegate.h"
+#import "HDPopoverViewController.h"
+#define kLocalUid 11111111111 //设置本地的uid
+#define kCamViewTag 100001
+#define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
+#define kNotificationShareWindow kScreenShareExtensionBundleId
+
+@interface HDCallViewController ()<HDAgoraCallManagerDelegate,HDCallManagerDelegate,UIPopoverPresentationControllerDelegate>{
     
     UIView *_changeView;
     NSMutableArray * _videoItemViews;
     NSMutableArray * _videoViews;
     NSMutableArray * _tmpArray;
+    
+    
+    NSMutableArray *_members; // 通话人
+    NSTimer *_timer;
+    NSInteger _time;
+    HDCallCollectionViewCellItem *_currentItem;
+    BOOL isCalling; //是否正在通话
+    NSString * _thirdAgentNickName;
+    NSString * _thirdAgentUid;
+    
+    UIButton *_cameraBtn;
 }
+@property (nonatomic, strong) NSString *agentName;
+@property (nonatomic, strong) NSString *nickname;
+@property (nonatomic, strong) NSString *avatarStr;
+
 @property (nonatomic, strong) HDControlBarView *barView;
 @property (nonatomic, strong) HDMiddleVideoView *midelleVideoView;
 @property (nonatomic, strong) HDSmallWindowView *smallWindowView;
@@ -27,17 +53,30 @@
 @property (nonatomic, strong) HDAnswerView *hdAnswerView;
 @property (nonatomic, strong) UIView *tmpView;
 @property (nonatomic, assign) BOOL  isLandscape;//当前屏幕 是横屏还是竖屏
-
-
+@property (strong, nonatomic) HDPopoverViewController *buttonPopVC;
+@property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));
 @end
 
 @implementation HDCallViewController
-
++ (HDCallViewController *)hasReceivedCallWithKeyCenter:(HDKeyCenter *)keyCenter  avatarStr:(NSString *)aAvatarStr nickName:(NSString *)aNickname hangUpCallBack:(HangUpCallback)callback{
+    
+    HDCallViewController *callVC = [[HDCallViewController alloc] init];
+    callVC.nickname = aNickname;
+    callVC.avatarStr = aAvatarStr;
+    callVC.agentName = keyCenter.agentNickName;
+    callVC.hangUpCallback = callback;
+    
+    //需要必要创建房间的参数
+    [HDAgoraCallManager shareInstance].keyCenter =keyCenter;
+    return callVC;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    // 用于添加语音呼入的监听 onCallReceivedNickName:
+    [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
+
     [self.view addSubview:self.hdAnswerView];
     [self.hdAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.offset(0);
@@ -50,9 +89,17 @@
     self.isLandscape = NO;
     _videoViews = [NSMutableArray new];
     _videoItemViews = [NSMutableArray new];
-   
+    _members = [NSMutableArray new];
+    [self initScreenShare];
 }
 
+/// 初始化屏幕分享
+- (void)initScreenShare{
+    [self initBroadPickerView];
+//    [self addNotifications];
+    
+    
+}
 -(void)initData{
     HDControlBarModel * barModel = [HDControlBarModel new];
     barModel.itemType = HDControlBarItemTypeMute;
@@ -88,49 +135,90 @@
     
     [self.barView buttonFromArrBarModels:selImageArr view:self.barView];
     
+    [self initSmallWindowData];
+}
+
+- (void)initSmallWindowData{
+    
+    //初始化本地view
+    [self addLocalSessionWithUid:kLocalUid];
+    
+    [self.smallWindowView setItemData:_members];
+    
+}
+/// 接收视频通话后 设置本地view
+- (void)setAcceptCallView{
+    [HDAgoraCallManager shareInstance].roomDelegate = self;
+    [self setAgoraVideo];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    
+    [super viewDidDisappear:animated];
+    [[HDAgoraCallManager shareInstance] endCall];
+    [[HDAgoraCallManager shareInstance] destroy];
+}
+
+- (void)setAgoraVideo{
+    // 设置音视频 options
+    HDAgoraCallOptions *options = [[HDAgoraCallOptions alloc] init];
+    options.videoOff = NO; // 这个值要和按钮状态统一。
+    options.mute = NO; // 这个值要和按钮状态统一。
+    [[HDAgoraCallManager shareInstance] setCallOptions:options];
+    //add local render view
+    [self addLocalSessionWithUid:kLocalUid];//本地用户的id demo 切换的时候 有根据uid 判断 传入的时候尽量避免跟我们远端用户穿过来的相同
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+   
+}
+///  添加本地视频流
+/// @param localUid   本地用户id
+- (void)addLocalSessionWithUid:(NSInteger )localUid{
+//    // 设置第一个item的头像，昵称都为自己。HDCallViewCollectionViewCellItem 界面展示类
+    
     HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
     item.isSelected = YES; // 默认自己会被选中
-    item.nickName = @"test";
-    item.uid = @"123";
+    item.nickName = self.nickname;
+    item.uid = localUid;
     UIView * localView = [[UIView alloc] init];
-    localView.backgroundColor = [UIColor yellowColor];
     item.camView = localView;
-    
-    HDCallCollectionViewCellItem *item1 = [[HDCallCollectionViewCellItem alloc] init];
-    item1.isSelected = NO; // 默认自己会被选中
-    item1.nickName = @"访客";
-    item1.uid = @"1234";
-    UIView * localView1 = [[UIView alloc] init];
-    localView1.backgroundColor = [UIColor grayColor];
-    item1.camView = localView1;
-    
-    NSMutableArray * array = [NSMutableArray array];
-    
-    [array addObject:item];
-    [array addObject:item1];
-    
-    [self.smallWindowView setItemData:array];
-    
+    [[HDAgoraCallManager shareInstance] setupLocalVideoView:item.camView];
+    //添加数据源
+    [_members addObject:item];
+}
+// 根据HDCallMember 创建cellItem
+- (HDCallCollectionViewCellItem *)createCallerWithMember2:(HDAgoraCallMember *)aMember {
+    HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
+    item.nickName = self.nickname;
+    item.uid = [aMember.memberName integerValue];
+    item.camView = self.midelleVideoView;
+    //设置远端试图
+    [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
+    return item;
 }
 
-/// 应答事件
-/// @param sender  button
-- (void)anwersBtnClicked:(UIButton *)sender{
-    self.hdAnswerView.hidden = YES;
-    //应答的时候 在创建view
-    //添加 页面布局
-    [self addSubView];
-    //默认进来调用竖屏
-    [self updatePorttaitLayout];
-    [self initData];
+- (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
+    
+    _thirdAgentNickName = thirdAgentNickName;
+    _thirdAgentUid = uid;
+    
+    [self updateThirdAgent];
+}
+- (void)updateThirdAgent{
+   
+    if (_thirdAgentNickName.length > 0) {
+    [_members enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+           NSLog(@"%@----%@",_members[idx],[NSThread currentThread]);
+        HDCallCollectionViewCellItem *item = obj;
+        if (item.uid == [_thirdAgentUid integerValue]) {
+            item.nickName = _thirdAgentNickName;
+            [_members  replaceObjectAtIndex:idx withObject:item];
+        }
+    }];
+
+//    [self.collectionView reloadData];
+    }
 }
 
-/// 拒接事件
-/// @param sender button
-- (void)offBtnClicked:(UIButton *)sender{
-    //拒接事件 拒接关闭当前页面
-    
-}
 -(void)addSubView{
     //顶部 title
     [self.view addSubview:self.hdTitleView];
@@ -382,7 +470,54 @@
 
 
 #pragma mark - event
-
+/// 应答事件
+/// @param sender  button
+- (void)anwersBtnClicked:(UIButton *)sender{
+   
+    [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
+                                                        completion:^(id obj, HDError *error)
+     {
+        dispatch_async(dispatch_get_main_queue(), ^{
+        if (error == nil){
+            self.hdAnswerView.hidden = YES;
+            //应答的时候 在创建view
+            //添加 页面布局
+            [self addSubView];
+            //默认进来调用竖屏
+            [self updatePorttaitLayout];
+            [self initData];
+            [self.hdTitleView startTimer];
+            [self setAcceptCallView];
+            isCalling = YES;
+        }else{
+            // 加入失败 或者视频网络断开
+          
+               // UI更新代码
+                if (self.hangUpCallback) {
+                    self.hangUpCallback(self,self.hdTitleView.timeLabel.text);
+                }
+          
+            NSLog(@"VC=Occur error%d",error.code);
+        }
+        });
+     }];
+}
+/// 拒接事件
+/// @param sender button
+- (void)offBtnClicked:(UIButton *)sender{
+    //拒接事件 拒接关闭当前页面
+    isCalling = NO;
+    //挂断和拒接 都走这个
+    [[HDAgoraCallManager shareInstance] endCall];
+    [self.hdTitleView stopTimer];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       // UI更新代码
+        if (self.hangUpCallback) {
+            self.hangUpCallback(self,self.hdTitleView.timeLabel.text);
+        }
+    });
+}
 - (void)initBroadPickerView{
     if (@available(iOS 12.0, *)) {
        
@@ -394,16 +529,16 @@
 // 切换摄像头事件
 - (void)camBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
-//    [[HDAgoraCallManager shareInstance] switchCamera];
+    [[HDAgoraCallManager shareInstance] switchCamera];
 }
 
 // 静音事件
 - (void)muteBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     if (btn.selected) {
-//        [[HDAgoraCallManager shareInstance] pauseVoice];
+        [[HDAgoraCallManager shareInstance] pauseVoice];
     } else {
-//        [[HDAgoraCallManager shareInstance] resumeVoice];
+        [[HDAgoraCallManager shareInstance] resumeVoice];
     }
     
     NSLog(@"点击了静音事件");
@@ -412,16 +547,58 @@
 // 停止发送视频流事件
 - (void)videoBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
-//    UIView *selfView = [_members.firstObject camView];
+    _cameraBtn = btn;
     if (btn.selected) {
-//        [[HDAgoraCallManager shareInstance] pauseVideo];
+        [[HDAgoraCallManager shareInstance] pauseVideo];
     } else {
-//        [[HDAgoraCallManager shareInstance] resumeVideo];
+        [[HDAgoraCallManager shareInstance] resumeVideo];
     }
 //    selfView.hidden = btn.selected;
     NSLog(@"点击了视频事件");
+    self.buttonPopVC = [[HDPopoverViewController alloc] init];
+    self.buttonPopVC.modalPresentationStyle = UIModalPresentationPopover;
+    self.buttonPopVC.popoverPresentationController.sourceView = btn;  //rect参数是以view的左上角为坐标原点（0，0）
+    self.buttonPopVC.popoverPresentationController.sourceRect = btn.bounds; //指定箭头所指区域的矩形框范围（位置和尺寸），以view的左上角为坐标原点
+    self.buttonPopVC.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp; //箭头方向
+    self.buttonPopVC.popoverPresentationController.delegate = self;
+    [self presentViewController:self.buttonPopVC animated:YES completion:nil];
+  
+    
+}
+///处理popover上的talbe的cell点击
+- (void)tableDidSelected:(NSNotification *)notification {
+    NSIndexPath *indexpath = (NSIndexPath *)notification.object;
+    switch (indexpath.row) {
+        case 0:
+            //关闭摄像头
+            [self closeCamera];
+            break;
+        case 1:
+            //切换摄像头
+            [[HDAgoraCallManager shareInstance] switchCamera];
+            break;
+    
+    }
+    if (self.buttonPopVC) {
+        [self.buttonPopVC dismissViewControllerAnimated:YES completion:nil];    //我暂时使用这个方法让popover消失，但我觉得应该有更好的方法，因为这个方法并不会调用popover消失的时候会执行的回调。
+        self.buttonPopVC = nil;
+        
+    }else{
+      
+    }
+}
+- (void) closeCamera{
+    //更新对应状态 设置button 照片
+    [_cameraBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    
+}
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
+    return UIModalPresentationNone;
 }
 
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController{
+    return NO;   //点击蒙版popover不消失， 默认yes
+}
 // 扬声器事件
 - (void)speakerBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
@@ -431,15 +608,15 @@
 
 // 屏幕共享事件
 - (void)shareDesktopBtnClicked:(UIButton *)btn {
-//    for (UIView *view in _broadPickerView.subviews)
-//    {
-//        if ([view isKindOfClass:[UIButton class]])
-//        {
-//            //调起录像方法，UIControlEventTouchUpInside的方法看其他文章用的是UIControlEventTouchDown，
-//            //我使用时用UIControlEventTouchUpInside用好使，看个人情况决定
-//            [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
-//        }
-//    }
+    for (UIView *view in _broadPickerView.subviews)
+    {
+        if ([view isKindOfClass:[UIButton class]])
+        {
+            //调起录像方法，UIControlEventTouchUpInside的方法看其他文章用的是UIControlEventTouchDown，
+            //我使用时用UIControlEventTouchUpInside用好使，看个人情况决定
+            [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
+        }
+    }
     NSLog(@"点击了屏幕共享事件");
 }
 
@@ -459,6 +636,143 @@
 {
     NSLog(@"点击了互动白板事件");
    
+}
+#pragma mark - Call
+
+// 成员加入回调
+- (void)onMemberJoin:(HDAgoraCallMember *)member {
+    // 有 member 加入，添加到datasource中。
+    if (isCalling) { // 只有在已经通话中的情况下，才回去在ui加入，否则都在接听时加入。
+        @synchronized(_members){
+            BOOL isNeedAdd = YES;
+            for (HDCallCollectionViewCellItem *item in _members) {
+                if (item.uid  == [member.memberName integerValue] ) {
+                    isNeedAdd = NO;
+                    break;
+                }
+            }
+            if (isNeedAdd) {
+                [_members addObject: [self createCallerWithMember2:member]];
+            }
+        };
+        [self updateThirdAgent];
+     //刷新 collectionView
+        [self.smallWindowView reloadData];
+        
+    }
+}
+
+// 成员离开回调
+- (void)onMemberExit:(HDAgoraCallMember *)member {
+    // 有 member 离开，清理datasource
+    // 如果移除的是当前显示的客服
+    if (_currentItem.uid == [member.memberName integerValue]) {
+        [self.smallWindowView removeCurrentCellItem];
+    }
+    HDCallCollectionViewCellItem *deleteItem;
+    for (HDCallCollectionViewCellItem *item in _members) {
+        if (item.uid == [member.memberName integerValue]) {
+            deleteItem = item;
+            break;
+        }
+    }
+    if (deleteItem) {
+        [_members removeObject:deleteItem];
+        [[HDAgoraCallManager shareInstance] setupRemoteVideoView:deleteItem.camView withRemoteUid:deleteItem.uid];
+       
+        [self.smallWindowView reloadData];
+       
+    }
+}
+
+#pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。
+// 录屏直播 主App和宿主App数据共享，通信功能实现 如果我们要将开始、暂停、结束这些事件以消息的形式发送到宿主App中，需要使用CFNotificationCenterGetDarwinNotifyCenter。
+- (void)sendNotificationWithIdentifier:(nullable NSString *)identifier userInfo:(NSDictionary *)info {
+    CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();
+    CFDictionaryRef userInfo = (__bridge CFDictionaryRef)info;
+    BOOL const deliverImmediately = YES;
+    CFStringRef identifierRef = (__bridge CFStringRef)identifier;
+    CFNotificationCenterPostNotification(center, identifierRef, NULL, userInfo, deliverImmediately);
+}
+void NotificationCallback(CFNotificationCenterRef center,
+                                   void * observer,
+                                   CFStringRef name,
+                                   void const * object,
+                                   CFDictionaryRef userInfo) {
+    NSString *identifier = (__bridge NSString *)name;
+    NSObject *sender = (__bridge NSObject *)observer;
+//    NSDictionary *info = (__bridge NSDictionary *)userInfo;
+//    NSDictionary *info = CFBridgingRelease(userInfo);
+    NSDictionary *notiUserInfo = @{@"identifier":identifier};
+    if (sender) {
+    
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShareWindow
+                                                            object:sender
+                                                          userInfo:notiUserInfo];
+    }
+   
+}
+- (void)addNotifications {
+    [self registerNotificationsWithIdentifier:@"broadcastStartedWithSetupInfo"];
+    [self registerNotificationsWithIdentifier:@"broadcastPaused"];
+    [self registerNotificationsWithIdentifier:@"broadcastResumed"];
+    [self registerNotificationsWithIdentifier:@"broadcastFinished"];
+    [self registerNotificationsWithIdentifier:@"processSampleBuffer"];
+    //这里同时注册了分发消息的通知，在宿主App中使用
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(NotificationAction:) name:kNotificationShareWindow object:nil];
+}
+
+- (void)registerNotificationsWithIdentifier:(nullable NSString *)identifier{
+    CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();
+    CFStringRef str = (__bridge CFStringRef)identifier;
+   
+    CFNotificationCenterAddObserver(center,
+                                    (__bridge const void *)(self),
+                                    NotificationCallback,
+                                    str,
+                                    NULL,
+                                    CFNotificationSuspensionBehaviorDeliverImmediately);
+}
+- (void)NotificationAction:(NSNotification *)noti {
+    NSDictionary *userInfo = noti.userInfo;
+    NSString *identifier = userInfo[@"identifier"];
+    
+    if ([identifier isEqualToString:@"broadcastStartedWithSetupInfo"]) {
+        
+//        self.shareDeskTopBtn.selected =YES;
+        
+        [[HDAgoraCallManager shareInstance]  leaveChannel];
+        [[HDAgoraCallManager shareInstance]  destroy];
+        
+        NSLog(@"broadcastStartedWithSetupInfo");
+    }
+    if ([identifier isEqualToString:@"broadcastPaused"]) {
+        NSLog(@"broadcastPaused");
+    }
+    if ([identifier isEqualToString:@"broadcastResumed"]) {
+        NSLog(@"broadcastResumed");
+    }
+    if ([identifier isEqualToString:@"broadcastFinished"]) {
+        
+        //更改按钮的状态
+        
+        [[HDAgoraCallManager shareInstance] joinChannel];
+        //设置远端试图
+        for (HDCallCollectionViewCellItem * item in _members) {
+            if (item.uid == kLocalUid) {
+                //设置本地试图 取出本地item
+                [[HDAgoraCallManager shareInstance] setupLocalVideoView:item.camView];
+            }else{
+                [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
+            }
+        }
+       
+        
+        NSLog(@"broadcastFinished");
+    }
+    if ([identifier isEqualToString:@"processSampleBuffer"]) {
+        NSLog(@"processSampleBuffer");
+    }
 }
 
 @end

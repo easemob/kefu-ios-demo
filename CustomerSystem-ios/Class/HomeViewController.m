@@ -19,6 +19,7 @@
 #import "HConversationsViewController.h"
 #import "HDAgoraCallViewController.h"
 #import "HDFastbordViewController.h"
+#import "HDCallViewController.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
@@ -558,12 +559,21 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter{
     
     HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-       
-        
+
+
         [callVC dismissViewControllerAnimated:YES completion:nil];
     }];
         hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
         [self presentViewController:hdCallVC animated:YES completion:nil];
+//
+    
+//    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//
+//        [callVC dismissViewControllerAnimated:YES completion:nil];
+//    }];
+//        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//        [self presentViewController:hdCallVC animated:YES completion:nil];
+
     
 }
 //声网

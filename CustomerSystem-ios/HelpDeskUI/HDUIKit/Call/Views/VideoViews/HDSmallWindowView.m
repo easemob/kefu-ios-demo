@@ -38,11 +38,6 @@
 
 - (void)setItemData:(NSArray<HDCallCollectionViewCellItem *> *)items{
     
-    /**
-     *  加载的数据 数组里边放item
-     */
-    NSArray *imgArray = [NSArray arrayWithObjects:@"IMG_0325.JPG",@"IMG_0325.JPG",@"IMG_0325.JPG",@"IMG_0325.JPG",@"IMG_0325.JPG",@"IMG_0325.JPG", nil];
-
     //collectionView数据
     _cellArray = [items mutableCopy];
     
@@ -58,8 +53,20 @@
 
 - (void)refreshView:(UIView *)view withScreen:(BOOL)landscape{
 
+    
+    
+    
 }
-
+- (void)removeCurrentCellItem{
+    
+    [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
+    
+}
+- (void)reloadData{
+    
+    [self.collectionView reloadData];
+    
+}
 -(NSArray *)items{
     
     return _cellArray;

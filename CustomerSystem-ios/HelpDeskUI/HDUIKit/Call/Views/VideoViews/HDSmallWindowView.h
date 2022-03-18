@@ -21,6 +21,8 @@ typedef void(^ClickCellItemBlock)(HDCallCollectionViewCellItem *item,NSIndexPath
 - (void)setItemData:(NSArray<HDCallCollectionViewCellItem *> *)items;
 - (void)setSelectCallItemChangeVideoView:(HDCallCollectionViewCellItem *)item withIndex:(NSInteger )index;
 - (void)refreshView:(UIView *)view withScreen:(BOOL)landscape;
+- (void)reloadData;
+- (void)removeCurrentCellItem;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -129,30 +129,30 @@
 - (void)selected {
 
     // 发送被选中通知
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectedNotification"
-                                                        object:nil
-                                                      userInfo:@{@"item_uid":self.item.uid}];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectedNotification"
+//                                                        object:nil
+//                                                      userInfo:@{@"item_uid":self.item.uid}];
     _item.isSelected = YES;
 }
 
 // 接收被选中通知，如果被选中的不是self，则将self设置为未选中状态
 - (void)receiveNoti:(NSNotification *)noti {
-    
-    if (self.item.uid) {
-    NSString *uid = noti.userInfo[@"item_uid"];
-    if (![uid isEqualToString:self.item.uid]) {
-        [self unSelected];
-    }
-    _item.isSelected = NO;
-    }else{
-        NSString *uid = noti.userInfo[@"item_uid"];
-        if ( [uid isEqualToString: self.item.uid]) {
-            [self unSelected];
-        }
-        _item.isSelected = NO;
-        
-        
-    }
+//
+//    if (self.item.uid) {
+//    NSString *uid = noti.userInfo[@"item_uid"];
+//    if (![uid isEqualToString:self.item.uid]) {
+//        [self unSelected];
+//    }
+//    _item.isSelected = NO;
+//    }else{
+//        NSString *uid = noti.userInfo[@"item_uid"];
+//        if ( [uid isEqualToString: self.item.uid]) {
+//            [self unSelected];
+//        }
+//        _item.isSelected = NO;
+//
+//
+//    }
 }
 - (void)buttonClick:(UIButton *)sender
 {

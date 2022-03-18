@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HDCallCollectionViewCellItem : NSObject
-@property (nonatomic, strong) NSString *  uid; // Call中的属性，用于区分当前属于哪一个uid
+@property (nonatomic, assign) NSInteger   uid; // Call中的属性，用于区分当前属于哪一个uid
 @property (nonatomic, strong) UIView *camView;
 @property (nonatomic, strong) NSString *nickName;
 @property (nonatomic, assign) BOOL isSelected;

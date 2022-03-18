@@ -12,6 +12,7 @@
 #import "HDAgoraCallManagerDelegate.h"
 NS_ASSUME_NONNULL_BEGIN
 @interface HDAgoraCallManager : NSObject
+@property (strong, nonatomic) AgoraRtcEngineKit *agoraKit;
 @property (nonatomic, weak) id <HDAgoraCallManagerDelegate> roomDelegate;
 @property (nonatomic, strong) HDKeyCenter *keyCenter;
 + (instancetype _Nullable )shareInstance;

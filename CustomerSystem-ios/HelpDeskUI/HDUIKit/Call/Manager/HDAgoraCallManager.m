@@ -42,7 +42,7 @@
 }
 
 @property (nonatomic, strong) NSMutableArray *members;
-@property (strong, nonatomic) AgoraRtcEngineKit *agoraKit;
+
 @property (nonatomic, strong) AgoraRtcEngineKit *agoraKitScreenShare;
 
 
@@ -492,6 +492,17 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine virtualBackgroundSourceEnabled:(BOOL)enabled reason:(AgoraVirtualBackgroundSourceStateReason)reason{
     
     NSLog(@"virtualBackgroundSourceEnabled = %d = reason=%luu",enabled,(unsigned long)reason);
+    
+}
+
+/// 远端用户音频静音回调
+/// @param engine AgoraRtcEngineKit
+/// @param muted muted
+/// @param uid  uid
+- (void)rtcEngine:(AgoraRtcEngineKit *)engine didAudioMuted:(BOOL)muted byUid:(NSUInteger)uid{
+    
+    
+    
     
 }
 

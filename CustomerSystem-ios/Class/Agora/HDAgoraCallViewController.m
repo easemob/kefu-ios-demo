@@ -13,6 +13,7 @@
 #import "HDAgoraCallMember.h"
 #import "HDAgoraCallManager.h"
 #import "HDAgoraCallManagerDelegate.h"
+#define kLocalUid 11111111111 //设置本地的uid
 #define kCamViewTag 100001
 #define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
 #define kNotificationShareWindow kScreenShareExtensionBundleId
@@ -23,8 +24,6 @@
     NSInteger _time;
     HDCallViewCollectionViewCellItem *_currentItem;
     BOOL isCalling; //是否正在通话
-    NSMutableArray *_uidArray; // 记录邀请坐席过来的uid
-    
     NSString * _thirdAgentNickName;
     NSString * _thirdAgentUid;
 }
@@ -77,14 +76,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _uidArray = [[NSMutableArray alloc] init];
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
-    // 监听屏幕旋转
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(handleStatusBarOrientationChange)
-                                                name:UIApplicationDidChangeStatusBarOrientationNotification
-                                              object:nil];
 
     // 初始化数据源
     _members = [NSMutableArray array];
@@ -94,16 +87,14 @@
     [self.collectionView reloadData];
     [self updateInfoLabel]; // 尝试更新“正在通话中...(n)”中的n。
     [self initBroadPickerView];
-    [self addNotifications];
+//    [self addNotifications];
   
 }
 
+/// 接收视频通话后 设置本地view
 - (void)setAcceptCallView{
     [HDAgoraCallManager shareInstance].roomDelegate = self;
     [self setAgoraVideo];
-    [self saveTextByNSUserDefaults];
-    
-    
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
@@ -120,7 +111,7 @@
     options.mute = NO; // 这个值要和按钮状态统一。
     [[HDAgoraCallManager shareInstance] setCallOptions:options];
     //add local render view
-    [self  addLocalSessionWithUid:0];//本地用户的id demo 切换的时候 有根据uid 判断 传入的时候尽量避免跟我们远端用户穿过来的相
+    [self addLocalSessionWithUid:kLocalUid];//本地用户的id demo 切换的时候 有根据uid 判断 传入的时候尽量避免跟我们远端用户穿过来的相同
     [UIApplication sharedApplication].idleTimerDisabled = YES;
    
 }
@@ -176,7 +167,6 @@
 }
 
 - (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
-    
     
     _thirdAgentNickName = thirdAgentNickName;
     _thirdAgentUid = uid;
@@ -243,46 +233,12 @@
             //调起录像方法，UIControlEventTouchUpInside的方法看其他文章用的是UIControlEventTouchDown，
             //我使用时用UIControlEventTouchUpInside用好使，看个人情况决定
             [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
-//            HDKeyCenter *key = [HDAgoraCallManager shareInstance].keyCenter;
-//            NSDictionary * dict = @{
-//                @"appId": key.agoraAppid,
-//                @"channel": key.agoraChannel,
-//                @"token": key.agoraToken,
-//                @"uid": key.agoraUid,
-//                @"callId ": key.callid,
-//            };
-            
-//            NSDictionary * dict = @{
-//                         @"appId":  @"appId",
-//
-//                     };
-//            [self sendNotificationWithIdentifier:@"shareWindowUI" userInfo:dict];
-            [self saveTextByNSUserDefaults];
+
         }
     }
 }
-- (bool)writeTextByNSFileManager
-{
-    NSError *err = nil;
-    NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"com.easemob.enterprise.demo.customer"];
-    containerURL = [containerURL URLByAppendingPathComponent:@"Library/Caches/good"];
-    
-    NSString *value = @"just test";
-    BOOL result = [value writeToURL:containerURL atomically:YES encoding:NSUTF8StringEncoding error:&err];
-    return result;
-}
-- (void)saveTextByNSUserDefaults
-{
-    NSUserDefaults *shared = [[NSUserDefaults alloc]   initWithSuiteName:@"com.easemob.enterprise.demo.customer"];
-    [shared setObject:@"123456"forKey:@"cmcc"];
-    [shared synchronize];
-    
-    
-    NSUserDefaults *shared1 = [[NSUserDefaults alloc] initWithSuiteName:@"keychainGroup"];
-    [shared1 setObject:@"123"forKey:@"cmcc11111"];
-    [shared1 synchronize];
-    
-}
+
+
 // 切换屏幕尺寸事件
 - (IBAction)screenBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
@@ -292,6 +248,8 @@
     [UIView setAnimationDuration:0.2];
     view.frame = self.screenBtn.selected ? UIScreen.mainScreen.bounds : frame;
     [UIView commitAnimations];
+    
+//    [[HDAgoraCallManager shareInstance].agoraKit setLocalRenderMode:AgoraVideoRenderModeHidden];
 }
 
 // 隐藏按钮事件
@@ -485,41 +443,45 @@
     CFStringRef identifierRef = (__bridge CFStringRef)identifier;
     CFNotificationCenterPostNotification(center, identifierRef, NULL, userInfo, deliverImmediately);
 }
-void NotificationCallback(CFNotificationCenterRef center,
-                                   void * observer,
-                                   CFStringRef name,
-                                   void const * object,
-                                   CFDictionaryRef userInfo) {
-    NSString *identifier = (__bridge NSString *)name;
-    NSObject *sender = (__bridge NSObject *)observer;
-    //NSDictionary *info = (__bridge NSDictionary *)userInfo;
-//    NSDictionary *info = CFBridgingRelease(userInfo);
-    NSDictionary *notiUserInfo = @{@"identifier":identifier};
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShareWindow
-                                                        object:sender
-                                                      userInfo:notiUserInfo];
-}
-- (void)addNotifications {
-    [self registerNotificationsWithIdentifier:@"broadcastStartedWithSetupInfo"];
-    [self registerNotificationsWithIdentifier:@"broadcastPaused"];
-    [self registerNotificationsWithIdentifier:@"broadcastResumed"];
-    [self registerNotificationsWithIdentifier:@"broadcastFinished"];
-    [self registerNotificationsWithIdentifier:@"processSampleBuffer"];
-    //这里同时注册了分发消息的通知，在宿主App中使用
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(NotificationAction:) name:kNotificationShareWindow object:nil];
-}
-
-- (void)registerNotificationsWithIdentifier:(nullable NSString *)identifier{
-    CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();
-    CFStringRef str = (__bridge CFStringRef)identifier;
-   
-    CFNotificationCenterAddObserver(center,
-                                    (__bridge const void *)(self),
-                                    NotificationCallback,
-                                    str,
-                                    NULL,
-                                    CFNotificationSuspensionBehaviorDeliverImmediately);
-}
+//void NotificationCallback(CFNotificationCenterRef center,
+//                                   void * observer,
+//                                   CFStringRef name,
+//                                   void const * object,
+//                                   CFDictionaryRef userInfo) {
+//    NSString *identifier = (__bridge NSString *)name;
+//    NSObject *sender = (__bridge NSObject *)observer;
+////    NSDictionary *info = (__bridge NSDictionary *)userInfo;
+////    NSDictionary *info = CFBridgingRelease(userInfo);
+//    NSDictionary *notiUserInfo = @{@"identifier":identifier};
+//    if (sender) {
+//
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShareWindow
+//                                                            object:sender
+//                                                          userInfo:notiUserInfo];
+//    }
+//
+//}
+//- (void)addNotifications {
+//    [self registerNotificationsWithIdentifier:@"broadcastStartedWithSetupInfo"];
+//    [self registerNotificationsWithIdentifier:@"broadcastPaused"];
+//    [self registerNotificationsWithIdentifier:@"broadcastResumed"];
+//    [self registerNotificationsWithIdentifier:@"broadcastFinished"];
+//    [self registerNotificationsWithIdentifier:@"processSampleBuffer"];
+//    //这里同时注册了分发消息的通知，在宿主App中使用
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(NotificationAction:) name:kNotificationShareWindow object:nil];
+//}
+//
+//- (void)registerNotificationsWithIdentifier:(nullable NSString *)identifier{
+//    CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();
+//    CFStringRef str = (__bridge CFStringRef)identifier;
+//
+//    CFNotificationCenterAddObserver(center,
+//                                    (__bridge const void *)(self),
+//                                    NotificationCallback,
+//                                    str,
+//                                    NULL,
+//                                    CFNotificationSuspensionBehaviorDeliverImmediately);
+//}
 - (void)NotificationAction:(NSNotification *)noti {
     NSDictionary *userInfo = noti.userInfo;
     NSString *identifier = userInfo[@"identifier"];
@@ -543,7 +505,19 @@ void NotificationCallback(CFNotificationCenterRef center,
         
         //更改按钮的状态
         self.shareDeskTopBtn.selected =NO;
+        
         [[HDAgoraCallManager shareInstance] joinChannel];
+        //设置远端试图
+        for (HDCallViewCollectionViewCellItem * item in _members) {
+            if (item.uid == kLocalUid) {
+                //设置本地试图 取出本地item
+                [[HDAgoraCallManager shareInstance] setupLocalVideoView:item.camView];
+            }else{
+                [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
+            }
+        }
+       
+        
         NSLog(@"broadcastFinished");
     }
     if ([identifier isEqualToString:@"processSampleBuffer"]) {
