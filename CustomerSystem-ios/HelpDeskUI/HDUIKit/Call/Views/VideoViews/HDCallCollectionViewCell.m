@@ -103,7 +103,7 @@
 - (UILabel *)nickNameLabel{
     if (!_nickNameLabel) {
         _nickNameLabel = [[UILabel alloc] init];
-        _nickNameLabel.backgroundColor = [UIColor systemGroupedBackgroundColor];
+        _nickNameLabel.backgroundColor = [UIColor lightGrayColor];
         _nickNameLabel.textAlignment=NSTextAlignmentCenter;
         _nickNameLabel.numberOfLines = 0;
         _nickNameLabel.layer.cornerRadius = 10;

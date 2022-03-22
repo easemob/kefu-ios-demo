@@ -6,6 +6,7 @@
 //
 
 #import "HDTitleView.h"
+#import "UIImage+HDIconFont.h"
 #define kHideBtnHeight 34
 @interface HDTitleView()
 {
@@ -110,7 +111,10 @@
     
     if (!_hideBtn) {
         _hideBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width-34,self.frame.size.height/2-kHideBtnHeight/2 , kHideBtnHeight, kHideBtnHeight)];
-        [_hideBtn setImage:[UIImage imageNamed:@"hide"] forState:UIControlStateNormal];
+        
+//        [_hideBtn setImage:[UIImage imageNamed:@"hide"] forState:UIControlStateNormal];
+        
+        [_hideBtn setImage:[UIImage imageWithIcon:@"&#xe650" inFont:@"xiaoxiaolian" size:50 color:[UIColor redColor]] forState:UIControlStateNormal];
         [_hideBtn addTarget:self action:@selector(clickHide:) forControlEvents:UIControlEventTouchUpInside];
         
         

@@ -19,6 +19,7 @@
 #import "HDAgoraCallManager.h"
 #import "HDAgoraCallManagerDelegate.h"
 #import "HDPopoverViewController.h"
+#import "HDItemView.h"
 #define kLocalUid 11111111111 //设置本地的uid
 #define kCamViewTag 100001
 #define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
@@ -41,6 +42,7 @@
     NSString * _thirdAgentUid;
     
     UIButton *_cameraBtn;
+    BOOL _cameraState; //摄像头状态； yes 开启摄像头 no 关闭
 }
 @property (nonatomic, strong) NSString *agentName;
 @property (nonatomic, strong) NSString *nickname;
@@ -51,6 +53,7 @@
 @property (nonatomic, strong) HDSmallWindowView *smallWindowView;
 @property (nonatomic, strong) HDTitleView *hdTitleView;
 @property (nonatomic, strong) HDAnswerView *hdAnswerView;
+@property (nonatomic, strong) HDItemView *itemView;
 @property (nonatomic, strong) UIView *tmpView;
 @property (nonatomic, assign) BOOL  isLandscape;//当前屏幕 是横屏还是竖屏
 @property (strong, nonatomic) HDPopoverViewController *buttonPopVC;
@@ -74,9 +77,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    _cameraState = NO;
+    
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableDidSelected:) name:@"click" object:nil];
     [self.view addSubview:self.hdAnswerView];
     [self.hdAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.offset(0);
@@ -110,8 +116,8 @@
     HDControlBarModel * barModel1 = [HDControlBarModel new];
     barModel1.itemType = HDControlBarItemTypeVideo;
     barModel1.name=@"";
-    barModel1.imageStr=@"videoMuteButton";
-    barModel1.selImageStr=@"videoMuteButtonSelected";
+    barModel1.imageStr=@"videoOff";
+    barModel1.selImageStr=@"videoOn";
     
     HDControlBarModel * barModel2 = [HDControlBarModel new];
     barModel2.itemType = HDControlBarItemTypeHangUp;
@@ -162,12 +168,14 @@
 - (void)setAgoraVideo{
     // 设置音视频 options
     HDAgoraCallOptions *options = [[HDAgoraCallOptions alloc] init];
-    options.videoOff = NO; // 这个值要和按钮状态统一。
+    options.videoOff = _cameraState; // 这个值要和按钮状态统一。
     options.mute = NO; // 这个值要和按钮状态统一。
     [[HDAgoraCallManager shareInstance] setCallOptions:options];
     //add local render view
     [self addLocalSessionWithUid:kLocalUid];//本地用户的id demo 切换的时候 有根据uid 判断 传入的时候尽量避免跟我们远端用户穿过来的相同
     [UIApplication sharedApplication].idleTimerDisabled = YES;
+    
+   
    
 }
 ///  添加本地视频流
@@ -184,6 +192,8 @@
     [[HDAgoraCallManager shareInstance] setupLocalVideoView:item.camView];
     //添加数据源
     [_members addObject:item];
+    
+    [self.itemView setItemString:item.nickName];
 }
 // 根据HDCallMember 创建cellItem
 - (HDCallCollectionViewCellItem *)createCallerWithMember2:(HDAgoraCallMember *)aMember {
@@ -228,6 +238,17 @@
     [self.view addSubview:self.midelleVideoView];
     //底部view
     [self.view addSubview:self.barView];
+    
+    //添加昵称信息
+    [self.view addSubview:self.itemView];
+    [self.itemView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.barView.mas_top).offset(10);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+        make.height.offset(44);
+        
+    }];
+    
 }
 #pragma mark - 屏幕翻转就会调用
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -347,6 +368,8 @@
     item.camView = tmpVideoView;
     [self.smallWindowView setSelectCallItemChangeVideoView:item withIndex:idx];
  
+    [self.itemView setItemString:item.nickName];
+    
 }
 
 /// 更新视频窗口（大窗口）
@@ -378,6 +401,12 @@
     }
     [_videoViews addObject:videoView];
 
+}
+- (HDItemView *)itemView{
+    if (!_itemView) {
+        _itemView = [[HDItemView alloc]init];
+     }
+     return _itemView;
 }
 - (HDAnswerView *)hdAnswerView{
    if (!_hdAnswerView) {
@@ -534,7 +563,7 @@
 
 // 静音事件
 - (void)muteBtnClicked:(UIButton *)btn {
-    btn.selected = !btn.selected;
+//    btn.selected = !btn.selected;
     if (btn.selected) {
         [[HDAgoraCallManager shareInstance] pauseVoice];
     } else {
@@ -546,14 +575,27 @@
 
 // 停止发送视频流事件
 - (void)videoBtnClicked:(UIButton *)btn {
-    btn.selected = !btn.selected;
     _cameraBtn = btn;
-    if (btn.selected) {
-        [[HDAgoraCallManager shareInstance] pauseVideo];
-    } else {
+    //默认进来判断获取摄像头状态
+    //1、如果是关闭  点击直接打开摄像头
+    //2、如果是开启的 点击按钮 谈窗
+//        1、点击关闭摄像头  调用关闭摄像头方法 并且 更改当前btn 图片状态
+//        2、点击切换摄像头  调用切换摄像头方法
+    
+    if (_cameraState) {
+        //开启
+          btn.selected = !btn.selected;
+          [self popoverVCWithBtn:btn];
+        
+    }else{
+        //当前摄像头关闭 需要打开
         [[HDAgoraCallManager shareInstance] resumeVideo];
+        _cameraState = YES;
+
     }
-//    selfView.hidden = btn.selected;
+    
+}
+- (void)popoverVCWithBtn:(UIButton *)btn{
     NSLog(@"点击了视频事件");
     self.buttonPopVC = [[HDPopoverViewController alloc] init];
     self.buttonPopVC.modalPresentationStyle = UIModalPresentationPopover;
@@ -562,9 +604,8 @@
     self.buttonPopVC.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp; //箭头方向
     self.buttonPopVC.popoverPresentationController.delegate = self;
     [self presentViewController:self.buttonPopVC animated:YES completion:nil];
-  
-    
 }
+
 ///处理popover上的talbe的cell点击
 - (void)tableDidSelected:(NSNotification *)notification {
     NSIndexPath *indexpath = (NSIndexPath *)notification.object;
@@ -575,6 +616,7 @@
             break;
         case 1:
             //切换摄像头
+            NSLog(@"====点击了切换摄像头");
             [[HDAgoraCallManager shareInstance] switchCamera];
             break;
     
@@ -588,9 +630,12 @@
     }
 }
 - (void) closeCamera{
+    NSLog(@"====点击了关闭摄像头");
+    _cameraState = NO;
+    _cameraBtn.selected =NO;
     //更新对应状态 设置button 照片
-    [_cameraBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    
+    [_cameraBtn setImage:[UIImage imageNamed:@"videoOff"] forState:UIControlStateNormal];
+    [[HDAgoraCallManager shareInstance] pauseVideo];
 }
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
     return UIModalPresentationNone;

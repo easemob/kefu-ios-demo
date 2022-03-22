@@ -148,7 +148,8 @@ static HDAgoraCallManager *shareCall = nil;
         //是否静音
         [_agoraKit muteLocalAudioStream:_options.mute];
         //是否关闭摄像头
-        [_agoraKit muteLocalVideoStream:_options.videoOff];
+        [_agoraKit enableLocalVideo:_options.videoOff];
+        
         [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:_callQueue];
     }
     return _agoraKit;
@@ -203,10 +204,13 @@ static HDAgoraCallManager *shareCall = nil;
     
 }
 - (void)pauseVideo{
-    [self.agoraKit  muteLocalVideoStream:YES];
+//    [self.agoraKit  muteLocalVideoStream:YES];
+    [self.agoraKit  enableLocalVideo:NO];
 }
 - (void)resumeVideo{
-    [self.agoraKit  muteLocalVideoStream:NO];
+//    [self.agoraKit  muteLocalVideoStream:NO];
+    
+    [self.agoraKit  enableLocalVideo:YES];
     
 }
 /**
@@ -491,7 +495,7 @@ static HDAgoraCallManager *shareCall = nil;
 }
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine virtualBackgroundSourceEnabled:(BOOL)enabled reason:(AgoraVirtualBackgroundSourceStateReason)reason{
     
-    NSLog(@"virtualBackgroundSourceEnabled = %d = reason=%luu",enabled,(unsigned long)reason);
+    NSLog(@"virtualBackgroundSourceEnabled = %d  &#xe650; = reason=%luu",enabled,(unsigned long)reason);
     
 }
 

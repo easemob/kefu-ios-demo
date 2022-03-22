@@ -558,39 +558,51 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 #pragma mark - HDCallManagerDelegate
 - (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter{
     
-    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-
-
-        [callVC dismissViewControllerAnimated:YES completion:nil];
-    }];
-        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:hdCallVC animated:YES completion:nil];
+//    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
 //
-    
-//    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
 //
 //        [callVC dismissViewControllerAnimated:YES completion:nil];
 //    }];
 //        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
 //        [self presentViewController:hdCallVC animated:YES completion:nil];
+//
+    
+    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//        [callVC dismissViewControllerAnimated:YES completion:nil];
+    }];
+        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:hdCallVC animated:YES completion:nil];
 
     
 }
 //声网
 - (void)agorademo{
+    
+    HDKeyCenter * key = [[HDKeyCenter alloc] init];
+    
+    
+    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:key avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//        [callVC dismissViewControllerAnimated:YES completion:nil];
+    }];
+        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:hdCallVC animated:YES completion:nil];
+
+    
+    return;
+    
 //    [self lxLogout];
 //          [self lxLogin];
 //    HDAgoraCallViewController * agoraVC = [[HDAgoraCallViewController alloc] init];
 //    [self.navigationController pushViewController:agoraVC animated:YES];
-    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:nil avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-       
-        
-        [callVC dismissViewControllerAnimated:YES completion:nil];
-    }];
+//    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:nil avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//
+//
+//        [callVC dismissViewControllerAnimated:YES completion:nil];
+//    }];
     
 //    [hdCallVC dismissViewControllerAnimated:YES completion:nil];
-        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:hdCallVC animated:YES completion:nil];
+//        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//        [self presentViewController:hdCallVC animated:YES completion:nil];
 //    HDFastbordViewController * agoraVC = [[HDFastbordViewController alloc] init];
 //        [self.navigationController pushViewController:agoraVC animated:YES];
     
