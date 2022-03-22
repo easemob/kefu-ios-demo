@@ -7,6 +7,7 @@
 //
 
 #import "HDPopoverViewController.h"
+#import "UIImage+HDIconFont.h"
 @implementation HDPopoverViewControllerCellItem
 
 @end
@@ -23,11 +24,11 @@
     
     HDPopoverViewControllerCellItem * item = [[HDPopoverViewControllerCellItem alloc] init];
     item.name =@"关闭摄像头";
-    item.imgName = @"videoMuteButton";
+    item.imgName = kguanbishexiangtou1;
     
     HDPopoverViewControllerCellItem * item1 = [[HDPopoverViewControllerCellItem alloc] init];
     item1.name =@"切换摄像头";
-    item1.imgName = @"videoMuteButton";
+    item1.imgName = kqiehuanshexiangtou;
     self.dataArray = [[NSMutableArray alloc] initWithObjects:item,item1, nil];
    
 }
@@ -52,7 +53,7 @@
    
     cell.textLabel.text = [NSString stringWithFormat:@"%@",item.name];
     UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 7, 30, 30)];
-    img.image = [UIImage imageNamed:item.imgName];
+    img.image = [UIImage imageWithIcon:item.imgName inFont:kfontName size:img.size.width color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] ;
     [cell addSubview:img];
     return cell;
 }

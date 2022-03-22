@@ -70,10 +70,7 @@
         return;
     }
     [self registerEaseMobNotification];
-
-    
   
-    
 }
 
 //修改关联app后需要重新初始化

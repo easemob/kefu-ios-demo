@@ -85,7 +85,7 @@
     
     [self addSubview:self.infoLabel];
     [self addSubview:self.timeLabel];
-    [self addSubview:self.hideBtn];
+//    [self addSubview:self.hideBtn];
 
 }
 - (void)updateFrame{
@@ -114,7 +114,7 @@
         
 //        [_hideBtn setImage:[UIImage imageNamed:@"hide"] forState:UIControlStateNormal];
         
-        [_hideBtn setImage:[UIImage imageWithIcon:@"&#xe650" inFont:@"xiaoxiaolian" size:50 color:[UIColor redColor]] forState:UIControlStateNormal];
+//        [_hideBtn setImage:[UIImage imageWithIcon:@"&#xe650" inFont:@"xiaoxiaolian" size:50 color:[UIColor redColor]] forState:UIControlStateNormal];
         [_hideBtn addTarget:self action:@selector(clickHide:) forControlEvents:UIControlEventTouchUpInside];
         
         

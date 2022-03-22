@@ -20,6 +20,7 @@
 #import "HDAgoraCallManagerDelegate.h"
 #import "HDPopoverViewController.h"
 #import "HDItemView.h"
+
 #define kLocalUid 11111111111 //设置本地的uid
 #define kCamViewTag 100001
 #define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
@@ -110,32 +111,32 @@
     HDControlBarModel * barModel = [HDControlBarModel new];
     barModel.itemType = HDControlBarItemTypeMute;
     barModel.name=@"";
-    barModel.imageStr=@"muteButton";
-    barModel.selImageStr=@"muteButtonSelected";
+    barModel.imageStr= kjinmai;
+    barModel.selImageStr= kmaikefeng1;
     
     HDControlBarModel * barModel1 = [HDControlBarModel new];
     barModel1.itemType = HDControlBarItemTypeVideo;
     barModel1.name=@"";
-    barModel1.imageStr=@"videoOff";
-    barModel1.selImageStr=@"videoOn";
+    barModel1.imageStr=kguanbishexiangtou1;
+    barModel1.selImageStr=kshexiangtou1;
     
     HDControlBarModel * barModel2 = [HDControlBarModel new];
     barModel2.itemType = HDControlBarItemTypeHangUp;
     barModel2.name=@"";
-    barModel2.imageStr=@"hangUpButton";
-    barModel2.selImageStr=@"hangUpButton";
+    barModel2.imageStr=kguaduan1;
+    barModel2.selImageStr=kguaduan1;
     
     HDControlBarModel * barModel3 = [HDControlBarModel new];
     barModel3.itemType = HDControlBarItemTypeShare;
     barModel3.name=@"";
-    barModel3.imageStr=@"screenShareButton";
-    barModel3.selImageStr=@"screenShareButtonSelected";
+    barModel3.imageStr=kpingmugongxiang2;
+    barModel3.selImageStr=kpingmugongxiang2;
     
     HDControlBarModel * barModel4 = [HDControlBarModel new];
     barModel4.itemType = HDControlBarItemTypeFlat;
     barModel4.name=@"";
-    barModel4.imageStr=@"screenShareButton";
-    barModel4.selImageStr=@"screenShareButtonSelected";
+    barModel4.imageStr=kbaiban;
+    barModel4.selImageStr=kbaiban;
     
     NSArray * selImageArr = @[barModel,barModel1,barModel2,barModel3,barModel4];
     
@@ -507,7 +508,7 @@
                                                         completion:^(id obj, HDError *error)
      {
         dispatch_async(dispatch_get_main_queue(), ^{
-        if (error == nil){
+        if (error != nil){
             self.hdAnswerView.hidden = YES;
             //应答的时候 在创建view
             //添加 页面布局
@@ -634,7 +635,10 @@
     _cameraState = NO;
     _cameraBtn.selected =NO;
     //更新对应状态 设置button 照片
-    [_cameraBtn setImage:[UIImage imageNamed:@"videoOff"] forState:UIControlStateNormal];
+    
+    UIImage *img  = [UIImage imageWithIcon:kguanbishexiangtou1 inFont:kfontName size:_cameraBtn.size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] ;
+    [_cameraBtn setImage:img forState:UIControlStateNormal];
+
     [[HDAgoraCallManager shareInstance] pauseVideo];
 }
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{

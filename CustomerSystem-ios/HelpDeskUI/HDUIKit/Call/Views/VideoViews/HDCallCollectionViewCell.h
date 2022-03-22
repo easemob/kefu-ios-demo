@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HDCallCollectionViewCellItem.h"
+#import "UIImage+HDIconFont.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HDCallCollectionViewCell : UICollectionViewCell

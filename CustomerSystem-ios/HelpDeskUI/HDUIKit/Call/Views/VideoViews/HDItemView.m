@@ -7,7 +7,7 @@
 //
 
 #import "HDItemView.h"
-
+#import "UIImage+HDIconFont.h"
 @implementation HDItemView
 
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -37,7 +37,7 @@
     [self.muteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
        
         make.centerY.mas_equalTo(self.nickNameBtn.mas_centerY);
-        make.trailing.mas_equalTo(self.nickNameBtn.mas_leading).offset(-10);
+        make.trailing.mas_equalTo(self.nickNameBtn.mas_leading).offset(0);
         make.height.offset(32);
         make.width.offset(32);
         
@@ -50,8 +50,9 @@
         _muteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         //为button赋值
 //        [_muteBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [_muteBtn setImage:[UIImage imageNamed:@"audio"] forState:UIControlStateNormal];
-        [_muteBtn setImage:[UIImage imageNamed:@"audioMuted"] forState:UIControlStateSelected];
+        UIImage *img  = [UIImage imageWithIcon:kmaikefeng5 inFont:kfontName size:22 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] ;
+        [_muteBtn setImage:img forState:UIControlStateNormal];
+//        [_muteBtn setImage:[UIImage imageNamed:@"audioMuted"] forState:UIControlStateSelected];
         
        
     }

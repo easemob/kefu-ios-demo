@@ -7,6 +7,7 @@
 
 #import "HDCallCollectionViewCell.h"
 #import "Masonry.h"
+
 @interface HDCallCollectionViewCell ()
 @property (nonatomic, strong) UILabel *nickNameLabel;
 @property (nonatomic, strong) UIButton *muteBtn;
@@ -119,9 +120,8 @@
         _muteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_muteBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
-        [_muteBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [_muteBtn setImage:[UIImage imageNamed:@"audio"] forState:UIControlStateNormal];
-        [_muteBtn setImage:[UIImage imageNamed:@"audioMuted"] forState:UIControlStateSelected];
+        UIImage *img  = [UIImage imageWithIcon:kmaikefeng5 inFont:kfontName size:22 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] ;
+        [_muteBtn setImage:img forState:UIControlStateNormal];
         
     }
     return _muteBtn;

@@ -83,8 +83,16 @@
         //为button赋值
         [button setTitle:[NSString stringWithFormat:@"%@",barModelArr[i].name]forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [button setImage:[UIImage imageNamed:barModelArr[i].imageStr] forState:UIControlStateNormal];
-        [button setImage:[UIImage imageNamed:barModelArr[i].selImageStr] forState:UIControlStateSelected];
+        if (i < 2) {
+            [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageWithIcon:barModelArr[i].selImageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:253.0/255.0 alpha:1.000] ] forState:UIControlStateSelected];
+        }else if (i==2) {
+            [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
+        }else {
+        [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageWithIcon:barModelArr[i].selImageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] forState:UIControlStateSelected];
+        }
+//        [button setImage:[UIImage imageNamed:barModelArr[i].selImageStr] forState:UIControlStateSelected];
         [view addSubview:button];
         [lastArr addObject:button];
     }
