@@ -128,6 +128,8 @@
 		9385C60F27E9B6CF0049096F /* demo_index.html in Resources */ = {isa = PBXBuildFile; fileRef = 9385C60727E9B6CF0049096F /* demo_index.html */; };
 		9385C61027E9B6CF0049096F /* iconfont.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 9385C60827E9B6CF0049096F /* iconfont.woff2 */; };
 		9385C61127E9B6CF0049096F /* iconfont.css in Resources */ = {isa = PBXBuildFile; fileRef = 9385C60927E9B6CF0049096F /* iconfont.css */; };
+		9385C61427E9CA800049096F /* HDAppSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C61327E9CA800049096F /* HDAppSkin.m */; };
+		9385C61727E9CB2C0049096F /* UIColor+HLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C61627E9CB2C0049096F /* UIColor+HLKit.m */; };
 		938CCA2627C8E1B300F470B5 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */; };
 		93B4E96227CCD1D800ACAF5B /* UIView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */; };
 		93B4E96327CCD1D800ACAF5B /* UIScrollView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93C27CCD1D700ACAF5B /* UIScrollView+HDMJExtension.m */; };
@@ -707,6 +709,10 @@
 		9385C60727E9B6CF0049096F /* demo_index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = demo_index.html; sourceTree = "<group>"; };
 		9385C60827E9B6CF0049096F /* iconfont.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.woff2; sourceTree = "<group>"; };
 		9385C60927E9B6CF0049096F /* iconfont.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = iconfont.css; sourceTree = "<group>"; };
+		9385C61227E9CA800049096F /* HDAppSkin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAppSkin.h; sourceTree = "<group>"; };
+		9385C61327E9CA800049096F /* HDAppSkin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAppSkin.m; sourceTree = "<group>"; };
+		9385C61527E9CB2C0049096F /* UIColor+HLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HLKit.h"; sourceTree = "<group>"; };
+		9385C61627E9CB2C0049096F /* UIColor+HLKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HLKit.m"; sourceTree = "<group>"; };
 		938CCA2427C8E1B300F470B5 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
 		938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Add.m"; sourceTree = "<group>"; };
 		93B4E93627CCD1D700ACAF5B /* UIScrollView+HDMJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+HDMJExtension.h"; sourceTree = "<group>"; };
@@ -1510,6 +1516,8 @@
 				937FD5A427D1B2EC00EB055A /* HDAgoraCallOptions.m */,
 				937FD5A227D1B2EC00EB055A /* HDSSKeychain.h */,
 				937FD59A27D1B2EA00EB055A /* HDSSKeychain.m */,
+				9385C61227E9CA800049096F /* HDAppSkin.h */,
+				9385C61327E9CA800049096F /* HDAppSkin.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1748,6 +1756,8 @@
 		D33946EF1E54381B009370BF /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				9385C61527E9CB2C0049096F /* UIColor+HLKit.h */,
+				9385C61627E9CB2C0049096F /* UIColor+HLKit.m */,
 				D33946F01E54381B009370BF /* UIView+FLExtension.h */,
 				D33946F11E54381B009370BF /* UIView+FLExtension.m */,
 				930E4DA92796D39F007CFE50 /* UIViewController+VLDModal.h */,
@@ -3357,6 +3367,7 @@
 				D3CB647D1E4888F30022A6BA /* PSTCollectionView.m in Sources */,
 				D3CB64811E4888F30022A6BA /* PSTCollectionViewFlowLayout.m in Sources */,
 				9094F20A21E83C8D00037601 /* SRRefreshView.m in Sources */,
+				9385C61727E9CB2C0049096F /* UIColor+HLKit.m in Sources */,
 				D3CB647C1E4888F30022A6BA /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				93D95EA627D8988A00E47F14 /* HDCustomEmojiManager.m in Sources */,
 				D33995421E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m in Sources */,
@@ -3495,6 +3506,7 @@
 				EB4B07801AC6A1C100DCF67B /* EditViewController.m in Sources */,
 				930E321F27E03E9800455C7E /* HDControlBarView.m in Sources */,
 				930E321D27E03E9800455C7E /* HDMiddleVideoView.m in Sources */,
+				9385C61427E9CA800049096F /* HDAppSkin.m in Sources */,
 				930E322A27E0492F00455C7E /* HDAnswerView.m in Sources */,
 				93B4E96C27CCD1D800ACAF5B /* HDMJRefreshNormalHeader.m in Sources */,
 				90BE1E3D2216C656007D17A1 /* UIViewController+AlertController.m in Sources */,

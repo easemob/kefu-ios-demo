@@ -75,8 +75,7 @@
         button.layer.cornerRadius=5;
         button.layer.masksToBounds =YES;
         button.tag =  i+kButtonTag;
-        
-//        button.backgroundColor = [UIColor yellowColor];
+    
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         [button setTitleColor:[UIColor colorWithRed:0.000 green:0.502 blue:1.000 alpha:1.000]forState:UIControlStateNormal];
         
