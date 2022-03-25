@@ -203,14 +203,18 @@ static HDAgoraCallManager *shareCall = nil;
     [self.agoraKit muteLocalAudioStream:NO];
     
 }
+- (void)enableLocalVideo:(BOOL)enabled{
+    
+    [self.agoraKit  enableLocalVideo:enabled];
+}
 - (void)pauseVideo{
-//    [self.agoraKit  muteLocalVideoStream:YES];
-    [self.agoraKit  enableLocalVideo:NO];
+    [self.agoraKit  muteLocalVideoStream:YES];
+//    [self.agoraKit  enableLocalVideo:NO];
 }
 - (void)resumeVideo{
-//    [self.agoraKit  muteLocalVideoStream:NO];
+    [self.agoraKit  muteLocalVideoStream:NO];
     
-    [self.agoraKit  enableLocalVideo:YES];
+//    [self.agoraKit  enableLocalVideo:YES];
     
 }
 /**
@@ -379,6 +383,7 @@ static HDAgoraCallManager *shareCall = nil;
     HDAgoraCallMember *member = [[HDAgoraCallMember alloc] init];
     [member setValue:[NSString stringWithFormat:@"%lu",(unsigned long)uid] forKeyPath:@"memberName"];
     [member setValue:extensionDic forKeyPath:@"extension"];
+    member.agentNickName = [HDAgoraCallManager shareInstance].keyCenter.agentNickName;
     return member;
 }
 #pragma mark - <AgoraRtcEngineDelegate>
@@ -506,8 +511,11 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didAudioMuted:(BOOL)muted byUid:(NSUInteger)uid{
     
     
-    
-    
+    //通知代理
+    if([self.roomDelegate respondsToSelector:@selector(onCalldidAudioMuted:byUid:)]){
+        
+        [self.roomDelegate onCalldidAudioMuted:muted byUid:uid];
+    }
 }
 
 #pragma mark - AgoraRtcEngineKit 屏幕分享 相关

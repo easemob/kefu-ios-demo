@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic ,strong)UIView *callView;
 @property (nonatomic, strong) HDCallCollectionViewCellItem *item;
 - (void)selected;
+
 @end
 
 

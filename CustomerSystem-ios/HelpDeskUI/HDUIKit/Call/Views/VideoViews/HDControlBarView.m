@@ -136,9 +136,6 @@
         UIButton *button = _barArrayBtn[i];
         button.frame = fram;
     }
-
-    
-    
 }
 - (void)buttonClick:(UIButton *)sender
 {

@@ -23,6 +23,8 @@ typedef void(^ClickCellItemBlock)(HDCallCollectionViewCellItem *item,NSIndexPath
 - (void)refreshView:(UIView *)view withScreen:(BOOL)landscape;
 - (void)reloadData;
 - (void)removeCurrentCellItem;
+- (void)setAudioMuted:(HDCallCollectionViewCellItem *)item;
+
 @end
 
 NS_ASSUME_NONNULL_END

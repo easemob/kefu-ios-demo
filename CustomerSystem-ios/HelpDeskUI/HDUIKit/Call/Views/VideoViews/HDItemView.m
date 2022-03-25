@@ -49,10 +49,12 @@
     if (!_muteBtn) {
         _muteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         //为button赋值
-//        [_muteBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+
         UIImage *img  = [UIImage imageWithIcon:kmaikefeng5 inFont:kfontName size:22 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] ;
         [_muteBtn setImage:img forState:UIControlStateNormal];
-//        [_muteBtn setImage:[UIImage imageNamed:@"audioMuted"] forState:UIControlStateSelected];
+
+        UIImage *imgSel  = [UIImage imageWithIcon:kjinmai2 inFont:kfontName size:22 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] ;
+        [_muteBtn setImage:imgSel forState:UIControlStateSelected];
         
        
     }

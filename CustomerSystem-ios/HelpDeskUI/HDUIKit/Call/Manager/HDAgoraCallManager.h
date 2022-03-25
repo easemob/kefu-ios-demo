@@ -119,6 +119,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*!
  *  \~chinese
+ *  开启/关闭视频模块
+ *
+ *  \~english
+ *  Resume video data transmission
+ */
+- (void)enableLocalVideo:(BOOL )enabled;
+
+/*!
+ *  \~chinese
  *  恢复视频图像数据传输
  *
  *  \~english

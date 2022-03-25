@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HDAgoraCallMember : NSObject
 @property (nonatomic,strong ) NSString * memberName;
+@property (nonatomic,strong ) NSString * agentNickName;
 @property (nonatomic,strong) NSDictionary * extension;
 @end
 

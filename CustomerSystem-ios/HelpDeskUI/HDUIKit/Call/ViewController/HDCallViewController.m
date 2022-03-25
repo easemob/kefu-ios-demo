@@ -37,7 +37,7 @@
     NSMutableArray *_members; // 通话人
     NSTimer *_timer;
     NSInteger _time;
-    HDCallCollectionViewCellItem *_currentItem;
+    HDCallCollectionViewCellItem *_currentItem; //中间窗口的item 对象
     BOOL isCalling; //是否正在通话
     NSString * _thirdAgentNickName;
     NSString * _thirdAgentUid;
@@ -170,14 +170,12 @@
     // 设置音视频 options
     HDAgoraCallOptions *options = [[HDAgoraCallOptions alloc] init];
     options.videoOff = _cameraState; // 这个值要和按钮状态统一。
-    options.mute = NO; // 这个值要和按钮状态统一。
+    options.mute = _cameraState; // 这个值要和按钮状态统一。
     [[HDAgoraCallManager shareInstance] setCallOptions:options];
     //add local render view
     [self addLocalSessionWithUid:kLocalUid];//本地用户的id demo 切换的时候 有根据uid 判断 传入的时候尽量避免跟我们远端用户穿过来的相同
     [UIApplication sharedApplication].idleTimerDisabled = YES;
-    
-   
-   
+
 }
 ///  添加本地视频流
 /// @param localUid   本地用户id
@@ -186,6 +184,7 @@
     
     HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
     item.isSelected = YES; // 默认自己会被选中
+    item.isMute = _cameraState;
     item.nickName = self.nickname;
     item.uid = localUid;
     UIView * localView = [[UIView alloc] init];
@@ -194,19 +193,38 @@
     //添加数据源
     [_members addObject:item];
     
-    [self.itemView setItemString:item.nickName];
+    //默认进来 中间窗口显示 坐席头像
+    [self.itemView setItemString:self.agentName];
+    
 }
 // 根据HDCallMember 创建cellItem
 - (HDCallCollectionViewCellItem *)createCallerWithMember2:(HDAgoraCallMember *)aMember {
     HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
-    item.nickName = self.nickname;
+    item.nickName = aMember.agentNickName;
     item.uid = [aMember.memberName integerValue];
     item.camView = self.midelleVideoView;
+    
+    //远端第一次进来 添加中间窗口初始化view
+    if (_videoViews.count == 0) {
+        [_videoViews addObject:item];
+    }
+   
     //设置远端试图
     [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
     return item;
 }
-
+// 坐席主动 挂断 结束回调
+- (void)onCallEndReason:(NSString *)desc {
+    [self.hdTitleView stopTimer];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       // UI更新代码
+        if (self.hangUpCallback) {
+            self.hangUpCallback(self, self.hdTitleView.timeLabel.text);
+        }
+    });
+   
+}
 - (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
     
     _thirdAgentNickName = thirdAgentNickName;
@@ -356,32 +374,36 @@
     [self updateSmallVideoView:item withIndex:idx];
 
     //更新中间视频大窗口
-    [self updateVideoView];
+    [self updateBigVideoView];
 }
-/// 更新视频窗口（大窗口）
+/// 更新小视频窗口变成大窗口。把小窗口的 item 信息 给大窗口用。然后在把大窗口的item 信息给小窗切换
 -(void)updateSmallVideoView:(HDCallCollectionViewCellItem *)item withIndex:(NSInteger )idx{
+   
+    //小窗昵称变成 大窗昵称
+    [self changeNickNameItem:item];
     
     [_videoItemViews removeAllObjects];
     //这个数组里边添加的是小窗口需要放到中间视频窗口的view 在传给cell 前先保存之前的view
-    [_videoItemViews addObject:item.camView];
-    //cell 小窗口切换
-    UIView * tmpVideoView = [_videoViews firstObject];
-    item.camView = tmpVideoView;
-    [self.smallWindowView setSelectCallItemChangeVideoView:item withIndex:idx];
- 
-    [self.itemView setItemString:item.nickName];
+    [_videoItemViews addObject:item];
     
+    //cell 小窗口切换_videoViews 存放大窗口 信息
+    HDCallCollectionViewCellItem * bigItem =[_videoViews firstObject];
+//    UIView * tmpVideoView = smallItem.camView;
+//    smallItem.camView = tmpVideoView;
+    
+    [self.smallWindowView setSelectCallItemChangeVideoView:bigItem withIndex:idx];
+
 }
 
-/// 更新视频窗口（大窗口）
--(void)updateVideoView{
+/// 更新大视频窗口变成小窗口）
+-(void)updateBigVideoView{
     
     [_videoViews removeAllObjects];
-    UIView * videoView = [_videoItemViews firstObject];
+    HDCallCollectionViewCellItem * smallItem = [_videoItemViews firstObject];
+    UIView * videoView = smallItem.camView;
     self.midelleVideoView = (HDMiddleVideoView *)videoView;
     [self.view addSubview:videoView];
     //中间 视频窗口
-    
     if (self.isLandscape) {
         [videoView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.offset(0);
@@ -400,9 +422,24 @@
             make.height.offset([UIScreen mainScreen].bounds.size.width *9/16 );
         }];
     }
-    [_videoViews addObject:videoView];
+    [_videoViews addObject:smallItem];
 
+    //大窗昵称变成 小窗昵称
+    [self changeNickNameItem:smallItem];
+    
 }
+
+///  控制器中大小窗昵称切换
+/// @param item  获取昵称的对象
+-(void)changeNickNameItem:(HDCallCollectionViewCellItem *)item{
+    
+    //大窗昵称变成 小窗昵称
+    [self.itemView setItemString:item.nickName];
+    
+    self.itemView.muteBtn.selected = item.isMute;
+}
+
+
 - (HDItemView *)itemView{
     if (!_itemView) {
         _itemView = [[HDItemView alloc]init];
@@ -471,7 +508,6 @@
         _midelleVideoView = [[HDMiddleVideoView alloc]init];
         _midelleVideoView.backgroundColor = [UIColor blueColor];
         self.tmpView = _midelleVideoView;
-        [_videoViews addObject:_midelleVideoView];
     }
     return _midelleVideoView;
 }
@@ -503,21 +539,21 @@
 /// 应答事件
 /// @param sender  button
 - (void)anwersBtnClicked:(UIButton *)sender{
-   
+    self.hdAnswerView.hidden = YES;
+    //应答的时候 在创建view
+    //添加 页面布局
+    [self addSubView];
+    //默认进来调用竖屏
+    [self updatePorttaitLayout];
+    [self initData];
+    [self setAcceptCallView];
+    [self.hdTitleView startTimer];
     [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
                                                         completion:^(id obj, HDError *error)
      {
         dispatch_async(dispatch_get_main_queue(), ^{
-        if (error != nil){
-            self.hdAnswerView.hidden = YES;
-            //应答的时候 在创建view
-            //添加 页面布局
-            [self addSubView];
-            //默认进来调用竖屏
-            [self updatePorttaitLayout];
-            [self initData];
-            [self.hdTitleView startTimer];
-            [self setAcceptCallView];
+        if (error == nil){
+        
             isCalling = YES;
         }else{
             // 加入失败 或者视频网络断开
@@ -567,8 +603,11 @@
 //    btn.selected = !btn.selected;
     if (btn.selected) {
         [[HDAgoraCallManager shareInstance] pauseVoice];
+        [self updateAudioMuted:NO byUid:kLocalUid];
     } else {
         [[HDAgoraCallManager shareInstance] resumeVoice];
+        
+        [self updateAudioMuted:YES byUid:kLocalUid];
     }
     
     NSLog(@"点击了静音事件");
@@ -582,7 +621,6 @@
     //2、如果是开启的 点击按钮 谈窗
 //        1、点击关闭摄像头  调用关闭摄像头方法 并且 更改当前btn 图片状态
 //        2、点击切换摄像头  调用切换摄像头方法
-    
     if (_cameraState) {
         //开启
           btn.selected = !btn.selected;
@@ -590,7 +628,7 @@
         
     }else{
         //当前摄像头关闭 需要打开
-        [[HDAgoraCallManager shareInstance] resumeVideo];
+        [[HDAgoraCallManager shareInstance] enableLocalVideo:YES];
         _cameraState = YES;
 
     }
@@ -639,7 +677,7 @@
     UIImage *img  = [UIImage imageWithIcon:kguanbishexiangtou1 inFont:kfontName size:_cameraBtn.size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] ;
     [_cameraBtn setImage:img forState:UIControlStateNormal];
 
-    [[HDAgoraCallManager shareInstance] pauseVideo];
+    [[HDAgoraCallManager shareInstance] enableLocalVideo:NO];
 }
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
     return UIModalPresentationNone;
@@ -697,6 +735,7 @@
             for (HDCallCollectionViewCellItem *item in _members) {
                 if (item.uid  == [member.memberName integerValue] ) {
                     isNeedAdd = NO;
+                    
                     break;
                 }
             }
@@ -707,7 +746,7 @@
         [self updateThirdAgent];
      //刷新 collectionView
         [self.smallWindowView reloadData];
-        
+      
     }
 }
 
@@ -732,6 +771,48 @@
         [self.smallWindowView reloadData];
        
     }
+}
+
+/// 远端用户音频静音通知
+/// @param muted  是否静音
+/// @param uid  静音的用户 uid
+- (void)onCalldidAudioMuted:(BOOL)muted byUid:(NSUInteger)uid{
+    
+    [self updateAudioMuted:muted byUid:uid];
+    
+}
+- (void)updateAudioMuted:(BOOL)muted byUid:(NSUInteger)uid{
+    
+    // 根据uid 找到用户 然后刷新一下界面
+    BOOL  __block isSmallVindow = NO;
+    [self.smallWindowView.items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HDCallCollectionViewCellItem *item = obj;
+        NSLog(@"%ld----%@",(long)item.uid,[NSThread currentThread]);
+        if (item.uid == uid) {
+            isSmallVindow = YES;
+            NSLog(@"==uid===%lu",(unsigned long)uid);
+            item.isMute = muted;
+            [self.smallWindowView setAudioMuted:item];
+            *stop = YES;
+        }
+    }];
+    
+    if (!isSmallVindow) {
+        //说明需要更新 中间窗口的下边的麦克风
+        self.itemView.muteBtn.selected = muted;
+        [_members enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            HDCallCollectionViewCellItem *item = obj;
+            NSLog(@"%ld----%@",(long)item.uid,[NSThread currentThread]);
+            if (item.uid == uid) {
+                [self.itemView setItemString:item.nickName];
+                *stop = YES;
+            }
+        }];
+        
+       
+    }
+    
+    
 }
 
 #pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。

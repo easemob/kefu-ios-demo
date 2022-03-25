@@ -540,6 +540,8 @@ typedef enum : NSUInteger {
     }else if ([messageBody type] == EMMessageBodyTypeVideo) {
         
          EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
+
+        UIImage * img = [UIImage imageWithContentsOfFile:videoBody.thumbnailLocalPath];
          if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
          //download the message thumbnail
          [[HDClient sharedClient].chatManager hd_downloadThumbnail:message progress:nil completion:completion];

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIView *camView;
 @property (nonatomic, strong) NSString *nickName;
 @property (nonatomic, assign) BOOL isSelected;
+@property (nonatomic, assign) BOOL isMute;
 @property (nonatomic, strong) NSMutableArray *handleStreams;
 @end
 

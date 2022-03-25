@@ -63,6 +63,12 @@
     }];
     
 }
+- (void)setAudioMuted:(BOOL)muted{
+    
+    
+    self.muteBtn.selected = muted;
+    
+}
 
 //每一组的偏移量
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -71,7 +77,7 @@
 }
 - (void)setItem:(HDCallCollectionViewCellItem *)item {
     _item = item;
-    self.nickNameLabel.text =  _item.nickName;
+   
     for(UIView *review in [self.callView subviews])
     {
         [review removeFromSuperview];
@@ -98,8 +104,10 @@
         [self unSelected];
     }
     
+    //小窗更新远端麦克风状态
+    [self switchMuteBtnState:item.isMute];
     
-
+    self.nickNameLabel.text =  _item.nickName;
 }
 - (UILabel *)nickNameLabel{
     if (!_nickNameLabel) {
@@ -120,12 +128,19 @@
         _muteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_muteBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
+//        _muteBtn.selected = YES;
         UIImage *img  = [UIImage imageWithIcon:kmaikefeng5 inFont:kfontName size:22 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] ;
-        [_muteBtn setImage:img forState:UIControlStateNormal];
-        
+        [self.muteBtn setImage:img forState:UIControlStateNormal];
+        UIImage *imgSel  = [UIImage imageWithIcon:kjinmai2 inFont:kfontName size:22 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] ;
+        [_muteBtn setImage:imgSel forState:UIControlStateSelected];
     }
     return _muteBtn;
 }
+
+- (void)switchMuteBtnState:(BOOL)muted{
+    _muteBtn.selected = muted;
+}
+
 - (void)selected {
 
     // 发送被选中通知
