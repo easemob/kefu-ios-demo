@@ -24,6 +24,7 @@ typedef void(^ClickCellItemBlock)(HDCallCollectionViewCellItem *item,NSIndexPath
 - (void)reloadData;
 - (void)removeCurrentCellItem;
 - (void)setAudioMuted:(HDCallCollectionViewCellItem *)item;
+- (BOOL)setThirdUserdidJoined:(HDCallCollectionViewCellItem *)item;
 
 @end
 

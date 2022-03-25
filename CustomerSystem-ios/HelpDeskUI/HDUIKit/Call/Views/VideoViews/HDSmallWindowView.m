@@ -57,6 +57,21 @@
     
     
 }
+- (BOOL)setThirdUserdidJoined:(HDCallCollectionViewCellItem *)item{
+    BOOL isNeedAdd = YES;
+    @synchronized(_cellArray){
+        for (HDCallCollectionViewCellItem * tt in _cellArray) {
+            if (tt.uid  == item.uid ) {
+                isNeedAdd = NO;
+                break;
+            }
+        }
+        if (isNeedAdd) {
+            [_cellArray addObject: item];
+        }
+    };
+    return isNeedAdd;
+}
 - (void)removeCurrentCellItem{
     
     [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];

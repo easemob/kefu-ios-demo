@@ -34,13 +34,16 @@
     NSMutableArray * _tmpArray;
     
     
-    NSMutableArray *_members; // 通话人
+    NSMutableArray *_members; // 通话人小窗
+    NSMutableArray *_midelleMembers; // 通话人中间窗口
     NSTimer *_timer;
     NSInteger _time;
     HDCallCollectionViewCellItem *_currentItem; //中间窗口的item 对象
     BOOL isCalling; //是否正在通话
     NSString * _thirdAgentNickName;
     NSString * _thirdAgentUid;
+    
+    NSString * _isFirstAdd; // 远端进来是不是第一次添加
     
     UIButton *_cameraBtn;
     BOOL _cameraState; //摄像头状态； yes 开启摄像头 no 关闭
@@ -97,6 +100,7 @@
     _videoViews = [NSMutableArray new];
     _videoItemViews = [NSMutableArray new];
     _members = [NSMutableArray new];
+    _midelleMembers = [NSMutableArray new];
     [self initScreenShare];
 }
 
@@ -181,10 +185,9 @@
 /// @param localUid   本地用户id
 - (void)addLocalSessionWithUid:(NSInteger )localUid{
 //    // 设置第一个item的头像，昵称都为自己。HDCallViewCollectionViewCellItem 界面展示类
-    
     HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
     item.isSelected = YES; // 默认自己会被选中
-    item.isMute = _cameraState;
+    item.isMute = !_cameraState; //这个地方需要注意 默认 是需要选中 红色 所以这个地方跟默认取个反 
     item.nickName = self.nickname;
     item.uid = localUid;
     UIView * localView = [[UIView alloc] init];
@@ -198,12 +201,14 @@
     
 }
 // 根据HDCallMember 创建cellItem
-- (HDCallCollectionViewCellItem *)createCallerWithMember2:(HDAgoraCallMember *)aMember {
+- (HDCallCollectionViewCellItem *)createCallerWithMember2:(HDAgoraCallMember *)aMember withView:(UIView *)view {
     HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
     item.nickName = aMember.agentNickName;
     item.uid = [aMember.memberName integerValue];
-    item.camView = self.midelleVideoView;
-    
+//    UIView * retomView = [[UIView alloc] init];
+//    retomView.frame = self.midelleVideoView.frame;
+    item.camView =view;
+//    item.camView = retomView;
     //远端第一次进来 添加中间窗口初始化view
     if (_videoViews.count == 0) {
         [_videoViews addObject:item];
@@ -235,12 +240,12 @@
 - (void)updateThirdAgent{
    
     if (_thirdAgentNickName.length > 0) {
-    [_members enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-           NSLog(@"%@----%@",_members[idx],[NSThread currentThread]);
+    [self.smallWindowView.items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+           NSLog(@"%@----%@",self.smallWindowView.items[idx],[NSThread currentThread]);
         HDCallCollectionViewCellItem *item = obj;
         if (item.uid == [_thirdAgentUid integerValue]) {
             item.nickName = _thirdAgentNickName;
-            [_members  replaceObjectAtIndex:idx withObject:item];
+            [self.smallWindowView setAudioMuted:item];
         }
     }];
 
@@ -584,9 +589,12 @@
         }
     });
 }
+/// 初始化屏幕分享view
 - (void)initBroadPickerView{
     if (@available(iOS 12.0, *)) {
-       
+        _broadPickerView = [[RPSystemBroadcastPickerView alloc] init];
+        _broadPickerView.preferredExtension = kScreenShareExtensionBundleId;
+        
     } else {
         // Fallback on earlier versions
     }
@@ -730,19 +738,30 @@
 - (void)onMemberJoin:(HDAgoraCallMember *)member {
     // 有 member 加入，添加到datasource中。
     if (isCalling) { // 只有在已经通话中的情况下，才回去在ui加入，否则都在接听时加入。
-        @synchronized(_members){
+        @synchronized(_midelleMembers){
             BOOL isNeedAdd = YES;
-            for (HDCallCollectionViewCellItem *item in _members) {
+            for (HDCallCollectionViewCellItem *item in _midelleMembers) {
                 if (item.uid  == [member.memberName integerValue] ) {
                     isNeedAdd = NO;
-                    
                     break;
                 }
             }
             if (isNeedAdd) {
-                [_members addObject: [self createCallerWithMember2:member]];
+              
+                
+                if (_midelleMembers.count > 0) {
+                    UIView * localView = [[UIView alloc] init];
+                    HDCallCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:localView];
+                    [self.smallWindowView  setThirdUserdidJoined:thirdItem];
+                   
+                }else{
+                    HDCallCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:self.midelleVideoView];
+                    [_midelleMembers addObject: thirdItem];
+                }
             }
         };
+        
+
         [self updateThirdAgent];
      //刷新 collectionView
         [self.smallWindowView reloadData];
@@ -750,8 +769,25 @@
     }
 }
 
+
+/// 删除小窗
+/// @param item
+- (void)deleteSmallWindow:(NSString *)uid{
+    
+}
+/// 删除中间
+/// @param item
+- (void)deleteMiddelWindow:(NSString *)uid{
+    
+}
+
 // 成员离开回调
 - (void)onMemberExit:(HDAgoraCallMember *)member {
+    
+    //先去小窗 查找 如果在小窗 有删除 刷新即可
+    
+    //如果小窗没有 那说明是 在中间窗口 那就是删除中间 小窗最后一位回到中间
+    
     // 有 member 离开，清理datasource
     // 如果移除的是当前显示的客服
     if (_currentItem.uid == [member.memberName integerValue]) {
@@ -869,8 +905,6 @@ void NotificationCallback(CFNotificationCenterRef center,
     
     if ([identifier isEqualToString:@"broadcastStartedWithSetupInfo"]) {
         
-//        self.shareDeskTopBtn.selected =YES;
-        
         [[HDAgoraCallManager shareInstance]  leaveChannel];
         [[HDAgoraCallManager shareInstance]  destroy];
         
@@ -897,7 +931,6 @@ void NotificationCallback(CFNotificationCenterRef center,
             }
         }
        
-        
         NSLog(@"broadcastFinished");
     }
     if ([identifier isEqualToString:@"processSampleBuffer"]) {
