@@ -72,9 +72,12 @@
     };
     return isNeedAdd;
 }
-- (void)removeCurrentCellItem{
+- (void)removeCurrentCellItem:(HDCallCollectionViewCellItem *)item{
     
-    [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
+//    [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
+    
+    [_cellArray removeObject:item];
+
     
 }
 - (void)reloadData{

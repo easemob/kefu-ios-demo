@@ -434,6 +434,40 @@
     
 }
 
+/// 更新大视频窗口变成小窗口）
+-(void)updateBigVideoView:(HDCallCollectionViewCellItem *)item{
+    
+    UIView * videoView = item.camView;
+    self.midelleVideoView = (HDMiddleVideoView *)videoView;
+    [self.view addSubview:videoView];
+    //中间 视频窗口
+    if (self.isLandscape) {
+        [videoView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.offset(0);
+            make.leading.offset(0);
+            make.trailing.offset(0);
+            make.bottom.offset(0);
+            
+        }];
+        [self.view sendSubviewToBack:videoView];
+    }else{
+        
+        [videoView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.smallWindowView.mas_bottom).offset(44);
+            make.leading.offset(0);
+            make.trailing.offset(0);
+            make.height.offset([UIScreen mainScreen].bounds.size.width *9/16 );
+        }];
+    }
+    [_videoViews addObject:item];
+
+    //大窗昵称变成 小窗昵称
+    [self changeNickNameItem:item];
+    
+}
+
+
+
 ///  控制器中大小窗昵称切换
 /// @param item  获取昵称的对象
 -(void)changeNickNameItem:(HDCallCollectionViewCellItem *)item{
@@ -785,28 +819,45 @@
 - (void)onMemberExit:(HDAgoraCallMember *)member {
     
     //先去小窗 查找 如果在小窗 有删除 刷新即可
-    
-    //如果小窗没有 那说明是 在中间窗口 那就是删除中间 小窗最后一位回到中间
-    
-    // 有 member 离开，清理datasource
-    // 如果移除的是当前显示的客服
-    if (_currentItem.uid == [member.memberName integerValue]) {
-        [self.smallWindowView removeCurrentCellItem];
-    }
     HDCallCollectionViewCellItem *deleteItem;
-    for (HDCallCollectionViewCellItem *item in _members) {
+    
+    for (HDCallCollectionViewCellItem *item in self.smallWindowView.items) {
         if (item.uid == [member.memberName integerValue]) {
             deleteItem = item;
             break;
         }
     }
     if (deleteItem) {
-        [_members removeObject:deleteItem];
-        [[HDAgoraCallManager shareInstance] setupRemoteVideoView:deleteItem.camView withRemoteUid:deleteItem.uid];
-       
+        
+        [self.smallWindowView removeCurrentCellItem:deleteItem];
         [self.smallWindowView reloadData];
        
+    }else{
+        //说明小窗里边没有
+        //如果小窗没有 那说明是 在中间窗口 那就是删除中间 小窗最后一位回到中间
+        for (HDCallCollectionViewCellItem *item in _videoViews) {
+            if (item.uid == [member.memberName integerValue]) {
+                deleteItem = item;
+                break;
+            }
+        }
+        if (deleteItem) {
+            [_midelleMembers removeObject:deleteItem];
+            //把 小窗口 最后一个元素 拿到中间
+            HDCallCollectionViewCellItem * samllItem =  [self.smallWindowView.items lastObject];
+            
+            [self updateBigVideoView:samllItem];
+        
+            [self.smallWindowView removeCurrentCellItem:samllItem];
+            [self.smallWindowView reloadData];
+        }
+        
     }
+    
+  
+   
+  
+   
 }
 
 /// 远端用户音频静音通知
