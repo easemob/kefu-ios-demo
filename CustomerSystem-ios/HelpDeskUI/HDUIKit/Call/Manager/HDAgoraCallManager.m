@@ -114,7 +114,7 @@ static HDAgoraCallManager *shareCall = nil;
                             callId  = (NSString *) [videoPlaybackDic valueForKey:@"callId"];
                         }
                         //调用挂掉视频操作
-                        [self agentHangUpCall:callId];
+//                        [self agentHangUpCall:callId];
                         return;
                     }
                 }
@@ -343,7 +343,13 @@ static HDAgoraCallManager *shareCall = nil;
     return self.members;
 }
 
-
+- (NSMutableArray *)members{
+    if (!_members) {
+        _members = [[NSMutableArray alloc] init];
+    }
+    
+    return _members;
+}
 
 /**
  接受视频会话
@@ -391,43 +397,34 @@ static HDAgoraCallManager *shareCall = nil;
     
     NSLog(@"join Member  uid---- %lu ",(unsigned long)uid);
     HDAgoraCallMember *mem = [self getHDAgoraCallMember:uid];
-    
     if([self.roomDelegate respondsToSelector:@selector(onMemberJoin:)]){
         
         [self.roomDelegate onMemberJoin:mem];
     }
+    @synchronized(self.members){
+        BOOL isNeedAdd = YES;
+        for ( HDAgoraCallMember *member in self.members) {
+            if ([member.memberName isEqualToString:mem.memberName]) {
+                isNeedAdd = NO;
+                break;
+            }
+        }
+        if (isNeedAdd) {
+    
+            [self.members addObject: mem];
+    
+        }
+    };
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStateChangedOfUid:(NSUInteger)uid state:(AgoraVideoRemoteState)state reason:(AgoraVideoRemoteStateReason)reason elapsed:(NSInteger)elapsed
 {
-    
     NSLog(@"remoteVideoStateChangedOfUid %@ %@ %@", @(uid), @(state), @(reason));
 }
-///  Occurs when the local user joins a specified channel.
-/// @param engine - RTC engine instance
-/// @param channel  - Channel name
-/// @param uid - User ID of the remote user sending the video stream.
-/// @param elapsed - Time elapsed (ms) from the local user calling the joinChannelByToken method until the SDK triggers this callback.
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinChannel:(NSString *)channel withUid:(NSUInteger)uid elapsed:(NSInteger)elapsed {
-    
-}
 
 
-/// Occurs when the connection between the SDK and the server is interrupted.
-/// The SDK triggers this callback when it loses connection with the server for more than four seconds after a connection is established.
-/// After triggering this callback, the SDK tries reconnecting to the server. You can use this callback to implement pop-up reminders.
-/// @param engine - RTC engine instance
-- (void)rtcEngineConnectionDidInterrupted:(AgoraRtcEngineKit *)engine {
-//    [self alert:@"Connection Interrupted"];
-}
 
-/// Occurs when the SDK cannot reconnect to Agora’s edge server 10 seconds after its connection to the server is interrupted.
-/// @param engine - RTC engine instance
-- (void)rtcEngineConnectionDidLost:(AgoraRtcEngineKit *)engine {
-//    [self alert:@"Connection Lost"];
-    
 
-}
 /// Reports an error during SDK runtime.
 /// @param engine - RTC engine instance
 /// @param errorCode - see complete list on this page
@@ -438,24 +435,6 @@ static HDAgoraCallManager *shareCall = nil;
 
 }
 
-/// 已完成远端视频首帧解码回调
-/// @param agoraCallManager agoraCallManager instance
-/// @param uid 远端用户 ID
-/// @param size 视频流尺寸（宽度和高度）
-/// @param elapsed 从本地用户调用 joinChannelByToken到发生此事件过去的时间（ms）。
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine firstRemoteVideoDecodedOfUid:(NSUInteger)uid size:(CGSize)size elapsed:(NSInteger)elapsed {
-    
-//    [_delegates hd_rtcEngine:self firstRemoteVideoDecodedOfUid:uid size:size elapsed:elapsed];
-    
-}
-
-/// 已显示本地视频首帧的回调
-/// @param engine - RTC engine instance
-/// @param size 本地渲染的视频尺寸（宽度和高度）
-/// @param elapsed 从本地用户调用joinChannelByToken到发生此事件过去的时间（ms）。如果在joinChannelByToken前调用了startPreview，是从 startPreview 到发生此事件过去的时间。
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine firstLocalVideoFrameWithSize:(CGSize)size elapsed:(NSInteger)elapsed {
-//    [_delegates hd_rtcEngine:self firstLocalVideoFrameWithSize:size elapsed:elapsed];
-}
 
 /// 远端用户（通信场景）/主播（直播场景）离开当前频道回调
 /// @param engine engine
@@ -475,9 +454,14 @@ static HDAgoraCallManager *shareCall = nil;
             [self.members removeObject:needRemove];
         }
     };
+    
+    //如果房间里边人 都么有了 就发送通知 关闭。如果有人 就不关闭
+    if (self.members == 0 ) {
+        [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
+    }
+    
     //通知代理
     if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){
-        
         [self.roomDelegate onMemberExit:mem];
     }
 }

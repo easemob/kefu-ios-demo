@@ -558,7 +558,6 @@
         __weak __typeof__(self) weakSelf = self;
         _smallWindowView.clickCellItemBlock = ^(HDCallCollectionViewCellItem * _Nonnull item, NSIndexPath * _Nonnull indexpath) {
             //切换逻辑
-            
             [weakSelf changeCallViewItem:item withIndex:indexpath.item];
         };
     }
