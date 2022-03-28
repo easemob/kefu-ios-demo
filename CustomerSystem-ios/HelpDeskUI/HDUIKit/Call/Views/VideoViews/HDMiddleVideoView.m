@@ -14,6 +14,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         
+        
+        
 //        [self addSubview:self.subView];
        
         

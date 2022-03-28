@@ -389,12 +389,6 @@ static HDAgoraCallManager *shareCall = nil;
 #pragma mark - <AgoraRtcEngineDelegate>
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed {
     
-    //先判断是不是 屏幕分享用户
-    if([self isScreenShareUid:uid]) {
-        
-        NSLog(@"Ignore screen share uid== %lu",(unsigned long)uid);
-        return;
-    }
     NSLog(@"join Member  uid---- %lu ",(unsigned long)uid);
     HDAgoraCallMember *mem = [self getHDAgoraCallMember:uid];
     

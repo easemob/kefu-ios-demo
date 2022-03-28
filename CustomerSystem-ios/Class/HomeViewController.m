@@ -567,7 +567,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //        [self presentViewController:hdCallVC animated:YES completion:nil];
 //
     
-    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:keyCenter.visitorNickName hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
         [callVC dismissViewControllerAnimated:YES completion:nil];
     }];
         hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;

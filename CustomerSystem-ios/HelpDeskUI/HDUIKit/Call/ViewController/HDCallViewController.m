@@ -365,6 +365,8 @@
         make.height.offset([UIScreen mainScreen].bounds.size.width *9/16 );
         
     }];
+    [self.midelleVideoView layoutIfNeeded];
+    
     //底部 窗口
     [self.barView refreshView:self.barView withScreen:self.isLandscape];
 }
@@ -545,7 +547,7 @@
 - (HDMiddleVideoView *)midelleVideoView {
     if (!_midelleVideoView) {
         _midelleVideoView = [[HDMiddleVideoView alloc]init];
-        _midelleVideoView.backgroundColor = [UIColor blueColor];
+//        _midelleVideoView.backgroundColor = [UIColor blueColor];
         self.tmpView = _midelleVideoView;
     }
     return _midelleVideoView;
@@ -770,6 +772,7 @@
 
 // 成员加入回调
 - (void)onMemberJoin:(HDAgoraCallMember *)member {
+    NSLog(@"join Member  member---- %@ ",member.memberName);
     // 有 member 加入，添加到datasource中。
     if (isCalling) { // 只有在已经通话中的情况下，才回去在ui加入，否则都在接听时加入。
         @synchronized(_midelleMembers){
@@ -782,7 +785,6 @@
             }
             if (isNeedAdd) {
               
-                
                 if (_midelleMembers.count > 0) {
                     UIView * localView = [[UIView alloc] init];
                     HDCallCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:localView];
@@ -817,7 +819,7 @@
 
 // 成员离开回调
 - (void)onMemberExit:(HDAgoraCallMember *)member {
-    
+    NSLog(@"onMemberExit Member  member---- %@ ",member.memberName);
     //先去小窗 查找 如果在小窗 有删除 刷新即可
     HDCallCollectionViewCellItem *deleteItem;
     
