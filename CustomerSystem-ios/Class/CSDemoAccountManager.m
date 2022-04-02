@@ -132,6 +132,7 @@ static CSDemoAccountManager *_manager = nil;
 - (BOOL)login {
     HDError *error = [[HDClient sharedClient] loginWithUsername:self.username password:hxPassWord];
     if (!error) { //IM登录成功
+        
         return YES;
     } else { //登录失败
         NSLog(@"登录失败 error code :%d,error description:%@",error.code,error.errorDescription);

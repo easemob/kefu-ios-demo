@@ -114,7 +114,7 @@ static HDAgoraCallManager *shareCall = nil;
                             callId  = (NSString *) [videoPlaybackDic valueForKey:@"callId"];
                         }
                         //调用挂掉视频操作
-//                        [self agentHangUpCall:callId];
+                        [self agentHangUpCall:callId];
                         return;
                     }
                 }
@@ -178,6 +178,7 @@ static HDAgoraCallManager *shareCall = nil;
     
 }
 - (void)setupRemoteVideoView:(UIView *)remoteView withRemoteUid:(NSInteger)uid{
+    NSLog(@"======setupRemoteVideoView");
     AgoraRtcVideoCanvas * canvas = [[AgoraRtcVideoCanvas alloc] init];
     canvas.uid = uid;
     canvas.view = remoteView;
@@ -310,6 +311,11 @@ static HDAgoraCallManager *shareCall = nil;
 /// @param callid  呼叫id
 - (void)agentHangUpCall:(NSString *)callid{
     
+    if (self.members.count != 0 ) {
+        
+        return;
+    }
+    
     if([self.roomDelegate respondsToSelector:@selector(onCallEndReason:)]){
         
         [self.roomDelegate onCallEndReason:@"agent-call-colse"];
@@ -421,7 +427,11 @@ static HDAgoraCallManager *shareCall = nil;
 {
     NSLog(@"remoteVideoStateChangedOfUid %@ %@ %@", @(uid), @(state), @(reason));
 }
-
+- (void)rtcEngine:(AgoraRtcEngineKit *_Nonnull)engine firstLocalVideoFrameWithSize:(CGSize)size elapsed:(NSInteger)elapsed{
+    
+    NSLog(@"remoteVideoStateChangedOfUid");
+    
+}
 
 
 
@@ -456,9 +466,7 @@ static HDAgoraCallManager *shareCall = nil;
     };
     
     //如果房间里边人 都么有了 就发送通知 关闭。如果有人 就不关闭
-    if (self.members == 0 ) {
-        [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
-    }
+  [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
     
     //通知代理
     if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){

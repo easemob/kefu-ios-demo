@@ -225,7 +225,6 @@
 // 屏幕共享事件
 - (IBAction)shareDesktopBtnClicked:(UIButton *)btn {
     
-
     for (UIView *view in _broadPickerView.subviews)
     {
         if ([view isKindOfClass:[UIButton class]])

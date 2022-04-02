@@ -130,6 +130,9 @@
 		9385C61127E9B6CF0049096F /* iconfont.css in Resources */ = {isa = PBXBuildFile; fileRef = 9385C60927E9B6CF0049096F /* iconfont.css */; };
 		9385C61427E9CA800049096F /* HDAppSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C61327E9CA800049096F /* HDAppSkin.m */; };
 		9385C61727E9CB2C0049096F /* UIColor+HLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C61627E9CB2C0049096F /* UIColor+HLKit.m */; };
+		938AE99027F1A20B00B461C4 /* HDHiddenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 938AE98F27F1A20B00B461C4 /* HDHiddenView.m */; };
+		938AE9A327F1CEE000B461C4 /* ZZDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 938AE9A027F1CEE000B461C4 /* ZZDocument.m */; };
+		938AE9A427F1CEE000B461C4 /* iCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 938AE9A127F1CEE000B461C4 /* iCloudManager.m */; };
 		938CCA2627C8E1B300F470B5 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */; };
 		93B4E96227CCD1D800ACAF5B /* UIView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */; };
 		93B4E96327CCD1D800ACAF5B /* UIScrollView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93C27CCD1D700ACAF5B /* UIScrollView+HDMJExtension.m */; };
@@ -713,6 +716,12 @@
 		9385C61327E9CA800049096F /* HDAppSkin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAppSkin.m; sourceTree = "<group>"; };
 		9385C61527E9CB2C0049096F /* UIColor+HLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HLKit.h"; sourceTree = "<group>"; };
 		9385C61627E9CB2C0049096F /* UIColor+HLKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HLKit.m"; sourceTree = "<group>"; };
+		938AE98E27F1A20B00B461C4 /* HDHiddenView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDHiddenView.h; sourceTree = "<group>"; };
+		938AE98F27F1A20B00B461C4 /* HDHiddenView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDHiddenView.m; sourceTree = "<group>"; };
+		938AE99F27F1CEE000B461C4 /* iCloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloudManager.h; sourceTree = "<group>"; };
+		938AE9A027F1CEE000B461C4 /* ZZDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZDocument.m; sourceTree = "<group>"; };
+		938AE9A127F1CEE000B461C4 /* iCloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloudManager.m; sourceTree = "<group>"; };
+		938AE9A227F1CEE000B461C4 /* ZZDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDocument.h; sourceTree = "<group>"; };
 		938CCA2427C8E1B300F470B5 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
 		938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Add.m"; sourceTree = "<group>"; };
 		93B4E93627CCD1D700ACAF5B /* UIScrollView+HDMJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+HDMJExtension.h"; sourceTree = "<group>"; };
@@ -1495,6 +1504,8 @@
 				930E321627E03E9700455C7E /* HDControlBarView.m */,
 				930E321827E03E9800455C7E /* HDMiddleVideoView.h */,
 				930E321427E03E9700455C7E /* HDMiddleVideoView.m */,
+				938AE98E27F1A20B00B461C4 /* HDHiddenView.h */,
+				938AE98F27F1A20B00B461C4 /* HDHiddenView.m */,
 				930E321A27E03E9800455C7E /* HDSmallWindowView.h */,
 				930E321527E03E9700455C7E /* HDSmallWindowView.m */,
 				930E321B27E03E9800455C7E /* HDTitleView.h */,
@@ -1582,6 +1593,17 @@
 				9385C60927E9B6CF0049096F /* iconfont.css */,
 			);
 			path = font_3264411_16zuoee5s2n;
+			sourceTree = "<group>";
+		};
+		938AE99E27F1CEE000B461C4 /* file */ = {
+			isa = PBXGroup;
+			children = (
+				938AE99F27F1CEE000B461C4 /* iCloudManager.h */,
+				938AE9A127F1CEE000B461C4 /* iCloudManager.m */,
+				938AE9A227F1CEE000B461C4 /* ZZDocument.h */,
+				938AE9A027F1CEE000B461C4 /* ZZDocument.m */,
+			);
+			path = file;
 			sourceTree = "<group>";
 		};
 		938CCA1D27C8D97F00F470B5 /* MBProgressHUD */ = {
@@ -2158,6 +2180,7 @@
 		D3CB63D01E4888F30022A6BA /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				938AE99E27F1CEE000B461C4 /* file */,
 				D3CB63D11E4888F30022A6BA /* HDSDKHelper.h */,
 				D3CB63D21E4888F30022A6BA /* HDSDKHelper.m */,
 			);
@@ -3347,6 +3370,7 @@
 				D3CB648F1E4888F30022A6BA /* NSString+HDValid.m in Sources */,
 				D34D6CEA1DEC08CA0099EE23 /* LeaveMsgDetailHeaderView.m in Sources */,
 				93B4E97327CCD1D800ACAF5B /* HDMJRefreshHeader.m in Sources */,
+				938AE9A327F1CEE000B461C4 /* ZZDocument.m in Sources */,
 				D3CB64691E4888F30022A6BA /* MWTapDetectingView.m in Sources */,
 				930CFC8027BDF36700FFEA53 /* HDFastbordViewController.m in Sources */,
 				937FD5AA27D1B2ED00EB055A /* HDAgoraCallOptions.m in Sources */,
@@ -3492,6 +3516,7 @@
 				D3CB64B61E4888F30022A6BA /* HDChatBarMoreView.m in Sources */,
 				D3CE33291F0610FA00A9649E /* HLeaveMessageSucceedViewController.m in Sources */,
 				D3CB64AE1E4888F30022A6BA /* HDBubbleView+Voice.m in Sources */,
+				938AE9A427F1CEE000B461C4 /* iCloudManager.m in Sources */,
 				D3A8B1B71E00E5B200A43E7E /* UIViewController+KFAdd.m in Sources */,
 				D34743B41DE6FF8C00F32D87 /* HDLeaveMsgViewController.m in Sources */,
 				9042C2652514A1A100DC5BE1 /* AFNetworkReachabilityManager.m in Sources */,
@@ -3512,6 +3537,7 @@
 				90BE1E3D2216C656007D17A1 /* UIViewController+AlertController.m in Sources */,
 				937FD5A627D1B2ED00EB055A /* HDSSKeychain.m in Sources */,
 				D3CB64851E4888F30022A6BA /* PSTGridLayoutInfo.m in Sources */,
+				938AE99027F1A20B00B461C4 /* HDHiddenView.m in Sources */,
 				93B4E96527CCD1D800ACAF5B /* UIScrollView+HDMJRefresh.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -20,7 +20,8 @@
 #import "HDAgoraCallManagerDelegate.h"
 #import "HDPopoverViewController.h"
 #import "HDItemView.h"
-
+#import "HDAppSkin.h"
+#import "HDHiddenView.h"
 #define kLocalUid 11111111111 //设置本地的uid
 #define kCamViewTag 100001
 #define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
@@ -58,7 +59,7 @@
 @property (nonatomic, strong) HDTitleView *hdTitleView;
 @property (nonatomic, strong) HDAnswerView *hdAnswerView;
 @property (nonatomic, strong) HDItemView *itemView;
-@property (nonatomic, strong) UIView *tmpView;
+@property (nonatomic, strong) HDHiddenView *hidView;
 @property (nonatomic, assign) BOOL  isLandscape;//当前屏幕 是横屏还是竖屏
 @property (strong, nonatomic) HDPopoverViewController *buttonPopVC;
 @property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));
@@ -80,7 +81,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorGray];
     
     _cameraState = NO;
     
@@ -205,15 +206,12 @@
     HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
     item.nickName = aMember.agentNickName;
     item.uid = [aMember.memberName integerValue];
-//    UIView * retomView = [[UIView alloc] init];
-//    retomView.frame = self.midelleVideoView.frame;
     item.camView =view;
 //    item.camView = retomView;
     //远端第一次进来 添加中间窗口初始化view
     if (_videoViews.count == 0) {
         [_videoViews addObject:item];
     }
-   
     //设置远端试图
     [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
     return item;
@@ -480,6 +478,15 @@
     self.itemView.muteBtn.selected = item.isMute;
 }
 
+- (HDHiddenView *)hidView{
+    
+    if (_hidView) {
+        _hidView = [[HDHiddenView alloc] init];
+        _hidView.backgroundColor = [UIColor redColor];
+    }
+    return _hidView;
+}
+
 
 - (HDItemView *)itemView{
     if (!_itemView) {
@@ -547,8 +554,6 @@
 - (HDMiddleVideoView *)midelleVideoView {
     if (!_midelleVideoView) {
         _midelleVideoView = [[HDMiddleVideoView alloc]init];
-//        _midelleVideoView.backgroundColor = [UIColor blueColor];
-        self.tmpView = _midelleVideoView;
     }
     return _midelleVideoView;
 }
@@ -673,6 +678,7 @@
         //当前摄像头关闭 需要打开
         [[HDAgoraCallManager shareInstance] enableLocalVideo:YES];
         _cameraState = YES;
+//        [self.hidView removeFromSuperview];
 
     }
     
@@ -721,6 +727,20 @@
     [_cameraBtn setImage:img forState:UIControlStateNormal];
 
     [[HDAgoraCallManager shareInstance] enableLocalVideo:NO];
+    
+    
+   
+//    [self.view addSubview:self.hidView];
+//    [self.hidView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(self.smallWindowView.mas_bottom).offset(44);
+//        make.leading.offset(0);
+//        make.trailing.offset(0);
+//        make.height.offset([UIScreen mainScreen].bounds.size.width *9/16 );
+//    }];
+    
+    
+    
+    
 }
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
     return UIModalPresentationNone;
@@ -777,19 +797,22 @@
         @synchronized(_midelleMembers){
             BOOL isNeedAdd = YES;
             for (HDCallCollectionViewCellItem *item in _midelleMembers) {
+                NSLog(@"join Member  member---- %@ ",member.memberName);
                 if (item.uid  == [member.memberName integerValue] ) {
                     isNeedAdd = NO;
                     break;
                 }
             }
             if (isNeedAdd) {
-              
+                NSLog(@"join Member  isNeedAdd---- %@ ",member.memberName);
                 if (_midelleMembers.count > 0) {
+                    NSLog(@"join Member  _midelleMembers---- %@ ",member.memberName);
                     UIView * localView = [[UIView alloc] init];
                     HDCallCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:localView];
                     [self.smallWindowView  setThirdUserdidJoined:thirdItem];
                    
                 }else{
+                    NSLog(@"join Member  isNeedAdd---- %@ ",member.memberName);
                     HDCallCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:self.midelleVideoView];
                     [_midelleMembers addObject: thirdItem];
                 }

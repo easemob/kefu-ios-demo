@@ -196,6 +196,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
         if ([lgM loginKefuSDK]) {
+            
+            [[HDClient sharedClient].pushManager updatePushDisplayStyle:HDPushDisplayStyleMessageSummary completion:^(HDError * _Nonnull error) {
+                
+                NSLog(@"=======error=%u",error.code);
+                
+                
+            }];
+            
+            
             NSString *queue = nil;
             if ([notification.object objectForKey:kpreSell]) {
                 queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
@@ -237,6 +246,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     if ([[CSDemoAccountManager shareLoginManager] loginKefuSDK]) {
         [HDClient.sharedClient.pushManager updatePushDisplayStyle:HDPushDisplayStyleMessageSummary completion:^(HDError * error) {
             NSLog(@" error:%@",error.errorDescription);
+            
+            
+            
         }];
     }
 }
@@ -522,6 +534,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 */
 // 收到消息回调
 - (void)messagesDidReceive:(NSArray *)aMessages {
+    
+    NSLog(@"==========收到消息了");
     if ([self isNotificationMessage:aMessages.firstObject]) {
         return;
     }

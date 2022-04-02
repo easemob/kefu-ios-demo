@@ -1,20 +1,20 @@
 //
-//  HDMiddleVideoView.m
-//  HLtest
+//  HDHiddenView.m
+//  CustomerSystem-ios
 //
-//  Created by houli on 2022/3/7.
+//  Created by houli on 2022/3/28.
+//  Copyright © 2022 easemob. All rights reserved.
 //
 
-#import "HDMiddleVideoView.h"
+#import "HDHiddenView.h"
 #import "HDAppSkin.h"
 #import "UIImage+HDIconFont.h"
-@implementation HDMiddleVideoView
+@implementation HDHiddenView
 
 - (instancetype)initWithFrame:(CGRect)frame{
     
     self = [super initWithFrame:frame];
     if (self) {
-        
         //添加背景色
         self.backgroundColor = [[HDAppSkin mainSkin] contentColorGray];
         
@@ -47,5 +47,6 @@
     return _bgImgView;
     
 }
+
 
 @end

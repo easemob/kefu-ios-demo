@@ -23,16 +23,14 @@
         // Initialization code
       
         self.layer.cornerRadius = 10;
-           
         self.layer.masksToBounds = YES;
+        self.layer.borderWidth = 1;
         self.callView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame))];
         [self addSubview:self.callView];
 
         [self addSubview: self.muteBtn];
         [self addSubview: self.nickNameLabel];
       
-        
-       
         //添加通知
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(receiveNoti:)
