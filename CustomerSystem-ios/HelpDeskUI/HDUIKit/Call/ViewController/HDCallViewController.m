@@ -145,7 +145,7 @@
     
     NSArray * selImageArr = @[barModel,barModel1,barModel2,barModel3,barModel4];
     
-    [self.barView buttonFromArrBarModels:selImageArr view:self.barView];
+    [self.barView buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
     
     [self initSmallWindowData];
 }

@@ -71,18 +71,6 @@
 		930CCE7627C39639004DA60D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; };
 		930CFC5E27BD156100FFEA53 /* HyphenateChat.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */; };
 		930CFC5F27BD156100FFEA53 /* HyphenateChat.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		930CFC6C27BDF1EE00FFEA53 /* dsBridge.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6527BDEF1800FFEA53 /* dsBridge.xcframework */; };
-		930CFC6D27BDF1EE00FFEA53 /* dsBridge.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6527BDEF1800FFEA53 /* dsBridge.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		930CFC6E27BDF1F000FFEA53 /* Fastboard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6627BDEF1800FFEA53 /* Fastboard.xcframework */; };
-		930CFC6F27BDF1F000FFEA53 /* Fastboard.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6627BDEF1800FFEA53 /* Fastboard.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		930CFC7027BDF1F800FFEA53 /* Whiteboard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6427BDEF1800FFEA53 /* Whiteboard.xcframework */; };
-		930CFC7127BDF1F800FFEA53 /* Whiteboard.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6427BDEF1800FFEA53 /* Whiteboard.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		930CFC7227BDF1FA00FFEA53 /* YYModel.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6727BDEF1800FFEA53 /* YYModel.xcframework */; };
-		930CFC7327BDF1FA00FFEA53 /* YYModel.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC6727BDEF1800FFEA53 /* YYModel.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		930CFC7927BDF32B00FFEA53 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 930CFC7627BDF32A00FFEA53 /* Utility.m */; };
-		930CFC7A27BDF32B00FFEA53 /* CustomFastboardOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 930CFC7727BDF32A00FFEA53 /* CustomFastboardOverlay.m */; };
-		930CFC7D27BDF33500FFEA53 /* RoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 930CFC7B27BDF33400FFEA53 /* RoomInfo.m */; };
-		930CFC8027BDF36700FFEA53 /* HDFastbordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930CFC7F27BDF36700FFEA53 /* HDFastbordViewController.m */; };
 		930E320E27E03AE500455C7E /* HDAccountmanager.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E320D27E03AE500455C7E /* HDAccountmanager.m */; };
 		930E321C27E03E9800455C7E /* HDCallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E321027E03E9600455C7E /* HDCallCollectionViewCell.m */; };
 		930E321D27E03E9800455C7E /* HDMiddleVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E321427E03E9700455C7E /* HDMiddleVideoView.m */; };
@@ -95,6 +83,11 @@
 		930E4DAB2796D39F007CFE50 /* UIViewController+VLDModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E4DAA2796D39F007CFE50 /* UIViewController+VLDModal.m */; };
 		933C4C8927E1E847001678B0 /* HDSSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4C8727E1E847001678B0 /* HDSSKeychain.m */; };
 		933C4CA927E4A117001678B0 /* HDPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4CA727E4A116001678B0 /* HDPopoverViewController.m */; };
+		9367CDDD27FD5D94008479D8 /* HDFastboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDDC27FD5D94008479D8 /* HDFastboardViewController.m */; };
+		9367CDE027FD5E7B008479D8 /* RoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDDE27FD5E78008479D8 /* RoomInfo.m */; };
+		9367CDE527FD5E8D008479D8 /* CustomFastboardOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDE127FD5E88008479D8 /* CustomFastboardOverlay.m */; };
+		9367CDE627FD5E8D008479D8 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDE427FD5E8C008479D8 /* Utility.m */; };
+		9367CDEE27FE97D1008479D8 /* HDStorageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDED27FE97D1008479D8 /* HDStorageItem.m */; };
 		9374FEB427CC721700DE1185 /* HDSDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9374FEB327CC721700DE1185 /* HDSDWebImageManager.m */; };
 		9374FEB727CC7C0000DE1185 /* UIImageView+HDWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9374FEB627CC7C0000DE1185 /* UIImageView+HDWebCache.m */; };
 		9374FEBA27CCA5BE00DE1185 /* UIImage+HDGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 9374FEB827CCA5BE00DE1185 /* UIImage+HDGIF.m */; };
@@ -134,6 +127,14 @@
 		938AE9A327F1CEE000B461C4 /* ZZDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 938AE9A027F1CEE000B461C4 /* ZZDocument.m */; };
 		938AE9A427F1CEE000B461C4 /* iCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 938AE9A127F1CEE000B461C4 /* iCloudManager.m */; };
 		938CCA2627C8E1B300F470B5 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */; };
+		9392B4FF27FFD8BF005D4215 /* HDCloudDiskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B4FE27FFD8BF005D4215 /* HDCloudDiskViewController.m */; };
+		9392B50327FFD8E2005D4215 /* HDCloudDiskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B50127FFD8E2005D4215 /* HDCloudDiskTableViewCell.m */; };
+		9392B50427FFD8E2005D4215 /* HDCloudDiskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9392B50227FFD8E2005D4215 /* HDCloudDiskTableViewCell.xib */; };
+		9392B50727FFDC8B005D4215 /* HDCloudDiskModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B50627FFDC8B005D4215 /* HDCloudDiskModel.m */; };
+		9392B50A27FFF293005D4215 /* HDUploadFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B50927FFF293005D4215 /* HDUploadFileViewController.m */; };
+		9392B50D28001263005D4215 /* HDUploadListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B50C28001263005D4215 /* HDUploadListViewController.m */; };
+		9392B512280012EA005D4215 /* HDListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B510280012EA005D4215 /* HDListViewCell.m */; };
+		9392B513280012EA005D4215 /* HDListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9392B511280012EA005D4215 /* HDListViewCell.xib */; };
 		93B4E96227CCD1D800ACAF5B /* UIView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */; };
 		93B4E96327CCD1D800ACAF5B /* UIScrollView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93C27CCD1D700ACAF5B /* UIScrollView+HDMJExtension.m */; };
 		93B4E96427CCD1D800ACAF5B /* HDMJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93D27CCD1D700ACAF5B /* HDMJRefreshConst.m */; };
@@ -514,10 +515,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				930CFC6F27BDF1F000FFEA53 /* Fastboard.xcframework in Embed Frameworks */,
-				930CFC7327BDF1FA00FFEA53 /* YYModel.xcframework in Embed Frameworks */,
-				930CFC6D27BDF1EE00FFEA53 /* dsBridge.xcframework in Embed Frameworks */,
-				930CFC7127BDF1F800FFEA53 /* Whiteboard.xcframework in Embed Frameworks */,
 				93D9D08227C37EC600BD037D /* HelpDesk.framework in Embed Frameworks */,
 				930CFC5F27BD156100FFEA53 /* HyphenateChat.xcframework in Embed Frameworks */,
 			);
@@ -621,18 +618,6 @@
 		90EE4C5323548CD200DEE8CA /* HRobotUnsolveItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HRobotUnsolveItemView.h; sourceTree = "<group>"; };
 		90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HRobotUnsolveItemView.m; sourceTree = "<group>"; };
 		930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = HyphenateChat.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/imsdk/HyphenateChat.xcframework"; sourceTree = "<group>"; };
-		930CFC6427BDEF1800FFEA53 /* Whiteboard.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Whiteboard.xcframework; sourceTree = "<group>"; };
-		930CFC6527BDEF1800FFEA53 /* dsBridge.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = dsBridge.xcframework; sourceTree = "<group>"; };
-		930CFC6627BDEF1800FFEA53 /* Fastboard.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Fastboard.xcframework; sourceTree = "<group>"; };
-		930CFC6727BDEF1800FFEA53 /* YYModel.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = YYModel.xcframework; sourceTree = "<group>"; };
-		930CFC7527BDF32A00FFEA53 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
-		930CFC7627BDF32A00FFEA53 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
-		930CFC7727BDF32A00FFEA53 /* CustomFastboardOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomFastboardOverlay.m; sourceTree = "<group>"; };
-		930CFC7827BDF32B00FFEA53 /* CustomFastboardOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomFastboardOverlay.h; sourceTree = "<group>"; };
-		930CFC7B27BDF33400FFEA53 /* RoomInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomInfo.m; sourceTree = "<group>"; };
-		930CFC7C27BDF33400FFEA53 /* RoomInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomInfo.h; sourceTree = "<group>"; };
-		930CFC7E27BDF36700FFEA53 /* HDFastbordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDFastbordViewController.h; sourceTree = "<group>"; };
-		930CFC7F27BDF36700FFEA53 /* HDFastbordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDFastbordViewController.m; sourceTree = "<group>"; };
 		930E320C27E03AE500455C7E /* HDAccountmanager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAccountmanager.h; sourceTree = "<group>"; };
 		930E320D27E03AE500455C7E /* HDAccountmanager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAccountmanager.m; sourceTree = "<group>"; };
 		930E321027E03E9600455C7E /* HDCallCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallCollectionViewCell.m; sourceTree = "<group>"; };
@@ -657,6 +642,17 @@
 		933C4C8827E1E847001678B0 /* HDSSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HDSSKeychain.h; path = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Call/Manager/HDSSKeychain.h"; sourceTree = SOURCE_ROOT; };
 		933C4CA727E4A116001678B0 /* HDPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDPopoverViewController.m; sourceTree = "<group>"; };
 		933C4CA827E4A117001678B0 /* HDPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDPopoverViewController.h; sourceTree = "<group>"; };
+		9367CDDB27FD5D94008479D8 /* HDFastboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDFastboardViewController.h; sourceTree = "<group>"; };
+		9367CDDC27FD5D94008479D8 /* HDFastboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDFastboardViewController.m; sourceTree = "<group>"; };
+		9367CDDE27FD5E78008479D8 /* RoomInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomInfo.m; sourceTree = "<group>"; };
+		9367CDDF27FD5E79008479D8 /* RoomInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomInfo.h; sourceTree = "<group>"; };
+		9367CDE127FD5E88008479D8 /* CustomFastboardOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomFastboardOverlay.m; sourceTree = "<group>"; };
+		9367CDE227FD5E89008479D8 /* CustomFastboardOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomFastboardOverlay.h; sourceTree = "<group>"; };
+		9367CDE327FD5E8A008479D8 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		9367CDE427FD5E8C008479D8 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
+		9367CDE727FE8117008479D8 /* CustomerSystem-ios-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomerSystem-ios-Bridging-Header.h"; sourceTree = "<group>"; };
+		9367CDEC27FE97D1008479D8 /* HDStorageItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDStorageItem.h; sourceTree = "<group>"; };
+		9367CDED27FE97D1008479D8 /* HDStorageItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDStorageItem.m; sourceTree = "<group>"; };
 		9374FEB227CC721700DE1185 /* HDSDWebImageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDSDWebImageManager.h; sourceTree = "<group>"; };
 		9374FEB327CC721700DE1185 /* HDSDWebImageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDSDWebImageManager.m; sourceTree = "<group>"; };
 		9374FEB527CC7C0000DE1185 /* UIImageView+HDWebCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImageView+HDWebCache.h"; sourceTree = "<group>"; };
@@ -724,6 +720,20 @@
 		938AE9A227F1CEE000B461C4 /* ZZDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDocument.h; sourceTree = "<group>"; };
 		938CCA2427C8E1B300F470B5 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
 		938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Add.m"; sourceTree = "<group>"; };
+		9392B4FD27FFD8BF005D4215 /* HDCloudDiskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCloudDiskViewController.h; sourceTree = "<group>"; };
+		9392B4FE27FFD8BF005D4215 /* HDCloudDiskViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDCloudDiskViewController.m; sourceTree = "<group>"; };
+		9392B50027FFD8E2005D4215 /* HDCloudDiskTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCloudDiskTableViewCell.h; sourceTree = "<group>"; };
+		9392B50127FFD8E2005D4215 /* HDCloudDiskTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDCloudDiskTableViewCell.m; sourceTree = "<group>"; };
+		9392B50227FFD8E2005D4215 /* HDCloudDiskTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDCloudDiskTableViewCell.xib; sourceTree = "<group>"; };
+		9392B50527FFDC8B005D4215 /* HDCloudDiskModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCloudDiskModel.h; sourceTree = "<group>"; };
+		9392B50627FFDC8B005D4215 /* HDCloudDiskModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDCloudDiskModel.m; sourceTree = "<group>"; };
+		9392B50827FFF293005D4215 /* HDUploadFileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDUploadFileViewController.h; sourceTree = "<group>"; };
+		9392B50927FFF293005D4215 /* HDUploadFileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDUploadFileViewController.m; sourceTree = "<group>"; };
+		9392B50B28001263005D4215 /* HDUploadListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDUploadListViewController.h; sourceTree = "<group>"; };
+		9392B50C28001263005D4215 /* HDUploadListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDUploadListViewController.m; sourceTree = "<group>"; };
+		9392B50F280012EA005D4215 /* HDListViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDListViewCell.h; sourceTree = "<group>"; };
+		9392B510280012EA005D4215 /* HDListViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDListViewCell.m; sourceTree = "<group>"; };
+		9392B511280012EA005D4215 /* HDListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDListViewCell.xib; sourceTree = "<group>"; };
 		93B4E93627CCD1D700ACAF5B /* UIScrollView+HDMJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+HDMJExtension.h"; sourceTree = "<group>"; };
 		93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HDMJExtension.m"; sourceTree = "<group>"; };
 		93B4E93827CCD1D700ACAF5B /* HDMJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMJRefresh.h; sourceTree = "<group>"; };
@@ -1284,19 +1294,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				930CFC6E27BDF1F000FFEA53 /* Fastboard.xcframework in Frameworks */,
 				D378E6061F5669A400E3AB74 /* Security.framework in Frameworks */,
 				93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */,
 				D3E4B4471E7AA41B004FEA49 /* libiconv.tbd in Frameworks */,
 				D3AA4B261ED45B7300B5C509 /* hdlibopencore-amrwb.a in Frameworks */,
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
-				930CFC7227BDF1FA00FFEA53 /* YYModel.xcframework in Frameworks */,
 				EB62E44D1A8E2D9300705655 /* CFNetwork.framework in Frameworks */,
-				930CFC6C27BDF1EE00FFEA53 /* dsBridge.xcframework in Frameworks */,
 				D3AA4B251ED45B7300B5C509 /* hdlibopencore-amrnb.a in Frameworks */,
 				EB62E44B1A8E2D8D00705655 /* AddressBook.framework in Frameworks */,
-				930CFC7027BDF1F800FFEA53 /* Whiteboard.xcframework in Frameworks */,
 				93D9D08127C37EC600BD037D /* HelpDesk.framework in Frameworks */,
 				EB62E4451A8E2D7900705655 /* MobileCoreServices.framework in Frameworks */,
 				EB62E4431A8E2D7300705655 /* SystemConfiguration.framework in Frameworks */,
@@ -1347,7 +1353,6 @@
 		9086150920B43A54002E71DA /* Agora */ = {
 			isa = PBXGroup;
 			children = (
-				930CFC7427BDF2F300FFEA53 /* Fastboard */,
 				9086150F20B43A54002E71DA /* HDCallViewCollectionViewCell.xib */,
 				9086150A20B43A54002E71DA /* HDCallViewCollectionViewCell.h */,
 				9086150D20B43A54002E71DA /* HDCallViewCollectionViewCell.m */,
@@ -1403,7 +1408,6 @@
 		9094F1CA21E83C8C00037601 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
-				930CFC6327BDEF1800FFEA53 /* Build */,
 				9042C2522514A1A000DC5BE1 /* AFNetworking */,
 				9094F1F121E83C8C00037601 /* SlimeRefresh */,
 			);
@@ -1433,35 +1437,10 @@
 			path = RobotUnsolveItemView;
 			sourceTree = "<group>";
 		};
-		930CFC6327BDEF1800FFEA53 /* Build */ = {
-			isa = PBXGroup;
-			children = (
-				930CFC6427BDEF1800FFEA53 /* Whiteboard.xcframework */,
-				930CFC6527BDEF1800FFEA53 /* dsBridge.xcframework */,
-				930CFC6627BDEF1800FFEA53 /* Fastboard.xcframework */,
-				930CFC6727BDEF1800FFEA53 /* YYModel.xcframework */,
-			);
-			path = Build;
-			sourceTree = "<group>";
-		};
-		930CFC7427BDF2F300FFEA53 /* Fastboard */ = {
-			isa = PBXGroup;
-			children = (
-				930CFC7C27BDF33400FFEA53 /* RoomInfo.h */,
-				930CFC7B27BDF33400FFEA53 /* RoomInfo.m */,
-				930CFC7827BDF32B00FFEA53 /* CustomFastboardOverlay.h */,
-				930CFC7727BDF32A00FFEA53 /* CustomFastboardOverlay.m */,
-				930CFC7527BDF32A00FFEA53 /* Utility.h */,
-				930CFC7627BDF32A00FFEA53 /* Utility.m */,
-				930CFC7E27BDF36700FFEA53 /* HDFastbordViewController.h */,
-				930CFC7F27BDF36700FFEA53 /* HDFastbordViewController.m */,
-			);
-			path = Fastboard;
-			sourceTree = "<group>";
-		};
 		930E320927E0323100455C7E /* Call */ = {
 			isa = PBXGroup;
 			children = (
+				9367CDDA27FD5CFE008479D8 /* Fastboard */,
 				930E320B27E032A000455C7E /* ViewController */,
 				9086151020B43A54002E71DA /* HCallResources */,
 				9333263A27D0D17A004707E1 /* Manager */,
@@ -1531,6 +1510,25 @@
 				9385C61327E9CA800049096F /* HDAppSkin.m */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		9367CDDA27FD5CFE008479D8 /* Fastboard */ = {
+			isa = PBXGroup;
+			children = (
+				9392B4FC27FFD885005D4215 /* CloudDisk */,
+				9367CDE227FD5E89008479D8 /* CustomFastboardOverlay.h */,
+				9367CDE127FD5E88008479D8 /* CustomFastboardOverlay.m */,
+				9367CDE327FD5E8A008479D8 /* Utility.h */,
+				9367CDE427FD5E8C008479D8 /* Utility.m */,
+				9367CDDF27FD5E79008479D8 /* RoomInfo.h */,
+				9367CDDE27FD5E78008479D8 /* RoomInfo.m */,
+				9367CDDB27FD5D94008479D8 /* HDFastboardViewController.h */,
+				9367CDDC27FD5D94008479D8 /* HDFastboardViewController.m */,
+				9367CDEC27FE97D1008479D8 /* HDStorageItem.h */,
+				9367CDED27FE97D1008479D8 /* HDStorageItem.m */,
+				9367CDE727FE8117008479D8 /* CustomerSystem-ios-Bridging-Header.h */,
+			);
+			path = Fastboard;
 			sourceTree = "<group>";
 		};
 		9374FEB127CC71C200DE1185 /* HDSDWebImage */ = {
@@ -1613,6 +1611,35 @@
 				938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */,
 			);
 			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		9392B4FC27FFD885005D4215 /* CloudDisk */ = {
+			isa = PBXGroup;
+			children = (
+				9392B50E2800126C005D4215 /* list */,
+				9392B4FD27FFD8BF005D4215 /* HDCloudDiskViewController.h */,
+				9392B4FE27FFD8BF005D4215 /* HDCloudDiskViewController.m */,
+				9392B50527FFDC8B005D4215 /* HDCloudDiskModel.h */,
+				9392B50627FFDC8B005D4215 /* HDCloudDiskModel.m */,
+				9392B50027FFD8E2005D4215 /* HDCloudDiskTableViewCell.h */,
+				9392B50127FFD8E2005D4215 /* HDCloudDiskTableViewCell.m */,
+				9392B50227FFD8E2005D4215 /* HDCloudDiskTableViewCell.xib */,
+				9392B50827FFF293005D4215 /* HDUploadFileViewController.h */,
+				9392B50927FFF293005D4215 /* HDUploadFileViewController.m */,
+			);
+			path = CloudDisk;
+			sourceTree = "<group>";
+		};
+		9392B50E2800126C005D4215 /* list */ = {
+			isa = PBXGroup;
+			children = (
+				9392B50B28001263005D4215 /* HDUploadListViewController.h */,
+				9392B50C28001263005D4215 /* HDUploadListViewController.m */,
+				9392B50F280012EA005D4215 /* HDListViewCell.h */,
+				9392B510280012EA005D4215 /* HDListViewCell.m */,
+				9392B511280012EA005D4215 /* HDListViewCell.xib */,
+			);
+			path = list;
 			sourceTree = "<group>";
 		};
 		93A00A5127607A850050425C /* HDMasonry */ = {
@@ -2897,6 +2924,7 @@
 					EB62E1F81A8DD92D00705655 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 499WYUV8Q2;
+						LastSwiftMigration = 1310;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -3080,6 +3108,7 @@
 				EB4B06B31AC685E900DCF67B /* VoiceSearchFeedback020.png in Resources */,
 				EB4B06F01AC685E900DCF67B /* chat_sender_audio_playing_002@2x.png in Resources */,
 				EB4B06AF1AC685E900DCF67B /* VoiceSearchFeedback018.png in Resources */,
+				9392B50427FFD8E2005D4215 /* HDCloudDiskTableViewCell.xib in Resources */,
 				9086154120B43A54002E71DA /* videoOff.png in Resources */,
 				D3CB64891E4888F30022A6BA /* MWPhotoBrowser.bundle in Resources */,
 				9086153D20B43A54002E71DA /* mac on.png in Resources */,
@@ -3188,6 +3217,7 @@
 				EB4B06A91AC685E900DCF67B /* VoiceSearchFeedback015.png in Resources */,
 				9086154C20B43A54002E71DA /* show@2x.png in Resources */,
 				D3D1BB311DE8426F004B3557 /* tabbar_message@2x.png in Resources */,
+				9392B513280012EA005D4215 /* HDListViewCell.xib in Resources */,
 				EB4B06C11AC685E900DCF67B /* chatBar_more_cardSelected.png in Resources */,
 				EB4B06C81AC685E900DCF67B /* chatBar_textBg@2x.png in Resources */,
 				EB4B06881AC685E900DCF67B /* chatFire_audioPlaying1@2x.png in Resources */,
@@ -3280,9 +3310,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CustomerSystem-ios/Pods-CustomerSystem-ios-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Fastboard/Fastboard.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Whiteboard/Whiteboard.framework",
+				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
+				"${BUILT_PRODUCTS_DIR}/dsBridge/dsBridge.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/AINS/AgoraAIDenoiseExtension.framework/AgoraAIDenoiseExtension",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/AV1Dec/AgoraDav1dExtension.framework/AgoraDav1dExtension",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ContentInspect/AgoraCIExtension.framework/AgoraCIExtension",
@@ -3290,20 +3324,24 @@
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/JND/AgoraJNDExtension.framework/AgoraJNDExtension",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ROIEnc/AgoraFDExtension.framework/AgoraFDExtension",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/ReplayKit/AgoraReplayKitExtension.framework/AgoraReplayKitExtension",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraRtcKit.framework/AgoraRtcKit",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraCore.framework/AgoraCore",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agoraffmpeg.framework/Agoraffmpeg",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agorafdkaac.framework/Agorafdkaac",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraRtcKit.framework/AgoraRtcKit",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/AgoraSoundTouch.framework/AgoraSoundTouch",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agorafdkaac.framework/Agorafdkaac",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/RtcBasic/Agoraffmpeg.framework/Agoraffmpeg",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/SuperResolution/AgoraSuperResolutionExtension.framework/AgoraSuperResolutionExtension",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VideoPreprocess/AgoraVideoProcessExtension.framework/AgoraVideoProcessExtension",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcEngine_iOS/VirtualBackground/AgoraVideoSegmentationExtension.framework/AgoraVideoSegmentationExtension",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fastboard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Whiteboard.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/dsBridge.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraAIDenoiseExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraDav1dExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCIExtension.framework",
@@ -3311,11 +3349,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraJNDExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraFDExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraReplayKitExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSuperResolutionExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoProcessExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoSegmentationExtension.framework",
@@ -3372,11 +3410,12 @@
 				93B4E97327CCD1D800ACAF5B /* HDMJRefreshHeader.m in Sources */,
 				938AE9A327F1CEE000B461C4 /* ZZDocument.m in Sources */,
 				D3CB64691E4888F30022A6BA /* MWTapDetectingView.m in Sources */,
-				930CFC8027BDF36700FFEA53 /* HDFastbordViewController.m in Sources */,
 				937FD5AA27D1B2ED00EB055A /* HDAgoraCallOptions.m in Sources */,
 				9078071B2087584700ED9324 /* HDMicView.m in Sources */,
+				9392B4FF27FFD8BF005D4215 /* HDCloudDiskViewController.m in Sources */,
 				93B4E96427CCD1D800ACAF5B /* HDMJRefreshConst.m in Sources */,
 				93B4E97227CCD1D800ACAF5B /* HDMJRefreshFooter.m in Sources */,
+				9392B50D28001263005D4215 /* HDUploadListViewController.m in Sources */,
 				93B4E96A27CCD1D800ACAF5B /* HDMJRefreshAutoNormalFooter.m in Sources */,
 				D3CB64671E4888F30022A6BA /* MWPhotoBrowser.m in Sources */,
 				D34D6D8B1DEC45570099EE23 /* NSObject+SCAdd.m in Sources */,
@@ -3387,7 +3426,9 @@
 				D3CB649F1E4888F30022A6BA /* HDBaseMessageCell.m in Sources */,
 				D3394AE61E54868D009370BF /* SatisfactionViewController.m in Sources */,
 				9094F20B21E83C8D00037601 /* SRSlimeView.m in Sources */,
+				9367CDDD27FD5D94008479D8 /* HDFastboardViewController.m in Sources */,
 				D3CB64821E4888F30022A6BA /* PSTCollectionViewItemKey.m in Sources */,
+				9367CDE027FD5E7B008479D8 /* RoomInfo.m in Sources */,
 				D3CB647D1E4888F30022A6BA /* PSTCollectionView.m in Sources */,
 				D3CB64811E4888F30022A6BA /* PSTCollectionViewFlowLayout.m in Sources */,
 				9094F20A21E83C8D00037601 /* SRRefreshView.m in Sources */,
@@ -3403,15 +3444,14 @@
 				D3D87C141F3847C300FB7C84 /* HArticleWebViewController.m in Sources */,
 				D3CB64A41E4888F30022A6BA /* HDBubbleView+File.m in Sources */,
 				93B4E97027CCD1D800ACAF5B /* HDMJRefreshBackFooter.m in Sources */,
-				930CFC7D27BDF33500FFEA53 /* RoomInfo.m in Sources */,
 				D34D6CED1DEC12850099EE23 /* LeaveMsgAttatchmentView.m in Sources */,
 				D3CB647E1E4888F30022A6BA /* PSTCollectionViewCell.m in Sources */,
 				D34D6D841DEC1F9E0099EE23 /* FLTextView.m in Sources */,
+				9367CDE627FD5E8D008479D8 /* Utility.m in Sources */,
 				D3CB646B1E4888F30022A6BA /* DACircularProgressView.m in Sources */,
 				D34D6D7E1DEC1C510099EE23 /* LeaseMsgReplyController.m in Sources */,
 				D2769D231B9041DA003D9E3D /* MoreChoiceView.m in Sources */,
 				D3CB648A1E4888F30022A6BA /* HDSDKHelper.m in Sources */,
-				930CFC7A27BDF32B00FFEA53 /* CustomFastboardOverlay.m in Sources */,
 				EB395DFF1A8F0AC40083B659 /* MallViewController.m in Sources */,
 				D3CB64B81E4888F30022A6BA /* HelpDeskUI.m in Sources */,
 				D3CB64651E4888F30022A6BA /* MWGridViewController.m in Sources */,
@@ -3435,6 +3475,7 @@
 				930E322427E03FAE00455C7E /* HDCallViewController.m in Sources */,
 				D3CB64481E4888F30022A6BA /* HDCDDeviceManagerBase.m in Sources */,
 				D3CB64441E4888F30022A6BA /* HDCDDeviceManager+Media.m in Sources */,
+				9392B50327FFD8E2005D4215 /* HDCloudDiskTableViewCell.m in Sources */,
 				D3CB64A01E4888F30022A6BA /* HDCustomMessageCell.m in Sources */,
 				D3CB64461E4888F30022A6BA /* HDCDDeviceManager+ProximitySensor.m in Sources */,
 				D35579631EE94BF900F6B54E /* HConversationTableViewCell.m in Sources */,
@@ -3443,6 +3484,7 @@
 				D3CB64A71E4888F30022A6BA /* HDBubbleView+Location.m in Sources */,
 				D3CB64871E4888F30022A6BA /* PSTGridLayoutRow.m in Sources */,
 				933C4CA927E4A117001678B0 /* HDPopoverViewController.m in Sources */,
+				9392B50727FFDC8B005D4215 /* HDCloudDiskModel.m in Sources */,
 				D3AA4B231ED45B7300B5C509 /* hdwav.mm in Sources */,
 				9374FEB427CC721700DE1185 /* HDSDWebImageManager.m in Sources */,
 				8F1281F41F3C535A00E872CA /* HDBubbleView+Form.m in Sources */,
@@ -3486,7 +3528,6 @@
 				D3CB649C1E4888F30022A6BA /* HDMessageViewController.m in Sources */,
 				D298641D1EE3A89700AF4A4C /* LeaveMessageCell.m in Sources */,
 				D3CB64801E4888F30022A6BA /* PSTCollectionViewData.m in Sources */,
-				930CFC7927BDF32B00FFEA53 /* Utility.m in Sources */,
 				D33946F21E54381B009370BF /* UIView+FLExtension.m in Sources */,
 				D3CB64AD1E4888F30022A6BA /* HDBubbleView+Video.m in Sources */,
 				D3AA4B221ED45B7300B5C509 /* hdamrFileCodec.mm in Sources */,
@@ -3500,6 +3541,8 @@
 				D3CB64881E4888F30022A6BA /* PSTGridLayoutSection.m in Sources */,
 				D3CB64B11E4888F30022A6BA /* HDChatToolbarItem.m in Sources */,
 				D3CB64471E4888F30022A6BA /* HDCDDeviceManager+Remind.m in Sources */,
+				9367CDEE27FE97D1008479D8 /* HDStorageItem.m in Sources */,
+				9392B512280012EA005D4215 /* HDListViewCell.m in Sources */,
 				D3CB64B51E4888F30022A6BA /* HDFacialView.m in Sources */,
 				D3CB649D1E4888F30022A6BA /* HDRefreshTableViewController.m in Sources */,
 				EB395E021A8F0C8D0083B659 /* SettingViewController.m in Sources */,
@@ -3516,6 +3559,7 @@
 				D3CB64B61E4888F30022A6BA /* HDChatBarMoreView.m in Sources */,
 				D3CE33291F0610FA00A9649E /* HLeaveMessageSucceedViewController.m in Sources */,
 				D3CB64AE1E4888F30022A6BA /* HDBubbleView+Voice.m in Sources */,
+				9392B50A27FFF293005D4215 /* HDUploadFileViewController.m in Sources */,
 				938AE9A427F1CEE000B461C4 /* iCloudManager.m in Sources */,
 				D3A8B1B71E00E5B200A43E7E /* UIViewController+KFAdd.m in Sources */,
 				D34743B41DE6FF8C00F32D87 /* HDLeaveMsgViewController.m in Sources */,
@@ -3528,6 +3572,7 @@
 				D3CB64A21E4888F30022A6BA /* HDMessageTimeCell.m in Sources */,
 				D3CB64B31E4888F30022A6BA /* HDTextView.m in Sources */,
 				D3CB64AC1E4888F30022A6BA /* HDBubbleView+Transform.m in Sources */,
+				9367CDE527FD5E8D008479D8 /* CustomFastboardOverlay.m in Sources */,
 				EB4B07801AC6A1C100DCF67B /* EditViewController.m in Sources */,
 				930E321F27E03E9800455C7E /* HDControlBarView.m in Sources */,
 				930E321D27E03E9800455C7E /* HDMiddleVideoView.m in Sources */,
@@ -3897,6 +3942,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
@@ -3904,6 +3950,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: LI HOU (UGP7ZG964L)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3943,6 +3990,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = ease_wildcard;
+				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Call/Fastboard/CustomerSystem-ios-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -3952,12 +4002,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-iosRelease.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: EaseMob Inc.";
 				CURRENT_PROJECT_VERSION = 2;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3996,6 +4048,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = com.easemob.enterprise.demo.customer;
+				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Call/Fastboard/CustomerSystem-ios-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

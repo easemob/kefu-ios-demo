@@ -58,6 +58,7 @@
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
     option.showAgentInputState = YES; // 是否显示坐席输入状态
     option.isAutoLogin = YES;
+//    option.useIm = YES;
 //    option.extension = @{@"dk_disable_upload_locationInfo":@YES};
     HDClient *client = [HDClient sharedClient];
     HDError *initError = [client initializeSDKWithOptions:option];

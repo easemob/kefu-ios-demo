@@ -20,6 +20,13 @@ typedef NS_ENUM (NSInteger, HDControlBarItemType) {
     HDControlBarItemTypeShare,           /**分享桌面 */
     HDControlBarItemTypeFlat,            /**互动白板 */
 };
+/*
+ *  创建button 类型
+ */
+typedef NS_ENUM (NSInteger, HDControlBarButtonStyle) {
+    HDControlBarButtonStyleVideo     = 1,    /** 视频导航类型 不带文字   */
+    HDControlBarButtonStyleUploadFile,           /**上传文件类型 带文字和图片  */
+};
 @interface HDControlBarModel : NSObject
 @property (nonatomic, strong) NSString *name; // button 的标题
 @property (nonatomic, strong) NSString *imageStr; //默认图片名字
@@ -38,7 +45,7 @@ typedef void(^ClickControlBarItemBlock)(HDControlBarModel *barModel,UIButton *bt
 @property(nonatomic ,assign)BOOL *isLandscape; // 判断是横竖屏 默认竖屏
 @property (nonatomic, copy) ClickControlBarItemBlock clickControlBarItemBlock;
 -(NSMutableArray *)buttonFromArrBarModels:(NSArray <HDControlBarModel *>*)barModelArr
-                                view:(UIView *)view;
+                                view:(UIView *)view withButtonType:(HDControlBarButtonStyle )style;
 
 - (void)refreshView:(UIView *)view withScreen:(BOOL)landscape;
 
