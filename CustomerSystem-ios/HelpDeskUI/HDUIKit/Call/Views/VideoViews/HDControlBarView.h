@@ -19,7 +19,10 @@ typedef NS_ENUM (NSInteger, HDControlBarItemType) {
     HDControlBarItemTypeHangUp,          /**挂断 */
     HDControlBarItemTypeShare,           /**分享桌面 */
     HDControlBarItemTypeFlat,            /**互动白板 */
+    HDControlBarItemTypeImage,            /**图片 */
+    HDControlBarItemTypeFile,            /**文件 */
 };
+
 /*
  *  创建button 类型
  */
@@ -32,6 +35,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonStyle) {
 @property (nonatomic, strong) NSString *imageStr; //默认图片名字
 @property (nonatomic, strong) NSString *selImageStr; //选中图片名字
 @property (nonatomic, assign) HDControlBarItemType itemType;
+
 
 
 @end

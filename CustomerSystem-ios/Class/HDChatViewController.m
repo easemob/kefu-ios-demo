@@ -17,7 +17,7 @@
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
 #import "HDMessageReadManager.h"
-#import "iCloudManager.h"
+#import "KFICloudManager.h"
 @interface HDChatViewController ()<UIAlertViewDelegate,HDClientDelegate,UIDocumentPickerDelegate>
 {
     UIMenuItem *_copyMenuItem;
@@ -512,7 +512,7 @@
                 fileName = [fileName stringByRemovingPercentEncoding];
                 
 //                if ([iCloudManager iCloudEnable]) {
-                    [iCloudManager downloadWithDocumentURL:newURL callBack:^(id obj) {
+                    [KFICloudManager downloadWithDocumentURL:newURL callBack:^(id obj) {
                         NSData *data = obj;
                         //写入沙盒Documents
                         NSString *docPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",fileName]];
@@ -570,37 +570,5 @@
 
 
 
-- (NSString*)plistPath{
-
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-
-    //访问【沙盒的document】目录下的问题件，该目录下支持手动增加、修改、删除文件及目录
-
-    NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/文档.docx"];
-
-    if(![fileManager fileExistsAtPath:filePath])
-        //如果不存在
-    {
-
-         //访问【沙盒的.app】目录下的文件，这个目录是程序安装目录，程序运行时不允许手动修改该目录下的文件。
-
-//        NSString *dataPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"test.doc"];//获取程序包中相应文件的路径
-        NSString *dataPath1 = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"doc"];
-        NSError *error;
-
-        //拷贝文件到沙盒的document下
-
-        if([fileManager copyItemAtPath:dataPath1 toPath:filePath error:&error]) {
-
-            NSLog(@"copy success");
-
-        } else{
-
-            NSLog(@"%@",error);
-
-        }
-    }
-    return filePath;
-}
 
 @end

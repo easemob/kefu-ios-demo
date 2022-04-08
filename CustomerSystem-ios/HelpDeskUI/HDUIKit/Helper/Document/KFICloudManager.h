@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^downloadBlock)(id obj);
-@interface iCloudManager : NSObject
+@interface KFICloudManager : NSObject
 + (BOOL)iCloudEnable;
 
 + (void)downloadWithDocumentURL:(NSURL*)url callBack:(downloadBlock)block;

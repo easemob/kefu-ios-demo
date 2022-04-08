@@ -5,9 +5,9 @@
 //  Created by houli on 2022/3/18.
 //
 
-#import "iCloudManager.h"
-#import "ZZDocument.h"
-@implementation iCloudManager
+#import "KFICloudManager.h"
+#import "KFDocument.h"
+@implementation KFICloudManager
 + (BOOL)iCloudEnable {
     
     NSFileManager *manager = [NSFileManager defaultManager];
@@ -23,18 +23,18 @@
 }
 + (void)downloadWithDocumentURL:(NSURL*)url callBack:(downloadBlock)block {
     
-    ZZDocument *iCloudDoc = [[ZZDocument alloc]initWithFileURL:url];
+    KFDocument *iCloudDoc = [[KFDocument alloc]initWithFileURL:url];
     
     [iCloudDoc openWithCompletionHandler:^(BOOL success) {
         if (success) {
-            
-//            [iCloudDoc closeWithCompletionHandler:^(BOOL success) {
-//                NSLog(@"关闭成功");
-//            }];
-            
             if (block) {
                 block(iCloudDoc.data);
             }
+            [iCloudDoc closeWithCompletionHandler:^(BOOL success) {
+                NSLog(@"关闭成功");
+            }];
+            
+           
             
         }
     }];

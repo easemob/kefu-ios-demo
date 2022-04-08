@@ -97,7 +97,11 @@
             
             //为button赋值
             [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] forState:UIControlStateNormal];
-            
+            button.titleEdgeInsets = UIEdgeInsetsMake(0, -button.imageView.frame.size.width, -button.imageView.frame.size.height, 0);
+
+            button.imageEdgeInsets = UIEdgeInsetsMake(-button.titleLabel.intrinsicContentSize.height, 0, 0, -button.titleLabel.intrinsicContentSize.width);
+
+
         }
        
         [view addSubview:button];
@@ -163,7 +167,38 @@
     }
     
 }
+- (void)adjustButtonImageViewUPTitleDownWithButton:(UIButton *)button {
 
+    [button.superview layoutIfNeeded];
+    //使图片和文字居左上角
+    button.contentVerticalAlignment = UIControlContentVerticalAlignmentTop;
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    
+    CGFloat buttonHeight = CGRectGetHeight(button.frame);
+    CGFloat buttonWidth = CGRectGetWidth(button.frame);
+    
+    CGFloat ivHeight = CGRectGetHeight(button.imageView.frame);
+    CGFloat ivWidth = CGRectGetWidth(button.imageView.frame);
+    
+    CGFloat titleHeight = CGRectGetHeight(button.titleLabel.frame);
+    CGFloat titleWidth = CGRectGetWidth(button.titleLabel.frame);
+    //调整图片
+    float iVOffsetY = buttonHeight / 2.0 - (ivHeight + titleHeight) / 2.0;
+    float iVOffsetX = buttonWidth / 2.0 - ivWidth / 2.0;
+    [button setImageEdgeInsets:UIEdgeInsetsMake(iVOffsetY, iVOffsetX, 0, 0)];
+    
+    //调整文字
+    float titleOffsetY = iVOffsetY + CGRectGetHeight(button.imageView.frame) + 10;
+    float titleOffsetX = 0;
+    if (CGRectGetWidth(button.imageView.frame) >= (CGRectGetWidth(button.frame) / 2.0)) {
+        //如果图片的宽度超过或等于button宽度的一半
+//        titleOffsetX = -(ivWidth + titleWidth - buttonWidth / 2.0 - titleWidth / 2.0);
+        titleOffsetX = buttonWidth / 2.0 - ivWidth - titleWidth / 2.0;
+    }else {
+        titleOffsetX = buttonWidth / 2.0 - ivWidth - titleWidth / 2.0;
+    }
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(titleOffsetY , titleOffsetX, 0, 0)];
+}
 
 
 @end

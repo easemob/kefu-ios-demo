@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZZDocument : UIDocument
+@interface KFDocument : UIDocument
 @property (nonatomic, strong) NSData *data;
 
 @end

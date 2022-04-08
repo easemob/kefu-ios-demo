@@ -124,8 +124,6 @@
 		9385C61427E9CA800049096F /* HDAppSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C61327E9CA800049096F /* HDAppSkin.m */; };
 		9385C61727E9CB2C0049096F /* UIColor+HLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C61627E9CB2C0049096F /* UIColor+HLKit.m */; };
 		938AE99027F1A20B00B461C4 /* HDHiddenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 938AE98F27F1A20B00B461C4 /* HDHiddenView.m */; };
-		938AE9A327F1CEE000B461C4 /* ZZDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 938AE9A027F1CEE000B461C4 /* ZZDocument.m */; };
-		938AE9A427F1CEE000B461C4 /* iCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 938AE9A127F1CEE000B461C4 /* iCloudManager.m */; };
 		938CCA2627C8E1B300F470B5 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */; };
 		9392B4FF27FFD8BF005D4215 /* HDCloudDiskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B4FE27FFD8BF005D4215 /* HDCloudDiskViewController.m */; };
 		9392B50327FFD8E2005D4215 /* HDCloudDiskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B50127FFD8E2005D4215 /* HDCloudDiskTableViewCell.m */; };
@@ -135,6 +133,8 @@
 		9392B50D28001263005D4215 /* HDUploadListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B50C28001263005D4215 /* HDUploadListViewController.m */; };
 		9392B512280012EA005D4215 /* HDListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B510280012EA005D4215 /* HDListViewCell.m */; };
 		9392B513280012EA005D4215 /* HDListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9392B511280012EA005D4215 /* HDListViewCell.xib */; };
+		9392B519280047CE005D4215 /* KFICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B515280047CE005D4215 /* KFICloudManager.m */; };
+		9392B51A280047CE005D4215 /* KFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B517280047CE005D4215 /* KFDocument.m */; };
 		93B4E96227CCD1D800ACAF5B /* UIView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */; };
 		93B4E96327CCD1D800ACAF5B /* UIScrollView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93C27CCD1D700ACAF5B /* UIScrollView+HDMJExtension.m */; };
 		93B4E96427CCD1D800ACAF5B /* HDMJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93D27CCD1D700ACAF5B /* HDMJRefreshConst.m */; };
@@ -714,10 +714,6 @@
 		9385C61627E9CB2C0049096F /* UIColor+HLKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HLKit.m"; sourceTree = "<group>"; };
 		938AE98E27F1A20B00B461C4 /* HDHiddenView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDHiddenView.h; sourceTree = "<group>"; };
 		938AE98F27F1A20B00B461C4 /* HDHiddenView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDHiddenView.m; sourceTree = "<group>"; };
-		938AE99F27F1CEE000B461C4 /* iCloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloudManager.h; sourceTree = "<group>"; };
-		938AE9A027F1CEE000B461C4 /* ZZDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZDocument.m; sourceTree = "<group>"; };
-		938AE9A127F1CEE000B461C4 /* iCloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloudManager.m; sourceTree = "<group>"; };
-		938AE9A227F1CEE000B461C4 /* ZZDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZDocument.h; sourceTree = "<group>"; };
 		938CCA2427C8E1B300F470B5 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
 		938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Add.m"; sourceTree = "<group>"; };
 		9392B4FD27FFD8BF005D4215 /* HDCloudDiskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCloudDiskViewController.h; sourceTree = "<group>"; };
@@ -734,6 +730,10 @@
 		9392B50F280012EA005D4215 /* HDListViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDListViewCell.h; sourceTree = "<group>"; };
 		9392B510280012EA005D4215 /* HDListViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDListViewCell.m; sourceTree = "<group>"; };
 		9392B511280012EA005D4215 /* HDListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDListViewCell.xib; sourceTree = "<group>"; };
+		9392B515280047CE005D4215 /* KFICloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFICloudManager.m; sourceTree = "<group>"; };
+		9392B516280047CE005D4215 /* KFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFDocument.h; sourceTree = "<group>"; };
+		9392B517280047CE005D4215 /* KFDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFDocument.m; sourceTree = "<group>"; };
+		9392B518280047CE005D4215 /* KFICloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFICloudManager.h; sourceTree = "<group>"; };
 		93B4E93627CCD1D700ACAF5B /* UIScrollView+HDMJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+HDMJExtension.h"; sourceTree = "<group>"; };
 		93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HDMJExtension.m"; sourceTree = "<group>"; };
 		93B4E93827CCD1D700ACAF5B /* HDMJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMJRefresh.h; sourceTree = "<group>"; };
@@ -1593,17 +1593,6 @@
 			path = font_3264411_16zuoee5s2n;
 			sourceTree = "<group>";
 		};
-		938AE99E27F1CEE000B461C4 /* file */ = {
-			isa = PBXGroup;
-			children = (
-				938AE99F27F1CEE000B461C4 /* iCloudManager.h */,
-				938AE9A127F1CEE000B461C4 /* iCloudManager.m */,
-				938AE9A227F1CEE000B461C4 /* ZZDocument.h */,
-				938AE9A027F1CEE000B461C4 /* ZZDocument.m */,
-			);
-			path = file;
-			sourceTree = "<group>";
-		};
 		938CCA1D27C8D97F00F470B5 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -1640,6 +1629,17 @@
 				9392B511280012EA005D4215 /* HDListViewCell.xib */,
 			);
 			path = list;
+			sourceTree = "<group>";
+		};
+		9392B514280047CE005D4215 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				9392B518280047CE005D4215 /* KFICloudManager.h */,
+				9392B515280047CE005D4215 /* KFICloudManager.m */,
+				9392B516280047CE005D4215 /* KFDocument.h */,
+				9392B517280047CE005D4215 /* KFDocument.m */,
+			);
+			path = Document;
 			sourceTree = "<group>";
 		};
 		93A00A5127607A850050425C /* HDMasonry */ = {
@@ -2207,7 +2207,7 @@
 		D3CB63D01E4888F30022A6BA /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				938AE99E27F1CEE000B461C4 /* file */,
+				9392B514280047CE005D4215 /* Document */,
 				D3CB63D11E4888F30022A6BA /* HDSDKHelper.h */,
 				D3CB63D21E4888F30022A6BA /* HDSDKHelper.m */,
 			);
@@ -3408,7 +3408,6 @@
 				D3CB648F1E4888F30022A6BA /* NSString+HDValid.m in Sources */,
 				D34D6CEA1DEC08CA0099EE23 /* LeaveMsgDetailHeaderView.m in Sources */,
 				93B4E97327CCD1D800ACAF5B /* HDMJRefreshHeader.m in Sources */,
-				938AE9A327F1CEE000B461C4 /* ZZDocument.m in Sources */,
 				D3CB64691E4888F30022A6BA /* MWTapDetectingView.m in Sources */,
 				937FD5AA27D1B2ED00EB055A /* HDAgoraCallOptions.m in Sources */,
 				9078071B2087584700ED9324 /* HDMicView.m in Sources */,
@@ -3440,6 +3439,7 @@
 				D3CB64AF1E4888F30022A6BA /* HDBubbleView.m in Sources */,
 				D3CB648E1E4888F30022A6BA /* NSDateFormatter+Category.m in Sources */,
 				D29E09F91F4ECE5A0089506D /* HEvaluationTagView.m in Sources */,
+				9392B519280047CE005D4215 /* KFICloudManager.m in Sources */,
 				93B4E96927CCD1D800ACAF5B /* HDMJRefreshAutoStateFooter.m in Sources */,
 				D3D87C141F3847C300FB7C84 /* HArticleWebViewController.m in Sources */,
 				D3CB64A41E4888F30022A6BA /* HDBubbleView+File.m in Sources */,
@@ -3540,6 +3540,7 @@
 				EB62E1FF1A8DD92D00705655 /* main.m in Sources */,
 				D3CB64881E4888F30022A6BA /* PSTGridLayoutSection.m in Sources */,
 				D3CB64B11E4888F30022A6BA /* HDChatToolbarItem.m in Sources */,
+				9392B51A280047CE005D4215 /* KFDocument.m in Sources */,
 				D3CB64471E4888F30022A6BA /* HDCDDeviceManager+Remind.m in Sources */,
 				9367CDEE27FE97D1008479D8 /* HDStorageItem.m in Sources */,
 				9392B512280012EA005D4215 /* HDListViewCell.m in Sources */,
@@ -3560,7 +3561,6 @@
 				D3CE33291F0610FA00A9649E /* HLeaveMessageSucceedViewController.m in Sources */,
 				D3CB64AE1E4888F30022A6BA /* HDBubbleView+Voice.m in Sources */,
 				9392B50A27FFF293005D4215 /* HDUploadFileViewController.m in Sources */,
-				938AE9A427F1CEE000B461C4 /* iCloudManager.m in Sources */,
 				D3A8B1B71E00E5B200A43E7E /* UIViewController+KFAdd.m in Sources */,
 				D34743B41DE6FF8C00F32D87 /* HDLeaveMsgViewController.m in Sources */,
 				9042C2652514A1A100DC5BE1 /* AFNetworkReachabilityManager.m in Sources */,

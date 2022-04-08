@@ -8,9 +8,11 @@
 
 #import "HDUploadFileViewController.h"
 #import "HDControlBarView.h"
-@interface HDUploadFileViewController ()
+#import "KFICloudManager.h"
+@interface HDUploadFileViewController ()<UIDocumentPickerDelegate>
 @property (nonatomic, strong) HDControlBarView *barView;
 @property (nonatomic, strong) UIView *navView;
+@property (nonatomic, strong) UIDocumentPickerViewController *documentPickerVC;
 @end
 
 @implementation HDUploadFileViewController
@@ -37,7 +39,7 @@
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.leading.offset(0);
         make.trailing.offset(0);
-        make.height.offset(88);
+        make.height.offset(188);
         
         
     }];
@@ -74,11 +76,108 @@
     [self.barView buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleUploadFile];
     
 }
+
+#pragma mark - event
+-(void)muteBtnClicked:(UIButton *)sender{
+    
+    
+    
+}
+
+-(void)videoBtnClicked:(UIButton *)sender{
+    
+    
+    
+}
+-(void)imgBtnClicked:(UIButton *)sender{
+    
+    
+    
+}
+-(void)uploadFileBtnClicked:(UIButton *)sender{
+
+    [self presentDocumentPicker];
+}
+
+#pragma mark - 文件上传
+- (void)presentDocumentPicker {
+
+    [self presentViewController:self.documentPickerVC animated:YES completion:nil];
+}
+- (UIDocumentPickerViewController *)documentPickerVC {
+    if (!_documentPickerVC) {
+        NSArray *documentTypes = @[@"public.content", @"public.text", @"public.source-code ", @"public.image", @"public.audiovisual-content", @"com.adobe.pdf", @"com.apple.keynote.key", @"com.microsoft.word.doc", @"com.microsoft.excel.xls", @"com.microsoft.powerpoint.ppt"];
+        self.documentPickerVC = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:documentTypes inMode:UIDocumentPickerModeOpen];
+        _documentPickerVC.delegate = self;
+        _documentPickerVC.modalPresentationStyle = UIModalPresentationFormSheet; //设置模态弹出方式
+    }
+    return _documentPickerVC;
+}
+
+#pragma mark - UIDocumentPickerDelegate
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
+    //获取授权
+    BOOL fileUrlAuthozied = [urls.firstObject startAccessingSecurityScopedResource];
+    if (fileUrlAuthozied) {
+        //通过文件协调工具来得到新的文件地址，以此得到文件保护功能
+        NSFileCoordinator *fileCoordinator = [[NSFileCoordinator alloc] init];
+        NSError *error;
+        
+        [fileCoordinator coordinateReadingItemAtURL:urls.firstObject options:0 error:&error byAccessor:^(NSURL *newURL) {
+            //读取文件
+            if (error) {
+                //读取出错
+            } else {
+                //文件 上传或者其它操作
+//                [self uploadingWithFileData:fileData fileName:fileName fileURL:newURL];
+                NSLog(@"------------->文件 上传或者其它操作");
+                
+                NSArray *array = [[newURL absoluteString] componentsSeparatedByString:@"/"];
+                NSString *fileName = [array lastObject];
+                fileName = [fileName stringByRemovingPercentEncoding];
+                
+//                if ([iCloudManager iCloudEnable]) {
+                    [KFICloudManager downloadWithDocumentURL:newURL callBack:^(id obj) {
+                        NSData *data = obj;
+                        //写入沙盒Documents
+                        NSString *docPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",fileName]];
+                        [self writeToFile:docPath withData:data];
+                    }];
+//                }
+            }
+            [self dismissViewControllerAnimated:YES completion:NULL];
+        }];
+        [urls.firstObject stopAccessingSecurityScopedResource];
+    } else {
+        //授权失败
+    }
+}
+
+- (void)writeToFile:(NSString *)path withData:(NSData *)data{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //访问【沙盒的document】目录下的问题件，该目录下支持手动增加、修改、删除文件及目录
+//    NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/文档.docx"];
+    if(![fileManager fileExistsAtPath:path]){
+        //如果不存在
+        BOOL success =   [data writeToFile:path atomically:YES];
+        
+        if (success) {
+            //取出来
+//            NSData *   datastr = [NSData dataWithContentsOfFile:path];
+//            NSLog(@"------------->文件 上传或者其它操作==%@",datastr);
+        }
+        
+    }else{
+        //取出来 发送
+//        NSData *   datastr = [NSData dataWithContentsOfFile:path];
+//        NSLog(@"------------->文件 上传或者其它操作==%@",datastr);
+       
+    }
+}
+
 #pragma mark - event
 - (void)dismissViewController{
-    
     [self dismissViewControllerAnimated:YES completion:nil];
-    
 }
 
 #pragma mark - lzye
@@ -97,7 +196,6 @@
             make.width.height.offset(44);
         }];
         
-      
         UILabel * titleLabel = [[UILabel alloc] init];
         titleLabel.font = [UIFont systemFontOfSize:18.0f];
         titleLabel.text = @"上传";
@@ -118,26 +216,24 @@
         __weak __typeof__(self) weakSelf = self;
         _barView.clickControlBarItemBlock = ^(HDControlBarModel * _Nonnull barModel, UIButton * _Nonnull btn) {
             
-//            switch (barModel.itemType) {
-//                case HDControlBarItemTypeMute:
-//                    [weakSelf muteBtnClicked:btn];
-//                    break;
-//                case HDControlBarItemTypeVideo:
-//                    [weakSelf videoBtnClicked:btn];
-//                    break;
-//                case HDControlBarItemTypeHangUp:
-//                    [weakSelf offBtnClicked:btn];
-//                    break;
-//                case HDControlBarItemTypeShare:
-//                    [weakSelf shareDesktopBtnClicked:btn];
-//                    break;
-//                case HDControlBarItemTypeFlat:
-//                    [weakSelf onClickedFalt:btn];
-//                    break;
+            switch (barModel.itemType) {
+                case HDControlBarItemTypeMute:
+                    [weakSelf muteBtnClicked:btn];
+                    break;
+                case HDControlBarItemTypeVideo:
+                    [weakSelf videoBtnClicked:btn];
+                    break;
+                case HDControlBarItemTypeImage:
+                    [weakSelf imgBtnClicked:btn];
+                    break;
+                case HDControlBarItemTypeFile:
+                    [weakSelf uploadFileBtnClicked:btn];
+                    break;
+               
                     
-//                default:
-//                    break;
-//            }
+                default:
+                    break;
+            }
             
         };
        
