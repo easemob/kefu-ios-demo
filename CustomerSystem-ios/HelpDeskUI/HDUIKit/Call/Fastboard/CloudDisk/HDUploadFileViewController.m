@@ -9,7 +9,9 @@
 #import "HDUploadFileViewController.h"
 #import "HDControlBarView.h"
 #import "KFICloudManager.h"
-@interface HDUploadFileViewController ()<UIDocumentPickerDelegate>
+#import "TZImagePickerController.h"
+#import "HDAppSkin.h"
+@interface HDUploadFileViewController ()<UIDocumentPickerDelegate,TZImagePickerControllerDelegate>
 @property (nonatomic, strong) HDControlBarView *barView;
 @property (nonatomic, strong) UIView *navView;
 @property (nonatomic, strong) UIDocumentPickerViewController *documentPickerVC;
@@ -48,28 +50,28 @@
 }
 -(void)initData{
     HDControlBarModel * barModel = [HDControlBarModel new];
-    barModel.itemType = HDControlBarItemTypeMute;
+    barModel.itemType = HDControlBarItemTypeImage;
     barModel.name=@"上传图片";
-    barModel.imageStr= kjinmai;
-    barModel.selImageStr= kmaikefeng1;
+    barModel.imageStr= ktupian;
+    barModel.selImageStr= ktupian;
     
     HDControlBarModel * barModel1 = [HDControlBarModel new];
     barModel1.itemType = HDControlBarItemTypeVideo;
     barModel1.name=@"上传视频";
-    barModel1.imageStr=kguanbishexiangtou1;
-    barModel1.selImageStr=kshexiangtou1;
+    barModel1.imageStr=kshipin;
+    barModel1.selImageStr=kshipin;
     
     HDControlBarModel * barModel2 = [HDControlBarModel new];
-    barModel2.itemType = HDControlBarItemTypeHangUp;
+    barModel2.itemType = HDControlBarItemTypeMute;
     barModel2.name=@"上传音频";
-    barModel2.imageStr=kguaduan1;
-    barModel2.selImageStr=kguaduan1;
+    barModel2.imageStr=kyinpin;
+    barModel2.selImageStr=kyinpin;
     
     HDControlBarModel * barModel3 = [HDControlBarModel new];
-    barModel3.itemType = HDControlBarItemTypeShare;
+    barModel3.itemType = HDControlBarItemTypeFile;
     barModel3.name=@"上传文件";
-    barModel3.imageStr=kpingmugongxiang2;
-    barModel3.selImageStr=kpingmugongxiang2;
+    barModel3.imageStr=kwenjianshangchuan;
+    barModel3.selImageStr=kwenjianshangchuan;
     
     NSArray * selImageArr = @[barModel,barModel1,barModel2,barModel3];
     
@@ -80,18 +82,40 @@
 #pragma mark - event
 -(void)muteBtnClicked:(UIButton *)sender{
     
-    
+    [self presentDocumentPicker];
     
 }
 
 -(void)videoBtnClicked:(UIButton *)sender{
     
-    
+    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
+    imagePickerVc.allowPickingImage = NO;
+    imagePickerVc.allowPickingVideo = YES;
+    // You can get the photos by block, the same as by delegate.
+    // 你可以通过block或者代理，来得到用户选择的照片.
+    [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
+
+        
+        
+        
+    }];
+    [self presentViewController:imagePickerVc animated:YES completion:nil];
     
 }
 -(void)imgBtnClicked:(UIButton *)sender{
     
-    
+    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:1 delegate:self];
+    imagePickerVc.allowPickingImage = YES;
+    imagePickerVc.allowPickingVideo = NO;
+    // You can get the photos by block, the same as by delegate.
+    // 你可以通过block或者代理，来得到用户选择的照片.
+    [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
+
+        
+        
+        
+    }];
+    [self presentViewController:imagePickerVc animated:YES completion:nil];
     
 }
 -(void)uploadFileBtnClicked:(UIButton *)sender{
@@ -165,6 +189,11 @@
             //取出来
 //            NSData *   datastr = [NSData dataWithContentsOfFile:path];
 //            NSLog(@"------------->文件 上传或者其它操作==%@",datastr);
+            [[HDClient sharedClient].whiteboardManager whiteBoardUploadFileWithSessionId:@"kefuchannelimid_248171" file:data fileName:@"123" completion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+               
+                NSLog(@"====whiteBoardUploadFileWithSessionId===%@======error=%ld",responseObject,error.code);
+                
+            }];
         }
         
     }else{
@@ -172,6 +201,13 @@
 //        NSData *   datastr = [NSData dataWithContentsOfFile:path];
 //        NSLog(@"------------->文件 上传或者其它操作==%@",datastr);
        
+        [[HDClient sharedClient].whiteboardManager whiteBoardUploadFileWithSessionId:@"kefuchannelimid_248171" file:data fileName:@"123" completion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+           
+            NSLog(@"====whiteBoardUploadFileWithSessionId===%@======error=%ld",responseObject,error.code);
+            
+        }];
+        
+        
     }
 }
 
@@ -189,6 +225,9 @@
         [backBtn setTitle:@"云盘" forState:UIControlStateNormal];
         [backBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [backBtn addTarget:self action:@selector(dismissViewController) forControlEvents:UIControlEventTouchUpInside];
+        UIImage * img = [UIImage imageWithIcon:kfanhui inFont:kfontName size:30 color:[[HDAppSkin mainSkin] contentColorGray1] ];
+
+        [backBtn setImage:img forState:UIControlStateNormal];
         [_navView addSubview:backBtn];
         [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(_navView.mas_centerY);

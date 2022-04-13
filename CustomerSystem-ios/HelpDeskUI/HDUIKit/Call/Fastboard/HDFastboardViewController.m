@@ -369,7 +369,7 @@
 
 // MARK: - Private
 - (void)setupFastboardWithCustom: (id<FastRoomOverlay>)custom {
-//    Fastboard.globalFastboardRatio = 16.0 / 9.0;
+    Fastboard.globalFastboardRatio = 16.0 / 9.0;
     FastRoomConfiguration* config = [[FastRoomConfiguration alloc] initWithAppIdentifier:[RoomInfo getValueFrom:RoomInfoAPPID]
                                                                                 roomUUID:[RoomInfo getValueFrom:RoomInfoRoomID]
                                                                                roomToken:[RoomInfo getValueFrom:RoomInfoRoomToken]
@@ -380,13 +380,22 @@
     FastRoomView *fastRoomView = _fastRoom.view;
     _fastRoom.delegate = self;
     [_fastRoom joinRoom];
-    [self.view addSubview:fastRoomView];
-    self.view.autoresizesSubviews = TRUE;
-    fastRoomView.frame = self.view.bounds;
+//    [self.view addSubview:fastRoomView];
+//    self.view.autoresizesSubviews = TRUE;
+//    fastRoomView.frame = self.view.bounds;
+    [self.whiteBoardView addSubview:fastRoomView];
+    fastRoomView.frame= self.whiteBoardView.bounds;
     fastRoomView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _fastRoom.roomDelegate = self;
 }
-
+- (UIView *)whiteBoardView{
+    
+    if (_whiteBoardView) {
+        _whiteBoardView = [[UIView alloc] init];
+        [self viewDidLoad];
+    }
+    return _whiteBoardView;
+}
 - (void)setupTools {
 //    [self.view addSubview:self.scrollView];
 //    [self.scrollView addSubview:self.stackView];

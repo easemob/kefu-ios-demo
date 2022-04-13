@@ -77,11 +77,11 @@
         button.tag =  i+kButtonTag;
     
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [button setTitleColor:[UIColor colorWithRed:0.000 green:0.502 blue:1.000 alpha:1.000]forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor blackColor]forState:UIControlStateNormal];
         
         //为button赋值
         [button setTitle:[NSString stringWithFormat:@"%@",barModelArr[i].name]forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+
         
         if (style == HDControlBarButtonStyleVideo) {
             if (i < 2) {
@@ -96,12 +96,10 @@
         }else if(style == HDControlBarButtonStyleUploadFile){
             
             //为button赋值
-            [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] forState:UIControlStateNormal];
-            button.titleEdgeInsets = UIEdgeInsetsMake(0, -button.imageView.frame.size.width, -button.imageView.frame.size.height, 0);
-
+            [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] forState:UIControlStateNormal];
+            button.titleEdgeInsets = UIEdgeInsetsMake(5, -button.imageView.frame.size.width, -button.imageView.frame.size.height, 0);
             button.imageEdgeInsets = UIEdgeInsetsMake(-button.titleLabel.intrinsicContentSize.height, 0, 0, -button.titleLabel.intrinsicContentSize.width);
-
-
+            button.titleLabel.font = [UIFont systemFontOfSize:16.0];
         }
        
         [view addSubview:button];

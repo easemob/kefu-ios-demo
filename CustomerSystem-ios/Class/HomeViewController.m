@@ -582,36 +582,36 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 #pragma mark - HDCallManagerDelegate
 - (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter{
     
-    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-
-        [callVC dismissViewControllerAnimated:YES completion:nil];
-    }];
-        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:hdCallVC animated:YES completion:nil];
-
-    
-//    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:keyCenter.visitorNickName hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//
 //        [callVC dismissViewControllerAnimated:YES completion:nil];
 //    }];
 //        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
 //        [self presentViewController:hdCallVC animated:YES completion:nil];
 
     
+    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:keyCenter.visitorNickName hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+        [callVC dismissViewControllerAnimated:YES completion:nil];
+    }];
+        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:hdCallVC animated:YES completion:nil];
+
+    
 }
 //声网
 - (void)agorademo{
     
-    HDCloudDiskViewController * cloudDiskVC = [[HDCloudDiskViewController alloc] init];
-    cloudDiskVC.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:cloudDiskVC animated:YES completion:nil];
-    
-    return;
-    HDFastboardViewController * agoraVC = [[HDFastboardViewController alloc] init];
-    [self.navigationController pushViewController:agoraVC animated:YES];
-    
-    return;
+//    HDCloudDiskViewController * cloudDiskVC = [[HDCloudDiskViewController alloc] init];
+//    cloudDiskVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self presentViewController:cloudDiskVC animated:YES completion:nil];
+//
+//    return;
+//    HDFastboardViewController * agoraVC = [[HDFastboardViewController alloc] init];
+//    [self.navigationController pushViewController:agoraVC animated:YES];
+//
+//    return;
     HDKeyCenter * key = [[HDKeyCenter alloc] init];
-    
+//
     
     HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:key avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
 //        [callVC dismissViewControllerAnimated:YES completion:nil];

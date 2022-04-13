@@ -2029,6 +2029,12 @@ typedef enum : NSUInteger {
 
 - (void)sendTextMessage:(NSString *)text withExt:(NSDictionary*)ext
 {
+    //这个写法对应文档https://docs.easemob.com/cs/400systemintegration/10crmintegration?s[]=自定义查询参数 ifrme
+//    NSDictionary *dic = @{@"name":@"Jack",@"age":@"40",@"sex": @"man"};
+//    NSDictionary *dic1 = @{@"params":dic};
+//    NSDictionary *dic2 = @{@"updateVisitorInfoSrc":dic1};
+//    NSDictionary *dic3 = @{@"cmd":dic2};
+//    ext = dic3;
     HDMessage *message = [HDSDKHelper textHMessageFormatWithText:text to:self.conversation.conversationId];
     if (_visitorInfo) {
         [message addContent:_visitorInfo];
@@ -2042,7 +2048,7 @@ typedef enum : NSUInteger {
     if (ext) {
         [message addAttributeDictionary:ext];
     }
-    
+
     [self _sendMessage:message];
 }
 

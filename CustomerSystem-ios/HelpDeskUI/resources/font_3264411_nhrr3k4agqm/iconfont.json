@@ -6,6 +6,97 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17275530",
+      "name": "文件上传",
+      "font_class": "wenjianshangchuan",
+      "unicode": "e742",
+      "unicode_decimal": 59202
+    },
+    {
+      "icon_id": "2357487",
+      "name": "返回",
+      "font_class": "fanhui",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "1167280",
+      "name": "视频",
+      "font_class": "shipin",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "2539619",
+      "name": "音频",
+      "font_class": "yinpin",
+      "unicode": "e68b",
+      "unicode_decimal": 59019
+    },
+    {
+      "icon_id": "8654580",
+      "name": "文档中心",
+      "font_class": "wendangzhongxin",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "11052330",
+      "name": "文件上传",
+      "font_class": "wenjianshangchuan1",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "16399033",
+      "name": "图片",
+      "font_class": "tupian",
+      "unicode": "e860",
+      "unicode_decimal": 59488
+    },
+    {
+      "icon_id": "459500",
+      "name": "退出",
+      "font_class": "logout",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "18371893",
+      "name": "上传，云盘",
+      "font_class": "shangchuanyunpan",
+      "unicode": "e6b3",
+      "unicode_decimal": 59059
+    },
+    {
+      "icon_id": "23376824",
+      "name": "缩放",
+      "font_class": "suofang",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "15267061",
+      "name": "视频通话-聊天",
+      "font_class": "shipintonghua-liaotian",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "22602801",
+      "name": "非画中画",
+      "font_class": "feihuazhonghua",
+      "unicode": "e7c6",
+      "unicode_decimal": 59334
+    },
+    {
+      "icon_id": "27395842",
+      "name": "画中画",
+      "font_class": "huazhonghua1",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
       "icon_id": "1231602",
       "name": "挂断电话",
       "font_class": "guaduandianhua",
@@ -39,13 +130,6 @@
       "font_class": "xiangshang1",
       "unicode": "e76d",
       "unicode_decimal": 59245
-    },
-    {
-      "icon_id": "5115481",
-      "name": "挂断",
-      "font_class": "guaduan1",
-      "unicode": "e61b",
-      "unicode_decimal": 58907
     },
     {
       "icon_id": "970921",

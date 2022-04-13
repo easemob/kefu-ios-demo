@@ -9,6 +9,7 @@ pod 'SDWebImage', '~> 5.12.3'
 pod 'Masonry', '~> 1.1.0'
 pod 'AgoraRtcEngine_iOS'
 pod 'Fastboard', :git => 'https://github.com/netless-io/fastboard-iOS'
+pod 'TZImagePickerController'
 end
 
 target 'CustomerSystem-ScreenShare-Extension' do

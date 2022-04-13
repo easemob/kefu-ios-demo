@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3264411 */
-  src: url('iconfont.woff2?t=1647934852670') format('woff2'),
-       url('iconfont.woff?t=1647934852670') format('woff'),
-       url('iconfont.ttf?t=1647934852670') format('truetype');
+  src: url('iconfont.woff2?t=1649760499554') format('woff2'),
+       url('iconfont.woff?t=1649760499554') format('woff'),
+       url('iconfont.ttf?t=1649760499554') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,58 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-wenjianshangchuan:before {
+  content: "\e742";
+}
+
+.icon-fanhui:before {
+  content: "\e610";
+}
+
+.icon-shipin:before {
+  content: "\e637";
+}
+
+.icon-yinpin:before {
+  content: "\e68b";
+}
+
+.icon-wendangzhongxin:before {
+  content: "\e61a";
+}
+
+.icon-wenjianshangchuan1:before {
+  content: "\e60d";
+}
+
+.icon-tupian:before {
+  content: "\e860";
+}
+
+.icon-logout:before {
+  content: "\e64b";
+}
+
+.icon-shangchuanyunpan:before {
+  content: "\e6b3";
+}
+
+.icon-suofang:before {
+  content: "\e60c";
+}
+
+.icon-shipintonghua-liaotian:before {
+  content: "\e651";
+}
+
+.icon-feihuazhonghua:before {
+  content: "\e7c6";
+}
+
+.icon-huazhonghua1:before {
+  content: "\e61c";
 }
 
 .icon-guaduandianhua:before {
@@ -31,10 +83,6 @@
 
 .icon-xiangshang1:before {
   content: "\e76d";
-}
-
-.icon-guaduan1:before {
-  content: "\e61b";
 }
 
 .icon-quanbu-copy:before {

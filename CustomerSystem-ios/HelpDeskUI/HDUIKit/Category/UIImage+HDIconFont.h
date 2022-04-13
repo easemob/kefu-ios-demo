@@ -22,6 +22,20 @@
 #define kpingmugongxiang2   @"\U0000e6ff"  //&#xe6ff
 #define kmaikefeng5         @"\U0000ecb1"  //&#xecb1
 #define kjinmai             @"\U0000e6a7"  //&#xe6a7
+#define klogout             @"\U0000e64b"  //&#xe64b
+#define kshangchuanyunpan   @"\U0000e6b3"  //&#xe6b3
+#define ksuofang            @"\U0000e60c"  //&#xe60c
+#define kshipin             @"\U0000e637"  //&#xe637
+#define kyinpin             @"\U0000e68b"  //&#xe68b
+#define kwendangzhongxin    @"\U0000e61a"  //&#xe61a
+#define kwenjianshangchuan1 @"\U0000e60d"  //&#xe60d
+#define ktupian             @"\U0000e860"  //&#xe860
+#define kfanhui             @"\U0000e610"  //&#xe610
+#define kwenjianshangchuan  @"\U0000e742"  //&#xe742
+
+
+
+
 
 NS_ASSUME_NONNULL_BEGIN
 

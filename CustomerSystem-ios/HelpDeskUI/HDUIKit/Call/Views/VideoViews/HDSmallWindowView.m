@@ -61,7 +61,7 @@
     BOOL isNeedAdd = YES;
     @synchronized(_cellArray){
         for (HDCallCollectionViewCellItem * tt in _cellArray) {
-            if (tt.uid  == item.uid ) {
+            if (tt.uid  == item.uid) {
                 isNeedAdd = NO;
                 break;
             }
