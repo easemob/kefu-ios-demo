@@ -79,6 +79,7 @@
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
 
+    
     // 初始化数据源
     _members = [NSMutableArray array];
     // 设置 ui

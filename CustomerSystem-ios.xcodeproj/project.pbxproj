@@ -83,7 +83,6 @@
 		930E4DAB2796D39F007CFE50 /* UIViewController+VLDModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E4DAA2796D39F007CFE50 /* UIViewController+VLDModal.m */; };
 		933C4C8927E1E847001678B0 /* HDSSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4C8727E1E847001678B0 /* HDSSKeychain.m */; };
 		933C4CA927E4A117001678B0 /* HDPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4CA727E4A116001678B0 /* HDPopoverViewController.m */; };
-		9367CDDD27FD5D94008479D8 /* HDFastboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDDC27FD5D94008479D8 /* HDFastboardViewController.m */; };
 		9367CDE027FD5E7B008479D8 /* RoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDDE27FD5E78008479D8 /* RoomInfo.m */; };
 		9367CDE527FD5E8D008479D8 /* CustomFastboardOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDE127FD5E88008479D8 /* CustomFastboardOverlay.m */; };
 		9367CDE627FD5E8D008479D8 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDE427FD5E8C008479D8 /* Utility.m */; };
@@ -644,8 +643,6 @@
 		933C4C8827E1E847001678B0 /* HDSSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HDSSKeychain.h; path = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Call/Manager/HDSSKeychain.h"; sourceTree = SOURCE_ROOT; };
 		933C4CA727E4A116001678B0 /* HDPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDPopoverViewController.m; sourceTree = "<group>"; };
 		933C4CA827E4A117001678B0 /* HDPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDPopoverViewController.h; sourceTree = "<group>"; };
-		9367CDDB27FD5D94008479D8 /* HDFastboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDFastboardViewController.h; sourceTree = "<group>"; };
-		9367CDDC27FD5D94008479D8 /* HDFastboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDFastboardViewController.m; sourceTree = "<group>"; };
 		9367CDDE27FD5E78008479D8 /* RoomInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomInfo.m; sourceTree = "<group>"; };
 		9367CDDF27FD5E79008479D8 /* RoomInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomInfo.h; sourceTree = "<group>"; };
 		9367CDE127FD5E88008479D8 /* CustomFastboardOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomFastboardOverlay.m; sourceTree = "<group>"; };
@@ -1528,8 +1525,6 @@
 				9367CDE427FD5E8C008479D8 /* Utility.m */,
 				9367CDDF27FD5E79008479D8 /* RoomInfo.h */,
 				9367CDDE27FD5E78008479D8 /* RoomInfo.m */,
-				9367CDDB27FD5D94008479D8 /* HDFastboardViewController.h */,
-				9367CDDC27FD5D94008479D8 /* HDFastboardViewController.m */,
 				93BF88A928040EAC005B2CB1 /* HDWhiteBoardView.h */,
 				93BF88AA28040EAC005B2CB1 /* HDWhiteBoardView.m */,
 				9367CDEC27FE97D1008479D8 /* HDStorageItem.h */,
@@ -3437,7 +3432,6 @@
 				D3CB649F1E4888F30022A6BA /* HDBaseMessageCell.m in Sources */,
 				D3394AE61E54868D009370BF /* SatisfactionViewController.m in Sources */,
 				9094F20B21E83C8D00037601 /* SRSlimeView.m in Sources */,
-				9367CDDD27FD5D94008479D8 /* HDFastboardViewController.m in Sources */,
 				D3CB64821E4888F30022A6BA /* PSTCollectionViewItemKey.m in Sources */,
 				9367CDE027FD5E7B008479D8 /* RoomInfo.m in Sources */,
 				D3CB647D1E4888F30022A6BA /* PSTCollectionView.m in Sources */,

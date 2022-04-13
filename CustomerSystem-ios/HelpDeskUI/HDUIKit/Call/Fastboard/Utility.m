@@ -35,14 +35,14 @@ Theme const ThemeLight = @"light";
     UIImage * img;
     switch (index) {
         case 0:
-          img = [UIImage imageWithIcon:ksuofang inFont:kfontName size:28 color:[[HDAppSkin mainSkin] contentColorGray1] ];
+          img = [UIImage imageWithIcon:ksuofang inFont:kfontName size:20 color:[[HDAppSkin mainSkin] contentColorGray1] ];
            
             break;
         case 1:
-            img = [UIImage imageWithIcon:kwenjianshangchuan inFont:kfontName size:30 color:[[HDAppSkin mainSkin] contentColorGray1] ];
+            img = [UIImage imageWithIcon:kwenjianshangchuan inFont:kfontName size:23 color:[[HDAppSkin mainSkin] contentColorGray1] ];
             break;
         case 2:
-            img = [UIImage imageWithIcon:klogout inFont:kfontName size:28 color:[[HDAppSkin mainSkin] contentColorGray1] ];
+            img = [UIImage imageWithIcon:klogout inFont:kfontName size:20 color:[[HDAppSkin mainSkin] contentColorGray1] ];
             break;
         default:
             break;

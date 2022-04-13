@@ -53,6 +53,7 @@
     
     UIButton *_cameraBtn;
     BOOL _cameraState; //摄像头状态； yes 开启摄像头 no 关闭
+    BOOL _shareState; //摄像头状态； yes 正在共享 no 没有共享
     
     NSMutableDictionary *  allMembersDic; // 全局数据存储
 }
@@ -154,6 +155,9 @@
     barModel4.name=@"";
     barModel4.imageStr=kbaiban;
     barModel4.selImageStr=kbaiban;
+    
+    HDGrayModel * grayModel =  [[HDCallManager shareInstance] getGrayName:@"isTicketTrial"];
+    
     
     NSArray * selImageArr = @[barModel,barModel1,barModel2,barModel3,barModel4];
     
@@ -948,14 +952,14 @@
 - (void)onClickedFalt:(UIButton *)sender
 {
 
-  HDGrayModel * grayModel =  [[HDCallManager shareInstance] getGrayName:@"isTicketTrial"];
     
+//  HDGrayModel * model=   [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
     
-    NSLog(@"点击了互动白板事件===%@",grayModel);
+//    NSLog(@"点击了互动白板事件===%@",model);
     //互动白板加入成功以后 屏幕共享 不能使用 不能创建白板房间
-    if (_videoViews.count == 0) {
-        return;
-    }
+//    if (_videoViews.count == 0) {
+//        return;
+//    }
 //    HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
 //
 //    [self.smallWindowView setThirdUserdidJoined:midelleViewItem];

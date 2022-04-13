@@ -31,7 +31,6 @@
     self = [super initWithFrame:frame];
     if (self) {
 
-       
         self.backgroundColor = [UIColor whiteColor];
         //创建ui
         [self initWhiteBoardView];
@@ -39,40 +38,32 @@
     return self;
 }
 - (void)initWhiteBoardView{
-    
     //加入房间
     [[HDWhiteRoomManager shareInstance] hd_OnJoinRoomWithFastView:self];
-    
      _fastRoom = [HDWhiteRoomManager shareInstance].fastRoom;
     [HDWhiteRoomManager shareInstance].whiteDelegate = self;
     [self setupTools];
-
-    
 }
 
 // MARK: - Action
-- (void)onTheme {
-    _theme = [self nextThemeFor:_theme];
-    [self applyTheme:_theme];
-}
 
 - (void)onDirection {
-    if (FastRoomView.appearance.operationBarDirection == OperationBarDirectionLeft) {
-        FastRoomView.appearance.operationBarDirection = OperationBarDirectionRight;
-        [self.stackView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).inset(10);
-            make.left.equalTo(self).inset(88);
-            make.width.equalTo(@120);
-        }];
-    } else {
-        FastRoomView.appearance.operationBarDirection = OperationBarDirectionLeft;
-        [self.stackView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).inset(10);
-            make.right.equalTo(self).inset(88);
-            make.width.equalTo(@120);
-        }];
-    }
-    [AppearanceManager.shared commitUpdate];
+//    if (FastRoomView.appearance.operationBarDirection == OperationBarDirectionLeft) {
+//        FastRoomView.appearance.operationBarDirection = OperationBarDirectionRight;
+//        [self.stackView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self).inset(10);
+//            make.left.equalTo(self).inset(88);
+//            make.width.equalTo(@120);
+//        }];
+//    } else {
+//        FastRoomView.appearance.operationBarDirection = OperationBarDirectionLeft;
+//        [self.stackView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self).inset(10);
+//            make.right.equalTo(self).inset(88);
+//            make.width.equalTo(@120);
+//        }];
+//    }
+//    [AppearanceManager.shared commitUpdate];
 }
 
 - (void)onBarSize {
@@ -83,21 +74,6 @@
     }
     [AppearanceManager.shared commitUpdate];
 }
-
-- (void)onIcons {
-    [FastRoomThemeManager.shared updateIconsUsing:[NSBundle mainBundle]];
-    [self reloadFastboardOverlay:nil];
-    self.userInteractionEnabled = FALSE;
-    dispatch_after(DISPATCH_TIME_NOW + 3, dispatch_get_main_queue(), ^{
-        self.userInteractionEnabled = TRUE;
-    });
-}
-
-- (void)onHideAll {
-    self.isHide = !self.isHide;
-}
-
-
 
 - (void)onWritable {
     BOOL writable = _fastRoom.room.isWritable;
@@ -134,65 +110,57 @@
     [FastRoomThemeManager.shared apply:asset];
 }
 
-- (void)onCustom {
-    [self reloadFastboardOverlay:[[CustomFastboardOverlay alloc] init]];
-    FastRoomControlBar.appearance.itemWidth = 66;
-    [AppearanceManager.shared commitUpdate];
-}
-
-
-
-
 - (void)onLayout {
     [_fastRoom.view.overlay invalidAllLayout];
     NSObject<FastRoomOverlay>* overlay = _fastRoom.view.overlay;
     if ([overlay isKindOfClass:[RegularFastRoomOverlay class]]) {
         RegularFastRoomOverlay* regular = overlay;
-        [regular.operationPanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(regular.operationPanel.view.superview).inset(20);
-            make.centerY.equalTo(regular.operationPanel.view.superview);
-        }];
-        
-        [regular.deleteSelectionPanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(regular.operationPanel.view);
-            make.bottom.equalTo(regular.operationPanel.view.mas_top).offset(-8);
-        }];
-        
-        [regular.undoRedoPanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(regular.undoRedoPanel.view.superview).inset(20);
-            make.bottom.equalTo(_fastRoom.view.whiteboardView);
-        }];
-        
-        [regular.scenePanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(_fastRoom.view.whiteboardView);
-            make.centerX.equalTo(regular.scenePanel.view.superview);
-        }];
+//        [regular.operationPanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(regular.operationPanel.view.superview).inset(20);
+//            make.centerY.equalTo(regular.operationPanel.view.superview);
+//        }];
+//
+//        [regular.deleteSelectionPanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(regular.operationPanel.view);
+//            make.bottom.equalTo(regular.operationPanel.view.mas_top).offset(-8);
+//        }];
+//
+//        [regular.undoRedoPanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(regular.undoRedoPanel.view.superview).inset(20);
+//            make.bottom.equalTo(_fastRoom.view.whiteboardView);
+//        }];
+//
+//        [regular.scenePanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.equalTo(_fastRoom.view.whiteboardView);
+//            make.centerX.equalTo(regular.scenePanel.view.superview);
+//        }];
     }
     
     if ([overlay isKindOfClass:[CompactFastRoomOverlay class]]) {
-        CompactFastRoomOverlay* compact = overlay;
+        CompactFastRoomOverlay* compact = (CompactFastRoomOverlay*)overlay;
         [compact.operationPanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_fastRoom.view.whiteboardView);
             make.centerY.equalTo(@0);
         }];
-        
+
         [compact.colorAndStrokePanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_fastRoom.view.whiteboardView);
             make.bottom.equalTo(compact.operationPanel.view.mas_top).offset(-8);
         }];
-        
+
         [compact.deleteSelectionPanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(compact.colorAndStrokePanel.view);
         }];
-        
+//
         [compact.undoRedoPanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.bottom.equalTo(_fastRoom.view.whiteboardView);
+            make.left.equalTo(_fastRoom.view.whiteboardView);
+            make.top.equalTo(compact.operationPanel.view.mas_bottom).offset(5);
         }];
         
-        [compact.scenePanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(@0);
-            make.bottom.equalTo(_fastRoom.view.whiteboardView);
-        }];
+//        [compact.scenePanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerX.equalTo(@0);
+//            make.bottom.equalTo(_fastRoom.view.whiteboardView);
+//        }];
     }
 }
 
@@ -297,50 +265,12 @@
     self.stackView.distribution = UIStackViewDistributionFillEqually;
 
     [self.stackView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_fastRoom.view.mas_top).offset(10);
+        make.bottom.equalTo(_fastRoom.view.mas_top).offset(0);
         make.trailing.offset(-20);
-        make.height.offset(36);
+        make.height.offset(26);
 //        make.width.offset(118);
     }];
 
-}
-
-- (void)reloadFastboardOverlay: (id<FastRoomOverlay>)custom {
-    [_fastRoom.view removeFromSuperview];
-//    [self setupFastboardWithCustom:custom];
-    [self bringSubviewToFront:self.stackView];
-}
-
-- (Theme)nextThemeFor: (Theme)theme {
-    if (@available(iOS 13.0, *)) {
-        if ([theme isEqualToString:ThemeAuto]) {
-            return ThemeLight;
-        } else if ([theme isEqualToString:ThemeLight]) {
-            return ThemeDark;
-        } else {
-            return ThemeAuto;
-        }
-    } else {
-        if ([theme isEqualToString:ThemeAuto]) {
-            return ThemeLight;
-        } else if ([theme isEqualToString:ThemeLight]) {
-            return ThemeDark;
-        } else {
-            return ThemeLight;
-        }
-    }
-}
-
-- (void)applyTheme: (Theme)theme {
-    UIButton* themeBtn = [self.stackView arrangedSubviews][0];
-//    [themeBtn setTitle:theme forState:UIControlStateNormal];
-    if ([theme isEqualToString:ThemeAuto]) {
-        [FastRoomThemeManager.shared apply:FastRoomDefaultTheme.defaultAutoTheme];
-    } else if ([theme isEqualToString:ThemeLight]) {
-        [FastRoomThemeManager.shared apply:FastRoomDefaultTheme.defaultDarkTheme];
-    } else if ([theme isEqualToString:ThemeDark]) {
-        [FastRoomThemeManager.shared apply:FastRoomDefaultTheme.defaultAutoTheme];
-    }
 }
 
 - (NSArray<UIButton *> *)setupButtons {
@@ -372,7 +302,7 @@
         _stackView = [[UIStackView alloc] initWithArrangedSubviews:[self setupButtons]];
         _stackView.spacing = 20;
         _stackView.layer.cornerRadius = 10;
-        _stackView.layer.borderWidth = 2;
+        _stackView.layer.borderWidth = 1;
         _stackView.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
     }
     return _stackView;
@@ -380,6 +310,15 @@
 
 #pragma mark - hd
 
-
+- (void)onFastboardDidJoinRoomSuccess{
+    
+    CompactFastRoomOverlay* compact = (CompactFastRoomOverlay *)_fastRoom.view.overlay;
+    compact.undoRedoPanel.view.direction =UILayoutConstraintAxisVertical;
+//    compact.scenePanel.view.direction = UILayoutConstraintAxisVertical;
+    compact.scenePanel.view.hidden = YES;
+    [AppearanceManager.shared commitUpdate];
+    
+    [self onLayout];
+}
 
 @end

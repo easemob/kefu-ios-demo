@@ -31,7 +31,8 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 
 // MARK: - Private
 - (void)setupFastboardWithCustom: (id<FastRoomOverlay>)custom withFastView:(UIView *)view{
-    Fastboard.globalFastboardRatio = 1.0 / 1.0;
+//    常见屏幕比例 其实只有三种 4:3 16:9 16:10 在加上一个特殊的 5:4
+    Fastboard.globalFastboardRatio =5.0/4.0 ;
     FastRoomConfiguration* config = [[FastRoomConfiguration alloc] initWithAppIdentifier:[RoomInfo getValueFrom:RoomInfoAPPID]
                                                                                 roomUUID:[RoomInfo getValueFrom:RoomInfoRoomID]
                                                                                roomToken:[RoomInfo getValueFrom:RoomInfoRoomToken]
@@ -41,14 +42,19 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     _fastRoom = [Fastboard createFastRoomWithFastRoomConfig:config];
     FastRoomView *fastRoomView = _fastRoom.view;
     fastRoomView.backgroundColor = [UIColor whiteColor];
-//    _fastRoom.delegate = self;
+    _fastRoom.delegate = self;
     [_fastRoom joinRoom];
     [view addSubview:fastRoomView];
     view.autoresizesSubviews = TRUE;
-    fastRoomView.frame = CGRectMake(0, 32, view.bounds.size.width, view.bounds.size.height);
-   
+    [fastRoomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.offset(28);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+        make.bottom.offset(0);
+    }];
+    [fastRoomView layoutIfNeeded];
     fastRoomView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-//    _fastRoom.roomDelegate = self;
+    _fastRoom.roomDelegate = self;
     
     [FastRoomThemeManager.shared apply:FastRoomDefaultTheme.defaultAutoTheme];
 }
@@ -86,9 +92,13 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
   
     NSLog(@"fastboardDidJoinRoomSuccess = %@ == %@",fastboard.room.uuid,fastboard.room.roomMembers);
     
-    CompactFastRoomOverlay* compact = (CompactFastRoomOverlay *)_fastRoom.view.overlay;
-    compact.undoRedoPanel.view.direction =UILayoutConstraintAxisHorizontal;
+  
     [HDWhiteRoomManager shareInstance].roomState = YES;
+    
+    //通知代理
+    if([self.whiteDelegate respondsToSelector:@selector(onFastboardDidJoinRoomSuccess)]){
+        [self.whiteDelegate onFastboardDidJoinRoomSuccess];
+    }
     
 }
 - (void)fastboardDidOccurError:(FastRoom * _Nonnull)fastboard error:(FastRoomError * _Nonnull)error {

@@ -19,7 +19,6 @@
 #import "HConversationsViewController.h"
 #import "HDAgoraCallViewController.h"
 #import "HDCallViewController.h"
-#import "HDFastboardViewController.h"
 #import "HDCloudDiskViewController.h"
 
 #define kafterSale @"shouhou"
