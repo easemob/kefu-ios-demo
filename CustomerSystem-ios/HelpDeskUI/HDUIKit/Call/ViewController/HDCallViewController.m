@@ -143,6 +143,7 @@
     barModel2.name=@"";
     barModel2.imageStr=kguaduan1;
     barModel2.selImageStr=kguaduan1;
+    barModel2.isHangUp = YES;
     
     HDControlBarModel * barModel3 = [HDControlBarModel new];
     barModel3.itemType = HDControlBarItemTypeShare;
@@ -156,13 +157,14 @@
     barModel4.imageStr=kbaiban;
     barModel4.selImageStr=kbaiban;
     
-    HDGrayModel * grayModel =  [[HDCallManager shareInstance] getGrayName:@"isTicketTrial"];
+//    HDGrayModel * grayModel =  [[HDCallManager shareInstance] getGrayName:@"isTicketTrial"];
     
     
-    NSArray * selImageArr = @[barModel,barModel1,barModel3,barModel2];
 //    NSArray * selImageArr = @[barModel,barModel1,barModel2];
+//    NSArray * selImageArr = @[barModel,barModel1,barModel3,barModel2];
+    NSArray * selImageArr = @[barModel,barModel1,barModel2,barModel3,barModel4];
     
-    [self.barView buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
+    [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
     
     [self initSmallWindowData];
 }
@@ -284,7 +286,7 @@
     //添加昵称信息
     [self.view addSubview:self.itemView];
     [self.itemView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.barView.mas_top).offset(10);
+        make.bottom.mas_equalTo(self.barView.mas_top).offset(-5);
         make.leading.offset(0);
         make.trailing.offset(0);
         make.height.offset(44);
@@ -359,11 +361,18 @@
     }];
   
     //底部功能按钮
+    
     [self.barView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.offset(0);
-        make.leading.offset(0);
-        make.trailing.offset(0);
-        make.height.offset(84);
+        if (@available(iOS 11.0, *)) {
+            UIEdgeInsets insets = self.view.safeAreaInsets;
+            make.bottom.mas_equalTo(-insets.bottom).offset(-5);
+        } else {
+            // Fallback on earlier versions
+            make.bottom.offset(-5);
+        }
+        make.leading.offset(20);
+        make.trailing.offset(-20);
+        make.height.offset(64);
     }];
     [self.barView layoutIfNeeded];
     
@@ -545,6 +554,8 @@
     if (!_barView) {
         _barView = [[HDControlBarView alloc]init];
 //        _barView.backgroundColor = [UIColor redColor];
+        _barView.layer.cornerRadius = 10;
+        _barView.layer.masksToBounds = YES;
         __weak __typeof__(self) weakSelf = self;
         _barView.clickControlBarItemBlock = ^(HDControlBarModel * _Nonnull barModel, UIButton * _Nonnull btn) {
             

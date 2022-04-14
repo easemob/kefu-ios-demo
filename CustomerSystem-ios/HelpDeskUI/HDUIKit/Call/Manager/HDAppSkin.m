@@ -19,6 +19,16 @@
     return mainSkin;
 }
 
+-(UIColor *)contentColorRed{
+    
+//    [UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000]
+    return [UIColor hl_colorWithRed:206 green:55 blue:56];
+}
+- (UIColor *)contentColorBlue{
+//    [UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:253.0/255.0 alpha:1.000]
+    return [UIColor hl_colorWithRed:12 green:110 blue:253];
+    
+}
 - (UIColor *)contentColorGray{
     
     return [UIColor hl_colorWithRed:232 green:238 blue:248];

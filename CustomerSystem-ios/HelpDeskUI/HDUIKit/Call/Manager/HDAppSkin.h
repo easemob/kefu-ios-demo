@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 //项目常用颜色 灰色 背景色
 - (UIColor *)contentColorGray;
 
+- (UIColor *)contentColorRed;
+- (UIColor *)contentColorBlue;
+
 - (UIColor *)contentColorGray1;
 
 - (UIFont *)systemFontMicro;

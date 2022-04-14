@@ -30,7 +30,7 @@
     [self.bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self);
         make.centerX.mas_equalTo(self);
-        make.width.height.offset(44);
+        make.width.height.offset(88);
         
     }];
 
@@ -40,7 +40,7 @@
     if (!_bgImgView) {
         _bgImgView = [[UIImageView alloc]init];
 //        _bgImgView.hidden = YES;
-        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:44 color:[[HDAppSkin mainSkin] contentColorGray1] ];
+        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:88 color:[[HDAppSkin mainSkin] contentColorGray1] ];
         _bgImgView.image = img;
         
     }

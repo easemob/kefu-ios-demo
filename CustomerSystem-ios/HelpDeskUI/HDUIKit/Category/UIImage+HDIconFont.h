@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HDAppSkin.h"
 #define kfontName           @"iconfont"
 #define kXiaolian           @"\U0000e650"  //&#xee650
 #define khuchu              @"\U0000ecb3"  //&#xecb3
@@ -32,6 +33,7 @@
 #define ktupian             @"\U0000e860"  //&#xe860
 #define kfanhui             @"\U0000e610"  //&#xe610
 #define kwenjianshangchuan  @"\U0000e742"  //&#xe742
+#define kquanbu             @"\U0000e64f"  //&#xe64f
 
 
 

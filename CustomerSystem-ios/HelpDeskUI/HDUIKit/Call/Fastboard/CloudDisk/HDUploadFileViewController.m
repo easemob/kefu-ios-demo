@@ -76,7 +76,7 @@
     
     NSArray * selImageArr = @[barModel,barModel1,barModel2,barModel3];
     
-    [self.barView buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleUploadFile];
+    [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleUploadFile];
     
 }
 
