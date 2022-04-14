@@ -10,7 +10,6 @@
 
 #import "HDWhiteRoomManager.h"
 #import "Utility.h"
-#import "CustomFastboardOverlay.h"
 #import "HDStorageItem.h"
 #import "HDAppSkin.h"
 #import "UIImage+HDIconFont.h"
@@ -157,10 +156,10 @@
             make.top.equalTo(compact.operationPanel.view.mas_bottom).offset(5);
         }];
         
-//        [compact.scenePanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(@0);
-//            make.bottom.equalTo(_fastRoom.view.whiteboardView);
-//        }];
+        [compact.scenePanel.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.trailing.equalTo(_fastRoom.view.whiteboardView);
+            make.bottom.equalTo(_fastRoom.view.whiteboardView).offset(-25);
+        }];
     }
 }
 
@@ -315,7 +314,7 @@
     CompactFastRoomOverlay* compact = (CompactFastRoomOverlay *)_fastRoom.view.overlay;
     compact.undoRedoPanel.view.direction =UILayoutConstraintAxisVertical;
 //    compact.scenePanel.view.direction = UILayoutConstraintAxisVertical;
-    compact.scenePanel.view.hidden = YES;
+//    compact.scenePanel.view.hidden = YES;
     [AppearanceManager.shared commitUpdate];
     
     [self onLayout];

@@ -25,6 +25,7 @@
         self.layer.cornerRadius = 10;
         self.layer.masksToBounds = YES;
         self.layer.borderWidth = 1;
+        self.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
         self.callView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame))];
         [self addSubview:self.callView];
 

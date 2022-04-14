@@ -53,7 +53,7 @@
     
     UIButton *_cameraBtn;
     BOOL _cameraState; //摄像头状态； yes 开启摄像头 no 关闭
-    BOOL _shareState; //摄像头状态； yes 正在共享 no 没有共享
+    BOOL _shareState; //屏幕共享状态； yes 正在共享 no 没有共享
     
     NSMutableDictionary *  allMembersDic; // 全局数据存储
 }
@@ -159,7 +159,8 @@
     HDGrayModel * grayModel =  [[HDCallManager shareInstance] getGrayName:@"isTicketTrial"];
     
     
-    NSArray * selImageArr = @[barModel,barModel1,barModel2,barModel3,barModel4];
+    NSArray * selImageArr = @[barModel,barModel1,barModel3,barModel2];
+//    NSArray * selImageArr = @[barModel,barModel1,barModel2];
     
     [self.barView buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
     
@@ -951,13 +952,12 @@
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
-
-    
-//  HDGrayModel * model=   [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
-    
-//    NSLog(@"点击了互动白板事件===%@",model);
     //互动白板加入成功以后 屏幕共享 不能使用 不能创建白板房间
 //    if (_videoViews.count == 0) {
+//        return;
+//    }
+//    if (_shareState) {
+//        //当前正在共享
 //        return;
 //    }
 //    HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
@@ -1182,6 +1182,7 @@ void NotificationCallback(CFNotificationCenterRef center,
         
         [[HDAgoraCallManager shareInstance]  leaveChannel];
         [[HDAgoraCallManager shareInstance]  destroy];
+        _shareState= YES;
         
         NSLog(@"broadcastStartedWithSetupInfo");
     }
@@ -1192,7 +1193,7 @@ void NotificationCallback(CFNotificationCenterRef center,
         NSLog(@"broadcastResumed");
     }
     if ([identifier isEqualToString:@"broadcastFinished"]) {
-        
+        _shareState= NO;
         //更改按钮的状态
         
         [[HDAgoraCallManager shareInstance] joinChannel];

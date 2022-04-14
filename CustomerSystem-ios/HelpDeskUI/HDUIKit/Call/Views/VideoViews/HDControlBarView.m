@@ -82,13 +82,17 @@
         //为button赋值
         [button setTitle:[NSString stringWithFormat:@"%@",barModelArr[i].name]forState:UIControlStateNormal];
 
-        
+      
         if (style == HDControlBarButtonStyleVideo) {
+//            [button setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+            self.backgroundColor = [UIColor whiteColor];
             if (i < 2) {
                 [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] forState:UIControlStateNormal];
                 [button setImage:[UIImage imageWithIcon:barModelArr[i].selImageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:253.0/255.0 alpha:1.000] ] forState:UIControlStateSelected];
-            }else if (i==2) {
-                [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
+                
+                
+            }else if (i==barModelArr.count-1) {
+                [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
             }else {
             [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
             [button setImage:[UIImage imageWithIcon:barModelArr[i].selImageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] forState:UIControlStateSelected];
@@ -96,10 +100,13 @@
         }else if(style == HDControlBarButtonStyleUploadFile){
             
             //为button赋值
-            [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] forState:UIControlStateNormal];
-            button.titleEdgeInsets = UIEdgeInsetsMake(5, -button.imageView.frame.size.width, -button.imageView.frame.size.height, 0);
-            button.imageEdgeInsets = UIEdgeInsetsMake(-button.titleLabel.intrinsicContentSize.height, 0, 0, -button.titleLabel.intrinsicContentSize.width);
-            button.titleLabel.font = [UIFont systemFontOfSize:16.0];
+//            [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] forState:UIControlStateNormal];
+            
+            NSString * imgStr = [NSString stringWithFormat:@"HelpDeskUIResource.bundle/%@",barModelArr[i].imageStr];
+            [button setImage:[UIImage imageNamed:imgStr] forState:UIControlStateNormal];
+            button.titleEdgeInsets = UIEdgeInsetsMake(0, -button.imageView.frame.size.width + 10, -button.imageView.frame.size.height, 0);
+            button.imageEdgeInsets = UIEdgeInsetsMake(-button.titleLabel.intrinsicContentSize.height - 5, 0, 0, -button.titleLabel.intrinsicContentSize.width);
+            button.titleLabel.font = [UIFont systemFontOfSize:14.0];
         }
        
         [view addSubview:button];
@@ -197,6 +204,8 @@
     }
     [button setTitleEdgeInsets:UIEdgeInsetsMake(titleOffsetY , titleOffsetX, 0, 0)];
 }
+
+#pragma mark - 底部导航逻辑
 
 
 @end

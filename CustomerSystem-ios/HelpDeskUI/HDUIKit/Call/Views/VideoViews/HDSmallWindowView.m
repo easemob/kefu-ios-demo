@@ -100,7 +100,7 @@
         _collectionView.showsVerticalScrollIndicator = FALSE;
         _collectionView.showsHorizontalScrollIndicator = FALSE;
         //定义每个UICollectionView 的大小
-        _flowLayout.itemSize = CGSizeMake(84,84);
+        _flowLayout.itemSize = CGSizeMake(84+84*0.2,84);
         //定义每个UICollectionView 横向的间距
         _flowLayout.minimumLineSpacing = 25;
         //定义每个UICollectionView 纵向的间距

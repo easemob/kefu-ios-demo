@@ -11,6 +11,7 @@
 #import "KFICloudManager.h"
 #import "TZImagePickerController.h"
 #import "HDAppSkin.h"
+#import "HDSanBoxFileManager.h"
 @interface HDUploadFileViewController ()<UIDocumentPickerDelegate,TZImagePickerControllerDelegate>
 @property (nonatomic, strong) HDControlBarView *barView;
 @property (nonatomic, strong) UIView *navView;
@@ -52,26 +53,26 @@
     HDControlBarModel * barModel = [HDControlBarModel new];
     barModel.itemType = HDControlBarItemTypeImage;
     barModel.name=@"上传图片";
-    barModel.imageStr= ktupian;
-    barModel.selImageStr= ktupian;
+    barModel.imageStr= @"tupian";
+    barModel.selImageStr= @"tupian";
     
     HDControlBarModel * barModel1 = [HDControlBarModel new];
     barModel1.itemType = HDControlBarItemTypeVideo;
     barModel1.name=@"上传视频";
-    barModel1.imageStr=kshipin;
-    barModel1.selImageStr=kshipin;
+    barModel1.imageStr= @"shipin";
+    barModel1.selImageStr= @"shipin";
     
     HDControlBarModel * barModel2 = [HDControlBarModel new];
     barModel2.itemType = HDControlBarItemTypeMute;
     barModel2.name=@"上传音频";
-    barModel2.imageStr=kyinpin;
-    barModel2.selImageStr=kyinpin;
+    barModel2.imageStr=@"yinpin";
+    barModel2.selImageStr=@"yinpin";
     
     HDControlBarModel * barModel3 = [HDControlBarModel new];
     barModel3.itemType = HDControlBarItemTypeFile;
     barModel3.name=@"上传文件";
-    barModel3.imageStr=kwenjianshangchuan;
-    barModel3.selImageStr=kwenjianshangchuan;
+    barModel3.imageStr=@"wendangzhongxin";
+    barModel3.selImageStr=@"wendangzhongxin";
     
     NSArray * selImageArr = @[barModel,barModel1,barModel2,barModel3];
     
@@ -155,7 +156,6 @@
                 //文件 上传或者其它操作
 //                [self uploadingWithFileData:fileData fileName:fileName fileURL:newURL];
                 NSLog(@"------------->文件 上传或者其它操作");
-                
                 NSArray *array = [[newURL absoluteString] componentsSeparatedByString:@"/"];
                 NSString *fileName = [array lastObject];
                 fileName = [fileName stringByRemovingPercentEncoding];
@@ -163,9 +163,11 @@
 //                if ([iCloudManager iCloudEnable]) {
                     [KFICloudManager downloadWithDocumentURL:newURL callBack:^(id obj) {
                         NSData *data = obj;
-                        //写入沙盒Documents
-                        NSString *docPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",fileName]];
-                        [self writeToFile:docPath withData:data];
+                        //写入沙盒Library 并创建文件夹
+//                        NSString *docPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Library/whiteBoard/%@",fileName]];
+//                        [HDSanBoxFileManager createDirectoryAtPath:docPath error:<#(NSError *__autoreleasing  _Nullable * _Nullable)#>]
+                        
+                        [self writeToFileData:data withFileName:fileName];
                     }];
 //                }
             }
@@ -177,40 +179,30 @@
     }
 }
 
-- (void)writeToFile:(NSString *)path withData:(NSData *)data{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    //访问【沙盒的document】目录下的问题件，该目录下支持手动增加、修改、删除文件及目录
-//    NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/文档.docx"];
-    if(![fileManager fileExistsAtPath:path]){
-        //如果不存在
-        BOOL success =   [data writeToFile:path atomically:YES];
-        
-        if (success) {
-            //取出来
-//            NSData *   datastr = [NSData dataWithContentsOfFile:path];
-//            NSLog(@"------------->文件 上传或者其它操作==%@",datastr);
-            [[HDClient sharedClient].whiteboardManager whiteBoardUploadFileWithSessionId:@"kefuchannelimid_248171" file:data fileName:@"123" completion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
-               
-                NSLog(@"====whiteBoardUploadFileWithSessionId===%@======error=%ld",responseObject,error.code);
-                
-            }];
-        }
-        
-    }else{
-        //取出来 发送
-//        NSData *   datastr = [NSData dataWithContentsOfFile:path];
-//        NSLog(@"------------->文件 上传或者其它操作==%@",datastr);
+- (void)writeToFileData:(NSData *)data withFileName:(NSString *)fileName{
+    //获取创建library 下文件夹
+    NSString * fileDir = [NSString stringWithFormat:@"%@/whiteBoard/%@",[HDSanBoxFileManager libraryDir],fileName];
+    NSError * error;
+    BOOL success = [HDSanBoxFileManager createFileAtPath:fileDir content:data overwrite:NO error:&error];
        
-        [[HDClient sharedClient].whiteboardManager whiteBoardUploadFileWithSessionId:@"kefuchannelimid_248171" file:data fileName:@"123" completion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
-           
-            NSLog(@"====whiteBoardUploadFileWithSessionId===%@======error=%ld",responseObject,error.code);
-            
-        }];
+    if (success) {
         
-        
+        [self hd_uploadFile:data withFileName:fileName];
     }
 }
 
+- (void)hd_uploadFile:(NSData *)data withFileName:(NSString *)fileName{
+
+    NSProgress  * __autoreleasing progress = [NSProgress new];
+    
+    [[HDClient sharedClient].whiteboardManager whiteBoardUploadFileWithSessionId:@"kefuchannelimid_248171" file:data fileName:fileName progress:&progress completion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+        
+        
+    }];
+    
+   NSLog(@"%lf",1.0 *progress.completedUnitCount / progress.totalUnitCount);
+    
+}
 #pragma mark - event
 - (void)dismissViewController{
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -222,7 +214,7 @@
     if (!_navView) {
         _navView = [[UIView alloc] init];
         UIButton * backBtn = [[UIButton alloc] init];
-        [backBtn setTitle:@"云盘" forState:UIControlStateNormal];
+        [backBtn setTitle:@"" forState:UIControlStateNormal];
         [backBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [backBtn addTarget:self action:@selector(dismissViewController) forControlEvents:UIControlEventTouchUpInside];
         UIImage * img = [UIImage imageWithIcon:kfanhui inFont:kfontName size:30 color:[[HDAppSkin mainSkin] contentColorGray1] ];
