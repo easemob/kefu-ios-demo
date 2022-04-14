@@ -12,7 +12,7 @@
 @property (nonatomic, strong) UILabel *nickNameLabel;
 @property (nonatomic, strong) UIButton *muteBtn;
 
-
+@property (nonatomic, strong) UIImageView *bgImgView;
 @end
 @implementation HDCallCollectionViewCell
 
@@ -25,10 +25,10 @@
         self.layer.cornerRadius = 10;
         self.layer.masksToBounds = YES;
         self.layer.borderWidth = 1;
-        self.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
+        self.layer.borderColor = [UIColor lightGrayColor].CGColor;
         self.callView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame))];
         [self addSubview:self.callView];
-
+        
         [self addSubview: self.muteBtn];
         [self addSubview: self.nickNameLabel];
       
@@ -37,7 +37,20 @@
                                                  selector:@selector(receiveNoti:)
                                                      name:@"SelectedNotification"
                                                    object:nil];
-
+        //添加 笑脸图片
+        [self.callView addSubview:self.bgImgView];
+        [self bringSubviewToFront:self.bgImgView];
+        
+        [self.bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+               make.centerY.mas_equalTo(self.callView);
+               make.centerX.mas_equalTo(self.callView);
+               make.width.height.offset(22);
+               
+           }];
+        [self.bgImgView layoutIfNeeded];
+           UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:_bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+           _bgImgView.image = img;
+        
     }
     return self;
 }
@@ -60,7 +73,17 @@
         make.width.offset(32);
         
     }];
-    
+//    [self.bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+////        make.centerY.mas_equalTo(self.callView);
+////        make.centerX.mas_equalTo(self.callView);
+////        make.width.height.offset(22);
+//        make.top.offset(0);
+//        make.leading.offset(0);
+//        make.height.offset(32);
+//        make.width.offset(32);
+//    }];
+//    UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:_bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+//    _bgImgView.image = img;
 }
 - (void)setAudioMuted:(BOOL)muted{
     
@@ -77,10 +100,10 @@
 - (void)setItem:(HDCallCollectionViewCellItem *)item {
     _item = item;
    
-    for(UIView *review in [self.callView subviews])
-    {
-        [review removeFromSuperview];
-     }
+//    for(UIView *review in [self.callView subviews])
+//    {
+//        [review removeFromSuperview];
+//     }
     UIView *view =item.camView;
     [self.callView addSubview:view ];
     [self.callView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -108,6 +131,17 @@
     
     self.nickNameLabel.text =  _item.nickName;
 }
+- (UIImageView *)bgImgView{
+    
+    if (!_bgImgView) {
+        _bgImgView = [[UIImageView alloc]init];
+//        _bgImgView.backgroundColor = [UIColor yellowColor];
+
+    }
+    return _bgImgView;
+    
+}
+
 - (UILabel *)nickNameLabel{
     if (!_nickNameLabel) {
         _nickNameLabel = [[UILabel alloc] init];

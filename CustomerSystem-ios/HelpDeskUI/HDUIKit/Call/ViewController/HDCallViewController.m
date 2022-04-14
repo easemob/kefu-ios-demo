@@ -757,11 +757,12 @@
 - (void) closeCamera{
     NSLog(@"====点击了关闭摄像头");
     _cameraState = NO;
-    _cameraBtn.selected =NO;
+//    _cameraBtn.selected =NO;
     //更新对应状态 设置button 照片
-    
-    UIImage *img  = [UIImage imageWithIcon:kguanbishexiangtou1 inFont:kfontName size:_cameraBtn.size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] ;
-    [_cameraBtn setImage:img forState:UIControlStateNormal];
+    _cameraBtn.selected =!_cameraBtn.selected ;
+//    UIImage *img  = [UIImage imageWithIcon:kguanbishexiangtou1 inFont:kfontName size:_cameraBtn.size.height/2 color: [[HDAppSkin mainSkin] contentColorRed]] ;
+//    
+//    [_cameraBtn setImage:img forState:UIControlStateNormal];
 
     [[HDAgoraCallManager shareInstance] enableLocalVideo:NO];
     
