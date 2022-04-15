@@ -31,22 +31,40 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     return  _roomKeyDic[key];
     
 }
-- (void)hd_OnJoinRoomWithFastView:(UIView *)view{
+- (void)hd_OnJoinRoomWithFastView:(UIView *)view completion:(void (^ _Nullable)(id _Nonnull, HDError * _Nonnull))completion{
+   
     
-    //获取接口
-    [[HDWhiteboardManager shareInstance] getJoinWhiteBoardRoomParametersWithSessionId:@"1111" completion:^(id _Nonnull responseObject, HDError * _Nonnull error) {
-       
-        if (responseObject) {
-            
-            _roomKeyDic= responseObject;
-            //初始化
-            [self setupFastboardWithCustom:nil withFastView:view ];
-        }
-       
-        
-    }];
+    [self setupFastboardWithCustom:nil withFastView:view ];
+   
+//    //获取接口
+//    [[HDWhiteboardManager shareInstance] getJoinWhiteBoardRoomParametersWithSessionId:@"1111" completion:^(id _Nonnull responseObject, HDError * _Nonnull error) {
+//
+//        if (responseObject) {
+//
+//            _roomKeyDic= responseObject;
+//            //初始化
+//
+//
+//        }
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//           // UI更新代码
+//            [self setupFastboardWithCustom:nil withFastView:view ];
+//
+//            if (completion) {
+//                completion(responseObject,error);
+//            }
+//        });
+//
+//    }];
   
 }
+
+- (void)hd_joinRoom{
+    
+    [[HDWhiteboardManager shareInstance] hd_joinWiteBoardRoom];
+    
+}
+
 
 // MARK: - Private
 - (void)setupFastboardWithCustom: (id<FastRoomOverlay>)custom withFastView:(UIView *)view{

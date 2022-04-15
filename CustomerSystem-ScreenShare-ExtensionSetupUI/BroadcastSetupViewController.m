@@ -13,6 +13,11 @@
 // Call this method when the user has finished interacting with the view controller and a broadcast stream can start
 - (void)userDidFinishSetup {
     
+    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    view.backgroundColor = [UIColor redColor];
+    
+    [self.view addSubview:view];
+    
     // URL of the resource where broadcast can be viewed that will be returned to the application
     NSURL *broadcastURL = [NSURL URLWithString:@"http://apple.com/broadcast/streamID"];
     

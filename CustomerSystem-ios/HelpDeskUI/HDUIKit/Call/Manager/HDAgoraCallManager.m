@@ -36,7 +36,7 @@
     NSString *_nickName;
     NSDictionary *_ext;
     NSString *_ticket;
-    NSString *_conversationId;
+
     
     BOOL _isSetupLocalVideo; //判断是否已经设置过了；
 }
@@ -224,7 +224,7 @@ static HDAgoraCallManager *shareCall = nil;
 - (HDMessage *)creteVideoInviteMessageWithImId:(NSString *)aImId
                                        content:(NSString *)aContent {
     
-    _conversationId= aImId;
+    self.conversationId= aImId;
     EMTextMessageBody *txtBody = [[EMTextMessageBody alloc] initWithText:aContent];
     HDMessage *hdMessage = [[HDMessage alloc] initWithConversationID:aImId
                                                                 from:[HDClient sharedClient].currentUsername

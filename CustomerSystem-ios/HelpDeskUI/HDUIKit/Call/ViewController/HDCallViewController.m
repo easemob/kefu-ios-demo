@@ -25,7 +25,8 @@
 #import "HDWhiteBoardView.h"
 #import "HDUploadFileViewController.h"
 #import "HDWhiteRoomManager.h"
-#define kLocalUid 11111111111 //设置真实的本地的uid
+#import "MBProgressHUD+Add.h"
+#define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
 #define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
@@ -52,6 +53,7 @@
     NSString * _isFirstAdd; // 远端进来是不是第一次添加
     
     UIButton *_cameraBtn;
+    UIButton *_shareBtn;     //屏幕共享的button
     BOOL _cameraState; //摄像头状态； yes 开启摄像头 no 关闭
     BOOL _shareState; //屏幕共享状态； yes 正在共享 no 没有共享
     
@@ -84,8 +86,9 @@
     callVC.agentName = keyCenter.agentNickName;
     callVC.hangUpCallback = callback;
     
+    //初始化灰度管理
+    [[HDCallManager shareInstance] initGray];
         
-    
     //需要必要创建房间的参数
     [HDAgoraCallManager shareInstance].keyCenter =keyCenter;
     return callVC;
@@ -121,7 +124,7 @@
 /// 初始化屏幕分享
 - (void)initScreenShare{
     [self initBroadPickerView];
-//    [self addNotifications];
+    [self addNotifications];
     
     
 }
@@ -164,10 +167,10 @@
     
     HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
     HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
-    if (!grayModelShare.enable) {
+    if (grayModelShare.enable) {
         [selImageArr addObject:barModel3];
     }
-    if (!grayModelWhiteBoard.enable) {
+    if (grayModelWhiteBoard.enable) {
         [selImageArr addObject:barModel4];
     }
             
@@ -683,12 +686,13 @@
     if (@available(iOS 12.0, *)) {
         _broadPickerView = [[RPSystemBroadcastPickerView alloc] init];
         _broadPickerView.preferredExtension = kScreenShareExtensionBundleId;
+        _broadPickerView.showsMicrophoneButton = NO;
+        _broadPickerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
         
     } else {
         // Fallback on earlier versions
     }
 }
-
 // 切换摄像头事件
 - (void)camBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
@@ -808,7 +812,8 @@
 
 // 屏幕共享事件
 - (void)shareDesktopBtnClicked:(UIButton *)btn {
-    
+
+    _shareBtn = btn;
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
         return;
@@ -823,17 +828,6 @@
         }
     }
     NSLog(@"点击了屏幕共享事件");
-}
-
-// 切换屏幕尺寸事件
-- (void)screenBtnClicked:(UIButton *)btn {
-    NSLog(@"点击了切换屏幕尺寸事件");
-}
-
-// 隐藏按钮事件
-- (void)hiddenBtnClicked:(UIButton *)btn
-{
-    NSLog(@"点击了隐藏按钮事件");
 }
 
 
@@ -976,33 +970,41 @@
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
+    
+    
+    // 创建白板产生
+    
+//    [[HDWhiteRoomManager shareInstance] hd_createRoomKeyWithCallId:[[HDAgoraCallManager shareInstance].keyCenter.callid integerValue] withConversationID: [HDAgoraCallManager shareInstance].conversationId];
+//
+//    return;
+    
     //互动白板加入成功以后 屏幕共享 不能使用 不能创建白板房间
-    if (_videoViews.count == 0) {
-        return;
-    }
-    if (_shareState) {
-        //当前正在共享
-        return;
-    }
-    HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
-
-    [self.smallWindowView setThirdUserdidJoined:midelleViewItem];
-    [self.smallWindowView reloadData];
-
-    [_videoViews removeAllObjects];
-
-
-    HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
-    item.uid = kLocalWhiteBoardUid;
-    item.realUid = kLocalUid;
-    [HDWhiteRoomManager shareInstance].uid = [NSString stringWithFormat:@"%ld",(long)item.realUid];
-    item.isWhiteboard = YES;
-    item.nickName = @"白板";
-    item.camView = self.whiteBoardView;
-    //先取出中间试图的model 放到 小窗口  然后把白板的试图放到中间窗口
-
-    [_videoViews addObject:item];
-    [self changeNickNameItem:item];
+//    if (_videoViews.count == 0) {
+//        return;
+//    }
+//    if (_shareState) {
+//        //当前正在共享
+//        return;
+//    }
+//    HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
+//
+//    [self.smallWindowView setThirdUserdidJoined:midelleViewItem];
+//    [self.smallWindowView reloadData];
+//
+//    [_videoViews removeAllObjects];
+//
+//
+//    HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
+//    item.uid = kLocalWhiteBoardUid;
+//    item.realUid = kLocalUid;
+//    [HDWhiteRoomManager shareInstance].uid = [NSString stringWithFormat:@"%ld",(long)item.realUid];
+//    item.isWhiteboard = YES;
+//    item.nickName = @"白板";
+//    item.camView = self.whiteBoardView;
+//    //先取出中间试图的model 放到 小窗口  然后把白板的试图放到中间窗口
+//
+//    [_videoViews addObject:item];
+//    [self changeNickNameItem:item];
     [self.view addSubview:self.whiteBoardView];
 //    //中间 视频窗口
     if (self.isLandscape) {
@@ -1151,6 +1153,9 @@
    
     
 }
+#pragma mark - 屏幕共享相关
+
+
 #pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。
 // 录屏直播 主App和宿主App数据共享，通信功能实现 如果我们要将开始、暂停、结束这些事件以消息的形式发送到宿主App中，需要使用CFNotificationCenterGetDarwinNotifyCenter。
 - (void)sendNotificationWithIdentifier:(nullable NSString *)identifier userInfo:(NSDictionary *)info {
@@ -1203,12 +1208,18 @@ void NotificationCallback(CFNotificationCenterRef center,
     NSDictionary *userInfo = noti.userInfo;
     NSString *identifier = userInfo[@"identifier"];
     
+    
+//    NSString *  str = [NSString stringWithFormat:@"%@",@"收到通知了"];
+//    
+//    MBProgressHUD *hud = [MBProgressHUD showMessag:str toView:self.view];
+//   
+
     if ([identifier isEqualToString:@"broadcastStartedWithSetupInfo"]) {
         
-        [[HDAgoraCallManager shareInstance]  leaveChannel];
-        [[HDAgoraCallManager shareInstance]  destroy];
+//        [[HDAgoraCallManager shareInstance]  leaveChannel];
+//        [[HDAgoraCallManager shareInstance]  destroy];
         _shareState= YES;
-        
+        _shareBtn.selected = !_shareBtn.selected;
         NSLog(@"broadcastStartedWithSetupInfo");
     }
     if ([identifier isEqualToString:@"broadcastPaused"]) {
@@ -1220,19 +1231,20 @@ void NotificationCallback(CFNotificationCenterRef center,
     if ([identifier isEqualToString:@"broadcastFinished"]) {
         _shareState= NO;
         //更改按钮的状态
-        
-        [[HDAgoraCallManager shareInstance] joinChannel];
-        //设置远端试图
-        for (HDCallCollectionViewCellItem * item in _members) {
-            if (item.uid == kLocalUid) {
-                //设置本地试图 取出本地item
-                [[HDAgoraCallManager shareInstance] setupLocalVideoView:item.camView];
-            }else{
-                [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
-            }
-        }
+        _shareBtn.selected = !_shareBtn.selected;
+//        [[HDAgoraCallManager shareInstance] joinChannel];
+//        //设置远端试图
+//        for (HDCallCollectionViewCellItem * item in _members) {
+//            if (item.uid == kLocalUid) {
+//                //设置本地试图 取出本地item
+//                [[HDAgoraCallManager shareInstance] setupLocalVideoView:item.camView];
+//            }else{
+//                [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
+//            }
+//        }
        
         NSLog(@"broadcastFinished");
+        
     }
     if ([identifier isEqualToString:@"processSampleBuffer"]) {
         NSLog(@"processSampleBuffer");

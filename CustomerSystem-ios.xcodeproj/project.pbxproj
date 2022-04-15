@@ -646,6 +646,8 @@
 		933C4C8827E1E847001678B0 /* HDSSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HDSSKeychain.h; path = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Call/Manager/HDSSKeychain.h"; sourceTree = SOURCE_ROOT; };
 		933C4CA727E4A116001678B0 /* HDPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDPopoverViewController.m; sourceTree = "<group>"; };
 		933C4CA827E4A117001678B0 /* HDPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDPopoverViewController.h; sourceTree = "<group>"; };
+		933FD22D28092A3100CE797E /* CustomerSystem-ScreenShare-Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ScreenShare-Extension.entitlements"; sourceTree = "<group>"; };
+		933FD22E28092AB900CE797E /* CustomerSystem-ScreenShare-ExtensionRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ScreenShare-ExtensionRelease.entitlements"; sourceTree = "<group>"; };
 		9367CDDE27FD5E78008479D8 /* RoomInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomInfo.m; sourceTree = "<group>"; };
 		9367CDDF27FD5E79008479D8 /* RoomInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomInfo.h; sourceTree = "<group>"; };
 		9367CDE127FD5E88008479D8 /* CustomFastboardOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomFastboardOverlay.m; sourceTree = "<group>"; };
@@ -1557,6 +1559,8 @@
 		93767A1727951CA80079A60F /* CustomerSystem-ScreenShare-Extension */ = {
 			isa = PBXGroup;
 			children = (
+				933FD22E28092AB900CE797E /* CustomerSystem-ScreenShare-ExtensionRelease.entitlements */,
+				933FD22D28092A3100CE797E /* CustomerSystem-ScreenShare-Extension.entitlements */,
 				933C4C8827E1E847001678B0 /* HDSSKeychain.h */,
 				933C4C8727E1E847001678B0 /* HDSSKeychain.m */,
 				937DEBEE27993987004EE6BB /* CustomerSystem-ScreenShare-ExtensionDebug.entitlements */,
@@ -3785,7 +3789,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer.shareWindow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = ease_wildcard;
+				PROVISIONING_PROFILE_SPECIFIER = shareWindow_extension_dev;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3811,6 +3815,7 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ScreenShare-Extension/CustomerSystem-ScreenShare-ExtensionRelease.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: EaseMob Inc.";
 				CODE_SIGN_STYLE = Manual;
@@ -4003,7 +4008,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = ease_wildcard;
+				PROVISIONING_PROFILE_SPECIFIER = kf_enterprise.demo.customer_dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Call/Fastboard/CustomerSystem-ios-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;

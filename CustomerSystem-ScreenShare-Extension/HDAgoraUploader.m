@@ -35,9 +35,12 @@ static NSInteger audioChannels = 2;
 }
 -  (void)initAgoraRtcEngineKit{
     
+    
+  
+    
     //创建 AgoraRtcEngineKit 实例
     NSString * appid = [HDSSKeychain passwordForService:kForService account:kSaveAgoraAppID];
-    self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId: appid delegate:self];
+    self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId: appid delegate:nil];
     
     //设置频道场景
     [self.agoraKit setChannelProfile:AgoraChannelProfileLiveBroadcasting];

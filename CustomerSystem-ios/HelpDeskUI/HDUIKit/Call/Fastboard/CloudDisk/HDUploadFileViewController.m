@@ -13,7 +13,15 @@
 #import "HDAppSkin.h"
 #import "HDSanBoxFileManager.h"
 #import "MBProgressHUD+Add.h"
-@interface HDUploadFileViewController ()<UIDocumentPickerDelegate,TZImagePickerControllerDelegate>
+//分隔符
+#define YFBoundary @"AnHuiWuHuYungFan"
+//换行
+#define YFEnter [@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]
+//NSString转NSData
+#define YFEncode(string) [string dataUsingEncoding:NSUTF8StringEncoding]
+
+
+@interface HDUploadFileViewController ()<UIDocumentPickerDelegate,TZImagePickerControllerDelegate,NSURLSessionTaskDelegate>
 @property (nonatomic, strong) HDControlBarView *barView;
 @property (nonatomic, strong) UIView *navView;
 @property (nonatomic, strong) UIDocumentPickerViewController *documentPickerVC;
@@ -49,6 +57,9 @@
     }];
     [self.barView layoutIfNeeded];
     [self initData];
+    
+    
+    [self upload];
 }
 -(void)initData{
     HDControlBarModel * barModel = [HDControlBarModel new];
@@ -161,18 +172,15 @@
                 NSString *fileName = [array lastObject];
                 fileName = [fileName stringByRemovingPercentEncoding];
                 
-//                if ([iCloudManager iCloudEnable]) {
+                if ([KFICloudManager iCloudEnable]) {
                     [KFICloudManager downloadWithDocumentURL:newURL callBack:^(id obj) {
                         NSData *data = obj;
                         //写入沙盒Library 并创建文件夹
-//                        NSString *docPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Library/whiteBoard/%@",fileName]];
-//                        [HDSanBoxFileManager createDirectoryAtPath:docPath error:<#(NSError *__autoreleasing  _Nullable * _Nullable)#>]
-                        
                         [self writeToFileData:data withFileName:fileName];
                     }];
-//                }
+                }
             }
-            [self dismissViewControllerAnimated:YES completion:NULL];
+//            [self dismissViewControllerAnimated:YES completion:NULL];
         }];
         [urls.firstObject stopAccessingSecurityScopedResource];
     } else {
@@ -185,28 +193,28 @@
     NSString * fileDir = [NSString stringWithFormat:@"%@/whiteBoard/%@",[HDSanBoxFileManager libraryDir],fileName];
     NSError * error;
     
-    NSString *  str = [NSString stringWithFormat:@"%@",data];
-    
-    MBProgressHUD *hud = [MBProgressHUD showMessag:str toView:self.view];
-    hud.layer.zPosition = 1.f;
+//    NSString *  str = [NSString stringWithFormat:@"%@",data];
+//    
+//    MBProgressHUD *hud = [MBProgressHUD showMessag:str toView:self.view];
+//    hud.layer.zPosition = 1.f;
     BOOL success = [HDSanBoxFileManager createFileAtPath:fileDir content:data overwrite:NO error:&error];
        
     if (success) {
         
-        [self hd_uploadFile:data withFileName:fileName];
+        [self hd_uploadFile:data withFileName:fileName withFilePath:fileDir];
     }
 }
 
-- (void)hd_uploadFile:(NSData *)data withFileName:(NSString *)fileName{
+- (void)hd_uploadFile:(NSData *)data withFileName:(NSString *)fileName withFilePath:(NSString *)filePath{
 
     NSProgress  * __autoreleasing progress = [NSProgress new];
-    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
-    hud.layer.zPosition = 1.f;
-    __weak MBProgressHUD *weakHud = hud;
-    [[HDClient sharedClient].whiteboardManager whiteBoardUploadFileWithSessionId:@"kefuchannelimid_248171" file:data fileName:fileName progress:&progress completion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
-        [weakHud hideAnimated:YES];
+//    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
+//    hud.layer.zPosition = 1.f;
+//    __weak MBProgressHUD *weakHud = hud;
+//    [[HDClient sharedClient].whiteboardManager whiteBoardUploadFileWithSessionId:@"kefuchannelimid_248171" file:data fileName:filePath progress:&progress completion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+//        [weakHud hideAnimated:YES];
         
-    }];
+//    }];
     
    NSLog(@"%lf",1.0 *progress.completedUnitCount / progress.totalUnitCount);
     
@@ -280,4 +288,91 @@
     return _barView;
 }
 
+- (void)upload {
+
+    //1、确定URL
+    NSURL *url = [NSURL URLWithString:@"http://sandbox.kefu.easemob.com/v1/agorartc/tenant/77556/whiteboard/call/123/conversion/upload"];
+    //2、确定请求
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    //3、设置请求头
+    NSString *head = [NSString stringWithFormat:@"multipart/form-data;boundary=%@", YFBoundary];
+    [request setValue:head forHTTPHeaderField:@"Content-Type"];
+    //4、设置请求方式，上传时必须是Post请求
+    request.HTTPMethod = @"POST";
+    //5、创建NSURLSession
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    //6、获取上传的数据
+    NSData *uploadData = [self getData];
+    //7、创建上传任务 上传的数据来自getData方法
+    NSURLSessionUploadTask *task = [session uploadTaskWithRequest:request fromData:uploadData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        
+        NSLog(@"==%@",response);
+        
+       //上传成功以后改变UILabel文本为服务器返回的数据
+//       self.uploadInfo.text =[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    
+    }];
+    //8、执行上传任务
+    [task resume];
+    
+}
+
+
+/**
+ *  设置请求体
+ *
+ *  @return 请求体内容
+ */
+-(NSData *)getData
+{
+    NSMutableData *data = [NSMutableData data];
+    
+    //1、开始标记
+    //--
+    [data appendData:YFEncode(@"--")];
+    //boundary
+    [data appendData:YFEncode(YFBoundary)];
+    //换行符
+    [data appendData:YFEnter];
+    //文件参数名 Content-Disposition: form-data; name="myfile"; filename="wall.jpg"
+    [data appendData:YFEncode(@"Content-Disposition:form-data; name=\"file\"; filename=\"wall.jpg\"")];
+    //换行符
+    [data appendData:YFEnter];
+    //Content-Type 上传文件的类型 MIME
+    [data appendData:YFEncode(@"Content-Type:image/jpeg")];
+    //换行符
+    [data appendData:YFEnter];
+    //换行符
+    [data appendData:YFEnter];
+    //2、上传的文件数据
+    
+    //图片数据  并且转换为Data
+    UIImage *image = [UIImage imageNamed:@"videoMuteButtonSelected"];
+    NSData *imagedata = UIImageJPEGRepresentation(image, 1.0);
+    [data appendData:imagedata];
+    //换行符
+    [data appendData:YFEnter];
+ 
+    //3、结束标记
+    //--
+    [data appendData:YFEncode(@"--")];
+    //boundary
+    [data appendData:YFEncode(YFBoundary)];
+    //--
+    [data appendData:YFEncode(@"--")];
+    //换行符
+    [data appendData:YFEnter];
+    
+    return data;
+    
+}
+
+#pragma mark - 代理方法 只要给服务器上传数据就会调用 可以计算出上传进度
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
+{
+
+    //设置进度条
+//    self.uploadProgress.progress = 1.0 * totalBytesSent / totalBytesExpectedToSend;
+}
 @end

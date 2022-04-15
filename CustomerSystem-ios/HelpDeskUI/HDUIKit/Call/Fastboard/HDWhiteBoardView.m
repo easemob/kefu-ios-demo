@@ -38,10 +38,14 @@
 }
 - (void)initWhiteBoardView{
     //加入房间
-    [[HDWhiteRoomManager shareInstance] hd_OnJoinRoomWithFastView:self];
-     _fastRoom = [HDWhiteRoomManager shareInstance].fastRoom;
-    [HDWhiteRoomManager shareInstance].whiteDelegate = self;
-    [self setupTools];
+    [[HDWhiteRoomManager shareInstance] hd_OnJoinRoomWithFastView:self completion:^(id _Nonnull, HDError * _Nonnull) {
+        
+       
+        
+    }];
+    _fastRoom = [HDWhiteRoomManager shareInstance].fastRoom;
+   [HDWhiteRoomManager shareInstance].whiteDelegate = self;
+   [self setupTools];
 }
 
 // MARK: - Action

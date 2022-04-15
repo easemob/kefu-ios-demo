@@ -25,7 +25,11 @@ extern HDRoomInfoKey const HDRoomInfoRoomToken;
 @property (nonatomic, weak) id <HDWhiteBoardDelegete> whiteDelegate;
 + (instancetype _Nullable )shareInstance;
 // 创建房间 view 房间展示在哪个view上
-- (void)hd_OnJoinRoomWithFastView:(UIView *)view;
+- (void)hd_OnJoinRoomWithFastView:(UIView *)view completion:(void (^_Nullable)(id, HDError *))completion;
+
+
+- (void)hd_joinRoom;
+
 //推出房间
 - (void)hd_OnLogout;
 @end
