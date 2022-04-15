@@ -12,6 +12,7 @@
 #import "TZImagePickerController.h"
 #import "HDAppSkin.h"
 #import "HDSanBoxFileManager.h"
+#import "MBProgressHUD+Add.h"
 @interface HDUploadFileViewController ()<UIDocumentPickerDelegate,TZImagePickerControllerDelegate>
 @property (nonatomic, strong) HDControlBarView *barView;
 @property (nonatomic, strong) UIView *navView;
@@ -183,6 +184,11 @@
     //获取创建library 下文件夹
     NSString * fileDir = [NSString stringWithFormat:@"%@/whiteBoard/%@",[HDSanBoxFileManager libraryDir],fileName];
     NSError * error;
+    
+    NSString *  str = [NSString stringWithFormat:@"%@",data];
+    
+    MBProgressHUD *hud = [MBProgressHUD showMessag:str toView:self.view];
+    hud.layer.zPosition = 1.f;
     BOOL success = [HDSanBoxFileManager createFileAtPath:fileDir content:data overwrite:NO error:&error];
        
     if (success) {
@@ -194,9 +200,11 @@
 - (void)hd_uploadFile:(NSData *)data withFileName:(NSString *)fileName{
 
     NSProgress  * __autoreleasing progress = [NSProgress new];
-    
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
+    hud.layer.zPosition = 1.f;
+    __weak MBProgressHUD *weakHud = hud;
     [[HDClient sharedClient].whiteboardManager whiteBoardUploadFileWithSessionId:@"kefuchannelimid_248171" file:data fileName:fileName progress:&progress completion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
-        
+        [weakHud hideAnimated:YES];
         
     }];
     

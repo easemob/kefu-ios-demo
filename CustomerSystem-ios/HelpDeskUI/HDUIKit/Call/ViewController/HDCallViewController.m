@@ -126,6 +126,9 @@
     
 }
 -(void)initData{
+    
+    
+    
     HDControlBarModel * barModel = [HDControlBarModel new];
     barModel.itemType = HDControlBarItemTypeMute;
     barModel.name=@"";
@@ -157,12 +160,21 @@
     barModel4.imageStr=kbaiban;
     barModel4.selImageStr=kbaiban;
     
-//    HDGrayModel * grayModel =  [[HDCallManager shareInstance] getGrayName:@"isTicketTrial"];
+    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2, nil];
     
+    HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
+    HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
+    if (!grayModelShare.enable) {
+        [selImageArr addObject:barModel3];
+    }
+    if (!grayModelWhiteBoard.enable) {
+        [selImageArr addObject:barModel4];
+    }
+            
     
-//    NSArray * selImageArr = @[barModel,barModel1,barModel2];
+//
 //    NSArray * selImageArr = @[barModel,barModel1,barModel3,barModel2];
-    NSArray * selImageArr = @[barModel,barModel1,barModel2,barModel3,barModel4];
+//    NSMutableArray * selImageArr = @[barModel,barModel1,barModel2,barModel3,barModel4];
     
     [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
     
@@ -965,31 +977,32 @@
 - (void)onClickedFalt:(UIButton *)sender
 {
     //互动白板加入成功以后 屏幕共享 不能使用 不能创建白板房间
-//    if (_videoViews.count == 0) {
-//        return;
-//    }
-//    if (_shareState) {
-//        //当前正在共享
-//        return;
-//    }
-//    HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
-//
-//    [self.smallWindowView setThirdUserdidJoined:midelleViewItem];
-//    [self.smallWindowView reloadData];
-//
-//    [_videoViews removeAllObjects];
-//
-//
-//    HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
-//    item.uid = kLocalWhiteBoardUid;
-//    item.realUid = kLocalUid;
-//    item.isWhiteboard = YES;
-//    item.nickName = @"白板";
-//    item.camView = self.whiteBoardView;
-//    //先取出中间试图的model 放到 小窗口  然后把白板的试图放到中间窗口
-//
-//    [_videoViews addObject:item];
-//    [self changeNickNameItem:item];
+    if (_videoViews.count == 0) {
+        return;
+    }
+    if (_shareState) {
+        //当前正在共享
+        return;
+    }
+    HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
+
+    [self.smallWindowView setThirdUserdidJoined:midelleViewItem];
+    [self.smallWindowView reloadData];
+
+    [_videoViews removeAllObjects];
+
+
+    HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
+    item.uid = kLocalWhiteBoardUid;
+    item.realUid = kLocalUid;
+    [HDWhiteRoomManager shareInstance].uid = [NSString stringWithFormat:@"%ld",(long)item.realUid];
+    item.isWhiteboard = YES;
+    item.nickName = @"白板";
+    item.camView = self.whiteBoardView;
+    //先取出中间试图的model 放到 小窗口  然后把白板的试图放到中间窗口
+
+    [_videoViews addObject:item];
+    [self changeNickNameItem:item];
     [self.view addSubview:self.whiteBoardView];
 //    //中间 视频窗口
     if (self.isLandscape) {

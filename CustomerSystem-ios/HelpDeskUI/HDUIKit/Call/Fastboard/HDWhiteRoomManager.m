@@ -7,10 +7,13 @@
 //
 
 #import "HDWhiteRoomManager.h"
-
+HDRoomInfoKey const HDRoomInfoAPPID = @"APPID";
+HDRoomInfoKey const HDRoomInfoRoomID = @"ROOMUUID";
+HDRoomInfoKey const HDRoomInfoRoomToken = @"ROOMTOKEN";
 @interface HDWhiteRoomManager () <FastRoomDelegate,WhiteRoomCallbackDelegate>
 {
     FastRoom* _fastRoom;
+    NSDictionary * _roomKeyDic;
 }
 @end
 static HDWhiteRoomManager *shareWhiteboard = nil;
@@ -23,10 +26,26 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     });
     return shareWhiteboard;
 }
-
+- (NSString *)hd_getValueFrom:(HDRoomInfoKey)key{
+    
+    return  _roomKeyDic[key];
+    
+}
 - (void)hd_OnJoinRoomWithFastView:(UIView *)view{
-    //初始化
-    [self setupFastboardWithCustom:nil withFastView:view];
+    
+    //获取接口
+    [[HDWhiteboardManager shareInstance] getJoinWhiteBoardRoomParametersWithSessionId:@"1111" completion:^(id _Nonnull responseObject, HDError * _Nonnull error) {
+       
+        if (responseObject) {
+            
+            _roomKeyDic= responseObject;
+            //初始化
+            [self setupFastboardWithCustom:nil withFastView:view ];
+        }
+       
+        
+    }];
+  
 }
 
 // MARK: - Private
@@ -38,6 +57,11 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                                                                                roomToken:[RoomInfo getValueFrom:RoomInfoRoomToken]
                                                                                   region:FastRegionCN
                                                                                  userUID:@"some-unique-logout"];
+//    FastRoomConfiguration* config = [[FastRoomConfiguration alloc] initWithAppIdentifier:[self hd_getValueFrom:HDRoomInfoAPPID]
+//                                                                                roomUUID:[self hd_getValueFrom:HDRoomInfoRoomID]
+//                                                                               roomToken:[self hd_getValueFrom:HDRoomInfoRoomToken]
+//                                                                                  region:FastRegionCN
+//                                                                                 userUID:self.uid];
     config.customOverlay = custom;
     _fastRoom = [Fastboard createFastRoomWithFastRoomConfig:config];
     FastRoomView *fastRoomView = _fastRoom.view;

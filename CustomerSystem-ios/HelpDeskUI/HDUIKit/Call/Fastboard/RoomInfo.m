@@ -15,6 +15,7 @@ RoomInfoKey const RoomInfoRoomToken = @"ROOMTOKEN";
 @implementation RoomInfo
 
 + (NSString *)getValueFrom:(RoomInfoKey)key {
+    
     NSDictionary* bundleDictionary = @{
         @"APPID":@"283/VGiScM9Wiw2HJg",
         @"ROOMUUID":@"b8a446f06a0411ec8c31196f2bc4a1de",
