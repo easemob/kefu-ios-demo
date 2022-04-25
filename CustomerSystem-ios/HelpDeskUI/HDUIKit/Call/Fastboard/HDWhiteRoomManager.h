@@ -11,6 +11,7 @@
 #import <Whiteboard/Whiteboard.h>
 #import "HDWhiteBoardDelegete.h"
 #import "RoomInfo.h"
+#import "HDStorageItem.h"
 NS_ASSUME_NONNULL_BEGIN
 typedef NSString * HDRoomInfoKey NS_STRING_ENUM;
 
@@ -24,14 +25,22 @@ extern HDRoomInfoKey const HDRoomInfoRoomToken;
 @property (nonatomic, strong) NSString *uid;
 @property (nonatomic, weak) id <HDWhiteBoardDelegete> whiteDelegate;
 + (instancetype _Nullable )shareInstance;
+- (void)hd_setValueFrom:(NSDictionary *)roomKeyDic;
 // 创建房间 view 房间展示在哪个view上
-- (void)hd_OnJoinRoomWithFastView:(UIView *)view completion:(void (^_Nullable)(id, HDError *))completion;
+- (void)hd_OnJoinRoomWithFastView:(UIView *)view;
 
 
 - (void)hd_joinRoom;
 
 //推出房间
 - (void)hd_OnLogout;
+// 插入
+- (void)insertItem:(HDStorageItem *)item;
+
+- (void)whiteBoardUploadFileWithFilePath:(nonnull NSString *)filePath fileData:(nonnull NSData *)fileData fileName:(nonnull NSString *)fileName fileType:(HDFastBoardFileType)type mimeType:(NSString *)mimeType completion:(nonnull void (^)(id _Nonnull responseObject, HDError * _Nonnull error))completion;
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

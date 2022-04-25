@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HDUploadFileViewController : UIViewController
-
+typedef void (^HDUploadFileResultBlock)(NSDictionary *dic);
+@property (nonatomic, copy) HDUploadFileResultBlock hdUploadFileResultBlock;
 @end
 
 NS_ASSUME_NONNULL_END

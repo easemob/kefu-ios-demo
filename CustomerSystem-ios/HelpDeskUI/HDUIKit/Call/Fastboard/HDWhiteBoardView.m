@@ -10,7 +10,7 @@
 
 #import "HDWhiteRoomManager.h"
 #import "Utility.h"
-#import "HDStorageItem.h"
+
 #import "HDAppSkin.h"
 #import "UIImage+HDIconFont.h"
 #import "HDWhiteBoardDelegete.h"
@@ -38,11 +38,7 @@
 }
 - (void)initWhiteBoardView{
     //加入房间
-    [[HDWhiteRoomManager shareInstance] hd_OnJoinRoomWithFastView:self completion:^(id _Nonnull, HDError * _Nonnull) {
-        
-       
-        
-    }];
+    [[HDWhiteRoomManager shareInstance] hd_OnJoinRoomWithFastView:self ];
     _fastRoom = [HDWhiteRoomManager shareInstance].fastRoom;
    [HDWhiteRoomManager shareInstance].whiteDelegate = self;
    [self setupTools];
@@ -179,7 +175,7 @@
         UIButton *btn = (UIButton *)[self viewWithTag:HDClickButtonTypeFile +1001];
         self.clickWhiteBoardViewBlock(HDClickButtonTypeFile, btn);
     }
-    
+
 }
 //缩放
 - (void)onScale {
@@ -203,60 +199,6 @@
     }
 }
 
-- (void)insertItem:(HDStorageItem *)item {
-    if (item.fileType == HDFastBoardFileTypeimg) {
-        [[NSURLSession.sharedSession downloadTaskWithURL:[NSURL URLWithString:item.fileUrl] completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if (error) { return ; }
-            NSData* data = [[NSData alloc] initWithContentsOfURL:location];
-            UIImage* img = [UIImage imageWithData:data];
-            // 远程图片的路径
-            [self->_fastRoom insertImg:[NSURL URLWithString:item.fileUrl] imageSize:img.size];
-        }] resume];
-    }
-    
-    if ((item.fileType == HDFastBoardFileTypevideo) || (item.fileType == HDFastBoardFileTypemusic)) {
-        [self->_fastRoom insertMedia:[NSURL URLWithString:item.fileUrl] title:item.fileName completionHandler:nil];
-        return;
-    }
-    
-    [WhiteConverterV5 checkProgressWithTaskUUID:item.taskUUID
-                                          token:item.taskToken
-                                         region:item.region
-                                       taskType:item.taskType result:^(WhiteConversionInfoV5 * _Nullable info, NSError * _Nullable error) {
-        if (error) { return; }
-        if (!info) { return; }
-        
-        NSArray* pages = info.progress.convertedFileList;
-        if (!pages) { return; }
-        switch (item.fileType) {
-            case HDFastBoardFileTypeimg:
-                break;
-            case HDFastBoardFileTypepdf:
-                [self->_fastRoom insertStaticDocument:pages
-                                                 title:item.fileName completionHandler:nil];
-                break;
-            case HDFastBoardFileTypevideo:
-                break;
-            case HDFastBoardFileTypemusic:
-                break;
-            case HDFastBoardFileTypeppt:
-                if (item.taskType == WhiteConvertTypeDynamic) {
-                    [self->_fastRoom insertPptx:pages
-                                           title:item.fileName completionHandler:nil];
-                } else {
-                    [self->_fastRoom insertStaticDocument:pages
-                                                     title:item.fileName completionHandler:nil];
-                }
-                break;
-            case HDFastBoardFileTypeword:
-                [self->_fastRoom insertStaticDocument:pages
-                                                 title:item.fileName completionHandler:nil];
-                break;
-            case HDFastBoardFileTypeunknown:
-                break;
-        }
-    }];
-}
 
 - (FastRoom *)room{
     
@@ -322,6 +264,15 @@
     [AppearanceManager.shared commitUpdate];
     
     [self onLayout];
+    
+    if (self.fastboardDidJoinRoomSuccessBlock) {
+        self.fastboardDidJoinRoomSuccessBlock();
+    }
 }
-
+- (void)onFastboardDidJoinRoomFail{
+    
+    if (self.fastboardDidJoinRoomFailBlock) {
+        self.fastboardDidJoinRoomFailBlock();
+    }
+}
 @end

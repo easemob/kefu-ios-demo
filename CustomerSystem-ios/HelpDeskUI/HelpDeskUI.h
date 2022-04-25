@@ -39,7 +39,7 @@
 #import "HDConvertToCommonEmoticonsHelper.h"
 
 #import "NSDate+Category.h"
-#import "UIView+FLExtension.h"
+#import "UIView+Kit.h"
 #import "NSString+HDValid.h"
 #import "UIImageView+HDWebCache.h"
 #import "UIViewController+HDHUD.h"

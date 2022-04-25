@@ -18,8 +18,13 @@ typedef NS_ENUM (NSInteger, HDClickButtonType) {
     HDClickButtonTypeLogout,           /** 退出房间 */
 };
 typedef void(^ClickWhiteBoardViewBlock)(HDClickButtonType type,UIButton *btn);
+typedef void(^FastboardDidJoinRoomSuccessBlock)();
+typedef void(^FastboardDidJoinRoomFailBlock)();
 @interface HDWhiteBoardView : UIView
 @property (nonatomic, copy) ClickWhiteBoardViewBlock clickWhiteBoardViewBlock;
+@property (nonatomic, copy) FastboardDidJoinRoomSuccessBlock fastboardDidJoinRoomSuccessBlock;
+@property (nonatomic, copy) FastboardDidJoinRoomFailBlock fastboardDidJoinRoomFailBlock;
+
 @end
 
 NS_ASSUME_NONNULL_END

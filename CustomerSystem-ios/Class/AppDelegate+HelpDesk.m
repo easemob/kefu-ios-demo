@@ -51,7 +51,7 @@
     option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;
 //    option.kefuRestServer = @"http://kefu.easemob.com";
-    option.kefuRestServer = @"http://sandbox.kefu.easemob.com";
+    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"http://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.apnsCertName = apnsCertName;

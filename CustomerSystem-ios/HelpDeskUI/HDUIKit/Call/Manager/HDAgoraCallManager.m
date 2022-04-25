@@ -37,6 +37,7 @@
     NSDictionary *_ext;
     NSString *_ticket;
 
+
     
     BOOL _isSetupLocalVideo; //判断是否已经设置过了；
 }
@@ -77,6 +78,8 @@ static HDAgoraCallManager *shareCall = nil;
         _callQueue = dispatch_queue_create("com.CustomerSystem-ios.agoracall.queue", NULL);
         //添加消息监听
         [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
+        
+        
     }
     return self;
 }
@@ -374,7 +377,16 @@ static HDAgoraCallManager *shareCall = nil;
         
     }];
     //保存 分享要的数据
-    [self saveAppKeyCenter:[HDAgoraCallManager shareInstance].keyCenter];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//       // UI更新代码
+//
+        if ([HDAgoraCallManager shareInstance].keyCenter) {
+        
+            [self saveAppKeyCenter:[HDAgoraCallManager shareInstance].keyCenter];
+        }
+        
+//    });
+    
     
 }
 - (BOOL)getCallState{
@@ -404,7 +416,6 @@ static HDAgoraCallManager *shareCall = nil;
     NSLog(@"join Member  uid---- %lu ",(unsigned long)uid);
     HDAgoraCallMember *mem = [self getHDAgoraCallMember:uid];
     if([self.roomDelegate respondsToSelector:@selector(onMemberJoin:)]){
-        
         [self.roomDelegate onMemberJoin:mem];
     }
     @synchronized(self.members){
@@ -451,8 +462,12 @@ static HDAgoraCallManager *shareCall = nil;
 /// @param uid 离线的用户 ID。
 /// @param reason 离线原因
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraUserOfflineReason)reason{
+    //通知代理
    
     HDAgoraCallMember *mem = [self getHDAgoraCallMember:uid];
+    if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){
+        [self.roomDelegate onMemberExit:mem];
+    }
     HDAgoraCallMember *needRemove = nil;
     @synchronized(_members){
         for (HDAgoraCallMember *_member in self.members) {
@@ -468,10 +483,7 @@ static HDAgoraCallManager *shareCall = nil;
     //如果房间里边人 都么有了 就发送通知 关闭。如果有人 就不关闭
   [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
     
-    //通知代理
-    if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){
-        [self.roomDelegate onMemberExit:mem];
-    }
+    
 }
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine virtualBackgroundSourceEnabled:(BOOL)enabled reason:(AgoraVirtualBackgroundSourceStateReason)reason{
     
@@ -497,19 +509,42 @@ static HDAgoraCallManager *shareCall = nil;
 /// 保持动态数据 给其他app 进程通信
 /// @param keyCenter 对象参数
 - (void)saveAppKeyCenter:(HDKeyCenter *)keyCenter{
-    [HDSSKeychain setPassword: keyCenter.agoraAppid forService:kForService account:kSaveAgoraAppID];
-    [HDSSKeychain setPassword: keyCenter.agoraToken forService:kForService account:kSaveAgoraToken];
-    [HDSSKeychain setPassword: keyCenter.agoraChannel forService:kForService account:kSaveAgoraChannel];
-    [HDSSKeychain setPassword: [NSString stringWithFormat:@"%@",keyCenter.agoraUid] forService:kForService account:kSaveAgoraShareUID];
-    [HDSSKeychain setPassword:[NSString stringWithFormat:@"%@",keyCenter.callid]  forService:kForService account:kSaveAgoraCallId];
+//    [HDSSKeychain setPassword: keyCenter.agoraAppid forService:kForService account:kSaveAgoraAppID];
+//    [HDSSKeychain setPassword: keyCenter.agoraToken forService:kForService account:kSaveAgoraToken];
+//    [HDSSKeychain setPassword: keyCenter.agoraChannel forService:kForService account:kSaveAgoraChannel];
+//    [HDSSKeychain setPassword: [NSString stringWithFormat:@"%@",keyCenter.agoraUid] forService:kForService account:kSaveAgoraShareUID];
+//    [HDSSKeychain setPassword:[NSString stringWithFormat:@"%@",keyCenter.callid]  forService:kForService account:kSaveAgoraCallId];
+    self.userDefaults =[[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
+   
+    
+    [self.userDefaults setObject:keyCenter.agoraAppid forKey:kSaveAgoraAppID];
+    
+    [self.userDefaults setObject:keyCenter.agoraToken forKey:kSaveAgoraToken];
+    
+    [self.userDefaults setObject:keyCenter.agoraChannel forKey:kSaveAgoraChannel];
+    
+    [self.userDefaults setObject:[NSString stringWithFormat:@"%@",keyCenter.callid] forKey:kSaveAgoraCallId];
+    
+    [self.userDefaults setObject:[NSString stringWithFormat:@"%@",keyCenter.agoraUid] forKey:kSaveAgoraShareUID];
+    
+//
+   
 }
+
 - (HDKeyCenter *)getAppKeyCenter{
     HDKeyCenter * keycenter= [[HDKeyCenter  alloc] init];
-    keycenter.agoraAppid =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraAppID];
-    keycenter.agoraToken =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraToken];
-    keycenter.agoraChannel =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraChannel];
-    keycenter.shareUid =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraShareUID];
-    keycenter.callid =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraCallId];
+//    keycenter.agoraAppid =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraAppID];
+//    keycenter.agoraToken =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraToken];
+//    keycenter.agoraChannel =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraChannel];
+//    keycenter.shareUid =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraShareUID];
+//    keycenter.callid =  [HDSSKeychain passwordForService:kForService account:kSaveAgoraCallId];
+    
+    keycenter.agoraAppid = [[HDAgoraCallManager shareInstance].userDefaults valueForKey:kSaveAgoraAppID];
+    keycenter.agoraAppid = [[HDAgoraCallManager shareInstance].userDefaults valueForKey:kSaveAgoraAppID];
+    keycenter.agoraAppid = [[HDAgoraCallManager shareInstance].userDefaults valueForKey:kSaveAgoraAppID];
+    keycenter.agoraAppid = [[HDAgoraCallManager shareInstance].userDefaults valueForKey:kSaveAgoraAppID];
+    
+    
     return  keycenter;
 }
 

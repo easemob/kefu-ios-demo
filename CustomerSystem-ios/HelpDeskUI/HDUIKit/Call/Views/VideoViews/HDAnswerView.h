@@ -12,8 +12,10 @@ typedef void(^ClickOnBlock)(UIButton *btn);
 typedef void(^ClickOffBlock)(UIButton *btn);
 @interface HDAnswerView : UIView
 @property (nonatomic, strong) UIView *bgView;
+@property (nonatomic, strong) UIImageView *icon;
 @property (nonatomic, strong) UIButton *onBtn;
 @property (nonatomic, strong) UIButton *offBtn;
+@property (nonatomic, strong) UILabel *answerLabel;
 @property (nonatomic, copy) ClickOnBlock clickOnBlock;
 @property (nonatomic, copy) ClickOffBlock clickOffBlock;
 

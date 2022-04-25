@@ -1,0 +1,6 @@
+framework module Fastboard {
+  umbrella header "Fastboard-umbrella.h"
+
+  export *
+  module * { export * }
+}

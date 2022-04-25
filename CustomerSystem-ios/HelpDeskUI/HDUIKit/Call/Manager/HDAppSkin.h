@@ -24,6 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UIColor *)contentColorGray1;
 
+- (UIColor *)contentColorGrayalpha:(CGFloat)alpha;
+
+
 - (UIFont *)systemFontMicro;
 - (UIFont *)systemFontSmall;
 - (UIFont *)systemFontMedium;

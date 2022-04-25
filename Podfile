@@ -10,6 +10,8 @@ pod 'Masonry', '~> 1.1.0'
 pod 'AgoraRtcEngine_iOS'
 pod 'Fastboard', :git => 'https://github.com/netless-io/fastboard-iOS'
 pod 'TZImagePickerController'
+#pod 'MMWormhole', '~> 2.0.0'
+#pod 'AliyunOSSiOS'
 end
 
 target 'CustomerSystem-ScreenShare-Extension' do
@@ -18,6 +20,7 @@ target 'CustomerSystem-ScreenShare-Extension' do
 
   # Pods for CustomerSystem-ScreenShare-Extension
   pod 'AgoraRtcEngine_iOS'
+#  pod 'MMWormhole', '~> 2.0.0'
 end
 
 target 'CustomerSystem-ScreenShare-ExtensionSetupUI' do

@@ -14,10 +14,16 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 /*!
  *  \~chinese
- *  加入白板房间
+ *  加入白板房间Success
  *
  */
 - (void)onFastboardDidJoinRoomSuccess;
+/*!
+ *  \~chinese
+ *  加入白板房间fail
+ *
+ */
+- (void)onFastboardDidJoinRoomFail;
 @end
 
 NS_ASSUME_NONNULL_END

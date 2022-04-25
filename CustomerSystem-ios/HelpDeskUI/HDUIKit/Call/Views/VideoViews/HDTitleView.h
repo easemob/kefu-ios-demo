@@ -8,6 +8,8 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+#define kApplicationStatusBarHeight  [UIApplication sharedApplication].statusBarFrame.size.height //状态栏的高度
+
 typedef void(^ClickHideBlock)(UIButton *btn);
 @interface HDTitleView : UIView
 @property(nonatomic ,strong)UIView *cellView;

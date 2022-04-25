@@ -12,7 +12,8 @@
 #import "TZImagePickerController.h"
 #import "HDAppSkin.h"
 #import "HDSanBoxFileManager.h"
-#import "MBProgressHUD+Add.h"
+#import "HDWhiteRoomManager.h"
+//#import <AliyunOSSiOS/OSSService.h>
 //分隔符
 #define YFBoundary @"AnHuiWuHuYungFan"
 //换行
@@ -21,7 +22,9 @@
 #define YFEncode(string) [string dataUsingEncoding:NSUTF8StringEncoding]
 
 
-@interface HDUploadFileViewController ()<UIDocumentPickerDelegate,TZImagePickerControllerDelegate,NSURLSessionTaskDelegate>
+@interface HDUploadFileViewController ()<UIDocumentPickerDelegate,TZImagePickerControllerDelegate,NSURLSessionTaskDelegate>{
+    NSString *__path;
+}
 @property (nonatomic, strong) HDControlBarView *barView;
 @property (nonatomic, strong) UIView *navView;
 @property (nonatomic, strong) UIDocumentPickerViewController *documentPickerVC;
@@ -58,8 +61,7 @@
     [self.barView layoutIfNeeded];
     [self initData];
     
-    
-    [self upload];
+//    [self upload];
 }
 -(void)initData{
     HDControlBarModel * barModel = [HDControlBarModel new];
@@ -104,14 +106,7 @@
     TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
     imagePickerVc.allowPickingImage = NO;
     imagePickerVc.allowPickingVideo = YES;
-    // You can get the photos by block, the same as by delegate.
-    // 你可以通过block或者代理，来得到用户选择的照片.
-    [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
-
-        
-        
-        
-    }];
+    imagePickerVc.allowPickingMultipleVideo = NO;
     [self presentViewController:imagePickerVc animated:YES completion:nil];
     
 }
@@ -122,18 +117,78 @@
     imagePickerVc.allowPickingVideo = NO;
     // You can get the photos by block, the same as by delegate.
     // 你可以通过block或者代理，来得到用户选择的照片.
+    
     [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
-
         
-        
-        
+        NSData *data=   UIImageJPEGRepresentation(photos.firstObject,1.0f);
+        PHAsset * asset = [assets firstObject];
+        NSString *filename = [asset valueForKey:@"filename"];
+         NSLog(@"filename:%@",filename);
+        [self writeToFileData:data withFileName:filename];
+        [self dismissViewControllerAnimated:YES completion:NULL];
     }];
     [self presentViewController:imagePickerVc animated:YES completion:nil];
     
 }
+
+
+#pragma mark -TZImagePickerControllerDelegate
+
+// 如果用户选择了一个视频且allowPickingMultipleVideo是NO，下面的代理方法会被执行
+//如果allowPickingMultipleVideo是YES，将会调用imagePickerController:didFinishPickingPhotos:sourceAssets:isSelectOriginalPhoto:
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingVideo:(UIImage *)coverImage sourceAssets:(PHAsset *)asset{
+    
+    
+    PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+    options.version = PHVideoRequestOptionsVersionOriginal;
+    [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
+        if ([asset isKindOfClass:[AVURLAsset class]]) {
+            AVURLAsset* urlAsset = (AVURLAsset*)asset;
+            NSNumber *size;
+            [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
+            NSLog(@"size is %f",[size floatValue]/(1024.0*1024.0));
+            
+            NSString *fileName = [self getVideoName:[NSString stringWithFormat:@"%@",urlAsset.URL]];
+           
+            NSData * data = [NSData dataWithContentsOfURL:urlAsset.URL];
+            if (data) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self writeToFileData:data withFileName:fileName];
+
+                    [self dismissViewControllerAnimated:YES completion:NULL];
+                });
+            }
+     }
+    }];
+   
+    NSLog(@"======");
+    
+}
+
+// 当allowEditVideo是YES且allowPickingMultipleVideo是NO是，如果用户选择了一个视频，下面的代理方法会被执行
+//如果allowPickingMultipleVideo是YES，则不支持编辑视频，将会调用imagePickerController:didFinishPickingPhotos:sourceAssets:isSelectOriginalPhoto:
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingAndEditingVideo:(UIImage *)coverImage outputPath:(NSString *)outputPath error:(NSString *)errorMsg{
+    
+    
+    NSLog(@"======");
+}
 -(void)uploadFileBtnClicked:(UIButton *)sender{
 
     [self presentDocumentPicker];
+}
+#pragma mark 获取视频名字
+- (NSString *)getVideoName:(NSString *)url {
+    NSArray * urlArray = [url componentsSeparatedByString:@"?"];
+    if (urlArray.count > 0) {
+        NSArray * nameArray = [urlArray[0] componentsSeparatedByString:@"/"];
+        if (nameArray.count > 0) {
+            return nameArray.lastObject;
+        }
+    }
+    NSDate *senddate = [NSDate date];
+    NSString *date2 = [NSString stringWithFormat:@"%ld%@", (long)[senddate timeIntervalSince1970],@"1"];
+    return  [NSString stringWithFormat:@"%@%@.mov",senddate,date2];
 }
 
 #pragma mark - 文件上传
@@ -166,7 +221,6 @@
                 //读取出错
             } else {
                 //文件 上传或者其它操作
-//                [self uploadingWithFileData:fileData fileName:fileName fileURL:newURL];
                 NSLog(@"------------->文件 上传或者其它操作");
                 NSArray *array = [[newURL absoluteString] componentsSeparatedByString:@"/"];
                 NSString *fileName = [array lastObject];
@@ -180,7 +234,7 @@
                     }];
                 }
             }
-//            [self dismissViewControllerAnimated:YES completion:NULL];
+            [self dismissViewControllerAnimated:YES completion:NULL];
         }];
         [urls.firstObject stopAccessingSecurityScopedResource];
     } else {
@@ -192,33 +246,50 @@
     //获取创建library 下文件夹
     NSString * fileDir = [NSString stringWithFormat:@"%@/whiteBoard/%@",[HDSanBoxFileManager libraryDir],fileName];
     NSError * error;
-    
-//    NSString *  str = [NSString stringWithFormat:@"%@",data];
-//    
-//    MBProgressHUD *hud = [MBProgressHUD showMessag:str toView:self.view];
-//    hud.layer.zPosition = 1.f;
     BOOL success = [HDSanBoxFileManager createFileAtPath:fileDir content:data overwrite:NO error:&error];
-       
     if (success) {
-        
-        [self hd_uploadFile:data withFileName:fileName withFilePath:fileDir];
+        HDFastBoardFileType type;
+        NSString * suffix = [HDSanBoxFileManager suffixAtPath:fileDir];
+        suffix = [suffix lowercaseString];
+        if ([suffix isEqualToString:@"png"] || [suffix isEqualToString:@"jpg"] || [suffix isEqualToString:@"jpeg"]  ) {
+            
+            type = HDFastBoardFileTypeimg;
+            
+        }else if([suffix isEqualToString:@"mp3"] || [suffix isEqualToString:@"mp4"] ){
+            type = HDFastBoardFileTypevideo;
+           
+        }else if([suffix isEqualToString:@" amr"] || [suffix isEqualToString:@" wav"] ){
+            
+            type = HDFastBoardFileTypemusic;
+    
+        }else if([suffix isEqualToString:@"pptx"] ){
+            
+            type = HDFastBoardFileTypeppt;
+    
+        }else if([suffix isEqualToString:@"pdf"]  ){
+            
+            type = HDFastBoardFileTypepdf;
+        }
+        else if([suffix isEqualToString:@"doc"] || [suffix isEqualToString:@"docx"]  || [suffix isEqualToString:@"ppt"]){
+            
+            type = HDFastBoardFileTypeword;
+            
+        }else{
+            
+            type = HDFastBoardFileTypeword;
+            
+        }
+    
+        [self hd_uploadFile:nil withFileName:fileName withFilePath:fileDir withFileType:type] ;
     }
 }
 
-- (void)hd_uploadFile:(NSData *)data withFileName:(NSString *)fileName withFilePath:(NSString *)filePath{
-
-    NSProgress  * __autoreleasing progress = [NSProgress new];
-//    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:self.view];
-//    hud.layer.zPosition = 1.f;
-//    __weak MBProgressHUD *weakHud = hud;
-//    [[HDClient sharedClient].whiteboardManager whiteBoardUploadFileWithSessionId:@"kefuchannelimid_248171" file:data fileName:filePath progress:&progress completion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
-//        [weakHud hideAnimated:YES];
-        
-//    }];
+- (void)hd_uploadFile:(NSData *)data withFileName:(NSString *)fileName withFilePath:(NSString *)filePath withFileType:(HDFastBoardFileType) type{
     
-   NSLog(@"%lf",1.0 *progress.completedUnitCount / progress.totalUnitCount);
+    [[HDWhiteRoomManager shareInstance] whiteBoardUploadFileWithFilePath:filePath fileData:nil fileName:fileName fileType: type mimeType:@"" completion:nil];
     
 }
+
 #pragma mark - event
 - (void)dismissViewController{
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -336,7 +407,7 @@
     //换行符
     [data appendData:YFEnter];
     //文件参数名 Content-Disposition: form-data; name="myfile"; filename="wall.jpg"
-    [data appendData:YFEncode(@"Content-Disposition:form-data; name=\"file\"; filename=\"wall.jpg\"")];
+    [data appendData:YFEncode(@"Content-Disposition:form-data; name=\"file\"; filename=\"wall_123.jpg\"")];
     //换行符
     [data appendData:YFEnter];
     //Content-Type 上传文件的类型 MIME
@@ -348,9 +419,16 @@
     //2、上传的文件数据
     
     //图片数据  并且转换为Data
-    UIImage *image = [UIImage imageNamed:@"videoMuteButtonSelected"];
-    NSData *imagedata = UIImageJPEGRepresentation(image, 1.0);
-    [data appendData:imagedata];
+    
+
+    
+    NSData *dat = [NSData dataWithContentsOfFile:__path];
+    
+    UIImage *image11 =[UIImage imageWithData:dat];
+    
+//    UIImage *image = [UIImage imageNamed:@"videoMuteButtonSelected"];
+//    NSData *imagedata = UIImageJPEGRepresentation(image, 1.0);
+    [data appendData:dat];
     //换行符
     [data appendData:YFEnter];
  

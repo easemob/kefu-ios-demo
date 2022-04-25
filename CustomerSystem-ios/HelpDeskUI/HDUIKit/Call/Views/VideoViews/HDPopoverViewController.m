@@ -24,7 +24,7 @@
     
     HDPopoverViewControllerCellItem * item = [[HDPopoverViewControllerCellItem alloc] init];
     item.name =@"关闭摄像头";
-    item.imgName = kguanbishexiangtou1;
+    item.imgName = kshexiangtou1;
     
     HDPopoverViewControllerCellItem * item1 = [[HDPopoverViewControllerCellItem alloc] init];
     item1.name =@"切换摄像头";
@@ -52,13 +52,16 @@
     HDPopoverViewControllerCellItem * item =self.dataArray[indexPath.row];
    
     cell.textLabel.text = [NSString stringWithFormat:@"%@",item.name];
-    UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 7, 30, 30)];
+    UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 7, 25, 25)];
     img.image = [UIImage imageWithIcon:item.imgName inFont:kfontName size:img.size.width color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] ;
+    
     [cell addSubview:img];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+  
     [[NSNotificationCenter defaultCenter] postNotificationName:@"click" object:indexPath];
 }
 
@@ -66,7 +69,7 @@
 - (CGSize)preferredContentSize {
     if (self.presentingViewController && self.tableView != nil) {
         CGSize tempSize = self.presentingViewController.view.bounds.size;
-        tempSize.width = 170;
+        tempSize.width = 180;
         CGSize size = [self.tableView sizeThatFits:tempSize];  //sizeThatFits返回的是最合适的尺寸，但不会改变控件的大小
         return size;
     }else {

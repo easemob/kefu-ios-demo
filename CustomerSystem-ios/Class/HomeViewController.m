@@ -43,6 +43,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;
 @property (strong, nonatomic) MoreChoiceView *choiceView;
+@property (strong, nonatomic) HDCallViewController *callViewController;
 
 @end
 
@@ -537,7 +538,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)messagesDidIMReceive:(NSArray *)aMessages{
     
     
-    NSLog(@"==========收到消息了");
+    NSLog(@"==========收到消息了messagesDidIMReceive");
     
     
 }
@@ -581,25 +582,35 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 #pragma mark - HDCallManagerDelegate
 - (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter{
     
-//    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-//
+
+    
+//    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:keyCenter.visitorNickName hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
 //        [callVC dismissViewControllerAnimated:YES completion:nil];
 //    }];
 //        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
 //        [self presentViewController:hdCallVC animated:YES completion:nil];
 
     
-    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:keyCenter.visitorNickName hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-        [callVC dismissViewControllerAnimated:YES completion:nil];
-    }];
-        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:hdCallVC animated:YES completion:nil];
-
+//    if (!self.callViewController.isShow) {
+//
+//    self.callViewController = [HDCallViewController alertCallWithView:nil WithKeyCenter:keyCenter];
+//
+//    self.callViewController.hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//
+//        [callVC removeView];
+//    };
+//
+//    [self.callViewController showView];
+//    }
+    
+    [self.callViewController showViewWithKeyCenter:keyCenter];
+    
+    
     
 }
 //声网
 - (void)agorademo{
-    
+//    
 //    HDCloudDiskViewController * cloudDiskVC = [[HDCloudDiskViewController alloc] init];
 //    cloudDiskVC.modalPresentationStyle = UIModalPresentationFullScreen;
 //    [self presentViewController:cloudDiskVC animated:YES completion:nil];
@@ -715,5 +726,18 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             NSLog(@"lx ----发送消息失败 aError code :%d,aError description:%@",aError.code,aError.errorDescription);
         }
     }];
+}
+
+-(HDCallViewController *)callViewController{
+    
+    if (!_callViewController) {
+        _callViewController = [HDCallViewController alertCallWithView:nil];
+        _callViewController.hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+            [callVC removeView];
+        };
+    }
+    
+    return _callViewController;
+    
 }
 @end

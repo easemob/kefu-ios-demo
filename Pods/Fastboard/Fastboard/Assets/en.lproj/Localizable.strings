@@ -1,0 +1,9 @@
+
+
+"disconnectedError" = "Disconnected with room";
+
+
+"joinRoomError" = "Join room error";
+
+
+"setupSDKError" = "Error on setupSDK";

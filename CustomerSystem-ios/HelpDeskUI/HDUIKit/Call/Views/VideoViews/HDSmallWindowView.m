@@ -8,10 +8,9 @@
 
 #import "HDSmallWindowView.h"
 #import "HDCallCollectionViewCell.h"
-
 #define fDeviceWidth ([UIScreen mainScreen].bounds.size.width)
-
 #define fDeviceHeight ([UIScreen mainScreen].bounds.size.height)
+#define kPoirtSpace  10
 @interface HDSmallWindowView()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>{
     NSMutableArray *_cellArray;     //collectionView数据
 }
@@ -99,8 +98,10 @@
         _collectionView = [[UICollectionView alloc]initWithFrame:self.bounds collectionViewLayout:_flowLayout];
         _collectionView.showsVerticalScrollIndicator = FALSE;
         _collectionView.showsHorizontalScrollIndicator = FALSE;
-        //定义每个UICollectionView 的大小
-        _flowLayout.itemSize = CGSizeMake(84+84*0.2,84);
+//        //定义每个UICollectionView 的大小
+//        float with = [UIScreen mainScreen].bounds.size.width;
+//
+//        _flowLayout.itemSize = CGSizeMake(84+84*0.3,84);
         //定义每个UICollectionView 横向的间距
         _flowLayout.minimumLineSpacing = 25;
         //定义每个UICollectionView 纵向的间距
@@ -182,6 +183,21 @@
   return UIEdgeInsetsMake(0,0,0,0);
 }
 
+
+//2、设置Cell的大小
+-(CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath*)indexPath
+
+{
+
+CGFloat screenWith=fDeviceWidth;
+
+//每行2个Cell
+
+CGFloat cellWidth=(screenWith-4*kPoirtSpace)/3;
+
+return CGSizeMake(cellWidth,collectionView.frame.size.height);
+
+}
 
 
 @end

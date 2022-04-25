@@ -22,6 +22,7 @@
     if (self) {
         // Initialization code
       
+        
         self.layer.cornerRadius = 10;
         self.layer.masksToBounds = YES;
         self.layer.borderWidth = 1;
@@ -38,18 +39,20 @@
                                                      name:@"SelectedNotification"
                                                    object:nil];
         //添加 笑脸图片
-        [self.callView addSubview:self.bgImgView];
-        [self bringSubviewToFront:self.bgImgView];
+//        [self.callView addSubview:self.bgImgView];
+//        [self bringSubviewToFront:self.bgImgView];
         
-        [self.bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-               make.centerY.mas_equalTo(self.callView);
-               make.centerX.mas_equalTo(self.callView);
-               make.width.height.offset(22);
-               
-           }];
-        [self.bgImgView layoutIfNeeded];
-           UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:_bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
-           _bgImgView.image = img;
+//        [self.bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//               make.centerY.mas_equalTo(self.callView);
+//               make.centerX.mas_equalTo(self.callView);
+//               make.width.height.offset(22);
+//
+//           }];
+//        [self.bgImgView layoutIfNeeded];
+//           UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:_bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+//           _bgImgView.image = img;
+        
+        
         
     }
     return self;

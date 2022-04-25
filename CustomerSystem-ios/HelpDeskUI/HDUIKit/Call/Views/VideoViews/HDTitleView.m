@@ -19,7 +19,13 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-
+        
+        UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+           UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
+           effectView.frame = self.bounds;
+           [self addSubview:effectView];
+        
+        self.backgroundColor = [[HDAppSkin mainSkin] contentColorGrayalpha:0.1];
         //创建ui
         [self creatUI];
     }
@@ -51,10 +57,10 @@
 
 -(void)modifyInfoLabelText:(NSString *)text{
     
-    self.infoLabel.text=text;
-   
-    self.timeLabel.frame = CGRectMake(self.infoLabel.frame.size.width+40, 0, self.frame.size.width-self.infoLabel.frame.size.width, self.frame.size.height);
-    
+//    self.infoLabel.text=text;
+//
+//    self.timeLabel.frame = CGRectMake(self.infoLabel.frame.size.width+40, 0, self.frame.size.width-self.infoLabel.frame.size.width, self.frame.size.height);
+//
 }
 
 #pragma mark - --------- NSTimer 创建 ---------
@@ -85,14 +91,35 @@
     
     [self addSubview:self.infoLabel];
     [self addSubview:self.timeLabel];
-//    [self addSubview:self.hideBtn];
+    [self addSubview:self.hideBtn];
 
 }
 - (void)updateFrame{
     
-    self.infoLabel.frame =CGRectMake(20,0,64, self.frame.size.height);
-    self.timeLabel.frame =CGRectMake(self.infoLabel.frame.size.width+40, 0, self.frame.size.width-self.infoLabel.frame.size.width, self.frame.size.height);
-    self.hideBtn.frame =CGRectMake(self.frame.size.width-34,self.frame.size.height/2-kHideBtnHeight/2 , kHideBtnHeight, kHideBtnHeight);
+    
+    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.bottom.offset(-10);
+        make.leading.offset(20);
+        make.width.offset(64);
+        
+    }];
+    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
+        make.leading.mas_equalTo(self.infoLabel.mas_trailing).offset(10);
+
+    }];
+    [self.hideBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
+        make.trailing.offset(-20);
+        make.width.height.offset(kHideBtnHeight);
+    }];
+    
+//    self.infoLabel.frame =CGRectMake(20,kApplicationStatusBarHeight,64, self.frame.size.height);
+//    self.timeLabel.frame =CGRectMake(self.infoLabel.frame.size.width+40, kApplicationStatusBarHeight, self.frame.size.width-self.infoLabel.frame.size.width, self.frame.size.height);
+//    self.hideBtn.frame =CGRectMake(self.frame.size.width-34,self.frame.size.height/2-kHideBtnHeight/2 , kHideBtnHeight, kHideBtnHeight);
     
 }
 - (UILabel *)infoLabel{
@@ -100,10 +127,11 @@
         _infoLabel = [[UILabel alloc]init];
 //        _infoLabel.backgroundColor = [UIColor brownColor];
         _infoLabel.textAlignment = NSTextAlignmentCenter;
+        _infoLabel.textColor = [UIColor whiteColor];
         _infoLabel.text = @"通话中";
     }
-    CGSize size = [self calculateLabelSize:_infoLabel];
-    _infoLabel.frame = CGRectMake(_infoLabel.frame.origin.x, _infoLabel.frame.origin.y, size.width>=200.f?200.f:size.width, self.frame.size.height);
+//    CGSize size = [self calculateLabelSize:_infoLabel];
+//    _infoLabel.frame = CGRectMake(_infoLabel.frame.origin.x, _infoLabel.frame.origin.y, size.width>=200.f?200.f:size.width, self.frame.size.height);
 
     return _infoLabel;
 }
@@ -111,11 +139,13 @@
     
     if (!_hideBtn) {
         _hideBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width-34,self.frame.size.height/2-kHideBtnHeight/2 , kHideBtnHeight, kHideBtnHeight)];
+//        _hideBtn.hidden = YES;
         
-//        [_hideBtn setImage:[UIImage imageNamed:@"hide"] forState:UIControlStateNormal];
+        [_hideBtn setImage:[UIImage imageNamed:@"hide"] forState:UIControlStateNormal];
         
 //        [_hideBtn setImage:[UIImage imageWithIcon:@"&#xe650" inFont:@"xiaoxiaolian" size:50 color:[UIColor redColor]] forState:UIControlStateNormal];
         [_hideBtn addTarget:self action:@selector(clickHide:) forControlEvents:UIControlEventTouchUpInside];
+        
         
         
     }
@@ -125,9 +155,10 @@
 
 - (UILabel *)timeLabel{
     if (!_timeLabel) {
-        _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.infoLabel.frame.size.width+40, 0, self.frame.size.width-self.infoLabel.frame.size.width, self.frame.size.height)];
+        _timeLabel = [[UILabel alloc]init];
 //        _timeLabel.backgroundColor = [UIColor brownColor];
         _timeLabel.textAlignment = NSTextAlignmentLeft;
+        _timeLabel.textColor = [UIColor whiteColor];
         _timeLabel.text = @"00:00:00";
     }
     return _timeLabel;

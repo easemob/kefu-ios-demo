@@ -8,10 +8,30 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+typedef NS_ENUM(NSInteger, HDCallAlertType) {
+    HDCallAlertTypeVideo, //  视频界面
+};
 @interface HDCallViewController : UIViewController
 typedef void (^HangUpCallback)(HDCallViewController *callVC, NSString *timeStr);
 @property (nonatomic, copy) HangUpCallback hangUpCallback;
+@property (nonatomic, assign) BOOL  isShow;//是否已经调用过show方法
+/**
+ *  视频通话界面
+ */
++(id)alertCallWithView:(UIView *)view ;
+/**
+ *  界面展示
+ */
+-(void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter;
+/**
+ *  界面隐藏
+ */
+-(void)hideView;
+
+/**
+ *  界面移除
+ */
+- (void)removeView;
 /*!
  *  \~chinese
  *  初始化被叫页面

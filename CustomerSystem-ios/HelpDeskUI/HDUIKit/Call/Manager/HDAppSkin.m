@@ -38,6 +38,11 @@
     return [UIColor hl_colorWithRed:179 green:180 blue:181];
 }
 
+- (UIColor *)contentColorGrayalpha:(CGFloat)alpha{
+    
+    return[UIColor colorWithRed:179.0/255.0 green:180.0/255.0 blue:181.0/255.0 alpha:alpha];
+    
+}
 
 - (UIFont *)systemFontMicro
 {
