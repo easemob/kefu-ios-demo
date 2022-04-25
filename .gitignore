@@ -4,3 +4,8 @@ xcuserdata
 libhelpdeskfull_sdk.a
 **/Hyphenate.framework
 **/imsdk
+*.xcworkspace 
+*.lock 
+Pods
+**/*.xcframework
+Pods/AgoraRtcEngine_iOS/AgoraRtcKit.xcframework/ios-arm64_x86_64-simulator/AgoraRtcKit.framework
