@@ -95,14 +95,13 @@
     
     [self.icon mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.mas_centerX).offset(0);
-        make.centerY.mas_equalTo(self.mas_centerY).offset(0);
-        make.width.height.offset(114);
+        make.centerY.mas_equalTo(self.mas_centerY).multipliedBy(0.5);
+        make.width.height.offset(88);
         
     }];
     [self.answerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.icon.mas_bottom).offset(20);
         make.centerX.mas_equalTo(self.icon.mas_centerX).offset(0);
-//        make.width.height.offset(114);
         make.leading.offset(0);
         make.trailing.offset(0);
         

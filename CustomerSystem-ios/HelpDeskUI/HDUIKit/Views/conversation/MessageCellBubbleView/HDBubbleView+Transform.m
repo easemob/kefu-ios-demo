@@ -68,9 +68,10 @@
     [self _setupTransformBubbleConstraints];
 }
 
-- (void)setTransformButtonBackgroundColorWithEnable:(BOOL)enable {
+- (void)setTransformButtonBackgroundColorWithEnable:(BOOL)enable withTitle:(NSString *)title{
     self.transformButton.backgroundColor = enable?[UIColor colorWithRed:30.0/255.0 green:167.0/255.0 blue:252.0/255.0 alpha:1.0]:[UIColor lightGrayColor];
     self.transformButton.enabled = enable;
+    [self.transformButton setTitle:title forState:UIControlStateNormal];
 }
 
 @end

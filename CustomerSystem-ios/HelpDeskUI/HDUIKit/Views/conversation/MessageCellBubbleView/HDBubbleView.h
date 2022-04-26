@@ -12,6 +12,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HDArticleView.h"
+#import "HDTransformButton.h"
 #define kBigExpressionHW 100
 
 extern CGFloat const HDMessageCellPadding;
@@ -95,6 +96,8 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 //transform
 @property (nonatomic,strong) UILabel *transTitle; //机器人回复文字
 @property (nonatomic,strong) UIButton *transformButton; //转人工客服button
+
+@property (nonatomic,strong) HDTransformButton *transformFigureButton; //转人工客服button 新版 图文 和图片
 
 //evaluate
 @property (nonatomic,strong) UILabel *evaluateTitle; //评价title

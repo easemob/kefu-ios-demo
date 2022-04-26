@@ -492,6 +492,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         }
                         _bubbleView.subModels = arr.copy;
                         [_bubbleView reloadArticleData];
+                        //然后在判断 是不是机器人类型 添加转人工按钮
+                        [self hd_addTransformButtonBackgroundColorWithEnableWithMessageExt:model withTypeArticle:YES];
+                        
                     }
                         break;
                     case HDExtEvaluationMsg:
@@ -504,7 +507,10 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         _urlMatches = [_detector matchesInString:model.text options:0 range:NSMakeRange(0, model.text.length)];
                         _bubbleView.transTitle.attributedText = [self highlightLinksWithIndex:0 attributedString:text];
                         BOOL hasTransfer = [model.message.ext[kMessageExtWeChat_ctrlType_transferToKf_HasTransfer] boolValue];
-                        [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer];
+                        NSDictionary *weichat = [model.message.ext objectForKey:kMessageExtWeChat];
+                        NSDictionary *transferHumanInfo = [weichat objectForKey:kMessageExtWeChat_transferToHuman];
+                        NSString *suggestionTransferToHumanLabel = transferHumanInfo[@"suggestionTransferToHumanLabel"];
+                        [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer withTitle:suggestionTransferToHumanLabel];
                     }
                         break;
                     case HDExtFormMsg:
@@ -554,6 +560,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 } else {
                     _bubbleView.imageView.image = image;
                 }
+                //然后在判断 是不是机器人类型 添加转人工按钮
+                [self hd_addTransformButtonBackgroundColorWithEnableWithMessageExt:model withTypeArticle:NO];
             }
                 break;
             case EMMessageBodyTypeLocation:
@@ -621,7 +629,44 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         }
     }
 }
-
+- (void)hd_addTransformButtonBackgroundColorWithEnableWithMessageExt:(id<HDIMessageModel>)model withTypeArticle:(BOOL)isArticle{
+    
+    if (isArticle) {
+        //处理方式
+        if ([HDMessageHelper isToCustomServiceMessage:model.message]) {
+        BOOL hasTransfer = [model.message.ext[kMessageExtWeChat_ctrlType_transferToKf_HasTransfer] boolValue];
+        NSDictionary *weichat = [model.message.ext objectForKey:kMessageExtWeChat];
+        NSDictionary *transferHumanInfo = [weichat objectForKey:kMessageExtWeChat_transferToHuman];
+        NSString *suggestionTransferToHumanLabel = transferHumanInfo[@"suggestionTransferToHumanLabel"];
+            
+            [_bubbleView.transformFigureButton setTransformButtonBackgroundColorWithEnable:!hasTransfer withTitle:suggestionTransferToHumanLabel withHidden:NO];
+            
+        }else{
+           
+            [_bubbleView.transformFigureButton setTransformButtonBackgroundColorWithEnable:YES withTitle:@"" withHidden:YES];
+            
+        }
+        [_bubbleView reloadArticleData];
+    }else{
+        if ([HDMessageHelper getMessageExtType:model.message] == HDExtToCustomServiceMsg) {
+        BOOL hasTransfer = [model.message.ext[kMessageExtWeChat_ctrlType_transferToKf_HasTransfer] boolValue];
+        NSDictionary *weichat = [model.message.ext objectForKey:kMessageExtWeChat];
+        NSDictionary *transferHumanInfo = [weichat objectForKey:kMessageExtWeChat_transferToHuman];
+        NSString *suggestionTransferToHumanLabel = transferHumanInfo[@"suggestionTransferToHumanLabel"];
+            
+            [_bubbleView.transformFigureButton setTransformButtonBackgroundColorWithEnable:!hasTransfer withTitle:suggestionTransferToHumanLabel withHidden:NO];
+            
+        }else{
+           
+            [_bubbleView.transformFigureButton setTransformButtonBackgroundColorWithEnable:YES withTitle:@"" withHidden:YES];
+            
+        }
+        
+    }
+    
+  
+}
+  
 - (NSMutableAttributedString *)highlightLinksWithIndex:(CFIndex)index attributedString:(NSAttributedString *)attributedString1{
     NSMutableAttributedString *attributedString = [attributedString1 mutableCopy] ;
     for (NSTextCheckingResult *match in _urlMatches) {

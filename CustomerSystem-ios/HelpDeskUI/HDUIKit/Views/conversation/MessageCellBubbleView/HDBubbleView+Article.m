@@ -73,18 +73,34 @@
     [self.articleView hdmas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(self.margin.top);
         make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+       
+        if (self.transformFigureButton.hidden) {
+            make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+        }
         make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+       
+    }];
+    [self.transformFigureButton hdmas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(100);
+        make.height.equalTo(50);
+        make.top.equalTo(self.articleView.mas_bottom).offset(10);
         make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
+        make.centerX.equalTo(self.backgroundImageView.mas_centerX).offset(0);
     }];
 }
-
 
 - (void)setupArticleuBubbleView {
     self.articleView = [[HDArticleView alloc] initWithFrame:CGRectZero];
     self.articleView.translatesAutoresizingMaskIntoConstraints = NO;
     self.articleView.delegate = self;
     [self.backgroundImageView addSubview:self.articleView];
+    
+    self.transformFigureButton = [ HDTransformButton buttonWithType:UIButtonTypeCustom];
+    self.transformFigureButton.backgroundColor = [UIColor redColor];
+    [self.backgroundImageView addSubview: self.transformFigureButton];
     [self _setupArticleBubbleConstraints];
+    self.transformFigureButton.hidden =NO;
+    
 }
 
 - (void)updateArticleMargin:(UIEdgeInsets)margin {

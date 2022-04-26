@@ -84,6 +84,7 @@
 		93214908281130BE00E08528 /* HDWhiteConverterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93214907281130BD00E08528 /* HDWhiteConverterManager.m */; };
 		933C4C8927E1E847001678B0 /* HDSSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4C8727E1E847001678B0 /* HDSSKeychain.m */; };
 		933C4CA927E4A117001678B0 /* HDPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4CA727E4A116001678B0 /* HDPopoverViewController.m */; };
+		9363DAE22816968100DB5F00 /* HDTransformButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9363DAE12816968100DB5F00 /* HDTransformButton.m */; };
 		9367CDE027FD5E7B008479D8 /* RoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDDE27FD5E78008479D8 /* RoomInfo.m */; };
 		9367CDE527FD5E8D008479D8 /* CustomFastboardOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDE127FD5E88008479D8 /* CustomFastboardOverlay.m */; };
 		9367CDE627FD5E8D008479D8 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDE427FD5E8C008479D8 /* Utility.m */; };
@@ -654,6 +655,8 @@
 		933C4CA827E4A117001678B0 /* HDPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDPopoverViewController.h; sourceTree = "<group>"; };
 		933FD22D28092A3100CE797E /* CustomerSystem-ScreenShare-Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ScreenShare-Extension.entitlements"; sourceTree = "<group>"; };
 		933FD22E28092AB900CE797E /* CustomerSystem-ScreenShare-ExtensionRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ScreenShare-ExtensionRelease.entitlements"; sourceTree = "<group>"; };
+		9363DAE02816968100DB5F00 /* HDTransformButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDTransformButton.h; sourceTree = "<group>"; };
+		9363DAE12816968100DB5F00 /* HDTransformButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDTransformButton.m; sourceTree = "<group>"; };
 		9367CDDE27FD5E78008479D8 /* RoomInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomInfo.m; sourceTree = "<group>"; };
 		9367CDDF27FD5E79008479D8 /* RoomInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomInfo.h; sourceTree = "<group>"; };
 		9367CDE127FD5E88008479D8 /* CustomFastboardOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomFastboardOverlay.m; sourceTree = "<group>"; };
@@ -2420,6 +2423,8 @@
 				8F1281F31F3C535A00E872CA /* HDBubbleView+Form.m */,
 				D3CB64281E4888F30022A6BA /* HDBubbleView.h */,
 				D3CB64291E4888F30022A6BA /* HDBubbleView.m */,
+				9363DAE02816968100DB5F00 /* HDTransformButton.h */,
+				9363DAE12816968100DB5F00 /* HDTransformButton.m */,
 			);
 			path = MessageCellBubbleView;
 			sourceTree = "<group>";
@@ -3551,6 +3556,7 @@
 				93B4E96727CCD1D800ACAF5B /* HDMJRefreshBackNormalFooter.m in Sources */,
 				93BF88AB28040EAC005B2CB1 /* HDWhiteBoardView.m in Sources */,
 				EB4B07791AC696A400DCF67B /* CommodityViewController.m in Sources */,
+				9363DAE22816968100DB5F00 /* HDTransformButton.m in Sources */,
 				93BF88E128057225005B2CB1 /* HDWhiteRoomManager.m in Sources */,
 				D3CB64961E4888F30022A6BA /* HDEmotionManager.m in Sources */,
 				930E321E27E03E9800455C7E /* HDSmallWindowView.m in Sources */,

@@ -1468,7 +1468,8 @@ void NotificationCallback(CFNotificationCenterRef center,
 - (void)__enablePictureInPicture{
     
     self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/1.5);
-    
+    self.view.layer.borderWidth = 2;
+    self.view.layer.borderColor = [UIColor blackColor].CGColor;
     if ([HDWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
 
@@ -1476,6 +1477,9 @@ void NotificationCallback(CFNotificationCenterRef center,
             HDCallCollectionViewCellItem * tmpItem = [_videoViews firstObject];
 //            [self.view  sendSubviewToBack:tmpItem.camView];
             [self updateBgMilldelVideoView:tmpItem.camView whiteBoard:NO];
+            
+            self.smallWindowView.hidden = YES;
+            self.barView.hidden = YES;
         }
         
         
@@ -1487,13 +1491,29 @@ void NotificationCallback(CFNotificationCenterRef center,
         
     }
     
-    
-    
-    
 }
 - (void)__cancelPictureInPicture{
     
     self.view.frame = [UIScreen mainScreen].bounds;
-    
+
+    if ([HDWhiteRoomManager shareInstance].roomState) {
+        // 先去 小窗拿 如果没有在去中间拿
+        if (_videoViews.count > 0) {
+            HDCallCollectionViewCellItem * tmpItem = [_videoViews firstObject];
+            [self updateBgMilldelVideoView:tmpItem.camView whiteBoard:YES];
+            
+            self.smallWindowView.hidden = NO;
+            self.barView.hidden = NO;
+        }
+        
+        
+        
+    }else{
+        
+        
+        
+        
+    }
+
 }
 @end
