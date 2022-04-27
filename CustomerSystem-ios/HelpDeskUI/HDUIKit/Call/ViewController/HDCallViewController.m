@@ -1158,6 +1158,9 @@
     [self changeNickNameItem:item];
     _whiteBoardBtn.selected = [HDWhiteRoomManager shareInstance].roomState;
     [self.view bringSubviewToFront:[_videoViews firstObject]];
+    
+    [self.hdTitleView  modifyTextColor: [UIColor blackColor]];
+    
 }
 
 -(HDWhiteBoardView *)whiteBoardView{

@@ -29,6 +29,7 @@ typedef void(^ClickHideBlock)(UIButton *btn);
 //动态修改文字更新布局
 -(void)modifyInfoLabelText:(NSString *)text;
 
+- (void)modifyTextColor:(UIColor *)color;
 @end
 
 NS_ASSUME_NONNULL_END

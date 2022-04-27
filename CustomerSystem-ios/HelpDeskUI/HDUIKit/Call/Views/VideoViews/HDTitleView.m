@@ -172,4 +172,10 @@
         self.clickHideBlock(sender);
     }
 }
+- (void)modifyTextColor:(UIColor *)color{
+    
+    _infoLabel.textColor = color;
+    _timeLabel.textColor = color;
+    
+}
 @end

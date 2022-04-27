@@ -74,6 +74,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     
+    
+  
+
+    
+    
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -327,6 +332,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [self unregisterNotifications];
     
     [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
+    //监听消息接收，主要更新会话tabbaritem的badge
+//    [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 }
 
 -(void)unregisterNotifications
@@ -537,11 +544,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 // 收到im消息回调
 - (void)messagesDidIMReceive:(NSArray *)aMessages{
     
-    
     NSLog(@"==========收到消息了messagesDidIMReceive");
-    
-    
 }
+
+
+
 // 收到消息回调
 - (void)messagesDidReceive:(NSArray *)aMessages {
     

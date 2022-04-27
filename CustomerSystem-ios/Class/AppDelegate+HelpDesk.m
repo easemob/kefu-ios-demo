@@ -59,6 +59,8 @@
     option.showAgentInputState = YES; // 是否显示坐席输入状态
     option.isAutoLogin = YES;
 //    option.useIm = YES;
+//    option.imServiceUser = @"c1";
+    
 //    option.extension = @{@"dk_disable_upload_locationInfo":@YES};
     HDClient *client = [HDClient sharedClient];
     HDError *initError = [client initializeSDKWithOptions:option];

@@ -73,6 +73,25 @@
     HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content:@"邀请客服进行实时视频"];
     [message addContent:[self visitorInfo]];
     [self _sendMessage:message];
+    
+    
+    //发送im 消息
+//    // 调用:
+//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"要发送的消息"];
+//    // 获取当前登录的环信id
+//    NSString *from = [[EMClient sharedClient] currentUsername];
+//
+//    //生成Message
+//    EMMessage *message = [[EMMessage alloc] initWithConversationID:@"c2" from:from to:@"c2" body:body ext:nil];
+//    message.chatType = EMChatTypeChat;// 设置为单聊消息
+//
+//    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
+//
+//        } completion:^(EMMessage *message, EMError *error) {
+//
+//            NSLog(@"====%@ ===%u",message,error.code);
+//
+//        }];
   
     
 }
