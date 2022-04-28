@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImage (HDIconFont)
 + (UIImage*)imageWithIcon:(NSString*)iconCode inFont:(NSString*)fontName size:(NSUInteger)size color:(UIColor*)color;
++ (UIImage*)imageWithIcon:(NSString*)iconCode inFont:(NSString*)fontName size:(NSUInteger)size color:(UIColor*)color withbackgroundColor:(UIColor *)backgroundColor;
 @end
 
 NS_ASSUME_NONNULL_END

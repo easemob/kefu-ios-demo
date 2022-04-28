@@ -25,8 +25,8 @@
         
         self.layer.cornerRadius = 10;
         self.layer.masksToBounds = YES;
-        self.layer.borderWidth = 1;
-        self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+//        self.layer.borderWidth = 1;
+//        self.layer.borderColor = [UIColor lightGrayColor].CGColor;
         self.callView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame))];
         [self addSubview:self.callView];
         
@@ -133,6 +133,19 @@
     [self switchMuteBtnState:item.isMute];
     
     self.nickNameLabel.text =  _item.nickName;
+    
+    if (item.isVideoMute) {
+        //修改一下背景
+         item.closeCamView = [[UIView alloc] initWithFrame:item.camView.frame];
+        item.closeCamView.backgroundColor = [UIColor blackColor];
+        [item.camView addSubview:item.closeCamView];
+    }else{
+
+        [item.closeCamView removeFromSuperview];
+
+    }
+    
+    
 }
 - (UIImageView *)bgImgView{
     
@@ -148,12 +161,13 @@
 - (UILabel *)nickNameLabel{
     if (!_nickNameLabel) {
         _nickNameLabel = [[UILabel alloc] init];
-        _nickNameLabel.backgroundColor = [UIColor lightGrayColor];
+        _nickNameLabel.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.65];
         _nickNameLabel.textAlignment=NSTextAlignmentCenter;
         _nickNameLabel.numberOfLines = 0;
         _nickNameLabel.layer.cornerRadius = 10;
         _nickNameLabel.layer.masksToBounds = YES;
-        _nickNameLabel.alpha = 0.8;
+//        _nickNameLabel.alpha = 0.65;
+        _nickNameLabel.textColor = [UIColor whiteColor];
         _nickNameLabel.font = [UIFont systemFontOfSize:12];
         
     }
@@ -165,9 +179,10 @@
         [_muteBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
 //        _muteBtn.selected = YES;
-        UIImage *img  = [UIImage imageWithIcon:kmaikefeng5 inFont:kfontName size:22 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] ;
+        
+        UIImage *img  = [UIImage imageWithIcon:kmaikefeng5 inFont:kfontName size:22 color:[[HDAppSkin mainSkin] contentColorBlue]  withbackgroundColor:[UIColor whiteColor] ] ;
         [self.muteBtn setImage:img forState:UIControlStateNormal];
-        UIImage *imgSel  = [UIImage imageWithIcon:kjinmai2 inFont:kfontName size:22 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] ;
+        UIImage *imgSel  = [UIImage imageWithIcon:kjinmai2 inFont:kfontName size:22 color:[[HDAppSkin mainSkin] contentColorRed] withbackgroundColor:[UIColor whiteColor]  ] ;
         [_muteBtn setImage:imgSel forState:UIControlStateSelected];
     }
     return _muteBtn;

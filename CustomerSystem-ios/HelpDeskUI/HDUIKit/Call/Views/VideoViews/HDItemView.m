@@ -48,13 +48,12 @@
 - (UIButton *)muteBtn{
     if (!_muteBtn) {
         _muteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        //为button赋值
-
-        UIImage *img  = [UIImage imageWithIcon:kmaikefeng5 inFont:kfontName size:22 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] ;
+        //为button赋值        
+        UIImage *img  = [UIImage imageWithIcon:kmaikefeng5 inFont:kfontName size:22 color:[[HDAppSkin mainSkin] contentColorBlue]  withbackgroundColor:[UIColor whiteColor] ] ;
         [_muteBtn setImage:img forState:UIControlStateNormal];
-
-        UIImage *imgSel  = [UIImage imageWithIcon:kjinmai2 inFont:kfontName size:22 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] ;
+        UIImage *imgSel  = [UIImage imageWithIcon:kjinmai2 inFont:kfontName size:22 color:[[HDAppSkin mainSkin] contentColorRed] withbackgroundColor:[UIColor whiteColor]  ] ;
         [_muteBtn setImage:imgSel forState:UIControlStateSelected];
+        
         
        
     }
@@ -64,12 +63,12 @@
     if (!_nickNameBtn) {
         _nickNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         //为button赋值
-        _nickNameBtn.backgroundColor = [UIColor lightGrayColor];
+        _nickNameBtn.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.65];
         _nickNameBtn.titleLabel.textAlignment=NSTextAlignmentLeft;
         _nickNameBtn.titleLabel.numberOfLines = 0;
         _nickNameBtn.layer.cornerRadius = 14;
         _nickNameBtn.layer.masksToBounds = YES;
-        _nickNameBtn.alpha = 0.8;
+//        _nickNameBtn.alpha = 0.65;
         _nickNameBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     }
     return _nickNameBtn;

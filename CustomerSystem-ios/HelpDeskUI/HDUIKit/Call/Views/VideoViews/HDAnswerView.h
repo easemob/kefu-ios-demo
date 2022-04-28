@@ -6,6 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+/*
+ *
+ */
+typedef NS_ENUM (NSInteger, HDVideoCallType) {
+    HDVideoCallDirectionSend    = 0,    /**  发送视频邀请   */
+    HDVideoCallDirectionReceive,           /**接受视频邀请  */
+};
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^ClickOnBlock)(UIButton *btn);
@@ -15,9 +22,13 @@ typedef void(^ClickOffBlock)(UIButton *btn);
 @property (nonatomic, strong) UIImageView *icon;
 @property (nonatomic, strong) UIButton *onBtn;
 @property (nonatomic, strong) UIButton *offBtn;
+@property (nonatomic, strong) UIButton *hangUpBtn;
 @property (nonatomic, strong) UILabel *answerLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, copy) ClickOnBlock clickOnBlock;
 @property (nonatomic, copy) ClickOffBlock clickOffBlock;
+@property (nonatomic, assign) HDVideoCallType callType;
 
 
 @end

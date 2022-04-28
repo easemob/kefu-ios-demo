@@ -1,27 +1,5 @@
 PODS:
-  - AgoraRtcEngine_iOS (3.7.0):
-    - AgoraRtcEngine_iOS/AINS (= 3.7.0)
-    - AgoraRtcEngine_iOS/AV1Dec (= 3.7.0)
-    - AgoraRtcEngine_iOS/ContentInspect (= 3.7.0)
-    - AgoraRtcEngine_iOS/FullAudioFormat (= 3.7.0)
-    - AgoraRtcEngine_iOS/ReplayKit (= 3.7.0)
-    - AgoraRtcEngine_iOS/ROIEnc (= 3.7.0)
-    - AgoraRtcEngine_iOS/RtcBasic (= 3.7.0)
-    - AgoraRtcEngine_iOS/SpatialAudio (= 3.7.0)
-    - AgoraRtcEngine_iOS/SuperResolution (= 3.7.0)
-    - AgoraRtcEngine_iOS/VideoPreprocess (= 3.7.0)
-    - AgoraRtcEngine_iOS/VirtualBackground (= 3.7.0)
-  - AgoraRtcEngine_iOS/AINS (3.7.0)
-  - AgoraRtcEngine_iOS/AV1Dec (3.7.0)
-  - AgoraRtcEngine_iOS/ContentInspect (3.7.0)
-  - AgoraRtcEngine_iOS/FullAudioFormat (3.7.0)
-  - AgoraRtcEngine_iOS/ReplayKit (3.7.0)
-  - AgoraRtcEngine_iOS/ROIEnc (3.7.0)
-  - AgoraRtcEngine_iOS/RtcBasic (3.7.0)
-  - AgoraRtcEngine_iOS/SpatialAudio (3.7.0)
-  - AgoraRtcEngine_iOS/SuperResolution (3.7.0)
-  - AgoraRtcEngine_iOS/VideoPreprocess (3.7.0)
-  - AgoraRtcEngine_iOS/VirtualBackground (3.7.0)
+  - AgoraRtcEngine_iOS (3.6.1)
   - dsBridge (3.0.6)
   - Fastboard (1.0.3):
     - Fastboard/core (= 1.0.3)
@@ -56,7 +34,7 @@ PODS:
   - YYModel (1.0.4)
 
 DEPENDENCIES:
-  - AgoraRtcEngine_iOS
+  - AgoraRtcEngine_iOS (= 3.6.1)
   - Fastboard (from `https://github.com/netless-io/fastboard-iOS`)
   - Masonry (~> 1.1.0)
   - MBProgressHUD (~> 1.2.0)
@@ -84,7 +62,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/netless-io/fastboard-iOS
 
 SPEC CHECKSUMS:
-  AgoraRtcEngine_iOS: e6bc354af9b8b883926382b5034f18822b5303df
+  AgoraRtcEngine_iOS: b376bdf1b7abbdc039ac181a99742f0aee3fdd08
   dsBridge: 48b62ee8a411ad601a88d6f6c8cf6cb634b206b7
   Fastboard: ee088d12249854317784cf6ef8a75d6c632794ec
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
@@ -94,6 +72,6 @@ SPEC CHECKSUMS:
   Whiteboard: f7e1a51c7b30a974dcd9e8f713046addccb2e159
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: c9e3f5d568ad98a44ca748de585a120fa1e169b0
+PODFILE CHECKSUM: 35ff92d0e7bbbf8db522627ad944ff4b4c379e52
 
 COCOAPODS: 1.11.3

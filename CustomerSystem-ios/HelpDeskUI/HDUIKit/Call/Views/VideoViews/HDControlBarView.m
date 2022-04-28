@@ -85,7 +85,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
         UIButton *button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
             if (i < 2) {
 
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
                 
             }else if (i==barModelArr.count-1) {
                 [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
@@ -126,7 +126,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
             UIButton *button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
             
             if (i < 2) {
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.height/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.height/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
                     
                 }else if (i== barModelArr.count/2) {
                     [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.height withImageName:model.imageStr withSelectImage:model.selImageStr];
@@ -159,7 +159,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
                 
             if (i < barModelArr.count/2 || i == barModelArr.count -1) {
                     
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.height/1.6 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.height/1.6 withImageName:model.imageStr withSelectImage:model.selImageStr];
                     
                 }else if (i== barModelArr.count/2) {
 

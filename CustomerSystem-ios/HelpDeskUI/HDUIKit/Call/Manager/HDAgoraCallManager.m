@@ -147,12 +147,6 @@ static HDAgoraCallManager *shareCall = nil;
         AgoraVideoEncoderConfiguration *configuration = [[AgoraVideoEncoderConfiguration alloc] initWithSize:  (size>0 ? _options.dimension : AgoraVideoDimension360x360) frameRate:_options.frameRate ? AgoraVideoFrameRateFps24 : (AgoraVideoFrameRate)_options.frameRate bitrate:_options.bitrate ? _options.bitrate :AgoraVideoBitrateStandard  orientationMode:_options.orientationMode ? (AgoraVideoOutputOrientationMode)_options.orientationMode :AgoraVideoOutputOrientationModeAdaptative];
         
         [_agoraKit setVideoEncoderConfiguration:configuration];
-        
-        //是否静音
-        [_agoraKit muteLocalAudioStream:_options.mute];
-        //是否关闭摄像头
-        [_agoraKit enableLocalVideo:_options.videoOff];
-        
         [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:_callQueue];
     }
     return _agoraKit;
@@ -213,13 +207,10 @@ static HDAgoraCallManager *shareCall = nil;
 }
 - (void)pauseVideo{
     [self.agoraKit  muteLocalVideoStream:YES];
-//    [self.agoraKit  enableLocalVideo:NO];
 }
 - (void)resumeVideo{
+    
     [self.agoraKit  muteLocalVideoStream:NO];
-    
-//    [self.agoraKit  enableLocalVideo:YES];
-    
 }
 /**
  * 发起视频邀请，发起后，客服会收到申请，客服同意后，会自动给访客拨过来。
@@ -504,7 +495,18 @@ static HDAgoraCallManager *shareCall = nil;
         [self.roomDelegate onCalldidAudioMuted:muted byUid:uid];
     }
 }
-
+/// 远端用户关闭视频回调
+/// @param engine AgoraRtcEngineKit
+/// @param muted muted
+/// @param uid  uid
+- (void)rtcEngine:(AgoraRtcEngineKit* _Nonnull)engine didVideoMuted:(BOOL)muted byUid:(NSUInteger)uid{
+    //通知代理
+    if([self.roomDelegate respondsToSelector:@selector(onCalldidVideoMuted:byUid:)]){
+        
+        [self.roomDelegate onCalldidVideoMuted:muted byUid:uid];
+    }
+    
+}
 #pragma mark - AgoraRtcEngineKit 屏幕分享 相关
 /// 保持动态数据 给其他app 进程通信
 /// @param keyCenter 对象参数

@@ -62,6 +62,10 @@
     BOOL _shareState; //屏幕共享状态； yes 正在共享 no 没有共享
     
     NSMutableDictionary *  allMembersDic; // 全局数据存储
+    
+    MBProgressHUD *_hud;
+    
+    UIView * _closeBgview;
 }
 
 @property (nonatomic, strong) NSString *agentName;
@@ -80,7 +84,7 @@
 @property (strong, nonatomic) HDPopoverViewController *buttonPopVC;
 @property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));
 @property (nonatomic, strong) HDWhiteBoardView *whiteBoardView;
-
+@property (nonatomic, assign) BOOL  isSmallWindow;//当前是不是 半屏模式
 @end
 
 @implementation HDCallViewController
@@ -122,11 +126,8 @@
 }
 - (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter{
     
-
-    if ([HDAgoraCallManager shareInstance].keyCenter) {
-        return;
-    }
-    
+    if (!isCalling) {
+        
     //需要必要创建房间的参数
     [HDAgoraCallManager shareInstance].keyCenter = keyCenter;
     self.nickname = keyCenter.visitorNickName;
@@ -134,8 +135,7 @@
     UIWindow *window = [UIApplication sharedApplication].keyWindow ;
     window.windowLevel = 1000000;
     self.view.frame = [UIScreen mainScreen].bounds;
-    if (self.view) {
-        [window  addSubview:self.view];
+    [window  addSubview:self.view];
     }
 
     
@@ -162,13 +162,14 @@
     //初始化灰度管理
     [[HDCallManager shareInstance] initGray];
     self.isShow = YES;
-    _cameraState = NO;
+    _cameraState = YES;
     
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     [HDClient.sharedClient.whiteboardManager addDelegate:self delegateQueue:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableDidSelected:) name:@"click" object:nil];
     [self.view addSubview:self.hdAnswerView];
+    self.hdAnswerView.callType = HDVideoCallDirectionReceive;
     [self.hdAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.offset(0);
         make.bottom.offset(0);
@@ -200,14 +201,14 @@
     HDControlBarModel * barModel = [HDControlBarModel new];
     barModel.itemType = HDControlBarItemTypeMute;
     barModel.name=@"";
-    barModel.imageStr= kjinmai;
-    barModel.selImageStr= kmaikefeng1;
+    barModel.imageStr= kmaikefeng1 ;
+    barModel.selImageStr= kjinmai;
     
     HDControlBarModel * barModel1 = [HDControlBarModel new];
     barModel1.itemType = HDControlBarItemTypeVideo;
     barModel1.name=@"";
-    barModel1.imageStr=kguanbishexiangtou1;
-    barModel1.selImageStr=kshexiangtou1;
+    barModel1.imageStr= kshexiangtou1 ;
+    barModel1.selImageStr=kguanbishexiangtou1;
     
     HDControlBarModel * barModel2 = [HDControlBarModel new];
     barModel2.itemType = HDControlBarItemTypeHangUp;
@@ -238,12 +239,7 @@
     if (grayModelWhiteBoard.enable) {
         [selImageArr addObject:barModel4];
     }
-            
-    
-//
-//    NSArray * selImageArr = @[barModel,barModel1,barModel3,barModel2];
-//    NSMutableArray * selImageArr = @[barModel,barModel1,barModel2,barModel3,barModel4];
-    
+
    [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
     
     [self initSmallWindowData];
@@ -263,13 +259,9 @@
     [self setAgoraVideo];
 }
 
-
-
 - (void)setAgoraVideo{
     // 设置音视频 options
     HDAgoraCallOptions *options = [[HDAgoraCallOptions alloc] init];
-    options.videoOff = _cameraState; // 这个值要和按钮状态统一。
-    options.mute = _cameraState; // 这个值要和按钮状态统一。
     [[HDAgoraCallManager shareInstance] setCallOptions:options];
     //add local render view
     [self addLocalSessionWithUid:kLocalUid];//本地用户的id demo 切换的时候 有根据uid 判断 传入的时候尽量避免跟我们远端用户穿过来的相同
@@ -314,7 +306,7 @@
 // 坐席主动 挂断 结束回调
 - (void)onCallEndReason:(NSString *)desc {
     [self.hdTitleView stopTimer];
-    
+    isCalling = NO;
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -460,24 +452,6 @@
         
     }];
     //中间 视频窗口
-//    [self.midelleVideoView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(self.smallWindowView.mas_bottom).offset(44);
-//        make.leading.offset(0);
-//        make.trailing.offset(0);
-//        make.height.offset(kPointHeight);
-//
-//    }];
-//    [self.midelleVideoView layoutIfNeeded];
-//        [self.midelleVideoView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.offset(0);
-//            make.leading.offset(0);
-//            make.trailing.offset(0);
-//            make.bottom.offset(0);
-//
-//        }];
-//        [self.midelleVideoView layoutIfNeeded];
-//
-//
     [self updateBgMilldelVideoView:self.midelleVideoView whiteBoard:NO];
     //底部 窗口
     [self.barView refreshView:self.barView withScreen:self.isLandscape];
@@ -529,33 +503,6 @@
     self.midelleVideoView = (HDMiddleVideoView *)videoView;
     [self.view addSubview:videoView];
     //中间 视频窗口
-//    if (self.isLandscape) {
-//        [videoView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.offset(0);
-//            make.leading.offset(0);
-//            make.trailing.offset(0);
-//            make.bottom.offset(0);
-//
-//        }];
-//        [self.view sendSubviewToBack:videoView];
-//    }else{
-//
-//        [videoView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.mas_equalTo(self.smallWindowView.mas_bottom).offset(44);
-//            make.leading.offset(0);
-//            make.trailing.offset(0);
-//            make.height.offset(kPointHeight );
-//        }];
-//    }
-
-//        [videoView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.offset(0);
-//            make.leading.offset(0);
-//            make.trailing.offset(0);
-//            make.bottom.offset(0);
-//        }];
-//       [self.view sendSubviewToBack:videoView];
-
     [self updateBgMilldelVideoView:videoView whiteBoard:NO];
     
     [_videoViews addObject:smallItem];
@@ -773,12 +720,13 @@
     [self initData];
     [self setAcceptCallView];
     [self.hdTitleView startTimer];
+    isCalling = YES;
     [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
                                                         completion:^(id obj, HDError *error)
      {
         NSLog(@"===anwersBtnClicked=Occur error%d",error.code);
         if (error == nil){
-            isCalling = YES;
+            
             NSLog(@"===anwersBtnClicked=isCalling%d",error.code);
         }else{
             NSLog(@"===anwersBtnClicked=dispatch_async%d",error.code);
@@ -836,11 +784,11 @@
 //    btn.selected = !btn.selected;
     if (btn.selected) {
         [[HDAgoraCallManager shareInstance] pauseVoice];
-        [self updateAudioMuted:NO byUid:kLocalUid];
+        [self updateAudioMuted:YES byUid:kLocalUid withVideoMuted:NO];
     } else {
         [[HDAgoraCallManager shareInstance] resumeVoice];
         
-        [self updateAudioMuted:YES byUid:kLocalUid];
+        [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:NO];
     }
     
     NSLog(@"点击了静音事件");
@@ -862,7 +810,9 @@
     }else{
         //当前摄像头关闭 需要打开
         [[HDAgoraCallManager shareInstance] enableLocalVideo:YES];
+//        [[HDAgoraCallManager shareInstance] resumeVideo];
         _cameraState = YES;
+        [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:NO];
 
     }
     
@@ -901,31 +851,20 @@
       
     }
 }
-- (void) closeCamera{
+- (void)closeCamera{
     NSLog(@"====点击了关闭摄像头");
     _cameraState = NO;
 //    _cameraBtn.selected =NO;
     //更新对应状态 设置button 照片
     _cameraBtn.selected =!_cameraBtn.selected ;
-//    UIImage *img  = [UIImage imageWithIcon:kguanbishexiangtou1 inFont:kfontName size:_cameraBtn.size.height/2 color: [[HDAppSkin mainSkin] contentColorRed]] ;
-//    
-//    [_cameraBtn setImage:img forState:UIControlStateNormal];
-
+//    [[HDAgoraCallManager shareInstance] pauseVideo];
     [[HDAgoraCallManager shareInstance] enableLocalVideo:NO];
-    
-    
+    // 获取
    
-//    [self.view addSubview:self.hidView];
-//    [self.hidView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(self.smallWindowView.mas_bottom).offset(44);
-//        make.leading.offset(0);
-//        make.trailing.offset(0);
-//        make.height.offset([UIScreen mainScreen].bounds.size.width *9/16 );
-//    }];
+    [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:YES];
     
     
-    
-    
+
 }
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
     return UIModalPresentationNone;
@@ -1043,10 +982,17 @@
 /// @param uid  静音的用户 uid
 - (void)onCalldidAudioMuted:(BOOL)muted byUid:(NSUInteger)uid{
     
-    [self updateAudioMuted:muted byUid:uid];
+    [self updateAudioMuted:muted byUid:uid withVideoMuted:NO];
     
 }
-- (void)updateAudioMuted:(BOOL)muted byUid:(NSUInteger)uid{
+- (void)onCalldidVideoMuted:(BOOL)muted byUid:(NSUInteger)uid{
+    
+    [self updateAudioMuted:NO byUid:uid withVideoMuted:muted];
+    
+}
+
+
+- (void)updateAudioMuted:(BOOL)muted byUid:(NSUInteger)uid withVideoMuted:(BOOL)videoMuted{
     
     // 根据uid 找到用户 然后刷新一下界面
     BOOL  __block isSmallVindow = NO;
@@ -1057,6 +1003,7 @@
             isSmallVindow = YES;
             NSLog(@"==uid===%lu",(unsigned long)uid);
             item.isMute = muted;
+            item.isVideoMute = videoMuted;
             [self.smallWindowView setAudioMuted:item];
             *stop = YES;
         }
@@ -1065,25 +1012,42 @@
     if (!isSmallVindow) {
         //说明需要更新 中间窗口的下边的麦克风
         self.itemView.muteBtn.selected = muted;
-        [_members enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        [_midelleMembers enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             HDCallCollectionViewCellItem *item = obj;
             NSLog(@"%ld----%@",(long)item.uid,[NSThread currentThread]);
             if (item.uid == uid) {
+                item.isVideoMute = videoMuted;
                 [self.itemView setItemString:item.nickName];
+                [self  setMidelleMutedItem:item];
                 *stop = YES;
             }
         }];
+    }
+}
+- (void)setMidelleMutedItem:(HDCallCollectionViewCellItem *)item{
+    
+    if (item.isVideoMute) {
+        //修改一下背景
+         item.closeCamView = [[UIView alloc] initWithFrame:item.camView.frame];
         
-       
+        item.closeCamView.backgroundColor = [UIColor blackColor];
+        [item.camView addSubview:item.closeCamView];
+    }else{
+        
+        [item.closeCamView removeFromSuperview];
+
     }
     
-    
 }
+
 #pragma mark -  互动白板 相关
 
+//接收cmd 消息过来
 - (void)onRoomDataReceivedParameter:(NSDictionary *)roomData{
-    
+
    
+    
     [[HDWhiteRoomManager shareInstance] hd_setValueFrom:roomData];
     //互动白板加入成功以后 屏幕共享 不能使用 不能创建白板房间
     if (_videoViews.count == 0) {
@@ -1093,31 +1057,10 @@
         //当前正在共享
         return;
     }
+    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"加入房间中..", @"加入房间中..") toView:nil];
     [self updateBgMilldelVideoView:self.whiteBoardView whiteBoard:YES];
-    
-    
-//    [self.view addSubview:self.whiteBoardView];
-////    //中间 视频窗口
-//    if (self.isLandscape) {
-//        [self.whiteBoardView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.offset(0);
-//            make.leading.offset(0);
-//            make.trailing.offset(0);
-//            make.bottom.offset(0);
-//
-//        }];
-//        [self.view sendSubviewToBack:self.whiteBoardView];
-//    }else{
-//
-//        [self.whiteBoardView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.mas_equalTo(self.smallWindowView.mas_bottom).offset(44);
-//            make.leading.offset(0);
-//            make.trailing.offset(0);
-//            make.height.offset(kPointHeight);
-//        }];
-//        [self.whiteBoardView layoutIfNeeded];
-//    }
 
+    [_hud hideAnimated:YES];
 }
 
 
@@ -1135,12 +1078,14 @@
 }
 - (void)onFastboardDidJoinRoomFail{
     
+    [_hud hideAnimated:YES];
     NSLog(@"===========加入失败");
     
     [self.whiteBoardView removeFromSuperview];
 }
 - (void)onFastboardDidJoinRoomSuccess{
-    
+    [_hud hideAnimated:YES];
+    self.whiteBoardView.hidden = NO;
     //只有加入成功才会替换
     HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
     [self.smallWindowView setThirdUserdidJoined:midelleViewItem];
@@ -1153,6 +1098,7 @@
     item.isWhiteboard = YES;
     item.nickName = @"白板";
     item.camView = self.whiteBoardView;
+    
     //先取出中间试图的model 放到 小窗口  然后把白板的试图放到中间窗口
     [_videoViews replaceObjectAtIndex:0 withObject:item];
     [self changeNickNameItem:item];
@@ -1169,6 +1115,7 @@
         
         _whiteBoardView = [[HDWhiteBoardView alloc] init];
         __weak __typeof(self) weakSelf = self;
+        _whiteBoardView.hidden = YES;
         _whiteBoardView.clickWhiteBoardViewBlock = ^(HDClickButtonType type, UIButton * _Nonnull btn) {
             
             [weakSelf clickWhiteBoardView:type withBtn:btn];
@@ -1257,8 +1204,12 @@
             }];
             [whiteView layoutIfNeeded];
 //            [self.view bringSubviewToFront:whiteView];
+            
+            
         }
     }
+    
+//    [self.whiteBoardView reloadFastboardOverlayWithScle:YES];
     
 }
 - (void)uploadFile{
@@ -1272,23 +1223,12 @@
     [self presentViewController:vc animated:YES completion:nil];
 }
 
-- (void) insertUploadFile:(NSDictionary *)dic{
-    
-    HDStorageItem * item = [[HDStorageItem alloc] init];
-    item.taskUUID =@"46ab94a0bfad11ecb97e2393ab5898e1";
-    item.taskToken =@"NETLESSSDK_YWs9ZUktd2RsQmk3eENrU3M3VCZleHBpcmVBdD0xNjUwMzYxNTY0OTg2Jm5vbmNlPThkYTk3ZWQyLTNmMDAtNDBlOC04MTUyLTViMWU2NjJkNTk2MSZyb2xlPTAmc2lnPWVlMGQzMTEyNmQ3Y2Q0MjYzYTUyNDRlOWZiMjI5MjU1MzEzMTYzZDljOTQyZGQwNTRiMTY5MzdkNDlmM2IzMTk";
-    item.taskType = WhiteConvertTypeDynamic;
-    item.fileType =HDFastBoardFileTypevideo;
-    item.fileName = @"文件名字";
-    item.fileUrl = @"https://static.newcger.com/uploads/preview/sp/2022/04/50558.mp4";
-    
-
-    [[HDWhiteRoomManager shareInstance] insertItem:item];
-    
-    
-}
 - (void)disconnectRoom{
    
+    if (self.isSmallWindow) {
+        [self __cancelPictureInPicture];
+    }
+    
     
     for (HDCallCollectionViewCellItem * tmpItem in self.smallWindowView.items) {
         
@@ -1309,7 +1249,10 @@
     [self.smallWindowView removeCurrentCellItem:samllItem];
     [self.smallWindowView reloadData];
     
-   
+    //修改顶部 标题字体颜色
+    [self.hdTitleView modifyTextColor:[UIColor whiteColor]];
+    
+    _whiteBoardBtn.selected = [HDWhiteRoomManager shareInstance].roomState;
     
 }
 #pragma mark - 屏幕共享相关
@@ -1470,6 +1413,7 @@ void NotificationCallback(CFNotificationCenterRef center,
 
 - (void)__enablePictureInPicture{
     
+    self.isSmallWindow = YES;
     self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/1.5);
     self.view.layer.borderWidth = 2;
     self.view.layer.borderColor = [UIColor blackColor].CGColor;
@@ -1484,21 +1428,24 @@ void NotificationCallback(CFNotificationCenterRef center,
             self.smallWindowView.hidden = YES;
             self.barView.hidden = YES;
         }
-        
+       
+        [self.whiteBoardView hd_ModifyStackViewLayout:self.hdTitleView withScle:YES];
         
         
     }else{
         
-        
+        self.barView.hidden = YES;
         
         
     }
     
 }
 - (void)__cancelPictureInPicture{
-    
+    self.isSmallWindow = NO;
     self.view.frame = [UIScreen mainScreen].bounds;
 
+    self.view.layer.borderWidth = 0;
+    self.view.layer.borderColor = [UIColor blackColor].CGColor;
     if ([HDWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
         if (_videoViews.count > 0) {
@@ -1508,12 +1455,12 @@ void NotificationCallback(CFNotificationCenterRef center,
             self.smallWindowView.hidden = NO;
             self.barView.hidden = NO;
         }
-        
+        [self.whiteBoardView hd_ModifyStackViewLayout:self.hdTitleView withScle:NO];
         
         
     }else{
         
-        
+        self.barView.hidden = NO;
         
         
     }

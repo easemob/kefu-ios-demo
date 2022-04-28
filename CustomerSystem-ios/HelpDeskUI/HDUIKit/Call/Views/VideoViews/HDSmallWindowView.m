@@ -155,8 +155,11 @@
     if ([_cellArray containsObject:item]) {
         NSInteger index = [_cellArray indexOfObject:item];
         [self setSelectCallItemChangeVideoView:item withIndex:index];
+        
        }
 }
+
+
  
 #pragma mark --UICollectionViewDelegateFlowLayout
 //定义每个UICollectionView 的大小
@@ -198,6 +201,7 @@ CGFloat cellWidth=(screenWith-4*kPoirtSpace)/3;
 return CGSizeMake(cellWidth,collectionView.frame.size.height);
 
 }
+
 
 
 @end

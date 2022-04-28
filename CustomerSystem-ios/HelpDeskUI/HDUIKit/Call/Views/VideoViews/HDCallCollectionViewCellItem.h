@@ -15,10 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *nickName;
 @property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, assign) BOOL isMute;
+@property (nonatomic, assign) BOOL isVideoMute;
 @property (nonatomic, assign) BOOL isWhiteboard;
 @property (nonatomic, assign) NSInteger replaceUid; //需要替换的uid
 @property (nonatomic, assign) NSInteger realUid; //真实uid
 @property (nonatomic, strong) NSMutableArray *handleStreams;
+@property (nonatomic, strong) UIView *closeCamView;
 @end
 
 NS_ASSUME_NONNULL_END

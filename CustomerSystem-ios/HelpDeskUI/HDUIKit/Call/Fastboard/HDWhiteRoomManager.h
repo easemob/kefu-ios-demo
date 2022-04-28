@@ -10,7 +10,6 @@
 #import <Fastboard/Fastboard-Swift.h>
 #import <Whiteboard/Whiteboard.h>
 #import "HDWhiteBoardDelegete.h"
-#import "RoomInfo.h"
 #import "HDStorageItem.h"
 NS_ASSUME_NONNULL_BEGIN
 typedef NSString * HDRoomInfoKey NS_STRING_ENUM;
@@ -28,9 +27,9 @@ extern HDRoomInfoKey const HDRoomInfoRoomToken;
 - (void)hd_setValueFrom:(NSDictionary *)roomKeyDic;
 // 创建房间 view 房间展示在哪个view上
 - (void)hd_OnJoinRoomWithFastView:(UIView *)view;
-
-
 - (void)hd_joinRoom;
+
+- (void)reloadFastboardOverlayWithView:(UIView *)view;
 
 //推出房间
 - (void)hd_OnLogout;

@@ -330,3 +330,7 @@
 "video_other_side_has_hungup" = "对方挂断了视频通话";
 
 "video_is_over" = "视频通话已经结束";
+//call
+"video.answer.title" = "视频通话";
+"video.answer.send" = "您正在邀请客服进行视频通话";
+"video.answer.receive" = "客服正在邀请您进行视频通话";

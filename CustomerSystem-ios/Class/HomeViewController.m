@@ -741,6 +741,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         _callViewController = [HDCallViewController alertCallWithView:nil];
         _callViewController.hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
             [callVC removeView];
+            _callViewController = nil;
         };
     }
     

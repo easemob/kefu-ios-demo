@@ -16,6 +16,7 @@ HDRoomInfoKey const HDRoomInfoRoomToken = @"roomToken";
 {
     FastRoom* _fastRoom;
     NSDictionary * _roomKeyDic;
+    UIView *_subView;
 }
 @end
 static HDWhiteRoomManager *shareWhiteboard = nil;
@@ -43,6 +44,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 }
 - (void)hd_OnJoinRoomWithFastView:(UIView *)view{
    
+    _subView = view;
     [self setupFastboardWithCustom:nil withFastView:view];
    
 }
@@ -53,9 +55,16 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     
 }
 
-
+- (void)reloadFastboardOverlayWithView:(UIView *)view{
+    
+    [_fastRoom.view removeFromSuperview];
+    
+    [self setupFastboardWithCustom:nil withFastView:view];
+    
+}
 // MARK: - Private
 - (void)setupFastboardWithCustom: (id<FastRoomOverlay>)custom withFastView:(UIView *)view{
+    
 //    常见屏幕比例 其实只有三种 4:3 16:9 16:10 在加上一个特殊的 5:4
     Fastboard.globalFastboardRatio =5.0/4.0 ;
     FastRoomConfiguration* config = [[FastRoomConfiguration alloc] initWithAppIdentifier:[self hd_getValueFrom:HDRoomInfoAPPID] roomUUID:[self hd_getValueFrom:HDRoomInfoRoomID] roomToken:[self hd_getValueFrom:HDRoomInfoRoomToken] region:FastRegionCN userUID:self.uid];
@@ -77,7 +86,14 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     fastRoomView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _fastRoom.roomDelegate = self;
     
-    [FastRoomThemeManager.shared apply:FastRoomDefaultTheme.defaultAutoTheme];
+    if (@available(iOS 13.0, *)) {
+        //这个代码是自动判断暗黑模式的代码
+        [FastRoomThemeManager.shared apply:FastRoomDefaultTheme.defaultAutoTheme];
+        
+    } else {
+        // Fallback on earlier versions
+    }
+   
 }
 //推出房间
 - (void)hd_OnLogout {
@@ -199,35 +215,6 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
         [self->_fastRoom insertMedia:[NSURL URLWithString:item.fileUrl] title:item.fileName completionHandler:nil];
         return;
     }
-    
-    
-    
-    
-//    [WhiteConverterV5 checkProgressWithTaskUUID:item.taskUUID
-//                                          token:item.taskToken
-//                                         region:item.region
-//                                       taskType:item.taskType result:^(WhiteConversionInfoV5 * _Nullable info, NSError * _Nullable error) {
-//        if (error) { return; }
-//        if (!info) { return; }
-//
-//        NSArray* pages = info.progress.convertedFileList;
-//        if (!pages) { return; }
-//
-//        //如果需要转码 需要调用接口 把url 做一个签名
-//        for (WhitePptPage * page in pages) {
-//            NSMutableDictionary * mDic = [NSMutableDictionary new];
-//            [mDic setValue:page.previewURL.length> 0 ? page.previewURL:@"" forKey:@"previewURL"];
-//            [mDic setValue:page.src.length> 0 ? page.src:@"" forKey:@"src"];
-//            [mDic setValue:page.src.length> 0 ? page.src:@"" forKey:@"src"];
-//            [mDic setValue:[NSString stringWithFormat:@"%f",page.height] forKey:@"height"];
-//            [mDic setValue:[NSString stringWithFormat:@"%f",page.height] forKey:@"width "];
-//
-//            [self __urlsignatureWithInsertItem:item withPage:mDic];
-//
-//        }
-//
-//
-//    }];
 }
 - (void)__urlsignatureWithInsertItem:(HDStorageItem*)item withPage:(WhiteConversionInfoV5 *)info{
     NSArray* pages = info.progress.convertedFileList;

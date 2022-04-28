@@ -182,7 +182,7 @@ static NSInteger audioChannels = 2;
 }
 
 - (void)stopBroadcast{
-    [self.agoraKit leaveChannel:nil];
-    [AgoraRtcEngineKit destroy];
+//    [self.agoraKit leaveChannel:nil];
+//    [AgoraRtcEngineKit destroy];
 }
 @end

@@ -166,6 +166,13 @@
 - (void)onPencil {
     FastRoom.followSystemPencilBehavior = !FastRoom.followSystemPencilBehavior;
 }
+- (void)reloadFastboardOverlayWithScle:(BOOL)isScle{
+   
+ 
+    [[HDWhiteRoomManager shareInstance] reloadFastboardOverlayWithView:self];
+    
+   
+}
 
 //上传文件
 - (void)onUploadFile {
@@ -216,6 +223,30 @@
 //        make.width.offset(118);
     }];
 
+}
+
+- (void)hd_ModifyStackViewLayout:(UIView *)view withScle:(BOOL)isScle{
+    
+    if (isScle) {
+        [self.stackView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(view.mas_bottom).offset(0);
+            make.trailing.offset(-20);
+            make.height.offset(26);
+    //        make.width.offset(118);
+        }];
+        
+        [self.stackView.subviews[0] removeFromSuperview];
+    }else{
+       
+        [self.stackView removeFromSuperview];
+        self.stackView =nil;
+        
+        [self setupTools];
+        
+        
+    }
+   
+    
 }
 
 - (NSArray<UIButton *> *)setupButtons {

@@ -25,6 +25,10 @@ typedef void(^FastboardDidJoinRoomFailBlock)();
 @property (nonatomic, copy) FastboardDidJoinRoomSuccessBlock fastboardDidJoinRoomSuccessBlock;
 @property (nonatomic, copy) FastboardDidJoinRoomFailBlock fastboardDidJoinRoomFailBlock;
 
+- (void)hd_ModifyStackViewLayout:(UIView *)view withScle:(BOOL)isScle;
+
+- (void)reloadFastboardOverlayWithScle:(BOOL)isScle;
+
 @end
 
 NS_ASSUME_NONNULL_END

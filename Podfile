@@ -7,11 +7,9 @@ target 'CustomerSystem-ios' do
 pod 'MBProgressHUD', '~> 1.2.0'
 pod 'SDWebImage', '~> 5.12.3'
 pod 'Masonry', '~> 1.1.0'
-pod 'AgoraRtcEngine_iOS'
+pod 'AgoraRtcEngine_iOS','3.6.1'
 pod 'Fastboard', :git => 'https://github.com/netless-io/fastboard-iOS'
 pod 'TZImagePickerController'
-#pod 'MMWormhole', '~> 2.0.0'
-#pod 'AliyunOSSiOS'
 end
 
 target 'CustomerSystem-ScreenShare-Extension' do
@@ -19,8 +17,8 @@ target 'CustomerSystem-ScreenShare-Extension' do
   use_frameworks!
 
   # Pods for CustomerSystem-ScreenShare-Extension
-  pod 'AgoraRtcEngine_iOS'
-#  pod 'MMWormhole', '~> 2.0.0'
+#  pod 'AgoraRtcEngine_iOS'
+pod 'AgoraRtcEngine_iOS','3.6.1'
 end
 
 target 'CustomerSystem-ScreenShare-ExtensionSetupUI' do
