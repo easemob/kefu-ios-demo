@@ -117,10 +117,11 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
         
     
     } completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
-        [weakHud hideAnimated:YES];
+        [weakHud hideAnimated:YES ];
+        
         kWeakSelf
         if (!error && [responseObject isKindOfClass:[NSDictionary class]]) {
-           
+            [MBProgressHUD  dismissInfo:NSLocalizedString(@"success!", "success!") withWindow:[UIApplication sharedApplication].keyWindow];
             NSDictionary *dic = responseObject;
             if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
                 
@@ -174,6 +175,12 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                                         
                                         [weakSelf __urlsignatureWithInsertItem:item withPage:info];
                                         
+                                    }else{
+                                        if (info.status == WhiteConvertStatusV5Fail) {
+                                            [conver endPolling];
+                                        }
+                                        
+                                        
                                     }
                                     
                                                               
@@ -190,7 +197,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
             }
         }else{
             
-           
+            [MBProgressHUD  dismissInfo:NSLocalizedString(@"leaveMessage.leavemsg.uploadattachment.failed", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
             
         }
     

@@ -255,7 +255,7 @@
             
             type = HDFastBoardFileTypeimg;
             
-        }else if([suffix isEqualToString:@"mp3"] || [suffix isEqualToString:@"mp4"] ){
+        }else if([suffix isEqualToString:@"mp3"] || [suffix isEqualToString:@"mp4"] || [suffix isEqualToString:@"mov"] ){
             type = HDFastBoardFileTypevideo;
            
         }else if([suffix isEqualToString:@" amr"] || [suffix isEqualToString:@" wav"] ){
@@ -276,7 +276,7 @@
             
         }else{
             
-            type = HDFastBoardFileTypeword;
+            type = HDFastBoardFileTypeunknown;
             
         }
     
