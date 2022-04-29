@@ -190,6 +190,8 @@
 "success!" = "成功";
 "failed" = "失败";
 
+
+
 // new
 "Header.image" = "em_main_introduce_zh";
 
@@ -334,3 +336,4 @@
 "video.answer.title" = "视频通话";
 "video.answer.send" = "您正在邀请客服进行视频通话";
 "video.answer.receive" = "客服正在邀请您进行视频通话";
+"video.whiteboardConvertFail" = "文档转码失败";

@@ -243,50 +243,60 @@
 }
 
 - (void)writeToFileData:(NSData *)data withFileName:(NSString *)fileName{
+    
     //获取创建library 下文件夹
-    NSString * fileDir = [NSString stringWithFormat:@"%@/whiteBoard/%@",[HDSanBoxFileManager libraryDir],fileName];
+   
     NSError * error;
+    HDFastBoardFileType type;
+    NSString * suffix = [HDSanBoxFileManager suffixAtPath:fileName];
+    suffix = [suffix lowercaseString];
+    if ([suffix isEqualToString:@"png"] || [suffix isEqualToString:@"jpg"] || [suffix isEqualToString:@"jpeg"]  ) {
+        
+        type = HDFastBoardFileTypeimg;
+        fileName = [NSString stringWithFormat:@"%@.jpeg",fileName];
+        
+    }else if([suffix isEqualToString:@"mp3"] || [suffix isEqualToString:@"mp4"] || [suffix isEqualToString:@"mov"] ){
+        type = HDFastBoardFileTypevideo;
+        fileName = [NSString stringWithFormat:@"%@.mp4",fileName];
+       
+    }else if([suffix isEqualToString:@" amr"] || [suffix isEqualToString:@" wav"] ){
+        
+        type = HDFastBoardFileTypemusic;
+
+    }else if([suffix isEqualToString:@"pptx"] ){
+        
+        type = HDFastBoardFileTypeppt;
+
+    }else if([suffix isEqualToString:@"pdf"]  ){
+        
+        type = HDFastBoardFileTypepdf;
+    }
+    else if([suffix isEqualToString:@"doc"] || [suffix isEqualToString:@"docx"]  || [suffix isEqualToString:@"ppt"]){
+        
+        type = HDFastBoardFileTypeword;
+        
+    }else{
+        
+        type = HDFastBoardFileTypeunknown;
+        
+    }
+    NSString * fileDir = [NSString stringWithFormat:@"%@/whiteBoard/%@",[HDSanBoxFileManager libraryDir],fileName];
     BOOL success = [HDSanBoxFileManager createFileAtPath:fileDir content:data overwrite:NO error:&error];
     if (success) {
-        HDFastBoardFileType type;
-        NSString * suffix = [HDSanBoxFileManager suffixAtPath:fileDir];
-        suffix = [suffix lowercaseString];
-        if ([suffix isEqualToString:@"png"] || [suffix isEqualToString:@"jpg"] || [suffix isEqualToString:@"jpeg"]  ) {
-            
-            type = HDFastBoardFileTypeimg;
-            
-        }else if([suffix isEqualToString:@"mp3"] || [suffix isEqualToString:@"mp4"] || [suffix isEqualToString:@"mov"] ){
-            type = HDFastBoardFileTypevideo;
-           
-        }else if([suffix isEqualToString:@" amr"] || [suffix isEqualToString:@" wav"] ){
-            
-            type = HDFastBoardFileTypemusic;
-    
-        }else if([suffix isEqualToString:@"pptx"] ){
-            
-            type = HDFastBoardFileTypeppt;
-    
-        }else if([suffix isEqualToString:@"pdf"]  ){
-            
-            type = HDFastBoardFileTypepdf;
-        }
-        else if([suffix isEqualToString:@"doc"] || [suffix isEqualToString:@"docx"]  || [suffix isEqualToString:@"ppt"]){
-            
-            type = HDFastBoardFileTypeword;
-            
-        }else{
-            
-            type = HDFastBoardFileTypeunknown;
-            
-        }
-    
+     
+        
         [self hd_uploadFile:nil withFileName:fileName withFilePath:fileDir withFileType:type] ;
     }
 }
 
 - (void)hd_uploadFile:(NSData *)data withFileName:(NSString *)fileName withFilePath:(NSString *)filePath withFileType:(HDFastBoardFileType) type{
     
-    [[HDWhiteRoomManager shareInstance] whiteBoardUploadFileWithFilePath:filePath fileData:nil fileName:fileName fileType: type mimeType:@"" completion:nil];
+    [[HDWhiteRoomManager shareInstance] whiteBoardUploadFileWithFilePath:filePath fileData:nil fileName:fileName fileType: type mimeType:@"" completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+        if (!error && [responseObject isKindOfClass:[NSDictionary class]]) {
+           //上传成功 删除文件 filePath
+            [HDSanBoxFileManager  removeItemAtPath:filePath];
+        }
+    }];
     
 }
 

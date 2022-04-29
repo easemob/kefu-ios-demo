@@ -26,6 +26,7 @@
 #import "HDUploadFileViewController.h"
 #import "HDWhiteRoomManager.h"
 #import "MBProgressHUD+Add.h"
+#import "UIViewController+AlertController.h"
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
@@ -1145,9 +1146,9 @@
             
             break;
         case HDClickButtonTypeLogout:
-            
+            //退出确认提示
             [self disconnectRoom];
-            
+           
             break;
         default:
             break;
@@ -1222,7 +1223,17 @@
 //    };
     [self presentViewController:vc animated:YES completion:nil];
 }
-
+- (void)disconnectRoomAlert{
+    
+    [self showAlertWithTitle:NSLocalizedString(@"uploading...", "Upload attachment")
+                actionTitles:@[NSLocalizedString(@"uploading...", "Upload attachment")]
+                 cancelTitle:NSLocalizedString(@"uploading...", "Upload attachment")
+                    callBack:^(NSInteger index) {
+        
+        [self disconnectRoom];
+        
+    }];
+}
 - (void)disconnectRoom{
    
     if (self.isSmallWindow) {

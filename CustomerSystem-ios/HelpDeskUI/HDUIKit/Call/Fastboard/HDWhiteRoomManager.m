@@ -145,6 +145,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                         }else{
                             convertType =WhiteConvertTypeStatic;
                         }
+                        
                         [[HDWhiteboardManager shareInstance] hd_wordConverterPptPage:url type:convertType completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
                             if (!error && [responseObject isKindOfClass:[NSDictionary class]]) {
                             NSLog(@"=== %@",responseObject);
@@ -162,8 +163,8 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                                     item.taskType = WhiteConvertTypeDynamic;
                                     
                                 }
-                                //查询文档进度 开始调用轮询
                                 
+                                //查询文档进度 开始调用轮询
                                 HDWhiteConverterManager  * conver = [[HDWhiteConverterManager alloc] init];
                                 [conver insertPollingTaskWithTaskUUID:item.taskUUID token:item.taskToken region:item.region taskType:item.taskType progress:^(CGFloat progress, WhiteConversionInfoV5 * _Nullable info) {
                                                                     
@@ -176,7 +177,8 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                                         [weakSelf __urlsignatureWithInsertItem:item withPage:info];
                                         
                                     }else{
-                                        if (info.status == WhiteConvertStatusV5Fail) {
+                                        if ([info.status isEqualToString:WhiteConvertStatusV5Fail]) {
+                                            [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.whiteboardConvertFail", "video.whiteboardConvertFail")  withWindow:[UIApplication sharedApplication].keyWindow];
                                             [conver endPolling];
                                         }
                                         
