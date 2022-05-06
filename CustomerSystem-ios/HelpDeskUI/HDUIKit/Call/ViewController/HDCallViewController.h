@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HDAnswerView.h"
 NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, HDCallAlertType) {
     HDCallAlertTypeVideo, //  视频界面
@@ -15,6 +15,20 @@ typedef NS_ENUM(NSInteger, HDCallAlertType) {
 typedef void (^HangUpCallback)(HDCallViewController *callVC, NSString *timeStr);
 @property (nonatomic, copy) HangUpCallback hangUpCallback;
 @property (nonatomic, assign) BOOL  isShow;//是否已经调用过show方法
+@property (nonatomic, strong) HDAnswerView *hdAnswerView;
+@property (nonatomic, assign) BOOL isVisitorSend;
+
+/** 单利创建 - Method
+*/
+ 
++ (instancetype)sharedManager;
+ 
+/** 单利销毁 - Method
+*/
+ 
+- (void)removeSharedManager;
+
+
 /**
  *  视频通话界面
  */
@@ -22,7 +36,7 @@ typedef void (^HangUpCallback)(HDCallViewController *callVC, NSString *timeStr);
 /**
  *  界面展示
  */
--(void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter;
+- (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoCallType)type;
 /**
  *  界面隐藏
  */

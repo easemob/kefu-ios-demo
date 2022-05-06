@@ -74,11 +74,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     
-    
-  
-
-    
-    
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -610,9 +605,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //    [self.callViewController showView];
 //    }
     
-    [self.callViewController showViewWithKeyCenter:keyCenter];
-    
-    
+    [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
+    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+        [[HDCallViewController sharedManager]  removeView];
+        
+        [[HDCallViewController sharedManager] removeSharedManager];
+        
+    };
     
 }
 //声网

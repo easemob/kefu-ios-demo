@@ -11,7 +11,6 @@
 #import "HDSmallWindowView.h"
 #import "HDTitleView.h"
 #import "Masonry.h"
-#import "HDAnswerView.h"
 #import "HDCallCollectionViewCellItem.h"
 
 #import <HelpDesk/HelpDesk.h>
@@ -78,7 +77,6 @@
 @property (nonatomic, strong) HDMiddleVideoView *midelleVideoView;
 @property (nonatomic, strong) HDSmallWindowView *smallWindowView;
 @property (nonatomic, strong) HDTitleView *hdTitleView;
-@property (nonatomic, strong) HDAnswerView *hdAnswerView;
 @property (nonatomic, strong) HDItemView *itemView;
 @property (nonatomic, strong) HDHiddenView *hidView;
 @property (nonatomic, assign) BOOL  isLandscape;//当前屏幕 是横屏还是竖屏
@@ -87,8 +85,40 @@
 @property (nonatomic, strong) HDWhiteBoardView *whiteBoardView;
 @property (nonatomic, assign) BOOL  isSmallWindow;//当前是不是 半屏模式
 @end
-
+static dispatch_once_t onceToken;
+ 
+static HDCallViewController *_manger = nil;
 @implementation HDCallViewController
+
+#pragma mark- 单利
+ 
+/** 单利创建
+ */
+ 
++ (instancetype)sharedManager
+{
+    dispatch_once(&onceToken, ^{
+        _manger = [[HDCallViewController alloc] init];
+        UIWindow *window = [UIApplication sharedApplication].keyWindow ;
+        window.windowLevel = 1000000;
+        _manger.view.frame = [UIScreen mainScreen].bounds;
+        [window  addSubview:_manger.view];
+    });
+ 
+    return _manger;
+ 
+}
+ 
+/** 单利销毁
+*/
+ 
+- (void)removeSharedManager
+{
+    /**只有置成0，GCD才会认为它从未执行过。它默认为0。
+     这样才能保证下次再次调用sharedManager的时候，再次创建对象。*/
+    onceToken= 0;
+    _manger=nil;
+}
 + (HDCallViewController *)hasReceivedCallWithKeyCenter:(HDKeyCenter *)keyCenter  avatarStr:(NSString *)aAvatarStr nickName:(NSString *)aNickname hangUpCallBack:(HangUpCallback)callback{
     
     HDCallViewController *callVC = [[HDCallViewController alloc] init];
@@ -108,38 +138,47 @@
 {
     
     HDCallViewController *callVC = [[HDCallViewController alloc] init];
-    
-//    callVC.nickname = keyCenter.visitorNickName;
-//    callVC.agentName = keyCenter.agentNickName;
-//
-//    //初始化灰度管理
-//    [[HDCallManager shareInstance] initGray];
-//
-//    //需要必要创建房间的参数
-//    [HDAgoraCallManager shareInstance].keyCenter =keyCenter;
+
     return callVC;
 }
 + (id)alertCallWithView:(UIView *)view{
    
-
     return [HDCallViewController alertWithView:view AlertType:HDCallAlertTypeVideo];
     
 }
-- (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter{
-    
+- (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoCallType)type{
+
     if (!isCalling) {
+        if (type == HDVideoCallDirectionSend) {
+            // 发送 界面
+            self.isVisitorSend = YES;
+            self.hdAnswerView.callType = HDVideoCallDirectionSend;
         
-    //需要必要创建房间的参数
-    [HDAgoraCallManager shareInstance].keyCenter = keyCenter;
-    self.nickname = keyCenter.visitorNickName;
-    self.agentName = keyCenter.agentNickName;
-    UIWindow *window = [UIApplication sharedApplication].keyWindow ;
-    window.windowLevel = 1000000;
-    self.view.frame = [UIScreen mainScreen].bounds;
-    [window  addSubview:self.view];
+        }else{
+            // 接受 界面
+            //需要必要创建房间的参数
+            [HDAgoraCallManager shareInstance].keyCenter = keyCenter;
+            self.nickname = keyCenter.visitorNickName;
+            self.agentName = keyCenter.agentNickName;
+           
+            if (self.isVisitorSend) {
+                //访客发起后 坐席回拨过来了
+                [self anwersBtnClicked:nil];
+
+            }else{
+                self.hdAnswerView.callType = HDVideoCallDirectionReceive;
+                // 其他情况下都是 坐席回拨过来的
+                self.isVisitorSend = NO;
+            }
+         
+        }
+        
+        
+        
+  
     }
 
-    
+   
 }
 - (void)hideView{
     if (self&&self.view) {
@@ -170,15 +209,14 @@
     [HDClient.sharedClient.whiteboardManager addDelegate:self delegateQueue:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableDidSelected:) name:@"click" object:nil];
     [self.view addSubview:self.hdAnswerView];
-    self.hdAnswerView.callType = HDVideoCallDirectionReceive;
+
     [self.hdAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.offset(0);
         make.bottom.offset(0);
         make.leading.offset(0);
         make.trailing.offset(0);
     }];
-    
-    
+
     self.isLandscape = NO;
     _videoViews = [NSMutableArray new];
     _videoItemViews = [NSMutableArray new];
@@ -187,16 +225,11 @@
     allMembersDic = [NSMutableDictionary new];
     [self initScreenShare];
     
-    
-    
 }
 
 /// 初始化屏幕分享
 - (void)initScreenShare{
     [self initBroadPickerView];
-    
-    
-    
 }
 -(void)initData{
     HDControlBarModel * barModel = [HDControlBarModel new];
@@ -703,8 +736,7 @@
 //    [self.hdTitleView startTimer];
 //    [self.hdTitleView modifyInfoLabelText: @"通话中好多好多人啊"];
     
-    
-    
+
 }
 
 
@@ -712,6 +744,7 @@
 /// 应答事件
 /// @param sender  button
 - (void)anwersBtnClicked:(UIButton *)sender{
+   
     self.hdAnswerView.hidden = YES;
     //应答的时候 在创建view
     //添加 页面布局

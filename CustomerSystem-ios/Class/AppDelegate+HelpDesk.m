@@ -50,9 +50,9 @@
 
     option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;
-//    option.kefuRestServer = @"http://kefu.easemob.com";
-    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
-//    option.kefuRestServer = @"http://helps.live";
+    option.kefuRestServer = @"http://kefu.easemob.com";
+//    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
+//    option.kefuRestServer = @"https://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.apnsCertName = apnsCertName;
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
@@ -75,18 +75,12 @@
     }
     [self registerEaseMobNotification];
     
-
     sleep(1);
     [client.pushManager getPushNotificationOptionsFromServerWithCompletion:^(HDPushOptions * _Nonnull aOptions, HDError * _Nonnull aError) {
 
         NSLog(@"==========aErrorcode=%u==%@",aError.code,aError.description);
         NSLog(@"===========displayStyle=%u==%@",aOptions.displayStyle,aOptions.displayName);
-
-
     }];
-    
-    
-  
 }
 
 //修改关联app后需要重新初始化

@@ -18,6 +18,7 @@
 #import "HFileViewController.h"
 #import "HDMessageReadManager.h"
 #import "KFICloudManager.h"
+#import "HDCallViewController.h"
 @interface HDChatViewController ()<UIAlertViewDelegate,HDClientDelegate,UIDocumentPickerDelegate>
 {
     UIMenuItem *_copyMenuItem;
@@ -26,6 +27,7 @@
 
 @property (nonatomic) NSMutableDictionary *emotionDic;
 @property (nonatomic, strong) UIDocumentPickerViewController *documentPickerVC;
+@property (strong, nonatomic) HDCallViewController *callViewController;
 
 @end
 
@@ -74,6 +76,16 @@
     [message addContent:[self visitorInfo]];
     [self _sendMessage:message];
     
+    //todo 创建视频等待界面
+    
+    [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
+    
+    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+        [[HDCallViewController sharedManager]  removeView];
+        
+        [[HDCallViewController sharedManager] removeSharedManager];
+        
+    };
     
     //发送im 消息
 //    // 调用:
