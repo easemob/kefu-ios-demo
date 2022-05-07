@@ -1799,7 +1799,10 @@ typedef enum : NSUInteger {
         arguments.sessionId = [ctrlArgs valueForKey:@"serviceSessionId"];
         HDControlMessage *hcont = [HDControlMessage new];
         hcont.arguments = arguments;
-        if ([HDMessageHelper getMessageExtType:message] == HDExtToCustomServiceMsg) {
+//        if ([HDMessageHelper getMessageExtType:message] == HDExtToCustomServiceMsg) {
+        //图文里边带转人工 优先级 高 使用这个判断
+        if ([HDMessageHelper isToCustomServiceMessage:message]) {
+        
             //发送透传消息
             HDMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId action:action];
             [aHMessage addCompositeContent:hcont];

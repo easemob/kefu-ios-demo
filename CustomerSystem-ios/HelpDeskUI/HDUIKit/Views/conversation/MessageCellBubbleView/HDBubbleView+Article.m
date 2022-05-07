@@ -96,10 +96,19 @@
     [self.backgroundImageView addSubview:self.articleView];
     
     self.transformFigureButton = [ HDTransformButton buttonWithType:UIButtonTypeCustom];
-    self.transformFigureButton.backgroundColor = [UIColor redColor];
+    kWeakSelf
+    self.transformFigureButton.clickTransformBlock = ^(UIButton * _Nonnull btn) {
+        
+        [[weakSelf nextResponder] routerEventWithName:HRouterEventTapTransform userInfo:nil];
+    };
     [self.backgroundImageView addSubview: self.transformFigureButton];
     [self _setupArticleBubbleConstraints];
     self.transformFigureButton.hidden =NO;
+    
+    
+    
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(transfransBubbleViewPressed:)];
+//    [self addGestureRecognizer:tap];
     
 }
 
