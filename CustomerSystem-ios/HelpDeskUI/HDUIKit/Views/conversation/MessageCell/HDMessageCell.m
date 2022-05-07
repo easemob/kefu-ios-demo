@@ -1170,7 +1170,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 }
                 case HDExtArticleMsg:{
                     NSArray *articles = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"articles"];
-                    return [self getArticleCellHeight:articles];
+                    
+                    return [self getArticleCellHeight:articles] + [self getCellHeightWithTransferToKfHint:model.message];
                 }
                 case HDExtTrackMsg:
                     // 修改轨迹消息的高度
@@ -1226,7 +1227,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 retSize.height = kEMMessageImageSizeHeight;
             }
             
-            height += retSize.height;
+            height += retSize.height + [self getCellHeightWithTransferToKfHint:model.message];
         }
             break;
         case EMMessageBodyTypeLocation:
@@ -1261,6 +1262,22 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     model.cellHeight = height;
     
     return height;
+}
+
++ (CGFloat)getCellHeightWithTransferToKfHint:(HDMessage *)message{
+    
+    CGFloat h ;
+    //这个地方判断有没有转人工按钮 有的话 增加 内容高度
+    if ([HDMessageHelper isToCustomServiceMessage:message]) {
+        
+        //由于按钮固定高度是 44 所以 这个地方给44
+        h = 44;
+    }else{
+        
+        h=0;
+    }
+    
+    return h;
 }
 
 + (CGFloat)getArticleCellHeight:(NSArray *)subs {

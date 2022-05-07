@@ -18,6 +18,7 @@
         self.titleLabel.font = [UIFont systemFontOfSize:13.0];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
         self.layer.cornerRadius = 5.f;
+        self.titleLabel.adjustsFontSizeToFitWidth = YES;
         [self setTitle:NSLocalizedString(@"transfertocs", @"Transfer Kefu") forState:UIControlStateNormal];
         [self addTarget:self action:@selector(transformActionImage:) forControlEvents:UIControlEventTouchUpInside];
        

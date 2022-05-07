@@ -30,9 +30,11 @@
     }];
     
     [self.transformFigureButton hdmas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(100);
-        make.height.equalTo(50);
-        make.top.equalTo(self.imageView.mas_bottom).offset(10);
+        make.width.equalTo(88);
+//        make.left.equalTo(self.backgroundImageView.mas_left).offset(self.margin.left);
+//        make.right.equalTo(self.backgroundImageView.mas_right).offset(-self.margin.right);
+        make.height.equalTo(44);
+        make.top.equalTo(self.imageView.mas_bottom).offset(5);
         make.bottom.equalTo(self.backgroundImageView.mas_bottom).offset(-self.margin.bottom);
         make.centerX.equalTo(self.backgroundImageView.mas_centerX).offset(0);
     }];
