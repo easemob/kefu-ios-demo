@@ -34,7 +34,9 @@
 #define kfanhui             @"\U0000e610"  //&#xe610
 #define kwenjianshangchuan  @"\U0000e742"  //&#xe742
 #define kquanbu             @"\U0000e64f"  //&#xe64f
-
+#define kdianhuatianchong   @"\U0000e678"  //&#xe678
+#define kminimize           @"\U0000e65a"  //&#xe65a
+#define kzoom               @"\U0000e685"  //&#xe685
 
 
 

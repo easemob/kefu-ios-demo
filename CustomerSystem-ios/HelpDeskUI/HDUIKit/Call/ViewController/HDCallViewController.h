@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HDAnswerView.h"
+#import "HDSuspendCustomView.h"
 NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, HDCallAlertType) {
     HDCallAlertTypeVideo, //  视频界面
@@ -17,6 +18,7 @@ typedef void (^HangUpCallback)(HDCallViewController *callVC, NSString *timeStr);
 @property (nonatomic, assign) BOOL  isShow;//是否已经调用过show方法
 @property (nonatomic, strong) HDAnswerView *hdAnswerView;
 @property (nonatomic, assign) BOOL isVisitorSend;
+@property (nonatomic, assign) SuspendType suspendType;
 
 /** 单利创建 - Method
 */

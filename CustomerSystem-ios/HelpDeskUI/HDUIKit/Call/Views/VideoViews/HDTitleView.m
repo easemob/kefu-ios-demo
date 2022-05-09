@@ -92,15 +92,14 @@
     [self addSubview:self.infoLabel];
     [self addSubview:self.timeLabel];
     [self addSubview:self.hideBtn];
+    [self addSubview:self.zoomBtn];
 
 }
 - (void)updateFrame{
     
-    
     [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        
         make.bottom.offset(-10);
-        make.leading.offset(20);
+        make.leading.offset(10);
         make.width.offset(64);
         
     }];
@@ -111,15 +110,18 @@
 
     }];
     [self.hideBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-
         make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
+        make.trailing.offset(-64);
+        make.width.height.offset(kHideBtnHeight);
+    }];
+    
+    [self.zoomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
+        
         make.trailing.offset(-20);
         make.width.height.offset(kHideBtnHeight);
     }];
     
-//    self.infoLabel.frame =CGRectMake(20,kApplicationStatusBarHeight,64, self.frame.size.height);
-//    self.timeLabel.frame =CGRectMake(self.infoLabel.frame.size.width+40, kApplicationStatusBarHeight, self.frame.size.width-self.infoLabel.frame.size.width, self.frame.size.height);
-//    self.hideBtn.frame =CGRectMake(self.frame.size.width-34,self.frame.size.height/2-kHideBtnHeight/2 , kHideBtnHeight, kHideBtnHeight);
     
 }
 - (UILabel *)infoLabel{
@@ -138,18 +140,25 @@
 - (UIButton *)hideBtn{
     
     if (!_hideBtn) {
-        _hideBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width-34,self.frame.size.height/2-kHideBtnHeight/2 , kHideBtnHeight, kHideBtnHeight)];
-//        _hideBtn.hidden = YES;
-        
-        [_hideBtn setImage:[UIImage imageNamed:@"hide"] forState:UIControlStateNormal];
-        
-//        [_hideBtn setImage:[UIImage imageWithIcon:@"&#xe650" inFont:@"xiaoxiaolian" size:50 color:[UIColor redColor]] forState:UIControlStateNormal];
+        _hideBtn = [[UIButton alloc]init];
+//        [_hideBtn setImage:[UIImage imageNamed:@"hide"] forState:UIControlStateNormal];
+        UIImage * img = [UIImage imageWithIcon:kminimize inFont:kfontName size:kHideBtnHeight/1.5 color:[UIColor whiteColor] ];
+        [_hideBtn setImage:img forState:UIControlStateNormal];
         [_hideBtn addTarget:self action:@selector(clickHide:) forControlEvents:UIControlEventTouchUpInside];
-        
-        
         
     }
     return _hideBtn;
+    
+}
+- (UIButton *)zoomBtn{
+    
+    if (!_zoomBtn) {
+        _zoomBtn = [[UIButton alloc]init];
+        UIImage * img = [UIImage imageWithIcon:kzoom  inFont:kfontName size:kHideBtnHeight/1.5 color:[UIColor whiteColor]];
+        [_zoomBtn setImage:img forState:UIControlStateNormal];
+        [_zoomBtn addTarget:self action:@selector(clickZoomBtn:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _zoomBtn;
     
 }
 
@@ -172,10 +181,24 @@
         self.clickHideBlock(sender);
     }
 }
+- (void)clickZoomBtn:(UIButton *)sender{
+    sender.selected = !sender.selected;
+    NSLog(@"===clickZoomBtn");
+    if (self.clickZoomBtnBlock) {
+        self.clickZoomBtnBlock(sender);
+    }
+}
 - (void)modifyTextColor:(UIColor *)color{
     
     _infoLabel.textColor = color;
     _timeLabel.textColor = color;
     
+}
+- (void)modifyIconBackColor:(UIColor *)color{
+    UIImage * img1 = [UIImage imageWithIcon:kzoom  inFont:kfontName size:kHideBtnHeight/1.5 color:color ];
+    [_zoomBtn setImage:img1 forState:UIControlStateNormal];
+    
+    UIImage * img = [UIImage imageWithIcon:kminimize inFont:kfontName size:kHideBtnHeight/1.5 color:color];
+    [_hideBtn setImage:img forState:UIControlStateNormal];
 }
 @end

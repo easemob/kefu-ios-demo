@@ -626,17 +626,17 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //    [self.navigationController pushViewController:agoraVC animated:YES];
 //
 //    return;
-    HDKeyCenter * key = [[HDKeyCenter alloc] init];
+//    HDKeyCenter * key = [[HDKeyCenter alloc] init];
+////
+//    
+//    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:key avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+////        [callVC dismissViewControllerAnimated:YES completion:nil];
+//    }];
+//        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//        [self presentViewController:hdCallVC animated:YES completion:nil];
 //
-    
-    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:key avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-//        [callVC dismissViewControllerAnimated:YES completion:nil];
-    }];
-        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:hdCallVC animated:YES completion:nil];
-
-    
-    return;
+//    
+//    return;
     
 //    [self lxLogout];
 //          [self lxLogin];

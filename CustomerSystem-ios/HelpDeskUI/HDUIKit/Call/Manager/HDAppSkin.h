@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor *)contentColorBlue;
 
 - (UIColor *)contentColorGray1;
+- (UIColor *)contentColorGrayWhithWite;
+- (UIColor *)contentColorGreen;
 
 - (UIColor *)contentColorGrayalpha:(CGFloat)alpha;
 

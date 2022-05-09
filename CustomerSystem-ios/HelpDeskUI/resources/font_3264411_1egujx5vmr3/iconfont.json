@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "19594572",
+      "name": "缩放",
+      "font_class": "zoom",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
+      "icon_id": "1299763",
+      "name": "Minimize-2",
+      "font_class": "2zuixiaohua-2",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "145699",
+      "name": "电话_填充",
+      "font_class": "dianhuatianchong",
+      "unicode": "e678",
+      "unicode_decimal": 59000
+    },
+    {
+      "icon_id": "867859",
+      "name": "icon-返回上一级",
+      "font_class": "iconfanhuishangyiji",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "3278362",
+      "name": "放大",
+      "font_class": "fangda",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "3278383",
+      "name": "缩小",
+      "font_class": "suoxiao",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
       "icon_id": "17275530",
       "name": "文件上传",
       "font_class": "wenjianshangchuan",

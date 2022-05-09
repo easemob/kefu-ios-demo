@@ -26,6 +26,7 @@
 #import "HDWhiteRoomManager.h"
 #import "MBProgressHUD+Add.h"
 #import "UIViewController+AlertController.h"
+
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
@@ -34,7 +35,7 @@
 #define kPointHeight [UIScreen mainScreen].bounds.size.width *0.9
 
 
-@interface HDCallViewController ()<HDAgoraCallManagerDelegate,HDCallManagerDelegate,HDWhiteboardManagerDelegate,UIPopoverPresentationControllerDelegate>{
+@interface HDCallViewController ()<HDAgoraCallManagerDelegate,HDCallManagerDelegate,HDWhiteboardManagerDelegate,UIPopoverPresentationControllerDelegate,SuspendCustomViewDelegate>{
     
 //    BOOL _isShow; //是否已经调用过show方法
     
@@ -66,6 +67,8 @@
     MBProgressHUD *_hud;
     
     UIView * _closeBgview;
+    CGFloat viewWidth;
+    CGFloat viewHeight;
 }
 
 @property (nonatomic, strong) NSString *agentName;
@@ -84,6 +87,8 @@
 @property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));
 @property (nonatomic, strong) HDWhiteBoardView *whiteBoardView;
 @property (nonatomic, assign) BOOL  isSmallWindow;//当前是不是 半屏模式
+@property (nonatomic, strong) UIWindow *customWindow;
+@property (nonatomic, strong) HDSuspendCustomView *hdSupendCustomView;
 @end
 static dispatch_once_t onceToken;
  
@@ -100,7 +105,7 @@ static HDCallViewController *_manger = nil;
     dispatch_once(&onceToken, ^{
         _manger = [[HDCallViewController alloc] init];
         UIWindow *window = [UIApplication sharedApplication].keyWindow ;
-        window.windowLevel = 1000000;
+        window.windowLevel = UIWindowLevelAlert+1;
         _manger.view.frame = [UIScreen mainScreen].bounds;
         [window  addSubview:_manger.view];
     });
@@ -118,6 +123,7 @@ static HDCallViewController *_manger = nil;
      这样才能保证下次再次调用sharedManager的时候，再次创建对象。*/
     onceToken= 0;
     _manger=nil;
+    [self cancelWindow];
 }
 + (HDCallViewController *)hasReceivedCallWithKeyCenter:(HDKeyCenter *)keyCenter  avatarStr:(NSString *)aAvatarStr nickName:(NSString *)aNickname hangUpCallBack:(HangUpCallback)callback{
     
@@ -663,14 +669,17 @@ static HDCallViewController *_manger = nil;
 //        _hdTitleView.backgroundColor = [UIColor redColor];
         kWeakSelf
         _hdTitleView.clickHideBlock = ^(UIButton * _Nonnull btn) {
+                
+            [weakSelf __enablePictureInPictureZoom];
+            
+        };
+        _hdTitleView.clickZoomBtnBlock = ^(UIButton * _Nonnull btn) {
             
             if (btn.selected) {
                 [weakSelf __enablePictureInPicture];
             }else{
                 [weakSelf __cancelPictureInPicture];
             }
-           
-            
         };
        
     }
@@ -1140,6 +1149,8 @@ static HDCallViewController *_manger = nil;
     [self.view bringSubviewToFront:[_videoViews firstObject]];
     
     [self.hdTitleView  modifyTextColor: [UIColor blackColor]];
+    [self.hdTitleView  modifyIconBackColor: [UIColor blackColor]];
+    
     
 }
 
@@ -1295,7 +1306,7 @@ static HDCallViewController *_manger = nil;
     
     //修改顶部 标题字体颜色
     [self.hdTitleView modifyTextColor:[UIColor whiteColor]];
-    
+    [self.hdTitleView  modifyIconBackColor: [UIColor whiteColor]];
     _whiteBoardBtn.selected = [HDWhiteRoomManager shareInstance].roomState;
     
 }
@@ -1358,6 +1369,12 @@ static HDCallViewController *_manger = nil;
             _shareBtn.selected = _shareState;
         }
         return;
+    }else if ([keyPath isEqualToString:@"text"]) {
+        NSString *string = change[NSKeyValueChangeNewKey];
+        if (self.hdSupendCustomView) {
+            [self.hdSupendCustomView  updateTimeText:string];
+        }
+        
     }
 }
 // MainApp
@@ -1456,7 +1473,7 @@ void NotificationCallback(CFNotificationCenterRef center,
 #pragma mark - Picture in picture  相关
 
 - (void)__enablePictureInPicture{
-    
+
     self.isSmallWindow = YES;
     self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/1.5);
     self.view.layer.borderWidth = 2;
@@ -1468,21 +1485,21 @@ void NotificationCallback(CFNotificationCenterRef center,
             HDCallCollectionViewCellItem * tmpItem = [_videoViews firstObject];
 //            [self.view  sendSubviewToBack:tmpItem.camView];
             [self updateBgMilldelVideoView:tmpItem.camView whiteBoard:NO];
-            
+
             self.smallWindowView.hidden = YES;
             self.barView.hidden = YES;
         }
-       
+
         [self.whiteBoardView hd_ModifyStackViewLayout:self.hdTitleView withScle:YES];
-        
-        
+
+
     }else{
-        
+
         self.barView.hidden = YES;
-        
-        
+
+
     }
-    
+
 }
 - (void)__cancelPictureInPicture{
     self.isSmallWindow = NO;
@@ -1495,19 +1512,158 @@ void NotificationCallback(CFNotificationCenterRef center,
         if (_videoViews.count > 0) {
             HDCallCollectionViewCellItem * tmpItem = [_videoViews firstObject];
             [self updateBgMilldelVideoView:tmpItem.camView whiteBoard:YES];
-            
+
             self.smallWindowView.hidden = NO;
             self.barView.hidden = NO;
         }
         [self.whiteBoardView hd_ModifyStackViewLayout:self.hdTitleView withScle:NO];
-        
-        
+
+
     }else{
-        
+
         self.barView.hidden = NO;
-        
-        
+
+
     }
 
 }
+#pragma mark - Picture in picture 中 隐藏效果
+- (void)createBaseUI{
+    if (_suspendType==BUTTON) {
+        viewWidth=80;
+        viewHeight=80;
+    }else if (_suspendType==IMAGEVIEW){
+        viewWidth=100;
+        viewHeight=100;
+    }else if (_suspendType==GIF){
+        viewWidth=100;
+        viewHeight=100;
+        
+    }else if (_suspendType==MUSIC){
+        viewWidth=150;
+        viewHeight=100;
+    }else if (_suspendType==VIDEO){
+        viewWidth=200;
+        viewHeight=150;
+    }else if (_suspendType==SCROLLVIEW){
+        viewWidth=200;
+        viewHeight=200;
+    }else if (_suspendType==OTHERVIEW){
+        viewWidth=88;
+        viewHeight=88;
+    }
+    NSString *type=[NSString stringWithFormat:@"%ld",(long)_suspendType];
+    _hdSupendCustomView=[self createCustomViewWithType:type];
+    _customWindow=[self createCustomWindow];
+    
+    [_customWindow addSubview:_hdSupendCustomView];
+    [_customWindow makeKeyAndVisible];
+    
+}
+- (HDSuspendCustomView *)createCustomViewWithType:(NSString *)type{
+    if (!_hdSupendCustomView) {
+        _hdSupendCustomView=[[HDSuspendCustomView alloc]init];
+        _hdSupendCustomView.viewWidth=viewWidth;
+        _hdSupendCustomView.viewHeight=viewHeight;
+        [_hdSupendCustomView initWithSuspendType:type];
+        _hdSupendCustomView.frame=CGRectMake(0, 0, viewWidth, viewHeight);
+        _hdSupendCustomView.suspendDelegate=self;
+        _hdSupendCustomView.rootView=self.view;
+    }
+
+    return _hdSupendCustomView;
+}
+- (UIWindow *)createCustomWindow{
+     if (!_customWindow) {
+        _customWindow=[[UIWindow alloc]init];
+        _customWindow.frame=CGRectMake(WINDOWS.width-viewWidth,WINDOWS.height/4, viewWidth, viewHeight);
+        _customWindow.windowLevel=UIWindowLevelAlert+2;
+        _customWindow.backgroundColor=[UIColor clearColor];
+        
+    }
+    return _customWindow;
+}
+//悬浮视图消失
+- (void)cancelWindow{
+    [_customWindow resignFirstResponder];
+    _customWindow=nil;
+
+}
+#pragma mark --SuspendCustomViewDelegate
+
+- (void)suspendCustomViewClicked:(id)sender{
+   
+    self.view.hidden = NO;
+    _hdSupendCustomView.hidden = !self.view.hidden;
+    [self.hdTitleView.timeLabel removeObserver:self forKeyPath:@"text"];
+    //以下是根据不同类型 做不同的操作
+//    NSLog(@"此处判断点击 还可以通过suspenType类型判断");
+//    HDSuspendCustomView *suspendCustomView=(HDSuspendCustomView *)sender;
+//    for (UIView *subView in suspendCustomView.subviews) {
+//        if ([subView isKindOfClass:[UIButton class]]) {
+//            NSLog(@"点击了按钮");
+//            suspendCustomView.customButton.selected=!suspendCustomView.customButton.selected;
+//            if (suspendCustomView.customButton.selected==YES) {
+//             [suspendCustomView.customButton setBackgroundImage:[UIImage imageNamed:@"button_on"] forState:UIControlStateNormal];
+//            }else{
+//            [suspendCustomView.customButton setBackgroundImage:[UIImage imageNamed:@"button_out"] forState:UIControlStateNormal];
+//            }
+//            self.view.hidden = NO;
+//            _customView.hidden = !self.view.hidden;
+//        }else if([subView isKindOfClass:[UIImageView class]]){
+//
+//            NSLog(@"点击了图片");
+//        }else if([subView isKindOfClass:[UIWebView class]]){
+//
+//            NSLog(@"点击了Gif");
+//        }else if([subView isKindOfClass:[UIScrollView class]]){
+//            suspendCustomView.customScrollView.scrollEnabled=!suspendCustomView.customScrollView.scrollEnabled;
+//            if (suspendCustomView.customScrollView.scrollEnabled) {
+//                suspendCustomView.customScrollView.backgroundColor=[UIColor greenColor];
+//            }else{
+//                suspendCustomView.customScrollView.backgroundColor=[UIColor grayColor];
+//            }
+//
+//            NSLog(@"点击了scrollView,通过点击,决定是否滚动");
+//        }else if([subView isKindOfClass:[UIView class]]){
+//            NSLog(@"点击了自定义view");
+//            self.view.hidden = NO;
+//            _customView.hidden = !self.view.hidden;
+//        }
+//
+//
+//    }
+    
+    
+    
+}
+- (void)dragToTheLeft{
+    NSLog(@"左划到左边框了");
+
+}
+- (void)dragToTheRight{
+    NSLog(@"右划到右边框了");
+
+}
+- (void)dragToTheTop{
+    NSLog(@"上滑到顶部了");
+
+}
+- (void)dragToTheBottom{
+    NSLog(@"下滑到底部了");
+}
+
+- (void)__enablePictureInPictureZoom{
+    
+    self.view.hidden = YES;
+
+    self.suspendType = OTHERVIEW;
+    [self createBaseUI];
+    
+    _hdSupendCustomView.hidden = !self.view.hidden;
+
+    [self.hdTitleView.timeLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+  
+}
+
 @end
