@@ -253,12 +253,12 @@ static HDAgoraCallManager *shareCall = nil;
     //发送透传消息cmd
     EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"Agorartcmedia"];
     NSString *from = [[HDClient sharedClient] currentUsername];
-    HDMessage *message = [[HDMessage alloc] initWithConversationID:_conversationId from:from to:_conversationId body:body];
+    HDMessage *message = [[HDMessage alloc] initWithConversationID:[[HDCallManager shareInstance] conversationId] from:from to:[[HDCallManager shareInstance] conversationId] body:body];
     NSDictionary *dic = @{
                           @"type":@"agorartcmedia/video",
                           @"msgtype":@{
                                   @"visitorCancelInvitation":@{
-                                      @"callId":[HDAgoraCallManager shareInstance].keyCenter.callid>0 ?[HDAgoraCallManager shareInstance].keyCenter.callid : @"null"
+                                      @"callId":[HDAgoraCallManager shareInstance].keyCenter.callid>0 ?[HDAgoraCallManager shareInstance].keyCenter.callid : [NSString stringWithFormat:@"null"]
                                           }
                                   }
                           };
@@ -280,7 +280,7 @@ static HDAgoraCallManager *shareCall = nil;
     //发送透传消息cmd
     EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"Agorartcmedia"];
     NSString *from = [[HDClient sharedClient] currentUsername];
-    HDMessage *message = [[HDMessage alloc] initWithConversationID:_conversationId from:from to:_conversationId body:body];
+    HDMessage *message = [[HDMessage alloc] initWithConversationID:[[HDCallManager shareInstance] conversationId] from:from to:[[HDCallManager shareInstance] conversationId] body:body];
     NSDictionary *dic = @{
                           @"type":@"agorartcmedia/video",
                           @"msgtype":@{

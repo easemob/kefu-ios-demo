@@ -145,6 +145,33 @@
 
     }
     
+    if (item.isWhiteboard) {
+        
+        [self.callView addSubview: self.bgImgView];
+        [self.bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.top.offset(0);
+            make.bottom.offset(0);
+            make.leading.offset(0);
+            make.trailing.offset(0);
+            
+        }];
+        
+        self.muteBtn.hidden = YES;
+        self.nickNameLabel.hidden = YES;
+        
+        
+    }else{
+        self.muteBtn.hidden = NO;
+        self.nickNameLabel.hidden = NO;
+        
+        if (self.bgImgView) {
+            
+            [self.bgImgView removeFromSuperview];
+        }
+        
+    }
+    
     
 }
 - (UIImageView *)bgImgView{
@@ -152,6 +179,8 @@
     if (!_bgImgView) {
         _bgImgView = [[UIImageView alloc]init];
 //        _bgImgView.backgroundColor = [UIColor yellowColor];
+        NSString * imgStr = [NSString stringWithFormat:@"HelpDeskUIResource.bundle/call_whiteboard_def.png"];
+        _bgImgView.image = [UIImage imageNamed:imgStr];
 
     }
     return _bgImgView;
