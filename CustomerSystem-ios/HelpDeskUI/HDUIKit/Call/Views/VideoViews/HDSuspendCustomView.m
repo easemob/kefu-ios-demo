@@ -249,7 +249,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
         [self.iconImageView hdmas_makeConstraints:^(MASConstraintMaker * _Nonnull make) {
             make.centerX.mas_equalTo(_customOtherView);
 //            make.centerX.mas_equalTo(_customOtherView);
-            make.width.height.offset(26);
+            make.width.height.offset(32);
             make.top.offset(8);
             
         }];
@@ -269,7 +269,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     
     if (!_iconImageView) {
         _iconImageView = [[UIImageView alloc]init];
-        UIImage * img = [UIImage imageWithIcon:kdianhuatianchong inFont:kfontName size:26 color:[[HDAppSkin mainSkin] contentColorGreen] ];
+        UIImage * img = [UIImage imageWithIcon:kdianhuatianchong inFont:kfontName size:32 color:[[HDAppSkin mainSkin] contentColorGreenWeb] ];
         _iconImageView.image = img;
         
     }

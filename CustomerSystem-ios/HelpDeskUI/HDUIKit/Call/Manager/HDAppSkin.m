@@ -35,7 +35,11 @@
     return [UIColor colorWithRed:0 green: 0 blue:0 alpha:alpha];
     
 }
-
+- (UIColor *)contentColorWhitealpha:(CGFloat)alpha{
+    
+    return [UIColor colorWithRed:255 green: 255 blue:255 alpha:alpha];
+    
+}
 - (UIColor *)contentColorGray{
     
     return [UIColor hl_colorWithRed:232 green:238 blue:248];
@@ -51,6 +55,11 @@
 - (UIColor *)contentColorGreen{
     
     return [UIColor hl_colorWithRed:61 green:185 blue:77];
+}
+
+- (UIColor *)contentColorGreenWeb{
+    
+    return [UIColor hl_colorWithRed:43 green:113 blue:245];
 }
 
 - (UIColor *)contentColorGrayalpha:(CGFloat)alpha{

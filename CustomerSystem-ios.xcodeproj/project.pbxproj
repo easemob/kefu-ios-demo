@@ -79,14 +79,14 @@
 		930E322A27E0492F00455C7E /* HDAnswerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E322927E0492F00455C7E /* HDAnswerView.m */; };
 		930E4DAB2796D39F007CFE50 /* UIViewController+VLDModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E4DAA2796D39F007CFE50 /* UIViewController+VLDModal.m */; };
 		931900682828E3BA002D3B2A /* HDSuspendCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 931900672828E3BA002D3B2A /* HDSuspendCustomView.m */; };
-		9319009428291AE9002D3B2A /* iconfont.js in Resources */ = {isa = PBXBuildFile; fileRef = 9319008C28291AE9002D3B2A /* iconfont.js */; };
-		9319009528291AE9002D3B2A /* demo.css in Resources */ = {isa = PBXBuildFile; fileRef = 9319008D28291AE9002D3B2A /* demo.css */; };
-		9319009628291AE9002D3B2A /* iconfont.json in Resources */ = {isa = PBXBuildFile; fileRef = 9319008E28291AE9002D3B2A /* iconfont.json */; };
-		9319009728291AE9002D3B2A /* iconfont.woff in Resources */ = {isa = PBXBuildFile; fileRef = 9319008F28291AE9002D3B2A /* iconfont.woff */; };
-		9319009828291AE9002D3B2A /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9319009028291AE9002D3B2A /* iconfont.ttf */; };
-		9319009928291AE9002D3B2A /* demo_index.html in Resources */ = {isa = PBXBuildFile; fileRef = 9319009128291AE9002D3B2A /* demo_index.html */; };
-		9319009A28291AE9002D3B2A /* iconfont.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 9319009228291AE9002D3B2A /* iconfont.woff2 */; };
-		9319009B28291AE9002D3B2A /* iconfont.css in Resources */ = {isa = PBXBuildFile; fileRef = 9319009328291AE9002D3B2A /* iconfont.css */; };
+		931900A5282A581D002D3B2A /* iconfont.js in Resources */ = {isa = PBXBuildFile; fileRef = 9319009D282A581D002D3B2A /* iconfont.js */; };
+		931900A6282A581D002D3B2A /* demo.css in Resources */ = {isa = PBXBuildFile; fileRef = 9319009E282A581D002D3B2A /* demo.css */; };
+		931900A7282A581D002D3B2A /* iconfont.json in Resources */ = {isa = PBXBuildFile; fileRef = 9319009F282A581D002D3B2A /* iconfont.json */; };
+		931900A8282A581D002D3B2A /* iconfont.woff in Resources */ = {isa = PBXBuildFile; fileRef = 931900A0282A581D002D3B2A /* iconfont.woff */; };
+		931900A9282A581D002D3B2A /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 931900A1282A581D002D3B2A /* iconfont.ttf */; };
+		931900AA282A581D002D3B2A /* demo_index.html in Resources */ = {isa = PBXBuildFile; fileRef = 931900A2282A581D002D3B2A /* demo_index.html */; };
+		931900AB282A581D002D3B2A /* iconfont.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 931900A3282A581D002D3B2A /* iconfont.woff2 */; };
+		931900AC282A581D002D3B2A /* iconfont.css in Resources */ = {isa = PBXBuildFile; fileRef = 931900A4282A581D002D3B2A /* iconfont.css */; };
 		9320EECE2806D6E000485611 /* HDSanBoxFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9320EECD2806D6E000485611 /* HDSanBoxFileManager.m */; };
 		93214908281130BE00E08528 /* HDWhiteConverterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93214907281130BD00E08528 /* HDWhiteConverterManager.m */; };
 		933C4C8927E1E847001678B0 /* HDSSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4C8727E1E847001678B0 /* HDSSKeychain.m */; };
@@ -646,14 +646,14 @@
 		930E4DAA2796D39F007CFE50 /* UIViewController+VLDModal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+VLDModal.m"; sourceTree = "<group>"; };
 		931900662828E3BA002D3B2A /* HDSuspendCustomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDSuspendCustomView.h; sourceTree = "<group>"; };
 		931900672828E3BA002D3B2A /* HDSuspendCustomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDSuspendCustomView.m; sourceTree = "<group>"; };
-		9319008C28291AE9002D3B2A /* iconfont.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = iconfont.js; sourceTree = "<group>"; };
-		9319008D28291AE9002D3B2A /* demo.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = demo.css; sourceTree = "<group>"; };
-		9319008E28291AE9002D3B2A /* iconfont.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = iconfont.json; sourceTree = "<group>"; };
-		9319008F28291AE9002D3B2A /* iconfont.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.woff; sourceTree = "<group>"; };
-		9319009028291AE9002D3B2A /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
-		9319009128291AE9002D3B2A /* demo_index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = demo_index.html; sourceTree = "<group>"; };
-		9319009228291AE9002D3B2A /* iconfont.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.woff2; sourceTree = "<group>"; };
-		9319009328291AE9002D3B2A /* iconfont.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = iconfont.css; sourceTree = "<group>"; };
+		9319009D282A581D002D3B2A /* iconfont.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = iconfont.js; sourceTree = "<group>"; };
+		9319009E282A581D002D3B2A /* demo.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = demo.css; sourceTree = "<group>"; };
+		9319009F282A581D002D3B2A /* iconfont.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = iconfont.json; sourceTree = "<group>"; };
+		931900A0282A581D002D3B2A /* iconfont.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.woff; sourceTree = "<group>"; };
+		931900A1282A581D002D3B2A /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
+		931900A2282A581D002D3B2A /* demo_index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = demo_index.html; sourceTree = "<group>"; };
+		931900A3282A581D002D3B2A /* iconfont.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.woff2; sourceTree = "<group>"; };
+		931900A4282A581D002D3B2A /* iconfont.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = iconfont.css; sourceTree = "<group>"; };
 		9320EECC2806D6E000485611 /* HDSanBoxFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDSanBoxFileManager.h; sourceTree = "<group>"; };
 		9320EECD2806D6E000485611 /* HDSanBoxFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDSanBoxFileManager.m; sourceTree = "<group>"; };
 		93214906281130BD00E08528 /* HDWhiteConverterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDWhiteConverterManager.h; sourceTree = "<group>"; };
@@ -1511,19 +1511,19 @@
 			path = VideoViews;
 			sourceTree = "<group>";
 		};
-		9319008B28291AE9002D3B2A /* font_3264411_1egujx5vmr3 */ = {
+		9319009C282A581D002D3B2A /* font_3264411_7deh26pxbgx */ = {
 			isa = PBXGroup;
 			children = (
-				9319008C28291AE9002D3B2A /* iconfont.js */,
-				9319008D28291AE9002D3B2A /* demo.css */,
-				9319008E28291AE9002D3B2A /* iconfont.json */,
-				9319008F28291AE9002D3B2A /* iconfont.woff */,
-				9319009028291AE9002D3B2A /* iconfont.ttf */,
-				9319009128291AE9002D3B2A /* demo_index.html */,
-				9319009228291AE9002D3B2A /* iconfont.woff2 */,
-				9319009328291AE9002D3B2A /* iconfont.css */,
+				9319009D282A581D002D3B2A /* iconfont.js */,
+				9319009E282A581D002D3B2A /* demo.css */,
+				9319009F282A581D002D3B2A /* iconfont.json */,
+				931900A0282A581D002D3B2A /* iconfont.woff */,
+				931900A1282A581D002D3B2A /* iconfont.ttf */,
+				931900A2282A581D002D3B2A /* demo_index.html */,
+				931900A3282A581D002D3B2A /* iconfont.woff2 */,
+				931900A4282A581D002D3B2A /* iconfont.css */,
 			);
-			path = font_3264411_1egujx5vmr3;
+			path = font_3264411_7deh26pxbgx;
 			sourceTree = "<group>";
 		};
 		9333263A27D0D17A004707E1 /* Manager */ = {
@@ -2479,7 +2479,7 @@
 		D3CB64401E4888F30022A6BA /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				9319008B28291AE9002D3B2A /* font_3264411_1egujx5vmr3 */,
+				9319009C282A581D002D3B2A /* font_3264411_7deh26pxbgx */,
 				9084A09F2046BC42006F10FA /* HelpDeskUIResource.bundle */,
 			);
 			path = resources;
@@ -3039,7 +3039,7 @@
 				EB4B06FA1AC685E900DCF67B /* tabbar_mall@2x.png in Resources */,
 				EB4B06CD1AC685E900DCF67B /* chat_location_detail_disclosureHL.png in Resources */,
 				EB4B06CC1AC685E900DCF67B /* chat_location_detail_disclosure@2x.png in Resources */,
-				9319009628291AE9002D3B2A /* iconfont.json in Resources */,
+				931900A7282A581D002D3B2A /* iconfont.json in Resources */,
 				EB4B06BB1AC685E900DCF67B /* call_silence_h.png in Resources */,
 				EB4B06B51AC685E900DCF67B /* call_out.png in Resources */,
 				D33947111E543949009370BF /* bg_rl_satisfaction.png in Resources */,
@@ -3069,10 +3069,10 @@
 				D20066511EF23274005B558D /* list2@2x.png in Resources */,
 				9086154620B43A54002E71DA /* video on@2x.png in Resources */,
 				EB4B06B11AC685E900DCF67B /* VoiceSearchFeedback019.png in Resources */,
-				9319009828291AE9002D3B2A /* iconfont.ttf in Resources */,
-				9319009A28291AE9002D3B2A /* iconfont.woff2 in Resources */,
+				931900A9282A581D002D3B2A /* iconfont.ttf in Resources */,
+				931900AB282A581D002D3B2A /* iconfont.woff2 in Resources */,
 				EB4B06941AC685E900DCF67B /* VoiceSearchFeedback004@2x.png in Resources */,
-				9319009928291AE9002D3B2A /* demo_index.html in Resources */,
+				931900AA282A581D002D3B2A /* demo_index.html in Resources */,
 				EB4B06831AC685E900DCF67B /* customer@2x.png in Resources */,
 				EB4B06F61AC685E900DCF67B /* chat_sender_bg@2x.png in Resources */,
 				D36621BC1F4E7D9F008EE9C4 /* wating@2x.png in Resources */,
@@ -3140,7 +3140,7 @@
 				EB4B06F41AC685E900DCF67B /* chat_sender_audio_playing_full@2x.png in Resources */,
 				9086153F20B43A54002E71DA /* off.png in Resources */,
 				EB4B06EA1AC685E900DCF67B /* chat_receiver_bg@2x.png in Resources */,
-				9319009428291AE9002D3B2A /* iconfont.js in Resources */,
+				931900A5282A581D002D3B2A /* iconfont.js in Resources */,
 				EB4B06D11AC685E900DCF67B /* faceDelete.png in Resources */,
 				EB4B06D71AC685E900DCF67B /* chatBar_keyboardSelected@2x.png in Resources */,
 				D200664E1EF23274005B558D /* hd_logo@2x.png in Resources */,
@@ -3157,7 +3157,7 @@
 				EB4B06B31AC685E900DCF67B /* VoiceSearchFeedback020.png in Resources */,
 				EB4B06F01AC685E900DCF67B /* chat_sender_audio_playing_002@2x.png in Resources */,
 				EB4B06AF1AC685E900DCF67B /* VoiceSearchFeedback018.png in Resources */,
-				9319009B28291AE9002D3B2A /* iconfont.css in Resources */,
+				931900AC282A581D002D3B2A /* iconfont.css in Resources */,
 				9392B50427FFD8E2005D4215 /* HDCloudDiskTableViewCell.xib in Resources */,
 				9086154120B43A54002E71DA /* videoOff.png in Resources */,
 				D3CB64891E4888F30022A6BA /* MWPhotoBrowser.bundle in Resources */,
@@ -3184,7 +3184,7 @@
 				EB4B06C71AC685E900DCF67B /* chatBar_textBg.png in Resources */,
 				EB4B06AE1AC685E900DCF67B /* VoiceSearchFeedback017@2x.png in Resources */,
 				EB4B06F21AC685E900DCF67B /* chat_sender_audio_playing_003@2x.png in Resources */,
-				9319009728291AE9002D3B2A /* iconfont.woff in Resources */,
+				931900A8282A581D002D3B2A /* iconfont.woff in Resources */,
 				938DD78D28154E7100966CB3 /* Localizable.strings in Resources */,
 				93E7E50427DA051900EC4009 /* test.doc in Resources */,
 				D20066431EF23274005B558D /* em_nav_shop_normal@3x.png in Resources */,
@@ -3275,7 +3275,7 @@
 				EB4B06A61AC685E900DCF67B /* VoiceSearchFeedback013@2x.png in Resources */,
 				EB4B06B61AC685E900DCF67B /* call_out@2x.png in Resources */,
 				EB4B06D41AC685E900DCF67B /* messageSendFail@2x.png in Resources */,
-				9319009528291AE9002D3B2A /* demo.css in Resources */,
+				931900A6282A581D002D3B2A /* demo.css in Resources */,
 				EB4B06CA1AC685E900DCF67B /* chat_location_annotation_someone@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

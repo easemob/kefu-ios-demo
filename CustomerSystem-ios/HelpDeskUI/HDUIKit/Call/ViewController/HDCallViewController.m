@@ -232,6 +232,11 @@ static HDCallViewController *_manger = nil;
     [self initScreenShare];
     
 }
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    [self.view hideKeyBoard];
+    
+}
 
 /// 初始化屏幕分享
 - (void)initScreenShare{
@@ -669,17 +674,18 @@ static HDCallViewController *_manger = nil;
 //        _hdTitleView.backgroundColor = [UIColor redColor];
         kWeakSelf
         _hdTitleView.clickHideBlock = ^(UIButton * _Nonnull btn) {
-                
-            [weakSelf __enablePictureInPictureZoom];
-            
-        };
-        _hdTitleView.clickZoomBtnBlock = ^(UIButton * _Nonnull btn) {
-            
+             
             if (btn.selected) {
                 [weakSelf __enablePictureInPicture];
             }else{
                 [weakSelf __cancelPictureInPicture];
             }
+            
+            
+        };
+        _hdTitleView.clickZoomBtnBlock = ^(UIButton * _Nonnull btn) {
+            [weakSelf __enablePictureInPictureZoom];
+           
         };
        
     }
@@ -739,14 +745,6 @@ static HDCallViewController *_manger = nil;
     return _smallWindowView;
 }
 
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    
-//    [self.hdTitleView startTimer];
-//    [self.hdTitleView modifyInfoLabelText: @"通话中好多好多人啊"];
-    
-
-}
 
 
 #pragma mark - event
@@ -1474,10 +1472,13 @@ void NotificationCallback(CFNotificationCenterRef center,
 
 - (void)__enablePictureInPicture{
 
+    [self.view hideKeyBoard];
     self.isSmallWindow = YES;
-    self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/1.5);
-    self.view.layer.borderWidth = 2;
+    self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/2);
+    self.view.layer.borderWidth = 1;
     self.view.layer.borderColor = [UIColor blackColor].CGColor;
+    self.view.layer.shadowOpacity = 0.5;
+    self.view.layer.shadowRadius = 15;
     if ([HDWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
 
@@ -1499,9 +1500,19 @@ void NotificationCallback(CFNotificationCenterRef center,
 
 
     }
+    
+    [self.itemView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.offset(0);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+        make.height.offset(44);
+
+    }];
 
 }
 - (void)__cancelPictureInPicture{
+   
+    [self.view hideKeyBoard];
     self.isSmallWindow = NO;
     self.view.frame = [UIScreen mainScreen].bounds;
 
@@ -1525,7 +1536,13 @@ void NotificationCallback(CFNotificationCenterRef center,
 
 
     }
+    [self.itemView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.barView.mas_top).offset(-5);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+        make.height.offset(44);
 
+    }];
 }
 #pragma mark - Picture in picture 中 隐藏效果
 - (void)createBaseUI{

@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "24344425",
+      "name": "videocall@1x",
+      "font_class": "a-videocall1x",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
       "icon_id": "19594572",
       "name": "缩放",
       "font_class": "zoom",
@@ -242,6 +249,13 @@
       "font_class": "jinmai-1-copy-copy",
       "unicode": "e6a7",
       "unicode_decimal": 59047
+    },
+    {
+      "icon_id": "29587684",
+      "name": "禁麦",
+      "font_class": "jinmai2-copy",
+      "unicode": "ecb5",
+      "unicode_decimal": 60597
     }
   ]
 }

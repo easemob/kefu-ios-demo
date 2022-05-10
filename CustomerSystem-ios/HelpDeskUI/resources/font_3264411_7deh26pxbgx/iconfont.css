@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3264411 */
-  src: url('iconfont.woff2?t=1652089671659') format('woff2'),
-       url('iconfont.woff?t=1652089671659') format('woff'),
-       url('iconfont.ttf?t=1652089671659') format('truetype');
+  src: url('iconfont.woff2?t=1652170606973') format('woff2'),
+       url('iconfont.woff?t=1652170606973') format('woff'),
+       url('iconfont.ttf?t=1652170606973') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-a-videocall1x:before {
+  content: "\e600";
 }
 
 .icon-zoom:before {
@@ -147,5 +151,9 @@
 
 .icon-jinmai-1-copy-copy:before {
   content: "\e6a7";
+}
+
+.icon-jinmai2-copy:before {
+  content: "\ecb5";
 }
 

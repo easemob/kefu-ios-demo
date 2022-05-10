@@ -89,17 +89,25 @@
 }
 - (void)creatUI{
     
+    [self addSubview:self.zoomBtn];
     [self addSubview:self.infoLabel];
     [self addSubview:self.timeLabel];
     [self addSubview:self.hideBtn];
-    [self addSubview:self.zoomBtn];
+    
 
 }
 - (void)updateFrame{
     
-    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.offset(-10);
+    [self.zoomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
         make.leading.offset(10);
+        make.bottom.offset(0);
+        make.width.height.offset(kHideBtnHeight);
+    }];
+    
+    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self).offset(10);
+        make.centerX.mas_equalTo(self).multipliedBy(0.8);
         make.width.offset(64);
         
     }];
@@ -111,17 +119,11 @@
     }];
     [self.hideBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
-        make.trailing.offset(-64);
-        make.width.height.offset(kHideBtnHeight);
-    }];
-    
-    [self.zoomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
-        
         make.trailing.offset(-20);
         make.width.height.offset(kHideBtnHeight);
     }];
     
+   
     
 }
 - (UILabel *)infoLabel{
@@ -142,8 +144,12 @@
     if (!_hideBtn) {
         _hideBtn = [[UIButton alloc]init];
 //        [_hideBtn setImage:[UIImage imageNamed:@"hide"] forState:UIControlStateNormal];
-        UIImage * img = [UIImage imageWithIcon:kminimize inFont:kfontName size:kHideBtnHeight/1.5 color:[UIColor whiteColor] ];
+        UIImage * img = [UIImage imageWithIcon:khuazhonghua1 inFont:kfontName size:kHideBtnHeight/1.4 color:[UIColor whiteColor] ];
         [_hideBtn setImage:img forState:UIControlStateNormal];
+        
+        UIImage * imgSel = [UIImage imageWithIcon:kfeihuazhonghua inFont:kfontName size:kHideBtnHeight/1.4 color:[UIColor whiteColor] ];
+        [_hideBtn setImage:imgSel forState:UIControlStateSelected];
+        
         [_hideBtn addTarget:self action:@selector(clickHide:) forControlEvents:UIControlEventTouchUpInside];
         
     }
@@ -198,7 +204,10 @@
     UIImage * img1 = [UIImage imageWithIcon:kzoom  inFont:kfontName size:kHideBtnHeight/1.5 color:color ];
     [_zoomBtn setImage:img1 forState:UIControlStateNormal];
     
-    UIImage * img = [UIImage imageWithIcon:kminimize inFont:kfontName size:kHideBtnHeight/1.5 color:color];
+    UIImage * img = [UIImage imageWithIcon:khuazhonghua1 inFont:kfontName size:kHideBtnHeight/1.5 color:[UIColor whiteColor] ];
     [_hideBtn setImage:img forState:UIControlStateNormal];
+    
+    UIImage * imgSel = [UIImage imageWithIcon:kfeihuazhonghua inFont:kfontName size:kHideBtnHeight/1.5 color:[UIColor whiteColor] ];
+    [_hideBtn setImage:imgSel forState:UIControlStateSelected];
 }
 @end

@@ -34,11 +34,11 @@
 #define kfanhui             @"\U0000e610"  //&#xe610
 #define kwenjianshangchuan  @"\U0000e742"  //&#xe742
 #define kquanbu             @"\U0000e64f"  //&#xe64f
-#define kdianhuatianchong   @"\U0000e678"  //&#xe678
+#define kdianhuatianchong   @"\U0000e600"  //&#xe678
 #define kminimize           @"\U0000e65a"  //&#xe65a
 #define kzoom               @"\U0000e685"  //&#xe685
-
-
+#define kfeihuazhonghua     @"\U0000e7c6"  //&#xe7c6
+#define khuazhonghua1       @"\U0000e61c"  //&#xe61c
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIImage (HDIconFont)
 + (UIImage*)imageWithIcon:(NSString*)iconCode inFont:(NSString*)fontName size:(NSUInteger)size color:(UIColor*)color;
 + (UIImage*)imageWithIcon:(NSString*)iconCode inFont:(NSString*)fontName size:(NSUInteger)size color:(UIColor*)color withbackgroundColor:(UIColor *)backgroundColor;
++ (UIImage*)imageWithIcon1:(NSString*)iconCode inFont:(NSString*)fontName size:(NSUInteger)size color:(UIColor*)color withbackgroundColor:(UIColor *)backgroundColor;
 @end
 
 NS_ASSUME_NONNULL_END

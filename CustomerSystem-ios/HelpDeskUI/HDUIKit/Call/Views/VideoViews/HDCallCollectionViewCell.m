@@ -182,7 +182,8 @@
         
         UIImage *img  = [UIImage imageWithIcon:kmaikefeng5 inFont:kfontName size:22 color:[[HDAppSkin mainSkin] contentColorBlue]  withbackgroundColor:[UIColor whiteColor] ] ;
         [self.muteBtn setImage:img forState:UIControlStateNormal];
-        UIImage *imgSel  = [UIImage imageWithIcon:kjinmai2 inFont:kfontName size:22 color:[[HDAppSkin mainSkin] contentColorRed] withbackgroundColor:[UIColor whiteColor]  ] ;
+//        UIImage *imgSel  = [UIImage imageWithIcon:kjinmai2 inFont:kfontName size:22 color:[[HDAppSkin mainSkin] contentColorRed] withbackgroundColor:[UIColor whiteColor]  ] ;
+        UIImage *imgSel  = [UIImage imageWithIcon1:kjinmai inFont:kfontName size:22 color:[[HDAppSkin mainSkin] contentColorWhitealpha:1] withbackgroundColor:[[HDAppSkin mainSkin] contentColorRed]  ] ;
         [_muteBtn setImage:imgSel forState:UIControlStateSelected];
     }
     return _muteBtn;
