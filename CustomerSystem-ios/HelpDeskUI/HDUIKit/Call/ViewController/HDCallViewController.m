@@ -191,7 +191,6 @@ static HDCallViewController *_manger = nil;
    
     self.isShow = NO;
     [self.view removeFromSuperview];
-    
     self.view = nil;
     
 }
@@ -1254,24 +1253,19 @@ static HDCallViewController *_manger = nil;
     
 }
 - (void)uploadFile{
-    HDUploadFileViewController * vc = [[HDUploadFileViewController alloc] init];
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-//    vc.hdUploadFileResultBlock = ^(NSDictionary * _Nonnull dic) {
+//    HDUploadFileViewController * vc = [[HDUploadFileViewController alloc] init];
+//    vc.hdUploadFileDismissBlock = ^(UIViewController * _Nonnull vc) {
 //
-//        
+//
+//        [vc.view removeFromSuperview];
+//        [vc removeFromParentViewController];
 //
 //    };
-    [self presentViewController:vc animated:YES completion:^{
-        
-        if (self.isSmallWindow) {
-            
-            [self __enablePictureInPicture];
-            
-        }else{
-            [self __cancelPictureInPicture];
-            
-        }
-    }];
+//    [self addChildViewController:vc];
+//    [self.view addSubview:vc.view];
+//    [self.view bringSubviewToFront:vc.view];
+    
+    [HDUploadFileViewController sharedManager];
     
    
 }

@@ -135,7 +135,11 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                         item.fileName = fileName;
                     
                         item.fileUrl = url;
-                        [weakSelf insertItem:item];
+                        dispatch_async(dispatch_get_main_queue(), ^(void) {
+                              //todo
+                            [weakSelf insertItem:item];
+                        });
+                        
                     }else{
                         //需要转换
                         // 调用文档转换
@@ -173,8 +177,11 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                                     
                                     if (success) {
                                         [conver endPolling];
+                                        dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                              //todo
+                                            [weakSelf __urlsignatureWithInsertItem:item withPage:info];
+                                        });
                                         
-                                        [weakSelf __urlsignatureWithInsertItem:item withPage:info];
                                         
                                     }else{
                                         if ([info.status isEqualToString:WhiteConvertStatusV5Fail]) {

@@ -12,7 +12,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HDUploadFileViewController : UIViewController
 typedef void (^HDUploadFileResultBlock)(NSDictionary *dic);
+typedef void (^HDUploadFileDismissBlock)(UIViewController * vc);
 @property (nonatomic, copy) HDUploadFileResultBlock hdUploadFileResultBlock;
+@property (nonatomic, copy) HDUploadFileDismissBlock hdUploadFileDismissBlock;
+
+/** 单利创建 - Method
+*/
+ 
++ (instancetype)sharedManager;
+ 
+/** 单利销毁 - Method
+*/
+ 
+- (void)removeSharedManager;
+
+/**
+ *  界面展示
+ */
+- (void)showView;
+/**
+ *  界面隐藏
+ */
+-(void)hideView;
+
+/**
+ *  界面移除
+ */
+- (void)removeView;
 @end
 
 NS_ASSUME_NONNULL_END

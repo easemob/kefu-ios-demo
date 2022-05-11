@@ -29,7 +29,8 @@
 @property (nonatomic, strong) UIView *navView;
 @property (nonatomic, strong) UIDocumentPickerViewController *documentPickerVC;
 @end
-
+static dispatch_once_t onceToken;
+static HDUploadFileViewController *_manger = nil;
 @implementation HDUploadFileViewController
 
 - (void)viewDidLoad {
@@ -94,6 +95,40 @@
     
 }
 
+#pragma mark- 单利
+ 
+/** 单利创建
+ */
+ 
++ (instancetype)sharedManager
+{
+    dispatch_once(&onceToken, ^{
+        _manger = [[HDUploadFileViewController alloc] init];
+        UIWindow *window = [UIApplication sharedApplication].keyWindow ;
+        window.windowLevel = UIWindowLevelAlert+3;
+        _manger.view.frame = [UIScreen mainScreen].bounds;
+        [window  addSubview:_manger.view];
+    });
+ 
+    return _manger;
+ 
+}
+ 
+/** 单利销毁
+*/
+ 
+- (void)removeSharedManager
+{
+    /**只有置成0，GCD才会认为它从未执行过。它默认为0。
+     这样才能保证下次再次调用sharedManager的时候，再次创建对象。*/
+    onceToken= 0;
+    _manger=nil;
+    
+    [self.view removeFromSuperview];
+    self.view = nil;
+}
+
+
 #pragma mark - event
 -(void)muteBtnClicked:(UIButton *)sender{
     
@@ -125,7 +160,8 @@
         NSString *filename = [asset valueForKey:@"filename"];
          NSLog(@"filename:%@",filename);
         [self writeToFileData:data withFileName:filename];
-        [self dismissViewControllerAnimated:YES completion:NULL];
+//        [self dismissViewControllerAnimated:YES completion:NULL];
+        [self dismissViewController];
     }];
     [self presentViewController:imagePickerVc animated:YES completion:nil];
     
@@ -156,7 +192,8 @@
                     
                     [self writeToFileData:data withFileName:fileName];
 
-                    [self dismissViewControllerAnimated:YES completion:NULL];
+                    [self dismissViewController];
+//                    [self dismissViewControllerAnimated:YES completion:NULL];
                 });
             }
      }
@@ -196,9 +233,19 @@
 
     [self presentViewController:self.documentPickerVC animated:YES completion:nil];
 }
+//- (UIDocumentPickerViewController *)documentPickerVC {
+//    if (!_documentPickerVC) {
+//        NSArray *documentTypes = @[@"com.adobe.pdf", @"com.microsoft.word.doc",@"com.microsoft.word.docx", @"com.microsoft.excel.xls", @"com.microsoft.powerpoint.ppt",@"com.microsoft.powerpoint.pptx",@"public.audio"];
+//        self.documentPickerVC = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:documentTypes inMode:UIDocumentPickerModeOpen];
+//        _documentPickerVC.delegate = self;
+//        _documentPickerVC.modalPresentationStyle = UIModalPresentationFormSheet; //设置模态弹出方式
+//    }
+//    return _documentPickerVC;
+//}
+
 - (UIDocumentPickerViewController *)documentPickerVC {
     if (!_documentPickerVC) {
-        NSArray *documentTypes = @[@"public.content", @"public.text", @"public.source-code ", @"public.image", @"public.audiovisual-content", @"com.adobe.pdf", @"com.apple.keynote.key", @"com.microsoft.word.doc", @"com.microsoft.excel.xls", @"com.microsoft.powerpoint.ppt"];
+        NSArray *documentTypes = @[@"public.content", @"public.source-code ", @"public.audiovisual-content", @"com.adobe.pdf", @"com.microsoft.word.doc", @"com.microsoft.excel.xls", @"com.microsoft.powerpoint.ppt",@"public.audio"];
         self.documentPickerVC = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:documentTypes inMode:UIDocumentPickerModeOpen];
         _documentPickerVC.delegate = self;
         _documentPickerVC.modalPresentationStyle = UIModalPresentationFormSheet; //设置模态弹出方式
@@ -234,7 +281,8 @@
                     }];
                 }
             }
-            [self dismissViewControllerAnimated:YES completion:NULL];
+//            [self dismissViewControllerAnimated:YES completion:NULL];
+            [self dismissViewController];
         }];
         [urls.firstObject stopAccessingSecurityScopedResource];
     } else {
@@ -302,7 +350,15 @@
 
 #pragma mark - event
 - (void)dismissViewController{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    
+    [[HDUploadFileViewController sharedManager] removeSharedManager];
+    
+//    if (self.hdUploadFileDismissBlock) {
+//
+//        self.hdUploadFileDismissBlock(self);
+//    }
+//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - lzye

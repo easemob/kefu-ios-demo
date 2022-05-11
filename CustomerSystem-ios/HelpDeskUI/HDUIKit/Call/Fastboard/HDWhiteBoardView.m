@@ -229,7 +229,7 @@
     
     if (isScle) {
         [self.stackView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view.mas_bottom).offset(0);
+            make.top.equalTo(view.mas_bottom).offset(10);
             make.trailing.offset(-20);
             make.height.offset(26);
     //        make.width.offset(118);
