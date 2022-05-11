@@ -50,6 +50,8 @@
 
 "setNickname" = "设置昵称";
 "customerChat" = "联系客服";
+"customerChatNew" = "在线沟通";
+"customerVEC" = "视频沟通";
 "customerUser" = "IM服务号";
 "commonProblems" = "常见问题";
 "restart" = "重新启动";

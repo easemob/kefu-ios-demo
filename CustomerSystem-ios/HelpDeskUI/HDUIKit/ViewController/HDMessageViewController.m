@@ -1060,6 +1060,9 @@ typedef enum : NSUInteger {
                 NSLog(@"failed to remove file, error:%@.", error);
             }
         }
+        
+        
+        
         [self sendVideoMessageWithURL:mp4];
         
     }else{
@@ -2126,7 +2129,13 @@ typedef enum : NSUInteger {
         progress = self;
     }
     
-    HDMessage *message = [HDSDKHelper videoMessageWithLocalPath:[url path]
+    NSString * str = [[NSBundle mainBundle] pathForResource:@"111" ofType:@"mov"];
+    
+//    HDMessage *message = [HDSDKHelper videoMessageWithLocalPath:[url path]
+//                                                             to:self.conversation.conversationId
+//                                                     messageExt:nil];
+    
+    HDMessage *message = [HDSDKHelper videoMessageWithLocalPath:str
                                                              to:self.conversation.conversationId
                                                      messageExt:nil];
     [self _sendMessage:message];

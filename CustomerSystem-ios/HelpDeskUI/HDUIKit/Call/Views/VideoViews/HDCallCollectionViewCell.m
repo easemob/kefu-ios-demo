@@ -208,7 +208,7 @@
         [_muteBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
 //        _muteBtn.selected = YES;
-        
+        _muteBtn.userInteractionEnabled = NO;
         UIImage *img  = [UIImage imageWithIcon:kmaikefeng5 inFont:kfontName size:22 color:[[HDAppSkin mainSkin] contentColorBlue]  withbackgroundColor:[UIColor whiteColor] ] ;
         [self.muteBtn setImage:img forState:UIControlStateNormal];
 //        UIImage *imgSel  = [UIImage imageWithIcon:kjinmai2 inFont:kfontName size:22 color:[[HDAppSkin mainSkin] contentColorRed] withbackgroundColor:[UIColor whiteColor]  ] ;

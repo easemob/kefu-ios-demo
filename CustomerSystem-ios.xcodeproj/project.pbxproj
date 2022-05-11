@@ -141,6 +141,7 @@
 		9392B513280012EA005D4215 /* HDListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9392B511280012EA005D4215 /* HDListViewCell.xib */; };
 		9392B519280047CE005D4215 /* KFICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B515280047CE005D4215 /* KFICloudManager.m */; };
 		9392B51A280047CE005D4215 /* KFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B517280047CE005D4215 /* KFDocument.m */; };
+		93AFA5D1282B9239003C1F6B /* 111.mov in Resources */ = {isa = PBXBuildFile; fileRef = 93AFA5D0282B9239003C1F6B /* 111.mov */; };
 		93B4E96227CCD1D800ACAF5B /* UIView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */; };
 		93B4E96327CCD1D800ACAF5B /* UIScrollView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93C27CCD1D700ACAF5B /* UIScrollView+HDMJExtension.m */; };
 		93B4E96427CCD1D800ACAF5B /* HDMJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93D27CCD1D700ACAF5B /* HDMJRefreshConst.m */; };
@@ -168,6 +169,8 @@
 		93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E79304277C67BB0019FD80 /* Bugly.framework */; };
 		93E7E50427DA051900EC4009 /* test.doc in Resources */ = {isa = PBXBuildFile; fileRef = 93E7E50327DA051800EC4009 /* test.doc */; };
 		93EB33EE278C17A0002AB1ED /* HDAgoraCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */; };
+		93EF670A282B6BCF003AF626 /* VECKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93EF6708282B6598003AF626 /* VECKit.framework */; };
+		93EF670B282B6BCF003AF626 /* VECKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93EF6708282B6598003AF626 /* VECKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
 		D20066391EF23274005B558D /* em_example_image_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066131EF23274005B558D /* em_example_image_2.png */; };
 		D200663A1EF23274005B558D /* em_example_image_3.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066141EF23274005B558D /* em_example_image_3.png */; };
@@ -521,6 +524,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				93EF670B282B6BCF003AF626 /* VECKit.framework in Embed Frameworks */,
 				936F2E4628252EE5001FB60A /* HyphenateChat.xcframework in Embed Frameworks */,
 				93D9D08227C37EC600BD037D /* HelpDesk.framework in Embed Frameworks */,
 			);
@@ -751,6 +755,7 @@
 		9392B516280047CE005D4215 /* KFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFDocument.h; sourceTree = "<group>"; };
 		9392B517280047CE005D4215 /* KFDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFDocument.m; sourceTree = "<group>"; };
 		9392B518280047CE005D4215 /* KFICloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFICloudManager.h; sourceTree = "<group>"; };
+		93AFA5D0282B9239003C1F6B /* 111.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 111.mov; sourceTree = "<group>"; };
 		93B4E93627CCD1D700ACAF5B /* UIScrollView+HDMJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+HDMJExtension.h"; sourceTree = "<group>"; };
 		93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HDMJExtension.m"; sourceTree = "<group>"; };
 		93B4E93827CCD1D700ACAF5B /* HDMJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMJRefresh.h; sourceTree = "<group>"; };
@@ -802,6 +807,7 @@
 		93E79304277C67BB0019FD80 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		93E7E50327DA051800EC4009 /* test.doc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.doc; sourceTree = "<group>"; };
 		93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDAgoraCallViewController.xib; sourceTree = "<group>"; };
+		93EF6708282B6598003AF626 /* VECKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VECKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93FFE62827901077009FFC6E /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		CDB4763D4031067AB7FF5215 /* Pods-CustomerSystem-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomerSystem-ios.release.xcconfig"; path = "Target Support Files/Pods-CustomerSystem-ios/Pods-CustomerSystem-ios.release.xcconfig"; sourceTree = "<group>"; };
@@ -1317,6 +1323,7 @@
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
 				936F2E4528252EE5001FB60A /* HyphenateChat.xcframework in Frameworks */,
+				93EF670A282B6BCF003AF626 /* VECKit.framework in Frameworks */,
 				EB62E44D1A8E2D9300705655 /* CFNetwork.framework in Frameworks */,
 				D3AA4B251ED45B7300B5C509 /* hdlibopencore-amrnb.a in Frameworks */,
 				EB62E44B1A8E2D8D00705655 /* AddressBook.framework in Frameworks */,
@@ -1981,6 +1988,7 @@
 		D35726071DE315640033D4E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93EF6708282B6598003AF626 /* VECKit.framework */,
 				93D9D08027C37EC600BD037D /* HelpDesk.framework */,
 				930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */,
 				93767A4327951D8B0079A60F /* CoreMedia.framework */,
@@ -2822,6 +2830,7 @@
 		EB62E1F01A8DD92D00705655 = {
 			isa = PBXGroup;
 			children = (
+				93AFA5D0282B9239003C1F6B /* 111.mov */,
 				93E7E50327DA051800EC4009 /* test.doc */,
 				93E79301277C0A430019FD80 /* LICENSE */,
 				93E79300277C0A430019FD80 /* README.md */,
@@ -3048,6 +3057,7 @@
 				EB4B06B01AC685E900DCF67B /* VoiceSearchFeedback018@2x.png in Resources */,
 				EB4B06F91AC685E900DCF67B /* titleBar@2x.png in Resources */,
 				9086155120B43A54002E71DA /* macOff.png in Resources */,
+				93AFA5D1282B9239003C1F6B /* 111.mov in Resources */,
 				D2769D281B9052D7003D9E3D /* button_demo_department_select@2x.png in Resources */,
 				EB4B06971AC685E900DCF67B /* VoiceSearchFeedback006.png in Resources */,
 				EB4B06C61AC685E900DCF67B /* chatBar_more_faceSelected@2x.png in Resources */,

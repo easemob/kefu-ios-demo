@@ -154,6 +154,9 @@ static HDCallViewController *_manger = nil;
 }
 - (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoCallType)type{
 
+
+    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
+    
     if (!isCalling) {
         if (type == HDVideoCallDirectionSend) {
             // 发送 界面
