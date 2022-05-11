@@ -179,15 +179,8 @@ static HDCallViewController *_manger = nil;
                 // 其他情况下都是 坐席回拨过来的
                 self.isVisitorSend = NO;
             }
-         
         }
-        
-        
-        
-  
     }
-
-   
 }
 - (void)hideView{
     if (self&&self.view) {
@@ -551,7 +544,7 @@ static HDCallViewController *_manger = nil;
     self.midelleVideoView = (HDMiddleVideoView *)videoView;
     [self.view addSubview:videoView];
     //中间 视频窗口
-    [self updateBgMilldelVideoView:videoView whiteBoard:NO];
+    [self updateBgMilldelVideoView:videoView whiteBoard:smallItem.isWhiteboard];
     
     [_videoViews addObject:smallItem];
 
@@ -815,6 +808,9 @@ static HDCallViewController *_manger = nil;
         
     } else {
         // Fallback on earlier versions
+        
+        
+        
     }
 }
 // 切换摄像头事件
@@ -1089,9 +1085,6 @@ static HDCallViewController *_manger = nil;
 
 //接收cmd 消息过来
 - (void)onRoomDataReceivedParameter:(NSDictionary *)roomData{
-
-   
-    
     [[HDWhiteRoomManager shareInstance] hd_setValueFrom:roomData];
     //互动白板加入成功以后 屏幕共享 不能使用 不能创建白板房间
     if (_videoViews.count == 0) {
@@ -1257,16 +1250,30 @@ static HDCallViewController *_manger = nil;
     
 //    [self.whiteBoardView reloadFastboardOverlayWithScle:YES];
     
+    
+    
 }
 - (void)uploadFile{
     HDUploadFileViewController * vc = [[HDUploadFileViewController alloc] init];
     vc.modalPresentationStyle = UIModalPresentationFullScreen;
 //    vc.hdUploadFileResultBlock = ^(NSDictionary * _Nonnull dic) {
 //
-//        [self insertUploadFile:dic];
+//        
 //
 //    };
-    [self presentViewController:vc animated:YES completion:nil];
+    [self presentViewController:vc animated:YES completion:^{
+        
+        if (self.isSmallWindow) {
+            
+            [self __enablePictureInPicture];
+            
+        }else{
+            [self __cancelPictureInPicture];
+            
+        }
+    }];
+    
+   
 }
 - (void)disconnectRoomAlert{
     
@@ -1282,7 +1289,9 @@ static HDCallViewController *_manger = nil;
 - (void)disconnectRoom{
    
     if (self.isSmallWindow) {
+        
         [self __cancelPictureInPicture];
+        
     }
     
     
@@ -1495,7 +1504,14 @@ void NotificationCallback(CFNotificationCenterRef center,
         }
 
         [self.whiteBoardView hd_ModifyStackViewLayout:self.hdTitleView withScle:YES];
+        [self.whiteBoardView hdmas_remakeConstraints:^(MASConstraintMaker * _Nonnull make) {
 
+            make.top.offset(self.hdTitleView.size.height);
+            make.leading.offset(0);
+            make.trailing.offset(0);
+            make.bottom.offset(0);
+
+        }];
 
     }else{
 
@@ -1534,7 +1550,7 @@ void NotificationCallback(CFNotificationCenterRef center,
 
 
     }else{
-
+        self.smallWindowView.hidden = NO;
         self.barView.hidden = NO;
 
 

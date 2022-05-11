@@ -204,10 +204,10 @@
     UIImage * img1 = [UIImage imageWithIcon:kzoom  inFont:kfontName size:kHideBtnHeight/1.5 color:color ];
     [_zoomBtn setImage:img1 forState:UIControlStateNormal];
     
-    UIImage * img = [UIImage imageWithIcon:khuazhonghua1 inFont:kfontName size:kHideBtnHeight/1.5 color:[UIColor whiteColor] ];
+    UIImage * img = [UIImage imageWithIcon:khuazhonghua1 inFont:kfontName size:kHideBtnHeight/1.5 color:color ];
     [_hideBtn setImage:img forState:UIControlStateNormal];
     
-    UIImage * imgSel = [UIImage imageWithIcon:kfeihuazhonghua inFont:kfontName size:kHideBtnHeight/1.5 color:[UIColor whiteColor] ];
+    UIImage * imgSel = [UIImage imageWithIcon:kfeihuazhonghua inFont:kfontName size:kHideBtnHeight/1.5 color:color];
     [_hideBtn setImage:imgSel forState:UIControlStateSelected];
 }
 @end
