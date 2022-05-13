@@ -26,6 +26,7 @@
 #import "HDWhiteRoomManager.h"
 #import "MBProgressHUD+Add.h"
 #import "UIViewController+AlertController.h"
+#import "CSDemoAccountManager.h"
 
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
@@ -70,7 +71,7 @@
     CGFloat viewWidth;
     CGFloat viewHeight;
 }
-
+@property (nonatomic, strong) UIView *parentView;
 @property (nonatomic, strong) NSString *agentName;
 @property (nonatomic, strong) NSString *nickname;
 @property (nonatomic, strong) NSString *avatarStr;
@@ -153,16 +154,17 @@ static HDCallViewController *_manger = nil;
     
 }
 - (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoCallType)type{
-
-
     NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
+    
+ 
+    
     
     if (!isCalling) {
         if (type == HDVideoCallDirectionSend) {
             // 发送 界面
             self.isVisitorSend = YES;
-            self.hdAnswerView.callType = HDVideoCallDirectionSend;
-        
+//            self.hdAnswerView.callType = HDVideoCallDirectionSend;
+            self.hdVideoAnswerView.callType = HDVideoDirectionSend;
         }else{
             // 接受 界面
             //需要必要创建房间的参数
@@ -175,7 +177,8 @@ static HDCallViewController *_manger = nil;
                 [self anwersBtnClicked:nil];
 
             }else{
-                self.hdAnswerView.callType = HDVideoCallDirectionReceive;
+//                self.hdAnswerView.callType = HDVideoCallDirectionReceive;
+                self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
                 // 其他情况下都是 坐席回拨过来的
                 self.isVisitorSend = NO;
             }
@@ -197,8 +200,9 @@ static HDCallViewController *_manger = nil;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorGray];
-    
+//    self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorGray];
+
+    self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
     [self.view hideKeyBoard];
     //初始化灰度管理
     [[HDCallManager shareInstance] initGray];
@@ -209,15 +213,24 @@ static HDCallViewController *_manger = nil;
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     [HDClient.sharedClient.whiteboardManager addDelegate:self delegateQueue:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableDidSelected:) name:@"click" object:nil];
-    [self.view addSubview:self.hdAnswerView];
+//    [self.view addSubview:self.hdAnswerView];
+//
+//    [self.hdAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.offset(0);
+//        make.bottom.offset(0);
+//        make.leading.offset(0);
+//        make.trailing.offset(0);
+//    }];
+    [self.view addSubview:self.hdVideoAnswerView];
 
-    [self.hdAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.offset(0);
-        make.bottom.offset(0);
-        make.leading.offset(0);
-        make.trailing.offset(0);
-    }];
 
+    [self.hdVideoAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset([UIScreen mainScreen].bounds.size.width * 0.8);
+            make.height.offset([UIScreen mainScreen].bounds.size.width * 0.8 * 1.3);
+            make.centerX.mas_equalTo(self.view);
+            make.centerY.mas_equalTo(self.view);
+        }];
+    
     self.isLandscape = NO;
     _videoViews = [NSMutableArray new];
     _videoItemViews = [NSMutableArray new];
@@ -226,6 +239,22 @@ static HDCallViewController *_manger = nil;
     allMembersDic = [NSMutableDictionary new];
     [self initScreenShare];
     
+}
+//
+-(void)clearViewData{
+    [_videoViews removeAllObjects];
+    [_videoItemViews removeAllObjects];
+    [_members removeAllObjects];
+    [_midelleMembers removeAllObjects];
+    [allMembersDic removeAllObjects];
+    [self.parentView removeFromSuperview];
+    self.parentView = nil;
+    self.barView = nil;
+    self.midelleVideoView= nil;
+    self.hdTitleView = nil;
+    self.smallWindowView=nil;
+    self.whiteBoardView =nil;
+    self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -380,18 +409,48 @@ static HDCallViewController *_manger = nil;
     }
 }
 
+//-(void)addSubView{
+//    //顶部 title
+//    [self.view addSubview:self.hdTitleView];
+//    //中间小窗
+//    [self.view addSubview:self.smallWindowView];
+//    //中间打窗口
+//    [self.view addSubview:self.midelleVideoView];
+//    //底部view
+//    [self.view addSubview:self.barView];
+//
+//    //添加昵称信息
+//    [self.view addSubview:self.itemView];
+//    [self.itemView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.mas_equalTo(self.barView.mas_top).offset(-5);
+//        make.leading.offset(0);
+//        make.trailing.offset(0);
+//        make.height.offset(44);
+//
+//    }];
+//
+//}
 -(void)addSubView{
+    [self.view addSubview: self.parentView];
+    [self.parentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.offset(0);
+        make.bottom.offset(0);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+        
+    }];
     //顶部 title
-    [self.view addSubview:self.hdTitleView];
+    [self.parentView addSubview:self.hdTitleView];
     //中间小窗
-    [self.view addSubview:self.smallWindowView];
+    [self.parentView addSubview:self.smallWindowView];
     //中间打窗口
-    [self.view addSubview:self.midelleVideoView];
+    [self.parentView addSubview:self.midelleVideoView];
     //底部view
-    [self.view addSubview:self.barView];
+    [self.parentView addSubview:self.barView];
     
     //添加昵称信息
-    [self.view addSubview:self.itemView];
+    [self.parentView addSubview:self.itemView];
     [self.itemView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self.barView.mas_top).offset(-5);
         make.leading.offset(0);
@@ -541,7 +600,7 @@ static HDCallViewController *_manger = nil;
         videoView.userInteractionEnabled = YES;
     }
     self.midelleVideoView = (HDMiddleVideoView *)videoView;
-    [self.view addSubview:videoView];
+    [self.parentView addSubview:videoView];
     //中间 视频窗口
     [self updateBgMilldelVideoView:videoView whiteBoard:smallItem.isWhiteboard];
     
@@ -555,33 +614,14 @@ static HDCallViewController *_manger = nil;
 /// 更新大视频窗口变成小窗口）
 -(void)updateBigVideoView:(HDCallCollectionViewCellItem *)item{
     
-    if (self.view ==nil) {
+    if (self.parentView ==nil) {
         
         return;
     }
     [_videoViews removeAllObjects];
     UIView * videoView = item.camView;
-//    self.midelleVideoView = (HDMiddleVideoView *)videoView;
-//    [self.view addSubview:videoView];
     //中间 视频窗口
-//    if (self.isLandscape) {
-//        [videoView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.offset(0);
-//            make.leading.offset(0);
-//            make.trailing.offset(0);
-//            make.bottom.offset(0);
-//
-//        }];
-//        [self.view sendSubviewToBack:videoView];
-//    }else{
-//
-//        [videoView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.mas_equalTo(self.smallWindowView.mas_bottom).offset(44);
-//            make.leading.offset(0);
-//            make.trailing.offset(0);
-//            make.height.offset(kPointHeight );
-//        }];
-//    }
+
     [self updateBgMilldelVideoView:videoView whiteBoard:NO];
     [_videoViews addObject:item];
 
@@ -594,7 +634,7 @@ static HDCallViewController *_manger = nil;
     
     [view removeFromSuperview];
     
-    [self.view addSubview:view];
+    [self.parentView addSubview:view];
     
     if (isjoinWhiteBoare) {
         //开启白板 更新页面布局
@@ -608,7 +648,7 @@ static HDCallViewController *_manger = nil;
        
     }else{
 
-        [self.view sendSubviewToBack:view];
+        [self.parentView sendSubviewToBack:view];
         [view mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.offset(0);
                 make.leading.offset(0);
@@ -617,11 +657,36 @@ static HDCallViewController *_manger = nil;
         
         }];
     }
+}
+- (void)createVideoCall{
+    //这个地方是真正发消息邀请视频的代码
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
+    [message addContent:lgM.visitorInfo];
     
-   
-           
+    [self _sendMessage:message];
     
 }
+
+- (void)_sendMessage:(HDMessage *)aMessage
+{
+    
+//    __weak typeof(self) weakself = self;
+    
+    [[HDClient sharedClient].chatManager sendMessage:aMessage
+                                            progress:nil
+                                          completion:^(HDMessage *message, HDError *error)
+     {
+        if (!error) {
+        
+        }
+        else {
+        
+        }
+    }];
+    
+}
+
 ///  控制器中大小窗昵称切换
 /// @param item  获取昵称的对象
 -(void)changeNickNameItem:(HDCallCollectionViewCellItem *)item{
@@ -648,21 +713,49 @@ static HDCallViewController *_manger = nil;
      }
      return _itemView;
 }
-- (HDAnswerView *)hdAnswerView{
-   if (!_hdAnswerView) {
-       _hdAnswerView = [[HDAnswerView alloc]init];
-       _hdAnswerView.backgroundColor = [UIColor blackColor];
+//- (HDAnswerView *)hdAnswerView{
+//   if (!_hdAnswerView) {
+//       _hdAnswerView = [[HDAnswerView alloc]init];
+//       _hdAnswerView.backgroundColor = [UIColor blackColor];
+//       __weak __typeof__(self) weakSelf = self;
+//       _hdAnswerView.clickOnBlock = ^(UIButton * _Nonnull btn) {
+//           [weakSelf anwersBtnClicked:btn];
+//       };
+//       _hdAnswerView.clickOffBlock = ^(UIButton * _Nonnull btn) {
+//           [weakSelf offBtnClicked:btn];
+//       };
+//    }
+//    return _hdAnswerView;
+//}
+- (HDVideoAnswerView *)hdVideoAnswerView{
+   if (!_hdVideoAnswerView) {
+       _hdVideoAnswerView = [[HDVideoAnswerView alloc]init];
+//       _hdVideoAnswerView.backgroundColor = [UIColor blackColor];
+       _hdVideoAnswerView.layer.borderWidth = 1;
+       _hdVideoAnswerView.layer.borderColor = [[HDAppSkin mainSkin] contentColorGrayWhithWite].CGColor;
+       _hdVideoAnswerView.layer.cornerRadius = 10.0f;
+       _hdVideoAnswerView.layer.masksToBounds = YES;
+
        __weak __typeof__(self) weakSelf = self;
-       _hdAnswerView.clickOnBlock = ^(UIButton * _Nonnull btn) {
+       _hdVideoAnswerView.clickOnBlock = ^(UIButton * _Nonnull btn) {
            [weakSelf anwersBtnClicked:btn];
        };
-       _hdAnswerView.clickOffBlock = ^(UIButton * _Nonnull btn) {
+       _hdVideoAnswerView.clickOffBlock = ^(UIButton * _Nonnull btn) {
            [weakSelf offBtnClicked:btn];
        };
+       _hdVideoAnswerView.clickVideoOnCallBlock = ^(UIButton * _Nonnull btn) {
+          //发送 视频邀请 参数
+           [weakSelf createVideoCall];
+       };
+       _hdVideoAnswerView.clickCloseCallBlock = ^(UIButton * _Nonnull btn) {
+          //真正关闭页面
+           if (weakSelf.hangUpCallback) {
+               weakSelf.hangUpCallback(self, self.hdTitleView.timeLabel.text);
+           }
+       };
     }
-    return _hdAnswerView;
+    return _hdVideoAnswerView;
 }
-
 - (HDTitleView *)hdTitleView {
     if (!_hdTitleView) {
         _hdTitleView = [[HDTitleView alloc]init];
@@ -746,8 +839,9 @@ static HDCallViewController *_manger = nil;
 /// 应答事件
 /// @param sender  button
 - (void)anwersBtnClicked:(UIButton *)sender{
-   
-    self.hdAnswerView.hidden = YES;
+    self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorWhitealpha:1];
+//    self.hdAnswerView.hidden = YES;
+    self.hdVideoAnswerView.hidden = YES;
     //应答的时候 在创建view
     //添加 页面布局
     [self addSubView];
@@ -782,6 +876,8 @@ static HDCallViewController *_manger = nil;
 /// 拒接事件
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{
+    
+  
     //拒接事件 拒接关闭当前页面
     isCalling = NO;
     //挂断和拒接 都走这个
@@ -789,14 +885,49 @@ static HDCallViewController *_manger = nil;
     [[HDAgoraCallManager shareInstance] endCall];
     [self.hdTitleView stopTimer];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-       // UI更新代码
-        if (self.hangUpCallback) {
-            self.hangUpCallback(self,self.hdTitleView.timeLabel.text);
+    [self clearViewData];
+    
+//    dispatch_async(dispatch_get_main_queue(), ^{
+       // UI更新代码 更新结束 弹窗
+        HDVideoLayoutModel * model = [[HDVideoLayoutModel alloc] init];
+        [self.hdVideoAnswerView updateServiceLayoutConfig:model withProcessType:HDVideoProcessEnd];
+    
+    
+   
+    
+        
+//    };
+    
+//        for(UIView *v in [self.parentView subviews])
+//        {
+//            if (![v isKindOfClass:[HDVideoAnswerView class]]) {
+//
+//
+//                [v removeFromSuperview];
+//
+//            }
+//
+//         }
+//    self.barView =nil;
+        if (self.hdVideoAnswerView.hidden) {
+            self.hdVideoAnswerView.hidden = NO;
         }
-    });
+        
+//    });
+
+}
+
+- (UIView *)parentView{
+    
+    if (!_parentView) {
+        _parentView = [[UIView alloc] init];
+    }
+    
+    return _parentView;
     
 }
+
+
 /// 初始化屏幕分享view
 - (void)initBroadPickerView{
     if (@available(iOS 12.0, *)) {
@@ -807,7 +938,7 @@ static HDCallViewController *_manger = nil;
         
     } else {
         // Fallback on earlier versions
-        
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"屏幕共享不能使用", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
         
         
     }
@@ -1139,7 +1270,7 @@ static HDCallViewController *_manger = nil;
     [_videoViews replaceObjectAtIndex:0 withObject:item];
     [self changeNickNameItem:item];
     _whiteBoardBtn.selected = [HDWhiteRoomManager shareInstance].roomState;
-    [self.view bringSubviewToFront:[_videoViews firstObject]];
+    [self.parentView bringSubviewToFront:[_videoViews firstObject]];
     
     [self.hdTitleView  modifyTextColor: [UIColor blackColor]];
     [self.hdTitleView  modifyIconBackColor: [UIColor blackColor]];
@@ -1209,7 +1340,7 @@ static HDCallViewController *_manger = nil;
                 make.bottom.offset(0);
 
             }];
-            [self.view sendSubviewToBack:whiteView];
+            [self.parentView sendSubviewToBack:whiteView];
         }else{
 
             [whiteView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -1219,7 +1350,7 @@ static HDCallViewController *_manger = nil;
                 make.bottom.offset(0);
             }];
             [whiteView layoutIfNeeded];
-            [self.view bringSubviewToFront:whiteView];
+            [self.parentView bringSubviewToFront:whiteView];
         }
     }else{
         NSLog(@"点击了互动白板事件");
@@ -1231,7 +1362,7 @@ static HDCallViewController *_manger = nil;
                 make.bottom.offset(0);
 
             }];
-            [self.view sendSubviewToBack:whiteView];
+            [self.parentView sendSubviewToBack:whiteView];
         }else{
 
             [whiteView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -1241,7 +1372,7 @@ static HDCallViewController *_manger = nil;
                 make.height.offset(kPointHeight);
             }];
             [whiteView layoutIfNeeded];
-//            [self.view bringSubviewToFront:whiteView];
+//            [self.parentView bringSubviewToFront:whiteView];
             
             
         }
@@ -1262,8 +1393,8 @@ static HDCallViewController *_manger = nil;
 //
 //    };
 //    [self addChildViewController:vc];
-//    [self.view addSubview:vc.view];
-//    [self.view bringSubviewToFront:vc.view];
+//    [self.parentView addSubview:vc.view];
+//    [self.parentView bringSubviewToFront:vc.view];
     
     [HDUploadFileViewController sharedManager];
     
@@ -1321,10 +1452,12 @@ static HDCallViewController *_manger = nil;
     _shareBtn = btn;
 
     _shareBtn.selected = _shareState;
-
+   
+    [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen1", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
     
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
         return;
     }
     //通过UserDefaults建立数据通道

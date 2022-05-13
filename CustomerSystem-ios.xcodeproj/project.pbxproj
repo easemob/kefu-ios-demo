@@ -141,6 +141,10 @@
 		9392B513280012EA005D4215 /* HDListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9392B511280012EA005D4215 /* HDListViewCell.xib */; };
 		9392B519280047CE005D4215 /* KFICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B515280047CE005D4215 /* KFICloudManager.m */; };
 		9392B51A280047CE005D4215 /* KFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B517280047CE005D4215 /* KFDocument.m */; };
+		93AFA5D4282C9BBC003C1F6B /* HDVideoAnswerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AFA5D3282C9BBC003C1F6B /* HDVideoAnswerView.m */; };
+		93AFA5D8282CDE4D003C1F6B /* HDVideoLayoutModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AFA5D7282CDE4D003C1F6B /* HDVideoLayoutModel.m */; };
+		93AFA5DB282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AFA5DA282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.m */; };
+		93AFA5DE282E6D09003C1F6B /* HDVideoEndCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AFA5DD282E6D07003C1F6B /* HDVideoEndCallViewController.m */; };
 		93B4E96227CCD1D800ACAF5B /* UIView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */; };
 		93B4E96327CCD1D800ACAF5B /* UIScrollView+HDMJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93C27CCD1D700ACAF5B /* UIScrollView+HDMJExtension.m */; };
 		93B4E96427CCD1D800ACAF5B /* HDMJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E93D27CCD1D700ACAF5B /* HDMJRefreshConst.m */; };
@@ -754,6 +758,14 @@
 		9392B516280047CE005D4215 /* KFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFDocument.h; sourceTree = "<group>"; };
 		9392B517280047CE005D4215 /* KFDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFDocument.m; sourceTree = "<group>"; };
 		9392B518280047CE005D4215 /* KFICloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFICloudManager.h; sourceTree = "<group>"; };
+		93AFA5D2282C9BBC003C1F6B /* HDVideoAnswerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoAnswerView.h; sourceTree = "<group>"; };
+		93AFA5D3282C9BBC003C1F6B /* HDVideoAnswerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoAnswerView.m; sourceTree = "<group>"; };
+		93AFA5D6282CDE4D003C1F6B /* HDVideoLayoutModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoLayoutModel.h; sourceTree = "<group>"; };
+		93AFA5D7282CDE4D003C1F6B /* HDVideoLayoutModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoLayoutModel.m; sourceTree = "<group>"; };
+		93AFA5D9282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoVerticalAlignmentLabel.h; sourceTree = "<group>"; };
+		93AFA5DA282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoVerticalAlignmentLabel.m; sourceTree = "<group>"; };
+		93AFA5DC282E6D07003C1F6B /* HDVideoEndCallViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoEndCallViewController.h; sourceTree = "<group>"; };
+		93AFA5DD282E6D07003C1F6B /* HDVideoEndCallViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoEndCallViewController.m; sourceTree = "<group>"; };
 		93B4E93627CCD1D700ACAF5B /* UIScrollView+HDMJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+HDMJExtension.h"; sourceTree = "<group>"; };
 		93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HDMJExtension.m"; sourceTree = "<group>"; };
 		93B4E93827CCD1D700ACAF5B /* HDMJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMJRefresh.h; sourceTree = "<group>"; };
@@ -1461,6 +1473,7 @@
 		930E320927E0323100455C7E /* Call */ = {
 			isa = PBXGroup;
 			children = (
+				93AFA5D5282CDDC2003C1F6B /* Model */,
 				9367CDDA27FD5CFE008479D8 /* Fastboard */,
 				930E320B27E032A000455C7E /* ViewController */,
 				9086151020B43A54002E71DA /* HCallResources */,
@@ -1474,6 +1487,8 @@
 			isa = PBXGroup;
 			children = (
 				930E320F27E03E6C00455C7E /* VideoViews */,
+				93AFA5D9282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.h */,
+				93AFA5DA282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1483,6 +1498,8 @@
 			children = (
 				930E322327E03FAE00455C7E /* HDCallViewController.h */,
 				930E322227E03FAD00455C7E /* HDCallViewController.m */,
+				93AFA5DC282E6D07003C1F6B /* HDVideoEndCallViewController.h */,
+				93AFA5DD282E6D07003C1F6B /* HDVideoEndCallViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1494,6 +1511,8 @@
 				933C4CA727E4A116001678B0 /* HDPopoverViewController.m */,
 				930E322827E0492E00455C7E /* HDAnswerView.h */,
 				930E322927E0492F00455C7E /* HDAnswerView.m */,
+				93AFA5D2282C9BBC003C1F6B /* HDVideoAnswerView.h */,
+				93AFA5D3282C9BBC003C1F6B /* HDVideoAnswerView.m */,
 				9385C57327E82EEB0049096F /* HDItemView.h */,
 				9385C57427E82EEB0049096F /* HDItemView.m */,
 				930E321227E03E9600455C7E /* HDCallCollectionViewCell.h */,
@@ -1697,6 +1716,15 @@
 				9374FEC127CCB6DC00DE1185 /* HDMasonry.h */,
 			);
 			path = HDMasonry;
+			sourceTree = "<group>";
+		};
+		93AFA5D5282CDDC2003C1F6B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				93AFA5D6282CDE4D003C1F6B /* HDVideoLayoutModel.h */,
+				93AFA5D7282CDE4D003C1F6B /* HDVideoLayoutModel.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		93B4E93527CCD1D700ACAF5B /* HDMJRefresh */ = {
@@ -3503,6 +3531,7 @@
 				D3CB648A1E4888F30022A6BA /* HDSDKHelper.m in Sources */,
 				EB395DFF1A8F0AC40083B659 /* MallViewController.m in Sources */,
 				D3CB64B81E4888F30022A6BA /* HelpDeskUI.m in Sources */,
+				93AFA5D8282CDE4D003C1F6B /* HDVideoLayoutModel.m in Sources */,
 				D3CB64651E4888F30022A6BA /* MWGridViewController.m in Sources */,
 				D3CB64841E4888F30022A6BA /* PSTCollectionViewUpdateItem.m in Sources */,
 				D3CB649A1E4888F30022A6BA /* HDMessageReadManager.m in Sources */,
@@ -3521,6 +3550,7 @@
 				937D74B627853E500022B707 /* HDAgoraCallViewController.m in Sources */,
 				D3394AEE1E548898009370BF /* HDViewController.m in Sources */,
 				EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */,
+				93AFA5DE282E6D09003C1F6B /* HDVideoEndCallViewController.m in Sources */,
 				938DD77F28151DB400966CB3 /* UIView+Kit.m in Sources */,
 				930E322427E03FAE00455C7E /* HDCallViewController.m in Sources */,
 				D3CB64481E4888F30022A6BA /* HDCDDeviceManagerBase.m in Sources */,
@@ -3565,6 +3595,7 @@
 				D3394EA61E559A3F009370BF /* HFileViewController.m in Sources */,
 				D3CB64921E4888F30022A6BA /* UIViewController+HDHUD.m in Sources */,
 				8F6ACB2C1F41449100A5622B /* HDFormWebViewController.m in Sources */,
+				93AFA5D4282C9BBC003C1F6B /* HDVideoAnswerView.m in Sources */,
 				D3CB64AB1E4888F30022A6BA /* HDBubbleView+Track.m in Sources */,
 				930E322027E03E9800455C7E /* HDTitleView.m in Sources */,
 				90EE4C5523548CD200DEE8CA /* HRobotUnsolveItemView.m in Sources */,
@@ -3615,6 +3646,7 @@
 				9392B50A27FFF293005D4215 /* HDUploadFileViewController.m in Sources */,
 				D3A8B1B71E00E5B200A43E7E /* UIViewController+KFAdd.m in Sources */,
 				D34743B41DE6FF8C00F32D87 /* HDLeaveMsgViewController.m in Sources */,
+				93AFA5DB282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.m in Sources */,
 				9042C2652514A1A100DC5BE1 /* AFNetworkReachabilityManager.m in Sources */,
 				937FD5A927D1B2ED00EB055A /* HDAgoraCallManager.m in Sources */,
 				930E321C27E03E9800455C7E /* HDCallCollectionViewCell.m in Sources */,

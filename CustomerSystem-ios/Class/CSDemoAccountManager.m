@@ -207,6 +207,7 @@ static CSDemoAccountManager *_manager = nil;
     visitor.nickName = self.nickname;
     visitor.email = @"";
     visitor.desc = @"";
+    
     return visitor;
 }
 

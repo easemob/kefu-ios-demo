@@ -186,6 +186,7 @@
 "leaveMessage.leavemsg.attachmentname" = "附件名称";
 "leaveMessage.leavemsg.uploadattachment" = "上传附件";
 "leaveMessage.leavemsg.uploadattachment.failed" = "上传附件失败";
+
 "uploading..." = "上传中...";
 "success!" = "成功";
 "failed" = "失败";
@@ -330,3 +331,6 @@
 "video_other_side_has_hungup" = "对方挂断了视频通话";
 
 "video_is_over" = "视频通话已经结束";
+"video_call_shareScreen" = "当前正在白板中不能进行屏幕共享";
+"video_call_shareScreen1" = "点击了屏幕共享";
+
