@@ -39,6 +39,7 @@
 #define kzoom               @"\U0000e685"  //&#xe685
 #define kfeihuazhonghua     @"\U0000e7c6"  //&#xe7c6
 #define khuazhonghua1       @"\U0000e61c"  //&#xe61c
+#define kguanbi             @"\U0000eaf2"  //&#xeaf2
 
 
 NS_ASSUME_NONNULL_BEGIN

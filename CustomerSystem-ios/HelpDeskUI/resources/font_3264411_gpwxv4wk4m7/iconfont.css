@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3264411 */
-  src: url('iconfont.woff2?t=1652170606973') format('woff2'),
-       url('iconfont.woff?t=1652170606973') format('woff'),
-       url('iconfont.ttf?t=1652170606973') format('truetype');
+  src: url('iconfont.woff2?t=1652533371342') format('woff2'),
+       url('iconfont.woff?t=1652533371342') format('woff'),
+       url('iconfont.ttf?t=1652533371342') format('truetype');
 }
 
 .iconfont {
@@ -13,8 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-guanbi:before {
+  content: "\eaf2";
+}
+
 .icon-a-videocall1x:before {
   content: "\e600";
+}
+
+.icon-a-videocall1x-copy:before {
+  content: "\ecb6";
 }
 
 .icon-zoom:before {

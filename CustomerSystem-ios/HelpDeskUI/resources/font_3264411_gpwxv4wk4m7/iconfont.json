@@ -6,11 +6,25 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5387522",
+      "name": "关闭",
+      "font_class": "guanbi",
+      "unicode": "eaf2",
+      "unicode_decimal": 60146
+    },
+    {
       "icon_id": "24344425",
       "name": "videocall@1x",
       "font_class": "a-videocall1x",
       "unicode": "e600",
       "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "29706366",
+      "name": "videocall@1x",
+      "font_class": "a-videocall1x-copy",
+      "unicode": "ecb6",
+      "unicode_decimal": 60598
     },
     {
       "icon_id": "19594572",

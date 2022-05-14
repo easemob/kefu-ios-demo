@@ -9,7 +9,7 @@
 #import "HDVideoAnswerView.h"
 #import "Masonry.h"
 #import "HDAppSkin.h"
-
+#import "UIImage+HDIconFont.h"
 @interface HDVideoAnswerView()
 {
     NSInteger _time ;
@@ -267,18 +267,38 @@
     
     [self.hangUpBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.offset(-44);
-        make.width.height.offset(66);
+        make.width.height.offset(88);
         make.centerX.mas_equalTo(self.icon.mas_centerX).offset(0);
         
     }];
-    
+    [self.hangUpBtn layoutIfNeeded];
     [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.offset(5);
         make.width.height.offset(32);
         make.trailing.offset(-5);
         
     }];
+    _hangUpBtn.titleEdgeInsets = UIEdgeInsetsMake(10, -_hangUpBtn.imageView.frame.size.width, -_hangUpBtn.imageView.frame.size.height, 0);
+    _hangUpBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 20,10);
+    
+//    [self initButton:_hangUpBtn];
 }
+
+/*将按钮设置为图片在上，文字在下*/
+- (void)initButton:(UIButton*)btn {
+    float  spacing = 4;//图片和文字的上下间距
+    CGSize imageSize = btn.imageView.frame.size;
+    CGSize titleSize = btn.titleLabel.frame.size;
+    CGSize textSize = [btn.titleLabel.text sizeWithAttributes:@{NSFontAttributeName : btn.titleLabel.font}];
+    CGSize frameSize = CGSizeMake(ceilf(textSize.width), ceilf(textSize.height));
+    if (titleSize.width + 0.5 < frameSize.width) {
+        titleSize.width = frameSize.width;
+    }
+    CGFloat totalHeight = (imageSize.height + titleSize.height + spacing);
+    btn.imageEdgeInsets = UIEdgeInsetsMake(- (totalHeight - imageSize.height), 0.0, 0.0, - titleSize.width);
+    btn.titleEdgeInsets = UIEdgeInsetsMake(0, - imageSize.width, - (totalHeight - titleSize.height), 0);
+}
+
 - (HDVideoVerticalAlignmentLabel *)answerLabel{
     
     if (!_answerLabel) {
@@ -377,7 +397,8 @@
         _closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_closeBtn addTarget:self action:@selector(onCloseClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
-        [_closeBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
+        UIImage *img  = [UIImage imageWithIcon:kguanbi inFont:kfontName size:32 color:[[HDAppSkin mainSkin] contentColorWhitealpha:1]] ;
+        [_closeBtn setImage:img forState:UIControlStateNormal];
     }
     return _closeBtn;
 }
@@ -393,11 +414,15 @@
 - (UIButton *)hangUpBtn{
     if (!_hangUpBtn) {
         _hangUpBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [_hangUpBtn setBackgroundColor: [UIColor redColor]];
+        [_hangUpBtn setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
+         _hangUpBtn.titleLabel.font = [[HDAppSkin mainSkin] systemFont16pt];
         [_hangUpBtn addTarget:self action:@selector(onCallClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
-        [_hangUpBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
-        _hangUpBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -_hangUpBtn.imageView.frame.size.width + 10, -_hangUpBtn.imageView.frame.size.height, 0);
-        _hangUpBtn.imageEdgeInsets = UIEdgeInsetsMake(-_hangUpBtn.titleLabel.intrinsicContentSize.height - 5, 0, 0, -_hangUpBtn.titleLabel.intrinsicContentSize.width);
+//        [_hangUpBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
+       
+        [_hangUpBtn setTitle: NSLocalizedString(@"video.answer.waiting", @"发起") forState:UIControlStateNormal];
+       
     }
     return _hangUpBtn;
 }
