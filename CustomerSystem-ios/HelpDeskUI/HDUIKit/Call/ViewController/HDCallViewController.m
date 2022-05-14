@@ -155,9 +155,20 @@ static HDCallViewController *_manger = nil;
 }
 - (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoCallType)type{
     NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
+    kWeakSelf
+    [[HDClient sharedClient].chatManager getEnterpriseWelcomeWithCompletion:^(NSString *welcome, HDError *error) {
     
- 
-    
+        if (!error) {
+            //接口请求成功
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                HDVideoLayoutModel * model = [[HDVideoLayoutModel alloc] init];
+        //        UI更新代码
+                [weakSelf.hdVideoAnswerView updateServiceLayoutConfig:model];
+            });
+        }
+        
+    }];
     
     if (!isCalling) {
         if (type == HDVideoCallDirectionSend) {
@@ -889,8 +900,7 @@ static HDCallViewController *_manger = nil;
     
 //    dispatch_async(dispatch_get_main_queue(), ^{
        // UI更新代码 更新结束 弹窗
-        HDVideoLayoutModel * model = [[HDVideoLayoutModel alloc] init];
-        [self.hdVideoAnswerView updateServiceLayoutConfig:model withProcessType:HDVideoProcessEnd];
+        [self.hdVideoAnswerView endCallLayout];
     
     
    
@@ -1188,6 +1198,7 @@ static HDCallViewController *_manger = nil;
             NSLog(@"%ld----%@",(long)item.uid,[NSThread currentThread]);
             if (item.uid == uid) {
                 item.isVideoMute = videoMuted;
+                item.isMute = muted;
                 [self.itemView setItemString:item.nickName];
                 [self  setMidelleMutedItem:item];
                 *stop = YES;

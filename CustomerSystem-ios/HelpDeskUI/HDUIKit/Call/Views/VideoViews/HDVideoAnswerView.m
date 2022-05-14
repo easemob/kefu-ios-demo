@@ -13,6 +13,7 @@
 @interface HDVideoAnswerView()
 {
     NSInteger _time ;
+    HDVideoLayoutModel *_model;
 }
 /**  定时器  **/
 @property (nonatomic , strong)NSTimer  *timer;
@@ -70,8 +71,8 @@
 - (void)visitorVideoUI{
     // 第一步
     
-    HDVideoLayoutModel * model = [[HDVideoLayoutModel alloc] init];
-    [self updateServiceLayoutConfig:model withProcessType:HDVideoProcessWaiting];
+//    HDVideoLayoutModel * model = [[HDVideoLayoutModel alloc] init];
+    [self updateServiceLayoutConfig:_model withProcessType:HDVideoProcessWaiting];
     
     self.onBtn.hidden =YES;
     self.offBtn.hidden =YES;
@@ -82,6 +83,11 @@
     
 }
 
+- (void)endCallLayout{
+    
+    [self updateServiceLayoutConfig:_model withProcessType:HDVideoProcessEnd];
+    
+}
 - (void)agentReceiveVideoUI{
     
     [self startTimer];
@@ -118,6 +124,13 @@
         default:
             break;
     }
+}
+- (void)updateServiceLayoutConfig:(HDVideoLayoutModel *)model{
+    
+    _model = model;
+    
+    [self updateServiceLayoutConfig:model withProcessType:self.processType];
+    
 }
 - (void)updateServiceLayoutConfig:(HDVideoLayoutModel *)model withProcessType:(HDVideoProcessType)type{
     
@@ -452,8 +465,8 @@
     //点击的时候进行第二步 真正发起通话 消息 这些
     if (self.processType == HDVideoProcessWaiting || self.processType == HDVideoProcessEnd) {
         //更新 页面状态
-        HDVideoLayoutModel * model = [[HDVideoLayoutModel alloc] init];
-        [self updateServiceLayoutConfig:model withProcessType:HDVideoProcessInitiate];
+//        HDVideoLayoutModel * model = [[HDVideoLayoutModel alloc] init];
+        [self updateServiceLayoutConfig:_model withProcessType:HDVideoProcessInitiate];
         if (self.clickVideoOnCallBlock) {
             self.clickVideoOnCallBlock(sender);
         }

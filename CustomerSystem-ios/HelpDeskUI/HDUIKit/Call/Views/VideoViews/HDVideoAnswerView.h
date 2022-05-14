@@ -52,9 +52,13 @@ typedef void(^ClickCloseCallBlock)(UIButton *btn);
 @property (nonatomic, assign) HDVideoProcessType processType;
 
 
+
 -(void) hd_createUIWithCallType:(HDVideoType )callType;
 
-- (void)updateServiceLayoutConfig:(HDVideoLayoutModel *)model withProcessType:(HDVideoProcessType)type;
+//- (void)updateServiceLayoutConfig:(HDVideoLayoutModel *)model withProcessType:(HDVideoProcessType)type;
+- (void)updateServiceLayoutConfig:(HDVideoLayoutModel *)model;
+
+- (void)endCallLayout;
 
 
 @end
