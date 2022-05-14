@@ -10,7 +10,7 @@
 #import <AgoraRtcKit/AgoraRtcEngineKit.h>
 #import "HDAgoraCallOptions.h"
 #import "HDAgoraCallManagerDelegate.h"
-
+#import "HDVideoLayoutModel.h"
 NS_ASSUME_NONNULL_BEGIN
 static NSString * _Nonnull kUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
 
@@ -22,6 +22,8 @@ static void *KVOContext = &KVOContext;
 @property (nonatomic, strong) HDKeyCenter *keyCenter;
 @property (nonatomic, strong) NSString *conversationId;
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, strong) HDVideoLayoutModel *layoutModel;
+
 
 + (instancetype _Nullable )shareInstance;
 
@@ -203,7 +205,7 @@ static void *KVOContext = &KVOContext;
 /// @param remoteView  远端试图
 /// @param uid  远端的uid
 - (void)setupRemoteVideoView:(UIView *)remoteView withRemoteUid:(NSInteger )uid;
-
+- (void)initSettingWithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion ;
 @end
 
 NS_ASSUME_NONNULL_END

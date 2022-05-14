@@ -19,6 +19,7 @@
 #import "HDMessageReadManager.h"
 #import "KFICloudManager.h"
 #import "HDCallViewController.h"
+#import "HDAgoraCallManager.h"
 @interface HDChatViewController ()<UIAlertViewDelegate,HDClientDelegate,UIDocumentPickerDelegate>
 {
     UIMenuItem *_copyMenuItem;
@@ -72,14 +73,19 @@
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
     [self stopAudioPlayingWithChangeCategory:YES];
-//    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
-//    [message addContent:[self visitorInfo]];
-//    [self _sendMessage:message];
+    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
+    [message addContent:[self visitorInfo]];
+    [self _sendMessage:message];
     
-    //todo 创建视频等待界面
-
+    //todo 创建视频等待界面  调用接口 vec 使用
+//    [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
+//        });
+//    }];
+    
     [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
-    
     [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
         [[HDCallViewController sharedManager]  removeView];
         

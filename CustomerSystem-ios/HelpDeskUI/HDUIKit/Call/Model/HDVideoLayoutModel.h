@@ -12,14 +12,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HDVideoLayoutModel : NSObject
 
-@property (nonatomic, strong) NSString *initialWelcome;
-@property (nonatomic, strong) NSString *initialWelcomeImage;
-@property (nonatomic, strong) NSString *initiateWelcome;
-@property (nonatomic, strong) NSString *initiateWelcomeImage;
-@property (nonatomic, strong) NSString *lineUpCluesWelcome;
-@property (nonatomic, strong) NSString *lineUpCluesWelcomeImage;
-@property (nonatomic, strong) NSString *endCluesWelcome;
-@property (nonatomic, strong) NSString *endCluesWelcomeImage;
+@property (nonatomic, assign) BOOL visitorCameraOff;
+@property (nonatomic, assign) BOOL skipWaitingPage;
+
+@property (nonatomic, strong) NSString *WaitingPrompt;
+@property (nonatomic, strong) NSString *WaitingBackgroundPic;
+@property (nonatomic, strong) NSString *CallingPrompt;
+@property (nonatomic, strong) NSString *CallingBackgroundPic;
+@property (nonatomic, strong) NSString *QueuingPrompt;
+@property (nonatomic, strong) NSString *QueuingBackgroundPic;
+@property (nonatomic, strong) NSString *EndingPrompt;
+@property (nonatomic, strong) NSString *EndingBackgroundPic;
 @end
 
 NS_ASSUME_NONNULL_END

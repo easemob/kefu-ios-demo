@@ -562,4 +562,50 @@ static HDAgoraCallManager *shareCall = nil;
     return YES;
 }
 
+- (void)initSettingWithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion {
+    kWeakSelf
+    [[HDClient sharedClient].callManager hd_getInitVECSettingWithCompletion:^(id  responseObject, HDError *error) {
+    
+        if (!error && [responseObject isKindOfClass:[NSDictionary class]] ) {
+            
+            NSDictionary * dic= responseObject;
+            if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
+           
+            //接口请求成功
+        //        UI更新代码
+                HDVideoLayoutModel * model = [weakSelf setModel:dic];
+                
+                [HDAgoraCallManager shareInstance].layoutModel = model;
+                
+                if (aCompletion) {
+                    aCompletion(responseObject,nil);
+                }
+            }
+        }
+        
+    }];
+}
+
+- (HDVideoLayoutModel *)setModel:(NSDictionary *)dic{
+    
+    HDVideoLayoutModel * model = [[HDVideoLayoutModel alloc] init];
+        if ([[dic allKeys] containsObject:@"functionSettings"]) {
+            NSDictionary *functionSettings = [dic valueForKey:@"functionSettings"];
+            model.visitorCameraOff = [functionSettings valueForKey:@"visitorCameraOff"];
+            model.skipWaitingPage = [functionSettings valueForKey:@"skipWaitingPage"];
+        }
+        if ([[dic allKeys] containsObject:@"styleSettings"]) {
+            NSDictionary *styleSettings = [dic valueForKey:@"styleSettings"];
+            model.WaitingPrompt = [styleSettings valueForKey:@"WaitingPrompt"];
+            model.WaitingBackgroundPic = [styleSettings valueForKey:@"WaitingBackgroundPic"];
+            model.CallingPrompt = [styleSettings valueForKey:@"CallingPrompt"];
+            model.CallingBackgroundPic = [styleSettings valueForKey:@"CallingBackgroundPic"];
+            model.QueuingPrompt = [styleSettings valueForKey:@"QueuingPrompt"];
+            model.QueuingBackgroundPic = [styleSettings valueForKey:@"QueuingBackgroundPic"];
+            model.EndingPrompt = [styleSettings valueForKey:@"EndingPrompt"];
+            model.EndingBackgroundPic = [styleSettings valueForKey:@"EndingBackgroundPic"];
+        }
+       
+    return model;
+}
 @end

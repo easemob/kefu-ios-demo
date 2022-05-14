@@ -70,6 +70,8 @@
     UIView * _closeBgview;
     CGFloat viewWidth;
     CGFloat viewHeight;
+    
+    BOOL _isVEC; //是否使用vec 流程界面
 }
 @property (nonatomic, strong) UIView *parentView;
 @property (nonatomic, strong) NSString *agentName;
@@ -100,7 +102,6 @@ static HDCallViewController *_manger = nil;
  
 /** 单利创建
  */
- 
 + (instancetype)sharedManager
 {
     dispatch_once(&onceToken, ^{
@@ -110,9 +111,7 @@ static HDCallViewController *_manger = nil;
         _manger.view.frame = [UIScreen mainScreen].bounds;
         [window  addSubview:_manger.view];
     });
- 
     return _manger;
- 
 }
  
 /** 单利销毁
@@ -143,9 +142,7 @@ static HDCallViewController *_manger = nil;
 }
 +(id)alertWithView:(UIView *)view AlertType:(HDCallAlertType)type
 {
-    
     HDCallViewController *callVC = [[HDCallViewController alloc] init];
-
     return callVC;
 }
 + (id)alertCallWithView:(UIView *)view{
@@ -154,28 +151,34 @@ static HDCallViewController *_manger = nil;
     
 }
 - (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoCallType)type{
-    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
-    kWeakSelf
-    [[HDClient sharedClient].chatManager getEnterpriseWelcomeWithCompletion:^(NSString *welcome, HDError *error) {
+//    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
     
-        if (!error) {
-            //接口请求成功
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                HDVideoLayoutModel * model = [[HDVideoLayoutModel alloc] init];
-        //        UI更新代码
-                [weakSelf.hdVideoAnswerView updateServiceLayoutConfig:model];
-            });
-        }
-        
-    }];
-    
+    //调用初始化接口
+//    if (_isVEC) {
+//        [self initSetting];
+//    }
+
     if (!isCalling) {
         if (type == HDVideoCallDirectionSend) {
             // 发送 界面
             self.isVisitorSend = YES;
-//            self.hdAnswerView.callType = HDVideoCallDirectionSend;
-            self.hdVideoAnswerView.callType = HDVideoDirectionSend;
+            if (_isVEC) {
+             
+                if ([HDAgoraCallManager shareInstance].layoutModel && [HDAgoraCallManager shareInstance].layoutModel.skipWaitingPage) {
+                
+                    //直接发起 视频呼叫
+                    [self createVideoCall];
+                
+//                    // 排队界面显示 呼叫界面
+//                    [self.hdVideoAnswerView updateServiceLayoutConfig:[HDAgoraCallManager shareInstance].layoutModel];
+                    self.hdVideoAnswerView.callType = HDVideoDirectionSend;
+                    
+                }
+                
+                
+            }else{
+                self.hdAnswerView.callType = HDVideoCallDirectionSend;
+            }
         }else{
             // 接受 界面
             //需要必要创建房间的参数
@@ -188,14 +191,19 @@ static HDCallViewController *_manger = nil;
                 [self anwersBtnClicked:nil];
 
             }else{
-//                self.hdAnswerView.callType = HDVideoCallDirectionReceive;
-                self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
+                if (_isVEC) {
+                    self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
+                }else{
+                    self.hdAnswerView.callType = HDVideoCallDirectionReceive;
+                }
                 // 其他情况下都是 坐席回拨过来的
                 self.isVisitorSend = NO;
             }
         }
     }
 }
+
+
 - (void)hideView{
     if (self&&self.view) {
         self.view.hidden = YES;
@@ -224,23 +232,30 @@ static HDCallViewController *_manger = nil;
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     [HDClient.sharedClient.whiteboardManager addDelegate:self delegateQueue:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableDidSelected:) name:@"click" object:nil];
-//    [self.view addSubview:self.hdAnswerView];
-//
-//    [self.hdAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.offset(0);
-//        make.bottom.offset(0);
-//        make.leading.offset(0);
-//        make.trailing.offset(0);
-//    }];
-    [self.view addSubview:self.hdVideoAnswerView];
+    
+    if (_isVEC) {
+        [self.view addSubview:self.hdVideoAnswerView];
 
 
-    [self.hdVideoAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset([UIScreen mainScreen].bounds.size.width * 0.8);
-            make.height.offset([UIScreen mainScreen].bounds.size.width * 0.8 * 1.3);
-            make.centerX.mas_equalTo(self.view);
-            make.centerY.mas_equalTo(self.view);
+        [self.hdVideoAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.width.offset([UIScreen mainScreen].bounds.size.width * 0.8);
+                make.height.offset([UIScreen mainScreen].bounds.size.width * 0.8 * 1.3);
+                make.centerX.mas_equalTo(self.view);
+                make.centerY.mas_equalTo(self.view);
+            }];
+    }else{
+        [self.view addSubview:self.hdAnswerView];
+
+        [self.hdAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.offset(0);
+            make.bottom.offset(0);
+            make.leading.offset(0);
+            make.trailing.offset(0);
         }];
+        
+    }
+   
+    
     
     self.isLandscape = NO;
     _videoViews = [NSMutableArray new];
@@ -724,20 +739,20 @@ static HDCallViewController *_manger = nil;
      }
      return _itemView;
 }
-//- (HDAnswerView *)hdAnswerView{
-//   if (!_hdAnswerView) {
-//       _hdAnswerView = [[HDAnswerView alloc]init];
-//       _hdAnswerView.backgroundColor = [UIColor blackColor];
-//       __weak __typeof__(self) weakSelf = self;
-//       _hdAnswerView.clickOnBlock = ^(UIButton * _Nonnull btn) {
-//           [weakSelf anwersBtnClicked:btn];
-//       };
-//       _hdAnswerView.clickOffBlock = ^(UIButton * _Nonnull btn) {
-//           [weakSelf offBtnClicked:btn];
-//       };
-//    }
-//    return _hdAnswerView;
-//}
+- (HDAnswerView *)hdAnswerView{
+   if (!_hdAnswerView) {
+       _hdAnswerView = [[HDAnswerView alloc]init];
+       _hdAnswerView.backgroundColor = [UIColor blackColor];
+       __weak __typeof__(self) weakSelf = self;
+       _hdAnswerView.clickOnBlock = ^(UIButton * _Nonnull btn) {
+           [weakSelf anwersBtnClicked:btn];
+       };
+       _hdAnswerView.clickOffBlock = ^(UIButton * _Nonnull btn) {
+           [weakSelf offBtnClicked:btn];
+       };
+    }
+    return _hdAnswerView;
+}
 - (HDVideoAnswerView *)hdVideoAnswerView{
    if (!_hdVideoAnswerView) {
        _hdVideoAnswerView = [[HDVideoAnswerView alloc]init];
@@ -851,8 +866,15 @@ static HDCallViewController *_manger = nil;
 /// @param sender  button
 - (void)anwersBtnClicked:(UIButton *)sender{
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorWhitealpha:1];
-//    self.hdAnswerView.hidden = YES;
-    self.hdVideoAnswerView.hidden = YES;
+
+    if (_isVEC) {
+        self.hdVideoAnswerView.hidden = YES;
+        
+    }else{
+        self.hdAnswerView.hidden = YES;
+    }
+    
+    
     //应答的时候 在创建view
     //添加 页面布局
     [self addSubView];
@@ -887,7 +909,6 @@ static HDCallViewController *_manger = nil;
 /// 拒接事件
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{
-    
   
     //拒接事件 拒接关闭当前页面
     isCalling = NO;
@@ -896,35 +917,22 @@ static HDCallViewController *_manger = nil;
     [[HDAgoraCallManager shareInstance] endCall];
     [self.hdTitleView stopTimer];
     
-    [self clearViewData];
     
-//    dispatch_async(dispatch_get_main_queue(), ^{
-       // UI更新代码 更新结束 弹窗
+    if (_isVEC) {
+        [self clearViewData];
         [self.hdVideoAnswerView endCallLayout];
-    
-    
-   
-    
-        
-//    };
-    
-//        for(UIView *v in [self.parentView subviews])
-//        {
-//            if (![v isKindOfClass:[HDVideoAnswerView class]]) {
-//
-//
-//                [v removeFromSuperview];
-//
-//            }
-//
-//         }
-//    self.barView =nil;
         if (self.hdVideoAnswerView.hidden) {
             self.hdVideoAnswerView.hidden = NO;
         }
+    }else{
         
-//    });
-
+//        dispatch_async(dispatch_get_main_queue(), ^{
+    //        UI更新代码
+            if (self.hangUpCallback) {
+                self.hangUpCallback(self, self.hdTitleView.timeLabel.text);
+            }
+//        });
+    }
 }
 
 - (UIView *)parentView{
