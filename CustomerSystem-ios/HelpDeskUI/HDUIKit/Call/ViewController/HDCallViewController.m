@@ -73,6 +73,10 @@
     
     BOOL _isVEC; //是否使用vec 流程界面
 }
+/*
+ * 弹窗窗口
+ */
+@property (strong, nonatomic) UIWindow *alertWindow;
 @property (nonatomic, strong) UIView *parentView;
 @property (nonatomic, strong) NSString *agentName;
 @property (nonatomic, strong) NSString *nickname;
@@ -106,10 +110,18 @@ static HDCallViewController *_manger = nil;
 {
     dispatch_once(&onceToken, ^{
         _manger = [[HDCallViewController alloc] init];
-        UIWindow *window = [UIApplication sharedApplication].keyWindow ;
-        window.windowLevel = UIWindowLevelAlert+1;
+//        UIWindow *window = [UIApplication sharedApplication].keyWindow ;
+//        window.windowLevel = UIWindowLevelAlert+1;
+//        _manger.view.frame = [UIScreen mainScreen].bounds;
+//        [window  addSubview:_manger.view];
+        _manger.alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _manger.alertWindow.windowLevel = 0.0;
+        _manger.alertWindow.backgroundColor = [UIColor clearColor];
+        _manger.alertWindow.rootViewController = [UIViewController new];
+        _manger.alertWindow.accessibilityViewIsModal = YES;
+        [_manger.alertWindow makeKeyAndVisible];
         _manger.view.frame = [UIScreen mainScreen].bounds;
-        [window  addSubview:_manger.view];
+        [_manger.alertWindow  addSubview:_manger.view];
     });
     return _manger;
 }
@@ -122,8 +134,18 @@ static HDCallViewController *_manger = nil;
     /**只有置成0，GCD才会认为它从未执行过。它默认为0。
      这样才能保证下次再次调用sharedManager的时候，再次创建对象。*/
     onceToken= 0;
+
+    [_manger removeAllSubviews];
+    _manger.alertWindow = nil;
     _manger=nil;
+
     [self cancelWindow];
+}
+- (void)removeAllSubviews {
+    while (_manger.alertWindow.subviews.count) {
+        UIView* child = _manger.alertWindow.subviews.lastObject;
+        [child removeFromSuperview];
+    }
 }
 + (HDCallViewController *)hasReceivedCallWithKeyCenter:(HDKeyCenter *)keyCenter  avatarStr:(NSString *)aAvatarStr nickName:(NSString *)aNickname hangUpCallBack:(HangUpCallback)callback{
     
@@ -1253,6 +1275,12 @@ static HDCallViewController *_manger = nil;
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
+    if (_shareState) {
+        //当前正在共享
+        //当前正在白板房间
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "当前正在屏幕共享中不能进行白板")  withWindow:self.alertWindow];
+        return;
+    }
     _whiteBoardBtn = sender;
     if ([HDWhiteRoomManager shareInstance].roomState) {
         
@@ -1472,11 +1500,11 @@ static HDCallViewController *_manger = nil;
 
     _shareBtn.selected = _shareState;
    
-    [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen1", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
+//    [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen1", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
     
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen", "当前正在白板中不能进行屏幕共享")  withWindow:[UIApplication sharedApplication].keyWindow];
         return;
     }
     //通过UserDefaults建立数据通道
@@ -1767,6 +1795,7 @@ void NotificationCallback(CFNotificationCenterRef center,
 }
 //悬浮视图消失
 - (void)cancelWindow{
+    
     [_customWindow resignFirstResponder];
     _customWindow=nil;
 

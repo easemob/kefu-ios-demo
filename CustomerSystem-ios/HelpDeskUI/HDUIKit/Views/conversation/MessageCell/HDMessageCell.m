@@ -510,7 +510,12 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         NSDictionary *weichat = [model.message.ext objectForKey:kMessageExtWeChat];
                         NSDictionary *transferHumanInfo = [weichat objectForKey:kMessageExtWeChat_transferToHuman];
                         NSString *suggestionTransferToHumanLabel = transferHumanInfo[@"suggestionTransferToHumanLabel"];
-                        [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer withTitle:suggestionTransferToHumanLabel];
+                        if ([suggestionTransferToHumanLabel isKindOfClass:[NSNull class]]) {
+                           
+                        }else{
+                       
+                            [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer withTitle:suggestionTransferToHumanLabel];
+                        }
                     }
                         break;
                     case HDExtFormMsg:

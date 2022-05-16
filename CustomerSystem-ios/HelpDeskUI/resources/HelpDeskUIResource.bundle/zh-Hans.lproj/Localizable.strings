@@ -332,5 +332,5 @@
 
 "video_is_over" = "视频通话已经结束";
 "video_call_shareScreen" = "当前正在白板中不能进行屏幕共享";
-"video_call_shareScreen1" = "点击了屏幕共享";
+"video_call_whiteBoard_not_shareScreen" = "当前正在屏幕共享中不能进行白板";
 

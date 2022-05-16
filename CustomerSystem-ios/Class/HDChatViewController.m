@@ -85,13 +85,26 @@
 //        });
 //    }];
     
+    
+//    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:nil avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//   //        [callVC dismissViewControllerAnimated:YES completion:nil];
+//       }];
+//           hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//           [self presentViewController:hdCallVC animated:YES completion:nil];
+//
+   
+   
+    
+    
     [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
     [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
         [[HDCallViewController sharedManager]  removeView];
-        
+
         [[HDCallViewController sharedManager] removeSharedManager];
-        
+
     };
+    
+    
     
     //发送im 消息
 //    // 调用:
