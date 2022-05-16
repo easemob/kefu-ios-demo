@@ -1278,6 +1278,7 @@ static HDCallViewController *_manger = nil;
     if (_shareState) {
         //当前正在共享
         //当前正在白板房间
+        _whiteBoardBtn.selected = !_shareState;
         [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "当前正在屏幕共享中不能进行白板")  withWindow:self.alertWindow];
         return;
     }
@@ -1504,7 +1505,7 @@ static HDCallViewController *_manger = nil;
     
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen", "当前正在白板中不能进行屏幕共享")  withWindow:[UIApplication sharedApplication].keyWindow];
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen", "当前正在白板中不能进行屏幕共享")  withWindow:self.alertWindow];
         return;
     }
     //通过UserDefaults建立数据通道
@@ -1565,8 +1566,6 @@ static HDCallViewController *_manger = nil;
 - (void)stopBroadcaster {
    
 }
-
-
 
 - (void)sendNotificationWithIdentifier:(nullable NSString *)identifier userInfo:(NSDictionary *)info {
     CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();

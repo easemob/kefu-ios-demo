@@ -28,6 +28,10 @@
 @property (nonatomic, strong) HDControlBarView *barView;
 @property (nonatomic, strong) UIView *navView;
 @property (nonatomic, strong) UIDocumentPickerViewController *documentPickerVC;
+/*
+ * 弹窗窗口
+ */
+@property (strong, nonatomic) UIWindow *alertWindow;
 @end
 static dispatch_once_t onceToken;
 static HDUploadFileViewController *_manger = nil;
@@ -104,10 +108,14 @@ static HDUploadFileViewController *_manger = nil;
 {
     dispatch_once(&onceToken, ^{
         _manger = [[HDUploadFileViewController alloc] init];
-        UIWindow *window = [UIApplication sharedApplication].keyWindow ;
-        window.windowLevel = UIWindowLevelAlert+3;
+        _manger.alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _manger.alertWindow.windowLevel = 1;
+        _manger.alertWindow.backgroundColor = [UIColor clearColor];
+        _manger.alertWindow.rootViewController = [UIViewController new];
+        _manger.alertWindow.accessibilityViewIsModal = YES;
+        [_manger.alertWindow makeKeyAndVisible];
         _manger.view.frame = [UIScreen mainScreen].bounds;
-        [window  addSubview:_manger.view];
+        [_manger.alertWindow  addSubview:_manger.view];
     });
  
     return _manger;
@@ -121,13 +129,21 @@ static HDUploadFileViewController *_manger = nil;
 {
     /**只有置成0，GCD才会认为它从未执行过。它默认为0。
      这样才能保证下次再次调用sharedManager的时候，再次创建对象。*/
+    
+    [_manger removeAllSubviews];
+    _manger.alertWindow = nil;
     onceToken= 0;
     _manger=nil;
     
     [self.view removeFromSuperview];
     self.view = nil;
 }
-
+- (void)removeAllSubviews {
+    while (_manger.alertWindow.subviews.count) {
+        UIView* child = _manger.alertWindow.subviews.lastObject;
+        [child removeFromSuperview];
+    }
+}
 
 #pragma mark - event
 -(void)muteBtnClicked:(UIButton *)sender{

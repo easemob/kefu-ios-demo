@@ -542,10 +542,12 @@ typedef enum : NSUInteger {
          EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
 
         UIImage * img = [UIImage imageWithContentsOfFile:videoBody.thumbnailLocalPath];
-//         if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
+        NSLog(@"=获取图片的尺寸 with==%f height===%f",img.size.width,img.size.height);
+        
+         if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
          //download the message thumbnail
-         [[HDClient sharedClient].chatManager downloadThumbnail:message progress:nil completion:completion];
-//         }
+         [[HDClient sharedClient].chatManager hd_downloadThumbnail:message progress:nil completion:completion];
+         }
          
     }else if ([messageBody type] == EMMessageBodyTypeVoice)
     {
@@ -588,6 +590,9 @@ typedef enum : NSUInteger {
     
     dispatch_block_t block = ^{
         //send the acknowledgement
+        
+//        NSString * p = [NSString stringWithFormat:@"%@.mp4",localPath];
+        
         NSURL *videoURL = [NSURL fileURLWithPath:localPath];
         AVPlayerViewController * pVC = [AVPlayerViewController new];
         pVC.player = [AVPlayer playerWithURL:videoURL];

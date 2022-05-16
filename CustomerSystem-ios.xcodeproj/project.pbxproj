@@ -173,8 +173,6 @@
 		93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E79304277C67BB0019FD80 /* Bugly.framework */; };
 		93E7E50427DA051900EC4009 /* test.doc in Resources */ = {isa = PBXBuildFile; fileRef = 93E7E50327DA051800EC4009 /* test.doc */; };
 		93EB33EE278C17A0002AB1ED /* HDAgoraCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93EB33ED278C17A0002AB1ED /* HDAgoraCallViewController.xib */; };
-		93EF670A282B6BCF003AF626 /* VECKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93EF6708282B6598003AF626 /* VECKit.framework */; };
-		93EF670B282B6BCF003AF626 /* VECKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93EF6708282B6598003AF626 /* VECKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
 		D20066391EF23274005B558D /* em_example_image_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066131EF23274005B558D /* em_example_image_2.png */; };
 		D200663A1EF23274005B558D /* em_example_image_3.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066141EF23274005B558D /* em_example_image_3.png */; };
@@ -528,7 +526,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				93EF670B282B6BCF003AF626 /* VECKit.framework in Embed Frameworks */,
 				936F2E4628252EE5001FB60A /* HyphenateChat.xcframework in Embed Frameworks */,
 				93D9D08227C37EC600BD037D /* HelpDesk.framework in Embed Frameworks */,
 			);
@@ -1336,7 +1333,6 @@
 				EB62E4551A8E2DAB00705655 /* Foundation.framework in Frameworks */,
 				EB62E4531A8E2DA400705655 /* UIKit.framework in Frameworks */,
 				936F2E4528252EE5001FB60A /* HyphenateChat.xcframework in Frameworks */,
-				93EF670A282B6BCF003AF626 /* VECKit.framework in Frameworks */,
 				EB62E44D1A8E2D9300705655 /* CFNetwork.framework in Frameworks */,
 				D3AA4B251ED45B7300B5C509 /* hdlibopencore-amrnb.a in Frameworks */,
 				EB62E44B1A8E2D8D00705655 /* AddressBook.framework in Frameworks */,

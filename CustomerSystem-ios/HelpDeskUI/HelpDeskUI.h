@@ -19,7 +19,7 @@
 #import <HelpDeskLite/HelpDeskLite.h>
 #endif
 #import <HyphenateChat/HyphenateChat.h>
-#import <VECKit/VECKit.h>
+//#import <VECKit/VECKit.h>
 
 #import "HDMessageViewController.h"
 #import "HDViewController.h"
