@@ -281,7 +281,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc]init];
         _timeLabel.textAlignment = NSTextAlignmentCenter;
-        _timeLabel.textColor =[[HDAppSkin mainSkin] contentColorGreen];
+        _timeLabel.textColor =[[HDAppSkin mainSkin] contentColorGreenWeb];
         _timeLabel.adjustsFontSizeToFitWidth = YES;
         _timeLabel.text = @"00:00:00";
     }

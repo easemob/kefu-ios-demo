@@ -108,6 +108,7 @@
 //        [review removeFromSuperview];
 //     }
     UIView *view =item.camView;
+    [view removeFromSuperview];
     [self.callView addSubview:view ];
     [self.callView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.offset(0);
@@ -136,9 +137,38 @@
     
     if (item.isVideoMute) {
         //修改一下背景
-         item.closeCamView = [[UIView alloc] initWithFrame:item.camView.frame];
-        item.closeCamView.backgroundColor = [UIColor blackColor];
+        [item.closeCamView removeFromSuperview];
+        item.closeCamView = nil;
+        
+        item.closeCamView = [[UIView alloc] init];
         [item.camView addSubview:item.closeCamView];
+        [item.closeCamView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.offset(0);
+            make.leading.offset(0);
+            make.trailing.offset(0);
+            make.bottom.offset(0);
+            
+        }];
+        
+        item.closeCamView.backgroundColor =  [[HDAppSkin mainSkin] contentColorGray];
+    
+        //添加 笑脸图片
+        UIImageView * bgImgView= [[UIImageView alloc]init];
+        [item.closeCamView addSubview:bgImgView];
+        
+        
+        
+        [bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(item.closeCamView);
+            make.centerX.mas_equalTo(item.closeCamView);
+            make.width.height.offset(32);
+            
+        }];
+        [bgImgView layoutIfNeeded];
+        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+        bgImgView.image = img;
+       
+        
     }else{
 
         [item.closeCamView removeFromSuperview];
@@ -184,6 +214,38 @@
 
     }
     return _bgImgView;
+    
+}
+
+- (void) closeVideoAddView:(HDCallCollectionViewCellItem *)item{
+    
+    if (item.isVideoMute) {
+        //修改一下背景
+        [item.closeCamView removeFromSuperview];
+        item.closeCamView = nil;
+         item.closeCamView = [[UIView alloc] initWithFrame:item.camView.frame];
+        item.closeCamView.backgroundColor =  [[HDAppSkin mainSkin] contentColorGray];
+    
+        //添加 笑脸图片
+        UIImageView * bgImgView= [[UIImageView alloc]init];
+        [item.closeCamView addSubview:bgImgView];
+        
+        [bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(item.closeCamView);
+            make.centerX.mas_equalTo(item.closeCamView);
+            make.width.height.offset(32);
+            
+        }];
+        [bgImgView layoutIfNeeded];
+        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+        bgImgView.image = img;
+        [item.camView addSubview:item.closeCamView];
+    }else{
+
+        [item.closeCamView removeFromSuperview];
+
+    }
+    
     
 }
 

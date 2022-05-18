@@ -615,6 +615,8 @@ static HDCallViewController *_manger = nil;
 
     //更新中间视频大窗口
     [self updateBigVideoView];
+    
+   
 }
 /// 更新小视频窗口变成大窗口。把小窗口的 item 信息 给大窗口用。然后在把大窗口的item 信息给小窗切换
 -(void)updateSmallVideoView:(HDCallCollectionViewCellItem *)item withIndex:(NSInteger )idx{
@@ -632,8 +634,11 @@ static HDCallViewController *_manger = nil;
 //    smallItem.camView = tmpVideoView;
     if (bigItem.isWhiteboard) {
         bigItem.camView.userInteractionEnabled = NO;
-
+       
+       
     }
+//    [self.hdTitleView  modifyTextColor: [UIColor blackColor]];
+//    [self.hdTitleView  modifyIconBackColor: [UIColor blackColor]];
     [self.smallWindowView setSelectCallItemChangeVideoView:bigItem withIndex:idx];
 
 }
@@ -646,7 +651,11 @@ static HDCallViewController *_manger = nil;
     UIView * videoView = smallItem.camView;
     if (smallItem.isWhiteboard) {
         videoView.userInteractionEnabled = YES;
+        [self.hdTitleView  modifyTextColor: [UIColor blackColor]];
+        [self.hdTitleView  modifyIconBackColor: [UIColor blackColor]];
     }
+   
+    
     self.midelleVideoView = (HDMiddleVideoView *)videoView;
     [self.parentView addSubview:videoView];
     //中间 视频窗口
@@ -704,8 +713,15 @@ static HDCallViewController *_manger = nil;
                 make.bottom.offset(0);
         
         }];
+        
     }
+    
+  
+    
+    
 }
+
+    
 - (void)createVideoCall{
     //这个地方是真正发消息邀请视频的代码
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
@@ -743,6 +759,13 @@ static HDCallViewController *_manger = nil;
     [self.itemView setItemString:item.nickName];
     
     self.itemView.muteBtn.selected = item.isMute;
+    
+    // 中间窗口
+    item.camView.frame = self.parentView.frame;
+    
+    [self setMidelleMutedItem:item];
+   
+    
 }
 
 - (HDHiddenView *)hidView{
@@ -1223,7 +1246,7 @@ static HDCallViewController *_manger = nil;
         //说明需要更新 中间窗口的下边的麦克风
         self.itemView.muteBtn.selected = muted;
         
-        [_midelleMembers enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [_videoViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             HDCallCollectionViewCellItem *item = obj;
             NSLog(@"%ld----%@",(long)item.uid,[NSThread currentThread]);
             if (item.uid == uid) {
@@ -1240,12 +1263,36 @@ static HDCallViewController *_manger = nil;
     
     if (item.isVideoMute) {
         //修改一下背景
-         item.closeCamView = [[UIView alloc] initWithFrame:item.camView.frame];
+        [item.closeCamView removeFromSuperview];
+        item.closeCamView = nil;
+        item.closeCamView = [[UIView alloc] initWithFrame:item.camView.frame];
+        item.closeCamView.backgroundColor =  [[HDAppSkin mainSkin] contentColorGray];
+    
+        //添加 笑脸图片
+        UIImageView * bgImgView= [[UIImageView alloc]init];
+        [item.closeCamView addSubview:bgImgView];
         
-        item.closeCamView.backgroundColor = [UIColor blackColor];
+        [bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(item.closeCamView);
+            make.centerX.mas_equalTo(item.closeCamView);
+            make.width.height.offset(64);
+            
+        }];
+        [bgImgView layoutIfNeeded];
+        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+        bgImgView.image = img;
+        
         [item.camView addSubview:item.closeCamView];
+        [self.hdTitleView  modifyTextColor: [UIColor blackColor]];
+        [self.hdTitleView  modifyIconBackColor: [UIColor blackColor]];
     }else{
-        
+        if (item.isWhiteboard) {
+            [self.hdTitleView  modifyTextColor: [UIColor blackColor]];
+            [self.hdTitleView  modifyIconBackColor: [UIColor blackColor]];
+        }else{
+        [self.hdTitleView  modifyTextColor: [UIColor whiteColor]];
+        [self.hdTitleView  modifyIconBackColor: [UIColor whiteColor]];
+        }
         [item.closeCamView removeFromSuperview];
 
     }
@@ -1659,14 +1706,18 @@ void NotificationCallback(CFNotificationCenterRef center,
 
     [self.view hideKeyBoard];
     self.isSmallWindow = YES;
-    self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/2);
-    self.view.layer.borderWidth = 1;
-    self.view.layer.borderColor = [UIColor blackColor].CGColor;
-    self.view.layer.shadowOpacity = 0.5;
-    self.view.layer.shadowRadius = 15;
+    self.alertWindow.frame =  CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/2);
+//    self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/2);
+    
+    self.alertWindow.layer.borderWidth = 1;
+    self.alertWindow.layer.borderColor = [UIColor blackColor].CGColor;
+    self.alertWindow.layer.shadowOpacity = 0.5;
+    self.alertWindow.layer.shadowRadius = 15;
+    
+   
+    
     if ([HDWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
-
         if (_videoViews.count > 0) {
             HDCallCollectionViewCellItem * tmpItem = [_videoViews firstObject];
 //            [self.view  sendSubviewToBack:tmpItem.camView];
@@ -1693,6 +1744,16 @@ void NotificationCallback(CFNotificationCenterRef center,
 
     }
     
+    if (_videoViews.count > 0) {
+        HDCallCollectionViewCellItem * tmpItem = [_videoViews firstObject];
+
+        if (tmpItem.isVideoMute) {
+            tmpItem.closeCamView.frame = self.alertWindow.frame;
+        }
+      
+    }
+    
+    
     [self.itemView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.bottom.offset(0);
         make.leading.offset(0);
@@ -1706,10 +1767,9 @@ void NotificationCallback(CFNotificationCenterRef center,
    
     [self.view hideKeyBoard];
     self.isSmallWindow = NO;
-    self.view.frame = [UIScreen mainScreen].bounds;
-
-    self.view.layer.borderWidth = 0;
-    self.view.layer.borderColor = [UIColor blackColor].CGColor;
+    self.alertWindow.frame = [UIScreen mainScreen].bounds;
+    self.alertWindow.layer.borderWidth = 0;
+    self.alertWindow.layer.borderColor = [UIColor blackColor].CGColor;
     if ([HDWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
         if (_videoViews.count > 0) {
@@ -1728,6 +1788,15 @@ void NotificationCallback(CFNotificationCenterRef center,
 
 
     }
+    
+    if (_videoViews.count > 0) {
+        HDCallCollectionViewCellItem * tmpItem = [_videoViews firstObject];
+        if (tmpItem.isVideoMute) {
+            tmpItem.closeCamView.frame = self.alertWindow.frame;
+        }
+      
+    }
+    
     [self.itemView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self.barView.mas_top).offset(-5);
         make.leading.offset(0);
