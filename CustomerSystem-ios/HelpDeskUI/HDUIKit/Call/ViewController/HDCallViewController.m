@@ -1709,13 +1709,12 @@ void NotificationCallback(CFNotificationCenterRef center,
     self.alertWindow.frame =  CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/2);
 //    self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/2);
     
-    self.alertWindow.layer.borderWidth = 1;
-    self.alertWindow.layer.borderColor = [UIColor blackColor].CGColor;
+//    self.alertWindow.layer.borderWidth = 1;
+//    self.alertWindow.layer.borderColor = [UIColor blackColor].CGColor;
     self.alertWindow.layer.shadowOpacity = 0.5;
     self.alertWindow.layer.shadowRadius = 15;
     
-   
-    
+
     if ([HDWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
         if (_videoViews.count > 0) {
@@ -1768,8 +1767,8 @@ void NotificationCallback(CFNotificationCenterRef center,
     [self.view hideKeyBoard];
     self.isSmallWindow = NO;
     self.alertWindow.frame = [UIScreen mainScreen].bounds;
-    self.alertWindow.layer.borderWidth = 0;
-    self.alertWindow.layer.borderColor = [UIColor blackColor].CGColor;
+//    self.alertWindow.layer.borderWidth = 0;
+//    self.alertWindow.layer.borderColor = [UIColor blackColor].CGColor;
     if ([HDWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
         if (_videoViews.count > 0) {
@@ -1871,7 +1870,7 @@ void NotificationCallback(CFNotificationCenterRef center,
 #pragma mark --SuspendCustomViewDelegate
 
 - (void)suspendCustomViewClicked:(id)sender{
-   
+    self.alertWindow.hidden = NO;
     self.view.hidden = NO;
     _hdSupendCustomView.hidden = !self.view.hidden;
     [self.hdTitleView.timeLabel removeObserver:self forKeyPath:@"text"];
@@ -1933,7 +1932,8 @@ void NotificationCallback(CFNotificationCenterRef center,
 }
 
 - (void)__enablePictureInPictureZoom{
-    
+
+    self.alertWindow.hidden = YES;
     self.view.hidden = YES;
 
     self.suspendType = OTHERVIEW;
