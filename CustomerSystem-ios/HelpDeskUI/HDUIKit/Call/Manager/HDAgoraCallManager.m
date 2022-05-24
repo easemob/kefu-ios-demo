@@ -571,9 +571,16 @@ static HDAgoraCallManager *shareCall = nil;
             NSDictionary * dic= responseObject;
             if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
            
+                NSDictionary * tmp = [dic objectForKey:@"entity"];
+                
+                NSString *configJson = [tmp objectForKey:@"configJson"];
+                NSDictionary *jsonDic = [weakSelf dictWithString:configJson];
+                
+                
+                
             //接口请求成功
         //        UI更新代码
-                HDVideoLayoutModel * model = [weakSelf setModel:dic];
+                HDVideoLayoutModel * model = [weakSelf setModel:jsonDic];
                 
                 [HDAgoraCallManager shareInstance].layoutModel = model;
                 
@@ -585,25 +592,38 @@ static HDAgoraCallManager *shareCall = nil;
         
     }];
 }
-
+- (NSDictionary *)dictWithString:(NSString *)string {
+    if (string && 0 != string.length) {
+        NSError *error;
+        NSData *jsonData = [string dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+        if (error) {
+            NSLog(@"==%@",error);
+            return nil;
+        }
+        return jsonDict;
+    }
+    
+    return nil;
+}
 - (HDVideoLayoutModel *)setModel:(NSDictionary *)dic{
     
     HDVideoLayoutModel * model = [[HDVideoLayoutModel alloc] init];
         if ([[dic allKeys] containsObject:@"functionSettings"]) {
             NSDictionary *functionSettings = [dic valueForKey:@"functionSettings"];
-            model.visitorCameraOff = [functionSettings valueForKey:@"visitorCameraOff"];
-            model.skipWaitingPage = [functionSettings valueForKey:@"skipWaitingPage"];
+            model.visitorCameraOff = [[functionSettings valueForKey:@"visitorCameraOff"] integerValue];
+            model.skipWaitingPage = [[functionSettings valueForKey:@"skipWaitingPage"] integerValue];
         }
         if ([[dic allKeys] containsObject:@"styleSettings"]) {
             NSDictionary *styleSettings = [dic valueForKey:@"styleSettings"];
-            model.WaitingPrompt = [styleSettings valueForKey:@"WaitingPrompt"];
-            model.WaitingBackgroundPic = [styleSettings valueForKey:@"WaitingBackgroundPic"];
-            model.CallingPrompt = [styleSettings valueForKey:@"CallingPrompt"];
-            model.CallingBackgroundPic = [styleSettings valueForKey:@"CallingBackgroundPic"];
-            model.QueuingPrompt = [styleSettings valueForKey:@"QueuingPrompt"];
-            model.QueuingBackgroundPic = [styleSettings valueForKey:@"QueuingBackgroundPic"];
-            model.EndingPrompt = [styleSettings valueForKey:@"EndingPrompt"];
-            model.EndingBackgroundPic = [styleSettings valueForKey:@"EndingBackgroundPic"];
+            model.waitingPrompt = [styleSettings valueForKey:@"waitingPrompt"];
+            model.waitingBackgroundPic = [styleSettings valueForKey:@"waitingBackgroundPic"];
+            model.callingPrompt = [styleSettings valueForKey:@"callingPrompt"];
+            model.callingBackgroundPic = [styleSettings valueForKey:@"callingBackgroundPic"];
+            model.queuingPrompt = [styleSettings valueForKey:@"queuingPrompt"];
+            model.queuingBackgroundPic = [styleSettings valueForKey:@"queuingBackgroundPic"];
+            model.endingPrompt = [styleSettings valueForKey:@"endingPrompt"];
+            model.endingBackgroundPic = [styleSettings valueForKey:@"endingBackgroundPic"];
         }
        
     return model;

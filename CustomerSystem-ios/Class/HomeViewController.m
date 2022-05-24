@@ -19,7 +19,9 @@
 #import "HConversationsViewController.h"
 #import "HDAgoraCallViewController.h"
 #import "HDCallViewController.h"
+#import "HDVideoCallViewController.h"
 #import "HDCloudDiskViewController.h"
+#import "HDAgoraCallManager.h"
 
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
@@ -135,6 +137,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vecAction:) name:KNOTIFICATION_VEC object:nil];
+    
    
 }
 - (void)testButton{
@@ -184,7 +188,76 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     _window.hidden = YES;
 }
+- (void)vecAction:(NSNotification *)notification{
+    
+    if (isLogin == YES) {
+        return;
+    }
+    isLogin = YES;
+    __weak typeof(self) weakSelf = self;
+    [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+        if ([lgM loginKefuSDK]) {
+            
+            [[HDClient sharedClient].pushManager updatePushDisplayStyle:HDPushDisplayStyleMessageSummary completion:^(HDError * _Nonnull error) {
+                
+                NSLog(@"=======error=%u",error.code);
+                
+                
+            }];
+            
+            
+            NSString *queue = nil;
+            if ([notification.object objectForKey:kpreSell]) {
+                queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
+            }
+            HDQueueIdentityInfo *queueIdentityInfo=nil;
+            if (queue) {
+                queueIdentityInfo = [[HDQueueIdentityInfo alloc] initWithValue:queue];
+            }
+            if ([notification.object objectForKey:kpreSell]) {
+//                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
+            } else {
+//                chat.title = [CSDemoAccountManager shareLoginManager].cname;
+            }
+            hd_dispatch_main_async_safe(^(){
+                [weakSelf hideHud];
+                HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
+                if (queue) {
+                    chat.queueInfo = queueIdentityInfo;
+                }
 
+                chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
+//                chat.commodityInfo = (NSDictionary *)notification.object;
+//                 [self.navigationController pushViewController:chat animated:YES];
+                
+                //todo 创建视频等待界面  调用接口 vec 使用
+                [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend];
+                        [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+                            [[HDVideoCallViewController sharedManager]  removeView];
+
+                            [[HDVideoCallViewController sharedManager] removeSharedManager];
+
+                        };
+                    });
+                }];
+            });
+           
+        } else {
+            hd_dispatch_main_async_safe(^(){
+                [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
+            });
+            NSLog(@"登录失败");
+        }
+    });
+    isLogin = NO;
+    
+    
+}
 - (void)chatAction:(NSNotification *)notification
 {
 //    BOOL shouqian = [[notification.object objectForKey:kpreSell] boolValue];
@@ -248,7 +321,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     if ([[CSDemoAccountManager shareLoginManager] loginKefuSDK]) {
         [HDClient.sharedClient.pushManager updatePushDisplayStyle:HDPushDisplayStyleMessageSummary completion:^(HDError * error) {
             NSLog(@" error:%@",error.errorDescription);
-            
             
             
         }];
@@ -605,12 +677,20 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //    [self.callViewController showView];
 //    }
     
-    [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
-    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-        [[HDCallViewController sharedManager]  removeView];
-        
-        [[HDCallViewController sharedManager] removeSharedManager];
-        
+//    [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
+//    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//        [[HDCallViewController sharedManager]  removeView];
+//
+//        [[HDCallViewController sharedManager] removeSharedManager];
+//
+//    };
+    
+    [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoDirectionReceive];
+    [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+        [[HDVideoCallViewController sharedManager]  removeView];
+
+        [[HDVideoCallViewController sharedManager] removeSharedManager];
+
     };
     
 }

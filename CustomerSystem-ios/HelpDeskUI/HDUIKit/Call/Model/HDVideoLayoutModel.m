@@ -10,23 +10,47 @@
 
 @implementation HDVideoLayoutModel
 
-- (NSString *)WaitingPrompt{
+- (void)setSkipWaitingPage:(NSInteger)skipWaitingPage{
     
-    return @"您好！有什么需要帮助，可以发起视频通话进行咨询呦,";
-    
+    _skipWaitingPage = skipWaitingPage;
+    if (skipWaitingPage == 1) {
+        // 是 yes
+        
+        _isSkipWaitingPage = YES;
+    }else{
+        
+        _isSkipWaitingPage = NO;
+    }
 }
-- (NSString *)CallingPrompt{
-    
-    
-    return @"您好！您正在发起视频通话进行咨询。";
+- (void)setVisitorCameraOff:(NSInteger)visitorCameraOff{
+    _visitorCameraOff = visitorCameraOff;
+    if (visitorCameraOff == 1) {
+        // 是 yes
+        
+        _isVisitorCameraOff = YES;
+    }else{
+        
+        _isVisitorCameraOff = NO;
+    }
 }
-- (NSString *)QueuingPrompt{
-    
-    return @"您好！客服人员正在马不停蹄的赶过来，请您耐心等待！";
-}
--(NSString *)EndingPrompt{
-    
-    return @"感谢您的咨询，祝您生活愉快！";
-    
-}
+
+//- (NSString *)WaitingPrompt{
+//
+//    return @"您好！有什么需要帮助，可以发起视频通话进行咨询呦,";
+//
+//}
+//- (NSString *)CallingPrompt{
+//
+//
+//    return @"您好！您正在发起视频通话进行咨询。";
+//}
+//- (NSString *)QueuingPrompt{
+//
+//    return @"您好！客服人员正在马不停蹄的赶过来，请您耐心等待！";
+//}
+//-(NSString *)EndingPrompt{
+//
+//    return @"感谢您的咨询，祝您生活愉快！";
+//
+//}
 @end

@@ -124,6 +124,7 @@
 		9385C57827E87E160049096F /* UIImage+HDIconFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C57727E87E150049096F /* UIImage+HDIconFont.m */; };
 		9385C61427E9CA800049096F /* HDAppSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C61327E9CA800049096F /* HDAppSkin.m */; };
 		9385C61727E9CB2C0049096F /* UIColor+HLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C61627E9CB2C0049096F /* UIColor+HLKit.m */; };
+		938A4DC4283C5E5D0069CA51 /* HDVideoCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938A4DC3283C5E5D0069CA51 /* HDVideoCallViewController.m */; };
 		938AE99027F1A20B00B461C4 /* HDHiddenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 938AE98F27F1A20B00B461C4 /* HDHiddenView.m */; };
 		938CCA2627C8E1B300F470B5 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */; };
 		938DD77F28151DB400966CB3 /* UIView+Kit.m in Sources */ = {isa = PBXBuildFile; fileRef = 938DD77E28151DB400966CB3 /* UIView+Kit.m */; };
@@ -729,6 +730,8 @@
 		9385C61327E9CA800049096F /* HDAppSkin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAppSkin.m; sourceTree = "<group>"; };
 		9385C61527E9CB2C0049096F /* UIColor+HLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HLKit.h"; sourceTree = "<group>"; };
 		9385C61627E9CB2C0049096F /* UIColor+HLKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HLKit.m"; sourceTree = "<group>"; };
+		938A4DC2283C5E5C0069CA51 /* HDVideoCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVideoCallViewController.h; sourceTree = "<group>"; };
+		938A4DC3283C5E5D0069CA51 /* HDVideoCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVideoCallViewController.m; sourceTree = "<group>"; };
 		938AE98E27F1A20B00B461C4 /* HDHiddenView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDHiddenView.h; sourceTree = "<group>"; };
 		938AE98F27F1A20B00B461C4 /* HDHiddenView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDHiddenView.m; sourceTree = "<group>"; };
 		938CCA2427C8E1B300F470B5 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
@@ -1495,6 +1498,8 @@
 		930E320B27E032A000455C7E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				938A4DC2283C5E5C0069CA51 /* HDVideoCallViewController.h */,
+				938A4DC3283C5E5D0069CA51 /* HDVideoCallViewController.m */,
 				930E322327E03FAE00455C7E /* HDCallViewController.h */,
 				930E322227E03FAD00455C7E /* HDCallViewController.m */,
 				93AFA5DC282E6D07003C1F6B /* HDVideoEndCallViewController.h */,
@@ -3547,6 +3552,7 @@
 				9042C2632514A1A100DC5BE1 /* AFURLSessionManager.m in Sources */,
 				9385C57527E82EEB0049096F /* HDItemView.m in Sources */,
 				D3394AF11E5562FE009370BF /* HDChatViewController.m in Sources */,
+				938A4DC4283C5E5D0069CA51 /* HDVideoCallViewController.m in Sources */,
 				D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */,
 				93B4E97427CCD1D800ACAF5B /* HDMJRefreshAutoFooter.m in Sources */,
 				937D74B627853E500022B707 /* HDAgoraCallViewController.m in Sources */,

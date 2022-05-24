@@ -12,17 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HDVideoLayoutModel : NSObject
 
-@property (nonatomic, assign) BOOL visitorCameraOff;
-@property (nonatomic, assign) BOOL skipWaitingPage;
+@property (nonatomic, assign) BOOL isVisitorCameraOff;
+@property (nonatomic, assign) BOOL isSkipWaitingPage;
+@property (nonatomic, assign) NSInteger skipWaitingPage;
+@property (nonatomic, assign) NSInteger visitorCameraOff;
 
-@property (nonatomic, strong) NSString *WaitingPrompt;
-@property (nonatomic, strong) NSString *WaitingBackgroundPic;
-@property (nonatomic, strong) NSString *CallingPrompt;
-@property (nonatomic, strong) NSString *CallingBackgroundPic;
-@property (nonatomic, strong) NSString *QueuingPrompt;
-@property (nonatomic, strong) NSString *QueuingBackgroundPic;
-@property (nonatomic, strong) NSString *EndingPrompt;
-@property (nonatomic, strong) NSString *EndingBackgroundPic;
+@property (nonatomic, strong) NSString *waitingPrompt;
+@property (nonatomic, strong) NSString *waitingBackgroundPic;
+@property (nonatomic, strong) NSString *callingPrompt;
+@property (nonatomic, strong) NSString *callingBackgroundPic;
+@property (nonatomic, strong) NSString *queuingPrompt;
+@property (nonatomic, strong) NSString *queuingBackgroundPic;
+@property (nonatomic, strong) NSString *endingPrompt;
+@property (nonatomic, strong) NSString *endingBackgroundPic;
 @end
 
 NS_ASSUME_NONNULL_END

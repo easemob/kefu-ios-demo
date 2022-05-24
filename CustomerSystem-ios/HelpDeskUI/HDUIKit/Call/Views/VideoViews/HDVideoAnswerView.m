@@ -72,7 +72,7 @@
 - (void)visitorVideoUI{
     // 第一步
     _model =  [HDAgoraCallManager shareInstance].layoutModel;
-    if (_model.skipWaitingPage) {
+    if (_model.isSkipWaitingPage) {
         
         [self updateServiceLayoutConfig:_model withProcessType:HDVideoProcessInitiate];
     }else{
@@ -148,24 +148,24 @@
     switch (type) {
         case HDVideoProcessWaiting:
             //等待
-            titleStr = model.WaitingPrompt;
-            imageStr = model.WaitingBackgroundPic;
+            titleStr = model.waitingPrompt;
+            imageStr = model.waitingBackgroundPic;
             [_hangUpBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
             [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.waiting", @"发起") forState:UIControlStateNormal];
             self.closeBtn.hidden = NO;
             break;
         case HDVideoProcessInitiate:
             //发起页面
-            titleStr = model.CallingPrompt;
-            imageStr = model.CallingPrompt;
+            titleStr = model.callingPrompt;
+            imageStr = model.callingBackgroundPic;
             [_hangUpBtn setImage:[UIImage imageNamed:@"off.png"] forState:UIControlStateNormal];
             [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.hangup", @"挂断") forState:UIControlStateNormal];
             self.closeBtn.hidden = YES;
             break;
         case HDVideoProcessLineUp:
             //排队页面
-            titleStr = model.QueuingPrompt;
-            imageStr = model.QueuingBackgroundPic;
+            titleStr = model.queuingPrompt;
+            imageStr = model.queuingBackgroundPic;
             self.closeBtn.hidden = YES;
             break;
         case HDVideoProcessConnection:
@@ -175,8 +175,8 @@
             break;
         case HDVideoProcessEnd:
             //结束页面
-            titleStr = model.EndingPrompt;
-            imageStr = model.EndingBackgroundPic;
+            titleStr = model.endingPrompt;
+            imageStr = model.endingBackgroundPic;
             [_hangUpBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
             [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.again.waiting", @"重新发起") forState:UIControlStateNormal];
             self.closeBtn.hidden = NO;

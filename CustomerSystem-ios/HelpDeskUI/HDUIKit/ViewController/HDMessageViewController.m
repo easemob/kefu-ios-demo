@@ -2092,6 +2092,7 @@ typedef enum : NSUInteger {
     
     HDMessage *message = [HDSDKHelper imageMessageWithImageData:imageData to:self.conversation.conversationId messageExt:nil];
     EMImageMessageBody *body = (EMImageMessageBody *)message.body;
+//    body.thumbnailLocalPath = @"11111111222";
     NSLog(@"body.localPathbody.localPath:%@",body.localPath);
     [self _sendMessage:message];
 }
@@ -2139,7 +2140,8 @@ typedef enum : NSUInteger {
     HDMessage *message = [HDSDKHelper videoMessageWithLocalPath:[url path]
                                                              to:self.conversation.conversationId
                                                      messageExt:nil];
-    
+    EMVideoMessageBody *body = (EMVideoMessageBody *)message.body;
+//    body.thumbnailLocalPath = @"11111/22222222";
 //    HDMessage *message = [HDSDKHelper videoMessageWithLocalPath:str
 //                                                             to:self.conversation.conversationId
 //                                                     messageExt:nil];
