@@ -45,13 +45,9 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonBackground) {
 @property (nonatomic, assign) HDControlBarItemType itemType;
 @property (nonatomic, assign) BOOL  isHangUp; // 是否是挂断按钮
 @property (nonatomic, assign) BOOL  isGray; // 是否是灰度功能
-
-
+@property (nonatomic, assign) BOOL  isVisitorCameraOff; // 是否开启摄像头
 
 @end
-
-
-
 
 typedef void(^ClickControlBarItemBlock)(HDControlBarModel *barModel,UIButton *btn);
 
@@ -62,8 +58,8 @@ typedef void(^ClickControlBarItemBlock)(HDControlBarModel *barModel,UIButton *bt
                                 view:(UIView *)view withButtonType:(HDControlBarButtonStyle )style;
 
 - (void)refreshView:(UIView *)view withScreen:(BOOL)landscape;
-
-
+-(UIButton *)hd_bttonWithTag:(NSInteger)tag withArray:(NSArray *)array;
+- (void)hd_setButton:(UIButton *)button withBackground:(HDControlBarButtonBackground)background withSize:(NSUInteger)size withImageName:(NSString *)imageStr withSelectImage:(NSString *)selImageStr;
 @end
 
 NS_ASSUME_NONNULL_END

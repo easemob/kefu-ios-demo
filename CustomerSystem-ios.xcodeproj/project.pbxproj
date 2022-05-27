@@ -125,6 +125,8 @@
 		9385C61427E9CA800049096F /* HDAppSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C61327E9CA800049096F /* HDAppSkin.m */; };
 		9385C61727E9CB2C0049096F /* UIColor+HLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385C61627E9CB2C0049096F /* UIColor+HLKit.m */; };
 		938A4DC4283C5E5D0069CA51 /* HDVideoCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938A4DC3283C5E5D0069CA51 /* HDVideoCallViewController.m */; };
+		938A4DC7283E17360069CA51 /* HDVideoWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938A4DC6283E17360069CA51 /* HDVideoWindowViewController.m */; };
+		938A4DCA283E1BEE0069CA51 /* HDVideoGeneralCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 938A4DC9283E1BEE0069CA51 /* HDVideoGeneralCustomView.m */; };
 		938AE99027F1A20B00B461C4 /* HDHiddenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 938AE98F27F1A20B00B461C4 /* HDHiddenView.m */; };
 		938CCA2627C8E1B300F470B5 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CCA2527C8E1B300F470B5 /* MBProgressHUD+Add.m */; };
 		938DD77F28151DB400966CB3 /* UIView+Kit.m in Sources */ = {isa = PBXBuildFile; fileRef = 938DD77E28151DB400966CB3 /* UIView+Kit.m */; };
@@ -732,6 +734,10 @@
 		9385C61627E9CB2C0049096F /* UIColor+HLKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HLKit.m"; sourceTree = "<group>"; };
 		938A4DC2283C5E5C0069CA51 /* HDVideoCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVideoCallViewController.h; sourceTree = "<group>"; };
 		938A4DC3283C5E5D0069CA51 /* HDVideoCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVideoCallViewController.m; sourceTree = "<group>"; };
+		938A4DC5283E17360069CA51 /* HDVideoWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoWindowViewController.h; sourceTree = "<group>"; };
+		938A4DC6283E17360069CA51 /* HDVideoWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoWindowViewController.m; sourceTree = "<group>"; };
+		938A4DC8283E1BEE0069CA51 /* HDVideoGeneralCustomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoGeneralCustomView.h; sourceTree = "<group>"; };
+		938A4DC9283E1BEE0069CA51 /* HDVideoGeneralCustomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoGeneralCustomView.m; sourceTree = "<group>"; };
 		938AE98E27F1A20B00B461C4 /* HDHiddenView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDHiddenView.h; sourceTree = "<group>"; };
 		938AE98F27F1A20B00B461C4 /* HDHiddenView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDHiddenView.m; sourceTree = "<group>"; };
 		938CCA2427C8E1B300F470B5 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
@@ -1498,6 +1504,8 @@
 		930E320B27E032A000455C7E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				938A4DC5283E17360069CA51 /* HDVideoWindowViewController.h */,
+				938A4DC6283E17360069CA51 /* HDVideoWindowViewController.m */,
 				938A4DC2283C5E5C0069CA51 /* HDVideoCallViewController.h */,
 				938A4DC3283C5E5D0069CA51 /* HDVideoCallViewController.m */,
 				930E322327E03FAE00455C7E /* HDCallViewController.h */,
@@ -1535,6 +1543,8 @@
 				930E321727E03E9700455C7E /* HDTitleView.m */,
 				931900662828E3BA002D3B2A /* HDSuspendCustomView.h */,
 				931900672828E3BA002D3B2A /* HDSuspendCustomView.m */,
+				938A4DC8283E1BEE0069CA51 /* HDVideoGeneralCustomView.h */,
+				938A4DC9283E1BEE0069CA51 /* HDVideoGeneralCustomView.m */,
 			);
 			path = VideoViews;
 			sourceTree = "<group>";
@@ -3512,6 +3522,7 @@
 				9094F20B21E83C8D00037601 /* SRSlimeView.m in Sources */,
 				D3CB64821E4888F30022A6BA /* PSTCollectionViewItemKey.m in Sources */,
 				D3CB647D1E4888F30022A6BA /* PSTCollectionView.m in Sources */,
+				938A4DCA283E1BEE0069CA51 /* HDVideoGeneralCustomView.m in Sources */,
 				D3CB64811E4888F30022A6BA /* PSTCollectionViewFlowLayout.m in Sources */,
 				9094F20A21E83C8D00037601 /* SRRefreshView.m in Sources */,
 				9385C61727E9CB2C0049096F /* UIColor+HLKit.m in Sources */,
@@ -3659,6 +3670,7 @@
 				937FD5A927D1B2ED00EB055A /* HDAgoraCallManager.m in Sources */,
 				930E321C27E03E9800455C7E /* HDCallCollectionViewCell.m in Sources */,
 				D3CB649B1E4888F30022A6BA /* HDLocationViewController.m in Sources */,
+				938A4DC7283E17360069CA51 /* HDVideoWindowViewController.m in Sources */,
 				930E322127E03E9800455C7E /* HDCallCollectionViewCellItem.m in Sources */,
 				D3CB64931E4888F30022A6BA /* HDEmoji.m in Sources */,
 				D3CB64A21E4888F30022A6BA /* HDMessageTimeCell.m in Sources */,

@@ -341,6 +341,26 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     
     return button;
 }
+- (UIButton *)hd_bttonWithTag:(NSInteger)tag withArray:(NSArray *)array{
+    
+    UIButton * btn;
+    if (array.count> 0) {
+        
+        if (array.count == 3) {
+            
+            btn = [self viewWithTag:kButtonTag + 2];
+        }else {
+            
+            btn = [self viewWithTag:kButtonTag + 1];
+        }
+        
+    }
+    
+    return btn;
+    
+}
+
+
 #pragma mark - event
 
 - (void)buttonClick:(UIButton *)sender

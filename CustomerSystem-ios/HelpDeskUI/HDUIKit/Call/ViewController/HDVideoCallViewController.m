@@ -27,7 +27,7 @@
 #import "MBProgressHUD+Add.h"
 #import "UIViewController+AlertController.h"
 #import "CSDemoAccountManager.h"
-
+#import "HDVideoGeneralCustomView.h"
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
@@ -36,7 +36,7 @@
 #define kPointHeight [UIScreen mainScreen].bounds.size.width *0.9
 
 
-@interface HDVideoCallViewController ()<HDAgoraCallManagerDelegate,HDCallManagerDelegate,HDWhiteboardManagerDelegate,UIPopoverPresentationControllerDelegate,SuspendCustomViewDelegate>{
+@interface HDVideoCallViewController ()<HDAgoraCallManagerDelegate,HDCallManagerDelegate,HDWhiteboardManagerDelegate,UIPopoverPresentationControllerDelegate,SuspendCustomViewDelegate,HDVideoGeneralCustomViewDelegate>{
     
 //    BOOL _isShow; //是否已经调用过show方法
     
@@ -95,6 +95,11 @@
 @property (nonatomic, assign) BOOL  isSmallWindow;//当前是不是 半屏模式
 @property (nonatomic, strong) UIWindow *customWindow;
 @property (nonatomic, strong) HDSuspendCustomView *hdSupendCustomView;
+
+@property (nonatomic, strong) HDVideoGeneralCustomView *hdVideoGeneralCustomView;
+
+@property (nonatomic, strong) UIWindow *generalWindow;
+
 @end
 static dispatch_once_t onceToken;
  
@@ -319,8 +324,9 @@ static HDVideoCallViewController *_manger = nil;
         [selImageArr addObject:barModel4];
     }
 
-   [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
-    
+ NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
+
+   _cameraBtn =  [self.barView hd_bttonWithTag:0 withArray:barArray];
     [self initSmallWindowData];
 }
 
@@ -668,12 +674,11 @@ static HDVideoCallViewController *_manger = nil;
     [message addContent:lgM.visitorInfo];
     
     NSDictionary *dic = @{@"targetSystem":@"kefurtc",@"official_account":@"null"};
-    
 //    [message addAttributeDictionary:dic];
-    [self _sendMessage:message];
     
-}
+    [self _sendMessage:message];
 
+}
 - (void)_sendMessage:(HDMessage *)aMessage
 {
     
@@ -851,13 +856,9 @@ static HDVideoCallViewController *_manger = nil;
     [self setAcceptCallView];
     [self.hdTitleView startTimer];
     isCalling = YES;
-    
-    
-    if (![HDAgoraCallManager shareInstance].layoutModel.isVisitorCameraOff) {
-        
+    if ([HDAgoraCallManager shareInstance].layoutModel.isVisitorCameraOff) {
         [self closeCamera];
     }
-    
     
     [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
                                                         completion:^(id obj, HDError *error)
@@ -1257,6 +1258,13 @@ static HDVideoCallViewController *_manger = nil;
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
+    
+    [self createVECGeneralBaseUI];
+    
+    
+    return;
+    
+    
     if (_shareState) {
         //当前正在共享
         //当前正在白板房间
@@ -1414,18 +1422,6 @@ static HDVideoCallViewController *_manger = nil;
     
 }
 - (void)uploadFile{
-//    HDUploadFileViewController * vc = [[HDUploadFileViewController alloc] init];
-//    vc.hdUploadFileDismissBlock = ^(UIViewController * _Nonnull vc) {
-//
-//
-//        [vc.view removeFromSuperview];
-//        [vc removeFromParentViewController];
-//
-//    };
-//    [self addChildViewController:vc];
-//    [self.parentView addSubview:vc.view];
-//    [self.parentView bringSubviewToFront:vc.view];
-    
     [HDUploadFileViewController sharedManager];
     
    
@@ -1739,6 +1735,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
     }];
 }
+
 #pragma mark - Picture in picture 中 隐藏效果
 - (void)createBaseUI{
     if (_suspendType==BUTTON) {
@@ -1785,6 +1782,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
     return _hdSupendCustomView;
 }
+
 - (UIWindow *)createCustomWindow{
      if (!_customWindow) {
         _customWindow=[[UIWindow alloc]init];
@@ -1795,6 +1793,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     }
     return _customWindow;
 }
+
 //悬浮视图消失
 - (void)cancelWindow{
     
@@ -1802,6 +1801,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     _customWindow=nil;
 
 }
+
 #pragma mark --SuspendCustomViewDelegate
 
 - (void)suspendCustomViewClicked:(id)sender{
@@ -1880,4 +1880,56 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
   
 }
 
+#pragma mark --vec 1.3 相关
+#pragma mark - vec 1.3 弹窗  中 效果
+- (void)createVECGeneralBaseUI{
+    NSString *type=[NSString stringWithFormat:@"%ld",(long)HDVideoGeneral_OTHERVIEW];
+    self.hdVideoGeneralCustomView=[self createVideoGeneralCustomViewWithType:type];
+    self.generalWindow=[self createVideoGeneralCustomWindow];
+    
+    [self.generalWindow addSubview:self.hdVideoGeneralCustomView];
+    [self.generalWindow makeKeyAndVisible];
+    
+    
+}
+
+- (HDVideoGeneralCustomView *)createVideoGeneralCustomViewWithType:(NSString *)type{
+    if (!_hdVideoGeneralCustomView) {
+        _hdVideoGeneralCustomView=[[HDVideoGeneralCustomView alloc]init];
+        _hdVideoGeneralCustomView.viewWidth=[UIScreen mainScreen].bounds.size.width;
+        _hdVideoGeneralCustomView.viewHeight=[UIScreen mainScreen].bounds.size.height;
+        [_hdVideoGeneralCustomView initWithSuspendType:type];
+        _hdVideoGeneralCustomView.frame=[UIScreen mainScreen].bounds;
+        _hdVideoGeneralCustomView.videoGeneralDelegate=self;
+//        _hdVideoGeneralCustomView.rootView=;
+    }
+
+    return _hdVideoGeneralCustomView;
+}
+
+- (UIWindow *)createVideoGeneralCustomWindow{
+     if (!_generalWindow) {
+         _generalWindow=[[UIWindow alloc]init];
+         _generalWindow.frame= [UIScreen mainScreen].bounds;
+         _generalWindow.windowLevel=UIWindowLevelAlert+3;
+         _generalWindow.backgroundColor=[UIColor clearColor];
+        
+    }
+    return _generalWindow;
+}
+
+
+- (void)cancelVideoGeneralWindow{
+    
+    [_generalWindow resignFirstResponder];
+    _generalWindow=nil;
+
+}
+
+#pragma mark --HDVideoGeneralCustomViewDelegate
+
+-(void)hdVideoGeneralCustomViewClicked:(id)sender{
+    
+    
+}
 @end

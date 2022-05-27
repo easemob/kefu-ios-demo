@@ -34,7 +34,7 @@
 #import "UIViewController+AlertController.h"
 #import "HRobotUnsolveItemView.h"
 #import "HDCustomEmojiManager.h"
-
+#import "CSDemoAccountManager.h"
 typedef enum : NSUInteger {
     HDRequestRecord,
     HDCanRecord,
@@ -2059,7 +2059,14 @@ typedef enum : NSUInteger {
     if (ext) {
         [message addAttributeDictionary:ext];
     }
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+   
+    [message addContent:lgM.visitorInfo];
+    
 
+//    NSMutableDictionary * dic1 =[message.ext valueForKey:@"weichat"];
+//    [dic1 setValue:@"routingRuleFlag" forKey:@"routingRuleFlag"];
+   
     [self _sendMessage:message];
 }
 
