@@ -29,6 +29,7 @@ static CSDemoAccountManager *_manager = nil;
     [userDefaults synchronize];
 }
 
+
 - (void)setCname:(NSString *)cname {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:cname forKey:kCustomerName];
@@ -51,6 +52,14 @@ static CSDemoAccountManager *_manager = nil;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:projectId forKey:kCustomerProjectId];
     [userDefaults synchronize];
+}
+
+- (void)setConfigId:(NSString *)configId{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:configId forKey:kCustomerConfigId];
+    [userDefaults synchronize];
+    
 }
 
 - (NSString *)appkey {
@@ -107,7 +116,15 @@ static CSDemoAccountManager *_manager = nil;
     }
     return tprojectId;
 }
-
+- (NSString *)configId {
+    NSString *tconfigId = [fUserDefaults objectForKey:kCustomerConfigId];
+    if ([tconfigId length] == 0) {
+        tconfigId = kDefaultConfigId;
+        [fUserDefaults setObject:tconfigId forKey:kCustomerConfigId];
+        [fUserDefaults synchronize];
+    }
+    return tconfigId;
+}
 - (instancetype)init {
     if (self = [super init]) {
         _password = hxPassWord;

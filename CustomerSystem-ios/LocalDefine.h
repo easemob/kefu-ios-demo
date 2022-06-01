@@ -34,12 +34,14 @@
 #define kDefaultCustomerNickname @"访客昵称"
 #define kDefaultTenantId @"387"
 #define kDefaultProjectId @"48350"
+#define kDefaultConfigId @"c9570743-2e93-4287-b52e-1d070d2b997e"
 
 #define kAppKey @"KF_appkey"
 #define kCustomerName @"KF_name"
 #define kCustomerNickname @"KF_nickname"
 #define kCustomerTenantId @"KF_tenantId"
 #define kCustomerProjectId @"KF_projectId"
+#define kCustomerConfigId @"KF_configId"
 
 
 #define hxPassWord @"123456"

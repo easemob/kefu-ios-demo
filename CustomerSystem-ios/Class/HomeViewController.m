@@ -22,6 +22,7 @@
 #import "HDVideoCallViewController.h"
 #import "HDCloudDiskViewController.h"
 #import "HDAgoraCallManager.h"
+#import "HDVideoWindowViewController.h"
 
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
@@ -734,6 +735,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //    HDFastbordViewController * agoraVC = [[HDFastbordViewController alloc] init];
 //        [self.navigationController pushViewController:agoraVC animated:YES];
     
+    
+    
+    [HDVideoWindowViewController sharedManager];
+    
+    
 }
 //理想汽车crash
 //- (void)lxdemo{
@@ -763,14 +769,17 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 -(void)lxLogin{
     NSString *username = @"shouqian";
     HDClient *client = [HDClient sharedClient];
-    [client loginWithUsername:username password:hxPassWord completion:^(HDError *error) {
-        if (!error) { //IM登录成功
-            NSLog(@"lx ----登录成功");
-            [self lxSendText];
-        } else { //登录失败
-            NSLog(@"lx ----登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
-        }
-    }];
+//    [client loginWithUsername:username password:hxPassWord completion:^(HDError *error) {
+//        if (!error) { //IM登录成功
+//            NSLog(@"lx ----登录成功");
+//            [self lxSendText];
+//        } else { //登录失败
+//            NSLog(@"lx ----登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
+//        }
+//    }];
+    
+   
+    
 }
 //登录绑定【测试】
 -(void)lxBindDeviceToken{

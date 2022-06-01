@@ -50,6 +50,7 @@
 
     option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;
+    option.configId = lgM.configId;
 //    option.kefuRestServer = @"http://kefu.easemob.com";
     option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"https://helps.live";

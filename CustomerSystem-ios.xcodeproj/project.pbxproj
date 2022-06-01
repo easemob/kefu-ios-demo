@@ -170,6 +170,8 @@
 		93BF88AB28040EAC005B2CB1 /* HDWhiteBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BF88AA28040EAC005B2CB1 /* HDWhiteBoardView.m */; };
 		93BF88E128057225005B2CB1 /* HDWhiteRoomManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BF88E028057225005B2CB1 /* HDWhiteRoomManager.m */; };
 		93C03F6F2832256B002292CC /* NSNull+safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C03F6E2832256B002292CC /* NSNull+safe.m */; };
+		93C3C5242845F74000ADDBC6 /* IDInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C3C51D2845F73F00ADDBC6 /* IDInfo.m */; };
+		93C3C5262845F74000ADDBC6 /* HDVideoIDCardScaningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C3C5212845F74000ADDBC6 /* HDVideoIDCardScaningView.m */; };
 		93D95EA627D8988A00E47F14 /* HDCustomEmojiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D95EA527D8988A00E47F14 /* HDCustomEmojiManager.m */; };
 		93D9D08127C37EC600BD037D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; };
 		93D9D08227C37EC600BD037D /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -817,6 +819,10 @@
 		93BF88E028057225005B2CB1 /* HDWhiteRoomManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDWhiteRoomManager.m; sourceTree = "<group>"; };
 		93C03F6D2832256B002292CC /* NSNull+safe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNull+safe.h"; sourceTree = "<group>"; };
 		93C03F6E2832256B002292CC /* NSNull+safe.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNull+safe.m"; sourceTree = "<group>"; };
+		93C3C51D2845F73F00ADDBC6 /* IDInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDInfo.m; sourceTree = "<group>"; };
+		93C3C51E2845F73F00ADDBC6 /* IDInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDInfo.h; sourceTree = "<group>"; };
+		93C3C5212845F74000ADDBC6 /* HDVideoIDCardScaningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVideoIDCardScaningView.m; sourceTree = "<group>"; };
+		93C3C5232845F74000ADDBC6 /* HDVideoIDCardScaningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVideoIDCardScaningView.h; sourceTree = "<group>"; };
 		93D95EA427D8988A00E47F14 /* HDCustomEmojiManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCustomEmojiManager.h; sourceTree = "<group>"; };
 		93D95EA527D8988A00E47F14 /* HDCustomEmojiManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDCustomEmojiManager.m; sourceTree = "<group>"; };
 		93D9D08027C37EC600BD037D /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1504,6 +1510,8 @@
 		930E320B27E032A000455C7E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				93C3C51C2845F73F00ADDBC6 /* Model */,
+				93C3C51F2845F74000ADDBC6 /* View */,
 				938A4DC5283E17360069CA51 /* HDVideoWindowViewController.h */,
 				938A4DC6283E17360069CA51 /* HDVideoWindowViewController.m */,
 				938A4DC2283C5E5C0069CA51 /* HDVideoCallViewController.h */,
@@ -1832,6 +1840,24 @@
 				93B4E96127CCD1D700ACAF5B /* HDMJRefreshAutoFooter.m */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		93C3C51C2845F73F00ADDBC6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				93C3C51D2845F73F00ADDBC6 /* IDInfo.m */,
+				93C3C51E2845F73F00ADDBC6 /* IDInfo.h */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		93C3C51F2845F74000ADDBC6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				93C3C5232845F74000ADDBC6 /* HDVideoIDCardScaningView.h */,
+				93C3C5212845F74000ADDBC6 /* HDVideoIDCardScaningView.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		D20066111EF23274005B558D /* newResources */ = {
@@ -3563,6 +3589,7 @@
 				9042C2632514A1A100DC5BE1 /* AFURLSessionManager.m in Sources */,
 				9385C57527E82EEB0049096F /* HDItemView.m in Sources */,
 				D3394AF11E5562FE009370BF /* HDChatViewController.m in Sources */,
+				93C3C5262845F74000ADDBC6 /* HDVideoIDCardScaningView.m in Sources */,
 				938A4DC4283C5E5D0069CA51 /* HDVideoCallViewController.m in Sources */,
 				D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */,
 				93B4E97427CCD1D800ACAF5B /* HDMJRefreshAutoFooter.m in Sources */,
@@ -3613,6 +3640,7 @@
 				9374FEC027CCB4CD00DE1185 /* UIView+HDMASAdditions.m in Sources */,
 				D3394EA61E559A3F009370BF /* HFileViewController.m in Sources */,
 				D3CB64921E4888F30022A6BA /* UIViewController+HDHUD.m in Sources */,
+				93C3C5242845F74000ADDBC6 /* IDInfo.m in Sources */,
 				8F6ACB2C1F41449100A5622B /* HDFormWebViewController.m in Sources */,
 				93AFA5D4282C9BBC003C1F6B /* HDVideoAnswerView.m in Sources */,
 				D3CB64AB1E4888F30022A6BA /* HDBubbleView+Track.m in Sources */,

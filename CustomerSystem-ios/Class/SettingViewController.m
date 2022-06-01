@@ -22,6 +22,7 @@
     NSString *_tenantId;
     NSString *_projectId;
     NSString *_nickname;
+    NSString *_configId;
 }
 
 @end
@@ -83,6 +84,8 @@
     _tenantId = _lgM.tenantId;
     _projectId = _lgM.projectId;
     _nickname = _lgM.nickname;
+    _configId = _lgM.configId;
+    
 }
 
 - (void)setvalueWithDic:(NSDictionary *)dic {
@@ -98,8 +101,16 @@
         _lgM.tenantId = _tenantId;
         [[HDClient  sharedClient] changeTenantId:_tenantId];
     }
+    
+    if (![_configId isEqualToString:[dic valueForKey:@"configId"]]) {
+        _configId = [dic valueForKey:@"configId"];
+        _lgM.configId = _configId;
+        [[HDClient  sharedClient] changeConfigId:_configId];
+    }
+    
     _cname = [dic valueForKey:@"imservicenum"];
     _projectId = [dic valueForKey:@"projectId"];
+    _configId = [dic valueForKey:@"configId"];
     _lgM.cname = _cname;
     _lgM.nickname = _nickname;
     _lgM.projectId = _projectId;

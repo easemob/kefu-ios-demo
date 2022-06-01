@@ -28,6 +28,9 @@
 #import "UIViewController+AlertController.h"
 #import "CSDemoAccountManager.h"
 #import "HDVideoGeneralCustomView.h"
+#import "HDVideoWindowViewController.h"
+#import "HDVideoIDCardScaningView.h"
+#import "IDInfo.h"
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
@@ -95,10 +98,6 @@
 @property (nonatomic, assign) BOOL  isSmallWindow;//当前是不是 半屏模式
 @property (nonatomic, strong) UIWindow *customWindow;
 @property (nonatomic, strong) HDSuspendCustomView *hdSupendCustomView;
-
-@property (nonatomic, strong) HDVideoGeneralCustomView *hdVideoGeneralCustomView;
-
-@property (nonatomic, strong) UIWindow *generalWindow;
 
 @end
 static dispatch_once_t onceToken;
@@ -1258,13 +1257,6 @@ static HDVideoCallViewController *_manger = nil;
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
-    
-    [self createVECGeneralBaseUI];
-    
-    
-    return;
-    
-    
     if (_shareState) {
         //当前正在共享
         //当前正在白板房间
@@ -1883,53 +1875,14 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 #pragma mark --vec 1.3 相关
 #pragma mark - vec 1.3 弹窗  中 效果
 - (void)createVECGeneralBaseUI{
-    NSString *type=[NSString stringWithFormat:@"%ld",(long)HDVideoGeneral_OTHERVIEW];
-    self.hdVideoGeneralCustomView=[self createVideoGeneralCustomViewWithType:type];
-    self.generalWindow=[self createVideoGeneralCustomWindow];
     
-    [self.generalWindow addSubview:self.hdVideoGeneralCustomView];
-    [self.generalWindow makeKeyAndVisible];
+   
     
-    
-}
-
-- (HDVideoGeneralCustomView *)createVideoGeneralCustomViewWithType:(NSString *)type{
-    if (!_hdVideoGeneralCustomView) {
-        _hdVideoGeneralCustomView=[[HDVideoGeneralCustomView alloc]init];
-        _hdVideoGeneralCustomView.viewWidth=[UIScreen mainScreen].bounds.size.width;
-        _hdVideoGeneralCustomView.viewHeight=[UIScreen mainScreen].bounds.size.height;
-        [_hdVideoGeneralCustomView initWithSuspendType:type];
-        _hdVideoGeneralCustomView.frame=[UIScreen mainScreen].bounds;
-        _hdVideoGeneralCustomView.videoGeneralDelegate=self;
-//        _hdVideoGeneralCustomView.rootView=;
-    }
-
-    return _hdVideoGeneralCustomView;
-}
-
-- (UIWindow *)createVideoGeneralCustomWindow{
-     if (!_generalWindow) {
-         _generalWindow=[[UIWindow alloc]init];
-         _generalWindow.frame= [UIScreen mainScreen].bounds;
-         _generalWindow.windowLevel=UIWindowLevelAlert+3;
-         _generalWindow.backgroundColor=[UIColor clearColor];
-        
-    }
-    return _generalWindow;
+    // 添加自定义的扫描界面（中间有一个镂空窗口和来回移动的扫描线）
+    HDVideoIDCardScaningView *IDCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:self.view.frame];
+//    self.faceDetectionFrame = IDCardScaningView.facePathRect;
+    [self.view addSubview:IDCardScaningView];
 }
 
 
-- (void)cancelVideoGeneralWindow{
-    
-    [_generalWindow resignFirstResponder];
-    _generalWindow=nil;
-
-}
-
-#pragma mark --HDVideoGeneralCustomViewDelegate
-
--(void)hdVideoGeneralCustomViewClicked:(id)sender{
-    
-    
-}
 @end

@@ -87,8 +87,8 @@
         if (arr.count == 2) {
             useful = [arr[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSArray *arr1 = [useful componentsSeparatedByString:@"&"];
-            if (arr1.count == 4) {
-                for (int i=0 ; i<4 ;i++) {
+//            if (arr1.count == 4) {
+                for (int i=0 ; i<arr1.count ;i++) {
                     NSArray *dics = [arr1[i] componentsSeparatedByString:@"="];
                     if (dics.count == 2) {
                         [useDic setValue:dics[1] forKey:dics[0]];
@@ -100,7 +100,7 @@
                     _qrBlock(useDic);
                     [weakSelf.navigationController popViewControllerAnimated:YES];
                 }
-            }
+//            }
         }
         
     }
