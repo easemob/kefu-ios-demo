@@ -18,7 +18,6 @@ typedef void (^HangUpCallback)(HDCallViewController *callVC, NSString *timeStr);
 @property (nonatomic, copy) HangUpCallback hangUpCallback;
 @property (nonatomic, assign) BOOL  isShow;//是否已经调用过show方法
 @property (nonatomic, strong) HDAnswerView *hdAnswerView;
-@property (nonatomic, strong) HDVideoAnswerView *hdVideoAnswerView;
 @property (nonatomic, assign) BOOL isVisitorSend;
 @property (nonatomic, assign) SuspendType suspendType;
 

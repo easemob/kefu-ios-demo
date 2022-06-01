@@ -10,7 +10,7 @@
 #import "CustomButton.h"
 #import "LocalDefine.h"
 #import "CustomButton.h"
-
+#import "UIImage+HDIconFont.h"
 @interface CommodityViewController ()
 {
     UIScrollView *_scrollView;
@@ -85,7 +85,10 @@
     
     
     CustomButton * vecButton = [CustomButton buttonWithType:UIButtonTypeCustom];
-    [vecButton setImage:[UIImage imageNamed:@"hd_chat_icon_red"] forState:UIControlStateNormal];
+//    [vecButton setImage:[UIImage imageNamed:@"hd_chat_icon_red"] forState:UIControlStateNormal];
+    
+    [vecButton setImage:[UIImage imageWithIcon:kshexiangtou1 inFont:kfontName size:32 color:[[HDAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
+               
     [vecButton setTitle:NSLocalizedString(@"customerVEC", @"Customer") forState:UIControlStateNormal];
     vecButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [vecButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];

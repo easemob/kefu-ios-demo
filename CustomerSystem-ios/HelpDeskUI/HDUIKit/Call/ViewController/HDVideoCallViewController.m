@@ -673,7 +673,7 @@ static HDVideoCallViewController *_manger = nil;
     [message addContent:lgM.visitorInfo];
     
     NSDictionary *dic = @{@"targetSystem":@"kefurtc",@"official_account":@"null"};
-//    [message addAttributeDictionary:dic];
+    [message addAttributeDictionary:dic];
     
     [self _sendMessage:message];
 

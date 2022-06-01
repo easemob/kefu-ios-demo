@@ -75,35 +75,35 @@
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
     [self stopAudioPlayingWithChangeCategory:YES];
-//    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
-//    [message addContent:[self visitorInfo]];
-//    [self _sendMessage:message];
     
+    [CSDemoAccountManager shareLoginManager].isVEC = NO;
+    
+    
+    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
+    [message addContent:[self visitorInfo]];
+    [self _sendMessage:message];
 
-   
-    
-    
-//    [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
-//    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-//        [[HDCallViewController sharedManager]  removeView];
-//
-//        [[HDCallViewController sharedManager] removeSharedManager];
-//
-//    };
+    [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
+    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+        [[HDCallViewController sharedManager]  removeView];
+
+        [[HDCallViewController sharedManager] removeSharedManager];
+
+    };
     
     //todo 创建视频等待界面  调用接口 vec 使用
-    [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend];
-            [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-                [[HDVideoCallViewController sharedManager]  removeView];
-
-                [[HDVideoCallViewController sharedManager] removeSharedManager];
-
-            };
-        });
-    }];
+//    [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//
+//            [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend];
+//            [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//                [[HDVideoCallViewController sharedManager]  removeView];
+//
+//                [[HDVideoCallViewController sharedManager] removeSharedManager];
+//
+//            };
+//        });
+//    }];
     
     //发送im 消息
 //    // 调用:
