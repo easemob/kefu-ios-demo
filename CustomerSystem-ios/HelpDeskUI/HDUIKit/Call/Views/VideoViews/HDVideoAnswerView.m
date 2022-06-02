@@ -45,6 +45,7 @@
     [self.bgView addSubview:self.answerLabel];
     [self.bgView addSubview:self.hangUpBtn];
     [self.bgView addSubview:self.closeBtn];
+//    [self.bgView addSubview:self.hangUpLabel];
     
 
 }
@@ -287,16 +288,23 @@
     }];
     
     [self.hangUpBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.offset(-44);
+        make.bottom.offset(-32);
         make.width.height.offset(88);
         make.centerX.mas_equalTo(self.icon.mas_centerX).offset(0);
         
     }];
     [self.hangUpBtn layoutIfNeeded];
+    
+    
+//    [self.hangUpLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.offset(10);
+//        make.centerX.mas_equalTo(self.hangUpBtn.mas_centerX).offset(0);
+//    }];
+    
     [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.offset(5);
-        make.width.height.offset(32);
-        make.trailing.offset(-5);
+        make.top.offset(10);
+        make.width.height.offset(26);
+        make.trailing.offset(-10);
         
     }];
     _hangUpBtn.titleEdgeInsets = UIEdgeInsetsMake(10, -_hangUpBtn.imageView.frame.size.width, -_hangUpBtn.imageView.frame.size.height, 0);
@@ -346,6 +354,18 @@
     }
     
     return _titleLabel;
+}
+- (UILabel *)hangUpLabel{
+    
+    if (!_hangUpLabel) {
+        _hangUpLabel = [[UILabel alloc] init];
+        _hangUpLabel.text = NSLocalizedString(@"video.answer.waiting", @"发起");
+        _hangUpLabel.textColor = [UIColor whiteColor];
+        _hangUpLabel.textAlignment=NSTextAlignmentCenter;
+        _hangUpLabel.font =  [[HDAppSkin mainSkin] systemFont16pt];
+    }
+    
+    return _hangUpLabel;
 }
 - (UILabel *)nickNameLabel{
     

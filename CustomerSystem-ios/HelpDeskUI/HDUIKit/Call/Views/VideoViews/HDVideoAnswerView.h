@@ -39,6 +39,7 @@ typedef void(^ClickCloseCallBlock)(UIButton *btn);
 @property (nonatomic, strong) UIButton *onBtn;
 @property (nonatomic, strong) UIButton *offBtn;
 @property (nonatomic, strong) UIButton *hangUpBtn;
+@property (nonatomic, strong) UILabel *hangUpLabel;
 @property (nonatomic, strong) UIButton *closeBtn;
 @property (nonatomic, strong) HDVideoVerticalAlignmentLabel *answerLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
