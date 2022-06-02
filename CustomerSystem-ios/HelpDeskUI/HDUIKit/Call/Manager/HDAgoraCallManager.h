@@ -180,6 +180,16 @@ static void *KVOContext = &KVOContext;
  *  Ending a Video Session
  */
 - (void)endCall;
+
+/*!
+ *  \~chinese
+ *  结束视频会话。 vec 独立访客端
+
+ *  \~english
+ *  Ending a Video Session
+ */
+- (void)endVecCall;
+
 /*!
  *  \~chinese
  *  拒绝视频会话。
@@ -188,6 +198,14 @@ static void *KVOContext = &KVOContext;
  *  Ending a Video Session
  */
 - (void)refusedCall;
+/*!
+ *  \~chinese
+ *  拒绝视频会话。 vec独立访客端
+
+ *  \~english
+ *  Ending a Video Session
+ */
+- (void)refusedVecCall;
 /*!
  *  \~chinese
  *  销毁对象

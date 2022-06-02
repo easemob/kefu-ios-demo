@@ -38,7 +38,7 @@ typedef void (^HangUpVideoCallback)(HDVideoCallViewController *callVC, NSString 
 /**
  *  界面展示
  */
-- (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoType)type;
+- (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(NSString *)aNickname;
 /**
  *  界面隐藏
  */

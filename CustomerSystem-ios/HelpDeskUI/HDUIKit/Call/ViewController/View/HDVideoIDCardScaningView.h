@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef NS_ENUM(NSInteger, HDVideoIDCardScaningViewType) {
+    HDVideoIDCardScaningViewTypeIDCard, //  身份证
+    HDVideoIDCardScaningViewTypeFace, //  人像
+};
 @interface HDVideoIDCardScaningView : UIView
-
+typedef void(^ClickCloseIDCardBlock)(UIButton *btn,HDVideoIDCardScaningView * view);
 @property (nonatomic,assign) CGRect facePathRect;
+@property (nonatomic, strong) UIButton *closeBtn;
+@property (nonatomic, copy) ClickCloseIDCardBlock clickCloseIDCardBlock;
 
+- (void)setVideoScanType:(HDVideoIDCardScaningViewType)type;
 @end

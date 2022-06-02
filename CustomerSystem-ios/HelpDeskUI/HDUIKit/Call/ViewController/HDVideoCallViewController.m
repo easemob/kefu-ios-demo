@@ -59,8 +59,8 @@
     NSString * _thirdAgentUid;
     
     NSString * _isFirstAdd; // 远端进来是不是第一次添加
-    
-    UIButton *_cameraBtn;
+    UIButton *_muteBtn;  //声音button
+    UIButton *_cameraBtn; //相机button
     UIButton *_shareBtn;     //屏幕共享的button
     UIButton *_whiteBoardBtn;     //白板的button
     BOOL _cameraState; //摄像头状态； yes 开启摄像头 no 关闭
@@ -171,10 +171,11 @@ static HDVideoCallViewController *_manger = nil;
     return [HDVideoCallViewController alertWithView:view AlertType:HDVideoCallAlertTypeVideo];
     
 }
-- (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoType)type{
+- (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(nonnull NSString *)aNickname{
 //    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
     
     if (!isCalling) {
+        self.hdVideoAnswerView.nickNameLabel.text = aNickname;
         if (type == HDVideoDirectionSend) {
             // 发送 界面
             self.isVisitorSend = YES;
@@ -326,6 +327,9 @@ static HDVideoCallViewController *_manger = nil;
  NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
 
    _cameraBtn =  [self.barView hd_bttonWithTag:0 withArray:barArray];
+    
+    _muteBtn =  [self.barView hd_bttonMuteWithTag];
+    
     [self initSmallWindowData];
 }
 
@@ -392,7 +396,7 @@ static HDVideoCallViewController *_manger = nil;
     [self.hdTitleView stopTimer];
     isCalling = NO;
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
-    
+    [[HDAgoraCallManager shareInstance] endVecCall];
     dispatch_async(dispatch_get_main_queue(), ^{
 //        UI更新代码
         [self hangUpclearViewData];
@@ -857,6 +861,8 @@ static HDVideoCallViewController *_manger = nil;
     isCalling = YES;
     if ([HDAgoraCallManager shareInstance].layoutModel.isVisitorCameraOff) {
         [self closeCamera];
+        _muteBtn.selected =YES;
+        [self muteBtnClicked:_muteBtn];
     }
     
     [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
@@ -890,6 +896,8 @@ static HDVideoCallViewController *_manger = nil;
         self.hdVideoAnswerView.hidden = NO;
 
     }
+    
+    
 }
 
 /// 拒接事件
@@ -900,7 +908,7 @@ static HDVideoCallViewController *_manger = nil;
     isCalling = NO;
     //挂断和拒接 都走这个
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
-    [[HDAgoraCallManager shareInstance] endCall];
+    [[HDAgoraCallManager shareInstance] endVecCall];
     [self.hdTitleView stopTimer];
     
     [self clearViewData];
@@ -1270,7 +1278,7 @@ static HDVideoCallViewController *_manger = nil;
         return;
     }
     // 创建白板产生
-    [[HDWhiteRoomManager shareInstance] hd_joinRoom];
+    [[HDWhiteRoomManager shareInstance] hd_joinVECRoom];
     
 }
 - (void)onFastboardDidJoinRoomFail{
@@ -1877,7 +1885,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 - (void)createVECGeneralBaseUI{
     
    
-    
     // 添加自定义的扫描界面（中间有一个镂空窗口和来回移动的扫描线）
     HDVideoIDCardScaningView *IDCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:self.view.frame];
 //    self.faceDetectionFrame = IDCardScaningView.facePathRect;

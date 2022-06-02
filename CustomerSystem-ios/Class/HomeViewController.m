@@ -238,7 +238,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
-                        [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend];
+                        [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend withVisitornickName:lgM.nickname];
                         [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
                             [[HDVideoCallViewController sharedManager]  removeView];
 
@@ -689,7 +689,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     if ([CSDemoAccountManager shareLoginManager].isVEC) {
        
-        [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoDirectionReceive];
+        [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoDirectionReceive withVisitornickName:keyCenter.visitorNickName];
         [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
             [[HDVideoCallViewController sharedManager]  removeView];
 

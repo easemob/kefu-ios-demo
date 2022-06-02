@@ -59,6 +59,7 @@ typedef void(^ClickControlBarItemBlock)(HDControlBarModel *barModel,UIButton *bt
 
 - (void)refreshView:(UIView *)view withScreen:(BOOL)landscape;
 -(UIButton *)hd_bttonWithTag:(NSInteger)tag withArray:(NSArray *)array;
+- (UIButton *)hd_bttonMuteWithTag;
 - (void)hd_setButton:(UIButton *)button withBackground:(HDControlBarButtonBackground)background withSize:(NSUInteger)size withImageName:(NSString *)imageStr withSelectImage:(NSString *)selImageStr;
 @end
 

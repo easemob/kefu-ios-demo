@@ -172,6 +172,7 @@
 		93C03F6F2832256B002292CC /* NSNull+safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C03F6E2832256B002292CC /* NSNull+safe.m */; };
 		93C3C5242845F74000ADDBC6 /* IDInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C3C51D2845F73F00ADDBC6 /* IDInfo.m */; };
 		93C3C5262845F74000ADDBC6 /* HDVideoIDCardScaningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C3C5212845F74000ADDBC6 /* HDVideoIDCardScaningView.m */; };
+		93C3C5282847648200ADDBC6 /* idcard_first_head.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C3C5272847648200ADDBC6 /* idcard_first_head.png */; };
 		93D95EA627D8988A00E47F14 /* HDCustomEmojiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D95EA527D8988A00E47F14 /* HDCustomEmojiManager.m */; };
 		93D9D08127C37EC600BD037D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; };
 		93D9D08227C37EC600BD037D /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -823,6 +824,7 @@
 		93C3C51E2845F73F00ADDBC6 /* IDInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDInfo.h; sourceTree = "<group>"; };
 		93C3C5212845F74000ADDBC6 /* HDVideoIDCardScaningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVideoIDCardScaningView.m; sourceTree = "<group>"; };
 		93C3C5232845F74000ADDBC6 /* HDVideoIDCardScaningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVideoIDCardScaningView.h; sourceTree = "<group>"; };
+		93C3C5272847648200ADDBC6 /* idcard_first_head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = idcard_first_head.png; sourceTree = "<group>"; };
 		93D95EA427D8988A00E47F14 /* HDCustomEmojiManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCustomEmojiManager.h; sourceTree = "<group>"; };
 		93D95EA527D8988A00E47F14 /* HDCustomEmojiManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDCustomEmojiManager.m; sourceTree = "<group>"; };
 		93D9D08027C37EC600BD037D /* HelpDesk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1414,6 +1416,7 @@
 		9086151020B43A54002E71DA /* HCallResources */ = {
 			isa = PBXGroup;
 			children = (
+				93C3C5272847648200ADDBC6 /* idcard_first_head.png */,
 				9086151120B43A54002E71DA /* shareDesktop@2x.png */,
 				9086151220B43A54002E71DA /* record.png */,
 				9086151320B43A54002E71DA /* on.png */,
@@ -3351,6 +3354,7 @@
 				EB4B06A61AC685E900DCF67B /* VoiceSearchFeedback013@2x.png in Resources */,
 				EB4B06B61AC685E900DCF67B /* call_out@2x.png in Resources */,
 				EB4B06D41AC685E900DCF67B /* messageSendFail@2x.png in Resources */,
+				93C3C5282847648200ADDBC6 /* idcard_first_head.png in Resources */,
 				9318734628323DDB00504F82 /* demo.css in Resources */,
 				EB4B06CA1AC685E900DCF67B /* chat_location_annotation_someone@2x.png in Resources */,
 			);

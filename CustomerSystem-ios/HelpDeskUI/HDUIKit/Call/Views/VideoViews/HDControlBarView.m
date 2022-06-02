@@ -359,6 +359,15 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     return btn;
     
 }
+- (UIButton *)hd_bttonMuteWithTag {
+    
+    UIButton * btn;
+      btn = [self viewWithTag:kButtonTag + 0];
+      
+    
+    return btn;
+    
+}
 
 
 #pragma mark - event
