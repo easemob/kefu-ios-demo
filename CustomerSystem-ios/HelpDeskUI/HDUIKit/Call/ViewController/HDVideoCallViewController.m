@@ -396,13 +396,21 @@ static HDVideoCallViewController *_manger = nil;
     [self.hdTitleView stopTimer];
     isCalling = NO;
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
-    [[HDAgoraCallManager shareInstance] endVecCall];
     dispatch_async(dispatch_get_main_queue(), ^{
 //        UI更新代码
         [self hangUpclearViewData];
     });
    
 }
+//mark vec 独立访客端 收到坐席拒绝接通的邀请
+- (void)onCallHangUpInvitation{
+    
+    
+    [self offBtnClicked:nil];
+    
+}
+
+
 - (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
     
     _thirdAgentNickName = thirdAgentNickName;
@@ -739,11 +747,12 @@ static HDVideoCallViewController *_manger = nil;
    if (!_hdVideoAnswerView) {
        _hdVideoAnswerView = [[HDVideoAnswerView alloc]init];
 //       _hdVideoAnswerView.backgroundColor = [UIColor blackColor];
-       _hdVideoAnswerView.layer.borderWidth = 1;
-       _hdVideoAnswerView.layer.borderColor = [[HDAppSkin mainSkin] contentColorGrayWhithWite].CGColor;
+//       _hdVideoAnswerView.layer.borderWidth = 1;
+//       _hdVideoAnswerView.layer.borderColor = [[HDAppSkin mainSkin] contentColorGrayWhithWite].CGColor;
        _hdVideoAnswerView.layer.cornerRadius = 10.0f;
        _hdVideoAnswerView.layer.masksToBounds = YES;
-
+       _hdVideoAnswerView.layer.shadowOpacity = 0.5;
+       _hdVideoAnswerView.layer.shadowRadius = 15;
        __weak __typeof__(self) weakSelf = self;
        _hdVideoAnswerView.clickOnBlock = ^(UIButton * _Nonnull btn) {
            [weakSelf anwersBtnClicked:btn];
@@ -804,7 +813,7 @@ static HDVideoCallViewController *_manger = nil;
                     [weakSelf videoBtnClicked:btn];
                     break;
                 case HDControlBarItemTypeHangUp:
-                    [weakSelf offBtnClicked:btn];
+                    [weakSelf callingHangUpBtn:btn];
                     break;
                 case HDControlBarItemTypeShare:
                     [weakSelf shareDesktopBtnClicked:btn];
@@ -904,9 +913,9 @@ static HDVideoCallViewController *_manger = nil;
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{
   
-    //拒接事件 拒接关闭当前页面
+   
     isCalling = NO;
-    //挂断和拒接 都走这个
+    
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
     [[HDAgoraCallManager shareInstance] endVecCall];
     [self.hdTitleView stopTimer];
@@ -922,7 +931,27 @@ static HDVideoCallViewController *_manger = nil;
     }
     
 }
+/// 接通后 挂断
+/// @param sender button
+- (void)callingHangUpBtn:(UIButton *)sender{
+  
+    isCalling = NO;
+    //挂断和拒接 都走这个
+    [[HDWhiteRoomManager shareInstance] hd_OnLogout];
+    [[HDAgoraCallManager shareInstance] closeVecCall];
+    [self.hdTitleView stopTimer];
+    
+    [self clearViewData];
+    
+    [self.hdVideoAnswerView endCallLayout];
 
+    if (self.hdVideoAnswerView.hidden) {
+    
+        self.hdVideoAnswerView.hidden = NO;
+
+    }
+    
+}
 - (UIView *)parentView{
     
     if (!_parentView) {

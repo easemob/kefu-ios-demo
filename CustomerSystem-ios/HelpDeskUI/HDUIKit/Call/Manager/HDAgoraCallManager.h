@@ -189,6 +189,14 @@ static void *KVOContext = &KVOContext;
  *  Ending a Video Session
  */
 - (void)endVecCall;
+/*!
+ *  \~chinese
+ *  结束视频会话  通话中结束。 vec 独立访客端
+
+ *  \~english
+ *  Ending a Video Session
+ */
+- (void)closeVecCall;
 
 /*!
  *  \~chinese

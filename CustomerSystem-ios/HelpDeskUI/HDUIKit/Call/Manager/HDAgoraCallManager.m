@@ -276,6 +276,19 @@ static HDAgoraCallManager *shareCall = nil;
     //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
     [self destroy];
 }
+- (void)closeVecCall{
+    
+    [self leaveChannel];
+    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
+    [self destroy];
+    
+    [[HDClient sharedClient].callManager hd_hangUpVECSessionId:@"123" WithVisitorId:@"456" Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+        
+        NSLog(@"=====%@",responseObject);
+        
+    }];
+    
+}
 - (void)endVecCall{
     [self leaveChannel];
 //    if([HDAgoraCallManager shareInstance].keyCenter.callid >0){
@@ -306,11 +319,7 @@ static HDAgoraCallManager *shareCall = nil;
     //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
     [self destroy];
     
-    [[HDClient sharedClient].callManager hd_hangUpVECSessionId:@"123" WithVisitorId:@"456" Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
-        
-        NSLog(@"=====%@",responseObject);
-        
-    }];
+  
     
     
 }
