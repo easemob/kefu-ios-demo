@@ -229,7 +229,7 @@
 - (UIButton *)hangUpBtn{
     if (!_hangUpBtn) {
         _hangUpBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_hangUpBtn addTarget:self action:@selector(offClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_hangUpBtn addTarget:self action:@selector(hangUpCallClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
         [_hangUpBtn setImage:[UIImage imageNamed:@"off.png"] forState:UIControlStateNormal];
     }
@@ -247,6 +247,13 @@
     [self stopTimer];
     if (self.clickOffBlock) {
         self.clickOffBlock(sender);
+    }
+    
+}
+- (void)hangUpCallClick:(UIButton *)sender{
+    [self stopTimer];
+    if (self.clickHangUpBlock) {
+        self.clickHangUpBlock(sender);
     }
     
 }

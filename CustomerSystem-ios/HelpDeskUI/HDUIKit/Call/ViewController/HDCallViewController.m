@@ -765,6 +765,9 @@ static HDCallViewController *_manger = nil;
        _hdAnswerView.clickOffBlock = ^(UIButton * _Nonnull btn) {
            [weakSelf offBtnClicked:btn];
        };
+       _hdAnswerView.clickHangUpBlock = ^(UIButton * _Nonnull btn) {
+           [weakSelf hangUpCallBtn:btn];
+       };
     }
     return _hdAnswerView;
 }
@@ -885,7 +888,7 @@ static HDCallViewController *_manger = nil;
        
      }];
 }
-/// 拒接事件
+/// 主动挂断
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{
     isCalling = NO;
@@ -899,8 +902,22 @@ static HDCallViewController *_manger = nil;
     if (self.hangUpCallback) {
         self.hangUpCallback(self, self.hdTitleView.timeLabel.text);
     }
+}
 
+/// 拒接事件
+/// @param sender button
+- (void)hangUpCallBtn:(UIButton *)sender{
+    isCalling = NO;
+    [[HDAgoraCallManager shareInstance] refusedCall];
+    //拒接事件 拒接关闭当前页面
+    //挂断和拒接 都走这个
+    [[HDWhiteRoomManager shareInstance] hd_OnLogout];
     
+    [self.hdTitleView stopTimer];
+    
+    if (self.hangUpCallback) {
+        self.hangUpCallback(self, self.hdTitleView.timeLabel.text);
+    }
 }
 
 - (UIView *)parentView{

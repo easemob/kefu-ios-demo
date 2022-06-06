@@ -17,6 +17,7 @@ typedef NS_ENUM (NSInteger, HDVideoCallType) {
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^ClickOnBlock)(UIButton *btn);
 typedef void(^ClickOffBlock)(UIButton *btn);
+typedef void(^ClickHangUpBlock)(UIButton *btn);
 @interface HDAnswerView : UIView
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UIImageView *icon;
@@ -28,6 +29,7 @@ typedef void(^ClickOffBlock)(UIButton *btn);
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, copy) ClickOnBlock clickOnBlock;
 @property (nonatomic, copy) ClickOffBlock clickOffBlock;
+@property (nonatomic, copy) ClickHangUpBlock clickHangUpBlock;
 @property (nonatomic, assign) HDVideoCallType callType;
 
 
