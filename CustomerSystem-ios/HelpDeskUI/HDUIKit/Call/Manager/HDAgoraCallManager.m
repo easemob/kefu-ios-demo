@@ -436,27 +436,27 @@ static HDAgoraCallManager *shareCall = nil;
  */
 - (void)acceptCallWithNickname:(NSString *)nickname completion:(void (^)(id, HDError *))completion{
     self.Completion = completion;
-    
-    NSLog(@"======acceptCallWithNickname");
+    [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 acceptCallWithNickname "];
     [self hd_joinChannelByToken:[HDAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDAgoraCallManager shareInstance].keyCenter.agoraChannel info:nil uid:[[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
         _onCalling = YES;
-        NSLog(@"joinSuccess channel=%@  uid=%lu",channel,(unsigned long)uid);
+        [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 joinSuccess channel "];
         self.Completion(nil, nil);
         
     }];
-    //保存 分享要的数据
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//       // UI更新代码
-//
-        if ([HDAgoraCallManager shareInstance].keyCenter) {
-        
-            [self saveAppKeyCenter:[HDAgoraCallManager shareInstance].keyCenter];
-        }
-        
-//    });
+//    if ([HDAgoraCallManager shareInstance].keyCenter) {
+//        
+//        [self saveAppKeyCenter:[HDAgoraCallManager shareInstance].keyCenter];
+//    }
+}
+- (void)hd_saveShareDeskData:(HDKeyCenter *)keyCenter{
     
+    if (keyCenter) {
+        
+        [self saveAppKeyCenter:[HDAgoraCallManager shareInstance].keyCenter];
+    }
     
 }
+
 - (BOOL)getCallState{
     
     return  _onCalling;
@@ -588,11 +588,7 @@ static HDAgoraCallManager *shareCall = nil;
 /// 保持动态数据 给其他app 进程通信
 /// @param keyCenter 对象参数
 - (void)saveAppKeyCenter:(HDKeyCenter *)keyCenter{
-//    [HDSSKeychain setPassword: keyCenter.agoraAppid forService:kForService account:kSaveAgoraAppID];
-//    [HDSSKeychain setPassword: keyCenter.agoraToken forService:kForService account:kSaveAgoraToken];
-//    [HDSSKeychain setPassword: keyCenter.agoraChannel forService:kForService account:kSaveAgoraChannel];
-//    [HDSSKeychain setPassword: [NSString stringWithFormat:@"%@",keyCenter.agoraUid] forService:kForService account:kSaveAgoraShareUID];
-//    [HDSSKeychain setPassword:[NSString stringWithFormat:@"%@",keyCenter.callid]  forService:kForService account:kSaveAgoraCallId];
+
     self.userDefaults =[[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
    
     
@@ -661,12 +657,12 @@ static HDAgoraCallManager *shareCall = nil;
                 
                 [HDAgoraCallManager shareInstance].layoutModel = model;
                 
-                if (aCompletion) {
-                    aCompletion(responseObject,nil);
-                }
+               
             }
         }
-        
+        if (aCompletion) {
+            aCompletion(responseObject,nil);
+        }
     }];
 }
 - (NSDictionary *)dictWithString:(NSString *)string {

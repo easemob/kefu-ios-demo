@@ -171,8 +171,10 @@ static HDVideoCallViewController *_manger = nil;
     return [HDVideoCallViewController alertWithView:view AlertType:HDVideoCallAlertTypeVideo];
     
 }
-- (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(nonnull NSString *)aNickname{
+- (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(nonnull NSString *)aNickname{
 //    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
+    
+    [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
     
     if (!isCalling) {
         self.hdVideoAnswerView.nickNameLabel.text = aNickname;
@@ -188,6 +190,7 @@ static HDVideoCallViewController *_manger = nil;
             }
             self.hdVideoAnswerView.callType = HDVideoDirectionSend;
         }else{
+            [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 进入接收通话界面 "];
             // 接受 界面
             //需要必要创建房间的参数
             [HDAgoraCallManager shareInstance].keyCenter = keyCenter;
@@ -195,6 +198,7 @@ static HDVideoCallViewController *_manger = nil;
             self.agentName = keyCenter.agentNickName;
            
             if (self.isVisitorSend) {
+                [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 坐席回拨过来了 "];
                 //访客发起后 坐席回拨过来了
                 [self anwersBtnClicked:nil];
             }else{
@@ -685,6 +689,7 @@ static HDVideoCallViewController *_manger = nil;
     [message addContent:lgM.visitorInfo];
     
     NSDictionary *dic = @{@"targetSystem":@"kefurtc",@"official_account":@"null"};
+//    NSDictionary *dic = @{@"targetSystem":@"kefurtc"};
     [message addAttributeDictionary:dic];
     
     [self _sendMessage:message];
@@ -856,6 +861,7 @@ static HDVideoCallViewController *_manger = nil;
 /// 应答事件
 /// @param sender  button
 - (void)anwersBtnClicked:(UIButton *)sender{
+    [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked "];
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorWhitealpha:1];
 
     self.hdVideoAnswerView.hidden = YES;
@@ -868,7 +874,12 @@ static HDVideoCallViewController *_manger = nil;
     [self setAcceptCallView];
     [self.hdTitleView startTimer];
     isCalling = YES;
+    
+    [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked 设置接口判断 "];
     if ([HDAgoraCallManager shareInstance].layoutModel.isVisitorCameraOff) {
+        
+        [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked 设置接口进入"];
+        
         [self closeCamera];
         _muteBtn.selected =YES;
         [self muteBtnClicked:_muteBtn];
@@ -877,10 +888,9 @@ static HDVideoCallViewController *_manger = nil;
     [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
                                                         completion:^(id obj, HDError *error)
      {
-        NSLog(@"===anwersBtnClicked=Occur error%d",error.code);
+      
         if (error == nil){
             
-            NSLog(@"===anwersBtnClicked=isCalling%d",error.code);
         }else{
             NSLog(@"===anwersBtnClicked=dispatch_async%d",error.code);
             // 加入失败 或者视频网络断开
@@ -1503,18 +1513,19 @@ static HDVideoCallViewController *_manger = nil;
 #pragma mark - 屏幕共享相关
 // 屏幕共享事件
 - (void)shareDesktopBtnClicked:(UIButton *)btn {
-
     _shareBtn = btn;
-
     _shareBtn.selected = _shareState;
    
-//    [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen1", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
-    
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
         [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen", "当前正在白板中不能进行屏幕共享")  withWindow:self.alertWindow];
         return;
     }
+    
+    //点击的时候先要 保存屏幕共享的数据
+    [[HDAgoraCallManager shareInstance] hd_saveShareDeskData:[HDAgoraCallManager shareInstance].keyCenter];
+    
+    sleep(0.5);
     //通过UserDefaults建立数据通道
     [self setupUserDefaults];
     for (UIView *view in _broadPickerView.subviews)

@@ -232,6 +232,11 @@ static void *KVOContext = &KVOContext;
 /// @param uid  远端的uid
 - (void)setupRemoteVideoView:(UIView *)remoteView withRemoteUid:(NSInteger )uid;
 - (void)initSettingWithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion ;
+
+/// 保存屏幕共享需要的数据
+- (void)hd_saveShareDeskData:(HDKeyCenter*)keyCenter;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

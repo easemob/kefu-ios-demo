@@ -687,8 +687,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //
 //    };
     
+   
+    
     if ([CSDemoAccountManager shareLoginManager].isVEC) {
        
+        [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息: "];
+        
         [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoDirectionReceive withVisitornickName:keyCenter.visitorNickName];
         [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
             [[HDVideoCallViewController sharedManager]  removeView];

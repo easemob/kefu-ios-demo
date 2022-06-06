@@ -1488,13 +1488,15 @@ static HDCallViewController *_manger = nil;
 
     _shareBtn.selected = _shareState;
    
-//    [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen1", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
-    
+
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
         [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen", "当前正在白板中不能进行屏幕共享")  withWindow:self.alertWindow];
         return;
     }
+    //点击的时候先要 保存屏幕共享的数据
+    [[HDAgoraCallManager shareInstance] hd_saveShareDeskData:[HDAgoraCallManager shareInstance].keyCenter];
+   
     //通过UserDefaults建立数据通道
     [self setupUserDefaults];
     for (UIView *view in _broadPickerView.subviews)
