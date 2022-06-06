@@ -89,7 +89,7 @@
 "title.reply" = "Reply";
 "title.projectId" = "ProjectID";
 "title.tenantId" = "TenantID";
-
+"title.configId" = "ConfigId";
 //choice
 "choice.preSale" = "Pre Sale";
 "choice.afterSale" = "After Sales";

@@ -134,7 +134,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 6;
+    return 7;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -150,8 +150,15 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         UILabel *contentLabel = nil;
-        if (indexPath.section ==3 || indexPath.section == 4) {
-            contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 10, tableView.frame.size.width - 100 - 20 - 30, 25)];
+        if (indexPath.section ==3 || indexPath.section == 4 || indexPath.section == 6) {
+            if (indexPath.section == 6) {
+               
+                contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 10, tableView.frame.size.width - 100 - 20 - 30 - 28, 25)];
+                
+            }else{
+                contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 10, tableView.frame.size.width - 100 - 20 - 30, 25)];
+            }
+            
         } else {
             contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 10, tableView.frame.size.width - 100 - 20 - 30, 25)];
         }
@@ -206,6 +213,15 @@
             NSString *fullVersion = [version stringByAppendingString:build];
             cell.textLabel.text = NSLocalizedString(@"setting.feedback", @"feedback");
             tempLabel.text = [NSString stringWithFormat:@"Version:%@",fullVersion];
+        }
+            break;
+        case 6:
+        {
+            tempLabel.numberOfLines = 1;
+            tempLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+//            tempLabel.adjustsFontSizeToFitWidth = YES;
+            cell.textLabel.text = NSLocalizedString(@"title.configId", @"configId");
+            tempLabel.text = _configId;
         }
             break;
         default:
@@ -294,6 +310,12 @@
 
             });
 
+        }
+            break;
+        case 6:
+        {
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"configId" content:_configId];
+            [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         default:

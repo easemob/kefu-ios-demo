@@ -907,7 +907,8 @@ static HDVideoCallViewController *_manger = nil;
 
 - (void)hangUpclearViewData{
     [self clearViewData];
-    
+    // 把vec 置为初始值
+    [CSDemoAccountManager shareLoginManager].isVEC = NO;
     [self.hdVideoAnswerView endCallLayout];
 
     if (self.hdVideoAnswerView.hidden) {

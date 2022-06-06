@@ -94,6 +94,8 @@
 
 - (void)endCallLayout{
     
+  
+    
     [self updateServiceLayoutConfig:_model withProcessType:HDVideoProcessEnd];
     
 }

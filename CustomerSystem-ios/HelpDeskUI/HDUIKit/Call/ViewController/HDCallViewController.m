@@ -178,11 +178,8 @@ static HDCallViewController *_manger = nil;
 - (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoCallType)type{
 //    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
     
-    //调用初始化接口
-//    if (_isVEC) {
-//        [self initSetting];
-//    }
-
+    [HDLog logI:@"================vec=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
+    
     if (!isCalling) {
         if (type == HDVideoCallDirectionSend) {
             // 发送 界面
@@ -891,25 +888,18 @@ static HDCallViewController *_manger = nil;
 /// 拒接事件
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{
-  
-    //拒接事件 拒接关闭当前页面
     isCalling = NO;
+    [[HDAgoraCallManager shareInstance] endCall];
+    //拒接事件 拒接关闭当前页面
     //挂断和拒接 都走这个
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
-    [[HDAgoraCallManager shareInstance] endCall];
+    
     [self.hdTitleView stopTimer];
     
     if (self.hangUpCallback) {
         self.hangUpCallback(self, self.hdTitleView.timeLabel.text);
     }
 
-        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-    //        UI更新代码
-//            if (self.hangUpCallback) {
-//                self.hangUpCallback(self, self.hdTitleView.timeLabel.text);
-//            }
-//        });
     
 }
 
@@ -1259,9 +1249,7 @@ static HDCallViewController *_manger = nil;
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
-    [self createVECGeneralBaseUI];
-    
-    return;
+
     if (_shareState) {
         //当前正在共享
         //当前正在白板房间

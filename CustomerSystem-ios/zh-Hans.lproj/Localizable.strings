@@ -90,7 +90,7 @@
 "title.reply" = "写评论";
 "title.projectId" = "留言ID(ProjectId)";
 "title.tenantId" = "租户ID(Tenantld)";
-
+"title.configId" = "插件ID(configId)";
 //choice
 "choice.preSale" = "售前客服";
 "choice.afterSale" = "售后客服";
