@@ -482,9 +482,6 @@ static HDAgoraCallManager *shareCall = nil;
     
     NSLog(@"join Member  uid---- %lu ",(unsigned long)uid);
     HDAgoraCallMember *mem = [self getHDAgoraCallMember:uid];
-    if([self.roomDelegate respondsToSelector:@selector(onMemberJoin:)]){
-        [self.roomDelegate onMemberJoin:mem];
-    }
     @synchronized(self.members){
         BOOL isNeedAdd = YES;
         for ( HDAgoraCallMember *member in self.members) {
@@ -499,6 +496,10 @@ static HDAgoraCallManager *shareCall = nil;
     
         }
     };
+    if([self.roomDelegate respondsToSelector:@selector(onMemberJoin:)]){
+        [self.roomDelegate onMemberJoin:mem];
+    }
+
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStateChangedOfUid:(NSUInteger)uid state:(AgoraVideoRemoteState)state reason:(AgoraVideoRemoteStateReason)reason elapsed:(NSInteger)elapsed
@@ -532,9 +533,6 @@ static HDAgoraCallManager *shareCall = nil;
     //通知代理
    
     HDAgoraCallMember *mem = [self getHDAgoraCallMember:uid];
-    if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){
-        [self.roomDelegate onMemberExit:mem];
-    }
     HDAgoraCallMember *needRemove = nil;
     @synchronized(_members){
         for (HDAgoraCallMember *_member in self.members) {
@@ -549,7 +547,10 @@ static HDAgoraCallManager *shareCall = nil;
     
     //如果房间里边人 都么有了 就发送通知 关闭。如果有人 就不关闭
   [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
-    
+   
+    if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){
+        [self.roomDelegate onMemberExit:mem];
+    }
     
 }
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine virtualBackgroundSourceEnabled:(BOOL)enabled reason:(AgoraVirtualBackgroundSourceStateReason)reason{

@@ -261,18 +261,33 @@ static HDVideoCallViewController *_manger = nil;
 }
 //
 -(void)clearViewData{
+    
     [_videoViews removeAllObjects];
     [_videoItemViews removeAllObjects];
     [_members removeAllObjects];
     [_midelleMembers removeAllObjects];
     [allMembersDic removeAllObjects];
+    for (UIView *view in [self.view subviews]) {
+
+        if (![view isKindOfClass:[HDVideoAnswerView class]]) {
+        
+            [view removeFromSuperview];
+        }
+        
+        
+    }
+    
+    
+    self.barView = nil;
+    
+    self.midelleVideoView= nil;
+    
+    self.hdTitleView = nil;
+
+    self.smallWindowView=nil;
+   
     [self.parentView removeFromSuperview];
     self.parentView = nil;
-    self.barView = nil;
-    self.midelleVideoView= nil;
-    self.hdTitleView = nil;
-    self.smallWindowView=nil;
-    self.whiteBoardView =nil;
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -400,15 +415,16 @@ static HDVideoCallViewController *_manger = nil;
     [self.hdTitleView stopTimer];
     isCalling = NO;
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
+    [HDLog logI:@"================vec1.2=====onCallEndReason  %@",[NSThread currentThread] ];
     dispatch_async(dispatch_get_main_queue(), ^{
 //        UI更新代码
+    [HDLog logI:@"================vec1.2=====onCallEndReason  %@",[NSThread currentThread] ];
         [self hangUpclearViewData];
-    });
+});
    
 }
 //mark vec 独立访客端 收到坐席拒绝接通的邀请
 - (void)onCallHangUpInvitation{
-    
     
     [self offBtnClicked:nil];
     
@@ -418,9 +434,11 @@ static HDVideoCallViewController *_manger = nil;
 - (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
     
     _thirdAgentNickName = thirdAgentNickName;
-    _thirdAgentUid = uid;
+    
+    _thirdAgentUid = uid.length > 0 ? uid : _thirdAgentUid;
     
     [self updateThirdAgent];
+   
 }
 - (void)updateThirdAgent{
    
@@ -684,7 +702,9 @@ static HDVideoCallViewController *_manger = nil;
     
 - (void)createVideoCall{
     //这个地方是真正发消息邀请视频的代码
+    
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    lgM.isVEC =YES;
     HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [message addContent:lgM.visitorInfo];
     
@@ -914,7 +934,6 @@ static HDVideoCallViewController *_manger = nil;
     if (self.hdVideoAnswerView.hidden) {
     
         self.hdVideoAnswerView.hidden = NO;
-
     }
     
     
@@ -924,7 +943,7 @@ static HDVideoCallViewController *_manger = nil;
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{
   
-   
+
     isCalling = NO;
     
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
@@ -1130,6 +1149,7 @@ static HDVideoCallViewController *_manger = nil;
                     [_midelleMembers addObject: thirdItem];
                 }
             }
+            
         };
         
         NSLog(@"join 成员加入回调- @synchronized 加入成员结束--- %@ ",member.memberName);
@@ -1154,6 +1174,12 @@ static HDVideoCallViewController *_manger = nil;
 
 // 成员离开回调
 - (void)onMemberExit:(HDAgoraCallMember *)member {
+    
+    if ([[HDAgoraCallManager shareInstance] hasJoinedMembers].count ==0) {
+        
+        return;
+    }
+    
     NSLog(@"onMemberExit Member  member---- %@ ",member.memberName);
     //先去小窗 查找 如果在小窗 有删除 刷新即可
     HDCallCollectionViewCellItem *deleteItem;
