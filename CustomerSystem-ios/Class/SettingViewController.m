@@ -13,6 +13,7 @@
 #import "HDChatViewController.h"
 #import "HelpDeskUI.h"
 #import "CSDemoAccountManager.h"
+#import "HDTestViewController.h"
 
 
 @interface SettingViewController ()<UIAlertViewDelegate>
@@ -134,7 +135,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 7;
+    return 8;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -222,6 +223,11 @@
 //            tempLabel.adjustsFontSizeToFitWidth = YES;
             cell.textLabel.text = NSLocalizedString(@"title.configId", @"configId");
             tempLabel.text = _configId;
+        }
+            break;
+        case 7:
+        {
+            cell.textLabel.text = NSLocalizedString(@"测试欢迎语翻译接口", @"configId");
         }
             break;
         default:
@@ -316,6 +322,12 @@
         {
             EditViewController *editController = [[EditViewController alloc] initWithType:@"configId" content:_configId];
             [self.navigationController pushViewController:editController animated:YES];
+        }
+            break;
+        case 7:
+        {
+            HDTestViewController *testViewController = [[HDTestViewController alloc] init];
+            [self.navigationController pushViewController:testViewController animated:YES];
         }
             break;
         default:
