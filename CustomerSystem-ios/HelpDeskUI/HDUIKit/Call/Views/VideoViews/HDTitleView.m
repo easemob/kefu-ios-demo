@@ -31,14 +31,6 @@
     }
     return self;
 }
-
-
-
-- (void)layoutSubviews{
-    
-    [self updateFrame];
-    
-}
 - (CGSize) calculateLabelSize:(UILabel *)label{
  
     // 设置Label的字体 HelveticaNeue  Courier
@@ -94,23 +86,28 @@
     [self addSubview:self.timeLabel];
     [self addSubview:self.hideBtn];
     
+    [self updateFrame];
 
 }
 - (void)updateFrame{
     
+
+    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.centerX.mas_equalTo(self).multipliedBy(0.8);
+//        make.centerY.mas_equalTo(self);
+//        make.width.offset(64);
+        make.bottom.offset(-15);
+
+    }];
+    
     [self.zoomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
+//        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
         make.leading.offset(10);
-        make.bottom.offset(0);
+        make.bottom.offset(-5);
         make.width.height.offset(kHideBtnHeight);
     }];
     
-    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self).offset(10);
-        make.centerX.mas_equalTo(self).multipliedBy(0.8);
-        make.width.offset(64);
-        
-    }];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 
         make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
@@ -118,7 +115,8 @@
 
     }];
     [self.hideBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
+//        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
+        make.bottom.offset(-5);
         make.trailing.offset(-20);
         make.width.height.offset(kHideBtnHeight);
     }];

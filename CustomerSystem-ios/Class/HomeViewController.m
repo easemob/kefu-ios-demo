@@ -670,6 +670,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             [[HDVideoCallViewController sharedManager] removeSharedManager];
 
         };
+//        [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
+//        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//
+//            [[HDCallViewController sharedManager]  removeView];
+//            [[HDCallViewController sharedManager] removeSharedManager];
+//
+//           };
     }else{
         
         
@@ -729,9 +736,10 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     
     
-//    [HDVideoWindowViewController sharedManager];
+//   
     
-    
+    [HDVideoWindowViewController sharedManager];
+
     
   
     

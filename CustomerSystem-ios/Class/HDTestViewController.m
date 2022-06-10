@@ -38,7 +38,8 @@
         // 随机生成 uuid
         
         _uuid = [self getUUID];
-        
+    
+        _uuid = [NSString stringWithFormat:@"%@==%u",_uuid,arc4random()];
         NSLog(@"==getUUID==%@",_uuid);
         MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"设置中", "Upload attachment") toView:self.view];
         hud.layer.zPosition = 1.f;
@@ -62,9 +63,6 @@
         [MBProgressHUD dismissInfo:@"设置语种不能为空"];
         
     }
-    
-  
-    
     
 }
 - (IBAction)welcomeAction:(id)sender {

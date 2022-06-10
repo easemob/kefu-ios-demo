@@ -144,9 +144,16 @@ static HDAgoraCallManager *shareCall = nil;
         [_agoraKit enableDeepLearningDenoise:YES];
         // set video configuration
         float size = _options.dimension.width;
-        AgoraVideoEncoderConfiguration *configuration = [[AgoraVideoEncoderConfiguration alloc] initWithSize:  (size>0 ? _options.dimension : AgoraVideoDimension360x360) frameRate:_options.frameRate ? AgoraVideoFrameRateFps24 : (AgoraVideoFrameRate)_options.frameRate bitrate:_options.bitrate ? _options.bitrate :AgoraVideoBitrateStandard  orientationMode:_options.orientationMode ? (AgoraVideoOutputOrientationMode)_options.orientationMode :AgoraVideoOutputOrientationModeAdaptative];
+        
+         
+//        _options.dimension = CGSizeMake( [UIScreen mainScreen].bounds.size, [UIScreen mainScreen].bounds.h)
+        
+        
+        AgoraVideoEncoderConfiguration *configuration = [[AgoraVideoEncoderConfiguration alloc] initWithSize:  (size>0 ? _options.dimension : AgoraVideoDimension480x480) frameRate:_options.frameRate ? AgoraVideoFrameRateFps24 : (AgoraVideoFrameRate)_options.frameRate bitrate:_options.bitrate ? _options.bitrate :AgoraVideoBitrateStandard  orientationMode:_options.orientationMode ? (AgoraVideoOutputOrientationMode)_options.orientationMode :AgoraVideoOutputOrientationModeAdaptative];
         
         [_agoraKit setVideoEncoderConfiguration:configuration];
+        
+
         [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:_callQueue];
     }
     return _agoraKit;
@@ -169,7 +176,7 @@ static HDAgoraCallManager *shareCall = nil;
     AgoraRtcVideoCanvas * canvas = [[AgoraRtcVideoCanvas alloc] init];
     canvas.uid = [[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue];
     canvas.view = localView;
-    canvas.renderMode = AgoraVideoRenderModeHidden;
+    canvas.renderMode = AgoraVideoRenderModeHidden ;
     [self.agoraKit setupLocalVideo:canvas];
     [self.agoraKit startPreview];
     
@@ -179,7 +186,7 @@ static HDAgoraCallManager *shareCall = nil;
     AgoraRtcVideoCanvas * canvas = [[AgoraRtcVideoCanvas alloc] init];
     canvas.uid = uid;
     canvas.view = remoteView;
-    canvas.renderMode = AgoraVideoRenderModeHidden;
+    canvas.renderMode = AgoraVideoRenderModeFit;
     [self.agoraKit setupRemoteVideo:canvas];
     [self.agoraKit startPreview];
     
@@ -530,9 +537,12 @@ static HDAgoraCallManager *shareCall = nil;
 /// @param uid 离线的用户 ID。
 /// @param reason 离线原因
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraUserOfflineReason)reason{
-    //通知代理
-   
+  
     HDAgoraCallMember *mem = [self getHDAgoraCallMember:uid];
+    //通知代理
+    if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){
+        [self.roomDelegate onMemberExit:mem];
+    }
     HDAgoraCallMember *needRemove = nil;
     @synchronized(_members){
         for (HDAgoraCallMember *_member in self.members) {
@@ -545,12 +555,11 @@ static HDAgoraCallManager *shareCall = nil;
         }
     };
     
+    [HDLog logI:@"================vec1.2=====didOfflineOfUid _thirdAgentUid= %lu",(unsigned long)uid];
     //如果房间里边人 都么有了 就发送通知 关闭。如果有人 就不关闭
   [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
    
-    if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){
-        [self.roomDelegate onMemberExit:mem];
-    }
+  
     
 }
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine virtualBackgroundSourceEnabled:(BOOL)enabled reason:(AgoraVirtualBackgroundSourceStateReason)reason{

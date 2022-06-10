@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<header>
+    
+<title id = "title">Title of this page</title>
+
+<!--样式从File.css文件中获取-->
+<link rel="stylesheet" type="text/css" href="File.css">
+
+<!--响应的方法从File.js文件中获取-->
+<!--<script type="text/javascript" src="File.js"></script>-->
+
+
+
+</header>
+
+<body>
+    <!--    标签，css中设置样式时，会根据id来设置-->
+    <p id = "wql">This is my first try to write Html5 file.</p>
+    <br/>
+    <!--    加粗的文本，css中设置样式时，会根据id来设置-->
+    <b id = "myp">This text is bold</b>
+
+    <!--    换行符-->
+    <br/><br/><br/><br/>
+    
+    <!--    按钮，点击按钮触发helloWQL()方法，按钮上的文本是“点击出弹框”-->
+    <!--    该按钮的目的是：点击后触发OC的方法-->
+    <button type="button" onclick = "helloWQL()">点击出弹框</button>
+    <br/><br/>
+    
+    
+    <!--    按钮，点击该按钮会触发sendValueFromHtml()方法，按钮上的文本是“点击出弹框”-->
+    <!--    该按钮的目的是：将某个值传给OC，我们这里分别传了一个值、两个值-->
+    <button type="button" onclick = "sendValueFromHtml()">点击传值</button>
+    <br/><br/>
+    
+    
+    <!--    按钮，点击该按钮会触发getValueFromOC()方法，按钮上的文本是“从OC拿值”-->
+    <!--    该按钮的目的是：点击按钮后，从OC获取某个值-->
+    <button type="button" onclick = "getValueFromOC()">从OC拿值</button>
+    
+    <!--        定义各个方法-->
+    <script type="text/javascript">
+        
+        //调用native的helloWQL方法，native对象由OC注入
+        function helloWQL(){
+            native.helloWQL();
+        }
+    
+        function sendValueFromHtml(){
+            //需要注意的是传两个值的时候，第二个参数应该以大写字母开头（WithValueTwo）。
+            //正确 sendValueFromHtmlToOCWithValue:(NSString*)valueOne WithValueTwo:(NSString*)valueTwo
+            //错误 sendValueFromHtmlToOCWithValue:(NSString*)valueOne withValueTwo:(NSString*)valueTwo
+
+            native.sendValueFromHtmlToOCWithValue('This is send one Value');
+
+            native.sendValueFromHtmlToOCWithValueWithValueTwo('Good','Boy');
+
+        }
+    
+        //需要从OC那里拿值，之后会触发OC的sendValueToHtml方法
+        function getValueFromOC(){
+       //    native.sendValueToHtml();
+       try{
+       
+       window.webkit.messageHandlers.webViewClickButtonAction.postMessage(123);
+       }catch{
+           
+           
+       }
+       
+        }
+    
+        //接收从OC传过来的值，需要OC调用该方法，并传入值
+        function getUserNameAndAge(ocValueOne,ocValueTwo){
+            alert('name:'+ocValueOne+' '+'age:'+ocValueTwo);
+
+        }
+    
+        //这个方法html并不调用，而是给OC调用的
+        function methodForOC(){
+        
+            alert('这个是Html的方法，OC调的到吗？');
+        }
+        function functest1(){
+            alert('这个是Html的方法，OC调的到吗？');
+            var message = {
+            'method' : 'closeMessagePush111',
+            'param1' : 'liuyanwei',
+            };
+            //这句为关键代码，没有这句，客户端无法再代理方法中获取到该点击事件
+            //window.webkit.messageHandlers.closeMessagePush.postMessage(message);
+            window.closeMessagePush.postMessage(message);
+        }
+    </script>
+    
+
+
+    <p align="center"> <input type="button" value="测试WKWebView中..." onClick="functest1()"></p>
+        
+        
+</body>
+
+
+
+</html>

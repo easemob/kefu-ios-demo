@@ -31,6 +31,7 @@
 #import "HDVideoWindowViewController.h"
 #import "HDVideoIDCardScaningView.h"
 #import "IDInfo.h"
+#import "HDVideoLinkMessagePush.h"
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
@@ -73,7 +74,7 @@
     UIView * _closeBgview;
     CGFloat viewWidth;
     CGFloat viewHeight;
-    
+    BOOL _isDeviceFront; //是否是前置摄像头
 }
 /*
  * 弹窗窗口
@@ -98,6 +99,7 @@
 @property (nonatomic, assign) BOOL  isSmallWindow;//当前是不是 半屏模式
 @property (nonatomic, strong) UIWindow *customWindow;
 @property (nonatomic, strong) HDSuspendCustomView *hdSupendCustomView;
+@property (nonatomic, strong) HDVideoLinkMessagePush *hdVideoLinkMessagePush;
 
 @end
 static dispatch_once_t onceToken;
@@ -431,11 +433,17 @@ static HDVideoCallViewController *_manger = nil;
 }
 
 
+
+
+
 - (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
+    
+    
+    [HDLog logI:@"================vec1.2=====onCallReceivedInvitation _thirdAgentUid= %@",uid];
     
     _thirdAgentNickName = thirdAgentNickName;
     
-    _thirdAgentUid = uid.length > 0 ? uid : _thirdAgentUid;
+    _thirdAgentUid = uid;
     
     [self updateThirdAgent];
    
@@ -528,6 +536,7 @@ static HDVideoCallViewController *_manger = nil;
         
     }];
     //中间 视频窗口
+//    float ratio = 16/9;
     [self.midelleVideoView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.offset(0);
         make.leading.offset(0);
@@ -536,7 +545,6 @@ static HDVideoCallViewController *_manger = nil;
     }];
     [self.view sendSubviewToBack:self.midelleVideoView];
     
-  
     //底部 窗口
     [self.barView refreshView:self.barView withScreen:self.isLandscape];
     
@@ -667,7 +675,7 @@ static HDVideoCallViewController *_manger = nil;
 
 - (void)updateBgMilldelVideoView:(UIView *)view whiteBoard:(BOOL)isjoinWhiteBoare{
     
-    [view removeFromSuperview];
+//    [view removeFromSuperview];
     
     [self.parentView addSubview:view];
     
@@ -692,11 +700,8 @@ static HDVideoCallViewController *_manger = nil;
         
         }];
         
+        [view layoutIfNeeded];
     }
-    
-  
-    
-    
 }
 
     
@@ -894,7 +899,7 @@ static HDVideoCallViewController *_manger = nil;
     [self setAcceptCallView];
     [self.hdTitleView startTimer];
     isCalling = YES;
-    
+    _isDeviceFront = YES;
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked 设置接口判断 "];
     if ([HDAgoraCallManager shareInstance].layoutModel.isVisitorCameraOff) {
         
@@ -1012,6 +1017,7 @@ static HDVideoCallViewController *_manger = nil;
 - (void)camBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     [[HDAgoraCallManager shareInstance] switchCamera];
+    _isDeviceFront = !_isDeviceFront;
 }
 
 // 静音事件
@@ -1175,11 +1181,6 @@ static HDVideoCallViewController *_manger = nil;
 // 成员离开回调
 - (void)onMemberExit:(HDAgoraCallMember *)member {
     
-    if ([[HDAgoraCallManager shareInstance] hasJoinedMembers].count ==0) {
-        
-        return;
-    }
-    
     NSLog(@"onMemberExit Member  member---- %@ ",member.memberName);
     //先去小窗 查找 如果在小窗 有删除 刷新即可
     HDCallCollectionViewCellItem *deleteItem;
@@ -1208,11 +1209,19 @@ static HDVideoCallViewController *_manger = nil;
             [_midelleMembers removeObject:deleteItem];
             //把 小窗口 最后一个元素 拿到中间
             HDCallCollectionViewCellItem * samllItem =  [self.smallWindowView.items lastObject];
+          
+            [self.smallWindowView removeCurrentCellItem:samllItem];
+            [self.smallWindowView reloadData];
+            
+            
+            // 把删除的view 移除掉
+            
+            [deleteItem.camView removeFromSuperview];
+            
             
             [self updateBigVideoView:samllItem];
         
-            [self.smallWindowView removeCurrentCellItem:samllItem];
-            [self.smallWindowView reloadData];
+          
         }
         
     }
@@ -1232,7 +1241,6 @@ static HDVideoCallViewController *_manger = nil;
     [self updateAudioMuted:NO byUid:uid withVideoMuted:muted];
     
 }
-
 
 - (void)updateAudioMuted:(BOOL)muted byUid:(NSUInteger)uid withVideoMuted:(BOOL)videoMuted{
     
@@ -1949,14 +1957,120 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
 #pragma mark --vec 1.3 相关
 #pragma mark - vec 1.3 弹窗  中 效果
-- (void)createVECGeneralBaseUI{
+- (void)createVECGeneralBaseUI:(HDVideoIDCardScaningViewType )ScanType{
     
-   
-    // 添加自定义的扫描界面（中间有一个镂空窗口和来回移动的扫描线）
-    HDVideoIDCardScaningView *IDCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:self.view.frame];
-//    self.faceDetectionFrame = IDCardScaningView.facePathRect;
-    [self.view addSubview:IDCardScaningView];
-}
+    //关闭 小窗口  然后 预留出底部按钮 然后判断当前摄像头 还得把小窗口的 本地切换过来
+    self.smallWindowView.hidden = YES;
 
+    // 根据uid 找到用户 然后刷新一下界面
+    BOOL  __block isCardSmallVindow = NO;
+    [self.smallWindowView.items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        HDCallCollectionViewCellItem *item = obj;
+        NSLog(@"%ld----%@",(long)item.uid,[NSThread currentThread]);
+        if (item.uid == kLocalUid) {
+            isCardSmallVindow = YES;
+            NSLog(@"==uid===%lu",(unsigned long)item.uid);
+            
+            [self changeCallViewItem:item withIndex:idx];
+            *stop = YES;
+        }
+    }];
+    
+    if (!isCardSmallVindow) {
+       
+        
+    }
+    
+    //原来摄像头的状态
+    BOOL  _isChangeDevice = NO;
+    if (_isDeviceFront) {
+        
+        // 之前 是前置 摄像头  需要切换成后置 摄像头
+        [self camBtnClicked:_cameraBtn];
+        _isChangeDevice = YES;
+        
+    }
+
+    // 添加自定义的扫描界面（中间有一个镂空窗口和来回移动的扫描线）
+    HDVideoIDCardScaningView *_idCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height -self.barView.frame.size.height - 10 )];
+    [_idCardScaningView setVideoScanType:ScanType];
+    
+    _idCardScaningView.clickCloseIDCardBlock = ^(UIButton *btn, HDVideoIDCardScaningView *view) {
+        [view removeFromSuperview];
+        self.smallWindowView.hidden = NO;
+        
+        if (_isChangeDevice) {
+            [self camBtnClicked:_cameraBtn];
+        }
+        
+    };
+    
+//    self.faceDetectionFrame = IDCardScaningView.facePathRect;
+//    [self.view addSubview:_idCardScaningView];
+ 
+}
+//mark vec 1.3 独立访客端 收到坐席 身份认证
+- (void)onCallFaceIdentify:(NSDictionary *)dic{
+    
+    [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeFace];
+    
+}
+//mark vec 1.3 独立访客端 收到坐席 ocr 识别
+- (void)onCallLOcrIdentify:(NSDictionary *)dic{
+    
+    [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeIDCard];
+}
+//mark vec 1.3 独立访客端 收到坐席 消息推送
+- (void)onCallLinkMessagePush:(NSDictionary *)dic{
+  
+    //创建 webview 加载 url 
+    if ([[dic allKeys] containsObject:@"url"]) {
+        
+        NSString * url = [dic objectForKey:@"url"];
+        
+        float  heightRatio = [[dic objectForKey:@"heightRatio"] floatValue];
+        
+        [self.view addSubview:self.hdVideoLinkMessagePush];
+        
+        [self.hdVideoLinkMessagePush mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.offset(0);
+            make.trailing.offset(0);
+            make.bottom.offset (0);
+            make.height.offset(self.view.height*heightRatio);
+            
+        }];
+        
+        [self.hdVideoLinkMessagePush setWebUrl:url];
+        
+    }else{
+        
+      
+        
+        [self.view addSubview:self.hdVideoLinkMessagePush];
+        
+        [self.hdVideoLinkMessagePush mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.offset(0);
+            make.trailing.offset(0);
+            make.bottom.offset (0);
+            make.height.offset(self.view.height*0.5);
+            
+        }];
+        
+        [self.hdVideoLinkMessagePush setWebUrl:@"http://baidu.com"];
+    }
+    
+    
+
+    
+}
+- (HDVideoLinkMessagePush *)hdVideoLinkMessagePush{
+    
+    if (!_hdVideoLinkMessagePush) {
+        
+        _hdVideoLinkMessagePush = [[HDVideoLinkMessagePush alloc] init];
+    }
+    return  _hdVideoLinkMessagePush;
+    
+}
 
 @end

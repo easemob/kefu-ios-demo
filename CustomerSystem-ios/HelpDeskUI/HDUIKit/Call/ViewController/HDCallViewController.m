@@ -28,6 +28,7 @@
 #import "UIViewController+AlertController.h"
 #import "CSDemoAccountManager.h"
 #import "HDVideoIDCardScaningView.h"
+#import "HDVideoWindowViewController.h"
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
@@ -72,7 +73,7 @@
     CGFloat viewHeight;
     
     BOOL _isVEC; //是否使用vec 流程界面
-    BOOL _isDeviceFront; //是否是前置摄像头
+//    BOOL _isDeviceFront; //是否是前置摄像头
     
 
 }
@@ -343,7 +344,7 @@ static HDCallViewController *_manger = nil;
 - (void)setAcceptCallView{
     [HDAgoraCallManager shareInstance].roomDelegate = self;
     [self setAgoraVideo];
-    _isDeviceFront = YES;
+//    _isDeviceFront = YES;
 }
 
 - (void)setAgoraVideo{
@@ -950,10 +951,8 @@ static HDCallViewController *_manger = nil;
 - (void)camBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
     [[HDAgoraCallManager shareInstance] switchCamera];
+//    _isDeviceFront = !_isDeviceFront;
     
-    _isDeviceFront = !_isDeviceFront;
-    
-   
 }
 
 // 静音事件
@@ -1266,7 +1265,6 @@ static HDCallViewController *_manger = nil;
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
-
     if (_shareState) {
         //当前正在共享
         //当前正在白板房间
@@ -1890,73 +1888,6 @@ void NotificationCallback(CFNotificationCenterRef center,
 
     [self.hdTitleView.timeLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
   
-}
-#pragma mark --vec 1.3 相关
-#pragma mark - vec 1.3 弹窗  中 效果
-- (void)createVECGeneralBaseUI{
-    
-    //关闭 小窗口  然后 预留出底部按钮 然后判断当前摄像头 还得把小窗口的 本地切换过来
-    self.smallWindowView.hidden = YES;
-    
-//    for (HDCallCollectionViewCellItem *item in _members) {
-//
-//        if (item.uid == kLocalUid) {
-//
-//            [self changeCallViewItem:item withIndex:0];
-//
-//        }
-//
-//    }
-    
-
-    // 根据uid 找到用户 然后刷新一下界面
-    BOOL  __block isCardSmallVindow = NO;
-    [self.smallWindowView.items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        HDCallCollectionViewCellItem *item = obj;
-        NSLog(@"%ld----%@",(long)item.uid,[NSThread currentThread]);
-        if (item.uid == kLocalUid) {
-            isCardSmallVindow = YES;
-            NSLog(@"==uid===%lu",(unsigned long)item.uid);
-            
-            [self changeCallViewItem:item withIndex:idx];
-            *stop = YES;
-        }
-    }];
-    
-    if (!isCardSmallVindow) {
-       
-        
-    }
-    
-    //原来摄像头的状态
-    BOOL  _isChangeDevice = NO;
-    if (_isDeviceFront) {
-        
-        // 之前 是前置 摄像头  需要切换成后置 摄像头
-        [self camBtnClicked:_cameraBtn];
-        _isChangeDevice = YES;
-        
-    }
-    
-    
-    // 添加自定义的扫描界面（中间有一个镂空窗口和来回移动的扫描线）
-    HDVideoIDCardScaningView *_idCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height -self.barView.frame.size.height - 10 )];
-    [_idCardScaningView setVideoScanType:HDVideoIDCardScaningViewTypeFace];
-    
-    _idCardScaningView.clickCloseIDCardBlock = ^(UIButton *btn, HDVideoIDCardScaningView *view) {
-        [view removeFromSuperview];
-        self.smallWindowView.hidden = NO;
-        
-        if (_isChangeDevice) {
-            [self camBtnClicked:_cameraBtn];
-        }
-        
-    };
-    
-//    self.faceDetectionFrame = IDCardScaningView.facePathRect;
-    [self.view addSubview:_idCardScaningView];
- 
-   
 }
 
 

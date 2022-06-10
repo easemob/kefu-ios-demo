@@ -118,6 +118,13 @@
 		937D74B627853E500022B707 /* HDAgoraCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937D74B527853E500022B707 /* HDAgoraCallViewController.m */; };
 		937E9237285087A300A71B32 /* HDTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937E9235285087A300A71B32 /* HDTestViewController.m */; };
 		937E9238285087A300A71B32 /* HDTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 937E9236285087A300A71B32 /* HDTestViewController.xib */; };
+		937E923B285195F500A71B32 /* HDVideoLinkMessagePush.m in Sources */ = {isa = PBXBuildFile; fileRef = 937E923A285195F500A71B32 /* HDVideoLinkMessagePush.m */; };
+		937E92402851A25900A71B32 /* UIImage+ImageScale.m in Sources */ = {isa = PBXBuildFile; fileRef = 937E923D2851A25800A71B32 /* UIImage+ImageScale.m */; };
+		937E92412851A25900A71B32 /* UIView+GestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 937E923E2851A25900A71B32 /* UIView+GestureRecognizer.m */; };
+		937E92462851AEA000A71B32 /* File.css in Resources */ = {isa = PBXBuildFile; fileRef = 937E92432851AE9E00A71B32 /* File.css */; };
+		937E92472851AEA000A71B32 /* File.html in Resources */ = {isa = PBXBuildFile; fileRef = 937E92442851AE9F00A71B32 /* File.html */; };
+		937E92482851AEA000A71B32 /* File.js in Resources */ = {isa = PBXBuildFile; fileRef = 937E92452851AE9F00A71B32 /* File.js */; };
+		937E924B2851AED000A71B32 /* HDCustomJSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 937E924A2851AED000A71B32 /* HDCustomJSObject.m */; };
 		937FD5A527D1B2ED00EB055A /* HDAgoraCallMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 937FD59927D1B2EA00EB055A /* HDAgoraCallMember.m */; };
 		937FD5A627D1B2ED00EB055A /* HDSSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 937FD59A27D1B2EA00EB055A /* HDSSKeychain.m */; };
 		937FD5A927D1B2ED00EB055A /* HDAgoraCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 937FD59E27D1B2EB00EB055A /* HDAgoraCallManager.m */; };
@@ -722,6 +729,17 @@
 		937E9234285087A300A71B32 /* HDTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDTestViewController.h; sourceTree = "<group>"; };
 		937E9235285087A300A71B32 /* HDTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDTestViewController.m; sourceTree = "<group>"; };
 		937E9236285087A300A71B32 /* HDTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDTestViewController.xib; sourceTree = "<group>"; };
+		937E9239285195F500A71B32 /* HDVideoLinkMessagePush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoLinkMessagePush.h; sourceTree = "<group>"; };
+		937E923A285195F500A71B32 /* HDVideoLinkMessagePush.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoLinkMessagePush.m; sourceTree = "<group>"; };
+		937E923C2851A25800A71B32 /* UIImage+ImageScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageScale.h"; sourceTree = "<group>"; };
+		937E923D2851A25800A71B32 /* UIImage+ImageScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageScale.m"; sourceTree = "<group>"; };
+		937E923E2851A25900A71B32 /* UIView+GestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+GestureRecognizer.m"; sourceTree = "<group>"; };
+		937E923F2851A25900A71B32 /* UIView+GestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+GestureRecognizer.h"; sourceTree = "<group>"; };
+		937E92432851AE9E00A71B32 /* File.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = File.css; sourceTree = "<group>"; };
+		937E92442851AE9F00A71B32 /* File.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = File.html; sourceTree = "<group>"; };
+		937E92452851AE9F00A71B32 /* File.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = File.js; sourceTree = "<group>"; };
+		937E92492851AED000A71B32 /* HDCustomJSObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCustomJSObject.h; sourceTree = "<group>"; };
+		937E924A2851AED000A71B32 /* HDCustomJSObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDCustomJSObject.m; sourceTree = "<group>"; };
 		937FD59827D1B2EA00EB055A /* HDAgoraCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDAgoraCallManager.h; sourceTree = "<group>"; };
 		937FD59927D1B2EA00EB055A /* HDAgoraCallMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDAgoraCallMember.m; sourceTree = "<group>"; };
 		937FD59A27D1B2EA00EB055A /* HDSSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSSKeychain.m; sourceTree = "<group>"; };
@@ -1595,6 +1613,8 @@
 				937FD59A27D1B2EA00EB055A /* HDSSKeychain.m */,
 				9385C61227E9CA800049096F /* HDAppSkin.h */,
 				9385C61327E9CA800049096F /* HDAppSkin.m */,
+				937E92492851AED000A71B32 /* HDCustomJSObject.h */,
+				937E924A2851AED000A71B32 /* HDCustomJSObject.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1667,6 +1687,23 @@
 				93767A2727951CA80079A60F /* Info.plist */,
 			);
 			path = "CustomerSystem-ScreenShare-ExtensionSetupUI";
+			sourceTree = "<group>";
+		};
+		937E92422851AE8200A71B32 /* testHtml */ = {
+			isa = PBXGroup;
+			children = (
+				937E92432851AE9E00A71B32 /* File.css */,
+				937E92442851AE9F00A71B32 /* File.html */,
+				937E92452851AE9F00A71B32 /* File.js */,
+			);
+			path = testHtml;
+			sourceTree = "<group>";
+		};
+		937E924C2853113D00A71B32 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		938CCA1D27C8D97F00F470B5 /* MBProgressHUD */ = {
@@ -1864,6 +1901,9 @@
 			children = (
 				93C3C5232845F74000ADDBC6 /* HDVideoIDCardScaningView.h */,
 				93C3C5212845F74000ADDBC6 /* HDVideoIDCardScaningView.m */,
+				937E9239285195F500A71B32 /* HDVideoLinkMessagePush.h */,
+				937E923A285195F500A71B32 /* HDVideoLinkMessagePush.m */,
+				937E924C2853113D00A71B32 /* New Group */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1928,6 +1968,10 @@
 		D33946EF1E54381B009370BF /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				937E923C2851A25800A71B32 /* UIImage+ImageScale.h */,
+				937E923D2851A25800A71B32 /* UIImage+ImageScale.m */,
+				937E923F2851A25900A71B32 /* UIView+GestureRecognizer.h */,
+				937E923E2851A25900A71B32 /* UIView+GestureRecognizer.m */,
 				9385C61527E9CB2C0049096F /* UIColor+HLKit.h */,
 				9385C61627E9CB2C0049096F /* UIColor+HLKit.m */,
 				D33946F01E54381B009370BF /* UIView+Kit.h */,
@@ -2949,6 +2993,7 @@
 		EB62E1FC1A8DD92D00705655 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				937E92422851AE8200A71B32 /* testHtml */,
 				EB4B05EE1AC685E900DCF67B /* Resources */,
 				EB62E3B61A8DE09600705655 /* LocalDefine.h */,
 				EB62E1FD1A8DD92D00705655 /* Info.plist */,
@@ -3226,6 +3271,7 @@
 				9086154720B43A54002E71DA /* sound.png in Resources */,
 				9086154820B43A54002E71DA /* record off.png in Resources */,
 				EB4B06F41AC685E900DCF67B /* chat_sender_audio_playing_full@2x.png in Resources */,
+				937E92462851AEA000A71B32 /* File.css in Resources */,
 				9086153F20B43A54002E71DA /* off.png in Resources */,
 				EB4B06EA1AC685E900DCF67B /* chat_receiver_bg@2x.png in Resources */,
 				9318734528323DDB00504F82 /* iconfont.js in Resources */,
@@ -3258,6 +3304,7 @@
 				8FEEA5A720036616008CD415 /* em_icon_mute_on@2x.png in Resources */,
 				9086154F20B43A54002E71DA /* share desktop on@2x.png in Resources */,
 				EB62E20A1A8DD92D00705655 /* Images.xcassets in Resources */,
+				937E92472851AEA000A71B32 /* File.html in Resources */,
 				D200665A1EF23274005B558D /* product_details_zh_2.png in Resources */,
 				D20066591EF23274005B558D /* product_details_zh_1.png in Resources */,
 				D20066571EF23274005B558D /* product_details_3.png in Resources */,
@@ -3285,6 +3332,7 @@
 				D36621B81F4E7D9F008EE9C4 /* em_switch_camera@2x.png in Resources */,
 				EB4B06C01AC685E900DCF67B /* chatBar_more_card@2x.png in Resources */,
 				D20066521EF23274005B558D /* list2@3x.png in Resources */,
+				937E92482851AEA000A71B32 /* File.js in Resources */,
 				D20066381EF23274005B558D /* em_example_image_1.png in Resources */,
 				EB4B07751AC6922C00DCF67B /* chatBar_colorMore_location@2x.png in Resources */,
 				EB4B06841AC685E900DCF67B /* people@2x.png in Resources */,
@@ -3544,6 +3592,7 @@
 				93B4E97327CCD1D800ACAF5B /* HDMJRefreshHeader.m in Sources */,
 				D3CB64691E4888F30022A6BA /* MWTapDetectingView.m in Sources */,
 				937FD5AA27D1B2ED00EB055A /* HDAgoraCallOptions.m in Sources */,
+				937E923B285195F500A71B32 /* HDVideoLinkMessagePush.m in Sources */,
 				9078071B2087584700ED9324 /* HDMicView.m in Sources */,
 				9392B4FF27FFD8BF005D4215 /* HDCloudDiskViewController.m in Sources */,
 				93B4E96427CCD1D800ACAF5B /* HDMJRefreshConst.m in Sources */,
@@ -3568,6 +3617,7 @@
 				D3CB647C1E4888F30022A6BA /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				93D95EA627D8988A00E47F14 /* HDCustomEmojiManager.m in Sources */,
 				D33995421E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m in Sources */,
+				937E92412851A25900A71B32 /* UIView+GestureRecognizer.m in Sources */,
 				D3CB64831E4888F30022A6BA /* PSTCollectionViewLayout.m in Sources */,
 				D3CB64AF1E4888F30022A6BA /* HDBubbleView.m in Sources */,
 				D3CB648E1E4888F30022A6BA /* NSDateFormatter+Category.m in Sources */,
@@ -3621,6 +3671,7 @@
 				9374FEBA27CCA5BE00DE1185 /* UIImage+HDGIF.m in Sources */,
 				D339953F1E000EDF00F7B71D /* ScanningView.m in Sources */,
 				D3CB64A71E4888F30022A6BA /* HDBubbleView+Location.m in Sources */,
+				937E924B2851AED000A71B32 /* HDCustomJSObject.m in Sources */,
 				D3CB64871E4888F30022A6BA /* PSTGridLayoutRow.m in Sources */,
 				933C4CA927E4A117001678B0 /* HDPopoverViewController.m in Sources */,
 				9392B50727FFDC8B005D4215 /* HDCloudDiskModel.m in Sources */,
@@ -3713,6 +3764,7 @@
 				930E321C27E03E9800455C7E /* HDCallCollectionViewCell.m in Sources */,
 				D3CB649B1E4888F30022A6BA /* HDLocationViewController.m in Sources */,
 				938A4DC7283E17360069CA51 /* HDVideoWindowViewController.m in Sources */,
+				937E92402851A25900A71B32 /* UIImage+ImageScale.m in Sources */,
 				930E322127E03E9800455C7E /* HDCallCollectionViewCellItem.m in Sources */,
 				D3CB64931E4888F30022A6BA /* HDEmoji.m in Sources */,
 				D3CB64A21E4888F30022A6BA /* HDMessageTimeCell.m in Sources */,

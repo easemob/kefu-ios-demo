@@ -61,7 +61,7 @@ static HDVideoWindowViewController *_manger = nil;
     dispatch_once(&onceToken, ^{
         _manger = [[HDVideoWindowViewController alloc] init];
         _manger.alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        _manger.alertWindow.windowLevel = 1;
+        _manger.alertWindow.windowLevel = 1000;
         _manger.alertWindow.backgroundColor = [UIColor clearColor];
         _manger.alertWindow.rootViewController = [UIViewController new];
         _manger.alertWindow.accessibilityViewIsModal = YES;
@@ -258,25 +258,25 @@ static HDVideoWindowViewController *_manger = nil;
 }
 
 #pragma mark - 打开／关闭手电筒
--(void)turnOnOrOffTorch {
-    self.torchOn = !self.isTorchOn;
-    
-    if ([self.device hasTorch]){ // 判断是否有闪光灯
-        [self.device lockForConfiguration:nil];// 请求独占访问硬件设备
-        
-        if (self.isTorchOn) {
+//-(void)turnOnOrOffTorch {
+//    self.torchOn = !self.isTorchOn;
+//
+//    if ([self.device hasTorch]){ // 判断是否有闪光灯
+//        [self.device lockForConfiguration:nil];// 请求独占访问硬件设备
+//
+//        if (self.isTorchOn) {
 //            self.navigationItem.rightBarButtonItem.image = [[UIImage imageNamed:@"nav_torch_on"] originalImage];
-            [self.device setTorchMode:AVCaptureTorchModeOn];
-        } else {
+//            [self.device setTorchMode:AVCaptureTorchModeOn];
+//        } else {
 //            self.navigationItem.rightBarButtonItem.image = [[UIImage imageNamed:@"nav_torch_off"] originalImage];
-            [self.device setTorchMode:AVCaptureTorchModeOff];
-        }
-        [self.device unlockForConfiguration];// 请求解除独占访问硬件设备
-    }else {
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
-        [self alertControllerWithTitle:@"提示" message:@"您的设备没有闪光设备，不能提供手电筒功能，请检查" okAction:okAction cancelAction:nil];
-    }
-}
+//            [self.device setTorchMode:AVCaptureTorchModeOff];
+//        }
+//        [self.device unlockForConfiguration];// 请求解除独占访问硬件设备
+//    }else {
+//        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+//        [self alertControllerWithTitle:@"提示" message:@"您的设备没有闪光设备，不能提供手电筒功能，请检查" okAction:okAction cancelAction:nil];
+//    }
+//}
 
 #pragma mark - view即将出现时
 -(void)viewWillAppear:(BOOL)animated {
@@ -435,8 +435,7 @@ static HDVideoWindowViewController *_manger = nil;
 
 #pragma mark - 展示UIAlertController
 -(void)alertControllerWithTitle:(NSString *)title message:(NSString *)message okAction:(UIAlertAction *)okAction cancelAction:(UIAlertAction *)cancelAction {
-//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message okAction:okAction cancelAction:cancelAction];
-//    [self presentViewController:alertController animated:YES completion:nil];
+  
 }
 
 #pragma mark - AVCaptureMetadataOutputObjectsDelegate
@@ -471,7 +470,7 @@ static HDVideoWindowViewController *_manger = nil;
         
         if ([captureOutput isEqual:self.videoDataOutput]) {
             // 身份证信息识别
-            [self IDCardRecognit:imageBuffer];
+//            [self IDCardRecognit:imageBuffer];
             
             // 身份证信息识别完毕后，就将videoDataOutput的代理去掉，防止频繁调用AVCaptureVideoDataOutputSampleBufferDelegate方法而引起的“混乱”
             if (self.videoDataOutput.sampleBufferDelegate) {
@@ -484,84 +483,83 @@ static HDVideoWindowViewController *_manger = nil;
 }
 
 #pragma mark - 身份证信息识别
-- (void)IDCardRecognit:(CVImageBufferRef)imageBuffer {
-    CVBufferRetain(imageBuffer);
-    
-    // Lock the image buffer
-    if (CVPixelBufferLockBaseAddress(imageBuffer, 0) == kCVReturnSuccess) {
-        size_t width= CVPixelBufferGetWidth(imageBuffer);// 1920
-        size_t height = CVPixelBufferGetHeight(imageBuffer);// 1080
-        
-        CVPlanarPixelBufferInfo_YCbCrBiPlanar *planar = CVPixelBufferGetBaseAddress(imageBuffer);
-        size_t offset = NSSwapBigIntToHost(planar->componentInfoY.offset);
-        size_t rowBytes = NSSwapBigIntToHost(planar->componentInfoY.rowBytes);
-        unsigned char* baseAddress = (unsigned char *)CVPixelBufferGetBaseAddress(imageBuffer);
-        unsigned char* pixelAddress = baseAddress + offset;
-        
-        static unsigned char *buffer = NULL;
-        if (buffer == NULL) {
-            buffer = (unsigned char *)malloc(sizeof(unsigned char) * width * height);
-        }
-        
-        memcpy(buffer, pixelAddress, sizeof(unsigned char) * width * height);
-        
-        unsigned char pResult[1024];
+//- (void)IDCardRecognit:(CVImageBufferRef)imageBuffer {
+//    CVBufferRetain(imageBuffer);
+//
+//    // Lock the image buffer
+//    if (CVPixelBufferLockBaseAddress(imageBuffer, 0) == kCVReturnSuccess) {
+//        size_t width= CVPixelBufferGetWidth(imageBuffer);// 1920
+//        size_t height = CVPixelBufferGetHeight(imageBuffer);// 1080
+//
+//        CVPlanarPixelBufferInfo_YCbCrBiPlanar *planar = CVPixelBufferGetBaseAddress(imageBuffer);
+//        size_t offset = NSSwapBigIntToHost(planar->componentInfoY.offset);
+//        size_t rowBytes = NSSwapBigIntToHost(planar->componentInfoY.rowBytes);
+//        unsigned char* baseAddress = (unsigned char *)CVPixelBufferGetBaseAddress(imageBuffer);
+//        unsigned char* pixelAddress = baseAddress + offset;
+//
+//        static unsigned char *buffer = NULL;
+//        if (buffer == NULL) {
+//            buffer = (unsigned char *)malloc(sizeof(unsigned char) * width * height);
+//        }
+//
+//        memcpy(buffer, pixelAddress, sizeof(unsigned char) * width * height);
+//
+//        unsigned char pResult[1024];
 //        int ret = EXCARDS_RecoIDCardData(buffer, (int)width, (int)height, (int)rowBytes, (int)8, (char*)pResult, sizeof(pResult));
-        int ret = 0;
-        if (ret <= 0) {
-            NSLog(@"ret=[%d]", ret);
-        } else {
-            NSLog(@"ret=[%d]", ret);
-            
-            // 播放一下“拍照”的声音，模拟拍照
-            AudioServicesPlaySystemSound(1108);
-            
-            if ([self.session isRunning]) {
-                [self.session stopRunning];
-            }
-
-            char ctype;
-            char content[256];
-            int xlen;
-            int i = 0;
-            
-            IDInfo *iDInfo = [[IDInfo alloc] init];
-            
-            ctype = pResult[i++];
-            
-//            iDInfo.type = ctype;
-            while(i < ret){
-                ctype = pResult[i++];
-                for(xlen = 0; i < ret; ++i){
-                    if(pResult[i] == ' ') { ++i; break; }
-                    content[xlen++] = pResult[i];
-                }
-                
-                content[xlen] = 0;
-                
-                if(xlen) {
-                    NSStringEncoding gbkEncoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-                    if(ctype == 0x21) {
-                        iDInfo.num = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
-                    } else if(ctype == 0x22) {
-                        iDInfo.name = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
-                    } else if(ctype == 0x23) {
-                        iDInfo.gender = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
-                    } else if(ctype == 0x24) {
-                        iDInfo.nation = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
-                    } else if(ctype == 0x25) {
-                        iDInfo.address = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
-                    } else if(ctype == 0x26) {
-                        iDInfo.issue = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
-                    } else if(ctype == 0x27) {
-                        iDInfo.valid = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
-                    }
-                }
-            }
-            
-            if (iDInfo) {// 读取到身份证信息，实例化出IDInfo对象后，截取身份证的有效区域，获取到图像
-                NSLog(@"\n正面\n姓名：%@\n性别：%@\n民族：%@\n住址：%@\n公民身份证号码：%@\n\n反面\n签发机关：%@\n有效期限：%@",iDInfo.name,iDInfo.gender,iDInfo.nation,iDInfo.address,iDInfo.num,iDInfo.issue,iDInfo.valid);
-                
+//        if (ret <= 0) {
+//            NSLog(@"ret=[%d]", ret);
+//        } else {
+//            NSLog(@"ret=[%d]", ret);
+//
+//            // 播放一下“拍照”的声音，模拟拍照
+//            AudioServicesPlaySystemSound(1108);
+//
+//            if ([self.session isRunning]) {
+//                [self.session stopRunning];
+//            }
+//
+//            char ctype;
+//            char content[256];
+//            int xlen;
+//            int i = 0;
+//
+//            IDInfo *iDInfo = [[IDInfo alloc] init];
+//
+//            ctype = pResult[i++];
+//
+////            iDInfo.type = ctype;
+//            while(i < ret){
+//                ctype = pResult[i++];
+//                for(xlen = 0; i < ret; ++i){
+//                    if(pResult[i] == ' ') { ++i; break; }
+//                    content[xlen++] = pResult[i];
+//                }
+//
+//                content[xlen] = 0;
+//
+//                if(xlen) {
+//                    NSStringEncoding gbkEncoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+//                    if(ctype == 0x21) {
+//                        iDInfo.num = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+//                    } else if(ctype == 0x22) {
+//                        iDInfo.name = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+//                    } else if(ctype == 0x23) {
+//                        iDInfo.gender = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+//                    } else if(ctype == 0x24) {
+//                        iDInfo.nation = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+//                    } else if(ctype == 0x25) {
+//                        iDInfo.address = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+//                    } else if(ctype == 0x26) {
+//                        iDInfo.issue = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+//                    } else if(ctype == 0x27) {
+//                        iDInfo.valid = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+//                    }
+//                }
+//            }
+//
+//            if (iDInfo) {// 读取到身份证信息，实例化出IDInfo对象后，截取身份证的有效区域，获取到图像
+//                NSLog(@"\n正面\n姓名：%@\n性别：%@\n民族：%@\n住址：%@\n公民身份证号码：%@\n\n反面\n签发机关：%@\n有效期限：%@",iDInfo.name,iDInfo.gender,iDInfo.nation,iDInfo.address,iDInfo.num,iDInfo.issue,iDInfo.valid);
+//
 //                CGRect effectRect = [RectManager getEffectImageRect:CGSizeMake(width, height)];
 //                CGRect rect = [RectManager getGuideFrame:effectRect];
 //
@@ -573,18 +571,18 @@ static HDVideoWindowViewController *_manger = nil;
 //
 //                IDInfoVC.IDInfo = iDInfo;// 身份证信息
 //                IDInfoVC.IDImage = subImage;// 身份证图像
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
+//
+//                dispatch_async(dispatch_get_main_queue(), ^{
 //                    [self.navigationController pushViewController:IDInfoVC animated:YES];
-                });
-            }
-        }
-        
-        CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
-    }
-    
-    CVBufferRelease(imageBuffer);
-}
+//                });
+//            }
+//        }
+//
+//        CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+//    }
+//
+//    CVBufferRelease(imageBuffer);
+//}
 
 /*
 - (UIImage*)imageWithImageSimple:(NSData *)data scaledToSize:(CGSize)newSize {
@@ -662,7 +660,6 @@ static HDVideoWindowViewController *_manger = nil;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 
 @end

@@ -78,9 +78,9 @@
     
     [CSDemoAccountManager shareLoginManager].isVEC = NO;
     
-    
     HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [message addContent:[self visitorInfo]];
+        
     [self _sendMessage:message];
 
     [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
