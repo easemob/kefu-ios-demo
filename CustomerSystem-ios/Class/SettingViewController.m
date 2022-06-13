@@ -135,7 +135,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 8;
+    return 7;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -225,11 +225,11 @@
             tempLabel.text = _configId;
         }
             break;
-        case 7:
-        {
-            cell.textLabel.text = NSLocalizedString(@"测试欢迎语翻译接口", @"configId");
-        }
-            break;
+//        case 7:
+//        {
+//            cell.textLabel.text = NSLocalizedString(@"测试欢迎语翻译接口", @"configId");
+//        }
+//            break;
         default:
             break;
     }
@@ -324,12 +324,12 @@
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
-        case 7:
-        {
-            HDTestViewController *testViewController = [[HDTestViewController alloc] init];
-            [self.navigationController pushViewController:testViewController animated:YES];
-        }
-            break;
+//        case 7:
+//        {
+//            HDTestViewController *testViewController = [[HDTestViewController alloc] init];
+//            [self.navigationController pushViewController:testViewController animated:YES];
+//        }
+//            break;
         default:
             break;
     }
