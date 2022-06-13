@@ -35,11 +35,8 @@
 @property (nonatomic, assign) BOOL isVEC;
 
 + (instancetype)shareLoginManager;
-
 - (BOOL)loginKefuSDK;
-
 - (void)refreshManagerData;
-
 - (HDVisitorInfo *)visitorInfo;
-
+- (BOOL)loginKefuSDKTest;
 @end

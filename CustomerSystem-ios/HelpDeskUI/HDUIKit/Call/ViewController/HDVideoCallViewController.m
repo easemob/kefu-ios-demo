@@ -32,6 +32,7 @@
 #import "HDVideoIDCardScaningView.h"
 #import "IDInfo.h"
 #import "HDVideoLinkMessagePush.h"
+#import "HDSignView.h"
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
@@ -40,7 +41,7 @@
 #define kPointHeight [UIScreen mainScreen].bounds.size.width *0.9
 
 
-@interface HDVideoCallViewController ()<HDAgoraCallManagerDelegate,HDCallManagerDelegate,HDWhiteboardManagerDelegate,UIPopoverPresentationControllerDelegate,SuspendCustomViewDelegate,HDVideoGeneralCustomViewDelegate>{
+@interface HDVideoCallViewController ()<HDAgoraCallManagerDelegate,HDCallManagerDelegate,HDWhiteboardManagerDelegate,UIPopoverPresentationControllerDelegate,SuspendCustomViewDelegate,HDVideoGeneralCustomViewDelegate,HDSignDelegate>{
     
 //    BOOL _isShow; //是否已经调用过show方法
     
@@ -100,6 +101,7 @@
 @property (nonatomic, strong) UIWindow *customWindow;
 @property (nonatomic, strong) HDSuspendCustomView *hdSupendCustomView;
 @property (nonatomic, strong) HDVideoLinkMessagePush *hdVideoLinkMessagePush;
+@property (nonatomic, strong) HDSignView *hdSignView;;
 
 @end
 static dispatch_once_t onceToken;
@@ -1339,6 +1341,11 @@ static HDVideoCallViewController *_manger = nil;
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
+    [self onCallLOcrIdentify:nil];
+    
+    return;
+    
+    
     if (_shareState) {
         //当前正在共享
         //当前正在白板房间
@@ -2010,6 +2017,19 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  
 }
 //mark vec 1.3 独立访客端 收到坐席 身份认证
+- (void)onCallSignIdentify:(NSDictionary *)dic{
+    
+    [self.view addSubview:self.hdSignView];
+    
+    [self.hdSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.offset(5);
+        make.trailing.offset(-5);
+        make.bottom.offset (-5);
+        make.height.offset(self.view.height*0.35);
+        
+    }];
+}
+//mark vec 1.3 独立访客端 收到坐席 身份认证
 - (void)onCallFaceIdentify:(NSDictionary *)dic{
     
     [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeFace];
@@ -2058,10 +2078,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         
         [self.hdVideoLinkMessagePush setWebUrl:@"http://baidu.com"];
     }
-    
-    
-
-    
 }
 - (HDVideoLinkMessagePush *)hdVideoLinkMessagePush{
     
@@ -2070,6 +2086,42 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         _hdVideoLinkMessagePush = [[HDVideoLinkMessagePush alloc] init];
     }
     return  _hdVideoLinkMessagePush;
+    
+}
+- (HDSignView *)hdSignView{
+    
+    if (!_hdSignView) {
+        
+        _hdSignView = [[HDSignView alloc] init];
+        _hdSignView.delegate = self;
+        _hdSignView.layer.cornerRadius = 5.0f;
+        _hdSignView.layer.masksToBounds = YES;
+        _hdSignView.layer.shadowOpacity = 0.5;
+        _hdSignView.layer.shadowRadius = 15;
+    }
+    return  _hdSignView;
+    
+}
+
+#pragma mark --HDSignDelegate
+
+- (void)hdSignCompleteWithImage:(UIImage *)img base64str:(NSString *)base64str{
+    
+    // 上传图片 流程
+    UIImageView *signImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    
+    signImgView.image = img;
+    [self.view addSubview: signImgView];
+    [signImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.centerX.offset(0);
+        make.centerY.offset(0);
+        make.width.offset(img.size.width);
+        make.height.offset(img.size.height);
+        
+    }];
+    
+    
     
 }
 

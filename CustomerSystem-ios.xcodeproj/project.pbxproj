@@ -153,6 +153,8 @@
 		9392B513280012EA005D4215 /* HDListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9392B511280012EA005D4215 /* HDListViewCell.xib */; };
 		9392B519280047CE005D4215 /* KFICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B515280047CE005D4215 /* KFICloudManager.m */; };
 		9392B51A280047CE005D4215 /* KFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 9392B517280047CE005D4215 /* KFDocument.m */; };
+		939C4132285322C00013F476 /* HDDrawingBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 939C4131285322C00013F476 /* HDDrawingBoardView.m */; };
+		939C413528532DE50013F476 /* HDSignView.m in Sources */ = {isa = PBXBuildFile; fileRef = 939C413428532DE50013F476 /* HDSignView.m */; };
 		93AFA5D4282C9BBC003C1F6B /* HDVideoAnswerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AFA5D3282C9BBC003C1F6B /* HDVideoAnswerView.m */; };
 		93AFA5D8282CDE4D003C1F6B /* HDVideoLayoutModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AFA5D7282CDE4D003C1F6B /* HDVideoLayoutModel.m */; };
 		93AFA5DB282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AFA5DA282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.m */; };
@@ -791,6 +793,10 @@
 		9392B516280047CE005D4215 /* KFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFDocument.h; sourceTree = "<group>"; };
 		9392B517280047CE005D4215 /* KFDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFDocument.m; sourceTree = "<group>"; };
 		9392B518280047CE005D4215 /* KFICloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFICloudManager.h; sourceTree = "<group>"; };
+		939C4130285322C00013F476 /* HDDrawingBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDrawingBoardView.h; sourceTree = "<group>"; };
+		939C4131285322C00013F476 /* HDDrawingBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDrawingBoardView.m; sourceTree = "<group>"; };
+		939C413328532DE50013F476 /* HDSignView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDSignView.h; sourceTree = "<group>"; };
+		939C413428532DE50013F476 /* HDSignView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDSignView.m; sourceTree = "<group>"; };
 		93AFA5D2282C9BBC003C1F6B /* HDVideoAnswerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoAnswerView.h; sourceTree = "<group>"; };
 		93AFA5D3282C9BBC003C1F6B /* HDVideoAnswerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoAnswerView.m; sourceTree = "<group>"; };
 		93AFA5D6282CDE4D003C1F6B /* HDVideoLayoutModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoLayoutModel.h; sourceTree = "<group>"; };
@@ -1699,11 +1705,15 @@
 			path = testHtml;
 			sourceTree = "<group>";
 		};
-		937E924C2853113D00A71B32 /* New Group */ = {
+		937E924C2853113D00A71B32 /* sign */ = {
 			isa = PBXGroup;
 			children = (
+				939C4130285322C00013F476 /* HDDrawingBoardView.h */,
+				939C4131285322C00013F476 /* HDDrawingBoardView.m */,
+				939C413328532DE50013F476 /* HDSignView.h */,
+				939C413428532DE50013F476 /* HDSignView.m */,
 			);
-			path = "New Group";
+			path = sign;
 			sourceTree = "<group>";
 		};
 		938CCA1D27C8D97F00F470B5 /* MBProgressHUD */ = {
@@ -1903,7 +1913,7 @@
 				93C3C5212845F74000ADDBC6 /* HDVideoIDCardScaningView.m */,
 				937E9239285195F500A71B32 /* HDVideoLinkMessagePush.h */,
 				937E923A285195F500A71B32 /* HDVideoLinkMessagePush.m */,
-				937E924C2853113D00A71B32 /* New Group */,
+				937E924C2853113D00A71B32 /* sign */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3651,6 +3661,7 @@
 				9042C2622514A1A100DC5BE1 /* AFHTTPSessionManager.m in Sources */,
 				9042C2632514A1A100DC5BE1 /* AFURLSessionManager.m in Sources */,
 				9385C57527E82EEB0049096F /* HDItemView.m in Sources */,
+				939C413528532DE50013F476 /* HDSignView.m in Sources */,
 				D3394AF11E5562FE009370BF /* HDChatViewController.m in Sources */,
 				93C3C5262845F74000ADDBC6 /* HDVideoIDCardScaningView.m in Sources */,
 				938A4DC4283C5E5D0069CA51 /* HDVideoCallViewController.m in Sources */,
@@ -3669,6 +3680,7 @@
 				D3CB64461E4888F30022A6BA /* HDCDDeviceManager+ProximitySensor.m in Sources */,
 				D35579631EE94BF900F6B54E /* HConversationTableViewCell.m in Sources */,
 				9374FEBA27CCA5BE00DE1185 /* UIImage+HDGIF.m in Sources */,
+				939C4132285322C00013F476 /* HDDrawingBoardView.m in Sources */,
 				D339953F1E000EDF00F7B71D /* ScanningView.m in Sources */,
 				D3CB64A71E4888F30022A6BA /* HDBubbleView+Location.m in Sources */,
 				937E924B2851AED000A71B32 /* HDCustomJSObject.m in Sources */,

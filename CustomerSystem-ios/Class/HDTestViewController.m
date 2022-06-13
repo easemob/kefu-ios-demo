@@ -8,6 +8,11 @@
 
 #import "HDTestViewController.h"
 #import "MBProgressHUD+Add.h"
+#import "HDChatViewController.h"
+
+#import "CSDemoAccountManager.h"
+
+
 @interface HDTestViewController ()
 {
     
@@ -17,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *welcomeTextView;
 @property (weak, nonatomic) IBOutlet UITextView *skillTextView;
 @property (weak, nonatomic) IBOutlet UITextField *lanTextField;
+@property (weak, nonatomic) IBOutlet UILabel *currentVisitorUserName;
 
 @end
 
@@ -26,20 +32,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.lanTextField.text = @"en";
+    
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    [self.view endEditing:YES];
+    
     
 }
 - (IBAction)save:(id)sender {
-    
     
     
     if (self.lanTextField.text.length >0) {
        
         // 随机生成 uuid
         
-        _uuid = [self getUUID];
-    
-        _uuid = [NSString stringWithFormat:@"%@==%u",_uuid,arc4random()];
+//        _uuid = [self getUUID];
+//
+//        _uuid = [NSString stringWithFormat:@"%@==%u",_uuid,arc4random()];
         NSLog(@"==getUUID==%@",_uuid);
         MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"设置中", "Upload attachment") toView:self.view];
         hud.layer.zPosition = 1.f;
@@ -123,6 +133,61 @@
     
     }];
 }
+- (IBAction)onlineAction:(id)sender {
+    
+    
+    [self chatAction:nil];
+    
+    
+}
+- (IBAction)registerAction:(id)sender {
+    kWeakSelf;
+//    [weakSelf showHudInView:self.view hint:NSLocalizedString(@"注册中", @"注册中")];
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    self.lanTextField.text=  @"";
+    HDClient *client = [HDClient sharedClient];
+    HDError *error = [client logout:NO];
+    if (error != nil) {
+            NSLog(@"登出出错:%@",error.errorDescription);
+    }
+    if ([lgM loginKefuSDKTest]) {
+        
+        [weakSelf showHint:@"注册成功"];
+        
+        _uuid = lgM.username;
+        
+        self.currentVisitorUserName.text = _uuid;
+        
+        
+    }else{
+        
+        [weakSelf showHint:@"注册失败"];
+    }
+        
+    
+}
+
+- (void)chatAction:(NSNotification *)notification
+{
+//    BOOL shouqian = [[notification.object objectForKey:kpreSell] boolValue];
+
+    __weak typeof(self) weakSelf = self;
+    [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+        hd_dispatch_main_async_safe(^(){
+            [weakSelf hideHud];
+            HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
+
+            chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
+//                chat.commodityInfo = (NSDictionary *)notification.object;
+             [self.navigationController pushViewController:chat animated:YES];
+        });
+
+    
+    });
+}
+
 - (NSString *)jsonStringFromDictionary:(NSDictionary *)aDict {
     if (!aDict || aDict.allKeys.count == 0) {
         return @"";
