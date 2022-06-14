@@ -30,15 +30,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
-        
-       
-        
-//        [self addFaceScaningWindow];
-        
-        // 添加定时器
-//        [self addTimer];
-        
-      
+    
     }
     
     return self;
@@ -90,50 +82,12 @@
 #pragma mark - 添加人脸识别
 -(void)addFaceScaningWindow {
     
-    // 中间包裹线
-    _faceScanningWindowLayer = [CAShapeLayer layer];
-    _faceScanningWindowLayer.position = self.layer.position;
-    CGFloat width = iPhone5or5cor5sorSE? 240: (iPhone6or6sor7? 270: 300);
-    _faceScanningWindowLayer.bounds = self.bounds;
-//    _faceScanningWindowLayer.cornerRadius = 15;
-//    _faceScanningWindowLayer.borderColor = [UIColor whiteColor].CGColor;
-//    _faceScanningWindowLayer.borderWidth = 1.5;
-    [self.layer addSublayer:_faceScanningWindowLayer];
-    
-    // 最里层镂空
-    UIBezierPath *transparentRoundedRectPath = [UIBezierPath bezierPathWithRoundedRect:_faceScanningWindowLayer.frame cornerRadius:_faceScanningWindowLayer.cornerRadius];
-    
-    // 最外层背景
-    UIBezierPath *path = [UIBezierPath bezierPathWithRect:self.frame];
-    [path appendPath:transparentRoundedRectPath];
-    [path setUsesEvenOddFillRule:YES];
-    
-    CAShapeLayer *fillLayer = [CAShapeLayer layer];
-    fillLayer.path = path.CGPath;
-    fillLayer.fillRule = kCAFillRuleEvenOdd;
-    fillLayer.fillColor = [UIColor blackColor].CGColor;
-    fillLayer.opacity = 0.6;
-    
-    [self.layer addSublayer:fillLayer];
-    
-    CGFloat facePathWidth = iPhone5or5cor5sorSE? 125: (iPhone6or6sor7? 150: 180);
-    CGFloat facePathHeight = facePathWidth * 0.812;
-    CGRect rect = _faceScanningWindowLayer.frame;
-    self.facePathRect = (CGRect){CGRectGetMaxX(rect) - facePathWidth - 35,CGRectGetMaxY(rect) - facePathHeight - 25,facePathWidth,facePathHeight};
-    
-    
-    /*
-    CGPoint center1 = (CGPoint){CGRectGetMidX(_facePathRect), CGRectGetMidY(_facePathRect)};
-    [self addTipLabelWithText:@"人像" center:center1];
-     */
-    
     // 人像
-    UIImageView *headIV = [[UIImageView alloc] initWithFrame:rect];
+    UIImageView *headIV = [[UIImageView alloc] initWithFrame:self.frame];
     headIV.image = [UIImage imageNamed:@"idcard_first_head"];
-//    headIV.transform = CGAffineTransformMakeRotation(M_PI );
+//    headIV.transform = CGAffineTransformMakeRotation(M_PI * 0.5);
     headIV.contentMode = UIViewContentModeScaleAspectFill;
     [self addSubview:headIV];
-    
     
     
 }

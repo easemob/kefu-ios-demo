@@ -76,6 +76,9 @@
     CGFloat viewWidth;
     CGFloat viewHeight;
     BOOL _isDeviceFront; //是否是前置摄像头
+    
+    NSString * _signflowId; //签名的flowid
+    HDVideoIDCardScaningView *_idCardScaningView;
 }
 /*
  * 弹窗窗口
@@ -1341,11 +1344,6 @@ static HDVideoCallViewController *_manger = nil;
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
-    [self onCallLOcrIdentify:nil];
-    
-    return;
-    
-    
     if (_shareState) {
         //当前正在共享
         //当前正在白板房间
@@ -1968,7 +1966,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     
     //关闭 小窗口  然后 预留出底部按钮 然后判断当前摄像头 还得把小窗口的 本地切换过来
     self.smallWindowView.hidden = YES;
-
     // 根据uid 找到用户 然后刷新一下界面
     BOOL  __block isCardSmallVindow = NO;
     [self.smallWindowView.items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -1990,34 +1987,30 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     
     //原来摄像头的状态
     BOOL  _isChangeDevice = NO;
-    if (_isDeviceFront) {
-        
+    if (_isDeviceFront && ScanType == HDVideoIDCardScaningViewTypeIDCard) {
         // 之前 是前置 摄像头  需要切换成后置 摄像头
         [self camBtnClicked:_cameraBtn];
         _isChangeDevice = YES;
         
     }
-
     // 添加自定义的扫描界面（中间有一个镂空窗口和来回移动的扫描线）
-    HDVideoIDCardScaningView *_idCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height -self.barView.frame.size.height - 10 )];
-    [_idCardScaningView setVideoScanType:ScanType];
-    
-    _idCardScaningView.clickCloseIDCardBlock = ^(UIButton *btn, HDVideoIDCardScaningView *view) {
-        [view removeFromSuperview];
-        self.smallWindowView.hidden = NO;
-        
-        if (_isChangeDevice) {
-            [self camBtnClicked:_cameraBtn];
-        }
-        
-    };
-    
-//    self.faceDetectionFrame = IDCardScaningView.facePathRect;
-//    [self.view addSubview:_idCardScaningView];
+    HDVideoIDCardScaningView *idCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height -self.barView.frame.size.height - 10 )];
+    [idCardScaningView setVideoScanType:ScanType];
+    _idCardScaningView =idCardScaningView;
+   
+    [self.view addSubview:_idCardScaningView];
  
 }
-//mark vec 1.3 独立访客端 收到坐席 身份认证
+//mark vec 1.3 独立访客端 收到坐席 签名
 - (void)onCallSignIdentify:(NSDictionary *)dic{
+    
+    if ([[dic allKeys] containsObject:@"flowId"]) {
+        
+        NSString * flowId = [dic objectForKey:@"flowId"];
+        
+        _signflowId = [NSString stringWithFormat:@"%@",flowId];
+    
+    }
     
     [self.view addSubview:self.hdSignView];
     
@@ -2032,36 +2025,73 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 //mark vec 1.3 独立访客端 收到坐席 身份认证
 - (void)onCallFaceIdentify:(NSDictionary *)dic{
     
-    [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeFace];
+    if ( [self isFlowEndAction:dic]) {
+        [_idCardScaningView removeFromSuperview];
+        self.smallWindowView.hidden = NO;
+        if (_isDeviceFront) {
+            [self camBtnClicked:_cameraBtn];
+        }
+    }else{
     
+        [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeFace];
+    }
 }
 //mark vec 1.3 独立访客端 收到坐席 ocr 识别
 - (void)onCallLOcrIdentify:(NSDictionary *)dic{
     
-    [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeIDCard];
+    if ( [self isFlowEndAction:dic]) {
+        [_idCardScaningView removeFromSuperview];
+        self.smallWindowView.hidden = NO;
+        if (_isDeviceFront) {
+            [self camBtnClicked:_cameraBtn];
+        }
+    }else{
+        
+        [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeFace];
+    }
+    
+    
+   
 }
 //mark vec 1.3 独立访客端 收到坐席 消息推送
+//"infopush": {                    //  标识业务处理类型下的参数：infopush 信息推送 ， cardocr ocr识别
+//         "action":"infopush_start",   //  操作：  infopush_start 开始信息推送，cardocr_face_start 开始身份证人像面识别，cardocr_back_start开始身份证国徽面识别，
+//                                            //         cardocr_bank_start 开始银行卡识别
+//               "type":"iframe",
+//               "content":{
+//                   "title":"title",            //  业务标题：信息推送
+//                   "url": "http://baidu.com"    //  业务链接：url
+//                   "heightRatio": 0.8         //  高度比
+//               },
+//            },
+
 - (void)onCallLinkMessagePush:(NSDictionary *)dic{
   
     //创建 webview 加载 url 
-    if ([[dic allKeys] containsObject:@"url"]) {
+    if ([[dic allKeys] containsObject:@"type"]) {
         
-        NSString * url = [dic objectForKey:@"url"];
+        NSString * iframe = [dic objectForKey:@"type"];
         
-        float  heightRatio = [[dic objectForKey:@"heightRatio"] floatValue];
-        
-        [self.view addSubview:self.hdVideoLinkMessagePush];
-        
-        [self.hdVideoLinkMessagePush mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.leading.offset(0);
-            make.trailing.offset(0);
-            make.bottom.offset (0);
-            make.height.offset(self.view.height*heightRatio);
+        NSDictionary *content =[dic objectForKey:@"content"];
+        float  heightRatio = 0.5;
+        if ([iframe isEqualToString:@"iframe"]) {
+            // iframe 页面
+            heightRatio = [[content objectForKey:@"heightRatio"] floatValue];
+            NSString * url = [dic objectForKey:@"url"];
+           
+            [self.view addSubview:self.hdVideoLinkMessagePush];
             
-        }];
-        
-        [self.hdVideoLinkMessagePush setWebUrl:url];
-        
+            [self.hdVideoLinkMessagePush mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.leading.offset(0);
+                make.trailing.offset(0);
+                make.bottom.offset (0);
+                make.height.offset(self.view.height*heightRatio);
+                
+            }];
+            
+            [self.hdVideoLinkMessagePush setWebUrl:url];
+        }
+
     }else{
         
       
@@ -2105,23 +2135,46 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
 #pragma mark --HDSignDelegate
 
-- (void)hdSignCompleteWithImage:(UIImage *)img base64str:(NSString *)base64str{
+- (void)hdSignCompleteWithImage:(UIImage *)img base64Data:(nonnull NSData *)base64data{
     
-    // 上传图片 流程
-    UIImageView *signImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    
-    signImgView.image = img;
-    [self.view addSubview: signImgView];
-    [signImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.centerX.offset(0);
-        make.centerY.offset(0);
-        make.width.offset(img.size.width);
-        make.height.offset(img.size.height);
+    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"加入房间中..", @"加入房间中..") toView:self.hdSignView];
+    [[HDClient sharedClient].callManager hd_commitSignData:base64data  WithVisitorId:@"" withFlowId:_signflowId  Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+        [_hud hideAnimated:YES];
+        if (error ==nil) {
+            NSLog(@"=====%@",responseObject);
+            
+            [MBProgressHUD dismissInfo:NSLocalizedString(@"提交成功", @"提交成功")];
+            
+            //移除 签名界面
+            [self.hdSignView removeFromSuperview];
+            self.hdSignView = nil;
+            
+        }else{
+            NSLog(@"=====%@",error.errorDescription);
+            
+            NSString *str = [NSString stringWithFormat:@"%@-%@",NSLocalizedString(@"提交失败请重新提交", @"提交失败请重新提交"),error.errorDescription];
+            
+            [MBProgressHUD dismissInfo:str];
+        }
         
     }];
     
+}
+- (BOOL)isFlowEndAction:(NSDictionary *)msgTypeDic{
     
+    if ([[msgTypeDic allKeys] containsObject:@"action"]) {
+        
+        NSString * action = [msgTypeDic objectForKey:@"action"];
+        
+        if ([action containsString:@"end"]) {
+            
+            return YES;
+        }
+        
+        return NO;
+    }
+    
+    return NO;
     
 }
 

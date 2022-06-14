@@ -71,9 +71,8 @@
 //确认btn
 - (void)sureBtnClick:(id)sender {
     UIImage *img = [self changeToImage];
-    NSString *signGraphic = [self UIImageToBase64Str:img];
-    [self.delegate hdSignCompleteWithImage:img base64str:signGraphic];
-//    self.hdDrawView.backgroundColor = [UIColor colorWithHex:0xEBEBEB];
+    NSData *signGraphic = [self UIImageToBase64Data:img];
+    [self.delegate hdSignCompleteWithImage:img base64Data:signGraphic];
 }
 
 //转换图片
@@ -85,7 +84,7 @@
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    self.hdDrawView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1.0];
+//    self.hdDrawView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1.0];
     return image;
 }
 
@@ -95,7 +94,12 @@
     NSString *encodedImageStr = [data base64EncodedStringWithOptions:0];
     return encodedImageStr;
 }
-
+//图片转data
+-(NSData *)UIImageToBase64Data:(UIImage *) image {
+    NSData *data = UIImageJPEGRepresentation(image, 1.0f);
+   
+    return data;
+}
 //确定btn是否可点，和颜色显示
 - (void)sureBtnEnable:(BOOL)bl{
     self.sureBtn.enabled = bl;

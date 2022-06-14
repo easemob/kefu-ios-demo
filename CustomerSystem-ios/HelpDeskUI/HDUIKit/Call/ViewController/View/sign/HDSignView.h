@@ -11,11 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol HDSignDelegate <NSObject>
-
-- (void)hdSignCompleteWithImage:(UIImage *)img base64str:(NSString *)base64str;
+- (void)hdSignCompleteWithImage:(UIImage *)img base64Data:(NSData *)base64data;
 @optional
 - (void)hdBackMethod;
-
+//- (void)hdSignCompleteWithImage:(UIImage *)img base64str:(NSString *)base64str;
 @end
 @interface HDSignView : UIView
 @property (nonatomic, strong) HDDrawingBoardView *hdDrawView;;
