@@ -79,6 +79,12 @@
 
     
 }
+- (void)addCurrentCellItem:(HDCallCollectionViewCellItem *)item{
+    
+    [_cellArray addObject:item];
+    
+    [self reloadData];
+}
 - (void)reloadData{
     
     [self.collectionView reloadData];

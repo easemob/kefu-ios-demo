@@ -23,6 +23,7 @@ typedef void(^ClickCellItemBlock)(HDCallCollectionViewCellItem *item,NSIndexPath
 - (void)refreshView:(UIView *)view withScreen:(BOOL)landscape;
 - (void)reloadData;
 - (void)removeCurrentCellItem:(HDCallCollectionViewCellItem *)item;
+- (void)addCurrentCellItem:(HDCallCollectionViewCellItem *)item;
 - (void)setAudioMuted:(HDCallCollectionViewCellItem *)item;
 - (BOOL)setThirdUserdidJoined:(HDCallCollectionViewCellItem *)item;
 
