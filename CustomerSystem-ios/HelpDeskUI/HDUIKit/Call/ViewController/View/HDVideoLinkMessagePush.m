@@ -116,11 +116,9 @@
        //以下为协商后处理的一个实例，根据方法名判断原生需要做什么处理
     if ([message.name isEqualToString:kIframeClose]) {
           
-        NSDictionary *body = message.body;
+        NSString *body = message.body;
         
-        NSString *josnBody = [self stringWithDictionary:body];
-        [self closeCurrentView:josnBody];
-        
+        [self closeCurrentView:body];
         
        }
     

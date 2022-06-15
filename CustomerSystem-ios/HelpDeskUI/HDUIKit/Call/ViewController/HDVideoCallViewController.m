@@ -1971,9 +1971,8 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 - (void)createVECGeneralBaseUI:(HDVideoIDCardScaningViewType )ScanType{
     
     //关闭 小窗口  然后 预留出底部按钮 然后判断当前摄像头 还得把小窗口的 本地切换过来
-    self.smallWindowView.hidden = YES;
-//    self.midd.hidden = YES;
     
+
 //    self.parentView.hidden = YES;
     // 根据uid 找到用户 然后刷新一下界面
     BOOL  __block isCardSmallVindow = NO;
@@ -2014,7 +2013,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         
     }
     // 添加自定义的扫描界面（中间有一个镂空窗口和来回移动的扫描线）
-    HDVideoIDCardScaningView *idCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height -self.barView.frame.size.height - 10 )];
+    HDVideoIDCardScaningView *idCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:self.view.frame];
     [idCardScaningView setVideoScanType:ScanType];
     _idCardScaningView =idCardScaningView;
    
@@ -2069,13 +2068,15 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     _faceflowId = [self getFlowId:dic];
     
     if ( [self isFlowEndAction:dic]) {
+        [self showCallingOtherView];
         [_idCardScaningView removeFromSuperview];
         self.smallWindowView.hidden = NO;
         if (_isDeviceFront) {
             [self camBtnClicked:_cameraBtn];
         }
     }else{
-    
+
+        [self hiddenCallingOtherView];
         [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeFace];
     }
 }
@@ -2090,26 +2091,15 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     
     if ( [self isFlowEndAction:dic]) {
         [_idCardScaningView removeFromSuperview];
-        self.smallWindowView.hidden = NO;
+        [self showCallingOtherView];
         if (_isDeviceFront) {
             [self camBtnClicked:_cameraBtn];
         }
     }else{
-        
+        [self hiddenCallingOtherView];
         [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeIDCard];
     }
 }
-//mark vec 1.3 独立访客端 收到坐席 消息推送
-//"infopush": {                    //  标识业务处理类型下的参数：infopush 信息推送 ， cardocr ocr识别
-//         "action":"infopush_start",   //  操作：  infopush_start 开始信息推送，cardocr_face_start 开始身份证人像面识别，cardocr_back_start开始身份证国徽面识别，
-//                                            //         cardocr_bank_start 开始银行卡识别
-//               "type":"iframe",
-//               "content":{
-//                   "title":"title",            //  业务标题：信息推送
-//                   "url": "http://baidu.com"    //  业务链接：url
-//                   "heightRatio": 0.8         //  高度比
-//               },
-//            },
 
 - (void)onCallLinkMessagePush:(NSDictionary *)dic{
     if (!isCalling) {
@@ -2238,11 +2228,16 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 - (void)hiddenCallingOtherView{
     self.smallWindowView.hidden = YES;
     self.hdTitleView.hidden = YES;
+    self.barView.hidden= YES;
+    
+    self.itemView.hidden = YES;
 }
 - (void)showCallingOtherView{
     
+    self.itemView.hidden = NO;
     self.smallWindowView.hidden = NO;
     self.hdTitleView.hidden = NO;
+    self.barView.hidden= NO;
 }
 - (BOOL)isFlowEndAction:(NSDictionary *)msgTypeDic{
     
