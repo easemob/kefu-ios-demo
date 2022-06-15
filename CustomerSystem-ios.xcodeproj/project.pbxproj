@@ -69,6 +69,8 @@
 		90EE4C5523548CD200DEE8CA /* HRobotUnsolveItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */; };
 		930190CA285862AB0043EDC9 /* idcard_first_head.png in Resources */ = {isa = PBXBuildFile; fileRef = 930190C9285862AA0043EDC9 /* idcard_first_head.png */; };
 		930190CC285867420043EDC9 /* idcard_first_head11.png in Resources */ = {isa = PBXBuildFile; fileRef = 930190CB285867420043EDC9 /* idcard_first_head11.png */; };
+		930190D428599AE60043EDC9 /* vec_chexiao1.png in Resources */ = {isa = PBXBuildFile; fileRef = 930190D328599AE60043EDC9 /* vec_chexiao1.png */; };
+		930190D62859A33D0043EDC9 /* vec_chexiao.png in Resources */ = {isa = PBXBuildFile; fileRef = 930190D52859A33D0043EDC9 /* vec_chexiao.png */; };
 		930CCE7627C39639004DA60D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; };
 		930E320E27E03AE500455C7E /* HDAccountmanager.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E320D27E03AE500455C7E /* HDAccountmanager.m */; };
 		930E321C27E03E9800455C7E /* HDCallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E321027E03E9600455C7E /* HDCallCollectionViewCell.m */; };
@@ -648,6 +650,8 @@
 		90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HRobotUnsolveItemView.m; sourceTree = "<group>"; };
 		930190C9285862AA0043EDC9 /* idcard_first_head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = idcard_first_head.png; path = ../../../../../../../../../Downloads/idcard_first_head.png; sourceTree = "<group>"; };
 		930190CB285867420043EDC9 /* idcard_first_head11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = idcard_first_head11.png; sourceTree = "<group>"; };
+		930190D328599AE60043EDC9 /* vec_chexiao1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vec_chexiao1.png; sourceTree = "<group>"; };
+		930190D52859A33D0043EDC9 /* vec_chexiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vec_chexiao.png; sourceTree = "<group>"; };
 		930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = HyphenateChat.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/imsdk/HyphenateChat.xcframework"; sourceTree = "<group>"; };
 		930E320C27E03AE500455C7E /* HDAccountmanager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAccountmanager.h; sourceTree = "<group>"; };
 		930E320D27E03AE500455C7E /* HDAccountmanager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAccountmanager.m; sourceTree = "<group>"; };
@@ -1447,6 +1451,8 @@
 		9086151020B43A54002E71DA /* HCallResources */ = {
 			isa = PBXGroup;
 			children = (
+				930190D52859A33D0043EDC9 /* vec_chexiao.png */,
+				930190D328599AE60043EDC9 /* vec_chexiao1.png */,
 				930190CB285867420043EDC9 /* idcard_first_head11.png */,
 				930190C9285862AA0043EDC9 /* idcard_first_head.png */,
 				9086151120B43A54002E71DA /* shareDesktop@2x.png */,
@@ -3351,6 +3357,7 @@
 				D20066381EF23274005B558D /* em_example_image_1.png in Resources */,
 				EB4B07751AC6922C00DCF67B /* chatBar_colorMore_location@2x.png in Resources */,
 				EB4B06841AC685E900DCF67B /* people@2x.png in Resources */,
+				930190D62859A33D0043EDC9 /* vec_chexiao.png in Resources */,
 				EB4B06FD1AC685E900DCF67B /* tabbar_settingHL@2x.png in Resources */,
 				9086153A20B43A54002E71DA /* screen1.png in Resources */,
 				EB4B06811AC685E900DCF67B /* 58.png in Resources */,
@@ -3397,6 +3404,7 @@
 				EB4B06CF1AC685E900DCF67B /* chat_location_preview.png in Resources */,
 				9086153E20B43A54002E71DA /* screen2.png in Resources */,
 				EB4B06EC1AC685E900DCF67B /* chat_sender_audio_playing_000@2x.png in Resources */,
+				930190D428599AE60043EDC9 /* vec_chexiao1.png in Resources */,
 				EB4B06AB1AC685E900DCF67B /* VoiceSearchFeedback016.png in Resources */,
 				EB4B06E61AC685E900DCF67B /* chat_receiver_audio_playing003@2x.png in Resources */,
 				EB4B06A31AC685E900DCF67B /* VoiceSearchFeedback012.png in Resources */,

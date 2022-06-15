@@ -84,20 +84,27 @@
     }
     NSURLRequest *request =[NSURLRequest requestWithURL:trueUrl];
     
-
-//    [self.webView loadRequest:request];
-    NSString *path = [[NSBundle mainBundle] bundlePath];
-    NSURL *baseURL = [NSURL fileURLWithPath:path];
-    NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"File" ofType:@"html"];
+    [self.webView loadRequest:request];
+//    NSString *path = [[NSBundle mainBundle] bundlePath];
+//    NSURL *baseURL = [NSURL fileURLWithPath:path];
+//    NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"File" ofType:@"html"];
+//
+//
+//    NSString *htmlCont = [NSString stringWithContentsOfFile:htmlPath
+//                                                    encoding:NSUTF8StringEncoding
+//                                                       error:nil];
+//
+//
+//    [self.webView loadHTMLString:htmlCont baseURL:baseURL];
     
-    
-    NSString *htmlCont = [NSString stringWithContentsOfFile:htmlPath
-                                                    encoding:NSUTF8StringEncoding
-                                                       error:nil];
-
-    
-    [self.webView loadHTMLString:htmlCont baseURL:baseURL];
-    
+}
+- (NSString *)stringWithDictionary:(NSDictionary *)dic {
+    if (dic == nil) {
+        return nil;
+    }
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    return json;
 }
 
 
@@ -108,16 +115,26 @@
     //message.body为h5向原生交互时所传的参数，这个为客户端与h5端协商，端需要什么就让h5端给什么
        //以下为协商后处理的一个实例，根据方法名判断原生需要做什么处理
     if ([message.name isEqualToString:kIframeClose]) {
-           NSString *body = message.body;
+          
+        NSDictionary *body = message.body;
         
-          [self  removeFromSuperview];
+        NSString *josnBody = [self stringWithDictionary:body];
+        [self closeCurrentView:josnBody];
+        
         
        }
     
     
     
 }
-
+- (void)closeCurrentView:(NSString *)content{
+    
+    if (self.clickIframeCloseBlock) {
+        
+        self.clickIframeCloseBlock(content);
+    }
+    [self  removeFromSuperview];
+}
 - (void)webViewClickButtonAction:(NSString *)str
 {
     NSLog(@"OC 接收到 H5按钮点击事件");

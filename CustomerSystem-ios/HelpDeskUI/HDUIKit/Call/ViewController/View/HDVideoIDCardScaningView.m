@@ -51,14 +51,14 @@
             break;
     }
     
-    [self addSubview:self.closeBtn];
-    
-    [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.offset(44);
-        make.width.height.offset(32);
-        make.trailing.offset(-5);
-        
-    }];
+//    [self addSubview:self.closeBtn];
+//    
+//    [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.offset(44);
+//        make.width.height.offset(32);
+//        make.trailing.offset(-5);
+//        
+//    }];
 }
 
 - (UIButton *)closeBtn{
@@ -125,21 +125,9 @@
     self.facePathRect = (CGRect){CGRectGetMaxX(rect) - facePathWidth - 35,CGRectGetMaxY(rect) - facePathHeight - 25,facePathWidth,facePathHeight};
     
     // 提示标签
-    CGPoint center = self.center;
-    center.x = CGRectGetMaxX(_IDCardScanningWindowLayer.frame) + 20;
-    [self addTipLabelWithText:@"将身份证人像面置于此区域内，头像对准，扫描" center:center];
-    
-    /*
-    CGPoint center1 = (CGPoint){CGRectGetMidX(_facePathRect), CGRectGetMidY(_facePathRect)};
-    [self addTipLabelWithText:@"人像" center:center1];
-     */
-    
-    // 人像
-//    UIImageView *headIV = [[UIImageView alloc] initWithFrame:_facePathRect];
-//    headIV.image = [UIImage imageNamed:@"idcard_first_head"];
-//    headIV.transform = CGAffineTransformMakeRotation(M_PI * 0.5);
-//    headIV.contentMode = UIViewContentModeScaleAspectFill;
-//    [self addSubview:headIV];
+//    CGPoint center = self.center;
+//    center.x = CGRectGetMaxX(_IDCardScanningWindowLayer.frame) + 20;
+//    [self addTipLabelWithText:@"将身份证人像面置于此区域内，头像对准，扫描" center:center];
 }
 
 #pragma mark - 添加提示标签

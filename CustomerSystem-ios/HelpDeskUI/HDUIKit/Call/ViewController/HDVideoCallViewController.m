@@ -78,6 +78,9 @@
     BOOL _isDeviceFront; //是否是前置摄像头
     
     NSString * _signflowId; //签名的flowid
+__block NSString * _pushflowId; //信息推送的flowid
+    NSString * _faceflowId; // 身份验证的flowid
+    NSString * _ocrflowId;  // ocr的flowid
     HDVideoIDCardScaningView *_idCardScaningView;
 }
 /*
@@ -104,7 +107,9 @@
 @property (nonatomic, strong) UIWindow *customWindow;
 @property (nonatomic, strong) HDSuspendCustomView *hdSupendCustomView;
 @property (nonatomic, strong) HDVideoLinkMessagePush *hdVideoLinkMessagePush;
-@property (nonatomic, strong) HDSignView *hdSignView;;
+@property (nonatomic, strong) HDSignView *hdSignView;
+@property (nonatomic, strong) UIView *ocrView;
+
 
 @end
 static dispatch_once_t onceToken;
@@ -393,10 +398,11 @@ static HDVideoCallViewController *_manger = nil;
     item.uid = localUid;
     UIView * localView = [[UIView alloc] init];
     item.camView = localView;
+    
     [[HDAgoraCallManager shareInstance] setupLocalVideoView:item.camView];
     //添加数据源
     [_members addObject:item];
-    
+    _currentItem = item;
     //默认进来 中间窗口显示 坐席头像
     [self.itemView setItemString:self.agentName];
     
@@ -1966,24 +1972,38 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     
     //关闭 小窗口  然后 预留出底部按钮 然后判断当前摄像头 还得把小窗口的 本地切换过来
     self.smallWindowView.hidden = YES;
+//    self.midd.hidden = YES;
+    
+//    self.parentView.hidden = YES;
     // 根据uid 找到用户 然后刷新一下界面
     BOOL  __block isCardSmallVindow = NO;
+    
     [self.smallWindowView.items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         HDCallCollectionViewCellItem *item = obj;
         NSLog(@"%ld----%@",(long)item.uid,[NSThread currentThread]);
         if (item.uid == kLocalUid) {
             isCardSmallVindow = YES;
             NSLog(@"==uid===%lu",(unsigned long)item.uid);
-            
+
             [self changeCallViewItem:item withIndex:idx];
             *stop = YES;
         }
     }];
     
-    if (!isCardSmallVindow) {
-       
-        
-    }
+    
+    // 拿到本地view 放到中间
+//    UIView *tmpView =_currentItem.camView;
+//    [self.view addSubview:tmpView];
+//    [self.view sendSubviewToBack:tmpView];
+//    [tmpView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.top.offset(0);
+//            make.leading.offset(0);
+//            make.trailing.offset(0);
+//            make.bottom.offset(0);
+//
+//    }];
+    
+//    [tmpView layoutIfNeeded];
     
     //原来摄像头的状态
     BOOL  _isChangeDevice = NO;
@@ -2000,17 +2020,34 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
    
     [self.view addSubview:_idCardScaningView];
  
+    
+    // 先去判断 当前中间的item 是不是本地的 如果是 不动。隐藏小窗就行了。如果不是 需要去小窗里边拿  然后把 小窗移除的一次掉
+    
+     
+    
+   
+    
+    
+    
+    
+    
+    
+    
 }
 //mark vec 1.3 独立访客端 收到坐席 签名
 - (void)onCallSignIdentify:(NSDictionary *)dic{
     
-    if ([[dic allKeys] containsObject:@"flowId"]) {
+    if (!isCalling) {
         
-        NSString * flowId = [dic objectForKey:@"flowId"];
-        
-        _signflowId = [NSString stringWithFormat:@"%@",flowId];
-    
+        return;
     }
+
+    // 获取flowid
+    _signflowId = [self getFlowId:dic];
+    
+    //隐藏 相关页面
+    [self hiddenCallingOtherView];
+    
     
     [self.view addSubview:self.hdSignView];
     
@@ -2018,12 +2055,18 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         make.leading.offset(5);
         make.trailing.offset(-5);
         make.bottom.offset (-5);
-        make.height.offset(self.view.height*0.35);
+        make.height.offset(self.view.height*0.4);
         
     }];
 }
 //mark vec 1.3 独立访客端 收到坐席 身份认证
 - (void)onCallFaceIdentify:(NSDictionary *)dic{
+    if (!isCalling) {
+        
+        return;
+    }
+    // 获取flowid
+    _faceflowId = [self getFlowId:dic];
     
     if ( [self isFlowEndAction:dic]) {
         [_idCardScaningView removeFromSuperview];
@@ -2038,6 +2081,12 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 }
 //mark vec 1.3 独立访客端 收到坐席 ocr 识别
 - (void)onCallLOcrIdentify:(NSDictionary *)dic{
+    if (!isCalling) {
+        
+        return;
+    }
+    // 获取flowid
+    _ocrflowId = [self getFlowId:dic];
     
     if ( [self isFlowEndAction:dic]) {
         [_idCardScaningView removeFromSuperview];
@@ -2047,11 +2096,8 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         }
     }else{
         
-        [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeFace];
+        [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeIDCard];
     }
-    
-    
-   
 }
 //mark vec 1.3 独立访客端 收到坐席 消息推送
 //"infopush": {                    //  标识业务处理类型下的参数：infopush 信息推送 ， cardocr ocr识别
@@ -2066,19 +2112,27 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 //            },
 
 - (void)onCallLinkMessagePush:(NSDictionary *)dic{
-  
+    if (!isCalling) {
+        
+        return;
+    }
+    
+    // 获取flowid
+    _pushflowId = [self getFlowId:dic];
+    
     //创建 webview 加载 url 
     if ([[dic allKeys] containsObject:@"type"]) {
         
         NSString * iframe = [dic objectForKey:@"type"];
-        
         NSDictionary *content =[dic objectForKey:@"content"];
         float  heightRatio = 0.5;
         if ([iframe isEqualToString:@"iframe"]) {
             // iframe 页面
             heightRatio = [[content objectForKey:@"heightRatio"] floatValue];
-            NSString * url = [dic objectForKey:@"url"];
+            NSString * url = [content objectForKey:@"url"];
            
+            [self hiddenCallingOtherView];
+            
             [self.view addSubview:self.hdVideoLinkMessagePush];
             
             [self.hdVideoLinkMessagePush mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -2088,13 +2142,10 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
                 make.height.offset(self.view.height*heightRatio);
                 
             }];
-            
             [self.hdVideoLinkMessagePush setWebUrl:url];
         }
 
     }else{
-        
-      
         
         [self.view addSubview:self.hdVideoLinkMessagePush];
         
@@ -2109,19 +2160,38 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         [self.hdVideoLinkMessagePush setWebUrl:@"http://baidu.com"];
     }
 }
+
+
+
 - (HDVideoLinkMessagePush *)hdVideoLinkMessagePush{
     
     if (!_hdVideoLinkMessagePush) {
         
         _hdVideoLinkMessagePush = [[HDVideoLinkMessagePush alloc] init];
+        kWeakSelf
+        _hdVideoLinkMessagePush.clickIframeCloseBlock = ^(NSString *  content) {
+            [weakSelf showCallingOtherView];
+           
+            [weakSelf pushBusinessreport:content];
+        };
+       
     }
     return  _hdVideoLinkMessagePush;
     
 }
+- (void)pushBusinessreport:(NSString *)content{
+    // 上报 信息推送
+    [[HDClient sharedClient].callManager hd_pushBusinessReportWithFlowId:_pushflowId withAction:@"infopush_end" withType:@"infopush" withUrl:@"" withContent:content Completion:^(id responseObject, HDError * error) {
+        
+        NSLog(@"====%@",responseObject);
+        
+    }];
+    
+}
+
 - (HDSignView *)hdSignView{
     
     if (!_hdSignView) {
-        
         _hdSignView = [[HDSignView alloc] init];
         _hdSignView.delegate = self;
         _hdSignView.layer.cornerRadius = 5.0f;
@@ -2137,28 +2207,42 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
 - (void)hdSignCompleteWithImage:(UIImage *)img base64Data:(nonnull NSData *)base64data{
     
-    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"加入房间中..", @"加入房间中..") toView:self.hdSignView];
+    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"提交中..", @"提交中..") toView:self.hdSignView];
     [[HDClient sharedClient].callManager hd_commitSignData:base64data  WithVisitorId:@"" withFlowId:_signflowId  Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         [_hud hideAnimated:YES];
         if (error ==nil) {
-            NSLog(@"=====%@",responseObject);
             
-            [MBProgressHUD dismissInfo:NSLocalizedString(@"提交成功", @"提交成功")];
+            NSLog(@"===hdSignCompleteWithImage==%@",responseObject);
+            
+            [MBProgressHUD dismissInfo:NSLocalizedString(@"提交成功", @"提交成功") withWindow:self.alertWindow];
             
             //移除 签名界面
             [self.hdSignView removeFromSuperview];
             self.hdSignView = nil;
+            
+            //显示 原来的界面
+            [self showCallingOtherView];
             
         }else{
             NSLog(@"=====%@",error.errorDescription);
             
             NSString *str = [NSString stringWithFormat:@"%@-%@",NSLocalizedString(@"提交失败请重新提交", @"提交失败请重新提交"),error.errorDescription];
             
-            [MBProgressHUD dismissInfo:str];
+            [MBProgressHUD dismissInfo:str withWindow:self.alertWindow];
         }
         
     }];
     
+}
+//隐藏 视频通话 中相关的页面
+- (void)hiddenCallingOtherView{
+    self.smallWindowView.hidden = YES;
+    self.hdTitleView.hidden = YES;
+}
+- (void)showCallingOtherView{
+    
+    self.smallWindowView.hidden = NO;
+    self.hdTitleView.hidden = NO;
 }
 - (BOOL)isFlowEndAction:(NSDictionary *)msgTypeDic{
     
@@ -2177,5 +2261,26 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     return NO;
     
 }
-
+- (NSString *)getFlowId:(NSDictionary *)msgTypeDic{
+   
+    if ([[msgTypeDic allKeys] containsObject:@"flowId"]) {
+        
+        NSString * flowId = [msgTypeDic objectForKey:@"flowId"];
+        
+        return [NSString stringWithFormat:@"%@",flowId];
+    
+    }else{
+        return @"";
+    }
+}
+- (UIView *)ocrView{
+    
+    if (!_ocrView) {
+        _ocrView = [[UIView alloc] initWithFrame:self.view.frame];
+        _ocrView.backgroundColor = [UIColor redColor];
+        
+    }
+    
+    return _ocrView;
+}
 @end
