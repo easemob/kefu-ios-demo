@@ -23,7 +23,7 @@
 #import "HDCloudDiskViewController.h"
 #import "HDAgoraCallManager.h"
 #import "HDVideoWindowViewController.h"
-
+#import "MBProgressHUD+Add.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
@@ -196,19 +196,18 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     }
     isLogin = YES;
     __weak typeof(self) weakSelf = self;
-    [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//    [self showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
+    
+//    [weakSelf showHint:NSLocalizedString(@"Contacting...", @"连接客服")];
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:nil];
+
+    __weak MBProgressHUD *weakHud = hud;
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
         if ([lgM loginKefuSDK]) {
             
-            [[HDClient sharedClient].pushManager updatePushDisplayStyle:HDPushDisplayStyleMessageSummary completion:^(HDError * _Nonnull error) {
-                
-                NSLog(@"=======error=%u",error.code);
-                
-                
-            }];
-            
-            
+            [weakHud hideAnimated:YES];
             NSString *queue = nil;
             if ([notification.object objectForKey:kpreSell]) {
                 queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
@@ -237,7 +236,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 [CSDemoAccountManager shareLoginManager].isVEC = YES;
                 [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        
+
                         [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend withVisitornickName:lgM.nickname];
                         [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
                             [[HDVideoCallViewController sharedManager]  removeView];
@@ -255,7 +254,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             });
             NSLog(@"登录失败");
         }
-    });
+//    });
     isLogin = NO;
     
     

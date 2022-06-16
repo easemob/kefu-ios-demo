@@ -153,6 +153,8 @@ static HDVideoCallViewController *_manger = nil;
     _manger=nil;
 
     [self cancelWindow];
+    
+    [HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
 }
 - (void)removeAllSubviews {
     while (_manger.alertWindow.subviews.count) {
@@ -187,20 +189,20 @@ static HDVideoCallViewController *_manger = nil;
 }
 - (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(nonnull NSString *)aNickname{
 //    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
-    
+
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
-    
     if (!isCalling) {
+        
         self.hdVideoAnswerView.nickNameLabel.text = aNickname;
         if (type == HDVideoDirectionSend) {
             // 发送 界面
             self.isVisitorSend = YES;
-    
+
             if ([HDAgoraCallManager shareInstance].layoutModel && [HDAgoraCallManager shareInstance].layoutModel.isSkipWaitingPage) {
-    
+
                     //直接发起 视频呼叫
                     [self createVideoCall];
-                
+
             }
             self.hdVideoAnswerView.callType = HDVideoDirectionSend;
         }else{
@@ -210,19 +212,69 @@ static HDVideoCallViewController *_manger = nil;
             [HDAgoraCallManager shareInstance].keyCenter = keyCenter;
             self.nickname = keyCenter.visitorNickName;
             self.agentName = keyCenter.agentNickName;
-           
-            if (self.isVisitorSend) {
+
+//            if (self.isVisitorSend) {
+//                [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 坐席回拨过来了 "];
+//                //访客发起后 坐席回拨过来了
+//                [self anwersBtnClicked:nil];
+//            }else{
+//                    self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
+//                // 其他情况下都是 坐席回拨过来的
+//                self.isVisitorSend = NO;
+//            }
+        
+            if (keyCenter.isAgentCallBackReceive) {
+                //回呼过来的通话
+             self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
+            // 其他情况下都是 坐席回拨过来的
+            self.isVisitorSend = NO;
+            }else{
                 [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 坐席回拨过来了 "];
                 //访客发起后 坐席回拨过来了
                 [self anwersBtnClicked:nil];
-            }else{
-                    self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
-                // 其他情况下都是 坐席回拨过来的
-                self.isVisitorSend = NO;
             }
+            
         }
     }
 }
+//- (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(nonnull NSString *)aNickname{
+////    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
+//
+//    [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
+//
+//    if (!isCalling) {
+//        self.hdVideoAnswerView.nickNameLabel.text = aNickname;
+//        if (type == HDVideoDirectionSend) {
+//            // 发送 界面
+//            self.isVisitorSend = YES;
+//
+//            if ([HDAgoraCallManager shareInstance].layoutModel && [HDAgoraCallManager shareInstance].layoutModel.isSkipWaitingPage) {
+//
+//                    //直接发起 视频呼叫
+//                    [self createVideoCall];
+//
+//            }
+//            self.hdVideoAnswerView.callType = HDVideoDirectionSend;
+//        }else{
+//            [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 进入接收通话界面 "];
+//            // 接受 界面
+//            //需要必要创建房间的参数
+//            [HDAgoraCallManager shareInstance].keyCenter = keyCenter;
+//            self.nickname = keyCenter.visitorNickName;
+//            self.agentName = keyCenter.agentNickName;
+//
+//            if (self.isVisitorSend) {
+//                [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 坐席回拨过来了 "];
+//                //访客发起后 坐席回拨过来了
+//                [self anwersBtnClicked:nil];
+//            }else{
+//                    self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
+//                // 其他情况下都是 坐席回拨过来的
+//                self.isVisitorSend = NO;
+//            }
+//        }
+//    }
+//}
 
 
 - (void)hideView{
@@ -303,6 +355,7 @@ static HDVideoCallViewController *_manger = nil;
     [self.parentView removeFromSuperview];
     self.parentView = nil;
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
+    self.isVisitorSend = NO;
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -429,6 +482,7 @@ static HDVideoCallViewController *_manger = nil;
 - (void)onCallEndReason:(NSString *)desc {
     [self.hdTitleView stopTimer];
     isCalling = NO;
+    
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
     [HDLog logI:@"================vec1.2=====onCallEndReason  %@",[NSThread currentThread] ];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -721,6 +775,7 @@ static HDVideoCallViewController *_manger = nil;
 - (void)createVideoCall{
     //这个地方是真正发消息邀请视频的代码
     
+    self.isVisitorSend = YES;
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     lgM.isVEC =YES;
     HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
@@ -742,8 +797,13 @@ static HDVideoCallViewController *_manger = nil;
                                             progress:nil
                                           completion:^(HDMessage *message, HDError *error)
      {
+        
+        NSLog(@"==_sendMessage==%@",error.errorDescription);
         if (!error) {
         
+            
+            
+            
         }
         else {
         
@@ -899,6 +959,15 @@ static HDVideoCallViewController *_manger = nil;
 /// 应答事件
 /// @param sender  button
 - (void)anwersBtnClicked:(UIButton *)sender{
+    
+    // 如果是回呼需要点击接收的时候 发送cmd 通知
+    if ([HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
+        //
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+        HDMessage * message =  [[HDClient sharedClient].callManager hd_visitorAcceptInvitationMessageWithImId:lgM.cname content:@"访客接受视频邀请"];
+        [self _sendMessage:message];
+    }
+    
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked "];
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorWhitealpha:1];
 
@@ -954,16 +1023,21 @@ static HDVideoCallViewController *_manger = nil;
         self.hdVideoAnswerView.hidden = NO;
     }
     
-    
 }
 
 /// 拒接事件
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{
   
-
-    isCalling = NO;
+    // 如果是回呼需要点击接收的时候 发送cmd 通知
+    if ([HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
+        //
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+       HDMessage *message=  [[HDClient sharedClient].callManager hd_visitorRejectInvitationMessageWithImId:lgM.cname content:@"访客接受视频邀请"];
+        [self _sendMessage:message];
+    }
     
+    isCalling = NO;
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
     [[HDAgoraCallManager shareInstance] endVecCall];
     [self.hdTitleView stopTimer];
@@ -2002,6 +2076,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         [self showCallingOtherView:YES];
        
     }else{
+        //摄像头 相关操作
         [self hiddenCallingOtherView];
         [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeFace];
     }
@@ -2069,8 +2144,10 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 }
 #pragma mark - 收到cmd通知 创建对应view
 - (void)createVECGeneralBaseUI:(HDVideoIDCardScaningViewType )ScanType{
-    //摄像头 相关操作
-    [self hd_ocrSwitchCamera];
+    
+    //切换摄像头
+    [self hd_ocrSwitchCamera:ScanType];
+    
     // 先去判断 当前中间的item 是不是本地的 如果是 不动。隐藏小窗就行了。如果不是 需要去小窗里边拿  然后把 小窗移除的一次掉
     if (_videoViews.count > 0) {
         HDCallCollectionViewCellItem *citem =[_videoViews firstObject];
@@ -2107,6 +2184,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     [idCardScaningView setVideoScanType:ScanType];
     _idCardScaningView =idCardScaningView;
     [self.view addSubview:_idCardScaningView];
+    
 }
 #pragma mark - 页面懒加载
 - (HDVideoLinkMessagePush *)hdVideoLinkMessagePush{
@@ -2192,18 +2270,36 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
    
 }
 // 接到ocr 以后 判断需不需要切换摄像头
-- (void)hd_ocrSwitchCamera{
+- (void)hd_ocrSwitchCamera:(HDVideoIDCardScaningViewType )ScanType{
     
-    //需要前置 摄像头
-    if (!_isCurrenDeviceFront) {
-        // 如果不是前置摄像头 需要自动切换摄像头
-        [[HDAgoraCallManager shareInstance] switchCamera];
-        _isOcrCloseSwitchCamera = YES;
+    if (ScanType == HDVideoIDCardScaningViewTypeIDCard) {
+       
+        //需要前置 摄像头
+        if (_isCurrenDeviceFront) {
+            // 如果不是前置摄像头 需要自动切换摄像头
+            [[HDAgoraCallManager shareInstance] switchCamera];
+            _isOcrCloseSwitchCamera = YES;
+        }else{
+            
+            _isOcrCloseSwitchCamera = NO;
+        }
+        
     }else{
         
-        _isOcrCloseSwitchCamera = NO;
+        //需要前置 摄像头
+        if (!_isCurrenDeviceFront) {
+            // 如果不是前置摄像头 需要自动切换摄像头
+            [[HDAgoraCallManager shareInstance] switchCamera];
+            _isOcrCloseSwitchCamera = YES;
+        }else{
+            
+            _isOcrCloseSwitchCamera = NO;
+            
+        }
+        
         
     }
+   
     
 }
 // 隐藏画中画半屏 按钮功能

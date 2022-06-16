@@ -98,6 +98,7 @@
     _IDCardScanningWindowLayer.position = self.layer.position;
     CGFloat width = iPhone5or5cor5sorSE? 240: (iPhone6or6sor7? 270: 300);
     _IDCardScanningWindowLayer.bounds = (CGRect){CGPointZero, {width, width * 1.574}};
+//    _IDCardScanningWindowLayer.bounds = (CGRect){CGPointZero, {[UIScreen ], width *0.9}};
     _IDCardScanningWindowLayer.cornerRadius = 15;
     _IDCardScanningWindowLayer.borderColor = [UIColor whiteColor].CGColor;
     _IDCardScanningWindowLayer.borderWidth = 1.5;

@@ -539,10 +539,7 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraUserOfflineReason)reason{
   
     HDAgoraCallMember *mem = [self getHDAgoraCallMember:uid];
-    //通知代理
-    if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){
-        [self.roomDelegate onMemberExit:mem];
-    }
+   
     HDAgoraCallMember *needRemove = nil;
     @synchronized(_members){
         for (HDAgoraCallMember *_member in self.members) {
@@ -559,6 +556,14 @@ static HDAgoraCallManager *shareCall = nil;
     //如果房间里边人 都么有了 就发送通知 关闭。如果有人 就不关闭
   [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
    
+    if (self.members.count == 0 ) {
+        
+        return;
+    }
+    //通知代理
+    if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){
+        [self.roomDelegate onMemberExit:mem];
+    }
   
     
 }

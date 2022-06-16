@@ -273,6 +273,7 @@ static HDCallViewController *_manger = nil;
     self.smallWindowView=nil;
     self.whiteBoardView =nil;
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
+    self.isVisitorSend = NO;
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     

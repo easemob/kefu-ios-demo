@@ -101,6 +101,7 @@
     
     [self startTimer];
     self.titleLabel.hidden = NO;
+    self.timeLabel.hidden = NO;
     self.hangUpBtn.hidden=YES;
     self.onBtn.hidden =NO;
     self.offBtn.hidden =NO;
@@ -477,9 +478,12 @@
 }
 - (void)offClick:(UIButton *)sender{
     [self stopTimer];
-    if (self.clickOffBlock) {
-        self.clickOffBlock(sender);
-    }
+    
+//    if (self.clickOffBlock) {
+//        self.clickOffBlock(sender);
+//    }
+    
+    [self onCloseClick:sender];
     
 }
 - (void)onCloseClick:(UIButton *)sender{
@@ -500,7 +504,9 @@
         }
     }else if(self.processType == HDVideoProcessInitiate){
         
-        [self offClick:sender];
+        if (self.clickOffBlock) {
+            self.clickOffBlock(sender);
+        }
         
     }
    
