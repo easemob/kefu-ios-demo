@@ -32,7 +32,7 @@
 
 - (UIColor *)contentColorBlueHX{
     
-    return [UIColor hl_colorWithHex:@"#2189ff"];
+    return [UIColor colorWithHexString:@"0x2189ff" alpha:1];
 }
 
 

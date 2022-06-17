@@ -36,16 +36,17 @@
 
         make.bottom.offset(-15);
         make.trailing.offset(-15);
-        make.width.offset(96);
-        make.height.offset(96/2);
+        make.width.offset(100);
+        make.height.offset(48);
 
     }];
     [self addSubview:self.resignBtn];
     [self.resignBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.offset(-15);
+        
+        make.centerY.mas_equalTo(self.sureBtn.mas_centerY).offset(0);
         make.leading.offset(15);
-        make.width.offset(96/2);
-        make.height.offset(96/2);
+        make.width.offset(26);
+        make.height.offset(26);
 
     }];
     
@@ -124,7 +125,7 @@
         _resignBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_resignBtn addTarget:self action:@selector(resignBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
-        [_resignBtn setImage:[UIImage imageNamed:@"vec_chexiao.png"] forState:UIControlStateNormal];
+        [_resignBtn setImage:[UIImage imageNamed:@"vec_chexiao2.png"] forState:UIControlStateNormal];
 //        [_resignBtn setTitle:@"撤销" forState:UIControlStateNormal];
 //        _resignBtn.transform = CGAffineTransformMakeRotation(M_PI_4);
 //        _resignBtn.backgroundColor = [UIColor blueColor];
@@ -141,7 +142,7 @@
         _sureBtn.backgroundColor = [[HDAppSkin mainSkin] contentColorBlueHX];
         _sureBtn.layer.cornerRadius = 5.0f;
         _sureBtn.layer.masksToBounds = YES;
-        _sureBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+        _sureBtn.titleLabel.font = [UIFont systemFontOfSize:20];
     }
     return _sureBtn;
 }
