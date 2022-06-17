@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 图片 iconfont
 
+//huxin 通用
+- (UIColor *)contentColorBlueHX;
 //项目常用颜色 灰色 背景色
 - (UIColor *)contentColorGray;
 

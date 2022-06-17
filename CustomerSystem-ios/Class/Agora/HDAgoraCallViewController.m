@@ -422,18 +422,15 @@
 }
 // 坐席主动 挂断 结束回调
 - (void)onCallEndReason:(NSString *)desc {
+   
     [self stopTimer];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [[HDAgoraCallManager shareInstance] leaveChannel];
        // UI更新代码
         if (self.hangUpCallback) {
             self.hangUpCallback(self, self.timeLabel.text);
         }
-    });
-   
+    
 }
-
-
 
 #pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。
 // 录屏直播 主App和宿主App数据共享，通信功能实现 如果我们要将开始、暂停、结束这些事件以消息的形式发送到宿主App中，需要使用CFNotificationCenterGetDarwinNotifyCenter。

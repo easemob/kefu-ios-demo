@@ -25,7 +25,7 @@
            effectView.frame = self.bounds;
            [self addSubview:effectView];
         
-        self.backgroundColor = [[HDAppSkin mainSkin] contentColorGrayalpha:0.1];
+//        self.backgroundColor = [[HDAppSkin mainSkin] contentColorGrayalpha:0.1];
         //创建ui
         [self creatUI];
     }

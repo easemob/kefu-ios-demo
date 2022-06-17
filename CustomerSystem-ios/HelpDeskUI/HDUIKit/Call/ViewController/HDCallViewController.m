@@ -1116,6 +1116,12 @@ static HDCallViewController *_manger = nil;
 // 成员离开回调
 - (void)onMemberExit:(HDAgoraCallMember *)member {
     NSLog(@"onMemberExit Member  member---- %@ ",member.memberName);
+    //先判断房间里边有没有人 如果么有人  删除界面
+    if ([HDAgoraCallManager shareInstance].hasJoinedMembers.count ==0) {
+        //退出 界面
+        [self  onCallEndReason:@"房间里没有人挂断会话"];
+        return;
+    }
     //先去小窗 查找 如果在小窗 有删除 刷新即可
     HDCallCollectionViewCellItem *deleteItem;
     

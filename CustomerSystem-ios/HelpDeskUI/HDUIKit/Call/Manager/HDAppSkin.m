@@ -30,6 +30,12 @@
     
 }
 
+- (UIColor *)contentColorBlueHX{
+    
+    return [UIColor hl_colorWithHex:@"#2189ff"];
+}
+
+
 - (UIColor *)contentColorBlockalpha:(CGFloat)alpha{
     
     return [UIColor colorWithRed:0 green: 0 blue:0 alpha:alpha];

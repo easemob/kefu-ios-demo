@@ -356,6 +356,7 @@ static HDVideoCallViewController *_manger = nil;
     self.parentView = nil;
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
     self.isVisitorSend = NO;
+    _isCurrenDeviceFront = YES;
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -485,11 +486,11 @@ static HDVideoCallViewController *_manger = nil;
     
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
     [HDLog logI:@"================vec1.2=====onCallEndReason  %@",[NSThread currentThread] ];
-    dispatch_async(dispatch_get_main_queue(), ^{
-//        UI更新代码
-    [HDLog logI:@"================vec1.2=====onCallEndReason  %@",[NSThread currentThread] ];
-        [self hangUpclearViewData];
-});
+  
+    [[HDAgoraCallManager shareInstance] leaveChannel];
+    
+    [self hangUpclearViewData];
+
    
 }
 //mark vec 独立访客端 收到坐席拒绝接通的邀请
@@ -498,11 +499,6 @@ static HDVideoCallViewController *_manger = nil;
     [self offBtnClicked:nil];
     
 }
-
-
-
-
-
 - (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
     
     
@@ -1209,8 +1205,6 @@ static HDVideoCallViewController *_manger = nil;
     NSLog(@"点击了扬声器事件");
 }
 
-
-
 #pragma mark - Call
 
 // 成员加入回调
@@ -1270,6 +1264,14 @@ static HDVideoCallViewController *_manger = nil;
 - (void)onMemberExit:(HDAgoraCallMember *)member {
     
     NSLog(@"onMemberExit Member  member---- %@ ",member.memberName);
+    
+    //先判断房间里边有没有人 如果么有人  删除界面
+    if ([HDAgoraCallManager shareInstance].hasJoinedMembers.count ==0) {
+        //退出 界面
+        [self  onCallEndReason:@"房间里没有人挂断会话"];
+        return;
+    }
+    
     //先去小窗 查找 如果在小窗 有删除 刷新即可
     HDCallCollectionViewCellItem *deleteItem;
     
@@ -1300,13 +1302,9 @@ static HDVideoCallViewController *_manger = nil;
           
             [self.smallWindowView removeCurrentCellItem:samllItem];
             [self.smallWindowView reloadData];
-            
-            
+        
             // 把删除的view 移除掉
-            
             [deleteItem.camView removeFromSuperview];
-            
-            
             [self updateBigVideoView:samllItem];
         
           
@@ -2061,7 +2059,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         make.leading.offset(5);
         make.trailing.offset(-5);
         make.bottom.offset (-5);
-        make.height.offset(self.view.height*0.4);
+        make.height.offset(self.view.height*0.45);
         
     }];
 }
@@ -2166,12 +2164,17 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
                     UIView *v =item.camView;
                     [self.ocrView addSubview: v];
                     [v mas_remakeConstraints:^(MASConstraintMaker *make) {
-                        make.top.offset(0);
-                        make.bottom.offset(0);
-                        make.leading.offset(0);
-                        make.trailing.offset(0);
-                        
+//                        make.top.offset(0);
+//                        make.bottom.offset(0);
+//                        make.leading.offset(0);
+//                        make.trailing.offset(0);
+                        CGFloat width =  [UIScreen mainScreen].bounds.size.width;
+                        make.centerX.mas_equalTo(self.ocrView.mas_centerX).offset(0);
+                        make.centerY.mas_equalTo(self.ocrView.mas_centerY).offset(0);
+                        make.width.offset(width);
+                        make.height.offset(width*1.5);
                     }];
+                    
                     [self.view addSubview:self.ocrView];
                     _ocrItem= item;
                     *stop = YES;
@@ -2294,13 +2297,8 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         }else{
             
             _isOcrCloseSwitchCamera = NO;
-            
         }
-        
-        
     }
-   
-    
 }
 // 隐藏画中画半屏 按钮功能
 - (void)hd_hiddenPictureInPictureScreen{

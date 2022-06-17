@@ -88,16 +88,14 @@
 //    headIV.transform = CGAffineTransformMakeRotation(M_PI * 0.5);
     headIV.contentMode = UIViewContentModeScaleAspectFill;
     [self addSubview:headIV];
-    
-    
 }
 #pragma mark - 添加扫描窗口
 -(void)addScaningWindow {
     // 中间包裹线
     _IDCardScanningWindowLayer = [CAShapeLayer layer];
     _IDCardScanningWindowLayer.position = self.layer.position;
-    CGFloat width = iPhone5or5cor5sorSE? 240: (iPhone6or6sor7? 270: 300);
-    _IDCardScanningWindowLayer.bounds = (CGRect){CGPointZero, {width, width * 1.574}};
+    CGFloat width =  [UIScreen mainScreen].bounds.size.width-40;
+    _IDCardScanningWindowLayer.bounds = (CGRect){CGPointZero, {width, width * 1.5}};
 //    _IDCardScanningWindowLayer.bounds = (CGRect){CGPointZero, {[UIScreen ], width *0.9}};
     _IDCardScanningWindowLayer.cornerRadius = 15;
     _IDCardScanningWindowLayer.borderColor = [UIColor whiteColor].CGColor;

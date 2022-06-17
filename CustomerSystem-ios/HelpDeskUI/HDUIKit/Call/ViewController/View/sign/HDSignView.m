@@ -7,7 +7,7 @@
 //
 
 #import "HDSignView.h"
-
+#import "HDAppSkin.h"
 @implementation HDSignView
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -25,7 +25,7 @@
     [self addSubview:self.hdDrawView];
     [self.hdDrawView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.offset(0);
-        make.bottom.offset(0);
+        make.bottom.offset(-96/2);
         make.leading.offset(0);
         make.trailing.offset(0);
 
@@ -36,16 +36,16 @@
 
         make.bottom.offset(-15);
         make.trailing.offset(-15);
-        make.width.offset(55);
-        make.height.offset(28);
+        make.width.offset(96);
+        make.height.offset(96/2);
 
     }];
     [self addSubview:self.resignBtn];
     [self.resignBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.offset(-15);
         make.leading.offset(15);
-        make.width.offset(28);
-        make.height.offset(28);
+        make.width.offset(96/2);
+        make.height.offset(96/2);
 
     }];
     
@@ -55,8 +55,6 @@
     self.hdDrawView.drawCallBack = ^(BOOL isFinished) {
         [weakSelf sureBtnEnable:isFinished];
     };
-    
-  
     
     [self sureBtnEnable:NO];
     
@@ -106,9 +104,6 @@
     self.sureBtn.alpha = bl ? 1 : 0.3;
 }
 
-
-
-
 - (HDDrawingBoardView *)hdDrawView{
     
     if (!_hdDrawView) {
@@ -143,10 +138,10 @@
         //为button赋值
 //        [_sureBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
         [_sureBtn setTitle:@"提交" forState:UIControlStateNormal];
-        _sureBtn.backgroundColor = [UIColor blueColor];
+        _sureBtn.backgroundColor = [[HDAppSkin mainSkin] contentColorBlueHX];
         _sureBtn.layer.cornerRadius = 5.0f;
         _sureBtn.layer.masksToBounds = YES;
-        _sureBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        _sureBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     }
     return _sureBtn;
 }

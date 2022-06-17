@@ -117,7 +117,7 @@ static HDAgoraCallManager *shareCall = nil;
                             callId  = (NSString *) [videoPlaybackDic valueForKey:@"callId"];
                         }
                         //调用挂掉视频操作
-                        [self agentHangUpCall:callId];
+//                        [self agentHangUpCall:callId];
                         return;
                     }
                 }
@@ -246,6 +246,8 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)leaveChannel{
     _isSetupLocalVideo = NO;
     [self.agoraKit leaveChannel:nil];
+    
+    [_members removeAllObjects];
 }
 - (void)joinChannel{
     [self hd_joinChannelByToken:[HDAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDAgoraCallManager shareInstance].keyCenter.agoraChannel info:nil uid:[[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
@@ -298,7 +300,6 @@ static HDAgoraCallManager *shareCall = nil;
 }
 - (void)endVecCall{
     [self leaveChannel];
-//    if([HDAgoraCallManager shareInstance].keyCenter.callid >0){
     //发送透传消息cmd
     EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"Agorartcmedia"];
     NSString *from = [[HDClient sharedClient] currentUsername];
@@ -321,14 +322,7 @@ static HDAgoraCallManager *shareCall = nil;
         NSLog(@"===%@",aError);
         
     }];
-//    }
-    
-    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
-    [self destroy];
-    
-  
-    
-    
+
 }
 - (void)refusedVecCall{
     
@@ -449,10 +443,7 @@ static HDAgoraCallManager *shareCall = nil;
         self.Completion(nil, nil);
         
     }];
-//    if ([HDAgoraCallManager shareInstance].keyCenter) {
-//        
-//        [self saveAppKeyCenter:[HDAgoraCallManager shareInstance].keyCenter];
-//    }
+
 }
 - (void)hd_saveShareDeskData:(HDKeyCenter *)keyCenter{
     
@@ -554,12 +545,8 @@ static HDAgoraCallManager *shareCall = nil;
     
     [HDLog logI:@"================vec1.2=====didOfflineOfUid _thirdAgentUid= %lu",(unsigned long)uid];
     //如果房间里边人 都么有了 就发送通知 关闭。如果有人 就不关闭
-  [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
+//  [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
    
-    if (self.members.count == 0 ) {
-        
-        return;
-    }
     //通知代理
     if([self.roomDelegate respondsToSelector:@selector(onMemberExit:)]){
         [self.roomDelegate onMemberExit:mem];
