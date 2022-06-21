@@ -357,6 +357,12 @@ static HDVideoCallViewController *_manger = nil;
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
     self.isVisitorSend = NO;
     _isCurrenDeviceFront = YES;
+    if (_isOcrCloseSwitchCamera) {
+        // 如果不是前置摄像头 需要自动切换摄像头
+        [[HDAgoraCallManager shareInstance] switchCamera];
+        _isOcrCloseSwitchCamera = NO;
+    }
+    
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
