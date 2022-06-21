@@ -21,6 +21,7 @@
     CAShapeLayer *_IDCardScanningWindowLayer;
     CAShapeLayer *_faceScanningWindowLayer;
     NSTimer *_timer;
+    BOOL _isSmallWindow;
 }
 
 @end
@@ -36,8 +37,8 @@
     return self;
 }
 
-- (void)setVideoScanType:(HDVideoIDCardScaningViewType)type{
-    
+- (void)setVideoScanType:(HDVideoIDCardScaningViewType)type withISSmallWindow:(BOOL)iSSmallWindow{
+    _isSmallWindow = iSSmallWindow;
     switch (type) {
         case HDVideoIDCardScaningViewTypeIDCard:
             // 添加扫描窗口
@@ -94,8 +95,20 @@
     // 中间包裹线
     _IDCardScanningWindowLayer = [CAShapeLayer layer];
     _IDCardScanningWindowLayer.position = self.layer.position;
+    
+    
     CGFloat width =  [UIScreen mainScreen].bounds.size.width-40;
-    _IDCardScanningWindowLayer.bounds = (CGRect){CGPointZero, {width, width * 1.5}};
+    CGFloat height;
+    if (_isSmallWindow) {
+        height = self.frame.size.height * 0.7;
+    }else{
+        height = width * 1.5;
+        
+    }
+    _IDCardScanningWindowLayer.bounds = (CGRect){CGPointZero, {width,height }};
+    
+    
+    
 //    _IDCardScanningWindowLayer.bounds = (CGRect){CGPointZero, {[UIScreen ], width *0.9}};
     _IDCardScanningWindowLayer.cornerRadius = 15;
     _IDCardScanningWindowLayer.borderColor = [UIColor whiteColor].CGColor;

@@ -17,5 +17,5 @@ typedef void(^ClickCloseIDCardBlock)(UIButton *btn,HDVideoIDCardScaningView * vi
 @property (nonatomic, strong) UIButton *closeBtn;
 @property (nonatomic, copy) ClickCloseIDCardBlock clickCloseIDCardBlock;
 
-- (void)setVideoScanType:(HDVideoIDCardScaningViewType)type;
+- (void)setVideoScanType:(HDVideoIDCardScaningViewType)type withISSmallWindow:(BOOL)iSSmallWindow;
 @end

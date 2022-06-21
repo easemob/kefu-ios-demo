@@ -1582,6 +1582,7 @@ static HDVideoCallViewController *_manger = nil;
     
 }
 - (void)uploadFile{
+   
     [HDUploadFileViewController sharedManager];
     
    
@@ -2168,11 +2169,34 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 //                        make.bottom.offset(0);
 //                        make.leading.offset(0);
 //                        make.trailing.offset(0);
-                        CGFloat width =  [UIScreen mainScreen].bounds.size.width;
+                        CGFloat width;
+                        
+                        if (ScanType == HDVideoIDCardScaningViewTypeIDCard) {
+                            
+                       
+                        
+                        if (_isSmallWindow) {
+                         
+                            width =  [UIScreen mainScreen].bounds.size.width;
+                            CGFloat heigth =  self.view.frame.size.height;
+                            make.width.offset(width);
+                            make.height.offset(heigth* 0.7);
+                            
+                        }else{
+                            
+                            width =  [UIScreen mainScreen].bounds.size.width;
+                            make.width.offset(width);
+                            make.height.offset(width*1.5);
+                        }
+                        }else{
+                            
+                          
+                            make.width.offset(self.view.frame.size.width);
+                            make.height.offset(self.view.frame.size.height);
+                        }
                         make.centerX.mas_equalTo(self.ocrView.mas_centerX).offset(0);
                         make.centerY.mas_equalTo(self.ocrView.mas_centerY).offset(0);
-                        make.width.offset(width);
-                        make.height.offset(width*1.5);
+                       
                     }];
                     
                     [self.view addSubview:self.ocrView];
@@ -2184,7 +2208,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     }
     // 添加自定义的扫描界面（中间有一个镂空窗口和来回移动的扫描线）
     HDVideoIDCardScaningView *idCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:self.view.frame];
-    [idCardScaningView setVideoScanType:ScanType];
+    [idCardScaningView setVideoScanType:ScanType withISSmallWindow:_isSmallWindow];
     _idCardScaningView =idCardScaningView;
     [self.view addSubview:_idCardScaningView];
     
@@ -2253,7 +2277,11 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     self.itemView.hidden = NO;
     self.smallWindowView.hidden = NO;
     self.hdTitleView.hidden = NO;
-    self.barView.hidden= NO;
+    
+    if (!_isSmallWindow) {
+        self.barView.hidden= NO;
+    }
+    
     [_idCardScaningView removeFromSuperview];
     
     if (self.ocrView == nil || _ocrItem == nil) {
