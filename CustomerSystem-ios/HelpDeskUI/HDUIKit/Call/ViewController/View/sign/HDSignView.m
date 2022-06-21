@@ -125,7 +125,7 @@
         _resignBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_resignBtn addTarget:self action:@selector(resignBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
-        [_resignBtn setImage:[UIImage imageNamed:@"vec_chexiao2.png"] forState:UIControlStateNormal];
+        [_resignBtn setImage:[UIImage imageNamed:@"vec_chexiao.png"] forState:UIControlStateNormal];
 //        [_resignBtn setTitle:@"撤销" forState:UIControlStateNormal];
 //        _resignBtn.transform = CGAffineTransformMakeRotation(M_PI_4);
 //        _resignBtn.backgroundColor = [UIColor blueColor];

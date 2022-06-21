@@ -2193,6 +2193,10 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 - (HDVideoLinkMessagePush *)hdVideoLinkMessagePush{
     if (!_hdVideoLinkMessagePush) {
         _hdVideoLinkMessagePush = [[HDVideoLinkMessagePush alloc] init];
+        _hdVideoLinkMessagePush.layer.cornerRadius = 5.0f;
+        _hdVideoLinkMessagePush.layer.masksToBounds = YES;
+        _hdVideoLinkMessagePush.layer.shadowOpacity = 0.5;
+        _hdVideoLinkMessagePush.layer.shadowRadius = 15;
         kWeakSelf
         _hdVideoLinkMessagePush.clickIframeCloseBlock = ^(NSString *  content) {
             
