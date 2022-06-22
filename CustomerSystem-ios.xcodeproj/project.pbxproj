@@ -67,8 +67,6 @@
 		909614E921534DC500B1F8E3 /* commodityInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3CE331D1F0610FA00A9649E /* commodityInfo.plist */; };
 		90BE1E3D2216C656007D17A1 /* UIViewController+AlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BE1E3C2216C656007D17A1 /* UIViewController+AlertController.m */; };
 		90EE4C5523548CD200DEE8CA /* HRobotUnsolveItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */; };
-		930190CA285862AB0043EDC9 /* idcard_first_head.png in Resources */ = {isa = PBXBuildFile; fileRef = 930190C9285862AA0043EDC9 /* idcard_first_head.png */; };
-		930190CC285867420043EDC9 /* idcard_first_head11.png in Resources */ = {isa = PBXBuildFile; fileRef = 930190CB285867420043EDC9 /* idcard_first_head11.png */; };
 		930CCE7627C39639004DA60D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; };
 		930E320E27E03AE500455C7E /* HDAccountmanager.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E320D27E03AE500455C7E /* HDAccountmanager.m */; };
 		930E321C27E03E9800455C7E /* HDCallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E321027E03E9600455C7E /* HDCallCollectionViewCell.m */; };
@@ -85,6 +83,7 @@
 		93214908281130BE00E08528 /* HDWhiteConverterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93214907281130BD00E08528 /* HDWhiteConverterManager.m */; };
 		933C4C8927E1E847001678B0 /* HDSSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4C8727E1E847001678B0 /* HDSSKeychain.m */; };
 		933C4CA927E4A117001678B0 /* HDPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4CA727E4A116001678B0 /* HDPopoverViewController.m */; };
+		933DD5232862BB7200A3523A /* idcard_first_head.png in Resources */ = {isa = PBXBuildFile; fileRef = 933DD5222862BB7200A3523A /* idcard_first_head.png */; };
 		9363DAE22816968100DB5F00 /* HDTransformButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9363DAE12816968100DB5F00 /* HDTransformButton.m */; };
 		9367CDE527FD5E8D008479D8 /* CustomFastboardOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDE127FD5E88008479D8 /* CustomFastboardOverlay.m */; };
 		9367CDE627FD5E8D008479D8 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9367CDE427FD5E8C008479D8 /* Utility.m */; };
@@ -647,8 +646,6 @@
 		90BE1E3C2216C656007D17A1 /* UIViewController+AlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AlertController.m"; sourceTree = "<group>"; };
 		90EE4C5323548CD200DEE8CA /* HRobotUnsolveItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HRobotUnsolveItemView.h; sourceTree = "<group>"; };
 		90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HRobotUnsolveItemView.m; sourceTree = "<group>"; };
-		930190C9285862AA0043EDC9 /* idcard_first_head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = idcard_first_head.png; path = ../../../../../../../../../Downloads/idcard_first_head.png; sourceTree = "<group>"; };
-		930190CB285867420043EDC9 /* idcard_first_head11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = idcard_first_head11.png; sourceTree = "<group>"; };
 		930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = HyphenateChat.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/imsdk/HyphenateChat.xcframework"; sourceTree = "<group>"; };
 		930E320C27E03AE500455C7E /* HDAccountmanager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAccountmanager.h; sourceTree = "<group>"; };
 		930E320D27E03AE500455C7E /* HDAccountmanager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAccountmanager.m; sourceTree = "<group>"; };
@@ -681,6 +678,7 @@
 		933C4C8827E1E847001678B0 /* HDSSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HDSSKeychain.h; path = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Call/Manager/HDSSKeychain.h"; sourceTree = SOURCE_ROOT; };
 		933C4CA727E4A116001678B0 /* HDPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDPopoverViewController.m; sourceTree = "<group>"; };
 		933C4CA827E4A117001678B0 /* HDPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDPopoverViewController.h; sourceTree = "<group>"; };
+		933DD5222862BB7200A3523A /* idcard_first_head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = idcard_first_head.png; sourceTree = "<group>"; };
 		933FD22D28092A3100CE797E /* CustomerSystem-ScreenShare-Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ScreenShare-Extension.entitlements"; sourceTree = "<group>"; };
 		933FD22E28092AB900CE797E /* CustomerSystem-ScreenShare-ExtensionRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ScreenShare-ExtensionRelease.entitlements"; sourceTree = "<group>"; };
 		9363DAE02816968100DB5F00 /* HDTransformButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDTransformButton.h; sourceTree = "<group>"; };
@@ -1449,43 +1447,42 @@
 		9086151020B43A54002E71DA /* HCallResources */ = {
 			isa = PBXGroup;
 			children = (
-				93FA0F7F28615EBB00C1188E /* vec_chexiao.png */,
-				930190CB285867420043EDC9 /* idcard_first_head11.png */,
-				930190C9285862AA0043EDC9 /* idcard_first_head.png */,
-				9086151120B43A54002E71DA /* shareDesktop@2x.png */,
-				9086151220B43A54002E71DA /* record.png */,
-				9086151320B43A54002E71DA /* on.png */,
-				9086151420B43A54002E71DA /* screen1.png */,
-				9086151520B43A54002E71DA /* record off@2x.png */,
-				9086151620B43A54002E71DA /* camera@2x.png */,
-				9086151720B43A54002E71DA /* mac on.png */,
-				9086151820B43A54002E71DA /* screen2.png */,
-				9086151920B43A54002E71DA /* off.png */,
-				9086151A20B43A54002E71DA /* show.png */,
-				9086151B20B43A54002E71DA /* videoOff.png */,
-				9086151C20B43A54002E71DA /* hide@2x.png */,
-				9086151D20B43A54002E71DA /* record@2x.png */,
-				9086151E20B43A54002E71DA /* mac on@2x.png */,
-				9086151F20B43A54002E71DA /* screen1@2x.png */,
-				9086152020B43A54002E71DA /* video on@2x.png */,
-				9086152120B43A54002E71DA /* sound.png */,
-				9086152220B43A54002E71DA /* record off.png */,
-				9086152320B43A54002E71DA /* off@2x.png */,
-				9086152420B43A54002E71DA /* share desktop on.png */,
-				9086152520B43A54002E71DA /* sound@2x.png */,
-				9086152620B43A54002E71DA /* show@2x.png */,
-				9086152720B43A54002E71DA /* video on.png */,
-				9086152820B43A54002E71DA /* on@2x.png */,
-				9086152920B43A54002E71DA /* share desktop on@2x.png */,
-				9086152A20B43A54002E71DA /* screen2@2x.png */,
-				9086152B20B43A54002E71DA /* macOff.png */,
-				9086152C20B43A54002E71DA /* mute.png */,
-				9086152D20B43A54002E71DA /* shareDesktop.png */,
 				9086152E20B43A54002E71DA /* camera.png */,
-				9086152F20B43A54002E71DA /* videoOff@2x.png */,
-				9086153020B43A54002E71DA /* mute@2x.png */,
+				9086151620B43A54002E71DA /* camera@2x.png */,
 				9086153120B43A54002E71DA /* hide.png */,
+				9086151C20B43A54002E71DA /* hide@2x.png */,
+				933DD5222862BB7200A3523A /* idcard_first_head.png */,
+				9086151720B43A54002E71DA /* mac on.png */,
+				9086151E20B43A54002E71DA /* mac on@2x.png */,
+				9086152B20B43A54002E71DA /* macOff.png */,
 				9086153220B43A54002E71DA /* macOff@2x.png */,
+				9086152C20B43A54002E71DA /* mute.png */,
+				9086153020B43A54002E71DA /* mute@2x.png */,
+				9086151920B43A54002E71DA /* off.png */,
+				9086152320B43A54002E71DA /* off@2x.png */,
+				9086151320B43A54002E71DA /* on.png */,
+				9086152820B43A54002E71DA /* on@2x.png */,
+				9086152220B43A54002E71DA /* record off.png */,
+				9086151520B43A54002E71DA /* record off@2x.png */,
+				9086151220B43A54002E71DA /* record.png */,
+				9086151D20B43A54002E71DA /* record@2x.png */,
+				9086151420B43A54002E71DA /* screen1.png */,
+				9086151F20B43A54002E71DA /* screen1@2x.png */,
+				9086151820B43A54002E71DA /* screen2.png */,
+				9086152A20B43A54002E71DA /* screen2@2x.png */,
+				9086152420B43A54002E71DA /* share desktop on.png */,
+				9086152920B43A54002E71DA /* share desktop on@2x.png */,
+				9086152D20B43A54002E71DA /* shareDesktop.png */,
+				9086151120B43A54002E71DA /* shareDesktop@2x.png */,
+				9086151A20B43A54002E71DA /* show.png */,
+				9086152620B43A54002E71DA /* show@2x.png */,
+				9086152120B43A54002E71DA /* sound.png */,
+				9086152520B43A54002E71DA /* sound@2x.png */,
+				93FA0F7F28615EBB00C1188E /* vec_chexiao.png */,
+				9086152720B43A54002E71DA /* video on.png */,
+				9086152020B43A54002E71DA /* video on@2x.png */,
+				9086151B20B43A54002E71DA /* videoOff.png */,
+				9086152F20B43A54002E71DA /* videoOff@2x.png */,
 			);
 			path = HCallResources;
 			sourceTree = "<group>";
@@ -3215,7 +3212,6 @@
 				EB4B068C1AC685E900DCF67B /* chatFire_audioPlaying3@2x.png in Resources */,
 				EB4B068B1AC685E900DCF67B /* chatFire_audioPlaying3.png in Resources */,
 				D20066511EF23274005B558D /* list2@2x.png in Resources */,
-				930190CC285867420043EDC9 /* idcard_first_head11.png in Resources */,
 				9086154620B43A54002E71DA /* video on@2x.png in Resources */,
 				EB4B06B11AC685E900DCF67B /* VoiceSearchFeedback019.png in Resources */,
 				EB4B06941AC685E900DCF67B /* VoiceSearchFeedback004@2x.png in Resources */,
@@ -3348,9 +3344,9 @@
 				EB4B06C01AC685E900DCF67B /* chatBar_more_card@2x.png in Resources */,
 				D20066521EF23274005B558D /* list2@3x.png in Resources */,
 				937E92482851AEA000A71B32 /* File.js in Resources */,
-				930190CA285862AB0043EDC9 /* idcard_first_head.png in Resources */,
 				D20066381EF23274005B558D /* em_example_image_1.png in Resources */,
 				EB4B07751AC6922C00DCF67B /* chatBar_colorMore_location@2x.png in Resources */,
+				933DD5232862BB7200A3523A /* idcard_first_head.png in Resources */,
 				EB4B06841AC685E900DCF67B /* people@2x.png in Resources */,
 				EB4B06FD1AC685E900DCF67B /* tabbar_settingHL@2x.png in Resources */,
 				9086153A20B43A54002E71DA /* screen1.png in Resources */,
