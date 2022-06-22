@@ -246,7 +246,7 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)leaveChannel{
     _isSetupLocalVideo = NO;
     [self.agoraKit leaveChannel:nil];
-    
+    [HDCallManager shareInstance].isVecVideo =NO;
     [_members removeAllObjects];
 }
 - (void)joinChannel{

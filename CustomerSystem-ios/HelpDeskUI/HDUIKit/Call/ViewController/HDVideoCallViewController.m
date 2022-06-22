@@ -189,7 +189,7 @@ static HDVideoCallViewController *_manger = nil;
 }
 - (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(nonnull NSString *)aNickname{
 //    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
-
+    [HDCallManager shareInstance].isVecVideo = YES;
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
     if (!isCalling) {
         
@@ -363,6 +363,7 @@ static HDVideoCallViewController *_manger = nil;
         _isOcrCloseSwitchCamera = NO;
     }
     
+
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -780,6 +781,7 @@ static HDVideoCallViewController *_manger = nil;
     self.isVisitorSend = YES;
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     lgM.isVEC =YES;
+    [HDCallManager shareInstance].isVecVideo= YES;
     HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [message addContent:lgM.visitorInfo];
     
