@@ -207,6 +207,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
         if ([lgM loginKefuSDK]) {
             
+            
+            
+//            [[HDClient sharedClient].chatManager getEnterpriseWelcomeWithCompletion:^(NSString *welcome, HDError *error) {
+//                            
+//            }];
+            
+            
             [weakHud hideAnimated:YES];
             NSString *queue = nil;
             if ([notification.object objectForKey:kpreSell]) {

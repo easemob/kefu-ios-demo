@@ -98,7 +98,7 @@ static HDAgoraCallManager *shareCall = nil;
     if (aMessages.count == 0) {
         return;
     }
-    for (EMMessage *msg in aMessages) {
+    for (EMChatMessage *msg in aMessages) {
         if (msg.ext) {
             NSDictionary *dic = [msg.ext objectForKey:@"msgtype"];
             if (dic) {

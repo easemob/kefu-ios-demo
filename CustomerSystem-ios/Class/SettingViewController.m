@@ -24,6 +24,7 @@
     NSString *_projectId;
     NSString *_nickname;
     NSString *_configId;
+
 }
 
 @end
@@ -135,7 +136,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 7;
+    return 8;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -225,11 +226,12 @@
             tempLabel.text = _configId;
         }
             break;
-//        case 7:
-//        {
-//            cell.textLabel.text = NSLocalizedString(@"测试欢迎语翻译接口", @"configId");
-//        }
-//            break;
+        case 7:
+        {
+            cell.textLabel.text = NSLocalizedString(@"title.username",@"username" );
+            tempLabel.text = [[HDClient sharedClient] currentUsername];
+        }
+            break;
         default:
             break;
     }
@@ -324,12 +326,14 @@
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
-//        case 7:
-//        {
+        case 7:
+        {
 //            HDTestViewController *testViewController = [[HDTestViewController alloc] init];
 //            [self.navigationController pushViewController:testViewController animated:YES];
-//        }
-//            break;
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"username" content:[[HDClient sharedClient] currentUsername]];
+            [self.navigationController pushViewController:editController animated:YES];
+        }
+            break;
         default:
             break;
     }
