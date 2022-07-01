@@ -25,6 +25,7 @@
 #import "HDBubbleView+Form.h"
 #import "HDBubbleView+Article.h"
 #import "HDBubbleView+Gif.h"
+#import "HDBubbleView+WebBubbleView.h"
 #import "UIImageView+HDWebCache.h"
 #import "HDEmotionEscape.h"
 #import "HDLocalDefine.h"
@@ -52,6 +53,7 @@ NSString *const HDMessageCellIdentifierRecvFile = @"HDMessageCellRecvFile";
 NSString *const HDMessageCellIdentifierRecvForm = @"HDMessageCelRecvForm";
 
 NSString *const HDMessageCellIdentifierSendText = @"HDMessageCellSendText";
+NSString *const HDMessageCellIdentifierSendTextHtml = @"HDMessageCellSendTextHtml";
 NSString *const HDMessageCellIdentifierSendTrack = @"HDMessageCellSendTrack";
 NSString *const HDMessageCellIdentifierSendBigExpression = @"HDMessageCellSendBigExpression";
 NSString *const HDMessageCellIdentifierSendOrder = @"HDMessageCellSendOrder";
@@ -219,6 +221,10 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         break;
                     case HDExtBigExpressionMsg:  {
                         [_bubbleView setupGifBubbleView];
+                        break;
+                    }
+                    case HDExtGeneralMsgHtml:  {
+                        [_bubbleView  setupHtmlBubbleView];
                         break;
                     }
                     default:
@@ -541,6 +547,12 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         [_bubbleView.imageView hdSD_setImageWithURL:[NSURL URLWithString:emojiUrl] placeholderImage:[UIImage imageNamed:_model.failImageName]];
                         break;
                     }
+                    case HDExtGeneralMsgHtml: {
+                       
+                        NSString *content = model.text;
+                        [_bubbleView setJson:content];
+                        break;
+                    }
                     default:
                     {
                         NSString *content = model.text;
@@ -772,6 +784,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             [_bubbleView updateEvaluateMargin:_bubbleMargin];
                             break;
                         case HDExtBigExpressionMsg:
+                            [_bubbleView updateGifMargin:_bubbleMargin];
+                            break;
+                        case HDExtGeneralMsgHtml:
                             [_bubbleView updateGifMargin:_bubbleMargin];
                             break;
                         default:
@@ -1054,6 +1069,10 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     {
                         cellIdentifier = HDMessageCellIdentifierSendText;
                     }
+                    case HDExtGeneralMsgHtml:
+                    {
+                        cellIdentifier = HDMessageCellIdentifierSendTextHtml;
+                    }
                     default:
                         break;
                 }
@@ -1106,6 +1125,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         break;
                     case HDExtBigExpressionMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvBigExpression;
+                        break;
+                    case HDExtGeneralMsgHtml:
+                        cellIdentifier = HDMessageCellIdentifierSendTextHtml;
                         break;
                     default:
                         cellIdentifier = HDMessageCellIdentifierRecvText;
@@ -1202,6 +1224,11 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     height += (rect.size.height > 20 ? rect.size.height : 20) + 21;
                     height += 50;
                     return height;
+                }
+                case HDExtGeneralMsgHtml:
+                {
+                   
+                    return [UIScreen mainScreen].bounds.size.width*0.7;
                 }
                 default:
                 {

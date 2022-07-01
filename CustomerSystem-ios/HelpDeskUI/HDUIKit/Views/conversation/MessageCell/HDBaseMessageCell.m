@@ -99,6 +99,16 @@
                 }
     
                     break;
+                case HDExtGeneralMsgHtml:
+                {
+                    [self.bubbleView hdmas_updateConstraints:^(MASConstraintMaker *make) {
+                    
+                        float with = [UIScreen mainScreen].bounds.size.width *0.7;
+                        make.width.equalTo(with);
+        
+                    }];
+                }
+                    break;
                 default:break;
             }
             

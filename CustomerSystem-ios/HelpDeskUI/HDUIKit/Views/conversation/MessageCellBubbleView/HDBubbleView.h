@@ -13,6 +13,7 @@
 #import <UIKit/UIKit.h>
 #import "HDArticleView.h"
 #import "HDTransformButton.h"
+#import <WebKit/WebKit.h>
 #define kBigExpressionHW 100
 
 extern CGFloat const HDMessageCellPadding;
@@ -128,6 +129,10 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 @property (strong, nonatomic) UIImageView *formIconView;
 @property (strong, nonatomic) UILabel *formTitleLabel;
 @property (strong, nonatomic) UILabel *formDescLabel;
+
+//html
+@property (nonatomic, strong) WKWebView *webView;
+@property (strong, nonatomic) UILabel *htmlLabel;
 
 - (instancetype)initWithMargin:(UIEdgeInsets)margin
                       isSender:(BOOL)isSender;
