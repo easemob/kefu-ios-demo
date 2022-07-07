@@ -60,6 +60,9 @@ typedef void(^ClickCloseCallBlock)(UIButton *btn);
 - (void)endCallLayout;
 - (HDVideoLayoutModel*)getSettingModel;
 
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

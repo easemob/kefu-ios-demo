@@ -176,6 +176,9 @@
 //            [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.hangup", @"挂断") forState:UIControlStateNormal];
             _hangUpLabel.text =NSLocalizedString(@"video.answer.hangup", @"挂断");
             self.closeBtn.hidden = YES;
+            
+            [self startTimer];
+            
             break;
         case HDVideoProcessLineUp:
             //排队页面
@@ -210,7 +213,7 @@
 // 开始计时
 - (void)startTimer {
     _time = 0;
-    _timer = [NSTimer timerWithTimeInterval:1
+    _timer = [NSTimer timerWithTimeInterval:3
                                      target:self
                                    selector:@selector(updateTime)
                                    userInfo:nil
@@ -218,26 +221,86 @@
     [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
 
-//- (void)updateTime {
-//
+- (void)updateTime {
+
 //    if (_num > 2) {
 //        _num = 0;
 //    }
 //    NSArray *array = @[@".",@"..",@"..."];
 //    self.answerLabel.text = [NSString stringWithFormat:@"收到视频通话%@",array[_num]];
 //    _num++;
-//}
+    
+    
+    [[HDClient sharedClient].callManager hd_getVisitorCurrentWaitingSessionid:nil Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+            
+//        {
+//          "status": "OK",
+//          "entity": {
+//            "waitingFlag":"true",
+//            "visitorWaitingNumber": "您目前排在第 1 位",
+//            "visitorWaitingTimestamp": "1655716146750"
+//          }
+//        }
+        
+        if (error == nil) {
+        
+            if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                NSDictionary * dic = responseObject;
+                NSDictionary *  entity = [dic objectForKey:@"entity"];
+                if ([[entity allKeys] containsObject:@"waitingFlag"]) {
+                    
+                    NSString * waitingFlag = [entity valueForKey:@"waitingFlag"];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSString * visitorWaitingNumber = [entity valueForKey:@"visitorWaitingNumber"];
+                        if ([waitingFlag isEqualToString:@"true"]) {
+                            
+                           
+                            
+                            if (self.processType != HDVideoProcessEnd) {
+                                self.answerLabel.text = visitorWaitingNumber;
+                            }
+                            
+                        }else{
+                            
+                            if (self.processType != HDVideoProcessEnd) {
+                                self.answerLabel.text = visitorWaitingNumber;
+                            }
+                            [self stopTimer];
+                        }
+                        
+                    });
+                    
+                    
+                }
+                
+                
+            }
+            
+            NSLog(@"=====%@",responseObject);
+            
+        }
+        
+        
+        
+        
+    }];
+    
+    
+    
+}
 //- (void)updateTime {
 //    _time++;
 //    self.timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",_time / 3600, (_time % 3600) / 60, _time % 60];
 //}
 // 停止计时
-//- (void)stopTimer {
-//    if (_timer) {
-//        [_timer invalidate];
-//        _timer = nil;
-//    }
-//}
+- (void)stopTimer {
+    if (_timer) {
+        [_timer invalidate];
+        _timer = nil;
+    }
+}
 - (void)layoutSubviews{
     [super layoutSubviews];
     
