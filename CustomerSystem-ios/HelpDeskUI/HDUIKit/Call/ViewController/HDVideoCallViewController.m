@@ -2134,7 +2134,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     _pushflowId = [self getFlowId:dic];
     
     //创建 webview 加载 url
-    if ([[dic allKeys] containsObject:@"type"]) {
+    if ([[dic allKeys] containsObject:@"content"]) {
         
 //        NSString * iframe = [dic objectForKey:@"type"];
         
@@ -2144,7 +2144,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             // iframe 页面
             heightRatio = [[contentDic objectForKey:@"heightRatio"] floatValue];
             NSString * content = [contentDic objectForKey:@"content"];
-            NSString * link = [contentDic objectForKey:@"link"];
+            NSString * link = [contentDic objectForKey:@"type"];
             [self hd_hiddenPictureInPictureScreen];
             if (![link isKindOfClass:[NSNull class]] && link.length > 0 ) {
                 
