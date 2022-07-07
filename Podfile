@@ -11,7 +11,7 @@ pod 'AgoraRtcEngine_iOS','3.6.1'
 pod 'Fastboard', :git => 'https://github.com/netless-io/fastboard-iOS'
 pod 'TZImagePickerController'
 end
-
+        
 target 'CustomerSystem-ScreenShare-Extension' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!

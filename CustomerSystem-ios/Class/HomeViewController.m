@@ -240,7 +240,10 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //                 [self.navigationController pushViewController:chat animated:YES];
                 
                 //todo 创建视频等待界面  调用接口 vec 使用
-                [CSDemoAccountManager shareLoginManager].isVEC = YES;
+//                [CSDemoAccountManager shareLoginManager].isVEC = YES;
+                [HDClient sharedClient].callManager.isVecVideo = YES;
+                
+                [HDClient sharedClient].enableVisitorAccelerator = NO;
                 [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
 
@@ -665,9 +668,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter{
     
     [HDLog logI:@"================vec1.2=====onCallReceivedParameter= %@",[NSThread currentThread] ];
-    if ([CSDemoAccountManager shareLoginManager].isVEC) {
+    if ([HDClient sharedClient].callManager.isVecVideo) {
        
         [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息: "];
+        
+        if (keyCenter && keyCenter.isAgentCancelCallbackReceive) {
+            [[HDVideoCallViewController sharedManager]  removeView];
+
+            [[HDVideoCallViewController sharedManager] removeSharedManager];
+        }else{
         
         [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoDirectionReceive withVisitornickName:keyCenter.visitorNickName];
         [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
@@ -676,6 +685,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             [[HDVideoCallViewController sharedManager] removeSharedManager];
 
         };
+        }
 //        [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
 //        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
 //

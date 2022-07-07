@@ -78,6 +78,7 @@
 
 - (void)setItemString:(NSString *)str{
     
+    if (str) {
     [self.nickNameBtn setTitle:str forState:UIControlStateNormal];
     CGFloat with = [self setTextWidth:str];
     [self.nickNameBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -85,6 +86,7 @@
         make.centerX.mas_equalTo(self);
         make.width.offset(with);
     }];
+    }
 }
 
 

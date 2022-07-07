@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HDVideoLayoutModel.h"
 #import "HDVideoVerticalAlignmentLabel.h"
+#import "HDVideoAnswerCallBackView.h"
 /*
  *
  */
@@ -36,21 +37,23 @@ typedef void(^ClickCloseCallBlock)(UIButton *btn);
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UIImageView *icon;
 @property (nonatomic, strong) UIImageView *bgImageView;
-@property (nonatomic, strong) UIButton *onBtn;
-@property (nonatomic, strong) UIButton *offBtn;
+//@property (nonatomic, strong) UIButton *onBtn;
+//@property (nonatomic, strong) UIButton *offBtn;
 @property (nonatomic, strong) UIButton *hangUpBtn;
 @property (nonatomic, strong) UILabel *hangUpLabel;
 @property (nonatomic, strong) UIButton *closeBtn;
 @property (nonatomic, strong) HDVideoVerticalAlignmentLabel *answerLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *timeLabel;
+//@property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *nickNameLabel;
 @property (nonatomic, copy) ClickVideoOnBlock clickOnBlock;
 @property (nonatomic, copy) ClickVideoOffBlock clickOffBlock;
 @property (nonatomic, copy) ClickVideoOnCallBlock clickVideoOnCallBlock;
 @property (nonatomic, copy) ClickCloseCallBlock clickCloseCallBlock;
 @property (nonatomic, assign) HDVideoType callType;
+@property (nonatomic, assign) BOOL isAnswerCallBack;
 @property (nonatomic, assign) HDVideoProcessType processType;
+@property (nonatomic, strong) HDVideoAnswerCallBackView *answerCallBackView;
 
 -(void) hd_createUIWithCallType:(HDVideoType )callType;
 - (void)updateServiceLayoutConfig:(HDVideoLayoutModel *)model;

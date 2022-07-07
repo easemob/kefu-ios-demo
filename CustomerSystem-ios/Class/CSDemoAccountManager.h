@@ -32,7 +32,6 @@
 @property (nonatomic, strong) NSString *projectId;  // 您客服系统中的租户ID(管理员登录客服系统-管理员模式-渠道管理-手机APP-关联APP-关联ID)
 
 @property (nonatomic, assign) BOOL isLogged;
-@property (nonatomic, assign) BOOL isVEC;
 
 + (instancetype)shareLoginManager;
 - (BOOL)loginKefuSDK;

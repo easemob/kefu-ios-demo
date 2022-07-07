@@ -153,7 +153,7 @@ static HDVideoCallViewController *_manger = nil;
     _manger=nil;
 
     [self cancelWindow];
-    
+    [HDAgoraCallManager shareInstance].keyCenter.isAgentCancelCallbackReceive = NO;
     [HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
 }
 - (void)removeAllSubviews {
@@ -223,12 +223,17 @@ static HDVideoCallViewController *_manger = nil;
 //                self.isVisitorSend = NO;
 //            }
         
-            if (keyCenter.isAgentCallBackReceive) {
+            if (keyCenter.isAgentCallBackReceive && !keyCenter.agoraAppid) {
                 //回呼过来的通话
              self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
+                
             // 其他情况下都是 坐席回拨过来的
             self.isVisitorSend = NO;
             }else{
+                
+                
+               
+                
                 [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 坐席回拨过来了 "];
                 //访客发起后 坐席回拨过来了
                 [self anwersBtnClicked:nil];
@@ -307,10 +312,15 @@ static HDVideoCallViewController *_manger = nil;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableDidSelected:) name:@"click" object:nil];
     [self.view addSubview:self.hdVideoAnswerView];
     [self.hdVideoAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.width.offset([UIScreen mainScreen].bounds.size.width * 0.8);
-                make.height.offset([UIScreen mainScreen].bounds.size.width * 0.8 * 1.3);
-                make.centerX.mas_equalTo(self.view);
-                make.centerY.mas_equalTo(self.view);
+//                make.width.offset([UIScreen mainScreen].bounds.size.width * 0.8);
+//                make.height.offset([UIScreen mainScreen].bounds.size.width * 0.8 * 1.3);
+//        make.centerX.mas_equalTo(self.view);
+//        make.centerY.mas_equalTo(self.view);
+        make.top.offset(0);
+        make.bottom.offset(0);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+               
             }];
    
    
@@ -363,7 +373,10 @@ static HDVideoCallViewController *_manger = nil;
         _isOcrCloseSwitchCamera = NO;
     }
     
-
+    if (self.hdVideoAnswerView.hidden) {
+    
+        self.hdVideoAnswerView.hidden = NO;
+    }
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -780,7 +793,6 @@ static HDVideoCallViewController *_manger = nil;
     
     self.isVisitorSend = YES;
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    lgM.isVEC =YES;
     [HDCallManager shareInstance].isVecVideo= YES;
     HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [message addContent:lgM.visitorInfo];
@@ -862,7 +874,15 @@ static HDVideoCallViewController *_manger = nil;
        _hdVideoAnswerView.layer.shadowRadius = 15;
        __weak __typeof__(self) weakSelf = self;
        _hdVideoAnswerView.clickOnBlock = ^(UIButton * _Nonnull btn) {
-           [weakSelf anwersBtnClicked:btn];
+//           [weakSelf anwersBtnClicked:btn];
+           // 如果是回呼需要点击接收的时候 发送cmd 通知
+           if ([HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
+               //
+               CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+               HDMessage * message =  [[HDClient sharedClient].callManager hd_visitorAcceptInvitationMessageWithImId:lgM.cname content:@"访客接受视频邀请"];
+               [weakSelf _sendMessage:message];
+               
+           }
        };
        _hdVideoAnswerView.clickOffBlock = ^(UIButton * _Nonnull btn) {
            [weakSelf offBtnClicked:btn];
@@ -964,17 +984,12 @@ static HDVideoCallViewController *_manger = nil;
 /// @param sender  button
 - (void)anwersBtnClicked:(UIButton *)sender{
     
-    // 如果是回呼需要点击接收的时候 发送cmd 通知
-    if ([HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
-        //
-        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-        HDMessage * message =  [[HDClient sharedClient].callManager hd_visitorAcceptInvitationMessageWithImId:lgM.cname content:@"访客接受视频邀请"];
-        [self _sendMessage:message];
-    }
-    
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked "];
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorWhitealpha:1];
-
+    if (self.hdVideoAnswerView.answerCallBackView) {
+        [self.hdVideoAnswerView.answerCallBackView removeFromSuperview];
+        self.hdVideoAnswerView.answerCallBackView = nil;
+    }
     self.hdVideoAnswerView.hidden = YES;
     //应答的时候 在创建view
     //添加 页面布局
@@ -1019,29 +1034,37 @@ static HDVideoCallViewController *_manger = nil;
 - (void)hangUpclearViewData{
     [self clearViewData];
     // 把vec 置为初始值
-    [CSDemoAccountManager shareLoginManager].isVEC = NO;
+    if ([HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive && [HDAgoraCallManager shareInstance].keyCenter.isAgentCancelCallbackReceive ) {
+    
+        
+    }else{
+        
+//        [CSDemoAccountManager shareLoginManager].isVEC = NO;
+        [HDClient sharedClient].callManager.isVecVideo = NO;
+    }
+    
     [self.hdVideoAnswerView endCallLayout];
 
-    if (self.hdVideoAnswerView.hidden) {
-    
-        self.hdVideoAnswerView.hidden = NO;
-    }
+  
     
 }
 
 /// 拒接事件
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{
-  
+    isCalling = NO;
     // 如果是回呼需要点击接收的时候 发送cmd 通知
     if ([HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
         //
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
        HDMessage *message=  [[HDClient sharedClient].callManager hd_visitorRejectInvitationMessageWithImId:lgM.cname content:@"访客接受视频邀请"];
         [self _sendMessage:message];
+        [HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
+        [[HDVideoCallViewController sharedManager]  removeView];
+        [[HDVideoCallViewController sharedManager] removeSharedManager];
+        return;
     }
     
-    isCalling = NO;
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
     [[HDAgoraCallManager shareInstance] endVecCall];
     [self.hdTitleView stopTimer];
@@ -1051,7 +1074,7 @@ static HDVideoCallViewController *_manger = nil;
     [self.hdVideoAnswerView endCallLayout];
 
     if (self.hdVideoAnswerView.hidden) {
-    
+        
         self.hdVideoAnswerView.hidden = NO;
 
     }
@@ -1071,11 +1094,11 @@ static HDVideoCallViewController *_manger = nil;
     
     [self.hdVideoAnswerView endCallLayout];
 
-    if (self.hdVideoAnswerView.hidden) {
-    
-        self.hdVideoAnswerView.hidden = NO;
-
-    }
+//    if (self.hdVideoAnswerView.hidden) {
+//
+//        self.hdVideoAnswerView.hidden = NO;
+//
+//    }
     
 }
 - (UIView *)parentView{
@@ -2113,25 +2136,34 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     //创建 webview 加载 url
     if ([[dic allKeys] containsObject:@"type"]) {
         
-        NSString * iframe = [dic objectForKey:@"type"];
-        NSDictionary *content =[dic objectForKey:@"content"];
+//        NSString * iframe = [dic objectForKey:@"type"];
+        
+        NSDictionary *contentDic =[dic objectForKey:@"content"];
         float  heightRatio = 0.5;
-        if ([iframe isEqualToString:@"iframe"]) {
+        if (contentDic) {
             // iframe 页面
-            heightRatio = [[content objectForKey:@"heightRatio"] floatValue];
-            NSString * url = [content objectForKey:@"url"];
-           
+            heightRatio = [[contentDic objectForKey:@"heightRatio"] floatValue];
+            NSString * content = [contentDic objectForKey:@"content"];
+            NSString * link = [contentDic objectForKey:@"link"];
             [self hd_hiddenPictureInPictureScreen];
-            [self.view addSubview:self.hdVideoLinkMessagePush];
-            
-            [self.hdVideoLinkMessagePush mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.leading.offset(0);
-                make.trailing.offset(0);
-                make.bottom.offset (0);
-                make.height.offset(self.view.height*heightRatio);
+            if (![link isKindOfClass:[NSNull class]] && link.length > 0 ) {
                 
-            }];
-            [self.hdVideoLinkMessagePush setWebUrl:url];
+                if ([link isEqualToString:@"link"]) {
+                    [self.view addSubview:self.hdVideoLinkMessagePush];
+                    
+                    [self.hdVideoLinkMessagePush mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.leading.offset(0);
+                        make.trailing.offset(0);
+                        make.bottom.offset (0);
+                        make.height.offset(self.view.height*heightRatio);
+                        
+                    }];
+                    [self.hdVideoLinkMessagePush setWebUrl:content];
+                }
+                // 以后其他类型
+               
+            }
+           
         }
 
     }else{

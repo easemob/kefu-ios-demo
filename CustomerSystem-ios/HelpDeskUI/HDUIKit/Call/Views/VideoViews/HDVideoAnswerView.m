@@ -26,28 +26,39 @@
     self = [super initWithFrame:frame];
     if (self) {
         //创建ui
-        self.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.8];
+        self.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
         [self _creatUI];
     }
     return self;
 }
 - (void)_creatUI{
     
+    
     [self addSubview:self.bgView];
     [self.bgView addSubview: self.bgImageView];
     [self.bgView sendSubviewToBack:self.bgImageView];
-    [self.bgView addSubview: self.onBtn];
-    [self.bgView addSubview:self.offBtn];
+//    [self.bgView addSubview: self.onBtn];
+//    [self.bgView addSubview:self.offBtn];
     [self.bgView addSubview:self.icon];
     [self.bgView addSubview:self.nickNameLabel];
     [self.bgView addSubview:self.titleLabel];
-    [self.bgView addSubview:self.timeLabel];
+//    [self.bgView addSubview:self.timeLabel];
     [self.bgView addSubview:self.answerLabel];
     [self.bgView addSubview:self.hangUpBtn];
     [self.bgView addSubview:self.closeBtn];
-//    [self.bgView addSubview:self.hangUpLabel];
+    [self.bgView addSubview:self.hangUpLabel];
     
+    // 调用初始化接口
+    [self getInitSetting];
 
+}
+- (void)getInitSetting{
+    [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
+       
+        if (error ==nil) {
+            _model =  [HDAgoraCallManager shareInstance].layoutModel;
+        }
+    }];
 }
 - (void)hd_createUIWithCallType:(HDVideoType)callType{
     
@@ -80,16 +91,14 @@
         
         [self updateServiceLayoutConfig:_model withProcessType:HDVideoProcessWaiting];
     }
-    
-   
-    
-    self.onBtn.hidden =YES;
-    self.offBtn.hidden =YES;
+
+//    self.onBtn.hidden =YES;
+//    self.offBtn.hidden =YES;
     self.hangUpBtn.hidden=NO;
-    self.timeLabel.hidden = YES;
+//    self.timeLabel.hidden = YES;
+    self.closeBtn.hidden = NO;
 //    _answerLabel.text = NSLocalizedString(@"您好！有什么需要帮助，可以发起视频通话进行咨询呦", @"您正在邀请客服进行视频通话");
-    
-    
+
 }
 
 - (void)endCallLayout{
@@ -99,17 +108,18 @@
 }
 - (void)agentReceiveVideoUI{
     
-    [self startTimer];
-    self.titleLabel.hidden = NO;
-    self.timeLabel.hidden = NO;
-    self.hangUpBtn.hidden=YES;
-    self.onBtn.hidden =NO;
-    self.offBtn.hidden =NO;
-    _answerLabel.text = NSLocalizedString(@"video.answer.receive", @"客服邀请您进行视频通话");
+    [self addSubview:self.answerCallBackView];
+    [self.answerCallBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.offset(0);
+        make.bottom.offset(0);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+    }];
 }
 
 - (void)setCallType:(HDVideoType)callType{
 
+    _callType = callType;
     switch (callType) {
         case HDVideoDirectionSend:
 //            self.onBtn.hidden =YES;
@@ -134,6 +144,7 @@
         default:
             break;
     }
+    
 }
 - (void)updateServiceLayoutConfig:(HDVideoLayoutModel *)model{
     
@@ -153,7 +164,8 @@
             titleStr = model.waitingPrompt;
             imageStr = model.waitingBackgroundPic;
             [_hangUpBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
-            [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.waiting", @"发起") forState:UIControlStateNormal];
+//            [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.waiting", @"发起") forState:UIControlStateNormal];
+            _hangUpLabel.text = NSLocalizedString(@"video.answer.waiting", @"发起") ;
             self.closeBtn.hidden = NO;
             break;
         case HDVideoProcessInitiate:
@@ -161,7 +173,8 @@
             titleStr = model.callingPrompt;
             imageStr = model.callingBackgroundPic;
             [_hangUpBtn setImage:[UIImage imageNamed:@"off.png"] forState:UIControlStateNormal];
-            [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.hangup", @"挂断") forState:UIControlStateNormal];
+//            [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.hangup", @"挂断") forState:UIControlStateNormal];
+            _hangUpLabel.text =NSLocalizedString(@"video.answer.hangup", @"挂断");
             self.closeBtn.hidden = YES;
             break;
         case HDVideoProcessLineUp:
@@ -180,7 +193,8 @@
             titleStr = model.endingPrompt;
             imageStr = model.endingBackgroundPic;
             [_hangUpBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
-            [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.again.waiting", @"重新发起") forState:UIControlStateNormal];
+//            [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.again.waiting", @"重新发起") forState:UIControlStateNormal];
+            _hangUpLabel.text = NSLocalizedString(@"video.answer.again.waiting", @"重新发起");
             self.closeBtn.hidden = NO;
             break;
 
@@ -213,17 +227,17 @@
 //    self.answerLabel.text = [NSString stringWithFormat:@"收到视频通话%@",array[_num]];
 //    _num++;
 //}
-- (void)updateTime {
-    _time++;
-    self.timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",_time / 3600, (_time % 3600) / 60, _time % 60];
-}
+//- (void)updateTime {
+//    _time++;
+//    self.timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",_time / 3600, (_time % 3600) / 60, _time % 60];
+//}
 // 停止计时
-- (void)stopTimer {
-    if (_timer) {
-        [_timer invalidate];
-        _timer = nil;
-    }
-}
+//- (void)stopTimer {
+//    if (_timer) {
+//        [_timer invalidate];
+//        _timer = nil;
+//    }
+//}
 - (void)layoutSubviews{
     [super layoutSubviews];
     
@@ -244,29 +258,29 @@
         make.centerX.mas_equalTo(self.mas_centerX).offset(0);
         make.centerY.mas_equalTo(self.mas_centerY).multipliedBy(0.2);
     }];
-    [self.onBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.offset(-60);
-        make.leading.offset(60);
-        make.width.height.offset(72);
-    }];
-    [self.offBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.offset(-60);
-        make.width.height.offset(72);
-        make.trailing.offset(-60);
-    }];
+//    [self.onBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.offset(-60);
+//        make.leading.offset(60);
+//        make.width.height.offset(72);
+//    }];
+//    [self.offBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.offset(-60);
+//        make.width.height.offset(72);
+//        make.trailing.offset(-60);
+//    }];
 
     [self.icon mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.mas_centerX).offset(0);
         make.centerY.mas_equalTo(self.mas_centerY).multipliedBy(0.6);
-        make.width.height.offset(60);
+        make.width.height.offset(108);
         
     }];
     
-    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.icon.mas_centerX).offset(0);
-        make.bottom.mas_equalTo(self.icon.mas_top).offset(-10);
-        
-    }];
+//    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.mas_equalTo(self.icon.mas_centerX).offset(0);
+//        make.bottom.mas_equalTo(self.icon.mas_top).offset(-10);
+//
+//    }];
     
   
     [self.nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -289,27 +303,27 @@
     }];
     
     [self.hangUpBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.offset(-32);
-        make.width.height.offset(88);
+        make.bottom.offset(-66);
+        make.width.height.offset(66);
         make.centerX.mas_equalTo(self.icon.mas_centerX).offset(0);
         
     }];
     [self.hangUpBtn layoutIfNeeded];
     
     
-//    [self.hangUpLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.offset(10);
-//        make.centerX.mas_equalTo(self.hangUpBtn.mas_centerX).offset(0);
-//    }];
+    [self.hangUpLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.hangUpBtn.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(self.hangUpBtn.mas_centerX).offset(0);
+    }];
     
     [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.offset(10);
+        make.top.offset(25);
         make.width.height.offset(26);
-        make.trailing.offset(-10);
+        make.trailing.offset(-15);
         
     }];
-    _hangUpBtn.titleEdgeInsets = UIEdgeInsetsMake(10, -_hangUpBtn.imageView.frame.size.width, -_hangUpBtn.imageView.frame.size.height, 0);
-    _hangUpBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 20,10);
+//    _hangUpBtn.titleEdgeInsets = UIEdgeInsetsMake(10, -_hangUpBtn.imageView.frame.size.width, -_hangUpBtn.imageView.frame.size.height, 0);
+//    _hangUpBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 20,10);
     
 //    [self initButton:_hangUpBtn];
 }
@@ -351,7 +365,7 @@
         _titleLabel.text = NSLocalizedString(@"video.answer.title", @"视频通话");;
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.textAlignment=NSTextAlignmentCenter;
-        _titleLabel.font =  [[HDAppSkin mainSkin] systemFont19pt];
+        _titleLabel.font =  [[HDAppSkin mainSkin] systemBoldFont21pt];
     }
     
     return _titleLabel;
@@ -383,20 +397,20 @@
     }
     return _nickNameLabel;
 }
-- (UILabel *)timeLabel{
-    if (!_timeLabel) {
-        _timeLabel = [[UILabel alloc]init];
-        _timeLabel.textAlignment = NSTextAlignmentLeft;
-        _timeLabel.textColor = [UIColor whiteColor];
-        _timeLabel.text = @"00:00:00";
-    }
-    return _timeLabel;
-}
+//- (UILabel *)timeLabel{
+//    if (!_timeLabel) {
+//        _timeLabel = [[UILabel alloc]init];
+//        _timeLabel.textAlignment = NSTextAlignmentLeft;
+//        _timeLabel.textColor = [UIColor whiteColor];
+//        _timeLabel.text = @"00:00:00";
+//    }
+//    return _timeLabel;
+//}
 - (UIImageView *)icon{
     
     if (!_icon) {
         _icon=[[UIImageView alloc] init];
-        _icon.layer.cornerRadius = 10;
+        _icon.layer.cornerRadius = 108/2;
         _icon.layer.masksToBounds = YES;
         NSString * imgStr = [NSString stringWithFormat:@"HelpDeskUIResource.bundle/easemob@2x.png"];
         _icon.image = [UIImage imageNamed:imgStr];
@@ -425,15 +439,15 @@
     
 }
 
-- (UIButton *)onBtn{
-    if (!_onBtn) {
-        _onBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_onBtn addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
-        //为button赋值
-        [_onBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
-    }
-    return _onBtn;
-}
+//- (UIButton *)onBtn{
+//    if (!_onBtn) {
+//        _onBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [_onBtn addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+//        //为button赋值
+//        [_onBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
+//    }
+//    return _onBtn;
+//}
 - (UIButton *)closeBtn{
     if (!_closeBtn) {
         _closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -444,15 +458,15 @@
     }
     return _closeBtn;
 }
-- (UIButton *)offBtn{
-    if (!_offBtn) {
-        _offBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_offBtn addTarget:self action:@selector(offClick:) forControlEvents:UIControlEventTouchUpInside];
-        //为button赋值
-        [_offBtn setImage:[UIImage imageNamed:@"off.png"] forState:UIControlStateNormal];
-    }
-    return _offBtn;
-}
+//- (UIButton *)offBtn{
+//    if (!_offBtn) {
+//        _offBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [_offBtn addTarget:self action:@selector(offClick:) forControlEvents:UIControlEventTouchUpInside];
+//        //为button赋值
+//        [_offBtn setImage:[UIImage imageNamed:@"off.png"] forState:UIControlStateNormal];
+//    }
+//    return _offBtn;
+//}
 - (UIButton *)hangUpBtn{
     if (!_hangUpBtn) {
         _hangUpBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -470,20 +484,23 @@
 }
 - (void)onClick:(UIButton *)sender{
     
-    [self stopTimer];
+//    [self stopTimer];
+  
     if (self.clickOnBlock) {
         self.clickOnBlock(sender);
     }
+    self.callType = HDVideoDirectionSend;
     
 }
 - (void)offClick:(UIButton *)sender{
-    [self stopTimer];
+//    [self stopTimer];
     
-//    if (self.clickOffBlock) {
-//        self.clickOffBlock(sender);
-//    }
+    if (self.clickOffBlock) {
+        self.clickOffBlock(sender);
+    }
     
-    [self onCloseClick:sender];
+   
+//    [self onCloseClick:sender];
     
 }
 - (void)onCloseClick:(UIButton *)sender{
@@ -512,4 +529,34 @@
    
    
 }
+
+-(HDVideoAnswerCallBackView *)answerCallBackView{
+    
+    if (!_answerCallBackView) {
+        _answerCallBackView = [[HDVideoAnswerCallBackView alloc] init];
+        
+        kWeakSelf
+        _answerCallBackView.clickVideoAnswerCallBlock = ^(UIButton * _Nonnull btn) {
+            
+            weakSelf.isAnswerCallBack = YES;
+            if (weakSelf.clickOnBlock) {
+                weakSelf.clickOnBlock(btn);
+            }
+          
+            
+        };
+        _answerCallBackView.clickCloseRefuseAnswerCallBlock = ^(UIButton * _Nonnull btn) {
+            
+            if (weakSelf.clickOffBlock) {
+                weakSelf.clickOffBlock(btn);
+            }
+            
+            
+        };
+    }
+    return _answerCallBackView;
+    
+    
+}
+
 @end
