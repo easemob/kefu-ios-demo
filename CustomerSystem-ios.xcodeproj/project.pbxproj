@@ -83,6 +83,7 @@
 		931900682828E3BA002D3B2A /* HDSuspendCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 931900672828E3BA002D3B2A /* HDSuspendCustomView.m */; };
 		9320EECE2806D6E000485611 /* HDSanBoxFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9320EECD2806D6E000485611 /* HDSanBoxFileManager.m */; };
 		93214908281130BE00E08528 /* HDWhiteConverterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93214907281130BD00E08528 /* HDWhiteConverterManager.m */; };
+		932258B0287BFFD70033A0F2 /* HDEnquiryOptionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 932258AF287BFFD70033A0F2 /* HDEnquiryOptionModel.m */; };
 		93337DF7286E91670082E485 /* HDBubbleView+WebBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93337DF6286E91670082E485 /* HDBubbleView+WebBubbleView.m */; };
 		93337DFA286E94D10082E485 /* KFWebModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93337DF9286E94D10082E485 /* KFWebModel.m */; };
 		933C4C8927E1E847001678B0 /* HDSSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4C8727E1E847001678B0 /* HDSSKeychain.m */; };
@@ -112,6 +113,7 @@
 		93767A4227951D820079A60F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93767A4127951D820079A60F /* Accelerate.framework */; };
 		93767A4427951D8B0079A60F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93767A4327951D8B0079A60F /* CoreMedia.framework */; };
 		937B26C728768AB300BF4A45 /* HDVideoAnswerCallBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 937B26C628768AB300BF4A45 /* HDVideoAnswerCallBackView.m */; };
+		937B26CA2878248C00BF4A45 /* HDSatisfactionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 937B26C92878248C00BF4A45 /* HDSatisfactionView.m */; };
 		937D74B627853E500022B707 /* HDAgoraCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937D74B527853E500022B707 /* HDAgoraCallViewController.m */; };
 		937E9237285087A300A71B32 /* HDTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937E9235285087A300A71B32 /* HDTestViewController.m */; };
 		937E9238285087A300A71B32 /* HDTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 937E9236285087A300A71B32 /* HDTestViewController.xib */; };
@@ -678,6 +680,8 @@
 		9320EECD2806D6E000485611 /* HDSanBoxFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDSanBoxFileManager.m; sourceTree = "<group>"; };
 		93214906281130BD00E08528 /* HDWhiteConverterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDWhiteConverterManager.h; sourceTree = "<group>"; };
 		93214907281130BD00E08528 /* HDWhiteConverterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDWhiteConverterManager.m; sourceTree = "<group>"; };
+		932258AE287BFFD70033A0F2 /* HDEnquiryOptionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDEnquiryOptionModel.h; sourceTree = "<group>"; };
+		932258AF287BFFD70033A0F2 /* HDEnquiryOptionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDEnquiryOptionModel.m; sourceTree = "<group>"; };
 		932E5CD2280E776100F38900 /* HDWhiteBoardDelegete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDWhiteBoardDelegete.h; sourceTree = "<group>"; };
 		93337DF5286E91670082E485 /* HDBubbleView+WebBubbleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HDBubbleView+WebBubbleView.h"; sourceTree = "<group>"; };
 		93337DF6286E91670082E485 /* HDBubbleView+WebBubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HDBubbleView+WebBubbleView.m"; sourceTree = "<group>"; };
@@ -732,6 +736,8 @@
 		93767A4327951D8B0079A60F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		937B26C528768AB300BF4A45 /* HDVideoAnswerCallBackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoAnswerCallBackView.h; sourceTree = "<group>"; };
 		937B26C628768AB300BF4A45 /* HDVideoAnswerCallBackView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoAnswerCallBackView.m; sourceTree = "<group>"; };
+		937B26C82878248C00BF4A45 /* HDSatisfactionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDSatisfactionView.h; sourceTree = "<group>"; };
+		937B26C92878248C00BF4A45 /* HDSatisfactionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDSatisfactionView.m; sourceTree = "<group>"; };
 		937D74B427853E500022B707 /* HDAgoraCallViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAgoraCallViewController.h; sourceTree = "<group>"; };
 		937D74B527853E500022B707 /* HDAgoraCallViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAgoraCallViewController.m; sourceTree = "<group>"; };
 		937DEBEE27993987004EE6BB /* CustomerSystem-ScreenShare-ExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CustomerSystem-ScreenShare-ExtensionDebug.entitlements"; sourceTree = "<group>"; };
@@ -1905,6 +1911,8 @@
 			children = (
 				93C3C51D2845F73F00ADDBC6 /* IDInfo.m */,
 				93C3C51E2845F73F00ADDBC6 /* IDInfo.h */,
+				932258AE287BFFD70033A0F2 /* HDEnquiryOptionModel.h */,
+				932258AF287BFFD70033A0F2 /* HDEnquiryOptionModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1917,6 +1925,8 @@
 				937E9239285195F500A71B32 /* HDVideoLinkMessagePush.h */,
 				937E923A285195F500A71B32 /* HDVideoLinkMessagePush.m */,
 				937E924C2853113D00A71B32 /* sign */,
+				937B26C82878248C00BF4A45 /* HDSatisfactionView.h */,
+				937B26C92878248C00BF4A45 /* HDSatisfactionView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3619,6 +3629,7 @@
 				D29E0A041F4FF90F0089506D /* HAppraiseTagsModel.m in Sources */,
 				93B4E96827CCD1D800ACAF5B /* HDMJRefreshBackStateFooter.m in Sources */,
 				931900682828E3BA002D3B2A /* HDSuspendCustomView.m in Sources */,
+				937B26CA2878248C00BF4A45 /* HDSatisfactionView.m in Sources */,
 				93B4E97127CCD1D800ACAF5B /* HDMJRefreshComponent.m in Sources */,
 				D355795E1EE94A9A00F6B54E /* HConversationsViewController.m in Sources */,
 				D3CB646A1E4888F30022A6BA /* MWZoomingScrollView.m in Sources */,
@@ -3660,6 +3671,7 @@
 				D3CB648E1E4888F30022A6BA /* NSDateFormatter+Category.m in Sources */,
 				D29E09F91F4ECE5A0089506D /* HEvaluationTagView.m in Sources */,
 				9392B519280047CE005D4215 /* KFICloudManager.m in Sources */,
+				932258B0287BFFD70033A0F2 /* HDEnquiryOptionModel.m in Sources */,
 				93B4E96927CCD1D800ACAF5B /* HDMJRefreshAutoStateFooter.m in Sources */,
 				D3D87C141F3847C300FB7C84 /* HArticleWebViewController.m in Sources */,
 				D3CB64A41E4888F30022A6BA /* HDBubbleView+File.m in Sources */,
@@ -4201,7 +4213,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;

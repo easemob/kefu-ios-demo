@@ -48,10 +48,7 @@
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     HDOptions *option = [[HDOptions alloc] init];
 
-    option.appkey = lgM.appkey;
-//    option.appkey = @"1102220704109865#xiehou";
-//    option.appkey = @"1400210122068763#test1";
-   
+    option.appkey = lgM.appkey;   
     option.tenantId = lgM.tenantId;
     option.configId = lgM.configId;
     option.kefuRestServer = @"https://sandbox.kefu.easemob.com";

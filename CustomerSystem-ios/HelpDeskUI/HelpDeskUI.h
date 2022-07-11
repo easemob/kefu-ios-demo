@@ -19,7 +19,6 @@
 #import <HelpDeskLite/HelpDeskLite.h>
 #endif
 #import <HyphenateChat/HyphenateChat.h>
-//#import <VECKit/VECKit.h>
 
 #import "HDMessageViewController.h"
 #import "HDViewController.h"
@@ -50,6 +49,8 @@
 #import "HDSDWebImageManager.h"
 
 #import "HDMasonry.h"
+#import "YYModel.h"
+
 //Ext keyWord
 #define kMessageExtWeChat @"weichat"
 #define kMessageExtWeChat_ctrlType @"ctrlType"

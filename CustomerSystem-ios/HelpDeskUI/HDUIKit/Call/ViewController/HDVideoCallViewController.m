@@ -33,6 +33,7 @@
 #import "IDInfo.h"
 #import "HDVideoLinkMessagePush.h"
 #import "HDSignView.h"
+#import "HDSatisfactionView.h"
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
@@ -111,6 +112,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (nonatomic, strong) HDVideoLinkMessagePush *hdVideoLinkMessagePush;
 @property (nonatomic, strong) HDSignView *hdSignView;
 @property (nonatomic, strong) UIView *ocrView;
+@property (nonatomic, strong) HDSatisfactionView *hdSatisfactionView;
 
 
 @end
@@ -349,10 +351,7 @@ static HDVideoCallViewController *_manger = nil;
         
             [view removeFromSuperview];
         }
-        
-        
     }
-    
     
     self.barView = nil;
     
@@ -377,6 +376,7 @@ static HDVideoCallViewController *_manger = nil;
     
         self.hdVideoAnswerView.hidden = NO;
     }
+    
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -815,15 +815,6 @@ static HDVideoCallViewController *_manger = nil;
      {
         
         NSLog(@"==_sendMessage==%@",error.errorDescription);
-        if (!error) {
-        
-            
-            
-            
-        }
-        else {
-        
-        }
     }];
     
 }
@@ -868,10 +859,10 @@ static HDVideoCallViewController *_manger = nil;
 //       _hdVideoAnswerView.backgroundColor = [UIColor blackColor];
 //       _hdVideoAnswerView.layer.borderWidth = 1;
 //       _hdVideoAnswerView.layer.borderColor = [[HDAppSkin mainSkin] contentColorGrayWhithWite].CGColor;
-       _hdVideoAnswerView.layer.cornerRadius = 10.0f;
-       _hdVideoAnswerView.layer.masksToBounds = YES;
-       _hdVideoAnswerView.layer.shadowOpacity = 0.5;
-       _hdVideoAnswerView.layer.shadowRadius = 15;
+//       _hdVideoAnswerView.layer.cornerRadius = 10.0f;
+//       _hdVideoAnswerView.layer.masksToBounds = YES;
+//       _hdVideoAnswerView.layer.shadowOpacity = 0.5;
+//       _hdVideoAnswerView.layer.shadowRadius = 15;
        __weak __typeof__(self) weakSelf = self;
        _hdVideoAnswerView.clickOnBlock = ^(UIButton * _Nonnull btn) {
 //           [weakSelf anwersBtnClicked:btn];
@@ -1979,7 +1970,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 - (UIWindow *)createCustomWindow{
      if (!_customWindow) {
         _customWindow=[[UIWindow alloc]init];
-        _customWindow.frame=CGRectMake(WINDOWS.width-viewWidth,WINDOWS.height/4, viewWidth, viewHeight);
+        _customWindow.frame=CGRectMake(WINDOWS.width-viewWidth,WINDOWS.height/4.6, viewWidth, viewHeight);
         _customWindow.windowLevel=UIWindowLevelAlert+2;
         _customWindow.backgroundColor=[UIColor clearColor];
         
@@ -1991,8 +1982,12 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 - (void)cancelWindow{
     
     [_customWindow resignFirstResponder];
+    
+    [_customWindow removeFromSuperview];
     _customWindow=nil;
 
+    
+    
 }
 
 #pragma mark --SuspendCustomViewDelegate
@@ -2002,6 +1997,9 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     self.view.hidden = NO;
     _hdSupendCustomView.hidden = !self.view.hidden;
     [self.hdTitleView.timeLabel removeObserver:self forKeyPath:@"text"];
+    
+    [self cancelWindow];
+    
     //以下是根据不同类型 做不同的操作
 //    NSLog(@"此处判断点击 还可以通过suspenType类型判断");
 //    HDSuspendCustomView *suspendCustomView=(HDSuspendCustomView *)sender;
@@ -2076,7 +2074,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 #pragma mark --vec 1.3 相关
 #pragma mark - vec 1.3 弹窗  中 效果
 
-#pragma mark - 收到cmd 各种通知
+#pragma mark - 收到cmd 各种通知 原子化能力
 //mark vec 1.3 独立访客端 收到坐席 签名
 - (void)onCallSignIdentify:(NSDictionary *)dic{
     
@@ -2441,5 +2439,62 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         
     }];
 }
+//
+#pragma mark --vec 1.3 满意度
+- (void)onEnquiryInviteParameter:(NSDictionary *)enquiryInvite{
+    
+    [self.hdVideoAnswerView addSubview:self.hdSatisfactionView];
+    
+    [self.hdSatisfactionView setEnquiryInvite:enquiryInvite];
+    
+    [self.hdVideoAnswerView bringSubviewToFront:self.hdSatisfactionView];
+//    [self.hdSatisfactionView mas_makeConstraints:^(MASConstraintMaker *make) {
+//
+//        make.leading.offset(10);
+//        make.trailing.offset(-10);
+//        make.bottom.offset (-10);
+//        make.height.mas_equalTo(self.hdVideoAnswerView.mas_height).multipliedBy(0.6);
+//        
+//    }];
+    
+    
+    
+}
+- (void)hd_upateFrame:(CGFloat)height{
+    
+    [self.hdSatisfactionView mas_remakeConstraints:^(MASConstraintMaker *make) {
+
+        make.leading.offset(10);
+        make.trailing.offset(-10);
+        make.bottom.offset (-10);
+        make.height.offset(height);
+        
+    }];
+    
+    [self.hdSatisfactionView layoutIfNeeded];
+}
+- (HDSatisfactionView *)hdSatisfactionView{
+    
+    if (!_hdSatisfactionView) {
+        _hdSatisfactionView = [[HDSatisfactionView alloc] init];
+        _hdSatisfactionView.layer.cornerRadius = 5.0f;
+        _hdSatisfactionView.layer.masksToBounds = YES;
+        _hdSatisfactionView.layer.shadowOpacity = 0.5;
+        _hdSatisfactionView.layer.shadowRadius = 15;
+        _hdSatisfactionView.backgroundColor = [UIColor whiteColor];
+        kWeakSelf
+        _hdSatisfactionView.updateSelfFrame = ^(CGFloat height) {
+
+            
+            [weakSelf hd_upateFrame:height];
+          
+            
+        };
+
+    }
+    
+    return _hdSatisfactionView;
+}
+
 
 @end

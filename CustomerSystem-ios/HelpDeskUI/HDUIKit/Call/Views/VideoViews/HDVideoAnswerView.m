@@ -199,6 +199,7 @@
 //            [_hangUpBtn setTitle:NSLocalizedString(@"video.answer.again.waiting", @"重新发起") forState:UIControlStateNormal];
             _hangUpLabel.text = NSLocalizedString(@"video.answer.again.waiting", @"重新发起");
             self.closeBtn.hidden = NO;
+            
             break;
 
         default:
@@ -300,6 +301,11 @@
         [_timer invalidate];
         _timer = nil;
     }
+}
+- (void)dealloc{
+    
+    [self stopTimer];
+    
 }
 - (void)layoutSubviews{
     [super layoutSubviews];

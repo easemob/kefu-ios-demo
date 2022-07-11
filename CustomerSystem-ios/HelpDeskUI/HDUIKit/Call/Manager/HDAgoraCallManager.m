@@ -436,7 +436,7 @@ static HDAgoraCallManager *shareCall = nil;
  */
 - (void)acceptCallWithNickname:(NSString *)nickname completion:(void (^)(id, HDError *))completion{
     self.Completion = completion;
-    [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 acceptCallWithNickname "];
+    [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 acceptCallWithNickname=%@",[HDAgoraCallManager shareInstance].keyCenter.agoraChannel];
     [self hd_joinChannelByToken:[HDAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDAgoraCallManager shareInstance].keyCenter.agoraChannel info:nil uid:[[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
         _onCalling = YES;
         [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 joinSuccess channel "];

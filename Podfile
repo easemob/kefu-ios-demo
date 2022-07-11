@@ -7,6 +7,8 @@ target 'CustomerSystem-ios' do
 pod 'MBProgressHUD', '~> 1.2.0'
 pod 'SDWebImage', '~> 5.12.3'
 pod 'Masonry', '~> 1.1.0'
+
+#音视频需要倒入
 pod 'AgoraRtcEngine_iOS','3.6.1'
 pod 'Fastboard', :git => 'https://github.com/netless-io/fastboard-iOS'
 pod 'TZImagePickerController'

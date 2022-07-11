@@ -212,7 +212,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //            [[HDClient sharedClient].chatManager getEnterpriseWelcomeWithCompletion:^(NSString *welcome, HDError *error) {
 //                            
 //            }];
-            
+           
             
             [weakHud hideAnimated:YES];
             NSString *queue = nil;
