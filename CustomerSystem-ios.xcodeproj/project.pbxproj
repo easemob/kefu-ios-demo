@@ -84,6 +84,11 @@
 		9320EECE2806D6E000485611 /* HDSanBoxFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9320EECD2806D6E000485611 /* HDSanBoxFileManager.m */; };
 		93214908281130BE00E08528 /* HDWhiteConverterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93214907281130BD00E08528 /* HDWhiteConverterManager.m */; };
 		932258B0287BFFD70033A0F2 /* HDEnquiryOptionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 932258AF287BFFD70033A0F2 /* HDEnquiryOptionModel.m */; };
+		932258B4287D12730033A0F2 /* HDSatisfactionEvaluationTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 932258B3287D12730033A0F2 /* HDSatisfactionEvaluationTagView.m */; };
+		932258B7287D2A130033A0F2 /* HDEnquiryTagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 932258B6287D2A130033A0F2 /* HDEnquiryTagModel.m */; };
+		932258CB287D5C520033A0F2 /* SKTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 932258C5287D5C510033A0F2 /* SKTag.m */; };
+		932258CC287D5C520033A0F2 /* SKTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 932258C7287D5C510033A0F2 /* SKTagView.m */; };
+		932258CD287D5C520033A0F2 /* SKTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 932258CA287D5C510033A0F2 /* SKTagButton.m */; };
 		93337DF7286E91670082E485 /* HDBubbleView+WebBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93337DF6286E91670082E485 /* HDBubbleView+WebBubbleView.m */; };
 		93337DFA286E94D10082E485 /* KFWebModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93337DF9286E94D10082E485 /* KFWebModel.m */; };
 		933C4C8927E1E847001678B0 /* HDSSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4C8727E1E847001678B0 /* HDSSKeychain.m */; };
@@ -682,6 +687,16 @@
 		93214907281130BD00E08528 /* HDWhiteConverterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDWhiteConverterManager.m; sourceTree = "<group>"; };
 		932258AE287BFFD70033A0F2 /* HDEnquiryOptionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDEnquiryOptionModel.h; sourceTree = "<group>"; };
 		932258AF287BFFD70033A0F2 /* HDEnquiryOptionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDEnquiryOptionModel.m; sourceTree = "<group>"; };
+		932258B2287D12730033A0F2 /* HDSatisfactionEvaluationTagView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDSatisfactionEvaluationTagView.h; sourceTree = "<group>"; };
+		932258B3287D12730033A0F2 /* HDSatisfactionEvaluationTagView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDSatisfactionEvaluationTagView.m; sourceTree = "<group>"; };
+		932258B5287D2A130033A0F2 /* HDEnquiryTagModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDEnquiryTagModel.h; sourceTree = "<group>"; };
+		932258B6287D2A130033A0F2 /* HDEnquiryTagModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDEnquiryTagModel.m; sourceTree = "<group>"; };
+		932258C5287D5C510033A0F2 /* SKTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTag.m; sourceTree = "<group>"; };
+		932258C6287D5C510033A0F2 /* SKTagButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagButton.h; sourceTree = "<group>"; };
+		932258C7287D5C510033A0F2 /* SKTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTagView.m; sourceTree = "<group>"; };
+		932258C8287D5C510033A0F2 /* SKTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTag.h; sourceTree = "<group>"; };
+		932258C9287D5C510033A0F2 /* SKTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagView.h; sourceTree = "<group>"; };
+		932258CA287D5C510033A0F2 /* SKTagButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTagButton.m; sourceTree = "<group>"; };
 		932E5CD2280E776100F38900 /* HDWhiteBoardDelegete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDWhiteBoardDelegete.h; sourceTree = "<group>"; };
 		93337DF5286E91670082E485 /* HDBubbleView+WebBubbleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HDBubbleView+WebBubbleView.h"; sourceTree = "<group>"; };
 		93337DF6286E91670082E485 /* HDBubbleView+WebBubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HDBubbleView+WebBubbleView.m"; sourceTree = "<group>"; };
@@ -1613,6 +1628,31 @@
 			path = VideoViews;
 			sourceTree = "<group>";
 		};
+		932258B1287D120D0033A0F2 /* satisfaction */ = {
+			isa = PBXGroup;
+			children = (
+				932258C4287D5C510033A0F2 /* tags */,
+				937B26C82878248C00BF4A45 /* HDSatisfactionView.h */,
+				937B26C92878248C00BF4A45 /* HDSatisfactionView.m */,
+				932258B2287D12730033A0F2 /* HDSatisfactionEvaluationTagView.h */,
+				932258B3287D12730033A0F2 /* HDSatisfactionEvaluationTagView.m */,
+			);
+			path = satisfaction;
+			sourceTree = "<group>";
+		};
+		932258C4287D5C510033A0F2 /* tags */ = {
+			isa = PBXGroup;
+			children = (
+				932258C8287D5C510033A0F2 /* SKTag.h */,
+				932258C5287D5C510033A0F2 /* SKTag.m */,
+				932258C6287D5C510033A0F2 /* SKTagButton.h */,
+				932258CA287D5C510033A0F2 /* SKTagButton.m */,
+				932258C9287D5C510033A0F2 /* SKTagView.h */,
+				932258C7287D5C510033A0F2 /* SKTagView.m */,
+			);
+			path = tags;
+			sourceTree = "<group>";
+		};
 		9333263A27D0D17A004707E1 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1913,6 +1953,8 @@
 				93C3C51E2845F73F00ADDBC6 /* IDInfo.h */,
 				932258AE287BFFD70033A0F2 /* HDEnquiryOptionModel.h */,
 				932258AF287BFFD70033A0F2 /* HDEnquiryOptionModel.m */,
+				932258B5287D2A130033A0F2 /* HDEnquiryTagModel.h */,
+				932258B6287D2A130033A0F2 /* HDEnquiryTagModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1920,13 +1962,12 @@
 		93C3C51F2845F74000ADDBC6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				932258B1287D120D0033A0F2 /* satisfaction */,
 				93C3C5232845F74000ADDBC6 /* HDVideoIDCardScaningView.h */,
 				93C3C5212845F74000ADDBC6 /* HDVideoIDCardScaningView.m */,
 				937E9239285195F500A71B32 /* HDVideoLinkMessagePush.h */,
 				937E923A285195F500A71B32 /* HDVideoLinkMessagePush.m */,
 				937E924C2853113D00A71B32 /* sign */,
-				937B26C82878248C00BF4A45 /* HDSatisfactionView.h */,
-				937B26C92878248C00BF4A45 /* HDSatisfactionView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3633,6 +3674,7 @@
 				93B4E97127CCD1D800ACAF5B /* HDMJRefreshComponent.m in Sources */,
 				D355795E1EE94A9A00F6B54E /* HConversationsViewController.m in Sources */,
 				D3CB646A1E4888F30022A6BA /* MWZoomingScrollView.m in Sources */,
+				932258B7287D2A130033A0F2 /* HDEnquiryTagModel.m in Sources */,
 				D3CB64B41E4888F30022A6BA /* HDFaceView.m in Sources */,
 				9042C2642514A1A100DC5BE1 /* AFURLRequestSerialization.m in Sources */,
 				D3CB648F1E4888F30022A6BA /* NSString+HDValid.m in Sources */,
@@ -3647,6 +3689,7 @@
 				93B4E97227CCD1D800ACAF5B /* HDMJRefreshFooter.m in Sources */,
 				9392B50D28001263005D4215 /* HDUploadListViewController.m in Sources */,
 				93B4E96A27CCD1D800ACAF5B /* HDMJRefreshAutoNormalFooter.m in Sources */,
+				932258CC287D5C520033A0F2 /* SKTagView.m in Sources */,
 				D3CB64671E4888F30022A6BA /* MWPhotoBrowser.m in Sources */,
 				D34D6D8B1DEC45570099EE23 /* NSObject+SCAdd.m in Sources */,
 				937FD5A527D1B2ED00EB055A /* HDAgoraCallMember.m in Sources */,
@@ -3730,6 +3773,7 @@
 				9374FEB427CC721700DE1185 /* HDSDWebImageManager.m in Sources */,
 				8F1281F41F3C535A00E872CA /* HDBubbleView+Form.m in Sources */,
 				D3CB647F1E4888F30022A6BA /* PSTCollectionViewController.m in Sources */,
+				932258B4287D12730033A0F2 /* HDSatisfactionEvaluationTagView.m in Sources */,
 				9042C2612514A1A100DC5BE1 /* AFURLResponseSerialization.m in Sources */,
 				D3CB64451E4888F30022A6BA /* HDCDDeviceManager+Microphone.m in Sources */,
 				D3CB64A11E4888F30022A6BA /* HDMessageCell.m in Sources */,
@@ -3769,6 +3813,7 @@
 				D3CB64421E4888F30022A6BA /* HDAudioPlayerUtil.m in Sources */,
 				93B4E96B27CCD1D800ACAF5B /* HDMJRefreshAutoGifFooter.m in Sources */,
 				D3CB64631E4888F30022A6BA /* MWCaptionView.m in Sources */,
+				932258CB287D5C520033A0F2 /* SKTag.m in Sources */,
 				D3CB64861E4888F30022A6BA /* PSTGridLayoutItem.m in Sources */,
 				D3CB64901E4888F30022A6BA /* UIResponder+HRouter.m in Sources */,
 				D355796A1EE9517E00F6B54E /* DXTipView.m in Sources */,
@@ -3777,6 +3822,7 @@
 				93337DF7286E91670082E485 /* HDBubbleView+WebBubbleView.m in Sources */,
 				D3CB649C1E4888F30022A6BA /* HDMessageViewController.m in Sources */,
 				D298641D1EE3A89700AF4A4C /* LeaveMessageCell.m in Sources */,
+				932258CD287D5C520033A0F2 /* SKTagButton.m in Sources */,
 				D3CB64801E4888F30022A6BA /* PSTCollectionViewData.m in Sources */,
 				D3CB64AD1E4888F30022A6BA /* HDBubbleView+Video.m in Sources */,
 				D3AA4B221ED45B7300B5C509 /* hdamrFileCodec.mm in Sources */,

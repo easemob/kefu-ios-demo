@@ -89,7 +89,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 /*
  * 弹窗窗口
  */
-@property (strong, nonatomic) UIWindow *alertWindow;
+
 @property (nonatomic, strong) UIView *parentView;
 @property (nonatomic, strong) NSString *agentName;
 @property (nonatomic, strong) NSString *nickname;
@@ -191,6 +191,7 @@ static HDVideoCallViewController *_manger = nil;
 }
 - (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(nonnull NSString *)aNickname{
 //    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
+    [HDAgoraCallManager shareInstance].currentWindow = self.alertWindow;
     [HDCallManager shareInstance].isVecVideo = YES;
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
     if (!isCalling) {
@@ -2448,19 +2449,14 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     [self.hdSatisfactionView setEnquiryInvite:enquiryInvite];
     
     [self.hdVideoAnswerView bringSubviewToFront:self.hdSatisfactionView];
-//    [self.hdSatisfactionView mas_makeConstraints:^(MASConstraintMaker *make) {
-//
-//        make.leading.offset(10);
-//        make.trailing.offset(-10);
-//        make.bottom.offset (-10);
-//        make.height.mas_equalTo(self.hdVideoAnswerView.mas_height).multipliedBy(0.6);
-//        
-//    }];
-    
-    
-    
+
 }
 - (void)hd_upateFrame:(CGFloat)height{
+    
+    if (height == 0) {
+        
+        height = self.view.frame.size.height *0.5;
+    }
     
     [self.hdSatisfactionView mas_remakeConstraints:^(MASConstraintMaker *make) {
 

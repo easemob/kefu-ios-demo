@@ -23,6 +23,7 @@ static void *KVOContext = &KVOContext;
 @property (nonatomic, strong) NSString *conversationId;
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
 @property (nonatomic, strong) HDVideoLayoutModel *layoutModel;
+@property (nonatomic, strong) UIWindow *currentWindow;
 
 
 + (instancetype _Nullable )shareInstance;

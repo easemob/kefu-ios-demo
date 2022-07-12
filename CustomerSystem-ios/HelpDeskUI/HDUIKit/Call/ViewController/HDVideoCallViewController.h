@@ -19,6 +19,7 @@ typedef void (^HangUpVideoCallback)(HDVideoCallViewController *callVC, NSString 
 @property (nonatomic, strong) HDVideoAnswerView *hdVideoAnswerView;
 @property (nonatomic, assign) BOOL isVisitorSend;
 @property (nonatomic, assign) SuspendType suspendType;
+@property (strong, nonatomic) UIWindow *alertWindow;
 
 /** 单利创建 - Method
 */

@@ -342,3 +342,16 @@
 "video.answer.waiting" = "发起";
 "video.answer.hangup" = "挂断";
 "video.answer.again.waiting"= "重新发起";
+
+//vec 视频客服 满意度相关
+"video.satisfaction.EnquiryTagsFor1Score" = "非常不满意";
+"video.satisfaction.EnquiryTagsFor2Score" = "不满意";
+"video.satisfaction.EnquiryTagsFor3Score" = " 一般";
+"video.satisfaction.EnquiryTagsFor4Score" = "满意";
+"video.satisfaction.EnquiryTagsFor5Score" = "非常满意";
+"video.satisfaction.EnquiryComment" = "请留下您宝贵的建议…";
+"video.satisfaction.Commit" = "提交评价";
+
+"video.satisfaction.comment_nessary" = "建议必须填写";
+"video.satisfaction.ags_nessary" = "标签必须选择";
+

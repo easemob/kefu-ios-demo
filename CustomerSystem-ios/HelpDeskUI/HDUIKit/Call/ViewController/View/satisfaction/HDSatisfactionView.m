@@ -8,9 +8,11 @@
 
 #import "HDSatisfactionView.h"
 #import "HDEnquiryOptionModel.h"
-#import "HDEnquiryOptionModel.h"
+#import "HDEnquiryTagModel.h"
+#import "MBProgressHUD+Add.h"
+#import "HDAgoraCallManager.h"
 
-@interface HDSatisfactionView()<UITextViewDelegate,CWStarRateViewDelegate,HEvaluationTagSelectDelegate>
+@interface HDSatisfactionView()<UITextViewDelegate,CWStarRateViewDelegate,HDSatisfactionEvaluationTagSelectDelegate>
 {
 //    HDMessage *model;
     NSDictionary *enquiryDic;
@@ -18,8 +20,11 @@
     NSDictionary *_enquiryTags;
     
     UILabel *_placeHolderLabel;
+    
+    CGFloat _currentHeight;
 }
-
+@property (nonatomic,strong) SKTagView *tagView;;
+@property (nonatomic,strong) NSMutableArray  *currentTags;;
 @end
 @implementation HDSatisfactionView
 
@@ -86,14 +91,14 @@
         make.bottom.offset(-74);
     }];
     [self.textView layoutIfNeeded];
-    [self.bgView addSubview:self.evaluationTagView];
-    [self.evaluationTagView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.evaluateTitle.mas_bottom).offset(0);
-        make.leading.offset(20);
-        make.trailing.offset(-20);
-        make.bottom.mas_equalTo(self.textView.mas_top).offset(-10);
-    }];
-    [self.evaluationTagView layoutIfNeeded];
+//    [self.bgView addSubview:self.evaluationTagView];
+//    [self.evaluationTagView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(self.evaluateTitle.mas_bottom).offset(0);
+//        make.leading.offset(20);
+//        make.trailing.offset(-20);
+//        make.bottom.mas_equalTo(self.textView.mas_top).offset(-10);
+//    }];
+//    [self.evaluationTagView layoutIfNeeded];
     [self.bgView addSubview:self.commitBtn];
     [self.commitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
@@ -133,11 +138,10 @@
 - (void)setEnquiryInvite:(NSDictionary *)enquiryInvite{
     
     NSLog(@"=============%@",enquiryInvite);
-    
+    _currentHeight = self.titleLabel.frame.size.height + self.starRateView.frame.size.height + self.evaluateTitle.frame.size.height + self.textView.frame.size.height+ self.commitBtn.frame.size.height + 64;//64 是间距
+
     if ([[enquiryInvite allKeys] containsObject:@"enquiryOptions"] && [[enquiryInvite valueForKey:@"enquiryOptions"] isKindOfClass:[NSArray class]]) {
         
-//        [enquiryInvite valueForKey:@"enquiryOptions"];
-    
         NSArray *enquiryOptions = [NSArray yy_modelArrayWithClass:[HDEnquiryOptionModel class] json:[enquiryInvite valueForKey:@"enquiryOptions"]];
         NSLog(@"-%@",enquiryOptions);
         
@@ -154,7 +158,6 @@
                 
                 self.textLabel.text = model.optionValue;
                 
-                _placeHolderLabel.text = model.optionValue;
                 
             }else if([model.optionName isEqualToString:@"EnquiryInviteMsg"]){
                 
@@ -168,41 +171,170 @@
     }
     if ([[enquiryInvite allKeys] containsObject:@"enquiryTags"] && [[enquiryInvite valueForKey:@"enquiryTags"] isKindOfClass:[NSDictionary class]]) {
         
-        
         _enquiryTags = [enquiryInvite valueForKey:@"enquiryTags"];
-        
+        CGFloat h = 0.0;
         if (_enquiryTags.count == 0) {
             //默认没有标签
-            [self.evaluationTagView removeFromSuperview];
-            
-//                [self mas_remakeConstraints:^(MASConstraintMaker *make) {
-//
-//                    make.leading.offset(10);
-//                    make.trailing.offset(-10);
-//                    make.bottom.offset (-10);
-//
-//                    CGFloat h = self.titleLabel.frame.size.height + self.starRateView.frame.size.height + self.evaluateTitle.frame.size.height + self.textView.frame.size.height+ self.commitBtn.frame.size.height;
-            //                    make.height.offset(h);
-//
-//                }];
-                
-            CGFloat h = self.titleLabel.frame.size.height + self.starRateView.frame.size.height + self.evaluateTitle.frame.size.height + self.textView.frame.size.height+ self.commitBtn.frame.size.height + 64;//64 是间距
-           
+//            [self.evaluationTagView removeFromSuperview];
             if (self.updateSelfFrame) {
-                self.updateSelfFrame(h);
+                self.updateSelfFrame(_currentHeight);
             }
+        }else{
+            // 计算五星标签高度
+            [self getEnquiryTagData:@"5"];
+
+        }
+      
+    
+    }else{
+        
+        if (self.updateSelfFrame) {
             
-            
+            self.updateSelfFrame(_currentHeight);
         }
         
+    }
+}
+
+
+//循环添加 标签
+- (void )hd_calculateAppraiseTags:(NSArray *)appraiseTags{
+    
+    if (self.currentTags) {
         
-        
+        [self.currentTags removeAllObjects];
     }
     
     
-   
+    [appraiseTags enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+       
+        HDEnquiryTagModel * model = obj;
+        [self.currentTags addObject:model];
+        SKTag *tag = [[SKTag alloc] initWithText:model.tagName];
+        tag.tagId = [model.tagId integerValue];
+        tag.font = [UIFont systemFontOfSize:14];
+        tag.textColor = [UIColor blackColor];
+        tag.bgColor =[UIColor grayColor];
+        tag.cornerRadius = 5;
+        tag.enable = YES;
+        tag.padding = UIEdgeInsetsMake(5, 10, 5, 10);
+        [self.evaluationTagView addTag:tag];
+    }];
+}
+- (CGFloat)hd_textBoundingRectWithSize:(NSString *)text{
+    
+    // 文字的最大尺寸
+    CGSize maxSize = CGSizeMake(self.starRateView.frame.size.width, MAXFLOAT);
+    // 计算文字的高度
+    CGFloat textH = [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:19]} context:nil].size.height;
+    
+    return textH;
+}
+- (void)starRateView:(CWStarRateView *)starRateView scroePercentDidChange:(CGFloat)newScorePercent
+{
+    [self parseAppraiseTagExt:newScorePercent];
+}
+
+- (void)parseAppraiseTagExt:(CGFloat)ScorePercent{
+    
+    
+    NSString *score;
+                if (ScorePercent == 1.0) {
+                    self.evaluateTitle.text = NSLocalizedString(@"video.satisfaction.EnquiryTagsFor5Score", @"EnquiryTagsFor5Score");
+                    
+                    score = @"5";
+                    
+                } else if (ScorePercent == 0.8) {
+                    self.evaluateTitle.text = NSLocalizedString(@"video.satisfaction.EnquiryTagsFor4Score", @"EnquiryTagsFor4Score");
+                    score = @"4";
+                } else if (ScorePercent == 0.6) {
+                    self.evaluateTitle.text = NSLocalizedString(@"video.satisfaction.EnquiryTagsFor3Score", @"EnquiryTagsFor3Score");
+                    score = @"3";
+                } else if (ScorePercent == 0.4) {
+                    self.evaluateTitle.text = NSLocalizedString(@"video.satisfaction.EnquiryTagsFor2Score", @"EnquiryTagsFor2Score");
+                    score = @"2";
+                } else if (ScorePercent == 0.2) {
+                    self.evaluateTitle.text = NSLocalizedString(@"video.satisfaction.EnquiryTagsFor1Score", @"EnquiryTagsFor1Score");
+                    score = @"1";
+                }
+
+    [self getEnquiryTagData:score];
+    
     
 }
+//-(NSArray *)getCommitEnquiryTagData:(NSString *)score{
+//
+//
+//
+//}
+
+-(void)getEnquiryTagData:(NSString *)score{
+    
+    if ([[_enquiryTags allKeys] containsObject:score]) {
+        
+    NSArray * array = [_enquiryTags valueForKey:score];
+    NSArray *tags = [NSArray yy_modelArrayWithClass:[HDEnquiryTagModel class] json:array];
+    if (tags &&tags.count > 0) {
+    
+        // 添加 view
+        [self.bgView addSubview:self.evaluationTagView];
+        
+        //顺序不能混 如果混了 会导致获取的当前行数 不准确
+        
+        [self hd_calculateAppraiseTags:tags];
+        
+        [self.evaluationTagView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.evaluateTitle.mas_bottom).offset(0);
+            make.leading.offset(20);
+            make.trailing.offset(-20);
+            make.bottom.mas_equalTo(self.textView.mas_top).offset(-10);
+        }];
+        [self.evaluationTagView layoutIfNeeded];
+    
+        NSLog(@"当前多少行%ld",(long)self.evaluationTagView.currentLineCount);
+        
+        CGFloat h =  self.evaluationTagView.regularHeight  *self.evaluationTagView.currentLineCount + kViewSpace;
+        
+        if (self.updateSelfFrame) {
+
+            self.updateSelfFrame(h + _currentHeight);
+        }
+        
+        
+        kWeakSelf
+        self.evaluationTagView.didTapTagAtButton = ^(UIButton *button, NSUInteger buttonId) {
+            
+            button.selected = !button.selected;
+        
+            if (button.isSelected) {
+               
+                button.backgroundColor = [UIColor redColor];
+                
+             
+                
+            }else{
+                button.backgroundColor = [UIColor grayColor];
+                              
+            }
+            
+                [weakSelf clickEvaluationTagSelectWithArray:buttonId WithSelect: button.selected];
+        };
+       
+        
+    }
+    }else{
+       
+        if (self.evaluationTagView) {
+            [self.evaluationTagView removeFromSuperview];
+            self.evaluationTagView = nil;
+        }
+        if (self.updateSelfFrame) {
+            self.updateSelfFrame( _currentHeight);
+        }
+
+    }
+}
+
 
 #pragma mark - getter
 
@@ -294,7 +426,7 @@
         _textView.font = [UIFont systemFontOfSize:15];
         _textView.delegate = self;
         UILabel *placeHolderLabel = [[UILabel alloc] init];
-               placeHolderLabel.text = @"请输入内容";
+               placeHolderLabel.text = NSLocalizedString(@"video.satisfaction.EnquiryComment", @"EnquiryComment");
                placeHolderLabel.numberOfLines = 0;
                placeHolderLabel.textColor = [UIColor lightGrayColor];
                [placeHolderLabel sizeToFit];
@@ -306,12 +438,18 @@
     return _textView;
 }
 
-- (UIView *)evaluationTagView
+- (SKTagView *)evaluationTagView
 {
     if (_evaluationTagView == nil) {
-//        _evaluationTagView = [[HEvaluationTagView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_evaluateTitle.frame), [UIScreen mainScreen].bounds.size.width  - 20, 60)];
-        _evaluationTagView = [[HEvaluationTagView alloc] init];
-        _evaluationTagView.delegate = self;
+//        _evaluationTagView = [[HDSatisfactionEvaluationTagView alloc] init];
+//        _evaluationTagView.delegate = self;
+        _evaluationTagView = [[SKTagView alloc] init];
+        _evaluationTagView.backgroundColor = [UIColor redColor];
+        _evaluationTagView.preferredMaxLayoutWidth = self.starRateView.frame.size.width;
+        _evaluationTagView.padding = UIEdgeInsetsMake(5, 5, 5, 5);
+        _evaluationTagView.lineSpacing = 5;
+        _evaluationTagView.regularHeight = 30;
+        _evaluationTagView.interitemSpacing = 20;
     }
     return _evaluationTagView;
 }
@@ -320,10 +458,9 @@
 {
     if (_commitBtn == nil) {
         _commitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_commitBtn setTitle:NSLocalizedString(@"satisfaction.commit", @"commit") forState:UIControlStateNormal];
-        [_commitBtn setTitle:@"提交评价" forState:UIControlStateNormal];
+        [_commitBtn setTitle:NSLocalizedString(@"video.satisfaction.Commit", @"commit") forState:UIControlStateNormal];
+//        [_commitBtn setTitle:@"提交评价" forState:UIControlStateNormal];
         [_commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//        _commitBtn.frame = CGRectMake(20, CGRectGetMaxY(_textView.frame) + 5, kHDScreenWidth - 40, 40);
         _commitBtn.layer.cornerRadius = 5.f;
         [_commitBtn setBackgroundColor: [UIColor blueColor]];
         _commitBtn.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -332,129 +469,62 @@
     return _commitBtn;
 }
 
-- (void)starRateView:(CWStarRateView *)starRateView scroePercentDidChange:(CGFloat)newScorePercent
-{
-    [self parseAppraiseTagExt:newScorePercent];
-}
-//
-//
-- (void)parseAppraiseTagExt:(CGFloat)ScorePercent{
-    
-                if (ScorePercent == 1.0) {
-                    self.evaluateTitle.text = @" 非常满意";
-                } else if (ScorePercent == 0.8) {
-                    self.evaluateTitle.text = @"满意";
-                } else if (ScorePercent == 0.6) {
-                    self.evaluateTitle.text = @"一般";
-                } else if (ScorePercent == 0.4) {
-                    self.evaluateTitle.text = @"不满意";
-                } else if (ScorePercent == 0.2) {
-                    self.evaluateTitle.text = @"非常不满意";
-                }
-//    HEvaluationDegreeModel *edm = [HEvaluationDegreeModel evaluationDegreeWithDict:appraiseTagsDict];
-//              self.evaluationTagView.evaluationDegreeModel = edm;
-}
-//{
-//    if ([self.messageModel.message.ext objectForKey:kMessageExtWeChat]) {
-//        NSDictionary *weichat = [self.messageModel.message.ext objectForKey:kMessageExtWeChat];
-//        if ([weichat objectForKey:kMessageExtWeChat_ctrlArgs]) {
-//            NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMessageExtWeChat_ctrlArgs]];
-//            NSLog(@"ctrlArgs--%@", ctrlArgs);
-//            NSMutableArray *evaluationDegree = [ctrlArgs objectForKey:kMessageExtWeChat_ctrlArgs_evaluationDegree];
-//            NSDictionary *appraiseTagsDict = nil;
-//            if (ScorePercent == 1.0) {
-//                appraiseTagsDict = [evaluationDegree objectAtIndex:0];
-//                self.evaluateTitle.text = [appraiseTagsDict objectForKey:@"name"];
-//            } else if (ScorePercent == 0.8) {
-//                appraiseTagsDict = [evaluationDegree objectAtIndex:1];
-//                self.evaluateTitle.text = [appraiseTagsDict objectForKey:@"name"];;
-//            } else if (ScorePercent == 0.6) {
-//                appraiseTagsDict = [evaluationDegree objectAtIndex:2];
-//                self.evaluateTitle.text = [appraiseTagsDict objectForKey:@"name"];;
-//            } else if (ScorePercent == 0.4) {
-//                appraiseTagsDict = [evaluationDegree objectAtIndex:3];
-//                self.evaluateTitle.text = [appraiseTagsDict objectForKey:@"name"];;
-//            } else if (ScorePercent == 0.2) {
-//                appraiseTagsDict = [evaluationDegree objectAtIndex:4];
-//                self.evaluateTitle.text = [appraiseTagsDict objectForKey:@"name"];;
-//            }
-//
-//            HEvaluationDegreeModel *edm = [HEvaluationDegreeModel evaluationDegreeWithDict:appraiseTagsDict];
-//            self.evaluationTagView.evaluationDegreeModel = edm;
-//        }
-//    }
-//}
 
 #pragma mark - action
 - (void)commit{
+    
+    // 查询 对应 星级 必填项
+    
+    //当前点击的星
+    int score = _starRateView.scorePercent*5;
+    NSString * optionName = [NSString stringWithFormat:@"EnquiryTagsFor%dScore",score];
+    NSString * commentName = [NSString stringWithFormat:@"EnquiryCommentFor%dScore",score];
+
+    [_enquiryOptions enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-//    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
-//
-//        make.leading.offset(10);
-//        make.trailing.offset(-10);
-//        make.bottom.offset (-10);
-//        make.height.mas_equalTo(self.superview.mas_height).multipliedBy(0.8);
-//
-//    }];
+        HDEnquiryOptionModel * model = obj;
+        
+       
+        if ([model.optionName isEqualToString:optionName] && [model.optionValue isEqualToString:@"true"]) {
+            
+            // 判断 标签有么有选
+            if (self.evaluationTagsArray.count > 0) {
+                
+                
+            }else{
+                [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.ags_nessary", @"video.satisfaction.ags_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+            }
+           
+        }
+        
+        if ([model.optionName isEqualToString:commentName] &&[model.optionValue isEqualToString:@"true"] ) {
+            
+            // 判断 建议有没有填写
+            if (self.textView.text.length > 0) {
+              
+                
+                
+            }else{
+                // 弹tost
+                [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.comment_nessary", @"video.satisfaction.comment_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+               
+            }
+        }
+       
+        
+        
+    }];
+    
+    
+    
+    
+    NSString * comment = self.textView.text;
+    
+    //调用 提交接口
+    
+    
 }
 
-//- (void)commit
-//{
-//    if (!_starRateView.isTap && _starRateView.scorePercent != 1) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"satisfaction.alert", @"please evaluate first") delegate:self cancelButtonTitle:NSLocalizedString(@"cancela", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"Ok"), nil];
-//        [alert show];
-//        return;
-//    }
-//    if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithControlArguments:type:evaluationTagsArray:evaluationDegreeId:)]) {
-//        if ([self.messageModel.message.ext objectForKey:kMessageExtWeChat]) {
-//            HDMessage *msg = self.messageModel.message;
-//            NSDictionary *weichat = [msg.ext objectForKey:kMessageExtWeChat];
-//            if ([weichat objectForKey:kMessageExtWeChat_ctrlArgs]) {
-//                NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMessageExtWeChat_ctrlArgs]];
-//                ControlType *type = [[ControlType alloc] initWithValue:@"enquiry"];
-//                ControlArguments *arguments = [ControlArguments new];
-//                arguments.sessionId = [msg.ext objectForKey:kMessageExtWeChat_ctrlArgs_serviceSessionId];
-//                if (!arguments.sessionId) {
-//                    if (msg.ext[@"weichat"][@"service_session"][@"serviceSessionId"]) {
-//                        arguments.sessionId = msg.ext[@"weichat"][@"service_session"][@"serviceSessionId"];
-//                    }
-//                }
-//                arguments.inviteId = [ctrlArgs objectForKey:kMessageExtWeChat_ctrlArgs_inviteId];
-//                arguments.detail = self.textView.text;
-//                arguments.summary = [NSString stringWithFormat:@"%d",(int)(_starRateView.scorePercent * 5)];
-//                if (self.evaluationTagsArray.count == 0 && self.evaluationTagView.evaluationDegreeModel.appraiseTags.count>0) {
-////                    [self showHint:NSLocalizedString(@"select_at_least_one_tag", @"Select at least one tag!")];
-//                } else {
-//                    [self.delegate commitSatisfactionWithControlArguments:arguments
-//                                                                     type:type
-//                                                      evaluationTagsArray:self.evaluationTagsArray evaluationDegreeId:self.evaluationTagView.evaluationDegreeModel.evaluationDegreeId];
-//                }
-//
-//            }
-//        }
-//    }
-//    if (self.evaluationTagView.evaluationDegreeModel.appraiseTags.count>0 &&
-//        self.evaluationTagsArray.count == 0) {
-//
-//    } else {
-////         [self back];
-//    }
-//
-//}
--(void)textViewDidChange:(UITextView *)textView
-{
-
-    if (textView.text.length == 0) {
-
-        self.textView.text = @"这里是要输入的placeholder文本";
-
-    }else{
-
-        self.textView.text = @"";
-
-    }
-
-}
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]) {
@@ -489,6 +559,42 @@
     }];
 }
 
+- (void)clickEvaluationTagSelectWithArray:(NSInteger)tagId  WithSelect:(BOOL)select
+{
+    
+    if (self.evaluationTagsArray) {
+        [self.evaluationTagsArray removeAllObjects];
+    }
+    
+    for (int i = 0; i < self.currentTags.count; i ++) {
+      
+        HDEnquiryTagModel * model = self.currentTags[i];
+        if ([model.tagId integerValue] == tagId) {
+            
+            if (select) {
+                
+                if (![self.evaluationTagsArray containsObject:model]) {
+                   
+                    [self.evaluationTagsArray addObject:model];
+                }
+               
+            }else{
+                
+                if ([self.evaluationTagsArray containsObject:model]) {
+                   
+                    [self.evaluationTagsArray removeObject:model];
+                }
+                
+            }
+           
+           
+        }
+        
+    }
+
+}
+
+
 - (void)evaluationTagSelectWithArray:(NSArray *)tags
 {
     if (self.evaluationTagsArray) {
@@ -497,10 +603,10 @@
     
     for (int i = 0; i < tags.count; i ++) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-//        HAppraiseTagsModel *model = tags[i];
-//        [dict setObject:model.appraiseTagsId forKey:@"id"];
-//        [dict setObject:model.name forKey:@"name"];
-//        [self.evaluationTagsArray addObject:dict];
+        HAppraiseTagsModel *model = tags[i];
+        [dict setObject:model.appraiseTagsId forKey:@"id"];
+        [dict setObject:model.name forKey:@"name"];
+        [self.evaluationTagsArray addObject:dict];
     }
 
 }
@@ -563,5 +669,13 @@
     
     return _bgView;
     
+}
+- (NSMutableArray *)currentTags{
+    
+    if (!_currentTags) {
+        _currentTags = [[NSMutableArray alloc] init];
+    }
+    
+    return _currentTags;
 }
 @end

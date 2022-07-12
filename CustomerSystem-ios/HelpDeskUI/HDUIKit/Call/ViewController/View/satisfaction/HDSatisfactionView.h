@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "HDIMessageModel.h"
 #import "CWStarRateView.h"
-#import "HEvaluationTagView.h"
+#import "HDSatisfactionEvaluationTagView.h"
 #import "HEvaluationDegreeModel.h"
 #import "HAppraiseTagsModel.h"
 #import "HDAccountmanager.h"
+#import "SKTagView.h"
 NS_ASSUME_NONNULL_BEGIN
 
 #define kViewSpace 20.f
@@ -39,7 +40,9 @@ typedef void(^UpdateSelfFrame)(CGFloat height);
 @property (nonatomic, strong) UILabel *msgLabel;
 @property (nonatomic, strong) CWStarRateView *starRateView;
 @property (nonatomic, strong) UILabel *evaluateTitle;
-@property (nonatomic, strong) HEvaluationTagView *evaluationTagView;
+//@property (nonatomic, strong) HDSatisfactionEvaluationTagView *evaluationTagView;
+@property (nonatomic, strong) SKTagView *evaluationTagView;
+
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UIButton *commitBtn;
