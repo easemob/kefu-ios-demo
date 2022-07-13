@@ -34,6 +34,26 @@
     
     return [UIColor colorWithHexString:@"0x2189ff" alpha:1];
 }
+- (UIColor *)contentColorF2AC3C{
+    
+    return [UIColor colorWithHexString:@"0xF2AC3C" alpha:1];
+}
+- (UIColor *)contentColorF0F0F0{
+    
+    return [UIColor colorWithHexString:@"0xF0F0F0" alpha:1];
+}
+- (UIColor *)contentColorE2EDFD{
+    
+    return [UIColor colorWithHexString:@"0xE2EDFD" alpha:1];
+}
+- (UIColor *)contentColor555555{
+    
+    return [UIColor colorWithHexString:@"0x555555" alpha:1];
+}
+- (UIColor *)contentColorBCBCBC{
+    
+    return [UIColor colorWithHexString:@"0xBCBCBC" alpha:1];
+}
 
 
 - (UIColor *)contentColorBlockalpha:(CGFloat)alpha{

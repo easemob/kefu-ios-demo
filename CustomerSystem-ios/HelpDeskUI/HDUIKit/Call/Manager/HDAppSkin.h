@@ -18,6 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 //huxin 通用
 - (UIColor *)contentColorBlueHX;
+- (UIColor *)contentColorF2AC3C;
+- (UIColor *)contentColorF0F0F0;
+- (UIColor *)contentColorE2EDFD;
+- (UIColor *)contentColor555555;
+- (UIColor *)contentColorBCBCBC;
 //项目常用颜色 灰色 背景色
 - (UIColor *)contentColorGray;
 

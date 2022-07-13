@@ -11,7 +11,6 @@
 #import "HDEnquiryTagModel.h"
 #import "MBProgressHUD+Add.h"
 #import "HDAgoraCallManager.h"
-
 @interface HDSatisfactionView()<UITextViewDelegate,CWStarRateViewDelegate,HDSatisfactionEvaluationTagSelectDelegate>
 {
 //    HDMessage *model;
@@ -22,9 +21,13 @@
     UILabel *_placeHolderLabel;
     
     CGFloat _currentHeight;
+    
+//    BOOL  _isDefault5Score;
+    CGFloat _textViewHeight;
 }
 @property (nonatomic,strong) SKTagView *tagView;;
-@property (nonatomic,strong) NSMutableArray  *currentTags;;
+@property (nonatomic,strong) NSMutableArray  *currentTags;
+@property (nonatomic,strong) UIView *maskView;
 @end
 @implementation HDSatisfactionView
 
@@ -32,7 +35,7 @@
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
         
-        [self creatUI];
+       
     
     }
     
@@ -81,13 +84,14 @@
         make.leading.offset(50);
         make.trailing.offset(-50);
         make.height.offset(44);
+        
     }];
     [self.evaluateTitle layoutIfNeeded];
     [self.bgView addSubview:self.textView];
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.offset(20);
         make.trailing.offset(-20);
-        make.height.offset(80);
+        make.height.offset(_textViewHeight);
         make.bottom.offset(-74);
     }];
     [self.textView layoutIfNeeded];
@@ -138,7 +142,6 @@
 - (void)setEnquiryInvite:(NSDictionary *)enquiryInvite{
     
     NSLog(@"=============%@",enquiryInvite);
-    _currentHeight = self.titleLabel.frame.size.height + self.starRateView.frame.size.height + self.evaluateTitle.frame.size.height + self.textView.frame.size.height+ self.commitBtn.frame.size.height + 64;//64 是间距
 
     if ([[enquiryInvite allKeys] containsObject:@"enquiryOptions"] && [[enquiryInvite valueForKey:@"enquiryOptions"] isKindOfClass:[NSArray class]]) {
         
@@ -148,54 +151,73 @@
         if (enquiryOptions) {
             
             _enquiryOptions = enquiryOptions;
-        }
+            [self initData];
         
-        [enquiryOptions enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            HDEnquiryOptionModel * model = obj;
-            
-            if ([model.optionName isEqualToString:@"EnquiryInviteMsg"]) {
-                
-                self.textLabel.text = model.optionValue;
-                
-                
-            }else if([model.optionName isEqualToString:@"EnquiryInviteMsg"]){
-                
-                self.msgLabel.text = model.optionValue;
-                
-            }
-            
-            
-            
-        }];
+        }
     }
     if ([[enquiryInvite allKeys] containsObject:@"enquiryTags"] && [[enquiryInvite valueForKey:@"enquiryTags"] isKindOfClass:[NSDictionary class]]) {
         
         _enquiryTags = [enquiryInvite valueForKey:@"enquiryTags"];
-        CGFloat h = 0.0;
-        if (_enquiryTags.count == 0) {
-            //默认没有标签
-//            [self.evaluationTagView removeFromSuperview];
-            if (self.updateSelfFrame) {
-                self.updateSelfFrame(_currentHeight);
-            }
-        }else{
-            // 计算五星标签高度
-            [self getEnquiryTagData:@"5"];
-
-        }
-      
-    
-    }else{
-        
-        if (self.updateSelfFrame) {
-            
-            self.updateSelfFrame(_currentHeight);
-        }
-        
     }
 }
+- (void)initData{
+        
+  
+    // 获取EnquiryCommentEnable
+    HDEnquiryOptionModel * m3 = [self getConfigModel:@"EnquiryCommentEnable"];
+    
+    if ([m3.optionValue isEqualToString:@"true"]) {
+        _textViewHeight = 80;
+    }else{
+        
+        _textViewHeight = 0;
+    }
+    
+  
+    
+    [self creatUI];
+    
+    _currentHeight = self.titleLabel.frame.size.height + self.starRateView.frame.size.height + self.evaluateTitle.frame.size.height + self.textView.frame.size.height+ self.commitBtn.frame.size.height + 64;//64 是间距
+    
+    if (self.updateSelfFrame) {
+        self.updateSelfFrame(_currentHeight);
+    }
+    // 获取EnquiryInviteMsg
+    HDEnquiryOptionModel * m1 = [self getConfigModel:@"EnquiryInviteMsg"];
+    self.textLabel.text = m1.optionValue;
+   
+    // 获取EnquiryDefaultShow5Score
+    HDEnquiryOptionModel * m4 = [self getConfigModel:@"EnquiryDefaultShow5Score"];
+    if ([m4.optionValue isEqualToString:@"true"]) {
+        
+    }else{
+        
+        self.evaluateTitle.text = @"";
+    }
+    
+    
+}
+- (HDEnquiryOptionModel *)getConfigModel:(NSString *)tagname{
+    
+    __block HDEnquiryOptionModel * model;
+    [_enquiryOptions enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        HDEnquiryOptionModel * m = obj;
+        
+        NSLog(@"======%@",m.optionName);
+        if ([m.optionName isEqualToString:tagname]) {
+            
+            model = m;
+            
+            *stop =YES;
+        }
 
+        
+    }];
+     
+    return model;
+    
+}
 
 //循环添加 标签
 - (void )hd_calculateAppraiseTags:(NSArray *)appraiseTags{
@@ -205,7 +227,6 @@
         [self.currentTags removeAllObjects];
     }
     
-    
     [appraiseTags enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
        
         HDEnquiryTagModel * model = obj;
@@ -213,9 +234,9 @@
         SKTag *tag = [[SKTag alloc] initWithText:model.tagName];
         tag.tagId = [model.tagId integerValue];
         tag.font = [UIFont systemFontOfSize:14];
-        tag.textColor = [UIColor blackColor];
-        tag.bgColor =[UIColor grayColor];
-        tag.cornerRadius = 5;
+        tag.textColor = [[HDAppSkin mainSkin] contentColor555555];
+        tag.bgColor = [[HDAppSkin mainSkin] contentColorF0F0F0];
+        tag.cornerRadius = 10;
         tag.enable = YES;
         tag.padding = UIEdgeInsetsMake(5, 10, 5, 10);
         [self.evaluationTagView addTag:tag];
@@ -236,7 +257,6 @@
 }
 
 - (void)parseAppraiseTagExt:(CGFloat)ScorePercent{
-    
     
     NSString *score;
                 if (ScorePercent == 1.0) {
@@ -262,11 +282,7 @@
     
     
 }
-//-(NSArray *)getCommitEnquiryTagData:(NSString *)score{
-//
-//
-//
-//}
+
 
 -(void)getEnquiryTagData:(NSString *)score{
     
@@ -300,24 +316,25 @@
             self.updateSelfFrame(h + _currentHeight);
         }
         
-        
         kWeakSelf
         self.evaluationTagView.didTapTagAtButton = ^(UIButton *button, NSUInteger buttonId) {
             
             button.selected = !button.selected;
         
             if (button.isSelected) {
-               
-                button.backgroundColor = [UIColor redColor];
-                
-             
+                [button setTitleColor: [[HDAppSkin mainSkin] contentColorBlueHX] forState: UIControlStateNormal];
+//                button.titleLabel.textColor = [[HDAppSkin mainSkin] contentColorBlueHX] ;
+                button.backgroundColor = [[HDAppSkin mainSkin] contentColorE2EDFD];
+                [weakSelf clickEvaluationTagSelectWithArray:buttonId WithSelect:YES];
                 
             }else{
-                button.backgroundColor = [UIColor grayColor];
-                              
+//                button.titleLabel.textColor = [[HDAppSkin mainSkin] contentColorBlueHX] ;
+                [button setTitleColor: [[HDAppSkin mainSkin] contentColor555555] forState: UIControlStateNormal];
+                button.backgroundColor = [[HDAppSkin mainSkin] contentColorF0F0F0];
+                [weakSelf clickEvaluationTagSelectWithArray:buttonId WithSelect:NO];
             }
             
-                [weakSelf clickEvaluationTagSelectWithArray:buttonId WithSelect: button.selected];
+               
         };
        
         
@@ -345,7 +362,7 @@
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.text = NSLocalizedString(@"satisfaction.message", @"please evaluate my service");
         _titleLabel.textAlignment = NSTextAlignmentLeft;
-        _titleLabel.textColor = [UIColor lightGrayColor];
+        _titleLabel.textColor =[[HDAppSkin mainSkin] contentColor555555];
         _titleLabel.text = @"请对我的服务进行评价：";
         _titleLabel.font = [UIFont systemFontOfSize:14];
 //        _titleLabel.backgroundColor = [UIColor whiteColor];
@@ -359,12 +376,10 @@
         _textLabel = [[UILabel alloc] init];
         _textLabel.text = NSLocalizedString(@"satisfaction.message", @"please evaluate my service");
         _textLabel.textAlignment = NSTextAlignmentLeft;
-        _textLabel.textColor = [UIColor lightGrayColor];
-        _textLabel.text = @"please evaluate my service:";
+        _textLabel.textColor  =[[HDAppSkin mainSkin] contentColor555555];
         _textLabel.numberOfLines =1;
         _textLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _textLabel.font = [UIFont systemFontOfSize:14];
-//        _textLabel.backgroundColor = [UIColor whiteColor];
         
     }
     return _textLabel;
@@ -375,11 +390,11 @@
         _msgLabel = [[UILabel alloc] init];
         _msgLabel.text = NSLocalizedString(@"satisfaction.message", @"please evaluate my service");
         _msgLabel.textAlignment = NSTextAlignmentCenter;
-        _msgLabel.textColor = [UIColor lightGrayColor];
-        _msgLabel.text = @"please evaluate my service:";
-        _msgLabel.numberOfLines =1;
+        _msgLabel.textColor =[[HDAppSkin mainSkin] contentColor555555];
+//        _msgLabel.text = @"please evaluate my service:";
+        _msgLabel.numberOfLines =0;
         _msgLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        _msgLabel.font = [UIFont systemFontOfSize:14];
+        _msgLabel.font = [UIFont systemFontOfSize:18];
 //        _textLabel.backgroundColor = [UIColor whiteColor];
         
     }
@@ -390,7 +405,8 @@
     if (_starRateView == nil) {
 //        _starRateView = [[CWStarRateView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_textLabel.frame) + kViewSpace, kHDScreenWidth - 20, 40) numberOfStars:5];
         _starRateView = [[CWStarRateView alloc] initWithFrame:CGRectMake(40,64,[UIScreen mainScreen].bounds.size.width - 100, 40) numberOfStars:5];
-        _starRateView.scorePercent = 1.0;
+//        _starRateView.scorePercent = 1.0;
+        _starRateView.scorePercent = -1; //标示 没有默认选中的星
         _starRateView.allowIncompleteStar = YES;
         _starRateView.hasAnimation = YES;
         _starRateView.delegate = self;
@@ -405,7 +421,7 @@
         _evaluateTitle = [[UILabel alloc] init];
         _evaluateTitle.textAlignment = NSTextAlignmentCenter;
         _evaluateTitle.font = [UIFont systemFontOfSize:16];
-        [_evaluateTitle setTextColor:[UIColor orangeColor]];
+        [_evaluateTitle setTextColor:[ [HDAppSkin mainSkin] contentColorF2AC3C]];
         _evaluateTitle.text = @"非常满意";
 //        _evaluateTitle.backgroundColor = [UIColor blackColor];
     }
@@ -417,18 +433,18 @@
     if (_textView == nil) {
         _textView = [[UITextView alloc] init];
         
-        _textView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        _textView.layer.borderColor =  [[HDAppSkin mainSkin] contentColorF0F0F0].CGColor;
         _textView.layer.cornerRadius = 5.f;
         _textView.layer.borderWidth = 0.5;
-        _textView.textColor = UIColor.blackColor;
-        _textView.backgroundColor = [UIColor whiteColor];
+        _textView.textColor  =[[HDAppSkin mainSkin] contentColor555555];
+        _textView.backgroundColor = [[HDAppSkin mainSkin] contentColorF0F0F0];
         
         _textView.font = [UIFont systemFontOfSize:15];
         _textView.delegate = self;
         UILabel *placeHolderLabel = [[UILabel alloc] init];
                placeHolderLabel.text = NSLocalizedString(@"video.satisfaction.EnquiryComment", @"EnquiryComment");
                placeHolderLabel.numberOfLines = 0;
-               placeHolderLabel.textColor = [UIColor lightGrayColor];
+               placeHolderLabel.textColor = [[HDAppSkin mainSkin] contentColorBCBCBC];
                [placeHolderLabel sizeToFit];
                placeHolderLabel.font = [UIFont systemFontOfSize:12];
                [_textView addSubview:placeHolderLabel];
@@ -444,7 +460,6 @@
 //        _evaluationTagView = [[HDSatisfactionEvaluationTagView alloc] init];
 //        _evaluationTagView.delegate = self;
         _evaluationTagView = [[SKTagView alloc] init];
-        _evaluationTagView.backgroundColor = [UIColor redColor];
         _evaluationTagView.preferredMaxLayoutWidth = self.starRateView.frame.size.width;
         _evaluationTagView.padding = UIEdgeInsetsMake(5, 5, 5, 5);
         _evaluationTagView.lineSpacing = 5;
@@ -462,7 +477,7 @@
 //        [_commitBtn setTitle:@"提交评价" forState:UIControlStateNormal];
         [_commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _commitBtn.layer.cornerRadius = 5.f;
-        [_commitBtn setBackgroundColor: [UIColor blueColor]];
+        [_commitBtn setBackgroundColor:[[HDAppSkin mainSkin] contentColorBlueHX]];
         _commitBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         [_commitBtn addTarget:self action:@selector(commit) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -474,46 +489,84 @@
 - (void)commit{
     
     // 查询 对应 星级 必填项
-    
     //当前点击的星
     int score = _starRateView.scorePercent*5;
     NSString * optionName = [NSString stringWithFormat:@"EnquiryTagsFor%dScore",score];
     NSString * commentName = [NSString stringWithFormat:@"EnquiryCommentFor%dScore",score];
-
-    [_enquiryOptions enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    
+    if (score == 0) {
         
-        HDEnquiryOptionModel * model = obj;
-        
-       
-        if ([model.optionName isEqualToString:optionName] && [model.optionValue isEqualToString:@"true"]) {
+        // 弹tost
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.score", @"video.satisfaction.score")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+        return;
+    }
+    
+    HDEnquiryOptionModel *model = [self getConfigModel:optionName];
+    
+    // 标签必选
+    if ([model.optionValue isEqualToString:@"true"]) {
+        // 判断 标签有么有选
+        if (self.evaluationTagsArray.count > 0) {
             
-            // 判断 标签有么有选
-            if (self.evaluationTagsArray.count > 0) {
-                
-                
-            }else{
-                [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.ags_nessary", @"video.satisfaction.ags_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
-            }
-           
-        }
-        
-        if ([model.optionName isEqualToString:commentName] &&[model.optionValue isEqualToString:@"true"] ) {
+        }else{
+            [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.ags_nessary", @"video.satisfaction.ags_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
             
-            // 判断 建议有没有填写
-            if (self.textView.text.length > 0) {
-              
-                
-                
-            }else{
-                // 弹tost
-                [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.comment_nessary", @"video.satisfaction.comment_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
-               
-            }
+            return;
+            
         }
-       
+    }
+    HDEnquiryOptionModel *model1 = [self getConfigModel:commentName];
+    if ([model1.optionValue isEqualToString:@"true"]) {
         
-        
-    }];
+        if (self.textView.text.length > 0) {
+      
+        }else{
+                     
+            // 弹tost
+            [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.comment_nessary", @"video.satisfaction.comment_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+            
+            return;
+            
+        }
+    }
+    
+    
+    
+//    [_enquiryOptions enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//
+//        HDEnquiryOptionModel * model = obj;
+//
+//
+//        if ([model.optionName isEqualToString:optionName] && [model.optionValue isEqualToString:@"true"]) {
+//
+//            // 判断 标签有么有选
+//            if (self.evaluationTagsArray.count > 0) {
+//
+//
+//            }else{
+//                [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.ags_nessary", @"video.satisfaction.ags_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+//                return;
+//            }
+//
+//        }
+//
+//        if ([model.optionName isEqualToString:commentName] &&[model.optionValue isEqualToString:@"true"] ) {
+//
+//            // 判断 建议有没有填写
+//            if (self.textView.text.length > 0) {
+//
+//
+//
+//            }else{
+//                // 弹tost
+//                [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.comment_nessary", @"video.satisfaction.comment_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+//                return;
+//            }
+//        }
+//
+//
+//
+//    }];
     
     
     
@@ -521,7 +574,46 @@
     NSString * comment = self.textView.text;
     
     //调用 提交接口
+    [self evaluationTagSelectWithArray:self.evaluationTagsArray];
     
+    [[HDClient sharedClient].callManager hd_submitVisitorEnquirySessionid:nil withScore:score withComment:comment withTagData:self.evaluationTagsArray Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+        
+        if (error == nil) {
+            //提交成功
+            
+            [self addSubview:self.maskView];
+            
+            [self.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.offset(0);
+                make.bottom.offset(0);
+                make.leading.offset(0);
+                make.trailing.offset(0);
+            }];
+            // 获取EnquiryInviteMsg
+            HDEnquiryOptionModel * m2 = [self getConfigModel:@"EnquirySolveMsg"];
+            self.msgLabel.text = m2.optionValue;
+            
+            /**
+            * 定制了延时执行的任务，不会阻塞线程，在主线程和子线程中都可以，效率较高（推荐使用）。
+            * 此方式在可以在参数中选择执行的线程。
+            * 是一种非阻塞的执行方式， 没有找到取消执行的方法。
+            */
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+           
+                [self removeFromSuperview];
+                
+             });
+           
+            
+            
+        }else{
+            
+            
+            
+        }
+        NSLog(@"======%@",responseObject);
+            
+    }];
     
 }
 
@@ -561,11 +653,7 @@
 
 - (void)clickEvaluationTagSelectWithArray:(NSInteger)tagId  WithSelect:(BOOL)select
 {
-    
-    if (self.evaluationTagsArray) {
-        [self.evaluationTagsArray removeAllObjects];
-    }
-    
+        
     for (int i = 0; i < self.currentTags.count; i ++) {
       
         HDEnquiryTagModel * model = self.currentTags[i];
@@ -597,15 +685,16 @@
 
 - (void)evaluationTagSelectWithArray:(NSArray *)tags
 {
+    NSArray * tmpArray = [[NSArray alloc] initWithArray:tags];
     if (self.evaluationTagsArray) {
         [self.evaluationTagsArray removeAllObjects];
     }
     
-    for (int i = 0; i < tags.count; i ++) {
+    for (int i = 0; i < tmpArray.count; i ++) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        HAppraiseTagsModel *model = tags[i];
-        [dict setObject:model.appraiseTagsId forKey:@"id"];
-        [dict setObject:model.name forKey:@"name"];
+        HDEnquiryTagModel *model = tmpArray[i];
+        [dict setObject:model.tagId forKey:@"id"];
+        [dict setObject:model.tagName forKey:@"tagName"];
         [self.evaluationTagsArray addObject:dict];
     }
 
@@ -677,5 +766,24 @@
     }
     
     return _currentTags;
+}
+-(UIView *)maskView{
+
+    if (!_maskView) {
+        _maskView = [[UIView alloc] init];
+//        _maskView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1];
+        UIColor *color = [UIColor whiteColor];
+        _maskView.backgroundColor = [color colorWithAlphaComponent:0.9];
+        [_maskView addSubview:self.msgLabel];
+        [self.msgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.offset(0);
+            make.centerY.offset(0);
+            make.leading.offset(10);
+            make.trailing.offset(-10);
+        }];
+    }
+    
+    return _maskView;
+    
 }
 @end

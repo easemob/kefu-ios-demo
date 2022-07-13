@@ -354,4 +354,5 @@
 
 "video.satisfaction.comment_nessary" = "建议必须填写";
 "video.satisfaction.ags_nessary" = "标签必须选择";
+"video.satisfaction.score" = "分数必须填写";
 

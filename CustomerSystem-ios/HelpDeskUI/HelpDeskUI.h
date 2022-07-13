@@ -50,6 +50,7 @@
 
 #import "HDMasonry.h"
 #import "YYModel.h"
+#import "HDAppSkin.h"
 
 //Ext keyWord
 #define kMessageExtWeChat @"weichat"
