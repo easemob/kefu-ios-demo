@@ -2085,24 +2085,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 //mark vec 1.3 独立访客端 收到坐席 签名
 - (void)onCallSignIdentify:(NSDictionary *)dic{
 
-    if (!_cameraState) {
-        //开启
-        //当前摄像头关闭 需要打开
-        [[HDAgoraCallManager shareInstance] enableLocalVideo:YES];
-//        [[HDAgoraCallManager shareInstance] resumeVideo];
-        _cameraState = YES;
-        [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:NO];
-        
-    }else{
-       // 关闭
-        [self closeCamera];
-
-    }
-    
-    
-    return;
-    
-    
     if (!isCalling) {
         return;
     }
