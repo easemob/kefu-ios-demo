@@ -2079,6 +2079,8 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 //mark vec 1.3 独立访客端 收到坐席 签名
 - (void)onCallSignIdentify:(NSDictionary *)dic{
     
+    
+
     if (!isCalling) {
         return;
     }
@@ -2432,7 +2434,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             
         }else{
             NSLog(@"=====%@",error.errorDescription);
-            
             NSString *str = [NSString stringWithFormat:@"%@-%@",NSLocalizedString(@"提交失败请重新提交", @"提交失败请重新提交"),error.errorDescription];
             
             [MBProgressHUD dismissInfo:str withWindow:self.alertWindow];
@@ -2490,6 +2491,44 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     }
     
     return _hdSatisfactionView;
+}
+#pragma mark --vec 1.4  远程协助
+/*!
+ *  \~chinese
+ *   麦克风 通知
+ */
+- (void)onMuteLocalAudioStreamParameter:(NSDictionary *)dic{
+    
+
+    [self muteBtnClicked:_muteBtn];
+    
+    
+}
+/*!
+ *  \~chinese
+ *   摄像头
+ */
+- (void)onMuteLocalVideoStreamParameter:(NSDictionary *)dic{
+    
+    
+    
+}
+/*!
+ *  \~chinese
+ *   切换摄像头
+ */
+- (void)onSwitchCameraParameter:(NSDictionary *)dic{
+    
+    
+}
+/*!
+ *  \~chinese
+ *   对焦、
+ */
+- (void)onFocusingOnParameter:(NSDictionary *)dic{
+    
+    
+    
 }
 
 
