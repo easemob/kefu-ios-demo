@@ -223,14 +223,6 @@
 }
 
 - (void)updateTime {
-
-//    if (_num > 2) {
-//        _num = 0;
-//    }
-//    NSArray *array = @[@".",@"..",@"..."];
-//    self.answerLabel.text = [NSString stringWithFormat:@"收到视频通话%@",array[_num]];
-//    _num++;
-    
     
     [[HDClient sharedClient].callManager hd_getVisitorCurrentWaitingSessionid:nil Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
             
@@ -304,7 +296,8 @@
 }
 - (void)dealloc{
     
-    [self stopTimer];
+    [_timer invalidate];
+    _timer = nil;
     
 }
 - (void)layoutSubviews{

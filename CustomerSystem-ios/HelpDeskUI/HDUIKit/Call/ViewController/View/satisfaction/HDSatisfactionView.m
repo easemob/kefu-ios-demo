@@ -142,7 +142,10 @@
 - (void)setEnquiryInvite:(NSDictionary *)enquiryInvite{
     
     NSLog(@"=============%@",enquiryInvite);
-
+    if ([[enquiryInvite allKeys] containsObject:@"enquiryTags"] && [[enquiryInvite valueForKey:@"enquiryTags"] isKindOfClass:[NSDictionary class]]) {
+        
+        _enquiryTags = [enquiryInvite valueForKey:@"enquiryTags"];
+    }
     if ([[enquiryInvite allKeys] containsObject:@"enquiryOptions"] && [[enquiryInvite valueForKey:@"enquiryOptions"] isKindOfClass:[NSArray class]]) {
         
         NSArray *enquiryOptions = [NSArray yy_modelArrayWithClass:[HDEnquiryOptionModel class] json:[enquiryInvite valueForKey:@"enquiryOptions"]];
@@ -155,10 +158,7 @@
         
         }
     }
-    if ([[enquiryInvite allKeys] containsObject:@"enquiryTags"] && [[enquiryInvite valueForKey:@"enquiryTags"] isKindOfClass:[NSDictionary class]]) {
-        
-        _enquiryTags = [enquiryInvite valueForKey:@"enquiryTags"];
-    }
+  
 }
 - (void)initData{
         
@@ -172,8 +172,6 @@
         
         _textViewHeight = 0;
     }
-    
-  
     
     [self creatUI];
     
@@ -189,9 +187,10 @@
     // 获取EnquiryDefaultShow5Score
     HDEnquiryOptionModel * m4 = [self getConfigModel:@"EnquiryDefaultShow5Score"];
     if ([m4.optionValue isEqualToString:@"true"]) {
-        
+        self.starRateView.scorePercent = 1;
+        [self getEnquiryTagData:@"5"];
     }else{
-        
+        self.starRateView.scorePercent = -1;
         self.evaluateTitle.text = @"";
     }
     
@@ -226,7 +225,12 @@
         
         [self.currentTags removeAllObjects];
     }
-    
+    if (self.evaluationTagView) {
+        [self.evaluationTagView removeAllTags];
+    }
+    if (self.evaluationTagsArray) {
+        [self.evaluationTagsArray removeAllObjects];
+    }
     [appraiseTags enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
        
         HDEnquiryTagModel * model = obj;
@@ -257,6 +261,9 @@
 }
 
 - (void)parseAppraiseTagExt:(CGFloat)ScorePercent{
+    
+    
+    
     
     NSString *score;
                 if (ScorePercent == 1.0) {
@@ -406,6 +413,7 @@
 //        _starRateView = [[CWStarRateView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_textLabel.frame) + kViewSpace, kHDScreenWidth - 20, 40) numberOfStars:5];
         _starRateView = [[CWStarRateView alloc] initWithFrame:CGRectMake(40,64,[UIScreen mainScreen].bounds.size.width - 100, 40) numberOfStars:5];
 //        _starRateView.scorePercent = 1.0;
+        
         _starRateView.scorePercent = -1; //标示 没有默认选中的星
         _starRateView.allowIncompleteStar = YES;
         _starRateView.hasAnimation = YES;
@@ -515,8 +523,10 @@
             
         }
     }
-    HDEnquiryOptionModel *model1 = [self getConfigModel:commentName];
-    if ([model1.optionValue isEqualToString:@"true"]) {
+    HDEnquiryOptionModel *model1 = [self getConfigModel:@"EnquiryCommentEnable"];
+    HDEnquiryOptionModel *model2 = [self getConfigModel:commentName];
+    
+    if ([model1.optionValue isEqualToString:@"true"] && [model2.optionValue isEqualToString:@"true"]) {
         
         if (self.textView.text.length > 0) {
       
@@ -529,55 +539,16 @@
             
         }
     }
-    
-    
-    
-//    [_enquiryOptions enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//
-//        HDEnquiryOptionModel * model = obj;
-//
-//
-//        if ([model.optionName isEqualToString:optionName] && [model.optionValue isEqualToString:@"true"]) {
-//
-//            // 判断 标签有么有选
-//            if (self.evaluationTagsArray.count > 0) {
-//
-//
-//            }else{
-//                [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.ags_nessary", @"video.satisfaction.ags_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
-//                return;
-//            }
-//
-//        }
-//
-//        if ([model.optionName isEqualToString:commentName] &&[model.optionValue isEqualToString:@"true"] ) {
-//
-//            // 判断 建议有没有填写
-//            if (self.textView.text.length > 0) {
-//
-//
-//
-//            }else{
-//                // 弹tost
-//                [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.comment_nessary", @"video.satisfaction.comment_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
-//                return;
-//            }
-//        }
-//
-//
-//
-//    }];
-    
-    
-    
-    
+
     NSString * comment = self.textView.text;
     
     //调用 提交接口
     [self evaluationTagSelectWithArray:self.evaluationTagsArray];
     
+    MBProgressHUD *hud=  [MBProgressHUD  showMessag:@"" toView:[HDAgoraCallManager shareInstance].currentWindow];
+    
     [[HDClient sharedClient].callManager hd_submitVisitorEnquirySessionid:nil withScore:score withComment:comment withTagData:self.evaluationTagsArray Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
-        
+        [hud hideAnimated:YES];
         if (error == nil) {
             //提交成功
             
@@ -600,21 +571,28 @@
             */
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
            
-                [self removeFromSuperview];
-                
+                [self remove];
              });
            
             
             
         }else{
             
-            
+            [MBProgressHUD  dismissInfo:error.errorDescription  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
             
         }
         NSLog(@"======%@",responseObject);
             
     }];
     
+}
+- (void)remove {
+   
+    for (UIView *view in self.subviews) {
+        [view removeFromSuperview];
+    }
+    [self removeFromSuperview];
+
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -658,7 +636,7 @@
       
         HDEnquiryTagModel * model = self.currentTags[i];
         if ([model.tagId integerValue] == tagId) {
-            
+
             if (select) {
                 
                 if (![self.evaluationTagsArray containsObject:model]) {
@@ -693,8 +671,8 @@
     for (int i = 0; i < tmpArray.count; i ++) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         HDEnquiryTagModel *model = tmpArray[i];
-        [dict setObject:model.tagId forKey:@"id"];
-        [dict setObject:model.tagName forKey:@"tagName"];
+        [dict hd_setValue:model.tagId forKey:@"id"];
+        [dict hd_setValue:model.tagName forKey:@"tagName"];
         [self.evaluationTagsArray addObject:dict];
     }
 
