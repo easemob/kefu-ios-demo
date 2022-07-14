@@ -157,6 +157,7 @@ static HDVideoCallViewController *_manger = nil;
     [self cancelWindow];
     [HDAgoraCallManager shareInstance].keyCenter.isAgentCancelCallbackReceive = NO;
     [HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
+    [HDAgoraCallManager shareInstance].currentWindow = nil;
 }
 - (void)removeAllSubviews {
     while (_manger.alertWindow.subviews.count) {
@@ -191,7 +192,7 @@ static HDVideoCallViewController *_manger = nil;
 }
 - (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(nonnull NSString *)aNickname{
 //    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
-    [HDAgoraCallManager shareInstance].currentWindow = self.alertWindow;
+//    [HDAgoraCallManager shareInstance].currentWindow = self.alertWindow;
     [HDCallManager shareInstance].isVecVideo = YES;
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
     if (!isCalling) {
@@ -888,6 +889,11 @@ static HDVideoCallViewController *_manger = nil;
            if (weakSelf.hangUpVideoCallback) {
                weakSelf.hangUpVideoCallback(weakSelf, weakSelf.hdTitleView.timeLabel.text);
            }
+           if (weakSelf.hdSatisfactionView) {
+               
+               [weakSelf.hdSatisfactionView removeFromSuperview];
+               weakSelf.hdSatisfactionView = nil;
+           }
        };
     }
     return _hdVideoAnswerView;
@@ -1219,7 +1225,7 @@ static HDVideoCallViewController *_manger = nil;
 }
 
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController{
-    return NO;   //点击蒙版popover不消失， 默认yes
+    return YES;   //点击蒙版popover不消失， 默认yes
 }
 // 扬声器事件
 - (void)speakerBtnClicked:(UIButton *)btn {
@@ -2078,9 +2084,25 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 #pragma mark - 收到cmd 各种通知 原子化能力
 //mark vec 1.3 独立访客端 收到坐席 签名
 - (void)onCallSignIdentify:(NSDictionary *)dic{
-    
-    
 
+    if (!_cameraState) {
+        //开启
+        //当前摄像头关闭 需要打开
+        [[HDAgoraCallManager shareInstance] enableLocalVideo:YES];
+//        [[HDAgoraCallManager shareInstance] resumeVideo];
+        _cameraState = YES;
+        [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:NO];
+        
+    }else{
+       // 关闭
+        [self closeCamera];
+
+    }
+    
+    
+    return;
+    
+    
     if (!isCalling) {
         return;
     }
@@ -2498,10 +2520,9 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  *   麦克风 通知
  */
 - (void)onMuteLocalAudioStreamParameter:(NSDictionary *)dic{
-    
 
+    _muteBtn.selected =YES;
     [self muteBtnClicked:_muteBtn];
-    
     
 }
 /*!
@@ -2509,6 +2530,22 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  *   摄像头
  */
 - (void)onMuteLocalVideoStreamParameter:(NSDictionary *)dic{
+    
+    //根据后台给的开启 还是关闭 进行调用
+
+    if (_cameraState) {
+        //开启
+        //当前摄像头关闭 需要打开
+        [[HDAgoraCallManager shareInstance] enableLocalVideo:YES];
+//        [[HDAgoraCallManager shareInstance] resumeVideo];
+        _cameraState = YES;
+        [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:NO];
+        
+    }else{
+       // 关闭
+        [self closeCamera];
+
+    }
     
     
     
@@ -2519,6 +2556,9 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  */
 - (void)onSwitchCameraParameter:(NSDictionary *)dic{
     
+    
+    _cameraBtn.selected =YES;
+    [self camBtnClicked:_cameraBtn];
     
 }
 /*!

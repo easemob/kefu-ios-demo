@@ -570,6 +570,7 @@
     if (self.clickCloseCallBlock) {
         self.clickCloseCallBlock(sender);
     }
+    [self removeFromSuperview];
 }
 - (void)onCallClick:(UIButton *)sender{
     

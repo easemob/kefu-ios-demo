@@ -495,7 +495,6 @@
 
 #pragma mark - action
 - (void)commit{
-    
     // 查询 对应 星级 必填项
     //当前点击的星
     int score = _starRateView.scorePercent*5;
@@ -505,7 +504,8 @@
     if (score == 0) {
         
         // 弹tost
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.score", @"video.satisfaction.score")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+//        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.score", @"video.satisfaction.score")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+        [MBProgressHUD  showSuccess:NSLocalizedString(@"video.satisfaction.score", @"video.satisfaction.score") toView:self.superview];
         return;
     }
     
@@ -517,8 +517,9 @@
         if (self.evaluationTagsArray.count > 0) {
             
         }else{
-            [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.ags_nessary", @"video.satisfaction.ags_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
-            
+//            [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.ags_nessary", @"video.satisfaction.ags_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+//
+            [MBProgressHUD  showSuccess:NSLocalizedString(@"video.satisfaction.ags_nessary", @"video.satisfaction.ags_nessary") toView:self.superview];
             return;
             
         }
@@ -533,7 +534,8 @@
         }else{
                      
             // 弹tost
-            [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.comment_nessary", @"video.satisfaction.comment_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+//            [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.satisfaction.comment_nessary", @"video.satisfaction.comment_nessary")  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+            [MBProgressHUD  showSuccess:NSLocalizedString(@"video.satisfaction.comment_nessary", @"video.satisfaction.comment_nessary") toView:self.superview];
             
             return;
             
@@ -545,8 +547,8 @@
     //调用 提交接口
     [self evaluationTagSelectWithArray:self.evaluationTagsArray];
     
-    MBProgressHUD *hud=  [MBProgressHUD  showMessag:@"" toView:[HDAgoraCallManager shareInstance].currentWindow];
-    
+//    MBProgressHUD *hud=  [MBProgressHUD  showMessag:@"" toView:[HDAgoraCallManager shareInstance].currentWindow];
+    MBProgressHUD *hud=  [MBProgressHUD  showMessag:@"" toView:self.superview];
     [[HDClient sharedClient].callManager hd_submitVisitorEnquirySessionid:nil withScore:score withComment:comment withTagData:self.evaluationTagsArray Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         [hud hideAnimated:YES];
         if (error == nil) {
@@ -578,7 +580,11 @@
             
         }else{
             
-            [MBProgressHUD  dismissInfo:error.errorDescription  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+//            [MBProgressHUD  dismissInfo:error.errorDescription  withWindow:[HDAgoraCallManager shareInstance].currentWindow];
+            
+            NSString *str= [NSString stringWithFormat:@"%@",self.evaluationTagsArray];
+            
+            [MBProgressHUD  showSuccess:[NSString stringWithFormat:@"%@\n%@",error.errorDescription,str] toView:self.superview];
             
         }
         NSLog(@"======%@",responseObject);
@@ -677,57 +683,6 @@
     }
 
 }
-//对应于 ContentMode UIViewContentModeScaleAspectFit
-- (CGSize)CGSizeAspectFit:(CGSize)aspectRatio bounding:(CGSize) boundingSize
-{
-    float mW = boundingSize.width / aspectRatio.width;
-    float mH = boundingSize.height / aspectRatio.height;
-    if( mH < mW )
-        boundingSize.width = mH * aspectRatio.width;
-    else if( mW < mH )
-        boundingSize.height = mW * aspectRatio.height;
-    return boundingSize;
-}
-
-//对应于 ContentMode UIViewContentModeScaleAspectFill
-- (CGSize)CGSizeAspectFill:(CGSize)aspectRatio minSize:(CGSize)minimumSize
-{
-    float mW = minimumSize.width / aspectRatio.width;
-    float mH = minimumSize.height / aspectRatio.height;
-    if( mH > mW )
-        minimumSize.width = mH * aspectRatio.width;
-    else if( mW > mH )
-        minimumSize.height = mW * aspectRatio.height;
-    return minimumSize;
-}
-
-- (UIImage *)imageScaledToSize:(CGSize)size boundingSize:(CGSize)boundingSize cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor
-{
-    //create drawing context
-    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
-
-    //需要将可视区域画到图片的中心
-    CGFloat originX = (size.width-boundingSize.width)/2;
-    originX = originX < 0 ? 0 : originX;
-
-    CGFloat originY = (size.height-boundingSize.height)/2;
-    originY = originY < 0 ? 0 : originY;
-
-    [borderColor setStroke];
-    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(originX, originY, boundingSize.width, boundingSize.height) cornerRadius:cornerRadius];
-    [bezierPath setLineWidth:borderWidth];
-    [bezierPath stroke];
-    [bezierPath addClip];
-
-    //draw
-//    [self.headImage.image drawInRect:CGRectMake(0.0f, 0.0f, size.width, size.height)];
-
-    //capture resultant image
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-    return image;
-}
 
 - (UIView *)bgView{
     if (!_bgView) {
@@ -751,7 +706,7 @@
         _maskView = [[UIView alloc] init];
 //        _maskView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1];
         UIColor *color = [UIColor whiteColor];
-        _maskView.backgroundColor = [color colorWithAlphaComponent:0.9];
+        _maskView.backgroundColor = [color colorWithAlphaComponent:0.97];
         [_maskView addSubview:self.msgLabel];
         [self.msgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.offset(0);
