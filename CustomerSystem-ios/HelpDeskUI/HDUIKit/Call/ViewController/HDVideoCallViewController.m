@@ -2085,6 +2085,9 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 //mark vec 1.3 独立访客端 收到坐席 签名
 - (void)onCallSignIdentify:(NSDictionary *)dic{
 
+ 
+    
+    
     if (!isCalling) {
         return;
     }
@@ -2447,11 +2450,11 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 }
 //
 #pragma mark --vec 1.3 满意度
-- (void)onEnquiryInviteParameter:(NSDictionary *)enquiryInvite{
+- (void)onEnquiryInviteParameter:(NSDictionary *)enquiryInvite withMessage:(HDMessage *)message{
     
     [self.hdVideoAnswerView addSubview:self.hdSatisfactionView];
     
-    [self.hdSatisfactionView setEnquiryInvite:enquiryInvite];
+    [self.hdSatisfactionView setEnquiryInvite:enquiryInvite withModel:message];
     
     [self.hdVideoAnswerView bringSubviewToFront:self.hdSatisfactionView];
 
@@ -2513,22 +2516,27 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  */
 - (void)onMuteLocalVideoStreamParameter:(NSDictionary *)dic{
     
-    //根据后台给的开启 还是关闭 进行调用
-
+    //默认进来判断获取摄像头状态
+    //1、如果是关闭  点击直接打开摄像头
+    //2、如果是开启的 点击按钮 谈窗
+//        1、点击关闭摄像头  调用关闭摄像头方法 并且 更改当前btn 图片状态
+//        2、点击切换摄像头  调用切换摄像头方法
     if (_cameraState) {
         //开启
+     
+        [self closeCamera];
+        
+    }else{
         //当前摄像头关闭 需要打开
         [[HDAgoraCallManager shareInstance] enableLocalVideo:YES];
 //        [[HDAgoraCallManager shareInstance] resumeVideo];
         _cameraState = YES;
         [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:NO];
-        
-    }else{
-       // 关闭
-        [self closeCamera];
 
     }
     
+    
+ 
     
     
 }

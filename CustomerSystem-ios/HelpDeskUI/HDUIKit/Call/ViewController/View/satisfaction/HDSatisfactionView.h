@@ -50,7 +50,7 @@ typedef void(^UpdateSelfFrame)(CGFloat height);
 @property (nonatomic, strong) NSMutableArray *evaluationTagsArray;
 
 
-- (void)setEnquiryInvite:(NSDictionary *)enquiryInvite;
+- (void)setEnquiryInvite:(NSDictionary *)enquiryInvite withModel:(HDMessage *)message;
 @end
 
 NS_ASSUME_NONNULL_END

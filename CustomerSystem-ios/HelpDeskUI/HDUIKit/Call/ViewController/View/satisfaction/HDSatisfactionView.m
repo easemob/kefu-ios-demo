@@ -13,7 +13,7 @@
 #import "HDAgoraCallManager.h"
 @interface HDSatisfactionView()<UITextViewDelegate,CWStarRateViewDelegate,HDSatisfactionEvaluationTagSelectDelegate>
 {
-//    HDMessage *model;
+    HDMessage *_model;
     NSDictionary *enquiryDic;
     NSArray *_enquiryOptions;
     NSDictionary *_enquiryTags;
@@ -139,8 +139,8 @@
     }
     return _evaluationTagsArray;
 }
-- (void)setEnquiryInvite:(NSDictionary *)enquiryInvite{
-    
+- (void)setEnquiryInvite:(NSDictionary *)enquiryInvite withModel:(nonnull HDMessage *)message{
+    _model = message;
     NSLog(@"=============%@",enquiryInvite);
     if ([[enquiryInvite allKeys] containsObject:@"enquiryTags"] && [[enquiryInvite valueForKey:@"enquiryTags"] isKindOfClass:[NSDictionary class]]) {
         
@@ -162,7 +162,6 @@
 }
 - (void)initData{
         
-  
     // 获取EnquiryCommentEnable
     HDEnquiryOptionModel * m3 = [self getConfigModel:@"EnquiryCommentEnable"];
     
@@ -549,7 +548,11 @@
     
 //    MBProgressHUD *hud=  [MBProgressHUD  showMessag:@"" toView:[HDAgoraCallManager shareInstance].currentWindow];
     MBProgressHUD *hud=  [MBProgressHUD  showMessag:@"" toView:self.superview];
-    [[HDClient sharedClient].callManager hd_submitVisitorEnquirySessionid:nil withScore:score withComment:comment withTagData:self.evaluationTagsArray Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    
+    
+    NSString * rtcSessionId= [self getRtcSessionId];
+    
+    [[HDClient sharedClient].callManager hd_submitVisitorEnquirySessionid:rtcSessionId withScore:score withComment:comment withTagData:self.evaluationTagsArray Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         [hud hideAnimated:YES];
         if (error == nil) {
             //提交成功
@@ -591,6 +594,26 @@
             
     }];
     
+}
+- (NSString *)getRtcSessionId{
+    
+    if ([[_model.ext allKeys] containsObject:@"weichat"]) {
+        
+    NSDictionary *weichat = [_model.ext objectForKey:@"weichat"];
+    
+        if ([[weichat allKeys] containsObject:@"service_session"]) {
+            
+            NSDictionary *service_session = [weichat objectForKey:@"service_session"];
+            if ([[service_session allKeys] containsObject:@"serviceSessionId"]) {
+                
+                NSString *rtcSessionId = [service_session objectForKey:@"serviceSessionId"];
+                
+                return rtcSessionId;
+            }
+        }
+    }
+    
+    return nil;
 }
 - (void)remove {
    
