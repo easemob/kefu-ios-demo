@@ -237,6 +237,24 @@ static void *KVOContext = &KVOContext;
 /// 保存屏幕共享需要的数据
 - (void)hd_saveShareDeskData:(HDKeyCenter*)keyCenter;
 
+//摄像头控制相关
+//isCameraTorchSupported    检查设备是否支持打开闪光灯
+-(BOOL)isCameraTorchSupported;
+//isCameraFocusPositionInPreviewSupported    检测设备是否支持手动对焦功能
+-(BOOL)isCameraFocusPositionInPreviewSupported;
+//isCameraExposurePositionSupported    检测设备是否支持手动曝光功能
+-(BOOL)isCameraExposurePositionSupported;
+
+//setCameraFocusPositionInPreview    设置手动对焦位置，并触发对焦
+- (BOOL)setCameraFocusPositionInPreview:(CGPoint)position;
+//setCameraExposurePosition    设置手动曝光位置
+- (BOOL)setCameraExposurePosition:(CGPoint)positionInView;
+//setCameraTorchOn    设置是否打开闪光灯
+- (BOOL)setCameraTorchOn:(BOOL)isOn;
+
+//cameraFocusDidChangedToRect    摄像头对焦区域已改变
+//cameraExposureDidChangedToRect    摄像头曝光区域已改变
+
 
 @end
 

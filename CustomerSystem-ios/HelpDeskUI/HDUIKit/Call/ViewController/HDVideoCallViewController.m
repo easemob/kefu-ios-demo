@@ -2558,6 +2558,19 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 - (void)onFocusingOnParameter:(NSDictionary *)dic{
     
     
+    if ([HDAgoraCallManager shareInstance].isCameraTorchSupported) {
+        
+        if ([[HDAgoraCallManager shareInstance] setCameraFocusPositionInPreview:CGPointMake(0, 0)]) {
+            
+            // 创建 对焦窗口
+            
+            
+        }
+        
+    }
+    
+    
+    
     
 }
 

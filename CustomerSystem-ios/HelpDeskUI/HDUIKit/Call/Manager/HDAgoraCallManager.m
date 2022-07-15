@@ -702,4 +702,38 @@ static HDAgoraCallManager *shareCall = nil;
        
     return model;
 }
+
+//摄像头控制相关
+//isCameraTorchSupported    检查设备是否支持打开闪光灯
+-(BOOL)isCameraTorchSupported{
+    
+    
+    return [self.agoraKit isCameraTorchSupported];
+    
+}
+//isCameraFocusPositionInPreviewSupported    检测设备是否支持手动对焦功能
+-(BOOL)isCameraFocusPositionInPreviewSupported{
+    return [self.agoraKit isCameraFocusPositionInPreviewSupported];
+}
+//isCameraExposurePositionSupported    检测设备是否支持手动曝光功能
+-(BOOL)isCameraExposurePositionSupported{
+    return [self.agoraKit isCameraExposurePositionSupported];
+}
+
+//setCameraFocusPositionInPreview    设置手动对焦位置，并触发对焦
+- (BOOL)setCameraFocusPositionInPreview:(CGPoint)position{
+    
+    return [self.agoraKit setCameraFocusPositionInPreview:position];
+    
+}
+//setCameraExposurePosition    设置手动曝光位置
+- (BOOL)setCameraExposurePosition:(CGPoint)positionInView{
+    return [self.agoraKit setCameraExposurePosition:positionInView];
+}
+//setCameraTorchOn    设置是否打开闪光灯
+- (BOOL)setCameraTorchOn:(BOOL)isOn{
+    return [self.agoraKit setCameraTorchOn:isOn];
+}
+
+
 @end
