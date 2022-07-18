@@ -810,8 +810,6 @@ static HDVideoCallViewController *_manger = nil;
 - (void)_sendMessage:(HDMessage *)aMessage
 {
     
-//    __weak typeof(self) weakself = self;
-    
     [[HDClient sharedClient].chatManager sendMessage:aMessage
                                             progress:nil
                                           completion:^(HDMessage *message, HDError *error)
@@ -836,7 +834,6 @@ static HDVideoCallViewController *_manger = nil;
     
     [self setMidelleMutedItem:item];
    
-    
 }
 
 - (HDHiddenView *)hidView{
@@ -1121,7 +1118,7 @@ static HDVideoCallViewController *_manger = nil;
         
     } else {
         // Fallback on earlier versions
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"屏幕共享不能使用", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.screenShareExtension", "video.screenShareExtension")  withWindow:self.alertWindow];
         
         
     }
@@ -1136,15 +1133,6 @@ static HDVideoCallViewController *_manger = nil;
 // 静音事件
 - (void)muteBtnClicked:(UIButton *)btn {
 //    btn.selected = !btn.selected;
-    
-//    NSLog(@"+++%d",[[HDAgoraCallManager shareInstance] getCurrentFrontFacingCamera]);
-    
-    
-    [self onFocusingOnParameter:nil];
-    
-
-    
-    
     if (btn.selected) {
         [[HDAgoraCallManager shareInstance] pauseVoice];
         [self updateAudioMuted:YES byUid:kLocalUid withVideoMuted:NO];
@@ -1226,8 +1214,6 @@ static HDVideoCallViewController *_manger = nil;
     // 获取
    
     [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:YES];
-    
-    
 
 }
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
@@ -1454,7 +1440,7 @@ static HDVideoCallViewController *_manger = nil;
         //当前正在共享
         return;
     }
-    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"加入房间中..", @"加入房间中..") toView:nil];
+    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"video_call_whiteBoard_join", @"video_call_whiteBoard_join") toView:nil];
     [self updateBgMilldelVideoView:self.whiteBoardView whiteBoard:YES];
 
     [_hud hideAnimated:YES];
@@ -1468,7 +1454,7 @@ static HDVideoCallViewController *_manger = nil;
         //当前正在共享
         //当前正在白板房间
         _whiteBoardBtn.selected = !_shareState;
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "当前正在屏幕共享中不能进行白板")  withWindow:self.alertWindow];
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen_not_swhiteBoard", "video_call_shareScreen_not_swhiteBoard")  withWindow:self.alertWindow];
         return;
     }
     _whiteBoardBtn = sender;
@@ -1500,7 +1486,7 @@ static HDVideoCallViewController *_manger = nil;
     item.realUid = kLocalUid;
     [HDWhiteRoomManager shareInstance].uid = [NSString stringWithFormat:@"%ld",(long)item.realUid];
     item.isWhiteboard = YES;
-    item.nickName = @"白板";
+    item.nickName = NSLocalizedString(@"video_call_whiteBoard_nickName", "video_call_whiteBoard_nickName") ;
     item.camView = self.whiteBoardView;
     
     //先取出中间试图的model 放到 小窗口  然后把白板的试图放到中间窗口
@@ -1679,7 +1665,7 @@ static HDVideoCallViewController *_manger = nil;
    
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen", "当前正在白板中不能进行屏幕共享")  withWindow:self.alertWindow];
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")  withWindow:self.alertWindow];
         return;
     }
     
@@ -2226,9 +2212,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
                         CGFloat width;
                         
                         if (ScanType == HDVideoIDCardScaningViewTypeIDCard) {
-                            
-                       
-                        
                         if (_isSmallWindow) {
                          
                             width =  [UIScreen mainScreen].bounds.size.width;
@@ -2431,14 +2414,14 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 #pragma mark --HDSignDelegate
 - (void)hdSignCompleteWithImage:(UIImage *)img base64Data:(nonnull NSData *)base64data{
     
-    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"提交中..", @"提交中..") toView:self.hdSignView];
+    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"video.satisfaction.Commit", @"commit") toView:self.hdSignView];
     [[HDClient sharedClient].callManager hd_commitSignData:base64data  WithVisitorId:@"" withFlowId:_signflowId  Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         [_hud hideAnimated:YES];
         if (error ==nil) {
             
             NSLog(@"===hdSignCompleteWithImage==%@",responseObject);
             
-            [MBProgressHUD dismissInfo:NSLocalizedString(@"提交成功", @"提交成功") withWindow:self.alertWindow];
+            [MBProgressHUD dismissInfo:NSLocalizedString(@"new_leave_send_success", @"new_leave_send_success") withWindow:self.alertWindow];
             
             //移除 签名界面
             [self.hdSignView removeFromSuperview];
@@ -2447,7 +2430,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             
         }else{
             NSLog(@"=====%@",error.errorDescription);
-            NSString *str = [NSString stringWithFormat:@"%@-%@",NSLocalizedString(@"提交失败请重新提交", @"提交失败请重新提交"),error.errorDescription];
+            NSString *str = [NSString stringWithFormat:@"%@-%@",NSLocalizedString(@"video.vec.atomized.submit_fail", @"video.vec.atomized.submit_fail"),error.errorDescription];
             
             [MBProgressHUD dismissInfo:str withWindow:self.alertWindow];
         }

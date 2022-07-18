@@ -1276,7 +1276,7 @@ static HDCallViewController *_manger = nil;
         //当前正在共享
         //当前正在白板房间
         _whiteBoardBtn.selected = !_shareState;
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "当前正在屏幕共享中不能进行白板")  withWindow:self.alertWindow];
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"vvideo_call_shareScreen_not_swhiteBoard", "video_call_shareScreen_not_swhiteBoard")  withWindow:self.alertWindow];
         return;
     }
     _whiteBoardBtn = sender;
@@ -1501,7 +1501,7 @@ static HDCallViewController *_manger = nil;
 
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_shareScreen", "当前正在白板中不能进行屏幕共享")  withWindow:self.alertWindow];
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen") withWindow:self.alertWindow];
         return;
     }
     //点击的时候先要 保存屏幕共享的数据

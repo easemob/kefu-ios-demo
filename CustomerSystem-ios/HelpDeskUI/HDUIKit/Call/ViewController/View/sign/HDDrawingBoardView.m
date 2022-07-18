@@ -48,7 +48,7 @@
     self.lineWidth = 3;
     
     self.markLabel = [[UILabel alloc] init];
-    self.markLabel.text = @"请在此处签字";
+    self.markLabel.text = NSLocalizedString(@"video.call.sign", @"请在此处签字");
     self.markLabel.font = [UIFont systemFontOfSize:24];
     self.markLabel.textColor = [UIColor colorWithRed:165/255.0 green:169/255.0 blue:180/250.0 alpha:1.0];
     [self addSubview:self.markLabel];

@@ -34,23 +34,22 @@
     }
 }
 
-//- (NSString *)WaitingPrompt{
-//
-//    return @"您好！有什么需要帮助，可以发起视频通话进行咨询呦,";
-//
-//}
-//- (NSString *)CallingPrompt{
-//
-//
-//    return @"您好！您正在发起视频通话进行咨询。";
-//}
-//- (NSString *)QueuingPrompt{
-//
-//    return @"您好！客服人员正在马不停蹄的赶过来，请您耐心等待！";
-//}
-//-(NSString *)EndingPrompt{
-//
-//    return @"感谢您的咨询，祝您生活愉快！";
-//
-//}
+- (NSString *)waitingPrompt{
+
+    return NSLocalizedString(@"video.call.init.waitingPrompt", @"您好！有什么需要帮助，可以发起视频通话进行咨询呦,");
+
+}
+- (NSString *)callingPrompt{
+
+    return NSLocalizedString(@"video.call.init.callingPrompt", @"您好！您正在发起视频通话进行咨询。");
+}
+- (NSString *)queuingPrompt{
+
+    return NSLocalizedString(@"video.call.init.queuingPrompt", @"您好！客服人员正在马不停蹄的赶过来，请您耐心等待！");
+}
+-(NSString *)endingPrompt{
+
+    return NSLocalizedString(@"video.call.init.endingPrompt", @"感谢您的咨询，祝您生活愉快！");
+
+}
 @end

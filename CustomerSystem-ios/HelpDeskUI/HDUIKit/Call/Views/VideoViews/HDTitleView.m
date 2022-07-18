@@ -130,7 +130,7 @@
 //        _infoLabel.backgroundColor = [UIColor brownColor];
         _infoLabel.textAlignment = NSTextAlignmentCenter;
         _infoLabel.textColor = [UIColor whiteColor];
-        _infoLabel.text = @"通话中";
+        _infoLabel.text = NSLocalizedString(@"video.call.calling", @"通话中") ;
     }
 //    CGSize size = [self calculateLabelSize:_infoLabel];
 //    _infoLabel.frame = CGRectMake(_infoLabel.frame.origin.x, _infoLabel.frame.origin.y, size.width>=200.f?200.f:size.width, self.frame.size.height);

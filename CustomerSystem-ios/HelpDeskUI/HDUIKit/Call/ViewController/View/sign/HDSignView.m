@@ -138,7 +138,7 @@
         [_sureBtn addTarget:self action:@selector(sureBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
 //        [_sureBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
-        [_sureBtn setTitle:@"提交" forState:UIControlStateNormal];
+        [_sureBtn setTitle:NSLocalizedString(@"satisfaction.commit", @"提交") forState:UIControlStateNormal];
         _sureBtn.backgroundColor = [[HDAppSkin mainSkin] contentColorBlueHX];
         _sureBtn.layer.cornerRadius = 5.0f;
         _sureBtn.layer.masksToBounds = YES;

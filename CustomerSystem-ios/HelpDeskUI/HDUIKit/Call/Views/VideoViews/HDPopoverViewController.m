@@ -23,11 +23,11 @@
     self.tableView.scrollEnabled = NO;
     
     HDPopoverViewControllerCellItem * item = [[HDPopoverViewControllerCellItem alloc] init];
-    item.name =@"关闭摄像头";
+    item.name =NSLocalizedString(@"video.call.close.camera", @"关闭摄像头");
     item.imgName = kshexiangtou1;
     
     HDPopoverViewControllerCellItem * item1 = [[HDPopoverViewControllerCellItem alloc] init];
-    item1.name =@"切换摄像头";
+    item1.name =NSLocalizedString(@"video.call.switch.camera", @"切换摄像头");
     item1.imgName = kqiehuanshexiangtou;
     self.dataArray = [[NSMutableArray alloc] initWithObjects:item,item1, nil];
    

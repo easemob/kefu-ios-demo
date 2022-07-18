@@ -336,10 +336,10 @@
 "video_is_over" = "视频通话已经结束";
 //call
 "video.answer.title" = "视频通话";
-"video.answer.send" = "您正在邀请客服进行视频通话";
+"video.answer.send" = "邀请客服进行实时视频";
 "video.answer.receive" = "客服正在邀请您进行视频通话";
 "video.whiteboardConvertFail" = "文档转码失败";
-"video.answer.waiting" = "发起";
+"video.answer.waiting" = "发起通话";
 "video.answer.hangup" = "挂断";
 "video.answer.again.waiting"= "重新发起";
 
@@ -359,4 +359,26 @@
 //远程协助
 "video.remoteassistance.device" = "当前设备不支持此功能";
 "video.remoteassistance.device.front" = "当前是前置摄像头需要切换后置摄像头才能使用此功能";
+
+"video.screenShareExtension" = "当前系统不支持屏幕共享功能";
+"video_call_shareScreen_not_swhiteBoard" = "当前正在屏幕共享中不能进行白板";
+"video_call_whiteBoard_not_shareScreen" = "当前正在白板中不能进行屏幕共享";
+"video_call_whiteBoard_join" = "加入白板...";
+"video_call_whiteBoard_nickName" = "白板";
+"video.call.whiteBoard.upload.image" = "上传图片";
+"video.call.whiteBoard.upload.file" = "上传文件";
+"video.call.whiteBoard.upload.audio" = "上传音频";
+"video.call.whiteBoard.upload.video" = "上传视频";
+
+"video.vec.atomized.submit_fail" = "提交失败";
+"video.call.switch.camera" = "切换摄像头";
+"video.call.close.camera" = "关闭摄像头";
+"video.call.init.waitingPrompt" = "您好！有什么需要帮助，可以发起视频通话进行咨询呦,";
+"video.call.init.callingPrompt" = "您好！您正在发起视频通话进行咨询。";
+"video.call.init.queuingPrompt" = "您好！客服人员正在马不停蹄的赶过来，请您耐心等待！";
+"video.call.init.endingPrompt" = "感谢您的咨询，祝您生活愉快！";
+"video.call.calling" = "通话中";
+"video.call.sign" = "请在此处签字";
+
+
 

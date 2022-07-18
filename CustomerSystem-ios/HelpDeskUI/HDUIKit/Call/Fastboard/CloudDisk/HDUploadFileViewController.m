@@ -71,25 +71,25 @@ static HDUploadFileViewController *_manger = nil;
 -(void)initData{
     HDControlBarModel * barModel = [HDControlBarModel new];
     barModel.itemType = HDControlBarItemTypeImage;
-    barModel.name=@"上传图片";
+    barModel.name= NSLocalizedString(@"video.call.whiteBoard.upload.image", @"上传图片");
     barModel.imageStr= @"tupian";
     barModel.selImageStr= @"tupian";
-    
+
     HDControlBarModel * barModel1 = [HDControlBarModel new];
     barModel1.itemType = HDControlBarItemTypeVideo;
-    barModel1.name=@"上传视频";
+    barModel1.name= NSLocalizedString(@"video.call.whiteBoard.upload.video", @"上传视频");
     barModel1.imageStr= @"shipin";
     barModel1.selImageStr= @"shipin";
     
     HDControlBarModel * barModel2 = [HDControlBarModel new];
     barModel2.itemType = HDControlBarItemTypeMute;
-    barModel2.name=@"上传音频";
+    barModel2.name= NSLocalizedString(@"video.call.whiteBoard.upload.audio", @"上传音频");
     barModel2.imageStr=@"yinpin";
     barModel2.selImageStr=@"yinpin";
     
     HDControlBarModel * barModel3 = [HDControlBarModel new];
     barModel3.itemType = HDControlBarItemTypeFile;
-    barModel3.name=@"上传文件";
+    barModel3.name= NSLocalizedString(@"video.call.whiteBoard.upload.file", @"上传文件");
     barModel3.imageStr=@"wendangzhongxin";
     barModel3.selImageStr=@"wendangzhongxin";
     
