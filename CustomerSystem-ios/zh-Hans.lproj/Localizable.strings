@@ -356,3 +356,7 @@
 "video.satisfaction.ags_nessary" = "标签必须选择";
 "video.satisfaction.score" = "分数必须填写";
 
+//远程协助
+"video.remoteassistance.device" = "当前设备不支持此功能";
+"video.remoteassistance.device.front" = "当前是前置摄像头需要切换后置摄像头才能使用此功能";
+

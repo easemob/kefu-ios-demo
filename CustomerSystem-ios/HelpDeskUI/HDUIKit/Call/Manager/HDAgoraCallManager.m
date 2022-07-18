@@ -39,7 +39,8 @@
 
 
     
-    BOOL _isSetupLocalVideo; //判断是否已经设置过了；
+   __block BOOL _isSetupLocalVideo; //判断是否已经设置过了；
+  __block  BOOL _isCurrentFrontFacingCamera; //判断 当前摄像头状态。默认 前置 ；
 }
 
 @property (nonatomic, strong) NSMutableArray *members;
@@ -53,7 +54,7 @@
 @end
 @implementation HDAgoraCallManager
 {
-    BOOL _onCalling; //正在通话
+    __block BOOL _onCalling; //正在通话
     NSMutableDictionary *_cacheStreams; //没有点击接受的时候缓存的stream
     NSMutableArray *_waitingQueue;  //正在加入会话
     NSString * _pubViewId;
@@ -153,7 +154,7 @@ static HDAgoraCallManager *shareCall = nil;
         
         [_agoraKit setVideoEncoderConfiguration:configuration];
         
-
+        _isCurrentFrontFacingCamera = YES;
         [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:_callQueue];
     }
     return _agoraKit;
@@ -197,7 +198,17 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)switchCamera{
     
     [self.agoraKit switchCamera];
+    
+    _isCurrentFrontFacingCamera = !_isCurrentFrontFacingCamera;
 }
+
+
+- (BOOL)getCurrentFrontFacingCamera{
+    
+    return _isCurrentFrontFacingCamera;
+    
+}
+
 - (void)pauseVoice{
     
     [self.agoraKit muteLocalAudioStream:YES];
@@ -248,10 +259,14 @@ static HDAgoraCallManager *shareCall = nil;
     [self.agoraKit leaveChannel:nil];
     [HDCallManager shareInstance].isVecVideo =NO;
     [_members removeAllObjects];
+    
+    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
+    [self destroy];
 }
 - (void)joinChannel{
     [self hd_joinChannelByToken:[HDAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDAgoraCallManager shareInstance].keyCenter.agoraChannel info:nil uid:[[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
         _onCalling = YES;
+        _isCurrentFrontFacingCamera = YES;
         NSLog(@"joinSuccess joinChannelByToken channel=%@  uid=%lu",channel,(unsigned long)uid);
     }];
     
@@ -282,14 +297,13 @@ static HDAgoraCallManager *shareCall = nil;
     
     [self leaveChannel];
     
-    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
-    [self destroy];
+   
 }
 - (void)closeVecCall{
     
     [self leaveChannel];
-    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
-    [self destroy];
+//    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
+//    [self destroy];
     
     [[HDClient sharedClient].callManager hd_hangUpVECSessionId:@"123" WithVisitorId:@"456" Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         
@@ -349,8 +363,8 @@ static HDAgoraCallManager *shareCall = nil;
     }];
     [self leaveChannel];
     
-    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
-    [self destroy];
+//    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
+//    [self destroy];
 }
 - (void)refusedCall{
     
@@ -375,8 +389,8 @@ static HDAgoraCallManager *shareCall = nil;
     }];
     [self leaveChannel];
     
-    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
-    [self destroy];
+//    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
+//    [self destroy];
 }
 /// 坐席主动挂断视频
 /// @param callid  呼叫id
@@ -394,7 +408,7 @@ static HDAgoraCallManager *shareCall = nil;
     //移除消息监控
     [[HDClient sharedClient].chatManager removeDelegate:self];
     [self leaveChannel];
-    [self destroy];
+//    [self destroy];
 }
 - (int)startPreview{
     return [self.agoraKit startPreview];
@@ -439,6 +453,7 @@ static HDAgoraCallManager *shareCall = nil;
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 acceptCallWithNickname=%@",[HDAgoraCallManager shareInstance].keyCenter.agoraChannel];
     [self hd_joinChannelByToken:[HDAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDAgoraCallManager shareInstance].keyCenter.agoraChannel info:nil uid:[[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
         _onCalling = YES;
+        
         [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 joinSuccess channel "];
         self.Completion(nil, nil);
         
@@ -704,18 +719,17 @@ static HDAgoraCallManager *shareCall = nil;
 }
 
 //摄像头控制相关
-//isCameraTorchSupported    检查设备是否支持打开闪光灯
+//isCameraTorchSupported    检查设备是否支持打开闪光灯 只有后置摄像头 才启作用
 -(BOOL)isCameraTorchSupported{
-    
     
     return [self.agoraKit isCameraTorchSupported];
     
 }
-//isCameraFocusPositionInPreviewSupported    检测设备是否支持手动对焦功能
+///isCameraFocusPositionInPreviewSupported    检测设备是否支持手动对焦功能 只有后置摄像头 才启作用
 -(BOOL)isCameraFocusPositionInPreviewSupported{
     return [self.agoraKit isCameraFocusPositionInPreviewSupported];
 }
-//isCameraExposurePositionSupported    检测设备是否支持手动曝光功能
+///isCameraExposurePositionSupported    检测设备是否支持手动曝光功能
 -(BOOL)isCameraExposurePositionSupported{
     return [self.agoraKit isCameraExposurePositionSupported];
 }

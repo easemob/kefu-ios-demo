@@ -99,6 +99,12 @@ static void *KVOContext = &KVOContext;
  */
 
 - (void)switchCamera;
+
+/*!
+ *  \~chinese
+ *   当前摄像头 是不是 前置摄像头
+ */
+- (BOOL)getCurrentFrontFacingCamera;
 /*!
  *  \~chinese
  *  暂停语音数据传输
@@ -238,9 +244,9 @@ static void *KVOContext = &KVOContext;
 - (void)hd_saveShareDeskData:(HDKeyCenter*)keyCenter;
 
 //摄像头控制相关
-//isCameraTorchSupported    检查设备是否支持打开闪光灯
+///isCameraTorchSupported    检查设备是否支持打开闪光灯
 -(BOOL)isCameraTorchSupported;
-//isCameraFocusPositionInPreviewSupported    检测设备是否支持手动对焦功能
+///isCameraFocusPositionInPreviewSupported    检测设备是否支持手动对焦功能
 -(BOOL)isCameraFocusPositionInPreviewSupported;
 //isCameraExposurePositionSupported    检测设备是否支持手动曝光功能
 -(BOOL)isCameraExposurePositionSupported;

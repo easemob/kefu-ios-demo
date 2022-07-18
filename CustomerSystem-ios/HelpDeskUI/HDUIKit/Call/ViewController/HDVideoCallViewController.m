@@ -113,6 +113,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (nonatomic, strong) HDSignView *hdSignView;
 @property (nonatomic, strong) UIView *ocrView;
 @property (nonatomic, strong) HDSatisfactionView *hdSatisfactionView;
+@property (nonatomic, strong) UIView *hdCameraFocusView;
 
 
 @end
@@ -1135,6 +1136,15 @@ static HDVideoCallViewController *_manger = nil;
 // 静音事件
 - (void)muteBtnClicked:(UIButton *)btn {
 //    btn.selected = !btn.selected;
+    
+//    NSLog(@"+++%d",[[HDAgoraCallManager shareInstance] getCurrentFrontFacingCamera]);
+    
+    
+    [self onFocusingOnParameter:nil];
+    
+
+    
+    
     if (btn.selected) {
         [[HDAgoraCallManager shareInstance] pauseVoice];
         [self updateAudioMuted:YES byUid:kLocalUid withVideoMuted:NO];
@@ -2084,10 +2094,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 #pragma mark - 收到cmd 各种通知 原子化能力
 //mark vec 1.3 独立访客端 收到坐席 签名
 - (void)onCallSignIdentify:(NSDictionary *)dic{
-
- 
-    
-    
     if (!isCalling) {
         return;
     }
@@ -2535,10 +2541,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
     }
     
-    
- 
-    
-    
 }
 /*!
  *  \~chinese
@@ -2557,22 +2559,178 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  */
 - (void)onFocusingOnParameter:(NSDictionary *)dic{
     
-    
-    if ([HDAgoraCallManager shareInstance].isCameraTorchSupported) {
+    if ([HDAgoraCallManager shareInstance].isCameraFocusPositionInPreviewSupported) {
         
-        if ([[HDAgoraCallManager shareInstance] setCameraFocusPositionInPreview:CGPointMake(0, 0)]) {
+        NSLog(@"=====1111========%d",[HDAgoraCallManager shareInstance].isCameraFocusPositionInPreviewSupported);
+        
+        if ([[HDAgoraCallManager shareInstance] setCameraFocusPositionInPreview:CGPointMake(self.view.center.x, self.view.center.y)]) {
             
             // 创建 对焦窗口
+            [self.view addSubview:self.hdCameraFocusView];
+            self.hdCameraFocusView.alpha = 1;
+            [self.view bringSubviewToFront:self.hdCameraFocusView];
+            [self.hdCameraFocusView mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.centerX.mas_equalTo(self.view.mas_centerX).offset(0);
+                make.centerY.mas_equalTo(self.view.mas_centerY).offset(0);
+                make.width.offset(88);
+                make.height.offset(88);
+                
+            }];
+            [self.hdCameraFocusView layoutIfNeeded];
             
+
+            [self addScaleAnimationTo:self.hdCameraFocusView];
+            
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+            [UIView setAnimationDuration:3.0];
+            [UIView setAnimationDelegate:self];
+            self.hdCameraFocusView.alpha = 0;
+            [UIView commitAnimations];
+
+        }
+        
+    }else{
+        
+        if ([[HDAgoraCallManager shareInstance] getCurrentFrontFacingCamera]) {
+            
+            // 是前置 需要后置
+            [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device.front", @"video.remoteassistance.device.front") toView:self.view];
+        }else{
+            
+            [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device") toView:self.view];
+            
+        }
+    }
+}
+
+- (void)addScaleAnimationTo:(UIView*)animationView{
+    [animationView.layer removeAnimationForKey:@"scale"];
+
+    CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+
+    scaleAnimation.fromValue=@1.f;
+
+    scaleAnimation.toValue=@1.1f;
+
+    scaleAnimation.autoreverses=YES;
+
+    scaleAnimation.repeatCount=HUGE_VALF;
+
+    scaleAnimation.duration=2.f;
+   
+    [animationView.layer addAnimation:scaleAnimation forKey:@"scale"];
+
+}
+/*!
+ *  \~chinese
+ *  开关闪光灯  后置摄像头可用
+ */
+- (void)onCameraTorchOnParameter:(NSDictionary *)dic{
+    
+    if ([HDAgoraCallManager shareInstance].isCameraTorchSupported) {
+//        [[HDAgoraCallManager shareInstance] setCameraTorchOn:YES];
+    if (dic && [[dic allKeys] containsObject:@"action"]) {
+
+        if ([[dic valueForKey:@"action"] isEqualToString:@"on"]) {
+
+            [[HDAgoraCallManager shareInstance] setCameraTorchOn:YES];
+        }else{
+
+            [[HDAgoraCallManager shareInstance] setCameraTorchOn:NO];
+
+        }
+
+    }
+    }else{
+        
+        if ([[HDAgoraCallManager shareInstance] getCurrentFrontFacingCamera]) {
+            
+            // 是前置 需要后置
+            [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device.front", @"video.remoteassistance.device.front") toView:self.view];
+            
+        }else{
+            
+            [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device") toView:self.view];
+            
+        }
+        
+       
+    }
+}
+
+#pragma mark - event response
+
+/*!
+ *  \~chinese
+ *    flashlight
+ *    手电筒
+ */
+- (void)onFlashlightParameter:(NSDictionary *)dic{
+    
+    // 手电筒 只有后置摄像头可以 使用
+    if ([HDAgoraCallManager shareInstance].isCameraTorchSupported) {
+//        [[HDAgoraCallManager shareInstance] setCameraTorchOn:YES];
+    if (dic && [[dic allKeys] containsObject:@"action"]) {
+
+        if ([[dic valueForKey:@"action"] isEqualToString:@"on"]) {
+
+            [[HDAgoraCallManager shareInstance] setCameraTorchOn:YES];
+        }else{
+
+            [[HDAgoraCallManager shareInstance] setCameraTorchOn:NO];
+
+        }
+
+    }
+
+    }else{
+        
+        if ([[HDAgoraCallManager shareInstance] getCurrentFrontFacingCamera]) {
+            
+            // 是前置 需要后置
+            [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device.front", @"video.remoteassistance.device.front") toView:self.view];
+            
+        }else{
+            
+            [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device") toView:self.view];
             
         }
         
     }
     
-    
-    
-    
+}
+//开启+关闭🔦
+-(void)FlashlightON{
+    AVCaptureDevice *device =[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    //修改前必须先锁定
+    [device lockForConfiguration:nil];
+    //必须判定是否有闪光灯，否则如果没有闪光灯会崩溃
+    if([device hasFlash]) {
+        if(device.torchMode==AVCaptureFlashModeOff) {
+            device.torchMode=AVCaptureTorchModeOn;
+        }else if(device.torchMode==AVCaptureFlashModeOn) {
+            device.torchMode=AVCaptureTorchModeOff;
+        }
+    }
+    [device unlockForConfiguration];
 }
 
+- (UIView *)hdCameraFocusView{
+    
+    if (!_hdCameraFocusView) {
+        _hdCameraFocusView = [[UIView alloc] init];
+//        _hdCameraFocusView.backgroundColor = [UIColor redColor];
+
+        UIImage *image =[UIImage imageNamed:@"hd_focus.png"];
+        _hdCameraFocusView.layer.contents = (id)image.CGImage;
+       
+        
+//        _hdCameraFocusView.backgroundColor =  [UIColor colorWithPatternImage:[UIImage imageNamed:@"hd_focus.png"]];
+    }
+    
+    return _hdCameraFocusView;
+}
 
 @end

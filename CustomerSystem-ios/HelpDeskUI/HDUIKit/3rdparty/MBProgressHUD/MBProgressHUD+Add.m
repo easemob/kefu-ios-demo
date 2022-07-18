@@ -20,7 +20,7 @@
     
     hud.removeFromSuperViewOnHide = YES;
     
-    [hud hideAnimated:YES afterDelay:0.7];
+    [hud hideAnimated:YES afterDelay:2];
 }
 
 + (void)showError:(NSString *)error toView:(UIView *)view{
