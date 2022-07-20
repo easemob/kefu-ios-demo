@@ -1450,6 +1450,7 @@ static HDVideoCallViewController *_manger = nil;
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
+    
     if (_shareState) {
         //当前正在共享
         //当前正在白板房间
@@ -2495,8 +2496,19 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  */
 - (void)onMuteLocalAudioStreamParameter:(NSDictionary *)dic{
 
-    _muteBtn.selected =YES;
-    [self muteBtnClicked:_muteBtn];
+    if (dic && [[dic allKeys] containsObject:@"action"]) {
+
+        if ([[dic valueForKey:@"action"] isEqualToString:@"on"]) {
+
+            _muteBtn.selected =YES;
+        }else{
+
+            _muteBtn.selected =NO;
+
+        }
+        [self muteBtnClicked:_muteBtn];
+    }
+    
     
 }
 /*!
@@ -2504,6 +2516,20 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  *   摄像头
  */
 - (void)onMuteLocalVideoStreamParameter:(NSDictionary *)dic{
+    
+    
+    if (dic && [[dic allKeys] containsObject:@"action"]) {
+
+        if ([[dic valueForKey:@"action"] isEqualToString:@"on"]) {
+
+            _cameraState=YES;
+        }else{
+
+            _cameraState =NO;
+
+        }
+    }
+    
     
     //默认进来判断获取摄像头状态
     //1、如果是关闭  点击直接打开摄像头
@@ -2513,7 +2539,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     if (_cameraState) {
         //开启
      
-        [self closeCamera];
+       
         
     }else{
         //当前摄像头关闭 需要打开
@@ -2612,35 +2638,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  */
 - (void)onCameraTorchOnParameter:(NSDictionary *)dic{
     
-    if ([HDAgoraCallManager shareInstance].isCameraTorchSupported) {
-//        [[HDAgoraCallManager shareInstance] setCameraTorchOn:YES];
-    if (dic && [[dic allKeys] containsObject:@"action"]) {
-
-        if ([[dic valueForKey:@"action"] isEqualToString:@"on"]) {
-
-            [[HDAgoraCallManager shareInstance] setCameraTorchOn:YES];
-        }else{
-
-            [[HDAgoraCallManager shareInstance] setCameraTorchOn:NO];
-
-        }
-
-    }
-    }else{
-        
-        if ([[HDAgoraCallManager shareInstance] getCurrentFrontFacingCamera]) {
-            
-            // 是前置 需要后置
-            [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device.front", @"video.remoteassistance.device.front") toView:self.view];
-            
-        }else{
-            
-            [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device") toView:self.view];
-            
-        }
-        
-       
-    }
+    [self onFlashlightWithCameraTorchWithAction:@"cameraTorchOncallback" withDic:dic];
 }
 
 #pragma mark - event response
@@ -2652,24 +2650,28 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  */
 - (void)onFlashlightParameter:(NSDictionary *)dic{
     
+    [self onFlashlightWithCameraTorchWithAction:@"flashlightcallback" withDic:dic];
+}
+-(void)onFlashlightWithCameraTorchWithAction:(NSString *)action withDic:(NSDictionary *)dic{
+    
+    BOOL state = NO;
     // 手电筒 只有后置摄像头可以 使用
     if ([HDAgoraCallManager shareInstance].isCameraTorchSupported) {
-//        [[HDAgoraCallManager shareInstance] setCameraTorchOn:YES];
     if (dic && [[dic allKeys] containsObject:@"action"]) {
 
         if ([[dic valueForKey:@"action"] isEqualToString:@"on"]) {
 
+            state = YES;
             [[HDAgoraCallManager shareInstance] setCameraTorchOn:YES];
         }else{
 
+            state = NO;
             [[HDAgoraCallManager shareInstance] setCameraTorchOn:NO];
-
         }
-
     }
 
     }else{
-        
+        state = NO;
         if ([[HDAgoraCallManager shareInstance] getCurrentFrontFacingCamera]) {
             
             // 是前置 需要后置
@@ -2680,10 +2682,20 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device") toView:self.view];
             
         }
-        
+       
     }
+    [self sendCmdMessageAction:action withOn:state];
+    
     
 }
+- (void)sendCmdMessageAction:(NSString *)action withOn:(BOOL)on{
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+ 
+    HDMessage *message = [[HDClient sharedClient].callManager hd_visitorCallBackStateCmdMessageWithImId:lgM.cname withOn:on withAction:action content:@"回传通知"];
+    
+     [self _sendMessage:message];
+}
+
 //开启+关闭🔦
 -(void)FlashlightON{
     AVCaptureDevice *device =[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
