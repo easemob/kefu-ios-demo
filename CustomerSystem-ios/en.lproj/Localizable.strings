@@ -359,7 +359,7 @@
 "video.screenShareExtension" = "The current system does not support screen sharing";
 "video_call_shareScreen_not_swhiteBoard" = "Can't whiteboard while screen sharing is currently in progress";
 "video_call_whiteBoard_not_shareScreen" = "Screen sharing is currently unavailable in the whiteboard";
-"video_call_whiteBoard_join" = "join whiteboard..."
+"video_call_whiteBoard_join" = "join whiteboard...";
 "video_call_whiteBoard_nickName" = "whiteboard";
 "video.call.whiteBoard.upload.image" = "Upload Img";
 "video.call.whiteBoard.upload.file" = "Upload File";
