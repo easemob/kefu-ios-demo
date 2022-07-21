@@ -631,7 +631,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)messagesDidReceive:(NSArray *)aMessages {
     
     NSLog(@"==========收到消息了");
+    
+    
     if ([self isNotificationMessage:aMessages.firstObject]) {
+        
+        
+        
         return;
     }
 #if !TARGET_IPHONE_SIMULATOR

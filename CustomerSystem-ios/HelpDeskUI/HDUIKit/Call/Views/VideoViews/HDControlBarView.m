@@ -40,9 +40,21 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
         case HDControlBarButtonStyleUploadFile:
            array = [self hd_UploadSwitcheBarLayoutArray:barModelArr view:view];
             break;
+        case HDControlBarButtonStyleVideoNew:
+           array = [self hd_dynamicSwitcheBarLayoutArrayNew:barModelArr view:view];
+            break;
         default:
             break;
     }
+    return array;
+}
+#pragma mark - 底部导航逻辑 新版界面
+- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayNew:(NSArray<HDControlBarModel *> *)barModelArr view:(UIView *)view{
+    NSMutableArray * array;
+    self.backgroundColor = [UIColor whiteColor];
+    
+    array = [self hd_dynamicSwitcheBarLayoutArrayBaseNew:barModelArr view:view];
+    
     return array;
 }
 #pragma mark - 底部导航逻辑
@@ -388,6 +400,86 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
         self.clickControlBarItemBlock(barModel,sender);
     }
     
+}
+
+#pragma mark - 新版界面固定5个bar
+- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayBaseNew:(NSArray<HDControlBarModel *> *)barModelArr view:(UIView *)view{
+    
+    //数据做一下重新排列
+    NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:barModelArr];
+    NSMutableArray * sortArray =  [self  hd_soreBarModelArray:tmpArray withStyle:HDControlBarButtonHangUpLocationMiddle];
+
+    // 挂断宽度 固定
+    CGFloat hangUpWith =88;
+    
+    
+        NSLog(@"===%@",sortArray);
+        CGFloat viewWith =view.frame.size.width;
+        CGFloat space = 2;
+        CGFloat y = 0;
+        CGFloat w = ( viewWith - hangUpWith - space * ( barModelArr.count + 1 ) ) /( barModelArr.count-1);
+        CGFloat h = w;
+        
+        NSMutableArray *lastArr= [NSMutableArray array];
+        for (int i =0; i < sortArray.count; i++)
+        {
+            HDControlBarModel * model =sortArray[i];
+            CGFloat x = i * (w + space) + space;
+            CGRect fram = CGRectMake(x , y, w, h);
+            UIButton *button;
+            
+            if (i < 2) {
+               
+                button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
+                
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                    
+              
+            }else if (i== 2) {
+                    CGRect fram = CGRectMake(x , y, hangUpWith, hangUpWith);
+                
+                    button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
+                    // 设置button
+                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.width*0.9 withImageName:model.imageStr withSelectImage:model.selImageStr];
+            
+                
+//                UIImage *imgSel  = [UIImage imageWithIcon2:model.imageStr inFont:kfontName size:button.width*0.9 color:[[HDAppSkin mainSkin] contentColorRed] withbackgroundColor:[[HDAppSkin mainSkin] contentColorWhitealpha:1]  ] ;
+                
+//                [button setImage:imgSel forState:UIControlStateNormal];
+                
+                button.backgroundColor = [UIColor blackColor];
+                
+                CGRect frame = button.frame;
+                frame.origin.y = -30;
+                
+                button.frame = frame;
+                
+                button.layer.cornerRadius =button.height/2;
+                button.layer.masksToBounds = YES;
+                
+                
+            
+            }else if (i== 3) {
+                CGFloat x = 2 * (w + space) + space + hangUpWith;
+                CGRect fram = CGRectMake(x , y, w, h);
+                button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
+                    //消息 需要角标
+                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+            
+            }else {
+                CGFloat x = 3 * (w + space) + space + hangUpWith;
+                CGRect fram = CGRectMake(x , y, w, h);
+                button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
+                    //更多
+                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                }
+            
+//            button.backgroundColor = [UIColor yellowColor];
+            [view addSubview:button];
+            [lastArr addObject:button];
+        }
+        _barArrayBtn= lastArr;
+        return lastArr;
 }
 
 @end

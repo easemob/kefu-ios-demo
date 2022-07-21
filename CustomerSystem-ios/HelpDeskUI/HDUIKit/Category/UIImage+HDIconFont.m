@@ -71,4 +71,33 @@
     
     return retImage;
 }
++ (UIImage*)imageWithIcon2:(NSString*)iconCode inFont:(NSString*)fontName size:(NSUInteger)size color:(UIColor*)color withbackgroundColor:(UIColor *)backgroundColor {
+    CGSize imageSize = CGSizeMake(size, size);
+    // opaque：NO 不透明
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0,size, size)];
+    view.backgroundColor = [UIColor whiteColor];
+    view.layer.cornerRadius = view.frame.size.width/2;
+    view.layer.masksToBounds = YES;
+
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, [[UIScreen mainScreen] scale]);
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(-5, -5, size+10, size+10)];
+    label.font = [UIFont fontWithName:fontName size:size + 10];
+    label.text = iconCode;
+    if(color){
+        label.textColor = color;
+    }
+//    label.backgroundColor  = backgroundColor;
+//    [label setNumberOfLines:0];
+//    label.layer.cornerRadius = size/2;
+//    label.layer.masksToBounds = YES;
+//    label.textAlignment = NSTextAlignmentCenter;
+//
+    [view addSubview:label];
+    // 渲染自身
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *retImage = [UIGraphicsGetImageFromCurrentImageContext() imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIGraphicsEndImageContext();
+    
+    return retImage;
+}
 @end

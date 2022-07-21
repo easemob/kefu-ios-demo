@@ -14,7 +14,9 @@
 #define kIframeClose @"closeMessagePush"
 @interface HDVideoLinkMessagePush()<WKUIDelegate,WKNavigationDelegate,WKScriptMessageHandler>
 
-
+{
+    NSURLRequest *_request;
+}
 @end
 @implementation HDVideoLinkMessagePush
 
@@ -78,24 +80,27 @@
 }
 - (void)setWebUrl:(NSString *)url{
     
-    NSURL *trueUrl = nil;
-    if (url) {
-        trueUrl = [NSURL URLWithString:url];
-    }
-    NSURLRequest *request =[NSURLRequest requestWithURL:trueUrl];
-    
-    [self.webView loadRequest:request];
-//    NSString *path = [[NSBundle mainBundle] bundlePath];
-//    NSURL *baseURL = [NSURL fileURLWithPath:path];
-//    NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"File" ofType:@"html"];
-//
-//
-//    NSString *htmlCont = [NSString stringWithContentsOfFile:htmlPath
-//                                                    encoding:NSUTF8StringEncoding
-//                                                       error:nil];
-//
-//
-//    [self.webView loadHTMLString:htmlCont baseURL:baseURL];
+//    url = @"http://baidu.com";
+//    NSURL *trueUrl = nil;
+//    if (url) {
+//        trueUrl = [NSURL URLWithString:url];
+//    }
+//    
+//    
+//    _request =[NSURLRequest requestWithURL:trueUrl];
+//    
+//    [self.webView loadRequest:_request];
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSURL *baseURL = [NSURL fileURLWithPath:path];
+    NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"File" ofType:@"html"];
+
+
+    NSString *htmlCont = [NSString stringWithContentsOfFile:htmlPath
+                                                    encoding:NSUTF8StringEncoding
+                                                       error:nil];
+
+
+    [self.webView loadHTMLString:htmlCont baseURL:baseURL];
     
 }
 - (NSString *)stringWithDictionary:(NSDictionary *)dic {
@@ -173,6 +178,16 @@
 //    [self addCustomAction];
     NSLog(@"didFinishNavigation");
     [MBProgressHUD hideHUDForView:self animated:YES];
+    
+    
+//    NSURLSessionDataTask * dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:_request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//       NSHTTPURLResponse *tmpresponse = (NSHTTPURLResponse*)response;
+//       NSLog(@"statusCode:%ld", tmpresponse.statusCode);
+//        
+//     }];
+//     [dataTask resume];
+    
+    
 }
 
 //提交发生错误时调用
@@ -183,6 +198,8 @@
 
 // 接收到服务器跳转请求即服务重定向时之后调用
 - (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation {
+    
+    
     
 }
 
@@ -198,6 +215,17 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
     NSString * urlStr = navigationResponse.response.URL.absoluteString;
     NSLog(@"当前跳转地址：%@",urlStr);
+    
+
+    
+//    NSURLSessionDataTask * dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:_request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//       NSHTTPURLResponse *tmpresponse = (NSHTTPURLResponse*)response;
+//       NSLog(@"statusCode:%ld", tmpresponse.statusCode);
+//
+//     }];
+//     [dataTask resume];
+    
+    
     //允许跳转
     decisionHandler(WKNavigationResponsePolicyAllow);
     //不允许跳转
@@ -267,6 +295,14 @@
     }
     return nil;
 }
+
+// 请求加载中发生错误时调用
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
+    
+    
+    
+}
+
 
 #pragma mark - url 编码
 - (NSString *)URLEncodeString:(NSString *)str {

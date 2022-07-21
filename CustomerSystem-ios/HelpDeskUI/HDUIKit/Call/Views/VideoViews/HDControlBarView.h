@@ -30,6 +30,8 @@ typedef NS_ENUM (NSInteger, HDControlBarItemType) {
 typedef NS_ENUM (NSInteger, HDControlBarButtonStyle) {
     HDControlBarButtonStyleVideo     = 1,    /** 视频导航类型 不带文字   */
     HDControlBarButtonStyleUploadFile,           /**上传文件类型 带文字和图片  */
+    HDControlBarButtonStyleVideoNew,           /**视频导航 新版界面  */
+    
 };
 /*
  *  设置button image及背景颜色

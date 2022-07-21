@@ -434,7 +434,8 @@ static HDVideoCallViewController *_manger = nil;
         [selImageArr addObject:barModel4];
     }
 
- NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
+// NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
+    NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideoNew] ;
 
    _cameraBtn =  [self.barView hd_bttonWithTag:0 withArray:barArray];
     
@@ -572,7 +573,7 @@ static HDVideoCallViewController *_manger = nil;
     //添加昵称信息
     [self.parentView addSubview:self.itemView];
     [self.itemView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.barView.mas_top).offset(-5);
+        make.bottom.mas_equalTo(self.barView.mas_top).offset(-45);
         make.leading.offset(0);
         make.trailing.offset(0);
         make.height.offset(44);
@@ -648,17 +649,31 @@ static HDVideoCallViewController *_manger = nil;
   
     //底部功能按钮
     
+    // 老界面版本
+//    [self.barView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        if (@available(iOS 11.0, *)) {
+//            UIEdgeInsets insets = self.view.safeAreaInsets;
+//            make.bottom.mas_equalTo(-insets.bottom).offset(-5);
+//        } else {
+//            // Fallback on earlier versions
+//            make.bottom.offset(-5);
+//        }
+//        make.leading.offset(20);
+//        make.trailing.offset(-20);
+//        make.height.offset(64);
+//    }];
+//    [self.barView layoutIfNeeded];
     [self.barView mas_remakeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
             UIEdgeInsets insets = self.view.safeAreaInsets;
-            make.bottom.mas_equalTo(-insets.bottom).offset(-5);
+            make.bottom.mas_equalTo(-insets.bottom).offset(0);
         } else {
             // Fallback on earlier versions
-            make.bottom.offset(-5);
+            make.bottom.offset(0);
         }
-        make.leading.offset(20);
-        make.trailing.offset(-20);
-        make.height.offset(64);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+        make.height.offset(88);
     }];
     [self.barView layoutIfNeeded];
     
@@ -923,8 +938,8 @@ static HDVideoCallViewController *_manger = nil;
     if (!_barView) {
         _barView = [[HDControlBarView alloc]init];
 //        _barView.backgroundColor = [UIColor redColor];
-        _barView.layer.cornerRadius = 10;
-        _barView.layer.masksToBounds = YES;
+//        _barView.layer.cornerRadius = 10;
+//        _barView.layer.masksToBounds = YES;
         __weak __typeof__(self) weakSelf = self;
         _barView.clickControlBarItemBlock = ^(HDControlBarModel * _Nonnull barModel, UIButton * _Nonnull btn) {
             
@@ -2500,16 +2515,16 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
         if ([[dic valueForKey:@"action"] isEqualToString:@"on"]) {
 
-            _muteBtn.selected =YES;
+            _muteBtn.selected =NO;
         }else{
 
-            _muteBtn.selected =NO;
+            _muteBtn.selected =YES;
 
         }
         [self muteBtnClicked:_muteBtn];
     }
     
-    
+    [self sendCmdMessageAction:@"microphonecallback" withOn:YES withContent:@""];
 }
 /*!
  *  \~chinese
@@ -2522,14 +2537,13 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
         if ([[dic valueForKey:@"action"] isEqualToString:@"on"]) {
 
-            _cameraState=YES;
+            _cameraState=NO;
         }else{
 
-            _cameraState =NO;
+            _cameraState =YES;
 
         }
     }
-    
     
     //默认进来判断获取摄像头状态
     //1、如果是关闭  点击直接打开摄像头
@@ -2539,6 +2553,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     if (_cameraState) {
         //开启
      
+        [self closeCamera];
        
         
     }else{
@@ -2546,10 +2561,11 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         [[HDAgoraCallManager shareInstance] enableLocalVideo:YES];
 //        [[HDAgoraCallManager shareInstance] resumeVideo];
         _cameraState = YES;
+        _cameraBtn.selected =!_cameraBtn.selected ;
         [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:NO];
 
     }
-    
+    [self sendCmdMessageAction:@"cameraacallback" withOn:YES withContent:@""];
 }
 /*!
  *  \~chinese
@@ -2561,6 +2577,8 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     _cameraBtn.selected =YES;
     [self camBtnClicked:_cameraBtn];
     
+    [self sendCmdMessageAction:@"cameraChangecallback" withOn:YES withContent:@""];
+    
 }
 /*!
  *  \~chinese
@@ -2568,12 +2586,14 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  */
 - (void)onFocusingOnParameter:(NSDictionary *)dic{
     
+    BOOL state = NO;
+    NSString *content=@"";
     if ([HDAgoraCallManager shareInstance].isCameraFocusPositionInPreviewSupported) {
         
         NSLog(@"=====1111========%d",[HDAgoraCallManager shareInstance].isCameraFocusPositionInPreviewSupported);
         
         if ([[HDAgoraCallManager shareInstance] setCameraFocusPositionInPreview:CGPointMake(self.view.center.x, self.view.center.y)]) {
-            
+            state = YES;
             // 创建 对焦窗口
             [self.view addSubview:self.hdCameraFocusView];
             self.hdCameraFocusView.alpha = 1;
@@ -2601,17 +2621,22 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         }
         
     }else{
-        
+        state = NO;
         if ([[HDAgoraCallManager shareInstance] getCurrentFrontFacingCamera]) {
             
             // 是前置 需要后置
             [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device.front", @"video.remoteassistance.device.front") toView:self.view];
+            
+            content =NSLocalizedString(@"video.remoteassistance.device.front", @"video.remoteassistance.device.front");
         }else{
             
             [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device") toView:self.view];
-            
+            content =NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device");
         }
+        
     }
+    
+    [self sendCmdMessageAction:@"focusCameracallback" withOn:state withContent:content];
 }
 
 - (void)addScaleAnimationTo:(UIView*)animationView{
@@ -2655,6 +2680,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 -(void)onFlashlightWithCameraTorchWithAction:(NSString *)action withDic:(NSDictionary *)dic{
     
     BOOL state = NO;
+    NSString *content=@"";
     // 手电筒 只有后置摄像头可以 使用
     if ([HDAgoraCallManager shareInstance].isCameraTorchSupported) {
     if (dic && [[dic allKeys] containsObject:@"action"]) {
@@ -2676,22 +2702,23 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             
             // 是前置 需要后置
             [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device.front", @"video.remoteassistance.device.front") toView:self.view];
-            
+            content =NSLocalizedString(@"video.remoteassistance.device.front", @"video.remoteassistance.device.front");
         }else{
             
             [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device") toView:self.view];
-            
+            content =NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device");
         }
        
+        
     }
-    [self sendCmdMessageAction:action withOn:state];
+    [self sendCmdMessageAction:action withOn:state withContent:content];
     
     
 }
-- (void)sendCmdMessageAction:(NSString *)action withOn:(BOOL)on{
+- (void)sendCmdMessageAction:(NSString *)action withOn:(BOOL)on withContent:(NSString *)content{
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
  
-    HDMessage *message = [[HDClient sharedClient].callManager hd_visitorCallBackStateCmdMessageWithImId:lgM.cname withOn:on withAction:action content:@"回传通知"];
+    HDMessage *message = [[HDClient sharedClient].callManager hd_visitorCallBackStateCmdMessageWithImId:lgM.cname withOn:on withAction:action content:content];
     
      [self _sendMessage:message];
 }
