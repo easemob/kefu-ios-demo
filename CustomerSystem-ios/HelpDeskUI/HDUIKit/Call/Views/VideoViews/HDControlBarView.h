@@ -63,6 +63,9 @@ typedef void(^ClickControlBarItemBlock)(HDControlBarModel *barModel,UIButton *bt
 -(UIButton *)hd_bttonWithTag:(NSInteger)tag withArray:(NSArray *)array;
 - (UIButton *)hd_bttonMuteWithTag;
 - (void)hd_setButton:(UIButton *)button withBackground:(HDControlBarButtonBackground)background withSize:(NSUInteger)size withImageName:(NSString *)imageStr withSelectImage:(NSString *)selImageStr;
+
+
+- (void)setModel:(HDConversation *)model;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -394,7 +394,6 @@
 
 - (void)messagesDidReceive:(NSArray *)aMessages {
     for (HDMessage *message in aMessages) {
-        
         NSDictionary *ext = [self _getSafeDictionary:message.ext];
         if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"event"]) {
             NSDictionary *event = [[ext objectForKey:@"weichat"] objectForKey:@"event"];

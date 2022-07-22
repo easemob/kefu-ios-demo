@@ -7,7 +7,7 @@
 //
 
 #import "HDControlBarView.h"
-
+#import "DXTipView.h"
 #define kButtonTag  110
 /*
  *  设置button位置
@@ -26,6 +26,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     NSArray *_barArray;// 传入的数组
     NSArray *_barArrayBtn;// view 添加的btn
 }
+@property (strong, nonatomic) DXTipView *tipView;
 @end
 @implementation HDControlBarView
 
@@ -440,12 +441,12 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
                 
                     button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
                     // 设置button
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.width*0.9 withImageName:model.imageStr withSelectImage:model.selImageStr];
+//                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.width*0.9 withImageName:model.imageStr withSelectImage:model.selImageStr];
             
                 
-//                UIImage *imgSel  = [UIImage imageWithIcon2:model.imageStr inFont:kfontName size:button.width*0.9 color:[[HDAppSkin mainSkin] contentColorRed] withbackgroundColor:[[HDAppSkin mainSkin] contentColorWhitealpha:1]  ] ;
+                UIImage *imgSel  = [UIImage imageWithIcon2:model.imageStr inFont:kfontName size:button.width*0.8 color:[[HDAppSkin mainSkin] contentColorRed] withbackgroundColor:[[HDAppSkin mainSkin] contentColorWhitealpha:1]  ] ;
                 
-//                [button setImage:imgSel forState:UIControlStateNormal];
+                [button setImage:imgSel forState:UIControlStateNormal];
                 
                 button.backgroundColor = [UIColor blackColor];
                 
@@ -457,14 +458,19 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
                 button.layer.cornerRadius =button.height/2;
                 button.layer.masksToBounds = YES;
                 
-                
+               
             
             }else if (i== 3) {
                 CGFloat x = 2 * (w + space) + space + hangUpWith;
                 CGRect fram = CGRectMake(x , y, w, h);
                 button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
                     //消息 需要角标
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                _tipView = [[DXTipView alloc] initWithFrame:CGRectMake(x + w/1.5 , 10, 20, 20)];
+                _tipView.tipNumber = @"1";
+                [self addSubview:_tipView];
+               
+                   
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
             
             }else {
                 CGFloat x = 3 * (w + space) + space + hangUpWith;
@@ -477,9 +483,15 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
 //            button.backgroundColor = [UIColor yellowColor];
             [view addSubview:button];
             [lastArr addObject:button];
+            [self bringSubviewToFront:_tipView];
         }
         _barArrayBtn= lastArr;
         return lastArr;
 }
-
+- (void)setModel:(HDConversation *)model{
+    
+    
+    
+    
+}
 @end
