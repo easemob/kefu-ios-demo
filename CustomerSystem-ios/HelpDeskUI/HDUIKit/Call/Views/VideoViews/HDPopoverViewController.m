@@ -22,17 +22,23 @@
     self.tableView.delegate = self;
     self.tableView.scrollEnabled = NO;
     
-    HDPopoverViewControllerCellItem * item = [[HDPopoverViewControllerCellItem alloc] init];
-    item.name =NSLocalizedString(@"video.call.close.camera", @"关闭摄像头");
-    item.imgName = kshexiangtou1;
-    
-    HDPopoverViewControllerCellItem * item1 = [[HDPopoverViewControllerCellItem alloc] init];
-    item1.name =NSLocalizedString(@"video.call.switch.camera", @"切换摄像头");
-    item1.imgName = kqiehuanshexiangtou;
-    self.dataArray = [[NSMutableArray alloc] initWithObjects:item,item1, nil];
+//    HDPopoverViewControllerCellItem * item = [[HDPopoverViewControllerCellItem alloc] init];
+//    item.name =NSLocalizedString(@"video.call.close.camera", @"关闭摄像头");
+//    item.imgName = kshexiangtou1;
+//    
+//    HDPopoverViewControllerCellItem * item1 = [[HDPopoverViewControllerCellItem alloc] init];
+//    item1.name =NSLocalizedString(@"video.call.switch.camera", @"切换摄像头");
+//    item1.imgName = kqiehuanshexiangtou;
+//    self.dataArray = [[NSMutableArray alloc] initWithObjects:item,item1, nil];
    
 }
-
+- (void)setDataArrayWithModel:(NSMutableArray<HDPopoverViewControllerCellItem *> *)dataArray{
+    
+    self.dataArray = [[NSMutableArray alloc] initWithArray:dataArray];
+    
+    [self.tableView reloadData];
+    
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.dataArray.count;
 }
@@ -51,7 +57,17 @@
 //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     HDPopoverViewControllerCellItem * item =self.dataArray[indexPath.row];
    
-    cell.textLabel.text = [NSString stringWithFormat:@"%@",item.name];
+//    cell.textLabel.text = [NSString stringWithFormat:@"%@",item.name];
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.frame = CGRectMake(10, 0, self.view.frame.size.width-54, cell.frame.size.height);
+    titleLabel.text = [NSString stringWithFormat:@"%@",item.name];
+//    titleLabel.backgroundColor = [UIColor yellowColor];
+    titleLabel.textColor = [UIColor blackColor];
+    titleLabel.textAlignment = NSTextAlignmentLeft;
+    titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    [cell addSubview:titleLabel];
+    
     UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 7, 25, 25)];
     img.image = [UIImage imageWithIcon:item.imgName inFont:kfontName size:img.size.width color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] ;
     
@@ -61,7 +77,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-  
     [[NSNotificationCenter defaultCenter] postNotificationName:@"click" object:indexPath];
 }
 

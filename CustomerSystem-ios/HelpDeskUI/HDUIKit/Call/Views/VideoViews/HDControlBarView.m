@@ -8,6 +8,7 @@
 
 #import "HDControlBarView.h"
 #import "DXTipView.h"
+#import "HDPopoverViewController.h"
 #define kButtonTag  110
 /*
  *  设置button位置
@@ -21,12 +22,13 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
 
 @end
 
-@interface HDControlBarView (){
+@interface HDControlBarView ()<UIPopoverPresentationControllerDelegate>{
     
     NSArray *_barArray;// 传入的数组
     NSArray *_barArrayBtn;// view 添加的btn
 }
 @property (strong, nonatomic) DXTipView *tipView;
+
 @end
 @implementation HDControlBarView
 
@@ -494,4 +496,6 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     
     
 }
+
+
 @end

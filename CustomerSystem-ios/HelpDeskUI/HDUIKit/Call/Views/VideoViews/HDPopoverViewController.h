@@ -18,4 +18,5 @@
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *dataArray;
 
+- (void)setDataArrayWithModel:(NSMutableArray<HDPopoverViewControllerCellItem *> *)dataArray;
 @end

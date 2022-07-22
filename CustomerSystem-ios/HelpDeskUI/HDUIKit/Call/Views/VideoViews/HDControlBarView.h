@@ -22,6 +22,7 @@ typedef NS_ENUM (NSInteger, HDControlBarItemType) {
     HDControlBarItemTypeImage,            /**图片 */
     HDControlBarItemTypeFile,            /**文件 */
     HDControlBarItemTypeMore,            /**更多 */
+    HDControlBarItemTypeMessage,            /**消息 */
 };
 
 /*

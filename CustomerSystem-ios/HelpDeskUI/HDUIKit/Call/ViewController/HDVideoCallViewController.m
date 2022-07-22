@@ -105,6 +105,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (nonatomic, strong) HDHiddenView *hidView;
 @property (nonatomic, assign) BOOL  isLandscape;//当前屏幕 是横屏还是竖屏
 @property (strong, nonatomic) HDPopoverViewController *buttonPopVC;
+@property (strong, nonatomic) HDPopoverViewController *morePopVC;//更多
 @property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));
 @property (nonatomic, strong) HDWhiteBoardView *whiteBoardView;
 @property (nonatomic, assign) BOOL  isSmallWindow;//当前是不是 半屏模式
@@ -413,27 +414,27 @@ static HDVideoCallViewController *_manger = nil;
     barModel2.isHangUp = YES;
     
     HDControlBarModel * barModel3 = [HDControlBarModel new];
-    barModel3.itemType = HDControlBarItemTypeShare;
+    barModel3.itemType = HDControlBarItemTypeMessage;
     barModel3.name=@"";
-    barModel3.imageStr=kpingmugongxiang2;
-    barModel3.selImageStr=kpingmugongxiang2;
+    barModel3.imageStr=kxiaoxiguanli;
+    barModel3.selImageStr=kxiaoxiguanli;
     
     HDControlBarModel * barModel4 = [HDControlBarModel new];
-    barModel4.itemType = HDControlBarItemTypeFlat;
+    barModel4.itemType = HDControlBarItemTypeMore;
     barModel4.name=@"";
-    barModel4.imageStr=kbaiban;
-    barModel4.selImageStr=kbaiban;
+    barModel4.imageStr=kmore;
+    barModel4.selImageStr=kmore;
     
-    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2, nil];
+    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2,barModel3,barModel4, nil];
     
-    HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
-    HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
-    if (grayModelShare.enable) {
-        [selImageArr addObject:barModel3];
-    }
-    if (grayModelWhiteBoard.enable) {
-        [selImageArr addObject:barModel4];
-    }
+//    HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
+//    HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
+//    if (grayModelShare.enable) {
+//        [selImageArr addObject:barModel3];
+//    }
+//    if (grayModelWhiteBoard.enable) {
+//        [selImageArr addObject:barModel4];
+//    }
 
 // NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
     NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideoNew] ;
@@ -957,8 +958,11 @@ static HDVideoCallViewController *_manger = nil;
                 case HDControlBarItemTypeShare:
                     [weakSelf shareDesktopBtnClicked:btn];
                     break;
-                case HDControlBarItemTypeFlat:
-                    [weakSelf onClickedFalt:btn];
+//                case HDControlBarItemTypeFlat:
+//                    [weakSelf onClickedFalt:btn];
+//                    break;
+                case HDControlBarItemTypeMore:
+                    [weakSelf onClickedMore:btn];
                     break;
                     
                 default:
@@ -1187,6 +1191,19 @@ static HDVideoCallViewController *_manger = nil;
 - (void)popoverVCWithBtn:(UIButton *)btn{
     NSLog(@"点击了视频事件");
     self.buttonPopVC = [[HDPopoverViewController alloc] init];
+    
+    HDPopoverViewControllerCellItem * item = [[HDPopoverViewControllerCellItem alloc] init];
+    item.name =NSLocalizedString(@"video.call.close.camera", @"关闭摄像头");
+    item.imgName = kshexiangtou1;
+    
+    HDPopoverViewControllerCellItem * item1 = [[HDPopoverViewControllerCellItem alloc] init];
+    item1.name =NSLocalizedString(@"video.call.switch.camera", @"切换摄像头");
+    item1.imgName = kqiehuanshexiangtou;
+    
+    NSMutableArray * items = [[NSMutableArray alloc] initWithObjects:item,item1, nil];
+    
+    [self.buttonPopVC setDataArrayWithModel:items];
+    
     self.buttonPopVC.modalPresentationStyle = UIModalPresentationPopover;
     self.buttonPopVC.popoverPresentationController.sourceView = btn;  //rect参数是以view的左上角为坐标原点（0，0）
     self.buttonPopVC.popoverPresentationController.sourceRect = btn.bounds; //指定箭头所指区域的矩形框范围（位置和尺寸），以view的左上角为坐标原点
@@ -2755,5 +2772,44 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     
     return _hdCameraFocusView;
 }
+- (void)onClickedMore:(UIButton *)sender{
+    
+    
+    [self popoverMoreWithBtn:sender];
+}
 
+- (void)popoverMoreWithBtn:(UIButton *)btn{
+    NSLog(@"点击了视频事件");
+    self.morePopVC = [[HDPopoverViewController alloc] init];
+    
+    HDPopoverViewControllerCellItem * item = [[HDPopoverViewControllerCellItem alloc] init];
+    item.name =NSLocalizedString(@"video.call.shareScreen.title", @"屏幕共享");
+    item.imgName = kpingmugongxiang2;
+    
+    HDPopoverViewControllerCellItem * item1 = [[HDPopoverViewControllerCellItem alloc] init];
+    item1.name =NSLocalizedString(@"video.call.whiteBoard.title", @"互动白板");
+    item1.imgName = kbaiban;
+    
+    NSMutableArray * items = [[NSMutableArray alloc] init];
+    HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
+    HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
+    if (grayModelShare.enable) {
+        [items addObject:item];
+    }
+    if (grayModelWhiteBoard.enable) {
+        [items addObject:item1];
+    }
+
+    
+   
+    
+    [self.morePopVC setDataArrayWithModel:items];
+    
+    self.morePopVC.modalPresentationStyle = UIModalPresentationPopover;
+    self.morePopVC.popoverPresentationController.sourceView = btn;  //rect参数是以view的左上角为坐标原点（0，0）
+    self.morePopVC.popoverPresentationController.sourceRect = btn.bounds; //指定箭头所指区域的矩形框范围（位置和尺寸），以view的左上角为坐标原点
+    self.morePopVC.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp; //箭头方向
+    self.morePopVC.popoverPresentationController.delegate = self;
+    [self presentViewController:self.morePopVC animated:YES completion:nil];
+}
 @end

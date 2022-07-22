@@ -28,8 +28,8 @@
 #define kfeihuazhonghua     @"\U0000e7c6"  //&#xe7c6
 #define khuazhonghua1       @"\U0000e61c"  //&#xe61c
 #define kguanbi             @"\U0000eaf2"  //&#xeaf2
-#define xiaoxiguanli        @"\U0000e62a"  //&#xe62a
-#define more                @"\U0000e64c"  //&#xe64c
+#define kxiaoxiguanli        @"\U0000e62a"  //&#xe62a
+#define kmore                @"\U0000e64c"  //&#xe64c
 
 
 NS_ASSUME_NONNULL_BEGIN

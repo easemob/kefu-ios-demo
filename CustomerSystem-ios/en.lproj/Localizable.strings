@@ -378,3 +378,6 @@
 
 "video.call.calling" = "Calling";
 "video.call.sign" = "please sign here";
+
+"video.call.whiteBoard.title" = "whiteboard";
+"video.call.shareScreen.title" = "screen sharing";
