@@ -13,7 +13,7 @@
 -(NSString *)getParentName{
     
     
-    return @"wettt";
+    return @"继承对应的类返回对应的字段名称";
     
 }
 @end

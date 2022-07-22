@@ -2036,8 +2036,7 @@
 				D20066361EF23274005B558D /* product_details_zh_4.png */,
 				D20066371EF23274005B558D /* Shape@2x.png */,
 			);
-			name = newResources;
-			path = resources/newResources;
+			path = newResources;
 			sourceTree = "<group>";
 		};
 		D2769D241B9052D7003D9E3D /* home */ = {
@@ -2065,6 +2064,20 @@
 				930E4DAA2796D39F007CFE50 /* UIViewController+VLDModal.m */,
 				9385C57627E87E150049096F /* UIImage+HDIconFont.h */,
 				9385C57727E87E150049096F /* UIImage+HDIconFont.m */,
+				D3CB63DE1E4888F30022A6BA /* NSDate+Category.h */,
+				D3CB63DF1E4888F30022A6BA /* NSDate+Category.m */,
+				D3CB63E01E4888F30022A6BA /* NSDateFormatter+Category.h */,
+				D3CB63E11E4888F30022A6BA /* NSDateFormatter+Category.m */,
+				D3CB63E21E4888F30022A6BA /* NSString+HDValid.h */,
+				D3CB63E31E4888F30022A6BA /* NSString+HDValid.m */,
+				D3CB63E41E4888F30022A6BA /* UIResponder+HRouter.h */,
+				D3CB63E51E4888F30022A6BA /* UIResponder+HRouter.m */,
+				D3CB63E61E4888F30022A6BA /* UIViewController+DismissKeyboard.h */,
+				D3CB63E71E4888F30022A6BA /* UIViewController+DismissKeyboard.m */,
+				D3CB63E81E4888F30022A6BA /* UIViewController+HDHUD.h */,
+				D3CB63E91E4888F30022A6BA /* UIViewController+HDHUD.m */,
+				93C03F6D2832256B002292CC /* NSNull+safe.h */,
+				93C03F6E2832256B002292CC /* NSNull+safe.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -2291,7 +2304,6 @@
 		D3CB631B1E4888F20022A6BA /* HelpDeskUI */ = {
 			isa = PBXGroup;
 			children = (
-				D20066111EF23274005B558D /* newResources */,
 				D3CB631D1E4888F20022A6BA /* HDUIKit */,
 				D3CB643E1E4888F30022A6BA /* HelpDeskUI.h */,
 				D3CB643F1E4888F30022A6BA /* HelpDeskUI.m */,
@@ -2307,7 +2319,6 @@
 				D3CE331C1F0610FA00A9649E /* Add */,
 				D33946EF1E54381B009370BF /* Category */,
 				D3CB631E1E4888F20022A6BA /* 3rdparty */,
-				D3CB63D01E4888F30022A6BA /* Helper */,
 				D3CB63D31E4888F30022A6BA /* Model */,
 				D3CB63DC1E4888F30022A6BA /* Util */,
 				D3CB63FB1E4888F30022A6BA /* ViewController */,
@@ -2461,22 +2472,6 @@
 			path = PSTCollectionView;
 			sourceTree = "<group>";
 		};
-		D3CB63D01E4888F30022A6BA /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				9385C61227E9CA800049096F /* HDAppSkin.h */,
-				9385C61327E9CA800049096F /* HDAppSkin.m */,
-				933DD57528641CEB00A3523A /* HDTest.h */,
-				933DD57628641CEC00A3523A /* HDTest.m */,
-				9392B514280047CE005D4215 /* Document */,
-				D3CB63D11E4888F30022A6BA /* HDSDKHelper.h */,
-				D3CB63D21E4888F30022A6BA /* HDSDKHelper.m */,
-				9320EECC2806D6E000485611 /* HDSanBoxFileManager.h */,
-				9320EECD2806D6E000485611 /* HDSanBoxFileManager.m */,
-			);
-			path = Helper;
-			sourceTree = "<group>";
-		};
 		D3CB63D31E4888F30022A6BA /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -2499,7 +2494,13 @@
 		D3CB63DC1E4888F30022A6BA /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				D3CB63DD1E4888F30022A6BA /* Category */,
+				9385C61227E9CA800049096F /* HDAppSkin.h */,
+				9385C61327E9CA800049096F /* HDAppSkin.m */,
+				9392B514280047CE005D4215 /* Document */,
+				D3CB63D11E4888F30022A6BA /* HDSDKHelper.h */,
+				D3CB63D21E4888F30022A6BA /* HDSDKHelper.m */,
+				9320EECC2806D6E000485611 /* HDSanBoxFileManager.h */,
+				9320EECD2806D6E000485611 /* HDSanBoxFileManager.m */,
 				D3CB63EA1E4888F30022A6BA /* Emoji */,
 				D3CB63F41E4888F30022A6BA /* HDChineseToPinyin.h */,
 				D3CB63F51E4888F30022A6BA /* HDChineseToPinyin.m */,
@@ -2512,27 +2513,6 @@
 				930E320D27E03AE500455C7E /* HDAccountmanager.m */,
 			);
 			path = Util;
-			sourceTree = "<group>";
-		};
-		D3CB63DD1E4888F30022A6BA /* Category */ = {
-			isa = PBXGroup;
-			children = (
-				D3CB63DE1E4888F30022A6BA /* NSDate+Category.h */,
-				D3CB63DF1E4888F30022A6BA /* NSDate+Category.m */,
-				D3CB63E01E4888F30022A6BA /* NSDateFormatter+Category.h */,
-				D3CB63E11E4888F30022A6BA /* NSDateFormatter+Category.m */,
-				D3CB63E21E4888F30022A6BA /* NSString+HDValid.h */,
-				D3CB63E31E4888F30022A6BA /* NSString+HDValid.m */,
-				D3CB63E41E4888F30022A6BA /* UIResponder+HRouter.h */,
-				D3CB63E51E4888F30022A6BA /* UIResponder+HRouter.m */,
-				D3CB63E61E4888F30022A6BA /* UIViewController+DismissKeyboard.h */,
-				D3CB63E71E4888F30022A6BA /* UIViewController+DismissKeyboard.m */,
-				D3CB63E81E4888F30022A6BA /* UIViewController+HDHUD.h */,
-				D3CB63E91E4888F30022A6BA /* UIViewController+HDHUD.m */,
-				93C03F6D2832256B002292CC /* NSNull+safe.h */,
-				93C03F6E2832256B002292CC /* NSNull+safe.m */,
-			);
-			path = Category;
 			sourceTree = "<group>";
 		};
 		D3CB63EA1E4888F30022A6BA /* Emoji */ = {
@@ -3087,6 +3067,7 @@
 		EB62E1FC1A8DD92D00705655 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D20066111EF23274005B558D /* newResources */,
 				937E92422851AE8200A71B32 /* testHtml */,
 				EB4B05EE1AC685E900DCF67B /* Resources */,
 				EB62E3B61A8DE09600705655 /* LocalDefine.h */,
@@ -3100,6 +3081,8 @@
 		EB62E2981A8DDA4800705655 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				933DD57528641CEB00A3523A /* HDTest.h */,
+				933DD57628641CEC00A3523A /* HDTest.m */,
 				D35579581EE948BF00F6B54E /* ConversationList */,
 				D3D1BB461DE84891004B3557 /* Category */,
 				D3D1BB1C1DE83D38004B3557 /* LeaveMsg */,
