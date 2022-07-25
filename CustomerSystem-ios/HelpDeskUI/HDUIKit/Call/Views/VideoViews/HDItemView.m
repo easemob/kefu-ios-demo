@@ -67,7 +67,7 @@
         _nickNameBtn.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.65];
         _nickNameBtn.titleLabel.textAlignment=NSTextAlignmentLeft;
         _nickNameBtn.titleLabel.numberOfLines = 0;
-        _nickNameBtn.layer.cornerRadius = 14;
+        _nickNameBtn.layer.cornerRadius = 12;
         _nickNameBtn.layer.masksToBounds = YES;
 //        _nickNameBtn.alpha = 0.65;
         _nickNameBtn.titleLabel.font = [UIFont systemFontOfSize:12];

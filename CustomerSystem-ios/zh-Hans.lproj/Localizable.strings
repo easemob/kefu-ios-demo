@@ -380,6 +380,8 @@
 "video.call.calling" = "通话中";
 "video.call.sign" = "请在此处签字";
 
-"video.call.whiteBoard.title" = "互动白板互动白板互动白板";
-"video.call.shareScreen.title" = "屏幕共享互动白板互动白板互动白板互动白板";
+"video.call.whiteBoard.title" = "互动白板";
+"video.call.shareScreen.title" = "屏幕共享";
+"video.call.message" = "聊天";
+
 

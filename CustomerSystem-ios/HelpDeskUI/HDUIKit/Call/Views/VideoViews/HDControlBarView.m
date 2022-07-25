@@ -419,7 +419,6 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     // 挂断宽度 固定
     CGFloat hangUpWith =80;
     
-    
         NSLog(@"===%@",sortArray);
         CGFloat viewWith =view.frame.size.width;
         CGFloat space = 2;
@@ -472,11 +471,13 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
                 button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
                     //消息 需要角标
                 _tipView = [[DXTipView alloc] initWithFrame:CGRectMake(x + w/1.5 , 10, 20, 20)];
-                _tipView.tipNumber = @"1";
+                _tipView.tipNumber = @"";
                 [self addSubview:_tipView];
             
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
-            
+//                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
+//
+                [button setImage:[UIImage imageWithIcon:model.imageStr inFont:kfontName size:button.width/2.5 color:[[HDAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
+                
             }else {
                 CGFloat x = 3 * (w + space) + space + hangUpWith;
                 CGRect fram = CGRectMake(x , y, w, h);
@@ -495,6 +496,14 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
 - (void)setModel:(HDConversation *)model{
     
     
+    if (model) {
+        
+    }else{
+        
+        
+        _tipView.tipNumber = @"";
+        
+    }
     
     
 }

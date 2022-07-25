@@ -65,7 +65,7 @@ typedef void(^ClickControlBarItemBlock)(HDControlBarModel *barModel,UIButton *bt
 - (UIButton *)hd_bttonMuteWithTag;
 - (void)hd_setButton:(UIButton *)button withBackground:(HDControlBarButtonBackground)background withSize:(NSUInteger)size withImageName:(NSString *)imageStr withSelectImage:(NSString *)selImageStr;
 
-
+//角标需要的model 数据
 - (void)setModel:(HDConversation *)model;
 @end
 

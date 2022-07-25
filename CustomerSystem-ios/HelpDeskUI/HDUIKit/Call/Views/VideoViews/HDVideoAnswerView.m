@@ -8,7 +8,6 @@
 
 #import "HDVideoAnswerView.h"
 #import "Masonry.h"
-#import "HDAppSkin.h"
 #import "UIImage+HDIconFont.h"
 #import "HDAgoraCallManager.h"
 @interface HDVideoAnswerView()

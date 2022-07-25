@@ -136,6 +136,7 @@
 		937FD5A627D1B2ED00EB055A /* HDSSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 937FD59A27D1B2EA00EB055A /* HDSSKeychain.m */; };
 		937FD5A927D1B2ED00EB055A /* HDAgoraCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 937FD59E27D1B2EB00EB055A /* HDAgoraCallManager.m */; };
 		937FD5AA27D1B2ED00EB055A /* HDAgoraCallOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 937FD5A427D1B2EC00EB055A /* HDAgoraCallOptions.m */; };
+		93809066288E7CF4001198D6 /* HDVideoMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93809065288E7CF4001198D6 /* HDVideoMessageView.m */; };
 		9381D92E28893913001EE246 /* iconfont.js in Resources */ = {isa = PBXBuildFile; fileRef = 9381D92628893913001EE246 /* iconfont.js */; };
 		9381D92F28893913001EE246 /* demo.css in Resources */ = {isa = PBXBuildFile; fileRef = 9381D92728893913001EE246 /* demo.css */; };
 		9381D93028893913001EE246 /* iconfont.json in Resources */ = {isa = PBXBuildFile; fileRef = 9381D92828893913001EE246 /* iconfont.json */; };
@@ -785,6 +786,8 @@
 		937FD5A327D1B2EC00EB055A /* HDAgoraCallEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDAgoraCallEnum.h; sourceTree = "<group>"; };
 		937FD5A427D1B2EC00EB055A /* HDAgoraCallOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDAgoraCallOptions.m; sourceTree = "<group>"; };
 		937FD5AB27D1EB5B00EB055A /* HDAgoraCallManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAgoraCallManagerDelegate.h; sourceTree = "<group>"; };
+		93809064288E7CF4001198D6 /* HDVideoMessageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoMessageView.h; sourceTree = "<group>"; };
+		93809065288E7CF4001198D6 /* HDVideoMessageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoMessageView.m; sourceTree = "<group>"; };
 		9381D92628893913001EE246 /* iconfont.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = iconfont.js; sourceTree = "<group>"; };
 		9381D92728893913001EE246 /* demo.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = demo.css; sourceTree = "<group>"; };
 		9381D92828893913001EE246 /* iconfont.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = iconfont.json; sourceTree = "<group>"; };
@@ -1632,6 +1635,8 @@
 				931900672828E3BA002D3B2A /* HDSuspendCustomView.m */,
 				938A4DC8283E1BEE0069CA51 /* HDVideoGeneralCustomView.h */,
 				938A4DC9283E1BEE0069CA51 /* HDVideoGeneralCustomView.m */,
+				93809064288E7CF4001198D6 /* HDVideoMessageView.h */,
+				93809065288E7CF4001198D6 /* HDVideoMessageView.m */,
 			);
 			path = VideoViews;
 			sourceTree = "<group>";
@@ -3734,6 +3739,7 @@
 				D3D1BB421DE8478C004B3557 /* LeaveMsgDetailModel.m in Sources */,
 				D3CE33281F0610FA00A9649E /* CustomButton.m in Sources */,
 				9042C2622514A1A100DC5BE1 /* AFHTTPSessionManager.m in Sources */,
+				93809066288E7CF4001198D6 /* HDVideoMessageView.m in Sources */,
 				9042C2632514A1A100DC5BE1 /* AFURLSessionManager.m in Sources */,
 				9385C57527E82EEB0049096F /* HDItemView.m in Sources */,
 				939C413528532DE50013F476 /* HDSignView.m in Sources */,

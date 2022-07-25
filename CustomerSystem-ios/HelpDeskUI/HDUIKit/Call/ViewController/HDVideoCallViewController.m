@@ -34,13 +34,15 @@
 #import "HDVideoLinkMessagePush.h"
 #import "HDSignView.h"
 #import "HDSatisfactionView.h"
-
+#import "HDVideoMessageView.h"
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
 #define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
 #define kNotificationShareWindow kScreenShareExtensionBundleId
 #define kPointHeight [UIScreen mainScreen].bounds.size.width *0.9
+
+#define kHDVideoMessageHeight [UIScreen mainScreen].bounds.size.height * 0.8
 
 
 @interface HDVideoCallViewController ()<HDAgoraCallManagerDelegate,HDCallManagerDelegate,HDWhiteboardManagerDelegate,UIPopoverPresentationControllerDelegate,SuspendCustomViewDelegate,HDVideoGeneralCustomViewDelegate,HDSignDelegate>{
@@ -122,6 +124,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (nonatomic, strong) UIView *ocrView;
 @property (nonatomic, strong) HDSatisfactionView *hdSatisfactionView;
 @property (nonatomic, strong) UIView *hdCameraFocusView;
+@property (nonatomic, strong) HDVideoMessageView *hdMessageView;
 
 
 @end
@@ -167,6 +170,8 @@ static HDVideoCallViewController *_manger = nil;
     [HDAgoraCallManager shareInstance].keyCenter.isAgentCancelCallbackReceive = NO;
     [HDAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
     [HDAgoraCallManager shareInstance].currentWindow = nil;
+    
+    
 }
 - (void)removeAllSubviews {
     while (_manger.alertWindow.subviews.count) {
@@ -1893,6 +1898,11 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
 - (void)__enablePictureInPicture{
 
+    if (self.hdMessageView) {
+        
+        [self hideVideoMessage];
+    }
+    
     [self.view hideKeyBoard];
     self.isSmallWindow = YES;
     self.alertWindow.frame =  CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/2);
@@ -1986,7 +1996,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     }
     
     [self.itemView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.barView.mas_top).offset(-5);
+        make.bottom.mas_equalTo(self.barView.mas_top).offset(-30);
         make.leading.offset(0);
         make.trailing.offset(0);
         make.height.offset(44);
@@ -2890,11 +2900,49 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 }
 - (void)showMessage{
     
+    // 将view.frame 设置在屏幕下方
+    [self.view addSubview:self.hdMessageView];
+    [UIView transitionWithView:self.hdMessageView duration:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        
+        self.hdMessageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height -  kHDVideoMessageHeight, self.view.frame.size.width, kHDVideoMessageHeight);
+        
+        
+    } completion:^(BOOL finished) {
     
+    }];
     
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
+   
+    chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
+  
+  
+    [self.hdMessageView addSubview:chat.view];
+    [chat.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.offset(44);
+        make.bottom.offset(0);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+        
+        
+    }];
     
-    
+    [self.barView setModel:nil];
 }
+
+- (void)hideVideoMessage{
+    
+    [UIView transitionWithView:self.hdMessageView duration:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        
+        self.hdMessageView.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, kHDVideoMessageHeight);
+        
+        
+    } completion:^(BOOL finished) {
+    
+    }];
+}
+
 #pragma mark - 隐藏 popervc
 - (void)dismissHDPoperViewController{
     
@@ -2911,5 +2959,27 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     
     
 }
-
+#pragma mark - 懒加载
+- (HDVideoMessageView *)hdMessageView{
+    
+    if (!_hdMessageView) {
+        _hdMessageView = [[HDVideoMessageView alloc] init];
+        _hdMessageView.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, kHDVideoMessageHeight);
+        _hdMessageView.backgroundColor = [UIColor redColor];
+        _hdMessageView.layer.cornerRadius = 10.0f;
+        _hdMessageView.layer.masksToBounds = YES;
+        _hdMessageView.layer.shadowOpacity = 0.5;
+        _hdMessageView.layer.shadowRadius = 15;
+        kWeakSelf
+        _hdMessageView.clickCloseMessageBlock = ^(UIButton *btn) {
+            
+           // 隐藏动画
+            [weakSelf hideVideoMessage];
+            
+            
+        };
+    }
+    return _hdMessageView;
+    
+}
 @end
