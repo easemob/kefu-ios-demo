@@ -69,15 +69,27 @@
     [cell addSubview:titleLabel];
     
     UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 7, 25, 25)];
-    img.image = [UIImage imageWithIcon:item.imgName inFont:kfontName size:img.size.width color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] ;
-    
+    if (item.isOn) {
+   
+        img.image = [UIImage imageWithIcon:item.imgName inFont:kfontName size:img.size.width color:[[HDAppSkin mainSkin] contentColorRed] ] ;
+    }else{
+    img.image = [UIImage imageWithIcon:item.imgName inFont:kfontName size:img.size.width color: [[HDAppSkin mainSkin] contentColorBlue] ] ;
+    }
     [cell addSubview:img];
+    
+
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"click" object:indexPath];
+    NSMutableDictionary * dic = [[NSMutableDictionary alloc] init];
+    HDPopoverViewControllerCellItem * item =  [self.dataArray objectAtIndex:indexPath.row];
+    item.indexPath = indexPath;
+    [dic hd_setValue:self forKey:@"currentClass"];
+    [dic hd_setValue:item forKey:@"currentItemClass"];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"click" object:indexPath userInfo:dic];
 }
 
 //重写preferredContentSize，让popover返回你期望的大小
@@ -95,4 +107,19 @@
 - (void)setPreferredContentSize:(CGSize)preferredContentSize{
     super.preferredContentSize = preferredContentSize;
 }
+
+-(void)reloadRows:(HDPopoverViewControllerCellItem *)item{
+    
+    
+    [_dataArray replaceObjectAtIndex:item.indexPath.row withObject:item];
+    
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:item.indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
+    
+    
+    
+}
+
+
+
+
 @end

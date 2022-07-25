@@ -374,6 +374,10 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     return btn;
     
 }
+
+
+
+
 - (UIButton *)hd_bttonMuteWithTag {
     
     UIButton * btn;
@@ -413,7 +417,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     NSMutableArray * sortArray =  [self  hd_soreBarModelArray:tmpArray withStyle:HDControlBarButtonHangUpLocationMiddle];
 
     // 挂断宽度 固定
-    CGFloat hangUpWith =88;
+    CGFloat hangUpWith =80;
     
     
         NSLog(@"===%@",sortArray);
@@ -435,7 +439,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
                
                 button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
                 
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
                     
               
             }else if (i== 2) {
@@ -470,19 +474,17 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
                 _tipView = [[DXTipView alloc] initWithFrame:CGRectMake(x + w/1.5 , 10, 20, 20)];
                 _tipView.tipNumber = @"1";
                 [self addSubview:_tipView];
-               
-                   
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+            
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
             
             }else {
                 CGFloat x = 3 * (w + space) + space + hangUpWith;
                 CGRect fram = CGRectMake(x , y, w, h);
                 button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
                     //更多
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [button setImage:[UIImage imageWithIcon:model.imageStr inFont:kfontName size:button.width/2.5 color:[[HDAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
                 }
-            
-//            button.backgroundColor = [UIColor yellowColor];
+    
             [view addSubview:button];
             [lastArr addObject:button];
             [self bringSubviewToFront:_tipView];

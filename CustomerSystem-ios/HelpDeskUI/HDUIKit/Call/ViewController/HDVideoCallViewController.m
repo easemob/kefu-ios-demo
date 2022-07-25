@@ -66,6 +66,7 @@
     NSString * _isFirstAdd; // 远端进来是不是第一次添加
     UIButton *_muteBtn;  //声音button
     UIButton *_cameraBtn; //相机button
+    UIButton *_moreBtn; // 更多button
     UIButton *_shareBtn;     //屏幕共享的button
     UIButton *_whiteBoardBtn;     //白板的button
     BOOL _cameraState; //摄像头状态； yes 开启摄像头 no 关闭
@@ -86,6 +87,11 @@ __block NSString * _pushflowId; //信息推送的flowid
     NSString * _faceflowId; // 身份验证的flowid
     NSString * _ocrflowId;  // ocr的flowid
     HDVideoIDCardScaningView *_idCardScaningView;
+    
+    //点击屏幕共享的model
+    HDPopoverViewControllerCellItem * _shareScreenCellItem;
+    //点击白板的model
+    HDPopoverViewControllerCellItem * _whiteboardCellItem;
 }
 /*
  * 弹窗窗口
@@ -339,7 +345,7 @@ static HDVideoCallViewController *_manger = nil;
     _members = [NSMutableArray new];
     _midelleMembers = [NSMutableArray new];
     allMembersDic = [NSMutableDictionary new];
-    [self initScreenShare];
+  
     
 }
 //
@@ -381,7 +387,8 @@ static HDVideoCallViewController *_manger = nil;
     
         self.hdVideoAnswerView.hidden = NO;
     }
-    
+    //隐藏 popervc
+    [self dismissHDPoperViewController];
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -442,6 +449,9 @@ static HDVideoCallViewController *_manger = nil;
    _cameraBtn =  [self.barView hd_bttonWithTag:0 withArray:barArray];
     
     _muteBtn =  [self.barView hd_bttonMuteWithTag];
+    
+    _moreBtn =  [barArray lastObject];
+
     
     [self initSmallWindowData];
 }
@@ -575,7 +585,7 @@ static HDVideoCallViewController *_manger = nil;
     //添加昵称信息
     [self.parentView addSubview:self.itemView];
     [self.itemView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.barView.mas_top).offset(-45);
+        make.bottom.mas_equalTo(self.barView.mas_top).offset(-30);
         make.leading.offset(0);
         make.trailing.offset(0);
         make.height.offset(44);
@@ -675,7 +685,7 @@ static HDVideoCallViewController *_manger = nil;
         }
         make.leading.offset(0);
         make.trailing.offset(0);
-        make.height.offset(88);
+        make.height.offset(77);
     }];
     [self.barView layoutIfNeeded];
     
@@ -955,9 +965,12 @@ static HDVideoCallViewController *_manger = nil;
                 case HDControlBarItemTypeHangUp:
                     [weakSelf callingHangUpBtn:btn];
                     break;
-                case HDControlBarItemTypeShare:
-                    [weakSelf shareDesktopBtnClicked:btn];
+                case HDControlBarItemTypeMessage:
+                    [weakSelf showMessage];
                     break;
+//                case HDControlBarItemTypeShare:
+//                    [weakSelf shareDesktopBtnClicked:btn];
+//                    break;
 //                case HDControlBarItemTypeFlat:
 //                    [weakSelf onClickedFalt:btn];
 //                    break;
@@ -1191,13 +1204,15 @@ static HDVideoCallViewController *_manger = nil;
 - (void)popoverVCWithBtn:(UIButton *)btn{
     NSLog(@"点击了视频事件");
     self.buttonPopVC = [[HDPopoverViewController alloc] init];
-    
+    self.buttonPopVC.popoverType = HDPopoverTypeCamera;
     HDPopoverViewControllerCellItem * item = [[HDPopoverViewControllerCellItem alloc] init];
+    item.cellItemType = HDPopoverCellItemTypeCloseCamera;
     item.name =NSLocalizedString(@"video.call.close.camera", @"关闭摄像头");
     item.imgName = kshexiangtou1;
     
     HDPopoverViewControllerCellItem * item1 = [[HDPopoverViewControllerCellItem alloc] init];
     item1.name =NSLocalizedString(@"video.call.switch.camera", @"切换摄像头");
+    item.cellItemType = HDPopoverCellItemTypeChangeCamera;
     item1.imgName = kqiehuanshexiangtou;
     
     NSMutableArray * items = [[NSMutableArray alloc] initWithObjects:item,item1, nil];
@@ -1215,25 +1230,40 @@ static HDVideoCallViewController *_manger = nil;
 ///处理popover上的talbe的cell点击
 - (void)tableDidSelected:(NSNotification *)notification {
     NSIndexPath *indexpath = (NSIndexPath *)notification.object;
-    switch (indexpath.row) {
-        case 0:
-            //关闭摄像头
-            [self closeCamera];
-            break;
-        case 1:
-            //切换摄像头
-            NSLog(@"====点击了切换摄像头");
-            [[HDAgoraCallManager shareInstance] switchCamera];
-            _isCurrenDeviceFront = !_isCurrenDeviceFront;
-            break;
     
-    }
-    if (self.buttonPopVC) {
-        [self.buttonPopVC dismissViewControllerAnimated:YES completion:nil];    //我暂时使用这个方法让popover消失，但我觉得应该有更好的方法，因为这个方法并不会调用popover消失的时候会执行的回调。
-        self.buttonPopVC = nil;
+    NSDictionary * userInfo = notification.userInfo;
+    
+    HDPopoverViewController * popover = [userInfo valueForKey:@"currentClass"];
+    
+    HDPopoverViewControllerCellItem * item = [userInfo valueForKey:@"currentItemClass"];
+    
+    if (popover.popoverType == HDPopoverTypeCamera) {
+        switch (indexpath.row) {
+            case 0:
+                //关闭摄像头
+                [self closeCamera];
+                break;
+            case 1:
+                //切换摄像头
+                NSLog(@"====点击了切换摄像头");
+                [[HDAgoraCallManager shareInstance] switchCamera];
+                _isCurrenDeviceFront = !_isCurrenDeviceFront;
+                break;
         
-    }else{
+        }
+        if (self.buttonPopVC) {
+            [self.buttonPopVC dismissViewControllerAnimated:YES completion:nil];    //我暂时使用这个方法让popover消失，但我觉得应该有更好的方法，因为这个方法并不会调用popover消失的时候会执行的回调。
+            self.buttonPopVC = nil;
+            
+        }else{
+          
+        }
+    }else if(popover.popoverType == HDPopoverTypeMore){
+        
+        //点击了更多
+        [self clickPopoverMore:indexpath withItemModel:item];
       
+        
     }
 }
 - (void)closeCamera{
@@ -1249,6 +1279,7 @@ static HDVideoCallViewController *_manger = nil;
     [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:YES];
 
 }
+#pragma mark - UIPopoverPresentationControllerDelegate
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
     return UIModalPresentationNone;
 }
@@ -1743,6 +1774,10 @@ static HDVideoCallViewController *_manger = nil;
             _shareState= YES;
             _shareBtn.selected = _shareState;
             
+//            _shareScreenCellItem.isOn = YES;
+            
+//            [self.morePopVC reloadRows:_shareScreenCellItem];
+            
         }
         if ([string[@"state"] isEqual:@"停止"]) {
             //关闭 RTC：外部视频输入通道，停止推送屏幕流
@@ -1751,6 +1786,8 @@ static HDVideoCallViewController *_manger = nil;
             _shareState= NO;
             //更改按钮的状态
             _shareBtn.selected = _shareState;
+//            _shareScreenCellItem.isOn = NO;
+//            [self.morePopVC reloadRows:_shareScreenCellItem];
         }
         return;
     }else if ([keyPath isEqualToString:@"text"]) {
@@ -2779,17 +2816,21 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 }
 
 - (void)popoverMoreWithBtn:(UIButton *)btn{
-    NSLog(@"点击了视频事件");
+    NSLog(@"点击了更多事件");
     self.morePopVC = [[HDPopoverViewController alloc] init];
-    
+   
+    self.morePopVC.popoverType = HDPopoverTypeMore;
     HDPopoverViewControllerCellItem * item = [[HDPopoverViewControllerCellItem alloc] init];
     item.name =NSLocalizedString(@"video.call.shareScreen.title", @"屏幕共享");
     item.imgName = kpingmugongxiang2;
+    item.cellItemType = HDPopoverCellItemTypeShareScreen;
+    item.isOn = _shareState;
     
     HDPopoverViewControllerCellItem * item1 = [[HDPopoverViewControllerCellItem alloc] init];
     item1.name =NSLocalizedString(@"video.call.whiteBoard.title", @"互动白板");
     item1.imgName = kbaiban;
-    
+    item1.cellItemType = HDPopoverCellItemTypeWhiteBoard;
+    item1.isOn = [HDWhiteRoomManager shareInstance].roomState;
     NSMutableArray * items = [[NSMutableArray alloc] init];
     HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
     HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
@@ -2799,17 +2840,76 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     if (grayModelWhiteBoard.enable) {
         [items addObject:item1];
     }
-
-    
-   
     
     [self.morePopVC setDataArrayWithModel:items];
     
     self.morePopVC.modalPresentationStyle = UIModalPresentationPopover;
-    self.morePopVC.popoverPresentationController.sourceView = btn;  //rect参数是以view的左上角为坐标原点（0，0）
-    self.morePopVC.popoverPresentationController.sourceRect = btn.bounds; //指定箭头所指区域的矩形框范围（位置和尺寸），以view的左上角为坐标原点
+  
+    //指定箭头所指区域的矩形框范围（位置和尺寸），以view的左上角为坐标原点
     self.morePopVC.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp; //箭头方向
     self.morePopVC.popoverPresentationController.delegate = self;
+    self.morePopVC.popoverPresentationController.sourceView = btn;  //rect参数是以view的左上角为坐标原点（0，0）
+    self.morePopVC.popoverPresentationController.sourceRect = btn.bounds;
     [self presentViewController:self.morePopVC animated:YES completion:nil];
+
 }
+
+- (void)clickPopoverMore:(NSIndexPath *)indexPath withItemModel:(HDPopoverViewControllerCellItem *)item{
+    
+    // 根据灰度去判断 对应的功能
+
+    switch (item.cellItemType) {
+        case  HDPopoverCellItemTypeShareScreen:
+            //屏幕共享
+            NSLog(@"=========点击了屏幕共享");
+            [self initScreenShare];
+            _shareScreenCellItem = item;
+            [self shareDesktopBtnClicked:nil];
+            break;
+        case  HDPopoverCellItemTypeWhiteBoard:
+            //
+            NSLog(@"=========点击了白板");
+            _whiteboardCellItem = item;
+            [self onClickedFalt:nil];
+            break;
+        default:
+            break;
+    
+    }
+    if (self.morePopVC) {
+        [self.morePopVC dismissViewControllerAnimated:YES completion:nil];    //我暂时使用这个方法让popover消失，但我觉得应该有更好的方法，因为这个方法并不会调用popover消失的时候会执行的回调。
+        self.morePopVC = nil;
+        
+    }else{
+      
+        [self.buttonPopVC dismissViewControllerAnimated:YES completion:nil];
+        self.buttonPopVC = nil;
+    }
+    
+    
+}
+- (void)showMessage{
+    
+    
+    
+    
+    
+}
+#pragma mark - 隐藏 popervc
+- (void)dismissHDPoperViewController{
+    
+    if (self.morePopVC) {
+        [self.morePopVC dismissViewControllerAnimated:YES completion:nil];    //我暂时使用这个方法让popover消失，但我觉得应该有更好的方法，因为这个方法并不会调用popover消失的时候会执行的回调。
+        self.morePopVC = nil;
+        
+    }
+    if (self.buttonPopVC) {
+        [self.buttonPopVC dismissViewControllerAnimated:YES completion:nil];    //我暂时使用这个方法让popover消失，但我觉得应该有更好的方法，因为这个方法并不会调用popover消失的时候会执行的回调。
+        self.buttonPopVC = nil;
+        
+    }
+    
+    
+}
+
 @end
