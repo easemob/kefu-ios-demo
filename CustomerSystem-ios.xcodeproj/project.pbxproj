@@ -1582,13 +1582,6 @@
 			path = sign;
 			sourceTree = "<group>";
 		};
-		9381BE44288F7E1B0007B6D2 /* Message */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Message;
-			sourceTree = "<group>";
-		};
 		9381BE47288F83890007B6D2 /* VEC */ = {
 			isa = PBXGroup;
 			children = (
@@ -1639,8 +1632,6 @@
 		9381BE4B288F84AF0007B6D2 /* Online */ = {
 			isa = PBXGroup;
 			children = (
-				9381BE4E288F84FC0007B6D2 /* Model */,
-				9381BE4D288F84F30007B6D2 /* View */,
 				9381BE4C288F84DF0007B6D2 /* ViewController */,
 			);
 			path = Online;
@@ -1649,25 +1640,10 @@
 		9381BE4C288F84DF0007B6D2 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				9381BE44288F7E1B0007B6D2 /* Message */,
 				930E322327E03FAE00455C7E /* HDCallViewController.h */,
 				930E322227E03FAD00455C7E /* HDCallViewController.m */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		9381BE4D288F84F30007B6D2 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		9381BE4E288F84FC0007B6D2 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		9381BE4F288F85770007B6D2 /* Atomization */ = {
