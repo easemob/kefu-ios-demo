@@ -1585,7 +1585,6 @@
 		9381BE47288F83890007B6D2 /* VEC */ = {
 			isa = PBXGroup;
 			children = (
-				9381BE56288F890F0007B6D2 /* Message */,
 				9381BE4A288F83AB0007B6D2 /* View */,
 				9381BE49288F83A20007B6D2 /* Model */,
 				9381BE48288F83940007B6D2 /* ViewController */,
@@ -1712,45 +1711,6 @@
 				93809065288E7CF4001198D6 /* HDVideoMessageView.m */,
 			);
 			path = Message;
-			sourceTree = "<group>";
-		};
-		9381BE56288F890F0007B6D2 /* Message */ = {
-			isa = PBXGroup;
-			children = (
-				9381BE5A288F895F0007B6D2 /* Util */,
-				9381BE59288F89500007B6D2 /* Model */,
-				9381BE58288F893F0007B6D2 /* View */,
-				9381BE57288F89350007B6D2 /* VC */,
-			);
-			path = Message;
-			sourceTree = "<group>";
-		};
-		9381BE57288F89350007B6D2 /* VC */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = VC;
-			sourceTree = "<group>";
-		};
-		9381BE58288F893F0007B6D2 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		9381BE59288F89500007B6D2 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		9381BE5A288F895F0007B6D2 /* Util */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Util;
 			sourceTree = "<group>";
 		};
 		9381D92528893913001EE246 /* font_3264411_0930bdexl8t8 */ = {
