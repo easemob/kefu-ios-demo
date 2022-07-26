@@ -2494,7 +2494,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 #pragma mark --HDSignDelegate
 - (void)hdSignCompleteWithImage:(UIImage *)img base64Data:(nonnull NSData *)base64data{
     
-    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"video.satisfaction.Commit", @"commit") toView:self.hdSignView];
+    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"", @"") toView:self.hdSignView];
     [[HDClient sharedClient].callManager hd_commitSignData:base64data  WithVisitorId:@"" withFlowId:_signflowId  Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         [_hud hideAnimated:YES];
         if (error ==nil) {
