@@ -48,18 +48,28 @@
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     HDOptions *option = [[HDOptions alloc] init];
 
-    option.appkey = lgM.appkey;
+    option.appkey = lgM.appkey;   
     option.tenantId = lgM.tenantId;
-//    option.kefuRestServer = @"http://kefu.easemob.com";
-    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
-//    option.kefuRestServer = @"http://helps.live";
+    option.configId = lgM.configId;
+//    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
+//    option.kefuRestServer = @"https://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
+    option.enableDnsConfig =YES;
     option.apnsCertName = apnsCertName;
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
     option.showAgentInputState = YES; // 是否显示坐席输入状态
+    option.isAutoLogin = YES;
+//    option.useIm = YES;
+//    option.imServiceUser = @"c1";
+    
 //    option.extension = @{@"dk_disable_upload_locationInfo":@YES};
     HDClient *client = [HDClient sharedClient];
     HDError *initError = [client initializeSDKWithOptions:option];
+    
+    //如果使用了im sdk 提供的demo 一定要初始化这个方法
+//    [EaseIMKitManager initWithEMOptions:nil];
+    
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[HDCustomEmojiManager shareManager] cacheBigExpression];
     });
@@ -70,10 +80,13 @@
         return;
     }
     [self registerEaseMobNotification];
+    
+//    sleep(1);
+    [client.pushManager getPushNotificationOptionsFromServerWithCompletion:^(HDPushOptions * _Nonnull aOptions, HDError * _Nonnull aError) {
 
-    
-  
-    
+        NSLog(@"==========aErrorcode=%u==%@",aError.code,aError.description);
+        NSLog(@"===========displayStyle=%u==%@",aOptions.displayStyle,aOptions.displayName);
+    }];
 }
 
 //修改关联app后需要重新初始化
@@ -286,5 +299,4 @@
         [chat backItemClicked];
     }
 }
-
 @end

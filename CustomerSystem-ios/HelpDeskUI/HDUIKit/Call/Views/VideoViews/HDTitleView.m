@@ -6,6 +6,7 @@
 //
 
 #import "HDTitleView.h"
+#import "UIImage+HDIconFont.h"
 #define kHideBtnHeight 34
 @interface HDTitleView()
 {
@@ -18,19 +19,17 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-
+        
+        UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+           UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
+           effectView.frame = self.bounds;
+           [self addSubview:effectView];
+        
+//        self.backgroundColor = [[HDAppSkin mainSkin] contentColorGrayalpha:0.1];
         //创建ui
         [self creatUI];
     }
     return self;
-}
-
-
-
-- (void)layoutSubviews{
-    
-    [self updateFrame];
-    
 }
 - (CGSize) calculateLabelSize:(UILabel *)label{
  
@@ -50,10 +49,10 @@
 
 -(void)modifyInfoLabelText:(NSString *)text{
     
-    self.infoLabel.text=text;
-   
-    self.timeLabel.frame = CGRectMake(self.infoLabel.frame.size.width+40, 0, self.frame.size.width-self.infoLabel.frame.size.width, self.frame.size.height);
-    
+//    self.infoLabel.text=text;
+//
+//    self.timeLabel.frame = CGRectMake(self.infoLabel.frame.size.width+40, 0, self.frame.size.width-self.infoLabel.frame.size.width, self.frame.size.height);
+//
 }
 
 #pragma mark - --------- NSTimer 创建 ---------
@@ -82,16 +81,47 @@
 }
 - (void)creatUI{
     
+    [self addSubview:self.zoomBtn];
     [self addSubview:self.infoLabel];
     [self addSubview:self.timeLabel];
     [self addSubview:self.hideBtn];
+    
+    [self updateFrame];
 
 }
 - (void)updateFrame{
     
-    self.infoLabel.frame =CGRectMake(20,0,64, self.frame.size.height);
-    self.timeLabel.frame =CGRectMake(self.infoLabel.frame.size.width+40, 0, self.frame.size.width-self.infoLabel.frame.size.width, self.frame.size.height);
-    self.hideBtn.frame =CGRectMake(self.frame.size.width-34,self.frame.size.height/2-kHideBtnHeight/2 , kHideBtnHeight, kHideBtnHeight);
+
+    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.centerX.mas_equalTo(self).multipliedBy(0.8);
+//        make.centerY.mas_equalTo(self);
+//        make.width.offset(64);
+        make.bottom.offset(-15);
+
+    }];
+    
+    [self.zoomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
+        make.leading.offset(10);
+        make.bottom.offset(-5);
+        make.width.height.offset(kHideBtnHeight);
+    }];
+    
+    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
+        make.leading.mas_equalTo(self.infoLabel.mas_trailing).offset(10);
+
+    }];
+    [self.hideBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.mas_equalTo(self.infoLabel.mas_centerY).offset(0);
+        make.bottom.offset(-5);
+        make.trailing.offset(-20);
+        make.width.height.offset(kHideBtnHeight);
+    }];
+    
+   
     
 }
 - (UILabel *)infoLabel{
@@ -99,31 +129,49 @@
         _infoLabel = [[UILabel alloc]init];
 //        _infoLabel.backgroundColor = [UIColor brownColor];
         _infoLabel.textAlignment = NSTextAlignmentCenter;
-        _infoLabel.text = @"通话中";
+        _infoLabel.textColor = [UIColor whiteColor];
+        _infoLabel.text = NSLocalizedString(@"video.call.calling", @"通话中") ;
     }
-    CGSize size = [self calculateLabelSize:_infoLabel];
-    _infoLabel.frame = CGRectMake(_infoLabel.frame.origin.x, _infoLabel.frame.origin.y, size.width>=200.f?200.f:size.width, self.frame.size.height);
+//    CGSize size = [self calculateLabelSize:_infoLabel];
+//    _infoLabel.frame = CGRectMake(_infoLabel.frame.origin.x, _infoLabel.frame.origin.y, size.width>=200.f?200.f:size.width, self.frame.size.height);
 
     return _infoLabel;
 }
 - (UIButton *)hideBtn{
     
     if (!_hideBtn) {
-        _hideBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width-34,self.frame.size.height/2-kHideBtnHeight/2 , kHideBtnHeight, kHideBtnHeight)];
-        [_hideBtn setImage:[UIImage imageNamed:@"hide"] forState:UIControlStateNormal];
-        [_hideBtn addTarget:self action:@selector(clickHide:) forControlEvents:UIControlEventTouchUpInside];
+        _hideBtn = [[UIButton alloc]init];
+//        [_hideBtn setImage:[UIImage imageNamed:@"hide"] forState:UIControlStateNormal];
+        UIImage * img = [UIImage imageWithIcon:kfeihuazhonghua  inFont:kfontName size:kHideBtnHeight/1.4 color:[UIColor whiteColor] ];
+        [_hideBtn setImage:img forState:UIControlStateNormal];
         
+        UIImage * imgSel = [UIImage imageWithIcon:khuazhonghua1 inFont:kfontName size:kHideBtnHeight/1.4 color:[UIColor whiteColor] ];
+        [_hideBtn setImage:imgSel forState:UIControlStateSelected];
+        
+        [_hideBtn addTarget:self action:@selector(clickHide:) forControlEvents:UIControlEventTouchUpInside];
         
     }
     return _hideBtn;
     
 }
+- (UIButton *)zoomBtn{
+    
+    if (!_zoomBtn) {
+        _zoomBtn = [[UIButton alloc]init];
+        UIImage * img = [UIImage imageWithIcon:kzoom  inFont:kfontName size:kHideBtnHeight/1.5 color:[UIColor whiteColor]];
+        [_zoomBtn setImage:img forState:UIControlStateNormal];
+        [_zoomBtn addTarget:self action:@selector(clickZoomBtn:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _zoomBtn;
+    
+}
 
 - (UILabel *)timeLabel{
     if (!_timeLabel) {
-        _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.infoLabel.frame.size.width+40, 0, self.frame.size.width-self.infoLabel.frame.size.width, self.frame.size.height)];
+        _timeLabel = [[UILabel alloc]init];
 //        _timeLabel.backgroundColor = [UIColor brownColor];
         _timeLabel.textAlignment = NSTextAlignmentLeft;
+        _timeLabel.textColor = [UIColor whiteColor];
         _timeLabel.text = @"00:00:00";
     }
     return _timeLabel;
@@ -136,5 +184,28 @@
     if (self.clickHideBlock) {
         self.clickHideBlock(sender);
     }
+}
+- (void)clickZoomBtn:(UIButton *)sender{
+    sender.selected = !sender.selected;
+    NSLog(@"===clickZoomBtn");
+    if (self.clickZoomBtnBlock) {
+        self.clickZoomBtnBlock(sender);
+    }
+}
+- (void)modifyTextColor:(UIColor *)color{
+    
+    _infoLabel.textColor = color;
+    _timeLabel.textColor = color;
+    
+}
+- (void)modifyIconBackColor:(UIColor *)color{
+    UIImage * img1 = [UIImage imageWithIcon:kzoom  inFont:kfontName size:kHideBtnHeight/1.5 color:color ];
+    [_zoomBtn setImage:img1 forState:UIControlStateNormal];
+    
+    UIImage * img = [UIImage imageWithIcon:kfeihuazhonghua  inFont:kfontName size:kHideBtnHeight/1.5 color:color ];
+    [_hideBtn setImage:img forState:UIControlStateNormal];
+    
+    UIImage * imgSel = [UIImage imageWithIcon:khuazhonghua1 inFont:kfontName size:kHideBtnHeight/1.5 color:color];
+    [_hideBtn setImage:imgSel forState:UIControlStateSelected];
 }
 @end

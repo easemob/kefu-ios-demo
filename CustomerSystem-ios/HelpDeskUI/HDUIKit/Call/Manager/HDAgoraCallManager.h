@@ -10,10 +10,22 @@
 #import <AgoraRtcKit/AgoraRtcEngineKit.h>
 #import "HDAgoraCallOptions.h"
 #import "HDAgoraCallManagerDelegate.h"
+#import "HDVideoLayoutModel.h"
 NS_ASSUME_NONNULL_BEGIN
+static NSString * _Nonnull kUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
+
+static NSString * _Nonnull kAppGroup = @"group.com.easemob.enterprise.demo.customer";
+static void *KVOContext = &KVOContext;
 @interface HDAgoraCallManager : NSObject
+@property (strong, nonatomic) AgoraRtcEngineKit *agoraKit;
 @property (nonatomic, weak) id <HDAgoraCallManagerDelegate> roomDelegate;
 @property (nonatomic, strong) HDKeyCenter *keyCenter;
+@property (nonatomic, strong) NSString *conversationId;
+@property (nonatomic, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, strong) HDVideoLayoutModel *layoutModel;
+@property (nonatomic, strong) UIWindow *currentWindow;
+
+
 + (instancetype _Nullable )shareInstance;
 
 /*!
@@ -87,6 +99,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 - (void)switchCamera;
+
+/*!
+ *  \~chinese
+ *   当前摄像头 是不是 前置摄像头
+ */
+- (BOOL)getCurrentFrontFacingCamera;
 /*!
  *  \~chinese
  *  暂停语音数据传输
@@ -115,6 +133,15 @@ NS_ASSUME_NONNULL_BEGIN
  * Suspend video data transmission
  */
 - (void)pauseVideo;
+
+/*!
+ *  \~chinese
+ *  开启/关闭视频模块
+ *
+ *  \~english
+ *  Resume video data transmission
+ */
+- (void)enableLocalVideo:(BOOL )enabled;
 
 /*!
  *  \~chinese
@@ -160,6 +187,24 @@ NS_ASSUME_NONNULL_BEGIN
  *  Ending a Video Session
  */
 - (void)endCall;
+
+/*!
+ *  \~chinese
+ *  结束视频会话。 vec 独立访客端
+
+ *  \~english
+ *  Ending a Video Session
+ */
+- (void)endVecCall;
+/*!
+ *  \~chinese
+ *  结束视频会话  通话中结束。 vec 独立访客端
+
+ *  \~english
+ *  Ending a Video Session
+ */
+- (void)closeVecCall;
+
 /*!
  *  \~chinese
  *  拒绝视频会话。
@@ -168,6 +213,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  Ending a Video Session
  */
 - (void)refusedCall;
+/*!
+ *  \~chinese
+ *  拒绝视频会话。 vec独立访客端
+
+ *  \~english
+ *  Ending a Video Session
+ */
+- (void)refusedVecCall;
 /*!
  *  \~chinese
  *  销毁对象
@@ -185,6 +238,29 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param remoteView  远端试图
 /// @param uid  远端的uid
 - (void)setupRemoteVideoView:(UIView *)remoteView withRemoteUid:(NSInteger )uid;
+- (void)initSettingWithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion ;
+
+/// 保存屏幕共享需要的数据
+- (void)hd_saveShareDeskData:(HDKeyCenter*)keyCenter;
+
+//摄像头控制相关
+///isCameraTorchSupported    检查设备是否支持打开闪光灯
+-(BOOL)isCameraTorchSupported;
+///isCameraFocusPositionInPreviewSupported    检测设备是否支持手动对焦功能
+-(BOOL)isCameraFocusPositionInPreviewSupported;
+//isCameraExposurePositionSupported    检测设备是否支持手动曝光功能
+-(BOOL)isCameraExposurePositionSupported;
+
+//setCameraFocusPositionInPreview    设置手动对焦位置，并触发对焦
+- (BOOL)setCameraFocusPositionInPreview:(CGPoint)position;
+//setCameraExposurePosition    设置手动曝光位置
+- (BOOL)setCameraExposurePosition:(CGPoint)positionInView;
+//setCameraTorchOn    设置是否打开闪光灯
+- (BOOL)setCameraTorchOn:(BOOL)isOn;
+
+//cameraFocusDidChangedToRect    摄像头对焦区域已改变
+//cameraExposureDidChangedToRect    摄像头曝光区域已改变
+
 
 @end
 

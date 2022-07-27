@@ -1,0 +1,9 @@
+
+
+"disconnectedError" = "和房间断开连接";
+
+
+"joinRoomError" = "加入房间失败";
+
+
+"setupSDKError" = "创建白板SDK失败";

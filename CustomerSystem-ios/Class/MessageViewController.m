@@ -145,6 +145,8 @@
 
 - (void)messagesDidReceive:(NSArray *)aMessages {
     for (HDMessage *message in aMessages) {
+        
+        
         NSDictionary *ext = [self _getSafeDictionary:message.ext];
         if ([ext objectForKey:@"weichat"] && [[ext objectForKey:@"weichat"] objectForKey:@"notification"]) {
             LeaveMsgBaseModelTicket *ticket = [[LeaveMsgBaseModelTicket alloc] initWithDictionary:[[[ext objectForKey:@"weichat"] objectForKey:@"event"] objectForKey:@"ticket"]];

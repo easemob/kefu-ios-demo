@@ -29,6 +29,7 @@ static CSDemoAccountManager *_manager = nil;
     [userDefaults synchronize];
 }
 
+
 - (void)setCname:(NSString *)cname {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:cname forKey:kCustomerName];
@@ -51,6 +52,14 @@ static CSDemoAccountManager *_manager = nil;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:projectId forKey:kCustomerProjectId];
     [userDefaults synchronize];
+}
+
+- (void)setConfigId:(NSString *)configId{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:configId forKey:kCustomerConfigId];
+    [userDefaults synchronize];
+    
 }
 
 - (NSString *)appkey {
@@ -107,7 +116,15 @@ static CSDemoAccountManager *_manager = nil;
     }
     return tprojectId;
 }
-
+- (NSString *)configId {
+    NSString *tconfigId = [fUserDefaults objectForKey:kCustomerConfigId];
+    if ([tconfigId length] == 0) {
+        tconfigId = kDefaultConfigId;
+        [fUserDefaults setObject:tconfigId forKey:kCustomerConfigId];
+        [fUserDefaults synchronize];
+    }
+    return tconfigId;
+}
 - (instancetype)init {
     if (self = [super init]) {
         _password = hxPassWord;
@@ -129,9 +146,23 @@ static CSDemoAccountManager *_manager = nil;
     return  [self login];
 }
 
+- (BOOL)loginKefuSDKTest {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[HDCustomEmojiManager shareManager]  cacheBigExpression];
+    });
+
+    if (![self registerIMuser]) {
+        return NO;
+    }
+    return  [self login];
+}
+
+
 - (BOOL)login {
     HDError *error = [[HDClient sharedClient] loginWithUsername:self.username password:hxPassWord];
     if (!error) { //IM登录成功
+        
+        
         return YES;
     } else { //登录失败
         NSLog(@"登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
@@ -155,7 +186,7 @@ static CSDemoAccountManager *_manager = nil;
     }
     username = [deviceUID stringByReplacingOccurrencesOfString:@"-" withString:@""];
     username = [username stringByAppendingString:[NSString stringWithFormat:@"%u",arc4random()%100000]];
-    return username;
+    return [username lowercaseString];
 }
 
 - (BOOL)registerIMuser { //举个栗子。注册建议在服务端创建环信id与自己app的账号一一对应，\
@@ -186,6 +217,17 @@ static CSDemoAccountManager *_manager = nil;
     }
     return YES;
 }
+- (void)registerIMuserCallBackCompletion:(void (^)(NSString *aUsername, HDError *aError))aCompletionBlock { //举个栗子。注册建议在服务端创建环信id与自己app的账号一一对应，\
+    而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器
+    HDError *error = nil;
+    NSString *newUser = [self getRandomUsername];
+    self.username = newUser;
+//    error = [[HDClient sharedClient] registerWithUsername:newUser password:hxPassWord ];
+  
+    [[HDClient sharedClient] registerWithUsername:newUser password:hxPassWord  completion:aCompletionBlock];
+    
+    
+}
 - (void)refreshManagerData {
     unsigned int propertysCount = 0;
     objc_property_t *propertys = class_copyPropertyList([self class], &propertysCount);
@@ -206,6 +248,7 @@ static CSDemoAccountManager *_manager = nil;
     visitor.nickName = self.nickname;
     visitor.email = @"";
     visitor.desc = @"";
+    
     return visitor;
 }
 

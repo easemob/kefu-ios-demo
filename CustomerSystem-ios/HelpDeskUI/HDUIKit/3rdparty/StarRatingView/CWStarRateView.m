@@ -139,8 +139,10 @@
     [super layoutSubviews];
     __weak CWStarRateView *weakSelf = self;
     CGFloat animationTimeInterval = self.hasAnimation ? ANIMATION_TIME_INTERVAL : 0;
+    
     [UIView animateWithDuration:animationTimeInterval animations:^{
        weakSelf.foregroundStarView.frame = CGRectMake(0, 0, weakSelf.bounds.size.width * weakSelf.scorePercent, weakSelf.bounds.size.height);
+//        weakSelf.foregroundStarView.frame = CGRectMake(0, 0, weakSelf.bounds.size.width * 0, weakSelf.bounds.size.height);
     }];
 }
 

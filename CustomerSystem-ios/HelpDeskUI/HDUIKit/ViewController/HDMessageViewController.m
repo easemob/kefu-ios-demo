@@ -34,7 +34,7 @@
 #import "UIViewController+AlertController.h"
 #import "HRobotUnsolveItemView.h"
 #import "HDCustomEmojiManager.h"
-
+#import "CSDemoAccountManager.h"
 typedef enum : NSUInteger {
     HDRequestRecord,
     HDCanRecord,
@@ -540,6 +540,10 @@ typedef enum : NSUInteger {
     }else if ([messageBody type] == EMMessageBodyTypeVideo) {
         
          EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
+
+        UIImage * img = [UIImage imageWithContentsOfFile:videoBody.thumbnailLocalPath];
+        NSLog(@"=获取图片的尺寸 with==%f height===%f",img.size.width,img.size.height);
+        
          if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
          //download the message thumbnail
          [[HDClient sharedClient].chatManager hd_downloadThumbnail:message progress:nil completion:completion];
@@ -586,6 +590,9 @@ typedef enum : NSUInteger {
     
     dispatch_block_t block = ^{
         //send the acknowledgement
+        
+//        NSString * p = [NSString stringWithFormat:@"%@.mp4",localPath];
+        
         NSURL *videoURL = [NSURL fileURLWithPath:localPath];
         AVPlayerViewController * pVC = [AVPlayerViewController new];
         pVC.player = [AVPlayer playerWithURL:videoURL];
@@ -1058,6 +1065,9 @@ typedef enum : NSUInteger {
                 NSLog(@"failed to remove file, error:%@.", error);
             }
         }
+        
+        
+        
         [self sendVideoMessageWithURL:mp4];
         
     }else{
@@ -1797,7 +1807,10 @@ typedef enum : NSUInteger {
         arguments.sessionId = [ctrlArgs valueForKey:@"serviceSessionId"];
         HDControlMessage *hcont = [HDControlMessage new];
         hcont.arguments = arguments;
-        if ([HDMessageHelper getMessageExtType:message] == HDExtToCustomServiceMsg) {
+//        if ([HDMessageHelper getMessageExtType:message] == HDExtToCustomServiceMsg) {
+        //图文里边带转人工 优先级 高 使用这个判断
+        if ([HDMessageHelper isToCustomServiceMessage:message]) {
+        
             //发送透传消息
             HDMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId action:action];
             [aHMessage addCompositeContent:hcont];
@@ -2027,6 +2040,12 @@ typedef enum : NSUInteger {
 
 - (void)sendTextMessage:(NSString *)text withExt:(NSDictionary*)ext
 {
+    //这个写法对应文档https://docs.easemob.com/cs/400systemintegration/10crmintegration?s[]=自定义查询参数 ifrme
+//    NSDictionary *dic = @{@"name":@"Jack",@"age":@"40",@"sex": @"man"};
+//    NSDictionary *dic1 = @{@"params":dic};
+//    NSDictionary *dic2 = @{@"updateVisitorInfoSrc":dic1};
+//    NSDictionary *dic3 = @{@"cmd":dic2};
+//    ext = dic3;
     HDMessage *message = [HDSDKHelper textHMessageFormatWithText:text to:self.conversation.conversationId];
     if (_visitorInfo) {
         [message addContent:_visitorInfo];
@@ -2040,7 +2059,14 @@ typedef enum : NSUInteger {
     if (ext) {
         [message addAttributeDictionary:ext];
     }
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+   
+    [message addContent:lgM.visitorInfo];
     
+
+//    NSMutableDictionary * dic1 =[message.ext valueForKey:@"weichat"];
+//    [dic1 setValue:@"routingRuleFlag" forKey:@"routingRuleFlag"];
+   
     [self _sendMessage:message];
 }
 
@@ -2073,6 +2099,7 @@ typedef enum : NSUInteger {
     
     HDMessage *message = [HDSDKHelper imageMessageWithImageData:imageData to:self.conversation.conversationId messageExt:nil];
     EMImageMessageBody *body = (EMImageMessageBody *)message.body;
+//    body.thumbnailLocalPath = @"11111111222";
     NSLog(@"body.localPathbody.localPath:%@",body.localPath);
     [self _sendMessage:message];
 }
@@ -2115,9 +2142,16 @@ typedef enum : NSUInteger {
         progress = self;
     }
     
+//    NSString * str = [[NSBundle mainBundle] pathForResource:@"111" ofType:@"mov"];
+    
     HDMessage *message = [HDSDKHelper videoMessageWithLocalPath:[url path]
                                                              to:self.conversation.conversationId
                                                      messageExt:nil];
+    EMVideoMessageBody *body = (EMVideoMessageBody *)message.body;
+//    body.thumbnailLocalPath = @"11111/22222222";
+//    HDMessage *message = [HDSDKHelper videoMessageWithLocalPath:str
+//                                                             to:self.conversation.conversationId
+//                                                     messageExt:nil];
     [self _sendMessage:message];
 }
 

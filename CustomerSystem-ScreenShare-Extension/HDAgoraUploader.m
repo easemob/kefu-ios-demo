@@ -30,14 +30,21 @@ static NSInteger audioChannels = 2;
 
         manager = [[HDAgoraUploader alloc]init];
         [manager initAgoraRtcEngineKit];
+      
+          
     });
     return manager;
 }
 -  (void)initAgoraRtcEngineKit{
     
     //创建 AgoraRtcEngineKit 实例
-    NSString * appid = [HDSSKeychain passwordForService:kForService account:kSaveAgoraAppID];
-    self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId: appid delegate:self];
+//    NSString * appid = [HDSSKeychain passwordForService:kForService account:kSaveAgoraAppID];
+    
+    self.userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
+    
+    NSString * appid = [self.userDefaults valueForKey:kSaveAgoraAppID];
+    
+    self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId: appid delegate:nil];
     
     //设置频道场景
     [self.agoraKit setChannelProfile:AgoraChannelProfileLiveBroadcasting];
@@ -90,9 +97,15 @@ static NSInteger audioChannels = 2;
 
 /// 开始录屏
 - (void)startBroadcast{
-    NSString * uid= [HDSSKeychain passwordForService:kForService account:kSaveAgoraShareUID];
-    NSString * token= [HDSSKeychain passwordForService:kForService account:kSaveAgoraToken];
-    NSString * channel= [HDSSKeychain passwordForService:kForService account:kSaveAgoraChannel];
+//    NSString * uid= [HDSSKeychain passwordForService:kForService account:kSaveAgoraShareUID];
+//    NSString * token= [HDSSKeychain passwordForService:kForService account:kSaveAgoraToken];
+//    NSString * channel= [HDSSKeychain passwordForService:kForService account:kSaveAgoraChannel];
+    
+    //使用app group
+    NSString * uid= [self.userDefaults valueForKey:kSaveAgoraShareUID];
+    NSString * token= [self.userDefaults valueForKey:kSaveAgoraToken];
+    NSString * channel= [self.userDefaults valueForKey:kSaveAgoraChannel];
+    
     [self.agoraKit joinChannelByToken:token channelId: channel info:nil uid:[uid integerValue] joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed) {
        
         NSLog(@"===join success =uid=%lu  channel%@=" , (unsigned long)uid,channel);
@@ -169,7 +182,7 @@ static NSInteger audioChannels = 2;
 }
 
 - (void)stopBroadcast{
-    [self.agoraKit leaveChannel:nil];
-    [AgoraRtcEngineKit destroy];
+//    [self.agoraKit leaveChannel:nil];
+//    [AgoraRtcEngineKit destroy];
 }
 @end

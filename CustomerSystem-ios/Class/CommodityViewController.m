@@ -10,7 +10,7 @@
 #import "CustomButton.h"
 #import "LocalDefine.h"
 #import "CustomButton.h"
-
+#import "UIImage+HDIconFont.h"
 @interface CommodityViewController ()
 {
     UIScrollView *_scrollView;
@@ -69,20 +69,44 @@
     
     CustomButton * messageButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [messageButton setImage:[UIImage imageNamed:@"hd_chat_icon_red"] forState:UIControlStateNormal];
-    [messageButton setTitle:NSLocalizedString(@"customerChat", @"Customer") forState:UIControlStateNormal];
-    messageButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    [messageButton setTitle:NSLocalizedString(@"customerChatNew", @"Customer") forState:UIControlStateNormal];
+    messageButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [messageButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [messageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    messageButton.imageRect = CGRectMake(15, footerView.height/3, footerView.height/3, footerView.height/3);
-    messageButton.titleRect = CGRectMake(40, footerView.height/4, 100, footerView.height/2);
+    messageButton.imageRect = CGRectMake(30, footerView.height/3, footerView.height/3, footerView.height/3);
+    messageButton.titleRect = CGRectMake(55, footerView.height/4, 100, footerView.height/2);
     [self.view addSubview:messageButton];
-    messageButton.frame = CGRectMake(0, 0, 200, footerView.height/1.5);
+    messageButton.frame = CGRectMake(0, 0, footerView.width/2, footerView.height);
+    messageButton.layer.borderWidth =1;
+    messageButton.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
     [footerView addSubview:messageButton];
+    
     [messageButton addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.width - (footerView.height/3) * 2, footerView.height/3, footerView.height/3, footerView.height/3)];
-    [button setImage:[UIImage imageNamed:@"hd_icon_like_gray"] forState:UIControlStateNormal];
-    [footerView addSubview:button];
+    
+    CustomButton * vecButton = [CustomButton buttonWithType:UIButtonTypeCustom];
+//    [vecButton setImage:[UIImage imageNamed:@"hd_chat_icon_red"] forState:UIControlStateNormal];
+    
+    [vecButton setImage:[UIImage imageWithIcon:kshexiangtou1 inFont:kfontName size:32 color:[[HDAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
+               
+    [vecButton setTitle:NSLocalizedString(@"customerVEC", @"Customer") forState:UIControlStateNormal];
+    vecButton.titleLabel.font = [UIFont systemFontOfSize:20];
+    [vecButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [vecButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    vecButton.imageRect = CGRectMake(30, footerView.height/3, footerView.height/3, footerView.height/3);
+    vecButton.titleRect = CGRectMake(55, footerView.height/4, 100, footerView.height/2);
+    vecButton.layer.borderWidth =1;
+    vecButton.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
+    [self.view addSubview:vecButton];
+    vecButton.frame = CGRectMake(messageButton.size.width, 0, footerView.width/2, footerView.height);
+    [footerView addSubview:vecButton];
+    [vecButton addTarget:self action:@selector(vecAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+//
+//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.width - (footerView.height/3) * 2, footerView.height/3, footerView.height/3, footerView.height/3)];
+//    [button setImage:[UIImage imageNamed:@"hd_icon_like_gray"] forState:UIControlStateNormal];
+//    [footerView addSubview:button];
     [self.view bringSubviewToFront:footerView];
 }
 
@@ -102,5 +126,8 @@
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CHAT object:self.commodityInfo];
 }
-
+- (void)vecAction
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_VEC object:self.commodityInfo];
+}
 @end

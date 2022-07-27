@@ -13,6 +13,7 @@
 #import "HDChatViewController.h"
 #import "HelpDeskUI.h"
 #import "CSDemoAccountManager.h"
+#import "HDTestViewController.h"
 
 
 @interface SettingViewController ()<UIAlertViewDelegate>
@@ -22,6 +23,8 @@
     NSString *_tenantId;
     NSString *_projectId;
     NSString *_nickname;
+    NSString *_configId;
+
 }
 
 @end
@@ -83,6 +86,8 @@
     _tenantId = _lgM.tenantId;
     _projectId = _lgM.projectId;
     _nickname = _lgM.nickname;
+    _configId = _lgM.configId;
+    
 }
 
 - (void)setvalueWithDic:(NSDictionary *)dic {
@@ -98,8 +103,16 @@
         _lgM.tenantId = _tenantId;
         [[HDClient  sharedClient] changeTenantId:_tenantId];
     }
+    
+    if (![_configId isEqualToString:[dic valueForKey:@"configId"]]) {
+        _configId = [dic valueForKey:@"configId"];
+        _lgM.configId = _configId;
+        [[HDClient  sharedClient] changeConfigId:_configId];
+    }
+    
     _cname = [dic valueForKey:@"imservicenum"];
     _projectId = [dic valueForKey:@"projectId"];
+    _configId = [dic valueForKey:@"configId"];
     _lgM.cname = _cname;
     _lgM.nickname = _nickname;
     _lgM.projectId = _projectId;
@@ -123,7 +136,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 6;
+    return 8;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -139,8 +152,15 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         UILabel *contentLabel = nil;
-        if (indexPath.section ==3 || indexPath.section == 4) {
-            contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 10, tableView.frame.size.width - 100 - 20 - 30, 25)];
+        if (indexPath.section ==3 || indexPath.section == 4 || indexPath.section == 6) {
+            if (indexPath.section == 6) {
+               
+                contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 10, tableView.frame.size.width - 100 - 20 - 30 - 28, 25)];
+                
+            }else{
+                contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 10, tableView.frame.size.width - 100 - 20 - 30, 25)];
+            }
+            
         } else {
             contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 10, tableView.frame.size.width - 100 - 20 - 30, 25)];
         }
@@ -195,6 +215,21 @@
             NSString *fullVersion = [version stringByAppendingString:build];
             cell.textLabel.text = NSLocalizedString(@"setting.feedback", @"feedback");
             tempLabel.text = [NSString stringWithFormat:@"Version:%@",fullVersion];
+        }
+            break;
+        case 6:
+        {
+            tempLabel.numberOfLines = 1;
+            tempLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+//            tempLabel.adjustsFontSizeToFitWidth = YES;
+            cell.textLabel.text = NSLocalizedString(@"title.configId", @"configId");
+            tempLabel.text = _configId;
+        }
+            break;
+        case 7:
+        {
+            cell.textLabel.text = NSLocalizedString(@"title.username",@"username" );
+            tempLabel.text = [[HDClient sharedClient] currentUsername];
         }
             break;
         default:
@@ -283,6 +318,20 @@
 
             });
 
+        }
+            break;
+        case 6:
+        {
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"configId" content:_configId];
+            [self.navigationController pushViewController:editController animated:YES];
+        }
+            break;
+        case 7:
+        {
+//            HDTestViewController *testViewController = [[HDTestViewController alloc] init];
+//            [self.navigationController pushViewController:testViewController animated:YES];
+            EditViewController *editController = [[EditViewController alloc] initWithType:@"username" content:[[HDClient sharedClient] currentUsername]];
+            [self.navigationController pushViewController:editController animated:YES];
         }
             break;
         default:

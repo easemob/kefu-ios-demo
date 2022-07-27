@@ -190,6 +190,7 @@ static HDSDKHelper *helper = nil;
                                      to:(NSString *)toUser
                              messageExt:(NSDictionary *)aMsgExt {
     HDMessage *msg = [HDMessage createVideoSendMessageWithLocalPath:aLocalPath to:toUser];
+    
     if (aMsgExt) {
         [msg addAttributeDictionary:aMsgExt];
     }

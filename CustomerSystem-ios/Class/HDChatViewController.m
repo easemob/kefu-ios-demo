@@ -17,14 +17,20 @@
 #import "HDLeaveMsgViewController.h"
 #import "HFileViewController.h"
 #import "HDMessageReadManager.h"
-@interface HDChatViewController ()<UIAlertViewDelegate,HDClientDelegate>
+#import "KFICloudManager.h"
+#import "HDCallViewController.h"
+#import "HDVideoCallViewController.h"
+
+#import "HDAgoraCallManager.h"
+@interface HDChatViewController ()<UIAlertViewDelegate,HDClientDelegate,UIDocumentPickerDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
 }
 
 @property (nonatomic) NSMutableDictionary *emotionDic;
-
+@property (nonatomic, strong) UIDocumentPickerViewController *documentPickerVC;
+@property (strong, nonatomic) HDCallViewController *callViewController;
 
 @end
 
@@ -69,20 +75,68 @@
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
     [self stopAudioPlayingWithChangeCategory:YES];
-    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content:@"邀请客服进行实时视频"];
+    
+//    [CSDemoAccountManager shareLoginManager].isVEC = NO;
+    [HDClient sharedClient].callManager.isVecVideo = NO;
+    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [message addContent:[self visitorInfo]];
+        
     [self _sendMessage:message];
+
+    [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
+    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+        [[HDCallViewController sharedManager]  removeView];
+
+        [[HDCallViewController sharedManager] removeSharedManager];
+
+    };
+    
+    //todo 创建视频等待界面  调用接口 vec 使用
+//    [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//
+//            [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend];
+//            [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//                [[HDVideoCallViewController sharedManager]  removeView];
+//
+//                [[HDVideoCallViewController sharedManager] removeSharedManager];
+//
+//            };
+//        });
+//    }];
+    
+    //发送im 消息
+//    // 调用:
+//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"要发送的消息"];
+//    // 获取当前登录的环信id
+//    NSString *from = [[EMClient sharedClient] currentUsername];
+//
+//    //生成Message
+//    EMMessage *message = [[EMMessage alloc] initWithConversationID:@"c2" from:from to:@"c2" body:body ext:nil];
+//    message.chatType = EMChatTypeChat;// 设置为单聊消息
+//
+//    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
+//
+//        } completion:^(EMMessage *message, EMError *error) {
+//
+//            NSLog(@"====%@ ===%u",message,error.code);
+//
+//        }];
+  
+    
 }
 //发送文件消息
 - (void)moreViewFileAction:(HDChatBarMoreView *)moreView {
     
+    [self presentDocumentPicker];
     
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"doc"];
     
-    HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:filePath displayName:@"123" to:self.conversation.conversationId];
-    
-    [message addContent:[self visitorInfo]];
-    [self _sendMessage:message];
+//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"doc"];
+//
+//    HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:filePath displayName:@"123" to:self.conversation.conversationId];
+//
+//    [message addContent:[self visitorInfo]];
+//    [self _sendMessage:message];
 }
 
 
@@ -468,6 +522,102 @@
         });
     }
 }
+#pragma mark - 文件上传
+
+- (void)presentDocumentPicker {
+
+    [self presentViewController:self.documentPickerVC animated:YES completion:nil];
+}
+- (UIDocumentPickerViewController *)documentPickerVC {
+    if (!_documentPickerVC) {
+        NSArray *documentTypes = @[@"public.content", @"public.text", @"public.source-code ", @"public.image", @"public.audiovisual-content", @"com.adobe.pdf", @"com.apple.keynote.key", @"com.microsoft.word.doc", @"com.microsoft.excel.xls", @"com.microsoft.powerpoint.ppt"];
+        self.documentPickerVC = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:documentTypes inMode:UIDocumentPickerModeOpen];
+        _documentPickerVC.delegate = self;
+        _documentPickerVC.modalPresentationStyle = UIModalPresentationFormSheet; //设置模态弹出方式
+    }
+    return _documentPickerVC;
+}
+
+#pragma mark - UIDocumentPickerDelegate
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
+    //获取授权
+    BOOL fileUrlAuthozied = [urls.firstObject startAccessingSecurityScopedResource];
+    if (fileUrlAuthozied) {
+        //通过文件协调工具来得到新的文件地址，以此得到文件保护功能
+        NSFileCoordinator *fileCoordinator = [[NSFileCoordinator alloc] init];
+        NSError *error;
+        
+        [fileCoordinator coordinateReadingItemAtURL:urls.firstObject options:0 error:&error byAccessor:^(NSURL *newURL) {
+            //读取文件
+            if (error) {
+                //读取出错
+            } else {
+                //文件 上传或者其它操作
+//                [self uploadingWithFileData:fileData fileName:fileName fileURL:newURL];
+                NSLog(@"------------->文件 上传或者其它操作");
+                
+                NSArray *array = [[newURL absoluteString] componentsSeparatedByString:@"/"];
+                NSString *fileName = [array lastObject];
+                fileName = [fileName stringByRemovingPercentEncoding];
+                
+//                if ([iCloudManager iCloudEnable]) {
+                    [KFICloudManager downloadWithDocumentURL:newURL callBack:^(id obj) {
+                        NSData *data = obj;
+                        //写入沙盒Documents
+                        NSString *docPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",fileName]];
+                        
+                        [self writeToFile:docPath withData:data];
+                        
+                    }];
+//                }
+                
+                
+                
+            }
+            [self dismissViewControllerAnimated:YES completion:NULL];
+        }];
+        [urls.firstObject stopAccessingSecurityScopedResource];
+    } else {
+        //授权失败
+    }
+}
+
+- (void)writeToFile:(NSString *)path withData:(NSData *)data{
+
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    //访问【沙盒的document】目录下的问题件，该目录下支持手动增加、修改、删除文件及目录
+
+//    NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/文档.docx"];
+
+    if(![fileManager fileExistsAtPath:path]){
+        //如果不存在
+        BOOL success =   [data writeToFile:path atomically:YES];
+        
+        if (success) {
+            //取出来
+//            NSData *   datastr = [NSData dataWithContentsOfFile:path];
+//            NSLog(@"------------->文件 上传或者其它操作==%@",datastr);
+            HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:path displayName:@"123" to:self.conversation.conversationId];
+            [message addContent:[self visitorInfo]];
+            [self _sendMessage:message];
+        }
+        
+    }else{
+        //取出来 发送
+//        NSData *   datastr = [NSData dataWithContentsOfFile:path];
+//        NSLog(@"------------->文件 上传或者其它操作==%@",datastr);
+        HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:path displayName:@"123" to:self.conversation.conversationId];
+        [message addContent:[self visitorInfo]];
+                        
+        [self _sendMessage:message];
+    }
+    
+    
+  
+}
+
+
 
 
 @end

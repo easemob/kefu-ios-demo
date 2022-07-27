@@ -1,0 +1,77 @@
+PODS:
+  - AgoraRtcEngine_iOS (3.6.1)
+  - dsBridge (3.0.6)
+  - Fastboard (1.0.3):
+    - Fastboard/core (= 1.0.3)
+  - Fastboard/core (1.0.3):
+    - Whiteboard (~> 2.16.9)
+  - Masonry (1.1.0)
+  - MBProgressHUD (1.2.0)
+  - SDWebImage (5.12.5):
+    - SDWebImage/Core (= 5.12.5)
+  - SDWebImage/Core (5.12.5)
+  - TZImagePickerController (3.8.0)
+  - Whiteboard (2.16.14):
+    - Whiteboard/Converter (= 2.16.14)
+    - Whiteboard/NativeReplayer (= 2.16.14)
+    - Whiteboard/Replayer (= 2.16.14)
+    - Whiteboard/Room (= 2.16.14)
+  - Whiteboard/Base (2.16.14):
+    - dsBridge (~> 3.0.2)
+    - Whiteboard/Object
+  - Whiteboard/Converter (2.16.14):
+    - Whiteboard/Object
+  - Whiteboard/Model (2.16.14):
+    - YYModel (~> 1.0.4)
+  - Whiteboard/NativeReplayer (2.16.14):
+    - Whiteboard/Replayer
+  - Whiteboard/Object (2.16.14):
+    - Whiteboard/Model
+  - Whiteboard/Replayer (2.16.14):
+    - Whiteboard/Base
+  - Whiteboard/Room (2.16.14):
+    - Whiteboard/Base
+  - YYModel (1.0.4)
+
+DEPENDENCIES:
+  - AgoraRtcEngine_iOS (= 3.6.1)
+  - Fastboard (from `https://github.com/netless-io/fastboard-iOS`)
+  - Masonry (~> 1.1.0)
+  - MBProgressHUD (~> 1.2.0)
+  - SDWebImage (~> 5.12.3)
+  - TZImagePickerController
+
+SPEC REPOS:
+  trunk:
+    - AgoraRtcEngine_iOS
+    - dsBridge
+    - Masonry
+    - MBProgressHUD
+    - SDWebImage
+    - TZImagePickerController
+    - Whiteboard
+    - YYModel
+
+EXTERNAL SOURCES:
+  Fastboard:
+    :git: https://github.com/netless-io/fastboard-iOS
+
+CHECKOUT OPTIONS:
+  Fastboard:
+    :commit: 9d01d9a7e726e46fa274f2ebf83f7579b144d976
+    :git: https://github.com/netless-io/fastboard-iOS
+
+SPEC CHECKSUMS:
+  AgoraRtcEngine_iOS: b376bdf1b7abbdc039ac181a99742f0aee3fdd08
+  dsBridge: 48b62ee8a411ad601a88d6f6c8cf6cb634b206b7
+  Fastboard: ee088d12249854317784cf6ef8a75d6c632794ec
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
+  SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
+  TZImagePickerController: f236fbc54a7e5359ae620d45c2fcac5ab9486284
+  Whiteboard: f7e1a51c7b30a974dcd9e8f713046addccb2e159
+  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
+
+PODFILE CHECKSUM: 35ff92d0e7bbbf8db522627ad944ff4b4c379e52
+
+COCOAPODS: 1.11.3

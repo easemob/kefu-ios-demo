@@ -53,7 +53,8 @@
     } else {
         cell.menu = self.options[indexPath.row];
     }
-    cell.width = self.tableViewWidth - 25;
+//    cell.width = self.tableViewWidth - 25;
+    cell.width = self.tableViewWidth;
     
     return cell;
 }
@@ -71,14 +72,14 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
     NSString *text = nil;
     if ([self isItems]) {
         text = ((HDMenuItem *)self.options[indexPath.row]).menuName;
     } else {
         text = self.options[indexPath.row];
     }
-    return [text boundingRectWithSize:CGSizeMake(self.tableViewWidth - 25, MAXFLOAT)
+    return [text boundingRectWithSize:CGSizeMake(self.tableViewWidth, MAXFLOAT)
                               options:NSStringDrawingUsesLineFragmentOrigin
                            attributes:attributes
                               context:nil].size.height + 5;
@@ -94,8 +95,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15]};
-    return [self.menuTitle boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height;
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16]};
+    return [self.menuTitle boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
 }
 - (void)updateRobotMenuMargin:(UIEdgeInsets)margin {
     if (_margin.top == margin.top && _margin.bottom == margin.bottom && _margin.left == margin.left && _margin.right == margin.right) {

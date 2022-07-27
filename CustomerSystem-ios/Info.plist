@@ -39,6 +39,10 @@
 	<string>请允许附件保存到相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>需要访问您的相册</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>iconfont.ttf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

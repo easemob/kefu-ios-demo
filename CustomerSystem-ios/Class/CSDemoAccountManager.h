@@ -17,6 +17,8 @@
 
 @property (nonatomic, strong) NSString *cname;  // 您客服系统中的im服务号(管理员登录客服系统-管理员模式-渠道管理-手机APP-关联APP-IM服务号)
 
+@property (nonatomic, strong) NSString *configId;  // 您客服系统中的appkey(管理员登录客服系统-管理员模式-渠道管理-手机APP-关联APP-configId)
+
 @property (nonatomic, strong) NSString *nickname; // 当前登录账号的昵称
 
 @property (nonatomic, strong) NSString *avatarStr; // 当前登录账号的头像url
@@ -32,11 +34,8 @@
 @property (nonatomic, assign) BOOL isLogged;
 
 + (instancetype)shareLoginManager;
-
 - (BOOL)loginKefuSDK;
-
 - (void)refreshManagerData;
-
 - (HDVisitorInfo *)visitorInfo;
-
+- (BOOL)loginKefuSDKTest;
 @end

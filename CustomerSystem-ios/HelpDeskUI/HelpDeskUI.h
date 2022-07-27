@@ -39,7 +39,7 @@
 #import "HDConvertToCommonEmoticonsHelper.h"
 
 #import "NSDate+Category.h"
-#import "UIView+FLExtension.h"
+#import "UIView+Kit.h"
 #import "NSString+HDValid.h"
 #import "UIImageView+HDWebCache.h"
 #import "UIViewController+HDHUD.h"
@@ -49,6 +49,9 @@
 #import "HDSDWebImageManager.h"
 
 #import "HDMasonry.h"
+#import "YYModel.h"
+#import "HDAppSkin.h"
+
 //Ext keyWord
 #define kMessageExtWeChat @"weichat"
 #define kMessageExtWeChat_ctrlType @"ctrlType"

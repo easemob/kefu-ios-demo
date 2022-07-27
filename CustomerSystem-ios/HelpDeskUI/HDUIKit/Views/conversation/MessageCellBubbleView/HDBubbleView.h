@@ -12,6 +12,8 @@
 
 #import <UIKit/UIKit.h>
 #import "HDArticleView.h"
+#import "HDTransformButton.h"
+#import <WebKit/WebKit.h>
 #define kBigExpressionHW 100
 
 extern CGFloat const HDMessageCellPadding;
@@ -96,6 +98,8 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 @property (nonatomic,strong) UILabel *transTitle; //机器人回复文字
 @property (nonatomic,strong) UIButton *transformButton; //转人工客服button
 
+@property (nonatomic,strong) HDTransformButton *transformFigureButton; //转人工客服button 新版 图文 和图片
+
 //evaluate
 @property (nonatomic,strong) UILabel *evaluateTitle; //评价title
 @property (nonatomic,strong) UIButton *evaluateButton; //评价按钮
@@ -125,6 +129,10 @@ extern NSString *const HDMessageCellIdentifierRecvFile;
 @property (strong, nonatomic) UIImageView *formIconView;
 @property (strong, nonatomic) UILabel *formTitleLabel;
 @property (strong, nonatomic) UILabel *formDescLabel;
+
+//html
+@property (nonatomic, strong) WKWebView *webView;
+@property (strong, nonatomic) UILabel *htmlLabel;
 
 - (instancetype)initWithMargin:(UIEdgeInsets)margin
                       isSender:(BOOL)isSender;

@@ -18,7 +18,12 @@
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
 #import "HDAgoraCallViewController.h"
-#import "HDFastbordViewController.h"
+#import "HDCallViewController.h"
+#import "HDVideoCallViewController.h"
+#import "HDCloudDiskViewController.h"
+#import "HDAgoraCallManager.h"
+#import "HDVideoWindowViewController.h"
+#import "MBProgressHUD+Add.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
@@ -41,6 +46,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;
 @property (strong, nonatomic) MoreChoiceView *choiceView;
+@property (strong, nonatomic) HDCallViewController *callViewController;
 
 @end
 
@@ -132,6 +138,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vecAction:) name:KNOTIFICATION_VEC object:nil];
+    
    
 }
 - (void)testButton{
@@ -181,7 +189,86 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     _window.hidden = YES;
 }
+- (void)vecAction:(NSNotification *)notification{
+    
+    if (isLogin == YES) {
+        return;
+    }
+    isLogin = YES;
+    __weak typeof(self) weakSelf = self;
+//    [self showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
+    
+//    [weakSelf showHint:NSLocalizedString(@"Contacting...", @"连接客服")];
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:nil];
 
+    __weak MBProgressHUD *weakHud = hud;
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+        if ([lgM loginKefuSDK]) {
+            
+            
+            
+//            [[HDClient sharedClient].chatManager getEnterpriseWelcomeWithCompletion:^(NSString *welcome, HDError *error) {
+//                            
+//            }];
+           
+            
+            [weakHud hideAnimated:YES];
+            NSString *queue = nil;
+            if ([notification.object objectForKey:kpreSell]) {
+                queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
+            }
+            HDQueueIdentityInfo *queueIdentityInfo=nil;
+            if (queue) {
+                queueIdentityInfo = [[HDQueueIdentityInfo alloc] initWithValue:queue];
+            }
+            if ([notification.object objectForKey:kpreSell]) {
+//                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
+            } else {
+//                chat.title = [CSDemoAccountManager shareLoginManager].cname;
+            }
+            hd_dispatch_main_async_safe(^(){
+                [weakSelf hideHud];
+                HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
+                if (queue) {
+                    chat.queueInfo = queueIdentityInfo;
+                }
+
+                chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
+//                chat.commodityInfo = (NSDictionary *)notification.object;
+//                 [self.navigationController pushViewController:chat animated:YES];
+                
+                //todo 创建视频等待界面  调用接口 vec 使用
+//                [CSDemoAccountManager shareLoginManager].isVEC = YES;
+                [HDClient sharedClient].callManager.isVecVideo = YES;
+                
+                [HDClient sharedClient].enableVisitorAccelerator = NO;
+                [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+
+                        [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend withVisitornickName:lgM.nickname];
+                        [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+                            [[HDVideoCallViewController sharedManager]  removeView];
+
+                            [[HDVideoCallViewController sharedManager] removeSharedManager];
+
+                        };
+                    });
+                }];
+            });
+           
+        } else {
+            hd_dispatch_main_async_safe(^(){
+                [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
+            });
+            NSLog(@"登录失败");
+        }
+//    });
+    isLogin = NO;
+    
+    
+}
 - (void)chatAction:(NSNotification *)notification
 {
 //    BOOL shouqian = [[notification.object objectForKey:kpreSell] boolValue];
@@ -195,6 +282,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
         if ([lgM loginKefuSDK]) {
+            
+            [[HDClient sharedClient].pushManager updatePushDisplayStyle:HDPushDisplayStyleMessageSummary completion:^(HDError * _Nonnull error) {
+                
+                NSLog(@"=======error=%u",error.code);
+                
+                
+            }];
+            
+            
             NSString *queue = nil;
             if ([notification.object objectForKey:kpreSell]) {
                 queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
@@ -236,6 +332,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     if ([[CSDemoAccountManager shareLoginManager] loginKefuSDK]) {
         [HDClient.sharedClient.pushManager updatePushDisplayStyle:HDPushDisplayStyleMessageSummary completion:^(HDError * error) {
             NSLog(@" error:%@",error.errorDescription);
+            
+            
         }];
     }
 }
@@ -312,6 +410,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [self unregisterNotifications];
     
     [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
+    //监听消息接收，主要更新会话tabbaritem的badge
+//    [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 }
 
 -(void)unregisterNotifications
@@ -519,8 +619,18 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
 }
 */
+// 收到im消息回调
+- (void)messagesDidIMReceive:(NSArray *)aMessages{
+    
+    NSLog(@"==========收到消息了messagesDidIMReceive");
+}
+
+
+
 // 收到消息回调
 - (void)messagesDidReceive:(NSArray *)aMessages {
+    
+    NSLog(@"==========收到消息了");
     if ([self isNotificationMessage:aMessages.firstObject]) {
         return;
     }
@@ -557,32 +667,104 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 #pragma mark - HDCallManagerDelegate
 - (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter{
     
-    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:keyCenter avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+    [HDLog logI:@"================vec1.2=====onCallReceivedParameter= %@",[NSThread currentThread] ];
+    if ([HDClient sharedClient].callManager.isVecVideo) {
        
+        [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息: "];
         
-        [callVC dismissViewControllerAnimated:YES completion:nil];
-    }];
-        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:hdCallVC animated:YES completion:nil];
+        if (keyCenter && keyCenter.isAgentCancelCallbackReceive) {
+            [[HDVideoCallViewController sharedManager]  removeView];
+
+            [[HDVideoCallViewController sharedManager] removeSharedManager];
+        }else{
+        
+        [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoDirectionReceive withVisitornickName:keyCenter.visitorNickName];
+        [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+            [[HDVideoCallViewController sharedManager]  removeView];
+
+            [[HDVideoCallViewController sharedManager] removeSharedManager];
+
+        };
+        }
+//        [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
+//        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//
+//            [[HDCallViewController sharedManager]  removeView];
+//            [[HDCallViewController sharedManager] removeSharedManager];
+//
+//           };
+    }else{
+        
+        
+        [HDLog logI:@"================vec1.1=====收到坐席回呼cmd消息: "];
+        
+        [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
+        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+        
+            [[HDCallViewController sharedManager]  removeView];
+            [[HDCallViewController sharedManager] removeSharedManager];
+       
+           };
+    }
+    
+   
     
 }
 //声网
 - (void)agorademo{
+//    
+//    HDCloudDiskViewController * cloudDiskVC = [[HDCloudDiskViewController alloc] init];
+//    cloudDiskVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self presentViewController:cloudDiskVC animated:YES completion:nil];
+//
+//    return;
+//    HDFastboardViewController * agoraVC = [[HDFastboardViewController alloc] init];
+//    [self.navigationController pushViewController:agoraVC animated:YES];
+//
+//    return;
+//    HDKeyCenter * key = [[HDKeyCenter alloc] init];
+////
+//    
+//    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:key avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+////        [callVC dismissViewControllerAnimated:YES completion:nil];
+//    }];
+//        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//        [self presentViewController:hdCallVC animated:YES completion:nil];
+//
+//    
+//    return;
+    
 //    [self lxLogout];
 //          [self lxLogin];
 //    HDAgoraCallViewController * agoraVC = [[HDAgoraCallViewController alloc] init];
 //    [self.navigationController pushViewController:agoraVC animated:YES];
-    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:nil avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-       
-        
-        [callVC dismissViewControllerAnimated:YES completion:nil];
-    }];
+//    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:nil avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//
+//
+//        [callVC dismissViewControllerAnimated:YES completion:nil];
+//    }];
     
 //    [hdCallVC dismissViewControllerAnimated:YES completion:nil];
-        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:hdCallVC animated:YES completion:nil];
+//        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//        [self presentViewController:hdCallVC animated:YES completion:nil];
 //    HDFastbordViewController * agoraVC = [[HDFastbordViewController alloc] init];
 //        [self.navigationController pushViewController:agoraVC animated:YES];
+    
+    
+    
+//   
+    
+    [HDVideoWindowViewController sharedManager];
+
+    
+  
+    
+  
+    
+   
+    
+    
+    
     
 }
 //理想汽车crash
@@ -613,14 +795,17 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 -(void)lxLogin{
     NSString *username = @"shouqian";
     HDClient *client = [HDClient sharedClient];
-    [client loginWithUsername:username password:hxPassWord completion:^(HDError *error) {
-        if (!error) { //IM登录成功
-            NSLog(@"lx ----登录成功");
-            [self lxSendText];
-        } else { //登录失败
-            NSLog(@"lx ----登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
-        }
-    }];
+//    [client loginWithUsername:username password:hxPassWord completion:^(HDError *error) {
+//        if (!error) { //IM登录成功
+//            NSLog(@"lx ----登录成功");
+//            [self lxSendText];
+//        } else { //登录失败
+//            NSLog(@"lx ----登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
+//        }
+//    }];
+    
+   
+    
 }
 //登录绑定【测试】
 -(void)lxBindDeviceToken{
@@ -662,5 +847,19 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             NSLog(@"lx ----发送消息失败 aError code :%d,aError description:%@",aError.code,aError.errorDescription);
         }
     }];
+}
+
+-(HDCallViewController *)callViewController{
+    
+    if (!_callViewController) {
+        _callViewController = [HDCallViewController alertCallWithView:nil];
+        _callViewController.hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+            [callVC removeView];
+            _callViewController = nil;
+        };
+    }
+    
+    return _callViewController;
+    
 }
 @end

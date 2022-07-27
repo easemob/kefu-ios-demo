@@ -43,4 +43,24 @@
  */
 - (void)onCallEndReason:(NSString *)desc;
 
+/*!
+ *  \~chinese
+ *    远端用户音频静音通知
+ *  @param desc 描述
+ *
+ *  \~english
+ *  End of the session
+ *
+ */
+- (void)onCalldidAudioMuted:(BOOL)muted byUid:(NSUInteger)uid;
+/*!
+ *  \~chinese
+ *    远端用户视频关闭通知
+ *  @param desc 描述
+ *
+ *  \~english
+ *  End of the session
+ *
+ */
+- (void)onCalldidVideoMuted:(BOOL)muted byUid:(NSUInteger)uid;
 @end

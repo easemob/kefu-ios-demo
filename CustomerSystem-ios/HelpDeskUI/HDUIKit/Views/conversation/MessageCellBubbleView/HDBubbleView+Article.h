@@ -57,7 +57,6 @@ typedef NS_ENUM(NSUInteger, HDCellType) {
 
 
 - (void)reloadArticleData;
-
 @end
 
 

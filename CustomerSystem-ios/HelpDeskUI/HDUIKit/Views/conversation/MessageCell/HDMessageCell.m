@@ -25,6 +25,7 @@
 #import "HDBubbleView+Form.h"
 #import "HDBubbleView+Article.h"
 #import "HDBubbleView+Gif.h"
+#import "HDBubbleView+WebBubbleView.h"
 #import "UIImageView+HDWebCache.h"
 #import "HDEmotionEscape.h"
 #import "HDLocalDefine.h"
@@ -52,6 +53,7 @@ NSString *const HDMessageCellIdentifierRecvFile = @"HDMessageCellRecvFile";
 NSString *const HDMessageCellIdentifierRecvForm = @"HDMessageCelRecvForm";
 
 NSString *const HDMessageCellIdentifierSendText = @"HDMessageCellSendText";
+NSString *const HDMessageCellIdentifierSendTextHtml = @"HDMessageCellSendTextHtml";
 NSString *const HDMessageCellIdentifierSendTrack = @"HDMessageCellSendTrack";
 NSString *const HDMessageCellIdentifierSendBigExpression = @"HDMessageCellSendBigExpression";
 NSString *const HDMessageCellIdentifierSendOrder = @"HDMessageCellSendOrder";
@@ -219,6 +221,10 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         break;
                     case HDExtBigExpressionMsg:  {
                         [_bubbleView setupGifBubbleView];
+                        break;
+                    }
+                    case HDExtGeneralMsgHtml:  {
+                        [_bubbleView  setupHtmlBubbleView];
                         break;
                     }
                     default:
@@ -492,6 +498,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         }
                         _bubbleView.subModels = arr.copy;
                         [_bubbleView reloadArticleData];
+                        //然后在判断 是不是机器人类型 添加转人工按钮
+                        [self hd_addTransformButtonBackgroundColorWithEnableWithMessageExt:model withTypeArticle:YES];
+                        
                     }
                         break;
                     case HDExtEvaluationMsg:
@@ -504,7 +513,15 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         _urlMatches = [_detector matchesInString:model.text options:0 range:NSMakeRange(0, model.text.length)];
                         _bubbleView.transTitle.attributedText = [self highlightLinksWithIndex:0 attributedString:text];
                         BOOL hasTransfer = [model.message.ext[kMessageExtWeChat_ctrlType_transferToKf_HasTransfer] boolValue];
-                        [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer];
+                        NSDictionary *weichat = [model.message.ext objectForKey:kMessageExtWeChat];
+                        NSDictionary *transferHumanInfo = [weichat objectForKey:kMessageExtWeChat_transferToHuman];
+                        NSString *suggestionTransferToHumanLabel = transferHumanInfo[@"suggestionTransferToHumanLabel"];
+                        if ([suggestionTransferToHumanLabel isKindOfClass:[NSNull class]]) {
+                           
+                        }else{
+                       
+                            [_bubbleView setTransformButtonBackgroundColorWithEnable:!hasTransfer withTitle:suggestionTransferToHumanLabel];
+                        }
                     }
                         break;
                     case HDExtFormMsg:
@@ -528,6 +545,12 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             emojiUrl = [emojiDic objectForKey:@"url"];
                         }
                         [_bubbleView.imageView hdSD_setImageWithURL:[NSURL URLWithString:emojiUrl] placeholderImage:[UIImage imageNamed:_model.failImageName]];
+                        break;
+                    }
+                    case HDExtGeneralMsgHtml: {
+                       
+                        NSString *content = model.text;
+                        [_bubbleView setJson:content];
                         break;
                     }
                     default:
@@ -554,6 +577,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 } else {
                     _bubbleView.imageView.image = image;
                 }
+                //然后在判断 是不是机器人类型 添加转人工按钮
+                [self hd_addTransformButtonBackgroundColorWithEnableWithMessageExt:model withTypeArticle:NO];
             }
                 break;
             case EMMessageBodyTypeLocation:
@@ -621,7 +646,44 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
         }
     }
 }
-
+- (void)hd_addTransformButtonBackgroundColorWithEnableWithMessageExt:(id<HDIMessageModel>)model withTypeArticle:(BOOL)isArticle{
+    
+    if (isArticle) {
+        //处理方式
+        if ([HDMessageHelper isToCustomServiceMessage:model.message]) {
+        BOOL hasTransfer = [model.message.ext[kMessageExtWeChat_ctrlType_transferToKf_HasTransfer] boolValue];
+        NSDictionary *weichat = [model.message.ext objectForKey:kMessageExtWeChat];
+        NSDictionary *transferHumanInfo = [weichat objectForKey:kMessageExtWeChat_transferToHuman];
+        NSString *suggestionTransferToHumanLabel = transferHumanInfo[@"suggestionTransferToHumanLabel"];
+            
+            [_bubbleView.transformFigureButton setTransformButtonBackgroundColorWithEnable:!hasTransfer withTitle:suggestionTransferToHumanLabel withHidden:NO];
+            
+        }else{
+           
+            [_bubbleView.transformFigureButton setTransformButtonBackgroundColorWithEnable:YES withTitle:@"" withHidden:YES];
+            
+        }
+        [_bubbleView reloadArticleData];
+    }else{
+        if ([HDMessageHelper getMessageExtType:model.message] == HDExtToCustomServiceMsg) {
+        BOOL hasTransfer = [model.message.ext[kMessageExtWeChat_ctrlType_transferToKf_HasTransfer] boolValue];
+        NSDictionary *weichat = [model.message.ext objectForKey:kMessageExtWeChat];
+        NSDictionary *transferHumanInfo = [weichat objectForKey:kMessageExtWeChat_transferToHuman];
+        NSString *suggestionTransferToHumanLabel = transferHumanInfo[@"suggestionTransferToHumanLabel"];
+            
+            [_bubbleView.transformFigureButton setTransformButtonBackgroundColorWithEnable:!hasTransfer withTitle:suggestionTransferToHumanLabel withHidden:NO];
+            
+        }else{
+           
+            [_bubbleView.transformFigureButton setTransformButtonBackgroundColorWithEnable:YES withTitle:@"" withHidden:YES];
+            
+        }
+        
+    }
+    
+  
+}
+  
 - (NSMutableAttributedString *)highlightLinksWithIndex:(CFIndex)index attributedString:(NSAttributedString *)attributedString1{
     NSMutableAttributedString *attributedString = [attributedString1 mutableCopy] ;
     for (NSTextCheckingResult *match in _urlMatches) {
@@ -722,6 +784,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                             [_bubbleView updateEvaluateMargin:_bubbleMargin];
                             break;
                         case HDExtBigExpressionMsg:
+                            [_bubbleView updateGifMargin:_bubbleMargin];
+                            break;
+                        case HDExtGeneralMsgHtml:
                             [_bubbleView updateGifMargin:_bubbleMargin];
                             break;
                         default:
@@ -1004,6 +1069,10 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     {
                         cellIdentifier = HDMessageCellIdentifierSendText;
                     }
+                    case HDExtGeneralMsgHtml:
+                    {
+                        cellIdentifier = HDMessageCellIdentifierSendTextHtml;
+                    }
                     default:
                         break;
                 }
@@ -1056,6 +1125,9 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                         break;
                     case HDExtBigExpressionMsg:
                         cellIdentifier = HDMessageCellIdentifierRecvBigExpression;
+                        break;
+                    case HDExtGeneralMsgHtml:
+                        cellIdentifier = HDMessageCellIdentifierSendTextHtml;
                         break;
                     default:
                         cellIdentifier = HDMessageCellIdentifierRecvText;
@@ -1125,7 +1197,8 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 }
                 case HDExtArticleMsg:{
                     NSArray *articles = [[model.message.ext objectForKey:@"msgtype"] objectForKey:@"articles"];
-                    return [self getArticleCellHeight:articles];
+                    
+                    return [self getArticleCellHeight:articles] + [self getCellHeightWithTransferToKfHint:model.message];
                 }
                 case HDExtTrackMsg:
                     // 修改轨迹消息的高度
@@ -1151,6 +1224,11 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     height += (rect.size.height > 20 ? rect.size.height : 20) + 21;
                     height += 50;
                     return height;
+                }
+                case HDExtGeneralMsgHtml:
+                {
+                   
+                    return [UIScreen mainScreen].bounds.size.width*0.7;
                 }
                 default:
                 {
@@ -1181,7 +1259,7 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                 retSize.height = kEMMessageImageSizeHeight;
             }
             
-            height += retSize.height;
+            height += retSize.height + [self getCellHeightWithTransferToKfHint:model.message];
         }
             break;
         case EMMessageBodyTypeLocation:
@@ -1216,6 +1294,22 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
     model.cellHeight = height;
     
     return height;
+}
+
++ (CGFloat)getCellHeightWithTransferToKfHint:(HDMessage *)message{
+    
+    CGFloat h ;
+    //这个地方判断有没有转人工按钮 有的话 增加 内容高度
+    if ([HDMessageHelper isToCustomServiceMessage:message]) {
+        
+        //由于按钮固定高度是 44 所以 这个地方给44
+        h = 44;
+    }else{
+        
+        h=0;
+    }
+    
+    return h;
 }
 
 + (CGFloat)getArticleCellHeight:(NSArray *)subs {

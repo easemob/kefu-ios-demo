@@ -9,6 +9,7 @@
 #import "SampleHandler.h"
 #import "HDAgoraUploader.h"
 #import <CoreMedia/CoreMedia.h>
+
 @interface SampleHandler()
 
 @property (nonatomic) CMSampleBufferRef bufferCopy;
@@ -25,6 +26,9 @@
 - (void)broadcastStartedWithSetupInfo:(NSDictionary<NSString *,NSObject *> *)setupInfo {
     // User has requested to start the broadcast. Setup info from the UI extension can be supplied but optional.
 
+//     [HDAgoraUploader sharedAgoraEngine].userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
+       [[HDAgoraUploader sharedAgoraEngine].userDefaults setObject:@{@"state":@"初始化"} forKey:kUserDefaultState];//开始字段
+    
     [self sendNotificationWithIdentifier:@"broadcastStartedWithSetupInfo" userInfo:setupInfo];
     
     self.lastSendTs = [self getNowTime];
@@ -78,7 +82,7 @@
         self.timer = nil;
     }
     [[HDAgoraUploader sharedAgoraEngine] stopBroadcast];
-    
+    [[HDAgoraUploader sharedAgoraEngine].userDefaults setObject:@{@"state":@"停止"} forKey:kUserDefaultState];//结束字段
 }
 //监听数据流
 - (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer withType:(RPSampleBufferType)sampleBufferType {
@@ -90,6 +94,7 @@
                 weakSelf.lastSendTs = [weakSelf getNowTime];
                 [[HDAgoraUploader sharedAgoraEngine] sendVideoBuffer:sampleBuffer];
 //                NSLog(@"RPSampleBufferTypeVideo App~~~~");
+                    
                 break;
             case RPSampleBufferTypeAudioApp:
                 [[HDAgoraUploader sharedAgoraEngine] sendAudioAppBuffer:sampleBuffer];

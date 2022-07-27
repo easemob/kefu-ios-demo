@@ -8,10 +8,9 @@
 
 #import "HDSmallWindowView.h"
 #import "HDCallCollectionViewCell.h"
-
 #define fDeviceWidth ([UIScreen mainScreen].bounds.size.width)
-
 #define fDeviceHeight ([UIScreen mainScreen].bounds.size.height)
+#define kPoirtSpace  10
 @interface HDSmallWindowView()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>{
     NSMutableArray *_cellArray;     //collectionView数据
 }
@@ -38,11 +37,6 @@
 
 - (void)setItemData:(NSArray<HDCallCollectionViewCellItem *> *)items{
     
-    /**
-     *  加载的数据 数组里边放item
-     */
-    NSArray *imgArray = [NSArray arrayWithObjects:@"IMG_0325.JPG",@"IMG_0325.JPG",@"IMG_0325.JPG",@"IMG_0325.JPG",@"IMG_0325.JPG",@"IMG_0325.JPG", nil];
-
     //collectionView数据
     _cellArray = [items mutableCopy];
     
@@ -58,8 +52,44 @@
 
 - (void)refreshView:(UIView *)view withScreen:(BOOL)landscape{
 
+    
+    
+    
 }
+- (BOOL)setThirdUserdidJoined:(HDCallCollectionViewCellItem *)item{
+    BOOL isNeedAdd = YES;
+    @synchronized(_cellArray){
+        for (HDCallCollectionViewCellItem * tt in _cellArray) {
+            if (tt.uid  == item.uid) {
+                isNeedAdd = NO;
+                break;
+            }
+        }
+        if (isNeedAdd) {
+            [_cellArray addObject: item];
+        }
+    };
+    return isNeedAdd;
+}
+- (void)removeCurrentCellItem:(HDCallCollectionViewCellItem *)item{
+    
+//    [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathWithIndex:0]];
+    
+    [_cellArray removeObject:item];
 
+    
+}
+- (void)addCurrentCellItem:(HDCallCollectionViewCellItem *)item{
+    
+    [_cellArray addObject:item];
+    
+    [self reloadData];
+}
+- (void)reloadData{
+    
+    [self.collectionView reloadData];
+    
+}
 -(NSArray *)items{
     
     return _cellArray;
@@ -74,8 +104,10 @@
         _collectionView = [[UICollectionView alloc]initWithFrame:self.bounds collectionViewLayout:_flowLayout];
         _collectionView.showsVerticalScrollIndicator = FALSE;
         _collectionView.showsHorizontalScrollIndicator = FALSE;
-        //定义每个UICollectionView 的大小
-        _flowLayout.itemSize = CGSizeMake(84,84);
+//        //定义每个UICollectionView 的大小
+//        float with = [UIScreen mainScreen].bounds.size.width;
+//
+//        _flowLayout.itemSize = CGSizeMake(84+84*0.3,84);
         //定义每个UICollectionView 横向的间距
         _flowLayout.minimumLineSpacing = 25;
         //定义每个UICollectionView 纵向的间距
@@ -125,6 +157,14 @@
     return cell;
 
 }
+- (void)setAudioMuted:(HDCallCollectionViewCellItem *)item{
+    if ([_cellArray containsObject:item]) {
+        NSInteger index = [_cellArray indexOfObject:item];
+        [self setSelectCallItemChangeVideoView:item withIndex:index];
+        
+       }
+}
+
 
  
 #pragma mark --UICollectionViewDelegateFlowLayout
@@ -150,6 +190,22 @@
 -(UIEdgeInsets)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
 //边距的顺序是 上左下右
   return UIEdgeInsetsMake(0,0,0,0);
+}
+
+
+//2、设置Cell的大小
+-(CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath*)indexPath
+
+{
+
+CGFloat screenWith=fDeviceWidth;
+
+//每行2个Cell
+
+CGFloat cellWidth=(screenWith-4*kPoirtSpace)/3;
+
+return CGSizeMake(cellWidth,collectionView.frame.size.height);
+
 }
 
 

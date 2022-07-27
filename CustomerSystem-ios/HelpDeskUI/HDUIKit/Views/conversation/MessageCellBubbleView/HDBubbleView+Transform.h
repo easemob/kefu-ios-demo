@@ -14,5 +14,6 @@
 
 - (void)updateTransformMargin:(UIEdgeInsets)margin;
 
-- (void)setTransformButtonBackgroundColorWithEnable:(BOOL)enable;
+//- (void)setTransformButtonBackgroundColorWithEnable:(BOOL)enable;
+- (void)setTransformButtonBackgroundColorWithEnable:(BOOL)enable withTitle:(NSString *)title;
 @end
