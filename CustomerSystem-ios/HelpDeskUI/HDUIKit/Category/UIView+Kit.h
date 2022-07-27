@@ -37,18 +37,18 @@
 
 - (void)hd_setGradientBackgroundWithColors:(NSArray<UIColor *> *_Nullable)colors locations:(NSArray<NSNumber *> *_Nullable)locations startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint;
 
-@property (nonatomic) CGFloat originX;
-@property (nonatomic) CGFloat originY;
-@property (nonatomic) CGFloat left;
-@property (nonatomic) CGFloat top;
-@property (nonatomic) CGFloat right;
-@property (nonatomic) CGFloat bottom;
-@property (nonatomic) CGFloat width;
-@property (nonatomic) CGFloat height;
-@property (nonatomic) CGFloat centerX;
-@property (nonatomic) CGFloat centerY;
-@property (nonatomic) CGPoint origin;
-@property (nonatomic) CGSize  size;
+@property (nonatomic) CGFloat hd_originX;
+@property (nonatomic) CGFloat hd_originY;
+@property (nonatomic) CGFloat hd_left;
+@property (nonatomic) CGFloat hd_top;
+@property (nonatomic) CGFloat hd_right;
+@property (nonatomic) CGFloat hd_bottom;
+@property (nonatomic) CGFloat hd_width;
+@property (nonatomic) CGFloat hd_height;
+@property (nonatomic) CGFloat hd_centerX;
+@property (nonatomic) CGFloat hd_centerY;
+@property (nonatomic) CGPoint hd_origin;
+@property (nonatomic) CGSize  hd_size;
 
 //隐藏所有键盘
 - (void)hideKeyBoard;

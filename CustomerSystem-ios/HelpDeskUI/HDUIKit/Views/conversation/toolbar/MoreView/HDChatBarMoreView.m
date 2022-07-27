@@ -183,8 +183,8 @@
     btn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
     [btn.titleLabel sizeToFit];
     btn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    btn.titleRect = CGRectMake(0, CHAT_BUTTON_SIZE.height - btn.titleLabel.size.height, CHAT_BUTTON_SIZE.width, btn.titleLabel.size.height);
-    btn.imageRect = CGRectMake(0, 0, CHAT_BUTTON_SIZE.width, CHAT_BUTTON_SIZE.height - btn.titleLabel.size.height);
+    btn.titleRect = CGRectMake(0, CHAT_BUTTON_SIZE.height - btn.titleLabel.hd_size.height, CHAT_BUTTON_SIZE.width, btn.titleLabel.hd_size.height);
+    btn.imageRect = CGRectMake(0, 0, CHAT_BUTTON_SIZE.width, CHAT_BUTTON_SIZE.height - btn.titleLabel.hd_size.height);
     
     
     return btn;

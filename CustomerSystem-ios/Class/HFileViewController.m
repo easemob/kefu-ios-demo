@@ -53,7 +53,7 @@
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.frame = CGRectMake((kHDScreenWidth - 200.f)/2, CGRectGetMaxY(self.fileImageView.frame) + 10.f, 200.f, 20.f);
-        _nameLabel.centerX = _fileImageView.centerX;
+        _nameLabel.hd_centerX = _fileImageView.hd_centerX;
         _nameLabel.textAlignment = NSTextAlignmentCenter;
         _nameLabel.textColor = RGBACOLOR(26, 26, 26, 1);
         _nameLabel.font = [UIFont systemFontOfSize:17];

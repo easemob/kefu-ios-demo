@@ -60,8 +60,8 @@
     
     [self.markLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.centerX.mas_equalTo(self.centerX).offset(0);
-        make.centerY.mas_equalTo(self.centerY).offset(0);
+        make.centerX.mas_equalTo(self.hd_centerX).offset(0);
+        make.centerY.mas_equalTo(self.hd_centerY).offset(0);
         
     }];
     

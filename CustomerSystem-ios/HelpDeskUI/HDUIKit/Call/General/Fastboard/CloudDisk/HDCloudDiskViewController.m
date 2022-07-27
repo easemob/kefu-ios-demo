@@ -31,7 +31,7 @@
     //初始化数据
     [self initData];
     [self.view addSubview:self.headView];
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.headView.size.height, self.view.size.width, self.view.size.height-self.headView.size.height)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.headView.hd_size.height, self.view.hd_size.width, self.view.hd_size.height-self.headView.hd_size.height)];
     self.tableView.backgroundColor = [UIColor yellowColor];
 //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     

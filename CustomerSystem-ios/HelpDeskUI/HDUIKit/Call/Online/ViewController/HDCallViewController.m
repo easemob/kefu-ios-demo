@@ -1001,6 +1001,7 @@ static HDCallViewController *_manger = nil;
     self.buttonPopVC.popoverPresentationController.sourceRect = btn.bounds; //指定箭头所指区域的矩形框范围（位置和尺寸），以view的左上角为坐标原点
     self.buttonPopVC.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp; //箭头方向
     self.buttonPopVC.popoverPresentationController.delegate = self;
+    self.buttonPopVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:self.buttonPopVC animated:YES completion:nil];
 }
 
@@ -1228,7 +1229,7 @@ static HDCallViewController *_manger = nil;
             
         }];
         [bgImgView layoutIfNeeded];
-        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.hd_size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
         bgImgView.image = img;
         
         [item.camView addSubview:item.closeCamView];
@@ -1680,7 +1681,7 @@ void NotificationCallback(CFNotificationCenterRef center,
         [self.whiteBoardView hd_ModifyStackViewLayout:self.hdTitleView withScle:YES];
         [self.whiteBoardView hdmas_remakeConstraints:^(MASConstraintMaker * _Nonnull make) {
 
-            make.top.offset(self.hdTitleView.size.height);
+            make.top.offset(self.hdTitleView.hd_size.height);
             make.leading.offset(0);
             make.trailing.offset(0);
             make.bottom.offset(0);

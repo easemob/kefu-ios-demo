@@ -424,31 +424,43 @@ static HDVideoCallViewController *_manger = nil;
     barModel2.selImageStr=kguaduan1;
     barModel2.isHangUp = YES;
     
+//    HDControlBarModel * barModel3 = [HDControlBarModel new];
+//    barModel3.itemType = HDControlBarItemTypeMessage;
+//    barModel3.name=@"";
+//    barModel3.imageStr=kxiaoxiguanli;
+//    barModel3.selImageStr=kxiaoxiguanli;
+//
+//    HDControlBarModel * barModel4 = [HDControlBarModel new];
+//    barModel4.itemType = HDControlBarItemTypeMore;
+//    barModel4.name=@"";
+//    barModel4.imageStr=kmore;
+//    barModel4.selImageStr=kmore;
     HDControlBarModel * barModel3 = [HDControlBarModel new];
-    barModel3.itemType = HDControlBarItemTypeMessage;
-    barModel3.name=@"";
-    barModel3.imageStr=kxiaoxiguanli;
-    barModel3.selImageStr=kxiaoxiguanli;
+       barModel3.itemType = HDControlBarItemTypeShare;
+       barModel3.name=@"";
+       barModel3.imageStr=kpingmugongxiang2;
+       barModel3.selImageStr=kpingmugongxiang2;
+       
+       HDControlBarModel * barModel4 = [HDControlBarModel new];
+       barModel4.itemType = HDControlBarItemTypeFlat;
+       barModel4.name=@"";
+       barModel4.imageStr=kbaiban;
+       barModel4.selImageStr=kbaiban;
     
-    HDControlBarModel * barModel4 = [HDControlBarModel new];
-    barModel4.itemType = HDControlBarItemTypeMore;
-    barModel4.name=@"";
-    barModel4.imageStr=kmore;
-    barModel4.selImageStr=kmore;
-    
-    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2,barModel3,barModel4, nil];
-    
-//    HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
-//    HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
-//    if (grayModelShare.enable) {
-//        [selImageArr addObject:barModel3];
-//    }
-//    if (grayModelWhiteBoard.enable) {
-//        [selImageArr addObject:barModel4];
-//    }
+//    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2,barModel3,barModel4, nil];
+    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2, nil];
+       
+    HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
+    HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
+    if (grayModelShare.enable) {
+        [selImageArr addObject:barModel3];
+    }
+    if (grayModelWhiteBoard.enable) {
+        [selImageArr addObject:barModel4];
+    }
 
-// NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
-    NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideoNew] ;
+ NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
+//    NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideoNew] ;
 
    _cameraBtn =  [self.barView hd_bttonWithTag:0 withArray:barArray];
     
@@ -972,12 +984,12 @@ static HDVideoCallViewController *_manger = nil;
                 case HDControlBarItemTypeMessage:
                     [weakSelf showMessage];
                     break;
-//                case HDControlBarItemTypeShare:
-//                    [weakSelf shareDesktopBtnClicked:btn];
-//                    break;
-//                case HDControlBarItemTypeFlat:
-//                    [weakSelf onClickedFalt:btn];
-//                    break;
+                case HDControlBarItemTypeShare:
+                    [weakSelf shareDesktopBtnClicked:btn];
+                    break;
+                case HDControlBarItemTypeFlat:
+                    [weakSelf onClickedFalt:btn];
+                    break;
                 case HDControlBarItemTypeMore:
                     [weakSelf onClickedMore:btn];
                     break;
@@ -1228,6 +1240,7 @@ static HDVideoCallViewController *_manger = nil;
     self.buttonPopVC.popoverPresentationController.sourceRect = btn.bounds; //指定箭头所指区域的矩形框范围（位置和尺寸），以view的左上角为坐标原点
     self.buttonPopVC.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp; //箭头方向
     self.buttonPopVC.popoverPresentationController.delegate = self;
+    self.buttonPopVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:self.buttonPopVC animated:YES completion:nil];
 }
 
@@ -1475,7 +1488,7 @@ static HDVideoCallViewController *_manger = nil;
             
         }];
         [bgImgView layoutIfNeeded];
-        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.hd_size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
         bgImgView.image = img;
         
         [item.camView addSubview:item.closeCamView];
@@ -1729,6 +1742,8 @@ static HDVideoCallViewController *_manger = nil;
 #pragma mark - 屏幕共享相关
 // 屏幕共享事件
 - (void)shareDesktopBtnClicked:(UIButton *)btn {
+    
+    
     _shareBtn = btn;
     _shareBtn.selected = _shareState;
    
@@ -1737,6 +1752,8 @@ static HDVideoCallViewController *_manger = nil;
         [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")  withWindow:self.alertWindow];
         return;
     }
+    /// 初始化屏幕分享
+    [self initScreenShare];
     
     //点击的时候先要 保存屏幕共享的数据
     [[HDAgoraCallManager shareInstance] hd_saveShareDeskData:[HDAgoraCallManager shareInstance].keyCenter];
@@ -1927,7 +1944,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         [self.whiteBoardView hd_ModifyStackViewLayout:self.hdTitleView withScle:YES];
         [self.whiteBoardView hdmas_remakeConstraints:^(MASConstraintMaker * _Nonnull make) {
 
-            make.top.offset(self.hdTitleView.size.height);
+            make.top.offset(self.hdTitleView.hd_size.height);
             make.leading.offset(0);
             make.trailing.offset(0);
             make.bottom.offset(0);
@@ -2171,7 +2188,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         make.leading.offset(5);
         make.trailing.offset(-5);
         make.bottom.offset (-5);
-        make.height.offset(self.view.height*0.45);
+        make.height.offset(self.view.hd_height*0.45);
         
     }];
 }
@@ -2235,7 +2252,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
                         make.leading.offset(0);
                         make.trailing.offset(0);
                         make.bottom.offset (0);
-                        make.height.offset(self.view.height*heightRatio);
+                        make.height.offset(self.view.hd_height*heightRatio);
                         
                     }];
                     [self.hdVideoLinkMessagePush setWebUrl:content];
@@ -2254,7 +2271,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             make.leading.offset(0);
             make.trailing.offset(0);
             make.bottom.offset (0);
-            make.height.offset(self.view.height*0.5);
+            make.height.offset(self.view.hd_height*0.5);
             
         }];
         
@@ -2856,6 +2873,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     self.morePopVC.popoverPresentationController.delegate = self;
     self.morePopVC.popoverPresentationController.sourceView = btn;  //rect参数是以view的左上角为坐标原点（0，0）
     self.morePopVC.popoverPresentationController.sourceRect = btn.bounds;
+    self.morePopVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:self.morePopVC animated:YES completion:nil];
 
 }
@@ -2898,7 +2916,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     
     // 将view.frame 设置在屏幕下方
     [self.view addSubview:self.hdMessageView];
-    [UIView transitionWithView:self.hdMessageView duration:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView transitionWithView:self.hdMessageView duration:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
         
         self.hdMessageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height -  kHDVideoMessageHeight, self.view.frame.size.width, kHDVideoMessageHeight);
         

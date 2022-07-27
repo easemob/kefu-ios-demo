@@ -58,7 +58,7 @@
     
     // button
     _recordButton = [[UIButton alloc] initWithFrame:CGRectMake(152, 53, RecordButtonHeight, RecordButtonHeight)];
-    _recordButton.centerX = _recordLabel.centerX;
+    _recordButton.hd_centerX = _recordLabel.hd_centerX;
     [_recordButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_record_menu_mic_gray"] forState:UIControlStateNormal];
     [_recordButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_record_menu_mic_recording"] forState:UIControlStateHighlighted];
     [_recordButton addTarget:self action:@selector(recordButtonTouchDown) forControlEvents:UIControlEventTouchDown];

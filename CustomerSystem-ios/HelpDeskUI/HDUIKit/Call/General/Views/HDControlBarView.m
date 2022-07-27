@@ -100,13 +100,13 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
         UIButton *button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
             if (i < 2) {
 
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
                 
             }else if (i==barModelArr.count-1) {
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.hd_height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
             }else {
 
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.height/1.4 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/1.4 withImageName:model.imageStr withSelectImage:model.selImageStr];
             }
         
        
@@ -141,13 +141,13 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
             UIButton *button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
             
             if (i < 2) {
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.height/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
                     
                 }else if (i== barModelArr.count/2) {
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.height withImageName:model.imageStr withSelectImage:model.selImageStr];
+                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.hd_height withImageName:model.imageStr withSelectImage:model.selImageStr];
                 }else {
 
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.height/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
                 }
             
             [view addSubview:button];
@@ -174,15 +174,15 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
                 
             if (i < barModelArr.count/2 || i == barModelArr.count -1) {
                     
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.height/1.6 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/1.6 withImageName:model.imageStr withSelectImage:model.selImageStr];
                     
                 }else if (i== barModelArr.count/2) {
 
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.height withImageName:model.imageStr withSelectImage:model.selImageStr];
+                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.hd_height withImageName:model.imageStr withSelectImage:model.selImageStr];
 
                 }else {
                     
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.height/1.6 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/1.6 withImageName:model.imageStr withSelectImage:model.selImageStr];
 
                 }
       
@@ -220,18 +220,18 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
         [button setTitle:[NSString stringWithFormat:@"%@",barModelArr[i].name]forState:UIControlStateNormal];
          self.backgroundColor = [UIColor whiteColor];
             if (i < 2) {
-                [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] forState:UIControlStateNormal];
-                [button setImage:[UIImage imageWithIcon:barModelArr[i].selImageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:253.0/255.0 alpha:1.000] ] forState:UIControlStateSelected];
+                [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.hd_size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000] ] forState:UIControlStateNormal];
+                [button setImage:[UIImage imageWithIcon:barModelArr[i].selImageStr inFont:kfontName size:button.hd_size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:253.0/255.0 alpha:1.000] ] forState:UIControlStateSelected];
                 
                 
             }else if (i==barModelArr.count/2) {
-                [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
+                [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.hd_size.width/2 color:[UIColor colorWithRed:206.0/255.0 green:55.0/255.0 blue:56.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
             }else if(i==5-1){
-            [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
-            [button setImage:[UIImage imageWithIcon:barModelArr[i].selImageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] forState:UIControlStateSelected];
+            [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.hd_size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageWithIcon:barModelArr[i].selImageStr inFont:kfontName size:button.hd_size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] forState:UIControlStateSelected];
             }else{
-                [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
-                [button setImage:[UIImage imageWithIcon:barModelArr[i].selImageStr inFont:kfontName size:button.size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] forState:UIControlStateSelected];
+                [button setImage:[UIImage imageWithIcon:barModelArr[i].imageStr inFont:kfontName size:button.hd_size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000]] forState:UIControlStateNormal];
+                [button setImage:[UIImage imageWithIcon:barModelArr[i].selImageStr inFont:kfontName size:button.hd_size.width/2 color:[UIColor colorWithRed:12.0/255.0 green:110.0/255.0 blue:254.0/255.0 alpha:1.000] ] forState:UIControlStateSelected];
             }
         
        
@@ -438,7 +438,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
                
                 button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
                 
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_width/2.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
                     
               
             }else if (i== 2) {
@@ -449,7 +449,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
 //                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.width*0.9 withImageName:model.imageStr withSelectImage:model.selImageStr];
             
                 
-                UIImage *imgSel  = [UIImage imageWithIcon2:model.imageStr inFont:kfontName size:button.width*0.8 color:[[HDAppSkin mainSkin] contentColorRed] withbackgroundColor:[[HDAppSkin mainSkin] contentColorWhitealpha:1]  ] ;
+                UIImage *imgSel  = [UIImage imageWithIcon2:model.imageStr inFont:kfontName size:button.hd_width*0.8 color:[[HDAppSkin mainSkin] contentColorRed] withbackgroundColor:[[HDAppSkin mainSkin] contentColorWhitealpha:1]  ] ;
                 
                 [button setImage:imgSel forState:UIControlStateNormal];
                 
@@ -460,7 +460,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
                 
                 button.frame = frame;
                 
-                button.layer.cornerRadius =button.height/2;
+                button.layer.cornerRadius =button.hd_height/2;
                 button.layer.masksToBounds = YES;
                 
                
@@ -476,14 +476,14 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
             
 //                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.width/2.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
 //
-                [button setImage:[UIImage imageWithIcon:model.imageStr inFont:kfontName size:button.width/2.5 color:[[HDAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
+                [button setImage:[UIImage imageWithIcon:model.imageStr inFont:kfontName size:button.hd_width/2.5 color:[[HDAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
                 
             }else {
                 CGFloat x = 3 * (w + space) + space + hangUpWith;
                 CGRect fram = CGRectMake(x , y, w, h);
                 button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
                     //更多
-                [button setImage:[UIImage imageWithIcon:model.imageStr inFont:kfontName size:button.width/2.5 color:[[HDAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
+                [button setImage:[UIImage imageWithIcon:model.imageStr inFont:kfontName size:button.hd_width/2.5 color:[[HDAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
                 }
     
             [view addSubview:button];

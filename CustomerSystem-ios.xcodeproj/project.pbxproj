@@ -161,6 +161,8 @@
 		93D9D08227C37EC600BD037D /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E79304277C67BB0019FD80 /* Bugly.framework */; };
 		93E7E50427DA051900EC4009 /* test.doc in Resources */ = {isa = PBXBuildFile; fileRef = 93E7E50327DA051800EC4009 /* test.doc */; };
+		93EBEF49288FF7880021CD98 /* HDVideoRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBEF48288FF7880021CD98 /* HDVideoRefreshTableViewController.m */; };
+		93EBEF4C288FFB660021CD98 /* HDVideoChatMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBEF4B288FFB660021CD98 /* HDVideoChatMessageViewController.m */; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
 		D20066391EF23274005B558D /* em_example_image_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066131EF23274005B558D /* em_example_image_2.png */; };
 		D200663A1EF23274005B558D /* em_example_image_3.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066141EF23274005B558D /* em_example_image_3.png */; };
@@ -812,6 +814,10 @@
 		93E79301277C0A430019FD80 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		93E79304277C67BB0019FD80 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		93E7E50327DA051800EC4009 /* test.doc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.doc; sourceTree = "<group>"; };
+		93EBEF47288FF7880021CD98 /* HDVideoRefreshTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HDVideoRefreshTableViewController.h; path = ../../../../../../../../../../../Documents/HDVideoRefreshTableViewController.h; sourceTree = "<group>"; };
+		93EBEF48288FF7880021CD98 /* HDVideoRefreshTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HDVideoRefreshTableViewController.m; path = ../../../../../../../../../../../Documents/HDVideoRefreshTableViewController.m; sourceTree = "<group>"; };
+		93EBEF4A288FFB660021CD98 /* HDVideoChatMessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HDVideoChatMessageViewController.h; path = ../../../../../../../../../../../Documents/HDVideoChatMessageViewController.h; sourceTree = "<group>"; };
+		93EBEF4B288FFB660021CD98 /* HDVideoChatMessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HDVideoChatMessageViewController.m; path = ../../../../../../../../../../../Documents/HDVideoChatMessageViewController.m; sourceTree = "<group>"; };
 		93EF6708282B6598003AF626 /* VECKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VECKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93FFE62827901077009FFC6E /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -1585,6 +1591,7 @@
 		9381BE47288F83890007B6D2 /* VEC */ = {
 			isa = PBXGroup;
 			children = (
+				93EBEF45288FF6DB0021CD98 /* Message */,
 				9381BE4A288F83AB0007B6D2 /* View */,
 				9381BE49288F83A20007B6D2 /* Model */,
 				9381BE48288F83940007B6D2 /* ViewController */,
@@ -1810,18 +1817,18 @@
 		93B4E93527CCD1D700ACAF5B /* HDMJRefresh */ = {
 			isa = PBXGroup;
 			children = (
-				93B4E93627CCD1D700ACAF5B /* UIScrollView+HDMJExtension.h */,
-				93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */,
-				93B4E93827CCD1D700ACAF5B /* HDMJRefresh.h */,
-				93B4E93927CCD1D700ACAF5B /* UIScrollView+HDMJRefresh.h */,
-				93B4E93A27CCD1D700ACAF5B /* HDMJRefreshConst.h */,
-				93B4E93B27CCD1D700ACAF5B /* UIView+HDMJExtension.h */,
-				93B4E93C27CCD1D700ACAF5B /* UIScrollView+HDMJExtension.m */,
-				93B4E93D27CCD1D700ACAF5B /* HDMJRefreshConst.m */,
-				93B4E93E27CCD1D700ACAF5B /* UIScrollView+HDMJRefresh.m */,
+				93B4E95727CCD1D700ACAF5B /* Base */,
 				93B4E93F27CCD1D700ACAF5B /* Custom */,
 				93B4E95627CCD1D700ACAF5B /* HDMJRefresh.bundle */,
-				93B4E95727CCD1D700ACAF5B /* Base */,
+				93B4E93827CCD1D700ACAF5B /* HDMJRefresh.h */,
+				93B4E93A27CCD1D700ACAF5B /* HDMJRefreshConst.h */,
+				93B4E93D27CCD1D700ACAF5B /* HDMJRefreshConst.m */,
+				93B4E93627CCD1D700ACAF5B /* UIScrollView+HDMJExtension.h */,
+				93B4E93C27CCD1D700ACAF5B /* UIScrollView+HDMJExtension.m */,
+				93B4E93927CCD1D700ACAF5B /* UIScrollView+HDMJRefresh.h */,
+				93B4E93E27CCD1D700ACAF5B /* UIScrollView+HDMJRefresh.m */,
+				93B4E93B27CCD1D700ACAF5B /* UIView+HDMJExtension.h */,
+				93B4E93727CCD1D700ACAF5B /* UIView+HDMJExtension.m */,
 			);
 			path = HDMJRefresh;
 			sourceTree = "<group>";
@@ -1898,6 +1905,25 @@
 				93B4E96127CCD1D700ACAF5B /* HDMJRefreshAutoFooter.m */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		93EBEF45288FF6DB0021CD98 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				93EBEF46288FF6E80021CD98 /* VC */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		93EBEF46288FF6E80021CD98 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				93EBEF47288FF7880021CD98 /* HDVideoRefreshTableViewController.h */,
+				93EBEF48288FF7880021CD98 /* HDVideoRefreshTableViewController.m */,
+				93EBEF4A288FFB660021CD98 /* HDVideoChatMessageViewController.h */,
+				93EBEF4B288FFB660021CD98 /* HDVideoChatMessageViewController.m */,
+			);
+			path = VC;
 			sourceTree = "<group>";
 		};
 		D20066111EF23274005B558D /* newResources */ = {
@@ -2401,16 +2427,12 @@
 		D3CB63DC1E4888F30022A6BA /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				93AFA5D9282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.h */,
-				93AFA5DA282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.m */,
+				9392B514280047CE005D4215 /* Document */,
+				D3CB63EA1E4888F30022A6BA /* Emoji */,
+				930E320C27E03AE500455C7E /* HDAccountmanager.h */,
+				930E320D27E03AE500455C7E /* HDAccountmanager.m */,
 				9385C61227E9CA800049096F /* HDAppSkin.h */,
 				9385C61327E9CA800049096F /* HDAppSkin.m */,
-				9392B514280047CE005D4215 /* Document */,
-				D3CB63D11E4888F30022A6BA /* HDSDKHelper.h */,
-				D3CB63D21E4888F30022A6BA /* HDSDKHelper.m */,
-				9320EECC2806D6E000485611 /* HDSanBoxFileManager.h */,
-				9320EECD2806D6E000485611 /* HDSanBoxFileManager.m */,
-				D3CB63EA1E4888F30022A6BA /* Emoji */,
 				D3CB63F41E4888F30022A6BA /* HDChineseToPinyin.h */,
 				D3CB63F51E4888F30022A6BA /* HDChineseToPinyin.m */,
 				D3CB63F61E4888F30022A6BA /* HDConvertToCommonEmoticonsHelper.h */,
@@ -2418,8 +2440,12 @@
 				D3CB63F81E4888F30022A6BA /* HDLocalDefine.h */,
 				D3CB63F91E4888F30022A6BA /* HDMessageReadManager.h */,
 				D3CB63FA1E4888F30022A6BA /* HDMessageReadManager.m */,
-				930E320C27E03AE500455C7E /* HDAccountmanager.h */,
-				930E320D27E03AE500455C7E /* HDAccountmanager.m */,
+				9320EECC2806D6E000485611 /* HDSanBoxFileManager.h */,
+				9320EECD2806D6E000485611 /* HDSanBoxFileManager.m */,
+				D3CB63D11E4888F30022A6BA /* HDSDKHelper.h */,
+				D3CB63D21E4888F30022A6BA /* HDSDKHelper.m */,
+				93AFA5D9282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.h */,
+				93AFA5DA282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -3722,6 +3748,7 @@
 				D3CB649B1E4888F30022A6BA /* HDLocationViewController.m in Sources */,
 				937E92402851A25900A71B32 /* UIImage+ImageScale.m in Sources */,
 				930E322127E03E9800455C7E /* HDCallCollectionViewCellItem.m in Sources */,
+				93EBEF49288FF7880021CD98 /* HDVideoRefreshTableViewController.m in Sources */,
 				D3CB64931E4888F30022A6BA /* HDEmoji.m in Sources */,
 				D3CB64A21E4888F30022A6BA /* HDMessageTimeCell.m in Sources */,
 				D3CB64B31E4888F30022A6BA /* HDTextView.m in Sources */,
@@ -3729,6 +3756,7 @@
 				9367CDE527FD5E8D008479D8 /* CustomFastboardOverlay.m in Sources */,
 				EB4B07801AC6A1C100DCF67B /* EditViewController.m in Sources */,
 				930E321F27E03E9800455C7E /* HDControlBarView.m in Sources */,
+				93EBEF4C288FFB660021CD98 /* HDVideoChatMessageViewController.m in Sources */,
 				930E321D27E03E9800455C7E /* HDMiddleVideoView.m in Sources */,
 				9385C61427E9CA800049096F /* HDAppSkin.m in Sources */,
 				930E322A27E0492F00455C7E /* HDAnswerView.m in Sources */,

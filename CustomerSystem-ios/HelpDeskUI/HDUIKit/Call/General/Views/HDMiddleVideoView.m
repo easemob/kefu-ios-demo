@@ -33,7 +33,7 @@
         make.width.height.offset(64);
         
     }];
-    UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:_bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+    UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:_bgImgView.hd_size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
     _bgImgView.image = img;
 }
 - (UIImageView *)bgImgView{

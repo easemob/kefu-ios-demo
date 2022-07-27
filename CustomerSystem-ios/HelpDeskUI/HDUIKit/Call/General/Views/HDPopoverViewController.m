@@ -71,9 +71,9 @@
     UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 7, 25, 25)];
     if (item.isOn) {
    
-        img.image = [UIImage imageWithIcon:item.imgName inFont:kfontName size:img.size.width color:[[HDAppSkin mainSkin] contentColorRed] ] ;
+        img.image = [UIImage imageWithIcon:item.imgName inFont:kfontName size:img.hd_size.width color:[[HDAppSkin mainSkin] contentColorRed] ] ;
     }else{
-    img.image = [UIImage imageWithIcon:item.imgName inFont:kfontName size:img.size.width color: [[HDAppSkin mainSkin] contentColorBlue] ] ;
+    img.image = [UIImage imageWithIcon:item.imgName inFont:kfontName size:img.hd_size.width color: [[HDAppSkin mainSkin] contentColorBlue] ] ;
     }
     [cell addSubview:img];
     

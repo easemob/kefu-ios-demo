@@ -165,7 +165,7 @@
             
         }];
         [bgImgView layoutIfNeeded];
-        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.hd_size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
         bgImgView.image = img;
        
         
@@ -236,7 +236,7 @@
             
         }];
         [bgImgView layoutIfNeeded];
-        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
+        UIImage * img = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:bgImgView.hd_size.width color:[[HDAppSkin mainSkin] contentColorGray1] ];
         bgImgView.image = img;
         [item.camView addSubview:item.closeCamView];
     }else{

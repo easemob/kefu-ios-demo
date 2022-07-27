@@ -91,7 +91,7 @@
 
 - (CGFloat )setTextWidth:(NSString *)str
 {
-    CGFloat size = [str boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.nickNameBtn.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16]} context:NULL].size.width;
+    CGFloat size = [str boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.nickNameBtn.hd_height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16]} context:NULL].size.width;
     
     return size + 10;
     

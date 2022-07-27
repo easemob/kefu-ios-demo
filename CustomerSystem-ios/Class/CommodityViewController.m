@@ -73,10 +73,10 @@
     messageButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [messageButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [messageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    messageButton.imageRect = CGRectMake(30, footerView.height/3, footerView.height/3, footerView.height/3);
-    messageButton.titleRect = CGRectMake(55, footerView.height/4, 100, footerView.height/2);
+    messageButton.imageRect = CGRectMake(30, footerView.hd_height/3, footerView.hd_height/3, footerView.hd_height/3);
+    messageButton.titleRect = CGRectMake(55, footerView.hd_height/4, 100, footerView.hd_height/2);
     [self.view addSubview:messageButton];
-    messageButton.frame = CGRectMake(0, 0, footerView.width/2, footerView.height);
+    messageButton.frame = CGRectMake(0, 0, footerView.hd_width/2, footerView.hd_height);
     messageButton.layer.borderWidth =1;
     messageButton.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
     [footerView addSubview:messageButton];
@@ -93,12 +93,12 @@
     vecButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [vecButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [vecButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    vecButton.imageRect = CGRectMake(30, footerView.height/3, footerView.height/3, footerView.height/3);
-    vecButton.titleRect = CGRectMake(55, footerView.height/4, 100, footerView.height/2);
+    vecButton.imageRect = CGRectMake(30, footerView.hd_height/3, footerView.hd_height/3, footerView.hd_height/3);
+    vecButton.titleRect = CGRectMake(55, footerView.hd_height/4, 100, footerView.hd_height/2);
     vecButton.layer.borderWidth =1;
     vecButton.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
     [self.view addSubview:vecButton];
-    vecButton.frame = CGRectMake(messageButton.size.width, 0, footerView.width/2, footerView.height);
+    vecButton.frame = CGRectMake(messageButton.hd_size.width, 0, footerView.hd_width/2, footerView.hd_height);
     [footerView addSubview:vecButton];
     [vecButton addTarget:self action:@selector(vecAction) forControlEvents:UIControlEventTouchUpInside];
     

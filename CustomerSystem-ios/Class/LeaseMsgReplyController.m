@@ -146,7 +146,7 @@ const NSInteger baseTag=123;
 - (UIButton *)recordChangeBtn {
     if (!_recordChangeBtn) {
         _recordChangeBtn = [[UIButton alloc] init];
-        _recordChangeBtn.size = CGSizeMake(30, 30);
+        _recordChangeBtn.hd_size = CGSizeMake(30, 30);
         _recordChangeBtn.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 + 30, kScreenHeight - 90);
         [_recordChangeBtn setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_comment_voice_btn_normal"] forState:UIControlStateNormal];
         [_recordChangeBtn setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_keyboard_btn_normal"] forState:UIControlStateSelected];
@@ -169,9 +169,9 @@ const NSInteger baseTag=123;
         
         
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            _recordChangeBtn.originY = _recordChangeBtn.frame.origin.y - 140;
-            _addButton.originY = _addButton.frame.origin.y - 140;
-            _attchmentView.originY = _attchmentView.frame.origin.y - 140;
+            _recordChangeBtn.hd_originY = _recordChangeBtn.frame.origin.y - 140;
+            _addButton.hd_originY = _addButton.frame.origin.y - 140;
+            _attchmentView.hd_originY = _attchmentView.frame.origin.y - 140;
             self.recordButtonView = [[HDRecordView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_recordChangeBtn.frame), kScreenWidth, 140) mark:@"leaveView"];
             self.recordButtonView.delegate = self;
             self.recordButtonView.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
@@ -390,7 +390,7 @@ const NSInteger baseTag=123;
     
     if (_addButton == nil) {
         _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _addButton.size = CGSizeMake(30, 30);
+        _addButton.hd_size = CGSizeMake(30, 30);
         _addButton.center = CGPointMake(kScreenWidth/2 + kScreenWidth/3 - 10, kScreenHeight - 90);
         [_addButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_attachment_btn_normal"] forState:UIControlStateNormal];
         [_addButton addTarget:self action:@selector(addAction) forControlEvents:UIControlEventTouchUpInside];
@@ -653,8 +653,8 @@ const NSInteger baseTag=123;
 - (void)move
 {
     [self hide];
-    _recordChangeBtn.originY = _recordChangeBtn.frame.origin.y - _boardHeight;
-    _addButton.originY = _addButton.frame.origin.y - _boardHeight;
+    _recordChangeBtn.hd_originY = _recordChangeBtn.frame.origin.y - _boardHeight;
+    _addButton.hd_originY = _addButton.frame.origin.y - _boardHeight;
     [self scrollViewAsTheKeyboardMove];
 }
 
@@ -681,7 +681,7 @@ const NSInteger baseTag=123;
 
 - (void)scrollViewAsTheKeyboardMove
 {
-    _attchmentView.originY = _attchmentView.frame.origin.y - _boardHeight;
+    _attchmentView.hd_originY = _attchmentView.frame.origin.y - _boardHeight;
 }
 
 - (void)scrollViewHide
@@ -691,8 +691,8 @@ const NSInteger baseTag=123;
 
 - (void)scrollViewFrame
 {
-    _attchmentView.originX = 0;
-    _attchmentView.originY = kScreenHeight - 170;
+    _attchmentView.hd_originX = 0;
+    _attchmentView.hd_originY = kScreenHeight - 170;
 }
 
 

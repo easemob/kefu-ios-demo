@@ -59,7 +59,7 @@
 - (void)addLogoutButton {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, kScreenHeight-300, 100, 40);
-    button.centerX = kScreenWidth/2;
+    button.hd_centerX = kScreenWidth/2;
     button.layer.cornerRadius = 5;
     button.layer.masksToBounds = YES;
     [button setTitle:@"退出登录" forState:UIControlStateNormal];

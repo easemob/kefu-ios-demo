@@ -266,10 +266,10 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 - (void)layoutKeyboard {
     CGRect crtRect = [_backView convertRect:_currentTextField.frame toView:self.view];
     
-    CGFloat offset = self.view.size.height - CGRectGetMaxY(crtRect) - _keyboardHeight;
+    CGFloat offset = self.view.hd_size.height - CGRectGetMaxY(crtRect) - _keyboardHeight;
     
     //将视图上移计算好的偏移
-    CGFloat oy = _backView.originY+ offset;
+    CGFloat oy = _backView.hd_originY+ offset;
     [UIView animateWithDuration:_duration animations:^{
         _backView.frame = CGRectMake(0.0f, oy, _backView.frame.size.width, _backView.frame.size.height);
     }];

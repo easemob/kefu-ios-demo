@@ -106,7 +106,7 @@ typedef enum : NSUInteger {
     //Initialization
     CGFloat chatbarHeight = [HDChatToolbar defaultHeight];
     
-    self.chatToolbar = [[HDChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.height - chatbarHeight - iPhoneXBottomHeight, self.view.width, chatbarHeight)];
+    self.chatToolbar = [[HDChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.hd_height - chatbarHeight - iPhoneXBottomHeight, self.view.hd_width, chatbarHeight)];
     self.chatToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     //Initializa the gesture recognizer
@@ -201,7 +201,7 @@ typedef enum : NSUInteger {
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
-        if (touch.view.width == 200 || touch.view.tag == 1990) {
+        if (touch.view.hd_width == 200 || touch.view.tag == 1990) {
             return NO;
         }
     }
