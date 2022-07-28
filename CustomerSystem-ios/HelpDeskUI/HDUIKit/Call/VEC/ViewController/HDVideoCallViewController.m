@@ -2677,6 +2677,13 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             state = YES;
             // 创建 对焦窗口
             [self.view addSubview:self.hdCameraFocusView];
+            HDCallCollectionViewCellItem * bigItem =[_videoViews firstObject];
+            if (bigItem.uid == kLocalUid) {
+                self.hdCameraFocusView.hidden = NO;
+                
+            }else{
+                self.hdCameraFocusView.hidden = YES;
+            }
             self.hdCameraFocusView.alpha = 1;
             [self.view bringSubviewToFront:self.hdCameraFocusView];
             [self.hdCameraFocusView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -2699,6 +2706,10 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             self.hdCameraFocusView.alpha = 0;
             [UIView commitAnimations];
 
+          
+            
+           
+            
         }
         
     }else{
