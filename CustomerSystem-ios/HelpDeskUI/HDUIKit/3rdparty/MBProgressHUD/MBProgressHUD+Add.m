@@ -15,6 +15,7 @@
    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.label.text = text;
+    hud.label.adjustsFontSizeToFitWidth = YES;
     hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"HDMBProgressHUD.bundle/%@", icon]]];
     hud.mode = MBProgressHUDModeCustomView;
     
@@ -36,6 +37,7 @@
     if (view == nil) view = [UIApplication sharedApplication].keyWindow;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.label.text = message;
+    hud.label.adjustsFontSizeToFitWidth = YES;
     hud.removeFromSuperViewOnHide = YES;
     return hud;
 }

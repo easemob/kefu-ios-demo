@@ -358,6 +358,7 @@
 
 //远程协助
 "video.remoteassistance.device" = "当前设备不支持此功能";
+"video.remoteassistance.camera.close" = "当前摄像头为关闭状态";
 "video.remoteassistance.device.front" = "当前是前置摄像头需要切换后置摄像头才能使用此功能";
 
 "video.screenShareExtension" = "当前系统不支持屏幕共享功能";

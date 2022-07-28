@@ -356,7 +356,7 @@
 //远程协助
 "video.remoteassistance.device" = "The current device does not support this feature";
 "video.remoteassistance.device.front" = "Currently the front camera needs to switch the rear camera to use this function";
-
+"video.remoteassistance.camera.close" = "The current camera is disabled";
 
 "video.screenShareExtension" = "The current system does not support screen sharing";
 "video_call_shareScreen_not_swhiteBoard" = "Can't whiteboard while screen sharing is currently in progress";

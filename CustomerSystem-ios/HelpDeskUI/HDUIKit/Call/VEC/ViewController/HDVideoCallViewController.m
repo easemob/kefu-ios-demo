@@ -34,6 +34,8 @@
 #import "HDSignView.h"
 #import "HDSatisfactionView.h"
 #import "HDVideoMessageView.h"
+#import "HDVideoCallChatViewController.h"
+
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
@@ -124,6 +126,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (nonatomic, strong) HDSatisfactionView *hdSatisfactionView;
 @property (nonatomic, strong) UIView *hdCameraFocusView;
 @property (nonatomic, strong) HDVideoMessageView *hdMessageView;
+@property (nonatomic, strong) HDVideoCallChatViewController * chat;
 
 
 @end
@@ -440,7 +443,7 @@ static HDVideoCallViewController *_manger = nil;
        barModel3.name=@"";
        barModel3.imageStr=kpingmugongxiang2;
        barModel3.selImageStr=kpingmugongxiang2;
-       
+
        HDControlBarModel * barModel4 = [HDControlBarModel new];
        barModel4.itemType = HDControlBarItemTypeFlat;
        barModel4.name=@"";
@@ -470,6 +473,75 @@ static HDVideoCallViewController *_manger = nil;
 
     
     [self initSmallWindowData];
+}
+- (void)initDataNew{
+    HDControlBarModel * barModel = [HDControlBarModel new];
+    barModel.itemType = HDControlBarItemTypeMute;
+    barModel.name=@"";
+    barModel.imageStr= kmaikefeng1 ;
+    barModel.selImageStr= kjinmai;
+    
+    HDControlBarModel * barModel1 = [HDControlBarModel new];
+    barModel1.itemType = HDControlBarItemTypeVideo;
+    barModel1.name=@"";
+    barModel1.imageStr= kshexiangtou1 ;
+    barModel1.selImageStr=kguanbishexiangtou1;
+    
+    HDControlBarModel * barModel2 = [HDControlBarModel new];
+    barModel2.itemType = HDControlBarItemTypeHangUp;
+    barModel2.name=@"";
+    barModel2.imageStr=kguaduan1;
+    barModel2.selImageStr=kguaduan1;
+    barModel2.isHangUp = YES;
+    
+    HDControlBarModel * barModel3 = [HDControlBarModel new];
+    barModel3.itemType = HDControlBarItemTypeMessage;
+    barModel3.name=@"";
+    barModel3.imageStr=kxiaoxiguanli;
+    barModel3.selImageStr=kxiaoxiguanli;
+
+    HDControlBarModel * barModel4 = [HDControlBarModel new];
+    barModel4.itemType = HDControlBarItemTypeMore;
+    barModel4.name=@"";
+    barModel4.imageStr=kmore;
+    barModel4.selImageStr=kmore;
+//    HDControlBarModel * barModel3 = [HDControlBarModel new];
+//       barModel3.itemType = HDControlBarItemTypeShare;
+//       barModel3.name=@"";
+//       barModel3.imageStr=kpingmugongxiang2;
+//       barModel3.selImageStr=kpingmugongxiang2;
+//
+//       HDControlBarModel * barModel4 = [HDControlBarModel new];
+//       barModel4.itemType = HDControlBarItemTypeFlat;
+//       barModel4.name=@"";
+//       barModel4.imageStr=kbaiban;
+//       barModel4.selImageStr=kbaiban;
+    
+    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2,barModel3,barModel4, nil];
+//    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2, nil];
+       
+//    HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
+//    HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
+//    if (grayModelShare.enable) {
+//        [selImageArr addObject:barModel3];
+//    }
+//    if (grayModelWhiteBoard.enable) {
+//        [selImageArr addObject:barModel4];
+//    }
+
+// NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
+    NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideoNew] ;
+
+   _cameraBtn =  [self.barView hd_bttonWithTag:0 withArray:barArray];
+    
+    _muteBtn =  [self.barView hd_bttonMuteWithTag];
+    
+    _moreBtn =  [barArray lastObject];
+
+    
+    [self initSmallWindowData];
+
+    
 }
 
 - (void)initSmallWindowData{
@@ -1041,7 +1113,8 @@ static HDVideoCallViewController *_manger = nil;
     [self addSubView];
     //默认进来调用竖屏
     [self updatePorttaitLayout];
-    [self initData];
+//    [self initData];
+    [self initDataNew];
     [self setAcceptCallView];
     [self.hdTitleView startTimer];
     isCalling = YES;
@@ -2617,7 +2690,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     if (dic && [[dic allKeys] containsObject:@"action"]) {
 
         if ([[dic valueForKey:@"action"] isEqualToString:@"on"]) {
-
             _cameraState=NO;
         }else{
 
@@ -2705,23 +2777,22 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             [UIView setAnimationDelegate:self];
             self.hdCameraFocusView.alpha = 0;
             [UIView commitAnimations];
-
-          
-            
-           
-            
         }
         
     }else{
         state = NO;
-        if ([[HDAgoraCallManager shareInstance] getCurrentFrontFacingCamera]) {
+        if(!_cameraState){
+            content =NSLocalizedString(@"video.remoteassistance.camera.close", @"video.remoteassistance.camera.close");
+            [MBProgressHUD  showSuccess:content toView:self.view];
+            
+            
+        }else if ([[HDAgoraCallManager shareInstance] getCurrentFrontFacingCamera]) {
             
             // 是前置 需要后置
             [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device.front", @"video.remoteassistance.device.front") toView:self.view];
             
             content =NSLocalizedString(@"video.remoteassistance.device.front", @"video.remoteassistance.device.front");
-        }else{
-            
+        } else{
             [MBProgressHUD  showSuccess:NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device") toView:self.view];
             content =NSLocalizedString(@"video.remoteassistance.device", @"video.remoteassistance.device");
         }
@@ -2937,11 +3008,14 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     }];
     
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
-   
+//    HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
+//
+//    chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
+  
+    HDVideoCallChatViewController * chat = [[HDVideoCallChatViewController alloc] initWithConversationChatter:lgM.cname];
     chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
-  
-  
+    
+    self.chat = chat;
     [self.hdMessageView addSubview:chat.view];
     [chat.view mas_makeConstraints:^(MASConstraintMaker *make) {
         

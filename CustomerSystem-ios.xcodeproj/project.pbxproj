@@ -53,6 +53,8 @@
 		932258CB287D5C520033A0F2 /* SKTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 932258C5287D5C510033A0F2 /* SKTag.m */; };
 		932258CC287D5C520033A0F2 /* SKTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 932258C7287D5C510033A0F2 /* SKTagView.m */; };
 		932258CD287D5C520033A0F2 /* SKTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 932258CA287D5C510033A0F2 /* SKTagButton.m */; };
+		9331A058289255BF0096B905 /* HDVideoCallChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9331A057289255BF0096B905 /* HDVideoCallChatViewController.m */; };
+		9331A05D289283270096B905 /* HDVideoChatToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9331A05C289283270096B905 /* HDVideoChatToolbar.m */; };
 		93337DF7286E91670082E485 /* HDBubbleView+WebBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93337DF6286E91670082E485 /* HDBubbleView+WebBubbleView.m */; };
 		93337DFA286E94D10082E485 /* KFWebModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93337DF9286E94D10082E485 /* KFWebModel.m */; };
 		933C4CA927E4A117001678B0 /* HDPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 933C4CA727E4A116001678B0 /* HDPopoverViewController.m */; };
@@ -622,6 +624,10 @@
 		932258C9287D5C510033A0F2 /* SKTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagView.h; sourceTree = "<group>"; };
 		932258CA287D5C510033A0F2 /* SKTagButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTagButton.m; sourceTree = "<group>"; };
 		932E5CD2280E776100F38900 /* HDWhiteBoardDelegete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDWhiteBoardDelegete.h; sourceTree = "<group>"; };
+		9331A056289255BF0096B905 /* HDVideoCallChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoCallChatViewController.h; sourceTree = "<group>"; };
+		9331A057289255BF0096B905 /* HDVideoCallChatViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoCallChatViewController.m; sourceTree = "<group>"; };
+		9331A05B289283270096B905 /* HDVideoChatToolbar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoChatToolbar.h; sourceTree = "<group>"; };
+		9331A05C289283270096B905 /* HDVideoChatToolbar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoChatToolbar.m; sourceTree = "<group>"; };
 		93337DF5286E91670082E485 /* HDBubbleView+WebBubbleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HDBubbleView+WebBubbleView.h"; sourceTree = "<group>"; };
 		93337DF6286E91670082E485 /* HDBubbleView+WebBubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HDBubbleView+WebBubbleView.m"; sourceTree = "<group>"; };
 		93337DF8286E94D10082E485 /* KFWebModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFWebModel.h; sourceTree = "<group>"; };
@@ -1480,6 +1486,23 @@
 			path = tags;
 			sourceTree = "<group>";
 		};
+		9331A059289282C50096B905 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9331A05A289282D00096B905 /* toolbar */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9331A05A289282D00096B905 /* toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				9331A05B289283270096B905 /* HDVideoChatToolbar.h */,
+				9331A05C289283270096B905 /* HDVideoChatToolbar.m */,
+			);
+			path = toolbar;
+			sourceTree = "<group>";
+		};
 		9333263A27D0D17A004707E1 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1910,6 +1933,7 @@
 		93EBEF45288FF6DB0021CD98 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				9331A059289282C50096B905 /* View */,
 				93EBEF46288FF6E80021CD98 /* VC */,
 			);
 			path = Message;
@@ -1922,6 +1946,8 @@
 				93EBEF48288FF7880021CD98 /* HDVideoRefreshTableViewController.m */,
 				93EBEF4A288FFB660021CD98 /* HDVideoChatMessageViewController.h */,
 				93EBEF4B288FFB660021CD98 /* HDVideoChatMessageViewController.m */,
+				9331A056289255BF0096B905 /* HDVideoCallChatViewController.h */,
+				9331A057289255BF0096B905 /* HDVideoCallChatViewController.m */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -3669,6 +3695,7 @@
 				D3CB64981E4888F30022A6BA /* HDChineseToPinyin.m in Sources */,
 				D3D1BB261DE83D6B004B3557 /* LeaveMsgDetailViewController.m in Sources */,
 				D3D1BB281DE83D6B004B3557 /* MessageViewController.m in Sources */,
+				9331A058289255BF0096B905 /* HDVideoCallChatViewController.m in Sources */,
 				D3CB64911E4888F30022A6BA /* UIViewController+DismissKeyboard.m in Sources */,
 				93B4E96D27CCD1D800ACAF5B /* HDMJRefreshStateHeader.m in Sources */,
 				93B4E96727CCD1D800ACAF5B /* HDMJRefreshBackNormalFooter.m in Sources */,
@@ -3725,6 +3752,7 @@
 				D3CB64B51E4888F30022A6BA /* HDFacialView.m in Sources */,
 				D3CB649D1E4888F30022A6BA /* HDRefreshTableViewController.m in Sources */,
 				EB395E021A8F0C8D0083B659 /* SettingViewController.m in Sources */,
+				9331A05D289283270096B905 /* HDVideoChatToolbar.m in Sources */,
 				D3D1BB4C1DE84928004B3557 /* NSDateFormatter+Category.m in Sources */,
 				938CCA2627C8E1B300F470B5 /* MBProgressHUD+Add.m in Sources */,
 				9374FEBD27CCA64E00DE1185 /* UIButton+HDWebCache.m in Sources */,
