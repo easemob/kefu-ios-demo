@@ -24,6 +24,7 @@ static void *KVOContext = &KVOContext;
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
 @property (nonatomic, strong) HDVideoLayoutModel *layoutModel;
 @property (nonatomic, strong) UIWindow *currentWindow;
+@property (nonatomic, strong) UIViewController *currentVC;
 
 
 + (instancetype _Nullable )shareInstance;

@@ -209,6 +209,7 @@ static HDVideoCallViewController *_manger = nil;
 - (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(nonnull NSString *)aNickname{
 //    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
 //    [HDAgoraCallManager shareInstance].currentWindow = self.alertWindow;
+    [HDAgoraCallManager shareInstance].currentVC = self;
     [HDCallManager shareInstance].isVecVideo = YES;
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
     if (!isCalling) {
@@ -250,9 +251,6 @@ static HDVideoCallViewController *_manger = nil;
             // 其他情况下都是 坐席回拨过来的
             self.isVisitorSend = NO;
             }else{
-                
-                
-               
                 
                 [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 坐席回拨过来了 "];
                 //访客发起后 坐席回拨过来了
@@ -3007,17 +3005,9 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     
     }];
     
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-//    HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
-//
-//    chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
   
-    HDVideoCallChatViewController * chat = [[HDVideoCallChatViewController alloc] initWithConversationChatter:lgM.cname];
-    chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
-    
-    self.chat = chat;
-    [self.hdMessageView addSubview:chat.view];
-    [chat.view mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.hdMessageView addSubview:self.chat.view];
+    [self.chat.view mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.offset(44);
         make.bottom.offset(0);
@@ -3064,7 +3054,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     if (!_hdMessageView) {
         _hdMessageView = [[HDVideoMessageView alloc] init];
         _hdMessageView.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, kHDVideoMessageHeight);
-        _hdMessageView.backgroundColor = [UIColor redColor];
         _hdMessageView.layer.cornerRadius = 10.0f;
         _hdMessageView.layer.masksToBounds = YES;
         _hdMessageView.layer.shadowOpacity = 0.5;
@@ -3080,5 +3069,16 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     }
     return _hdMessageView;
     
+}
+
+- (HDVideoCallViewController *)chat{
+    
+    if (!_chat) {
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+        _chat = [[HDVideoCallChatViewController alloc] initWithConversationChatter:lgM.cname];
+        _chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
+    }
+    
+    return _chat;
 }
 @end

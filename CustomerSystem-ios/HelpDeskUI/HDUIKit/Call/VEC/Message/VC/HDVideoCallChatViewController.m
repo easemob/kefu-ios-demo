@@ -34,6 +34,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -47,7 +48,7 @@
     self.dataSource = self;
     
     [[HDClient sharedClient].chatManager bindChatWithConversationId:self.conversation.conversationId];
-    [self _setupBarButtonItem];
+//    [self _setupBarButtonItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAllMessages:) name:KNOTIFICATIONNAME_DELETEALLMESSAGE object:nil];
 
     
@@ -159,83 +160,6 @@
     return model;
 }
 
-- (NSArray*)emotionFormessageViewController:(HDVideoChatMessageViewController *)viewController
-{
-    NSMutableArray *rst = [NSMutableArray arrayWithCapacity:0];
-    //添加表情数据源
-#pragma mark smallpngface
-    NSMutableArray *customEmotions = [NSMutableArray array];
-    NSMutableArray *customNameArr = [NSMutableArray arrayWithCapacity:0];
-    NSString *customName = nil;
-    for (int i=1; i<=35; i++) {
-        // 把自定义表情图片加到数组中
-        customName = [@"HelpDeskUIResource.bundle/e_e_" stringByAppendingString:[NSString stringWithFormat:@"%d",i]];
-        [customNameArr addObject:customName];
-    }
-    int i = 0;
-    // 取出表情字符
-    for (NSString *name in [HDConvertToCommonEmoticonsHelper emotionsArray]) {
-        //initWithName是表情底部的显示名，可以传空， emotionId传表情名称  emotionThumbnail和emotionOriginal  是传表情字符对应的图片 在UI上显示
-        HDEmotion *emotion = [[HDEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:customNameArr[i] emotionOriginal:customNameArr[i] emotionOriginalURL:@"" emotionType:HDEmotionPng];
-        [customEmotions addObject:emotion];
-        i++;
-    }
-    HDEmotion *customTemp = [customEmotions objectAtIndex:0];
-    HDEmotionManager *customManagerDefault = [[HDEmotionManager alloc] initWithType:HDEmotionPng emotionRow:4 emotionCol:9 emotions:customEmotions tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
-    customManagerDefault.emotionName = NSLocalizedString(@"default", @"default");
-    [rst addObject:customManagerDefault];
-    
-    NSArray *emojiPackagesDics =[self emojiValueForKey:@"emojiPackages"];
-    for (NSDictionary *dic in emojiPackagesDics) {
-        HEmojiPackage *package = [[HEmojiPackage alloc] initWithDictionary:dic];
-        if (![[CSDemoAccountManager shareLoginManager].tenantId isEqualToString:package.tenantId]) {
-            continue;
-        }
-        NSMutableArray *marr = [NSMutableArray arrayWithCapacity:0];
-        NSArray *emojis = [self emojiValueForKey:[NSString stringWithFormat:@"emojis%@",package.packageId]];
-        for (NSDictionary *emojiDic in emojis) {
-            HEmoji *hemoji = [[HEmoji alloc] initWithDictionary:emojiDic];
-            HDEmotion *emotion = [[HDEmotion alloc] initWithName:hemoji.emojiName emotionId:@"123" emotionThumbnail:hemoji.thumbnailUrl emotionOriginal:hemoji.originUrl emotionOriginalURL:hemoji.originUrl emotionType:hemoji.emotionType];
-            [marr addObject:emotion];
-        }
-        if (marr.count > 0) {
-            HDEmotion *customTemp = [marr objectAtIndex:0];
-            HDEmotionManager *manager = [[HDEmotionManager alloc] initWithType:HDEmotionGif emotionRow:2 emotionCol:4 emotions:marr tagImage:[UIImage imageNamed:customTemp.emotionThumbnail]];
-            manager.emotionName = package.packageName;
-            [rst addObject:manager];
-        }
-        
-    }
-    return rst;
-}
-
-- (id)emojiValueForKey:(NSString *)key {
-    NSString *path=NSTemporaryDirectory();
-    NSString *emojiPath =[path stringByAppendingPathComponent:@"emoji.plist"];
-    NSMutableDictionary *mDic = [NSMutableDictionary dictionaryWithContentsOfFile:emojiPath];
-    return [mDic valueForKey:key];
-}
-
-- (BOOL)isEmotionMessageFormessageViewController:(HDVideoChatMessageViewController *)viewController
-                                    messageModel:(id<HDIMessageModel>)messageModel
-{
-    BOOL flag = NO;
-    if ([messageModel.message.ext objectForKey:MESSAGE_ATTR_IS_BIG_EXPRESSION]) {
-        return YES;
-    }
-    return flag;
-}
-
-- (HDEmotion*)emotionURLFormessageViewController:(HDVideoChatMessageViewController *)viewController
-                                      messageModel:(id<HDIMessageModel>)messageModel
-{
-    NSString *emotionId = [messageModel.message.ext objectForKey:MESSAGE_ATTR_EXPRESSION_ID];
-    HDEmotion *emotion = [_emotionDic objectForKey:emotionId];
-    if (emotion == nil) {
-        emotion = [[HDEmotion alloc] initWithName:@"" emotionId:emotionId emotionThumbnail:@"" emotionOriginal:@"" emotionOriginalURL:@"" emotionType:HDEmotionGif];
-    }
-    return emotion;
-}
 
 #pragma mark - action
 
@@ -345,27 +269,6 @@
     [self.menuController setMenuVisible:YES animated:YES];
 }
 
-- (void)stopAudioPlayingWithChangeCategory:(BOOL)isChange
-{
-    //停止音频播放及播放动画
-    [[HDCDDeviceManager sharedInstance] stopPlaying];
-    [[HDCDDeviceManager sharedInstance] disableProximitySensor];
-    [HDCDDeviceManager sharedInstance].delegate = self;
-    
-    HDMessageModel *playingModel = [[HDMessageReadManager defaultManager] stopMessageAudioModel];
-    NSIndexPath *indexPath = nil;
-    if (playingModel) {
-        indexPath = [NSIndexPath indexPathForRow:[self.dataArray indexOfObject:playingModel] inSection:0];
-    }
-    
-    if (indexPath) {
-        hd_dispatch_main_async_safe(^(){
-            [self.tableView beginUpdates];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            [self.tableView endUpdates];
-        });
-    }
-}
 #pragma mark - 文件上传
 
 - (void)presentDocumentPicker {
@@ -456,9 +359,6 @@
                         
         [self _sendMessage:message];
     }
-    
-    
-  
 }
 
 

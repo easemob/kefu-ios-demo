@@ -106,33 +106,6 @@
     _previousTextViewContentHeight = [self _getTextViewContentH:_inputTextView];
     [_toolbarView addSubview:_inputTextView];
     
-    //change input type
-//    UIButton *styleChangeButton = [[UIButton alloc] init];
-//    styleChangeButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//    [styleChangeButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_voice_btn_normal"] forState:UIControlStateNormal];
-//    [styleChangeButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_keyboard_btn_normal"] forState:UIControlStateSelected];
-//    [styleChangeButton addTarget:self action:@selector(styleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-//    // 把录音按钮和自定义的录音按钮所在的控件newRecordView传进去，从而显示自己的view
-//    HDChatToolbarItem *styleItem = [[HDChatToolbarItem alloc] initWithButton:styleChangeButton withView:self.recordView];
-//    [self setInputViewLeftItems:@[styleItem]];
-    
-    //emoji
-//    self.faceButton = [[UIButton alloc] init];
-//    self.faceButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_biaoqing_btn_normal"] forState:UIControlStateNormal];
-//    [self.faceButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_chatting_setmode_keyboard_btn_normal"] forState:UIControlStateSelected];
-//    [self.faceButton addTarget:self action:@selector(faceButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-//    HDChatToolbarItem *faceItem = [[HDChatToolbarItem alloc] initWithButton:self.faceButton withView:self.faceView];
-//    
-//    //more
-//    self.moreButton = [[UIButton alloc] init];
-//    self.moreButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_type_select_btn_nor"] forState:UIControlStateNormal];
-//    [self.moreButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_type_less_btn_nor"] forState:UIControlStateSelected];
-//    [self.moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-//    HDChatToolbarItem *moreItem = [[HDChatToolbarItem alloc] initWithButton:self.moreButton withView:self.moreView];
-    //    [self setInputViewRightItems:@[faceItem, moreItem]];
-    
     // 图片
     UIButton *imageButton = [[UIButton alloc] init];
     self.imageButton = imageButton;
@@ -165,14 +138,7 @@
 
 #pragma mark - getter
 
-- (UIView *)micView
-{
-    if (!_micView) {
-        _micView = [[HDMicView alloc] initWithFrame:CGRectMake(90, 130, 140, 140)];
-    }
-    
-    return _micView;
-}
+
 
 - (UIView *)faceView
 {
@@ -649,125 +615,23 @@
 #pragma mark - action
 - (void)sendButtonAction:(id)sender
 {
-    [self.inputTextView becomeFirstResponder];
+    [self.inputTextView resignFirstResponder];
     if (_delegate && [_delegate respondsToSelector:@selector(didSendMessageAction:)]) {
-        [_delegate didSendMessageAction:self.inputTextView.text];
+        NSString *chatText = self.inputTextView.text;
+        [_delegate didSendMessageAction:chatText];
+        self.inputTextView.text = @"";
+        
     }
 }
 
 - (void)imageButtonAction:(id)sender
 {
-    [self.inputTextView becomeFirstResponder];
+    [self.inputTextView resignFirstResponder];
     if (_delegate && [_delegate respondsToSelector:@selector(didSelectTakePicAction:)]) {
         [_delegate didSelectTakePicAction:self.imageButton];
     }
     
 }
-// 修改 录音按钮的点击事件
-- (void)styleButtonAction:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    button.selected = !button.selected;
-
-    
-    HDChatToolbarItem *styleItem = nil;
-    for (HDChatToolbarItem *item in self.leftItems) {
-        if (item.button == button){
-            styleItem = item;
-            continue;
-        }
-        
-        item.button.selected = NO;
-    }
-    
-    for (HDChatToolbarItem *item in self.rightItems) {
-        item.button.selected = NO;
-    }
-    
-    if (button.selected) {
-        [self.inputTextView resignFirstResponder];
-        
-        [self _willShowBottomView:styleItem.button2View];
-        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.recordButton.hidden = button.selected;
-            self.inputTextView.hidden = !button.selected;
-        } completion:^(BOOL finished) {
-            
-        }];
-    } else {
-        [self.inputTextView becomeFirstResponder];
-    }
-    
-}
-
-- (void)faceButtonAction:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    button.selected = !button.selected;
-    
-    HDChatToolbarItem *faceItem = nil;
-    for (HDChatToolbarItem *item in self.rightItems) {
-        if (item.button == button){
-            faceItem = item;
-            continue;
-        }
-        
-        item.button.selected = NO;
-    }
-    
-    for (HDChatToolbarItem *item in self.leftItems) {
-        item.button.selected = NO;
-    }
-    
-    if (button.selected) {
-        [self.inputTextView resignFirstResponder];
-        
-        [self _willShowBottomView:faceItem.button2View];
-        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.recordButton.hidden = button.selected;
-            self.inputTextView.hidden = !button.selected;
-        } completion:^(BOOL finished) {
-            
-        }];
-    } else {
-        [self.inputTextView becomeFirstResponder];
-    }
-}
-
-- (void)moreButtonAction:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    button.selected = !button.selected;
-    
-    HDChatToolbarItem *moreItem = nil;
-    for (HDChatToolbarItem *item in self.rightItems) {
-        if (item.button == button){
-            moreItem = item;
-            continue;
-        }
-        
-        item.button.selected = NO;
-    }
-    
-    for (HDChatToolbarItem *item in self.leftItems) {
-        item.button.selected = NO;
-    }
-    
-    if (button.selected) {
-        [self.inputTextView resignFirstResponder];
-        
-        [self _willShowBottomView:moreItem.button2View];
-        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.recordButton.hidden = button.selected;
-            self.inputTextView.hidden = !button.selected;
-        } completion:nil];
-    }
-    else
-    {
-        [self.inputTextView becomeFirstResponder];
-    }
-}
-
 
 #pragma mark - public
 
@@ -791,19 +655,9 @@
     return result;
 }
 
-- (void)cancelTouchRecord
-{
-    if ([_micView isKindOfClass:[HDMicView class]]) {
-        [(HDMicView *)_micView recordButtonTouchUpInside];
-        [_micView removeFromSuperview];
-    }
-}
-
 - (void)willShowBottomView:(UIView *)bottomView
 {
     [self _willShowBottomView:bottomView];
 }
-
-
 
 @end
