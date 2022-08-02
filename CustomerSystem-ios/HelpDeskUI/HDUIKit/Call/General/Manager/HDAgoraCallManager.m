@@ -11,9 +11,6 @@
 #import <CoreMedia/CoreMedia.h>
 #import "HDSSKeychain.h"
 #import "HDAgoraCallMember.h"
-#define kToken @"00674855635d3a64920b0c7ee3684f68a9fIACA8a3yaqUdWNcyB5POBY85dP6+vnuMp8fVlCcFYHwStBo6pkUAAAAAEAD45Mp2OAPyYQEAAQA4A/Jh";
-#define kAPPid  @"74855635d3a64920b0c7ee3684f68a9f";
-#define kChannelName @"huanxin"
 
 #define kForService @"com.easemob.enterprise.demo.customer.ScreenShare"
 #define kSaveAgoraToken @"call_agoraToken"
@@ -41,6 +38,8 @@
     
    __block BOOL _isSetupLocalVideo; //判断是否已经设置过了；
   __block  BOOL _isCurrentFrontFacingCamera; //判断 当前摄像头状态。默认 前置 ；
+    
+    HDEnterpriseInfo *_enterprisemodel;
 }
 
 @property (nonatomic, strong) NSMutableArray *members;
@@ -653,33 +652,68 @@ static HDAgoraCallManager *shareCall = nil;
 
 - (void)initSettingWithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion {
     kWeakSelf
-    [[HDClient sharedClient].callManager hd_getInitVECSettingWithCompletion:^(id  responseObject, HDError *error) {
-    
-        if (!error && [responseObject isKindOfClass:[NSDictionary class]] ) {
-            
-            NSDictionary * dic= responseObject;
-            if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
-           
-                NSDictionary * tmp = [dic objectForKey:@"entity"];
-                
-                NSString *configJson = [tmp objectForKey:@"configJson"];
-                NSDictionary *jsonDic = [weakSelf dictWithString:configJson];
-                
-                
-                
-            //接口请求成功
-        //        UI更新代码
-                HDVideoLayoutModel * model = [weakSelf setModel:jsonDic];
-                
-                [HDAgoraCallManager shareInstance].layoutModel = model;
-                
-               
-            }
-        }
-        if (aCompletion) {
-            aCompletion(responseObject,nil);
-        }
+    [self getConfigInfoCompletion:^(HDEnterpriseInfo * _Nonnull model, HDError * _Nonnull error) {
+            [[HDClient sharedClient].callManager hd_getInitVECSettingWithCompletion:^(id  responseObject, HDError *error) {
+                if (!error && [responseObject isKindOfClass:[NSDictionary class]] ) {
+                    NSDictionary * dic= responseObject;
+                    if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
+                        NSDictionary * tmp = [dic objectForKey:@"entity"];
+                        NSString *configJson = [tmp objectForKey:@"configJson"];
+                        NSDictionary *jsonDic = [weakSelf dictWithString:configJson];
+                    //接口请求成功
+                //        UI更新代码
+                        HDVideoLayoutModel * model = [weakSelf setModel:jsonDic];
+                        [HDAgoraCallManager shareInstance].layoutModel = model;
+                    }
+                }
+                if (aCompletion) {
+                    aCompletion(responseObject,nil);
+                }
+            }];
     }];
+}
+- (void)getConfigInfoCompletion:(void (^)(HDEnterpriseInfo * model, HDError * error))aCompletion{
+    // 获取插件信息
+    [[HDClient sharedClient].callManager hd_getConfigInfoCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+        
+        if (error ==nil&& [responseObject isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *dic = responseObject;
+            NSDictionary *entity = [dic valueForKey:@"entity"];
+            if ([HDSDKHelper isNSDictionary:entity] ) {
+                
+                _enterprisemodel = [HDEnterpriseInfo hdyy_modelWithJSON:entity];
+                
+                if (_enterprisemodel) {
+                    
+                    if (aCompletion) {
+                        aCompletion(_enterprisemodel,nil);
+                    }
+                }
+            }
+        }else{
+            
+            
+            if (aCompletion) {
+                aCompletion(nil,error);
+            }
+            
+        }
+        
+        NSLog(@"===1===%@",responseObject);
+        
+        
+    }];
+}
+- (HDEnterpriseInfo *)hd_getEnterpriseInfo{
+    
+    NSLog(@"====2==%@",_enterprisemodel);
+    if (_enterprisemodel) {
+        
+        return _enterprisemodel;
+    }
+    
+    return nil;
+    
 }
 - (NSDictionary *)dictWithString:(NSString *)string {
     if (string && 0 != string.length) {

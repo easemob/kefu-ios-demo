@@ -213,5 +213,15 @@ static HDSDKHelper *helper = nil;
     }
     return message;
 }
++ (BOOL)isNSDictionary:(NSDictionary *)dic{
+    
+    if (dic != nil && ![dic isKindOfClass:[NSNull class]] && dic.count != 0) {
+         
+        return YES;
+      }
+    
+    return NO;
+    
+}
 
 @end

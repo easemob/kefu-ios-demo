@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "UIImage+HDIconFont.h"
 #import "HDAgoraCallManager.h"
+
 @interface HDVideoAnswerView()
 {
     NSInteger _time ;
@@ -81,6 +82,7 @@
     
 }
 - (void)visitorVideoUI{
+    
     // 第一步
     _model =  [HDAgoraCallManager shareInstance].layoutModel;
     if (_model.isSkipWaitingPage) {
@@ -99,6 +101,7 @@
 //    _answerLabel.text = NSLocalizedString(@"您好！有什么需要帮助，可以发起视频通话进行咨询呦", @"您正在邀请客服进行视频通话");
 
 }
+
 
 - (void)endCallLayout{
     
@@ -319,16 +322,6 @@
         make.centerX.mas_equalTo(self.mas_centerX).offset(0);
         make.centerY.mas_equalTo(self.mas_centerY).multipliedBy(0.2);
     }];
-//    [self.onBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.offset(-60);
-//        make.leading.offset(60);
-//        make.width.height.offset(72);
-//    }];
-//    [self.offBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.offset(-60);
-//        make.width.height.offset(72);
-//        make.trailing.offset(-60);
-//    }];
 
     [self.icon mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.mas_centerX).offset(0);
@@ -336,13 +329,6 @@
         make.width.height.offset(108);
         
     }];
-    
-//    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.mas_equalTo(self.icon.mas_centerX).offset(0);
-//        make.bottom.mas_equalTo(self.icon.mas_top).offset(-10);
-//
-//    }];
-    
   
     [self.nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.icon.mas_bottom).offset(5);
@@ -383,10 +369,7 @@
         make.trailing.offset(-15);
         
     }];
-//    _hangUpBtn.titleEdgeInsets = UIEdgeInsetsMake(10, -_hangUpBtn.imageView.frame.size.width, -_hangUpBtn.imageView.frame.size.height, 0);
-//    _hangUpBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 20,10);
-    
-//    [self initButton:_hangUpBtn];
+
 }
 
 /*将按钮设置为图片在上，文字在下*/
@@ -500,15 +483,6 @@
     
 }
 
-//- (UIButton *)onBtn{
-//    if (!_onBtn) {
-//        _onBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_onBtn addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
-//        //为button赋值
-//        [_onBtn setImage:[UIImage imageNamed:@"on.png"] forState:UIControlStateNormal];
-//    }
-//    return _onBtn;
-//}
 - (UIButton *)closeBtn{
     if (!_closeBtn) {
         _closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -519,15 +493,7 @@
     }
     return _closeBtn;
 }
-//- (UIButton *)offBtn{
-//    if (!_offBtn) {
-//        _offBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_offBtn addTarget:self action:@selector(offClick:) forControlEvents:UIControlEventTouchUpInside];
-//        //为button赋值
-//        [_offBtn setImage:[UIImage imageNamed:@"off.png"] forState:UIControlStateNormal];
-//    }
-//    return _offBtn;
-//}
+
 - (UIButton *)hangUpBtn{
     if (!_hangUpBtn) {
         _hangUpBtn = [UIButton buttonWithType:UIButtonTypeCustom];

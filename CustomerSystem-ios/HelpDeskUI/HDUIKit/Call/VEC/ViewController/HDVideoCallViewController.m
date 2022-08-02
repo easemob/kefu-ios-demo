@@ -95,6 +95,8 @@ __block NSString * _pushflowId; //信息推送的flowid
     HDPopoverViewControllerCellItem * _shareScreenCellItem;
     //点击白板的model
     HDPopoverViewControllerCellItem * _whiteboardCellItem;
+    
+   
 }
 /*
  * 弹窗窗口
@@ -212,9 +214,11 @@ static HDVideoCallViewController *_manger = nil;
     [HDAgoraCallManager shareInstance].currentVC = self;
     [HDCallManager shareInstance].isVecVideo = YES;
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
+    // 获取企业信息
+    [self getConfigInfoVisitorNickName:aNickname];
+    
     if (!isCalling) {
         
-        self.hdVideoAnswerView.nickNameLabel.text = aNickname;
         if (type == HDVideoDirectionSend) {
             // 发送 界面
             self.isVisitorSend = YES;
@@ -233,17 +237,6 @@ static HDVideoCallViewController *_manger = nil;
             [HDAgoraCallManager shareInstance].keyCenter = keyCenter;
             self.nickname = keyCenter.visitorNickName;
             self.agentName = keyCenter.agentNickName;
-
-//            if (self.isVisitorSend) {
-//                [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 坐席回拨过来了 "];
-//                //访客发起后 坐席回拨过来了
-//                [self anwersBtnClicked:nil];
-//            }else{
-//                    self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
-//                // 其他情况下都是 坐席回拨过来的
-//                self.isVisitorSend = NO;
-//            }
-        
             if (keyCenter.isAgentCallBackReceive && !keyCenter.agoraAppid) {
                 //回呼过来的通话
              self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
@@ -260,45 +253,60 @@ static HDVideoCallViewController *_manger = nil;
         }
     }
 }
-//- (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVideoType)type withVisitornickName:(nonnull NSString *)aNickname{
-////    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
-//
-//    [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
-//
-//    if (!isCalling) {
-//        self.hdVideoAnswerView.nickNameLabel.text = aNickname;
-//        if (type == HDVideoDirectionSend) {
-//            // 发送 界面
-//            self.isVisitorSend = YES;
-//
-//            if ([HDAgoraCallManager shareInstance].layoutModel && [HDAgoraCallManager shareInstance].layoutModel.isSkipWaitingPage) {
-//
-//                    //直接发起 视频呼叫
-//                    [self createVideoCall];
-//
-//            }
-//            self.hdVideoAnswerView.callType = HDVideoDirectionSend;
-//        }else{
-//            [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 进入接收通话界面 "];
-//            // 接受 界面
-//            //需要必要创建房间的参数
-//            [HDAgoraCallManager shareInstance].keyCenter = keyCenter;
-//            self.nickname = keyCenter.visitorNickName;
-//            self.agentName = keyCenter.agentNickName;
-//
-//            if (self.isVisitorSend) {
-//                [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 坐席回拨过来了 "];
-//                //访客发起后 坐席回拨过来了
-//                [self anwersBtnClicked:nil];
-//            }else{
-//                    self.hdVideoAnswerView.callType = HDVideoDirectionReceive;
-//                // 其他情况下都是 坐席回拨过来的
-//                self.isVisitorSend = NO;
-//            }
-//        }
-//    }
-//}
+-(void)getConfigInfoVisitorNickName:(NSString *)vNickName{
+    
+    HDEnterpriseInfo * model = [[HDAgoraCallManager shareInstance] hd_getEnterpriseInfo];
+    
+    if (model) {
+        
+        kWeakSelf
+        dispatch_async(dispatch_get_main_queue(), ^{
+           
+            [weakSelf setHdVideoAnswerViewWithEnterpriseInfo:model withVisitorNickName:vNickName];
+            
+        });
+        
+    }else{
+    
+    // 获取插件信息
+    [[HDAgoraCallManager shareInstance] getConfigInfoCompletion:^(HDEnterpriseInfo * _Nonnull model, HDError * _Nonnull error) {
 
+        kWeakSelf
+        dispatch_async(dispatch_get_main_queue(), ^{
+           
+            [weakSelf setHdVideoAnswerViewWithEnterpriseInfo:model withVisitorNickName:vNickName];
+            
+        });
+    }];
+    
+    }
+}
+
+- (void)setHdVideoAnswerViewWithEnterpriseInfo:(HDEnterpriseInfo *)model withVisitorNickName:(NSString *)vNickName{
+    
+    if (model) {
+        self.hdVideoAnswerView.nickNameLabel.text = model.name;
+        NSArray * array = [model.avatar componentsSeparatedByString:@"/v1"];
+        NSString * str;
+        for (int i =0; i< array.count; i++) {
+            if (i!=0) {
+                NSString * strUrl = array[i];
+               
+                str = [NSString stringWithFormat:@"%@",strUrl];
+            }
+            
+        }
+        NSString * imgStr = [NSString stringWithFormat:@"HelpDeskUIResource.bundle/easemob@2x.png"];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/v1%@",[HDClient sharedClient].kefuRestServer, str]];
+        
+        [self.hdVideoAnswerView.icon hdSD_setImageWithURL:url placeholderImage: [UIImage imageNamed:imgStr]];
+    }else{
+        self.hdVideoAnswerView.nickNameLabel.text = vNickName;
+    }
+
+    
+    
+}
 
 - (void)hideView{
     if (self&&self.view) {
@@ -450,7 +458,7 @@ static HDVideoCallViewController *_manger = nil;
     
 //    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2,barModel3,barModel4, nil];
     NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2, nil];
-       
+   
     HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
     HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
     if (grayModelShare.enable) {
@@ -1111,8 +1119,8 @@ static HDVideoCallViewController *_manger = nil;
     [self addSubView];
     //默认进来调用竖屏
     [self updatePorttaitLayout];
-//    [self initData];
-    [self initDataNew];
+    [self initData];
+//    [self initDataNew];
     [self setAcceptCallView];
     [self.hdTitleView startTimer];
     isCalling = YES;

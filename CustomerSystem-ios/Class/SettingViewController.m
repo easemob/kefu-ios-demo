@@ -367,6 +367,9 @@
         } else if ([type isEqualToString:@"projectId"]) {
             _projectId = content;
             _lgM.projectId = content;
+        }else if ([type isEqualToString:@"configId"]) {
+            _configId = content;
+            _lgM.configId = content;
         }
         [self.tableView reloadData];
     }

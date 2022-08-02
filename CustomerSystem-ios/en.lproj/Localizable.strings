@@ -93,6 +93,7 @@
 "title.projectId" = "ProjectID";
 "title.tenantId" = "TenantID";
 "title.configId" = "ConfigId";
+"title.username" = "LoginName";
 //choice
 "choice.preSale" = "Pre Sale";
 "choice.afterSale" = "After Sales";

@@ -219,19 +219,11 @@ typedef enum : NSUInteger {
 - (void)setupEmotion
 {
     // 如果子类中实现了代理方法，就显示子类中的，如果没有显示就显示父类中的
-    if (![self.dataSource respondsToSelector:@selector(emotionFormessageViewController:)]) {
+    if ([self.dataSource respondsToSelector:@selector(emotionFormessageViewController:)]) {
         NSArray* emotionManagers = [self.dataSource emotionFormessageViewController:self];
         [self.faceView setEmotionManagers:emotionManagers];
     } else {
-        // 系统默认表情
-        //        NSMutableArray *emotions = [NSMutableArray array];
-        //        for (NSString *name in [HDEmoji allEmoji]) {
-        //            HDEmotion *emotion = [[HDEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:name emotionOriginal:name emotionOriginalURL:@"" emotionType:HDEmotionDefault];
-        //            [emotions addObject:emotion];
-        //        }
-        //        HDEmotion *emotion = [emotions objectAtIndex:0];
-        //        HDEmotionManager *manager= [[HDEmotionManager alloc] initWithType:HDEmotionDefault emotionRow:3 emotionCol:7 emotions:emotions tagImage:[UIImage imageNamed:emotion.emotionId]];
-        
+   
         // 添加自定义表情
 #pragma mark smallpngface
         NSMutableArray *customEmotions = [NSMutableArray array];

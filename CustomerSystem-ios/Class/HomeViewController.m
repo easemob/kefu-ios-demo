@@ -66,6 +66,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [_conversationsVC refreshData];
     //测试理想打开
     [self testButton];
+    
+    // 获取灰度vec
+    [[HDCallManager shareInstance] initGray];
 }
 
 - (void)viewDidLoad
@@ -188,61 +191,28 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     _window.hidden = YES;
 }
 - (void)vecAction:(NSNotification *)notification{
-    
-    if (isLogin == YES) {
-        return;
-    }
-    isLogin = YES;
+
     __weak typeof(self) weakSelf = self;
-//    [self showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
-    
-//    [weakSelf showHint:NSLocalizedString(@"Contacting...", @"连接客服")];
-    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:nil];
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:self.view.superview];
 
     __weak MBProgressHUD *weakHud = hud;
-    
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
         if ([lgM loginKefuSDK]) {
-            
-            
-            
-//            [[HDClient sharedClient].chatManager getEnterpriseWelcomeWithCompletion:^(NSString *welcome, HDError *error) {
-//                            
-//            }];
            
-            
-            [weakHud hideAnimated:YES];
-            NSString *queue = nil;
-            if ([notification.object objectForKey:kpreSell]) {
-                queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
+            // 先判断扫码是否 正确 如果不正确 弹窗提示
+            if (!lgM.configId && lgM.configId.length == 0) {
+                [MBProgressHUD showSuccess:NSLocalizedString(@"未绑定正确的关联信息", @"未绑定正确的关联信息") toView:self.view.superview];
+                [weakHud hideAnimated:YES];
+                return;
             }
-            HDQueueIdentityInfo *queueIdentityInfo=nil;
-            if (queue) {
-                queueIdentityInfo = [[HDQueueIdentityInfo alloc] initWithValue:queue];
-            }
-            if ([notification.object objectForKey:kpreSell]) {
-//                chat.title = [[notification.object objectForKey:kpreSell] boolValue] ? @"售前":@"售后";
-            } else {
-//                chat.title = [CSDemoAccountManager shareLoginManager].cname;
-            }
-            hd_dispatch_main_async_safe(^(){
-                [weakSelf hideHud];
-                HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
-                if (queue) {
-                    chat.queueInfo = queueIdentityInfo;
-                }
-
-                chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
-//                chat.commodityInfo = (NSDictionary *)notification.object;
-//                 [self.navigationController pushViewController:chat animated:YES];
-                
                 //todo 创建视频等待界面  调用接口 vec 使用
 //                [CSDemoAccountManager shareLoginManager].isVEC = YES;
                 [HDClient sharedClient].callManager.isVecVideo = YES;
                 
                 [HDClient sharedClient].enableVisitorAccelerator = NO;
+           
                 [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
+                    [weakHud hideAnimated:YES];
                     dispatch_async(dispatch_get_main_queue(), ^{
 
                         [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend withVisitornickName:lgM.nickname];
@@ -254,7 +224,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                         };
                     });
                 }];
-            });
+
            
         } else {
             hd_dispatch_main_async_safe(^(){
@@ -269,12 +239,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 - (void)chatAction:(NSNotification *)notification
 {
-//    BOOL shouqian = [[notification.object objectForKey:kpreSell] boolValue];
-    //登录IM
-    if (isLogin == YES) {
-        return;
-    }
-    isLogin = YES;
     __weak typeof(self) weakSelf = self;
     [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -324,7 +288,51 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     isLogin = NO;
     
 }
+- (void)testBug{
+    
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    //测试崩溃现象
+    if ([lgM loginKefuSDK]) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        for ( int i = 0; i< 5000; i++) {
+          
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+               
+//                NSLog(@"==11111===%@",[[HDClient sharedClient].chatManager loadAllConversations]);
+                
+//            [self   lxSendText];
+            
+            
+            [[HDClient sharedClient] logout:YES completion:^(HDError *error) {
+                
+                
+                
+                
+            }];
+            
+//        }
+        });
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        for ( int i = 0; i< 50000; i++) {
+//          
+////            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//               
+////                NSLog(@"==11111===%@",[[HDClient sharedClient].chatManager loadAllConversations]);
+//                
+//            [self   lxSendText];
+//            
+//            
+//            
+//        }
+//        });
+    }
+   
+   
 
+    
+    
+    
+}
 - (void)setPushOptions {
 
     if ([[CSDemoAccountManager shareLoginManager] loginKefuSDK]) {
@@ -807,7 +815,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 //发文本消息【测试】
 -(void)lxSendText{
-    HDMessage *message = [HDMessage createTxtSendMessageWithContent:@"sendtextfirst33333" to:@"kefuchannelimid_851754"];
+    HDMessage *message = [HDMessage createTxtSendMessageWithContent:@"sendtextfirst33333" to:@"kefuchannelimid_174280"];
     //添加获取会话
     [[HDClient sharedClient].chatManager getConversation:message.conversationId];
     [[HDClient sharedClient].chatManager sendMessage:message progress:^(int progress)

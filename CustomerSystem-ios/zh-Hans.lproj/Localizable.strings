@@ -91,6 +91,7 @@
 "title.projectId" = "留言ID(ProjectId)";
 "title.tenantId" = "租户ID(Tenantld)";
 "title.configId" = "插件ID(configId)";
+"title.username" = "登录名称";
 //choice
 "choice.preSale" = "售前客服";
 "choice.afterSale" = "售后客服";

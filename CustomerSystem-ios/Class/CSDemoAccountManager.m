@@ -119,7 +119,7 @@ static CSDemoAccountManager *_manager = nil;
 - (NSString *)configId {
     NSString *tconfigId = [fUserDefaults objectForKey:kCustomerConfigId];
     if ([tconfigId length] == 0) {
-        tconfigId = kDefaultConfigId;
+//        tconfigId = kDefaultConfigId;
         [fUserDefaults setObject:tconfigId forKey:kCustomerConfigId];
         [fUserDefaults synchronize];
     }

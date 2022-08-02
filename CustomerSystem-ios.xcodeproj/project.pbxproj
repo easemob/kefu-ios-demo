@@ -165,6 +165,7 @@
 		93E7E50427DA051900EC4009 /* test.doc in Resources */ = {isa = PBXBuildFile; fileRef = 93E7E50327DA051800EC4009 /* test.doc */; };
 		93EBEF49288FF7880021CD98 /* HDVideoRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBEF48288FF7880021CD98 /* HDVideoRefreshTableViewController.m */; };
 		93EBEF4C288FFB660021CD98 /* HDVideoChatMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBEF4B288FFB660021CD98 /* HDVideoChatMessageViewController.m */; };
+		93ECDD142897E14B007FC632 /* HDEnterpriseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ECDD132897E14B007FC632 /* HDEnterpriseInfo.m */; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
 		D20066391EF23274005B558D /* em_example_image_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066131EF23274005B558D /* em_example_image_2.png */; };
 		D200663A1EF23274005B558D /* em_example_image_3.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066141EF23274005B558D /* em_example_image_3.png */; };
@@ -824,6 +825,8 @@
 		93EBEF48288FF7880021CD98 /* HDVideoRefreshTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HDVideoRefreshTableViewController.m; path = ../../../../../../../../../../../Documents/HDVideoRefreshTableViewController.m; sourceTree = "<group>"; };
 		93EBEF4A288FFB660021CD98 /* HDVideoChatMessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HDVideoChatMessageViewController.h; path = ../../../../../../../../../../../Documents/HDVideoChatMessageViewController.h; sourceTree = "<group>"; };
 		93EBEF4B288FFB660021CD98 /* HDVideoChatMessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HDVideoChatMessageViewController.m; path = ../../../../../../../../../../../Documents/HDVideoChatMessageViewController.m; sourceTree = "<group>"; };
+		93ECDD122897E14B007FC632 /* HDEnterpriseInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDEnterpriseInfo.h; sourceTree = "<group>"; };
+		93ECDD132897E14B007FC632 /* HDEnterpriseInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDEnterpriseInfo.m; sourceTree = "<group>"; };
 		93EF6708282B6598003AF626 /* VECKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VECKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93FFE62827901077009FFC6E /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -1642,6 +1645,8 @@
 				932258AF287BFFD70033A0F2 /* HDEnquiryOptionModel.m */,
 				932258B5287D2A130033A0F2 /* HDEnquiryTagModel.h */,
 				932258B6287D2A130033A0F2 /* HDEnquiryTagModel.m */,
+				93ECDD122897E14B007FC632 /* HDEnterpriseInfo.h */,
+				93ECDD132897E14B007FC632 /* HDEnterpriseInfo.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3601,6 +3606,7 @@
 				93B4E96A27CCD1D800ACAF5B /* HDMJRefreshAutoNormalFooter.m in Sources */,
 				932258CC287D5C520033A0F2 /* SKTagView.m in Sources */,
 				D3CB64671E4888F30022A6BA /* MWPhotoBrowser.m in Sources */,
+				93ECDD142897E14B007FC632 /* HDEnterpriseInfo.m in Sources */,
 				D34D6D8B1DEC45570099EE23 /* NSObject+SCAdd.m in Sources */,
 				937FD5A527D1B2ED00EB055A /* HDAgoraCallMember.m in Sources */,
 				D3CB648B1E4888F30022A6BA /* HDMessageModel.m in Sources */,

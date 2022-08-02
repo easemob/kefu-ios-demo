@@ -11,6 +11,10 @@
 #import "HDAgoraCallOptions.h"
 #import "HDAgoraCallManagerDelegate.h"
 #import "HDVideoLayoutModel.h"
+#import "HDEnterpriseInfo.h"
+
+#define kCamViewTag 100001
+#define kCamViewTag 100001
 NS_ASSUME_NONNULL_BEGIN
 static NSString * _Nonnull kUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
 
@@ -262,7 +266,8 @@ static void *KVOContext = &KVOContext;
 //cameraFocusDidChangedToRect    摄像头对焦区域已改变
 //cameraExposureDidChangedToRect    摄像头曝光区域已改变
 
-
+- (HDEnterpriseInfo *)hd_getEnterpriseInfo;
+- (void)getConfigInfoCompletion:(void (^)(HDEnterpriseInfo * model, HDError * error))aCompletion;
 @end
 
 NS_ASSUME_NONNULL_END
