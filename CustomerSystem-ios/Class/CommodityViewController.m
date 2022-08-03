@@ -102,6 +102,9 @@
     }else{
         messageButton.frame = CGRectMake(0, 0, footerView.hd_width, footerView.hd_height);
         vecButton.hidden = YES;
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.hd_width - (footerView.hd_height/3) * 2, footerView.hd_height/3, footerView.hd_height/3, footerView.hd_height/3)];
+        [button setImage:[UIImage imageNamed:@"hd_icon_like_gray"] forState:UIControlStateNormal];
+        [footerView addSubview:button];
     }
     
     [vecButton setImage:[UIImage imageWithIcon:kshexiangtou1 inFont:kfontName size:32 color:[[HDAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
@@ -122,9 +125,7 @@
     
     
 //
-//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.width - (footerView.height/3) * 2, footerView.height/3, footerView.height/3, footerView.height/3)];
-//    [button setImage:[UIImage imageNamed:@"hd_icon_like_gray"] forState:UIControlStateNormal];
-//    [footerView addSubview:button];
+   
     [self.view bringSubviewToFront:footerView];
 }
 

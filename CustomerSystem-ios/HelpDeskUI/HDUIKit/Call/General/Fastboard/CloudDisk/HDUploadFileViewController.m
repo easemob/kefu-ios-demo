@@ -323,7 +323,7 @@ static HDUploadFileViewController *_manger = nil;
         
     }else if([suffix isEqualToString:@"mp3"] || [suffix isEqualToString:@"mp4"] || [suffix isEqualToString:@"mov"] ){
         type = HDFastBoardFileTypevideo;
-        fileName = [NSString stringWithFormat:@"%@.mp4",fileName];
+//        fileName = [NSString stringWithFormat:@"%@.mp4",fileName];
        
     }else if([suffix isEqualToString:@" amr"] || [suffix isEqualToString:@" wav"] ){
         
