@@ -101,7 +101,6 @@ __block NSString * _pushflowId; //信息推送的flowid
 /*
  * 弹窗窗口
  */
-
 @property (nonatomic, strong) UIView *parentView;
 @property (nonatomic, strong) NSString *agentName;
 @property (nonatomic, strong) NSString *nickname;
@@ -129,7 +128,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (nonatomic, strong) UIView *hdCameraFocusView;
 @property (nonatomic, strong) HDVideoMessageView *hdMessageView;
 @property (nonatomic, strong) HDVideoCallChatViewController * chat;
-
+@property (nonatomic, weak) NSTimer *hideDelayTimer;
 
 @end
 static dispatch_once_t onceToken;
@@ -1280,7 +1279,8 @@ static HDVideoCallViewController *_manger = nil;
         [[HDAgoraCallManager shareInstance] enableLocalVideo:YES];
 //        [[HDAgoraCallManager shareInstance] resumeVideo];
         _cameraState = YES;
-        [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:NO];
+        
+        [self updateAudioMuted:_muteBtn.isSelected byUid:kLocalUid withVideoMuted:NO];
 
     }
     
@@ -1361,7 +1361,7 @@ static HDVideoCallViewController *_manger = nil;
     [[HDAgoraCallManager shareInstance] enableLocalVideo:NO];
     // 获取
    
-    [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:YES];
+    [self updateAudioMuted:_muteBtn.isSelected byUid:kLocalUid withVideoMuted:YES];
 
 }
 #pragma mark - UIPopoverPresentationControllerDelegate
@@ -1580,7 +1580,7 @@ static HDVideoCallViewController *_manger = nil;
 
 //接收cmd 消息过来
 - (void)onRoomDataReceivedParameter:(NSDictionary *)roomData{
-    [[HDWhiteRoomManager shareInstance] hd_setValueFrom:roomData];
+  
     //互动白板加入成功以后 屏幕共享 不能使用 不能创建白板房间
     if (_videoViews.count == 0) {
         return;
@@ -1589,17 +1589,15 @@ static HDVideoCallViewController *_manger = nil;
         //当前正在共享
         return;
     }
-    _hud = [MBProgressHUD showMessag:NSLocalizedString(@"video_call_whiteBoard_join", @"video_call_whiteBoard_join") toView:nil];
+    [[HDWhiteRoomManager shareInstance] hd_setValueFrom:roomData];
     [self updateBgMilldelVideoView:self.whiteBoardView whiteBoard:YES];
 
-    [_hud hideAnimated:YES];
 }
 
 
 // 互动白板
 - (void)onClickedFalt:(UIButton *)sender
 {
-    
     if (_shareState) {
         //当前正在共享
         //当前正在白板房间
@@ -1612,19 +1610,23 @@ static HDVideoCallViewController *_manger = nil;
         
         return;
     }
+
+    _hud = [MBProgressHUD showTitle:NSLocalizedString(@"video_call_whiteBoard_join", @"video_call_whiteBoard_join") toView:self.alertWindow withTimeOut:kShowTimeOut];
+    [self hideInvalidate:YES afterDelay:kShowTimeOut];
     // 创建白板产生
     [[HDWhiteRoomManager shareInstance] hd_joinVECRoom];
     
 }
 - (void)onFastboardDidJoinRoomFail{
     
-    [_hud hideAnimated:YES];
+    [self handleHideTimerShow:YES];
     NSLog(@"===========加入失败");
-    
     [self.whiteBoardView removeFromSuperview];
 }
 - (void)onFastboardDidJoinRoomSuccess{
-    [_hud hideAnimated:YES];
+    
+    [self handleHideTimerShow:NO];
+    
     self.whiteBoardView.hidden = NO;
     //只有加入成功才会替换
     HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
@@ -2716,7 +2718,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 //        [[HDAgoraCallManager shareInstance] resumeVideo];
         _cameraState = YES;
         _cameraBtn.selected =!_cameraBtn.selected ;
-        [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:NO];
+        [self updateAudioMuted:_muteBtn.isSelected byUid:kLocalUid withVideoMuted:NO];
 
     }
     [self sendCmdMessageAction:@"cameraacallback" withOn:YES withContent:@""];
@@ -3074,7 +3076,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     
 }
 
-- (HDVideoCallViewController *)chat{
+- (HDVideoCallChatViewController *)chat{
     
     if (!_chat) {
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
@@ -3084,4 +3086,32 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     
     return _chat;
 }
+
+- (void)hideInvalidate:(BOOL)animated afterDelay:(NSTimeInterval)delay {
+    // Cancel any scheduled hideAnimated:afterDelay: calls
+    [self.hideDelayTimer invalidate];
+
+    NSTimer *timer = [NSTimer timerWithTimeInterval:delay target:self selector:@selector(handleTimeoutHideTimer:) userInfo:@(animated) repeats:NO];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    self.hideDelayTimer = timer;
+}
+- (void)handleTimeoutHideTimer:(NSTimer *)timer {
+
+    [self handleHideTimerShow:YES];
+}
+- (void)handleHideTimerShow:(BOOL)isShowTost {
+   
+    if (self.hideDelayTimer) {
+        [self.hideDelayTimer invalidate];
+    }
+    if (isShowTost) {
+        [MBProgressHUD  showSuccess:NSLocalizedString(@"加入房间失败", @"加入房间失败") toView:self.view.superview];
+    }else{
+   
+    }
+    [_hud hideAnimated:YES];
+}
+
+
+
 @end

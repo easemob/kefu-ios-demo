@@ -42,6 +42,17 @@
     return hud;
 }
 
++ (MBProgressHUD *)showTitle:(NSString *)message toView:(UIView *)view withTimeOut:(NSInteger)timeout{
+    if (view == nil) view = [UIApplication sharedApplication].keyWindow;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.label.text = message;
+    hud.label.adjustsFontSizeToFitWidth = YES;
+    hud.removeFromSuperViewOnHide = YES;
+    return hud;
+    
+}
+
+
 + (void)dismissInfo:(id)title
 {
     if(title&&title!=nil&&[title isKindOfClass:[NSString class]]&&title!=[NSNull null]&&[title length]>0&&[NSThread isMainThread]){
