@@ -50,6 +50,24 @@
     return param;
 }
 
+
++ (instancetype)createSlideApp:(NSString *)dir taskId:(NSString *)taskId url:(NSString *)url title:(NSString *)title {
+    WhiteAppParam *param = [[WhiteAppParam alloc] init];
+    param.kind = @"Slide";
+    
+    WhiteAppOptions *ops = [[WhiteAppOptions alloc] init];
+    ops.scenePath = dir;
+    ops.title = title;
+    param.options = ops;
+    
+    param.attrs = @{
+        @"taskId": taskId,
+        @"url": url
+    };
+    
+    return param;
+}
+
 + (instancetype)createSlideApp:(NSString *)dir scenes:(NSArray <WhiteScene *>*)scenes title:(NSString *)title {
     WhiteAppParam *param = [[WhiteAppParam alloc] init];
     param.kind = @"Slide";

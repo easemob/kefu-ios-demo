@@ -73,12 +73,15 @@ static NSString *const kJSDeviceType = @"deviceType";
     _nativeTags = @{@"nativeVersion": [WhiteSDK version], @"platform": [NSString stringWithFormat:@"%@ %@ %@", _platform, deviceModel, currentDevice.systemVersion]};
     _appIdentifier = appIdentifier;
     _pptParams = [[WhitePptParams alloc] init];
+    _disableNewPencilStroke = NO;
     return self;
 }
 
 + (nullable NSDictionary<NSString *, id> *)modelCustomPropertyMapper
 {
-    return @{@"nativeTags": @"__nativeTags", @"platform": @"__platform"};
+    return @{@"nativeTags": @"__nativeTags",
+             @"platform": @"__platform",
+             @"netlessUA": @"__netlessUA"};
 }
 
 - (BOOL)modelCustomTransformToDictionary:(NSMutableDictionary *)dic {

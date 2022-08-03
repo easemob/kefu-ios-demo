@@ -16,10 +16,16 @@ WhitePrefersColorScheme const WhitePrefersColorSchemeDark = @"dark";
 - (instancetype)init {
     self = [super init];
     _chessboard = YES;
-    _containerSizeRatio = @(9/16);
+    _containerSizeRatio = @(9/16.0);
     _debug = YES;
     _prefersColorScheme = WhitePrefersColorSchemeLight;
     return self;
+}
+
+- (void)setContainerSizeRatio:(NSNumber *)containerSizeRatio {
+    if (isinf([containerSizeRatio doubleValue])) { return; }
+    if (isnan([containerSizeRatio doubleValue])) { return; }
+    _containerSizeRatio = containerSizeRatio;
 }
 
 - (void)setPrefersColorScheme:(WhitePrefersColorScheme)prefersColorScheme {

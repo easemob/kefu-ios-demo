@@ -28,6 +28,20 @@ NS_ASSUME_NONNULL_BEGIN
 /** 插件所需要的一些额外可选属性,可以不填 */
 @property (nonatomic, copy, readonly) NSDictionary *attrs;
 
+/*
+ 创建一个ppt窗口。
+ 如果你使用的转码结果中带有 uuid 和 prefix，使用该方法生成 WhiteAppParam
+ uuid   字段对应的是 taskId 参数
+ prefix 字段对应的是 url 参数
+ 推荐使用
+ */
++ (instancetype)createSlideApp:(NSString *)dir taskId:(NSString *)taskId url:(NSString *)url title:(NSString *)title;
+
+/*
+ 创建一个ppt窗口。
+ 如果你使用的转码结果中带有 convertedFileList，使用该方法生成 WhiteAppParam
+ 推荐使用
+ */
 + (instancetype)createSlideApp:(NSString *)dir scenes:(NSArray <WhiteScene *>*)scenes title:(NSString *)title;
 + (instancetype)createDocsViewerApp:(NSString *)dir scenes:(NSArray <WhiteScene *>*)scenes title:(NSString *)title;
 + (instancetype)createMediaPlayerApp:(NSString *)src title:(NSString *)title;

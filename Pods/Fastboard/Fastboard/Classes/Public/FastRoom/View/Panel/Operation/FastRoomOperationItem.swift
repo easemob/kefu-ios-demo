@@ -32,9 +32,7 @@ public class IndicatorItem: FastRoomOperationItem {
         return self.associatedView!
     }
     
-    public func setEnable(_ enable: Bool) {
-        return
-    }
+    public func setEnable(_ enable: Bool) {}
 }
 
 public class JustExecutionItem: FastRoomOperationItem {

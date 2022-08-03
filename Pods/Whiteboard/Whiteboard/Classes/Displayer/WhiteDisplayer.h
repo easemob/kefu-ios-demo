@@ -11,6 +11,7 @@
 #import "WhiteCameraBound.h"
 #import "WhitePanEvent.h"
 #import "WhiteFontFace.h"
+#import "SyncedStore.h"
 
 typedef NS_ENUM(NSInteger, WhiteScenePathType) {
     /** 路径对应的内容为空。 */
@@ -44,6 +45,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - 页面（场景）管理 API
 
 /**
+ 根据scenePath查询指定场景
+ 
+ @param scenePath 场景路径
+ @param result 返回指定场景的查询结果，详见 [WhiteScene](WhiteScene)
+ */
+- (void)getSceneFromScenePath:(NSString *)scenePath result:(void (^) (WhiteScene* _Nullable scene))result;
+
+/**
  查询场景路径类型。
 
  你可以在该方法中指定想要查询的场景路径，SDK 会返回该路径对应的场景类型。
@@ -63,6 +72,13 @@ NS_ASSUME_NONNULL_BEGIN
  @param result 回调。返回当前房间内所有场景的信息。
  */
 - (void)getEntireScenes:(void (^) (NSDictionary<NSString *, NSArray<WhiteScene *>*> *dict))result;
+
+#pragma mark - SyncedStore
+/**
+ * 获取 SyncedStore 对象
+ * 注意 SyncedStore 只有在 `WhiteSdkConfiguration` 的 `enableSyncedStore` 为 true 的情况下才能正常使用
+ */
+- (SyncedStore *)obtainSyncedStore;
 
 #pragma mark - 自定义事件
 /** 注册自定义事件监听。
@@ -197,6 +213,13 @@ NS_ASSUME_NONNULL_BEGIN
  @param completionHandler 你可以通过该接口获取 `getSceneSnapshotImage` 方法的调用结果：
  */
 - (void)getSceneSnapshotImage:(NSString *)scenePath completion:(void (^)(UIImage * _Nullable image))completionHandler;
+
+/**
+ 获取当前的 WindowManager
+ 
+ @param result 获取的attributes回调
+ */
+- (void)getWindowManagerAttributesWithResult:(void(^)(NSDictionary * attributes))result;
 
 @end
 

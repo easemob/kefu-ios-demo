@@ -83,6 +83,11 @@
                 [room updateRoomState:[WhiteRoomState modelWithJSON:dict[@"state"]]];
                 weakBridge.room = room;
                 weakBridge.roomCallbacks.room = room;
+                
+                if (config.drawOnlyApplePencil && UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+                    [room prepareForApplePencilDrawOnly:TRUE];
+                }
+                
                 completionHandler(YES, room, nil);
             }
         }

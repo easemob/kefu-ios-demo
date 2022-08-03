@@ -39,10 +39,10 @@ public class FastRoomControlBar: UIView {
     var forceHideButtons: [UIButton] = []
     
     public
-    func forceButtonHide(_ button: UIButton, hide: Bool) {
-        if hide, !forceHideButtons.contains(button) {
+    func forceUpdate(button: UIButton, visible: Bool) {
+        if !visible, !forceHideButtons.contains(button) {
             forceHideButtons.append(button)
-        } else if !hide, forceHideButtons.contains(button) {
+        } else if visible, forceHideButtons.contains(button) {
             forceHideButtons.removeAll(where: { $0 == button })
         }
         updateNarrowStatus()
@@ -115,9 +115,7 @@ public class FastRoomControlBar: UIView {
         }
     }
     
-    public init(direction: NSLayoutConstraint.Axis,
-         borderMask: CACornerMask,
-         views: [UIView]) {
+    public init(direction: NSLayoutConstraint.Axis, borderMask: CACornerMask, views: [UIView]) {
         self.direction = direction
         self.borderMask = borderMask
         super.init(frame: .zero)
@@ -230,8 +228,7 @@ public class FastRoomControlBar: UIView {
         } else {
             subviews
                 .compactMap { $0 as? UIButton }
-                .filter { !self.forceHideButtons.contains($0) }
-                .forEach { $0.isHidden = false }
+                .forEach { $0.isHidden = self.forceHideButtons.contains($0) }
         }
         layoutForSubItems()
         invalidateIntrinsicContentSize()

@@ -129,14 +129,19 @@ static HDUploadFileViewController *_manger = nil;
 {
     /**只有置成0，GCD才会认为它从未执行过。它默认为0。
      这样才能保证下次再次调用sharedManager的时候，再次创建对象。*/
-    
+    [self.documentPickerVC dismissViewControllerAnimated:YES completion:nil];
     [_manger removeAllSubviews];
+    [_manger.alertWindow removeFromSuperview];
     _manger.alertWindow = nil;
     onceToken= 0;
     _manger=nil;
     
     [self.view removeFromSuperview];
     self.view = nil;
+   
+  
+   
+    
 }
 - (void)removeAllSubviews {
     while (_manger.alertWindow.subviews.count) {
@@ -178,7 +183,6 @@ static HDUploadFileViewController *_manger = nil;
         NSString *filename = [asset valueForKey:@"filename"];
          NSLog(@"filename:%@",filename);
         [self writeToFileData:data withFileName:filename];
-//        [self dismissViewControllerAnimated:YES completion:NULL];
         [self dismissViewController];
     }];
     [self presentViewController:imagePickerVc animated:YES completion:nil];
@@ -211,7 +215,6 @@ static HDUploadFileViewController *_manger = nil;
                     [self writeToFileData:data withFileName:fileName];
 
                     [self dismissViewController];
-//                    [self dismissViewControllerAnimated:YES completion:NULL];
                 });
             }
      }
@@ -299,7 +302,6 @@ static HDUploadFileViewController *_manger = nil;
                     }];
                 }
             }
-//            [self dismissViewControllerAnimated:YES completion:NULL];
             [self dismissViewController];
         }];
         [urls.firstObject stopAccessingSecurityScopedResource];
@@ -368,8 +370,6 @@ static HDUploadFileViewController *_manger = nil;
 
 #pragma mark - event
 - (void)dismissViewController{
-    
-    
     [[HDUploadFileViewController sharedManager] removeSharedManager];
     
 //    if (self.hdUploadFileDismissBlock) {

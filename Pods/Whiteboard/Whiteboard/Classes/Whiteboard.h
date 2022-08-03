@@ -19,5 +19,8 @@
 #import "WhiteConverter.h"
 #import "WhiteCombinePlayer.h"
 #import "WhiteConverterV5.h"
+#import "WhiteProjectorPolling.h"
+#import "WhiteAdvanceConvertProgressPolling.h"
+#import "SyncedStore.h"
 
 #endif /* Whiteboard_h */

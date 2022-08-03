@@ -38,8 +38,7 @@
 - (instancetype)initWithNativePlayer:(AVPlayer *)nativePlayer whitePlayer:(WhitePlayer *)whitePlayer
 {
     self = [self initWithNativePlayer:nativePlayer];
-    _whitePlayer = whitePlayer;
-    [self updateWhitePlayerPhase:whitePlayer.phase];
+    [self setWhitePlayer:whitePlayer];
     return self;
 }
 
@@ -60,9 +59,19 @@
     if (self = [super init]) {
         _nativePlayer = nativePlayer;
         _playbackSpeed = 1;
-        _pauseReason = WhiteSyncManagerPauseReasonInit;
+        _pauseReason = WhiteSyncManagerPauseReasonWaitingNativePlayerBuffering | SyncManagerWaitingPauseReasonPlayerPause;
     }
     [self registerNotificationAndKVO];
+    return self;
+}
+
+- (instancetype)initWithWhitePlayer:(WhitePlayer *)replayer;
+{
+    if (self = [super init]) {
+        _playbackSpeed = 1;
+        _pauseReason = WhiteSyncManagerPauseReasonWaitingWhitePlayerBuffering | SyncManagerWaitingPauseReasonPlayerPause;
+        [self setWhitePlayer:replayer];
+    }
     return self;
 }
 
@@ -75,11 +84,23 @@
 - (void)registerNotificationAndKVO
 {
     [self registerAudioSessionNotification];
-    [self.nativePlayer addObserver:self forKeyPath:kRateKey options:0 context:nil];
     [self.nativePlayer addObserver:self forKeyPath:kCurrentItemKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
 
 #pragma mark - Private Methods
+
+- (void)setPauseReason:(NSUInteger)pauseReason
+{
+    BOOL oldCombineDesirePlaying = !(_pauseReason & SyncManagerWaitingPauseReasonPlayerPause);
+    BOOL combineDesirePlaying = !(pauseReason & SyncManagerWaitingPauseReasonPlayerPause);
+    _pauseReason = pauseReason;
+    
+    if (combineDesirePlaying != oldCombineDesirePlaying) {
+        if ([self.delegate respondsToSelector:@selector(combineVideoPlayStateChange:)]) {
+            [self.delegate combineVideoPlayStateChange:combineDesirePlaying];
+        }
+    }
+}
 
 /**
  预播放状态，可能正在缓冲或缓冲结束。
@@ -192,7 +213,6 @@
 }
 
 #pragma mark - KVO
-static NSString * const kRateKey = @"rate";
 static NSString * const kCurrentItemKey = @"currentItem";
 static NSString * const kStatusKey = @"status";
 static NSString * const kPlaybackLikelyToKeepUpKey = @"playbackLikelyToKeepUp";
@@ -229,10 +249,6 @@ static NSString * const kLoadedTimeRangesKey = @"loadedTimeRanges";
             [self addObserverWithPlayItem:newPlayerItem];
         }
 
-    } else if ([keyPath isEqualToString:kRateKey]) {
-        if ([self.delegate respondsToSelector:@selector(combineVideoPlayStateChange:)]) {
-            [self.delegate combineVideoPlayStateChange:[self videoDesireToPlay]];
-        }
     } else if ([keyPath isEqualToString:kStatusKey]) {
         if (self.nativePlayer.currentItem.status == AVPlayerItemStatusFailed) {
             [self pause];
@@ -284,7 +300,6 @@ static NSString * const kLoadedTimeRangesKey = @"loadedTimeRanges";
 
 - (void)removeNativePlayerKVO
 {
-    [self.nativePlayer removeObserver:self forKeyPath:kRateKey];
     [self.nativePlayer removeObserver:self forKeyPath:kCurrentItemKey];
 }
 
@@ -348,7 +363,7 @@ static NSString * const kLoadedTimeRangesKey = @"loadedTimeRanges";
 - (void)whitePlayerStartBuffing
 {
     self.pauseReason = self.pauseReason | WhiteSyncManagerPauseReasonWaitingWhitePlayerBuffering;
-
+    
     [self.nativePlayer pause];
     
     if ([self.delegate respondsToSelector:@selector(combinePlayerStartBuffering)]) {
@@ -466,15 +481,21 @@ static NSString * const kLoadedTimeRangesKey = @"loadedTimeRanges";
     DLog(@"seekTime: %f", seekTime);
     
     __weak typeof(self)weakSelf = self;
-    [self.nativePlayer seekToTime:time completionHandler:^(BOOL finished) {
-        NSTimeInterval realTime = CMTimeGetSeconds(weakSelf.nativePlayer.currentItem.currentTime);
-        DLog(@"realTime: %f", realTime);
-        // AVPlayer 的 seek 不完全准确, seek 完以后，根据 native 的真实时间，重新 seek
-        [weakSelf.whitePlayer seekToScheduleTime:realTime];
-        if (finished) {
-            completionHandler(finished);
-        }
-    }];
+    // 没有Native Player的时候，直接结束
+    // 有Native Player的时候，等待Native Player
+    if (self.nativePlayer.currentItem) {
+        [self.nativePlayer seekToTime:time completionHandler:^(BOOL finished) {
+            NSTimeInterval realTime = CMTimeGetSeconds(weakSelf.nativePlayer.currentItem.currentTime);
+            DLog(@"realTime: %f", realTime);
+            // AVPlayer 的 seek 不完全准确, seek 完以后，根据 native 的真实时间，重新 seek
+            [weakSelf.whitePlayer seekToScheduleTime:realTime];
+            if (finished) {
+                completionHandler(finished);
+            }
+        }];
+    } else {
+        completionHandler(YES);
+    }
 }
 
 @end

@@ -13,6 +13,12 @@
 #import "WhitePlayer+Private.h"
 #import "WhiteDisplayer+Private.h"
 #import "WhiteConsts.h"
+
+WhitePlayerSeekingResult const WhitePlayerSeekingResultSuccess = @"success";
+WhitePlayerSeekingResult const WhitePlayerSeekingResultSuccessButUnnecessary = @"successButUnnecessary";
+WhitePlayerSeekingResult const WhitePlayerSeekingResultOverride = @"override";
+WhitePlayerSeekingResult const WhitePlayerSeekingResultStopped = @"stopped";
+
 @interface WhitePlayer ()
 
 @property (nonatomic, copy, readwrite) NSString *uuid;
@@ -94,6 +100,10 @@ static NSString * const PlayerNamespace = @"player.%@";
 - (void)seekToScheduleTime:(NSTimeInterval)beginTime
 {
     [self.bridge callHandler:[NSString stringWithFormat:PlayerNamespace, @"seekToScheduleTime"] arguments:@[@(beginTime * WhiteConstTimeUnitRatio)]];
+}
+
+- (void)seekToScheduleTime:(NSTimeInterval)beginTime completionHandler:(void (^)(WhitePlayerSeekingResult _Nonnull))completionHandler {
+    [self.bridge callHandler:[NSString stringWithFormat:PlayerNamespace, @"seekToScheduleTime"] arguments:@[@(beginTime * WhiteConstTimeUnitRatio)] completionHandler:completionHandler];
 }
 
 - (void)setObserverMode:(WhiteObserverMode)mode

@@ -29,9 +29,9 @@ public class CompactFastRoomOverlay: NSObject, FastRoomOverlay, FastPanelDelegat
         }
     }
     
-    public func updateRoomPhaseUpdate(_ phase: FastRoomPhase) {
+    public func update(roomPhase: FastRoomPhase) {
         guard CompactFastRoomOverlay.showActivityIndicatorWhenReconnecting else { return }
-        switch phase {
+        switch roomPhase {
         case .reconnecting:
             showReconnectingView(true)
         default:
@@ -68,9 +68,7 @@ public class CompactFastRoomOverlay: NSObject, FastRoomOverlay, FastPanelDelegat
         operationRightConstraint = nil
     }
     
-    public func updateBoxState(_ state: WhiteWindowBoxState?) {
-        return
-    }
+    public func update(boxState: WhiteWindowBoxState?) {}
     
     var allConstraints: [NSLayoutConstraint] = []
     var operationLeftConstraint: NSLayoutConstraint?
@@ -84,55 +82,46 @@ public class CompactFastRoomOverlay: NSObject, FastRoomOverlay, FastPanelDelegat
                                                direction: .horizontal)
         let sceneView = scenePanel.setup(room: room,
                                          direction: .horizontal)
-        fastboardView.addSubview(colorView)
-        fastboardView.addSubview(operationView)
-        fastboardView.addSubview(deleteView)
-        fastboardView.addSubview(undoRedoView)
-        fastboardView.addSubview(sceneView)
+        let opViews = [
+            colorView,
+            operationView,
+            deleteView,
+            undoRedoView,
+            sceneView
+        ]
+        opViews.forEach {
+            fastboardView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         let margin: CGFloat = 8
-        
         operationLeftConstraint = operationView.leftAnchor.constraint(equalTo: fastboardView.whiteboardView.leftAnchor, constant: margin)
         operationRightConstraint = operationView.rightAnchor.constraint(equalTo: fastboardView.whiteboardView.rightAnchor, constant: -margin)
         let operationC0 = operationView.centerYAnchor.constraint(equalTo: fastboardView.whiteboardView.centerYAnchor)
-        operationC0.isActive = true
-        operationView.translatesAutoresizingMaskIntoConstraints = false
-        
         let colorC0 = colorView.rightAnchor.constraint(equalTo: operationView.rightAnchor)
-        colorC0.isActive = true
         let colorC1 = colorView.bottomAnchor.constraint(equalTo: operationView.topAnchor, constant: -margin)
-        colorC1.isActive = true
-        colorView.translatesAutoresizingMaskIntoConstraints = false
-        
         let deleteC0 = deleteView.rightAnchor.constraint(equalTo: colorView.rightAnchor)
-        deleteC0.isActive = true
         let deleteC1 = deleteView.bottomAnchor.constraint(equalTo: colorView.bottomAnchor)
-        deleteC1.isActive = true
-        deleteView.translatesAutoresizingMaskIntoConstraints = false
-        
         let undoRedoC0 = undoRedoView.leftAnchor.constraint(equalTo: fastboardView.whiteboardView.leftAnchor, constant: margin)
-        undoRedoC0.isActive = true
         let undoRedoC1 = undoRedoView.bottomAnchor.constraint(equalTo: fastboardView.whiteboardView.bottomAnchor, constant: -margin)
-        undoRedoC1.isActive = true
-        undoRedoView.translatesAutoresizingMaskIntoConstraints = false
-        
         let sceneC0 = sceneView.centerXAnchor.constraint(equalTo: fastboardView.whiteboardView.centerXAnchor)
-        sceneC0.isActive = true
         let sceneC1 = sceneView.bottomAnchor.constraint(equalTo: fastboardView.whiteboardView.bottomAnchor, constant: -margin)
-        sceneC1.isActive = true
-        sceneView.translatesAutoresizingMaskIntoConstraints = false
         
-        allConstraints.append(operationLeftConstraint!)
-        allConstraints.append(operationRightConstraint!)
-        allConstraints.append(operationC0)
-        allConstraints.append(colorC0)
-        allConstraints.append(colorC1)
-        allConstraints.append(deleteC0)
-        allConstraints.append(deleteC1)
-        allConstraints.append(undoRedoC0)
-        allConstraints.append(undoRedoC1)
-        allConstraints.append(sceneC0)
-        allConstraints.append(sceneC1)
+        let generatedConstraints = [
+            operationLeftConstraint!,
+            operationRightConstraint!,
+            operationC0,
+            colorC0,
+            colorC1,
+            deleteC0,
+            deleteC1,
+            undoRedoC0,
+            undoRedoC1,
+            sceneC0,
+            sceneC1
+        ]
+        generatedConstraints.forEach { $0.isActive = true }
+        allConstraints.append(contentsOf: generatedConstraints)
         
         updateControlBarLayout(direction: direction)
     }
@@ -148,11 +137,11 @@ public class CompactFastRoomOverlay: NSObject, FastRoomOverlay, FastPanelDelegat
         }
     }
     
-    public func updateUIWithInitAppliance(_ appliance: WhiteApplianceNameKey?, shape: WhiteApplianceShapeTypeKey?) {
+    public func initUIWith(appliance: WhiteApplianceNameKey?, shape: WhiteApplianceShapeTypeKey?) {
         if let appliance = appliance {
             operationPanel.updateWithApplianceOutside(appliance, shape: shape)
             
-            let identifier = identifierFor(appliance: appliance, withShapeKey: shape)
+            let identifier = identifierFor(appliance: appliance, shape: shape)
             if let item = operationPanel.flatItems.first(where: { $0.identifier == identifier }) {
                 updateDisplayStyleFromNewOperationItem(item)
             }
@@ -161,37 +150,37 @@ public class CompactFastRoomOverlay: NSObject, FastRoomOverlay, FastPanelDelegat
         }
     }
     
-    public func updateStrokeColor(_ color: UIColor) {
-        colorAndStrokePanel.updateSelectedColor(color)
+    public func update(strokeColor: UIColor) {
+        colorAndStrokePanel.updateSelectedColor(strokeColor)
     }
     
-    public func updateStrokeWidth(_ width: Float) {
-        colorAndStrokePanel.updateStrokeWidth(width)
+    public func update(strokeWidth: Float) {
+        colorAndStrokePanel.updateStrokeWidth(strokeWidth)
     }
     
-    public func updatePageState(_ state: WhitePageState) {
+    public func update(pageState: WhitePageState) {
         if let label = scenePanel.items.first(where: { $0.identifier == FastRoomDefaultOperationIdentifier.operationType(.pageIndicator)!.identifier })?.associatedView as? UILabel {
-            label.text = "\(state.index + 1) / \(state.length)"
+            label.text = "\(pageState.index + 1) / \(pageState.length)"
             scenePanel.view?.invalidateIntrinsicContentSize()
         }
         if let last = scenePanel.items.first(where: {
             $0.identifier == FastRoomDefaultOperationIdentifier.operationType(.previousPage)!.identifier
         }) {
-            (last.associatedView as? UIButton)?.isEnabled = state.index > 0
+            (last.associatedView as? UIButton)?.isEnabled = pageState.index > 0
         }
         if let next = scenePanel.items.first(where: {
             $0.identifier == FastRoomDefaultOperationIdentifier.operationType(.nextPage)!.identifier
         }) {
-            (next.associatedView as? UIButton)?.isEnabled = state.index + 1 < state.length
+            (next.associatedView as? UIButton)?.isEnabled = pageState.index + 1 < pageState.length
         }
     }
     
-    public func updateUndoEnable(_ enable: Bool) {
-        undoRedoPanel.items.first(where: { $0.identifier == FastRoomDefaultOperationIdentifier.operationType(.undo)!.identifier })?.setEnable(enable)
+    public func update(undoEnable: Bool) {
+        undoRedoPanel.items.first(where: { $0.identifier == FastRoomDefaultOperationIdentifier.operationType(.undo)!.identifier })?.setEnable(undoEnable)
     }
     
-    public func updateRedoEnable(_ enable: Bool) {
-        undoRedoPanel.items.first(where: { $0.identifier == FastRoomDefaultOperationIdentifier.operationType(.redo)!.identifier })?.setEnable(enable)
+    public func update(redoEnable: Bool) {
+        undoRedoPanel.items.first(where: { $0.identifier == FastRoomDefaultOperationIdentifier.operationType(.redo)!.identifier })?.setEnable(redoEnable)
     }
     
     public func setAllPanel(hide: Bool) {
@@ -211,7 +200,7 @@ public class CompactFastRoomOverlay: NSObject, FastRoomOverlay, FastPanelDelegat
         panels.values.forEach { $0.setItemHide(fromKey: item, hide: hide)}
     }
     
-    public func itemWillBeExecution(fastPanel: FastRoomPanel, item: FastRoomOperationItem) {
+    public func itemWillBeExecuted(fastPanel: FastRoomPanel, item: FastRoomOperationItem) {
         if item is SubOpsItem {
             // Hide all the other subPanels
             panels.forEach { $0.value.dismissAllSubPanels(except: item)}
@@ -242,22 +231,27 @@ public class CompactFastRoomOverlay: NSObject, FastRoomOverlay, FastPanelDelegat
         updateDisplayStyleFromNewOperationItem(item)
     }
     
-    enum DisplayStyle {
-        case all
-        case hideColorShowDelete
-        case hideDeleteShowColor
-        case hideColorAndDelete
+    struct DisplayStyle: OptionSet {
+        typealias RawValue = UInt
+        let rawValue: UInt
+        init(rawValue: UInt) {
+            self.rawValue = rawValue
+        }
+        
+        static let all: DisplayStyle = .init(rawValue: 0)
+        static let hideColor: DisplayStyle = .init(rawValue: 1 << 0)
+        static let hideDelete: DisplayStyle = .init(rawValue: 1 << 1)
     }
     
     func updateDisplayStyleFromNewOperationItem(_ item: FastRoomOperationItem) {
         if !item.needColor, !item.needDelete {
-            displayStyle = .hideColorAndDelete
+            displayStyle = DisplayStyle.hideColor.union(DisplayStyle.hideDelete)
             return
         }
         if item.needColor {
-            displayStyle = .hideDeleteShowColor
+            displayStyle = .hideDelete
         } else if item.needDelete {
-            displayStyle = .hideColorShowDelete
+            displayStyle = .hideColor
         } else {
             displayStyle = .all
         }
@@ -265,24 +259,9 @@ public class CompactFastRoomOverlay: NSObject, FastRoomOverlay, FastPanelDelegat
     
     func updateDisplayStyle(_ style: DisplayStyle) {
         undoRedoPanel.view?.isHidden = false
-        switch style {
-        case .all:
-            colorAndStrokePanel.view?.isHidden = false
-            operationPanel.view?.isHidden = false
-            deleteSelectionPanel.view?.isHidden = false
-        case .hideColorShowDelete:
-            colorAndStrokePanel.view?.isHidden = true
-            operationPanel.view?.isHidden = false
-            deleteSelectionPanel.view?.isHidden = false
-        case .hideDeleteShowColor:
-            colorAndStrokePanel.view?.isHidden = false
-            operationPanel.view?.isHidden = false
-            deleteSelectionPanel.view?.isHidden = true
-        case .hideColorAndDelete:
-            colorAndStrokePanel.view?.isHidden = true
-            operationPanel.view?.isHidden = false
-            deleteSelectionPanel.view?.isHidden = true
-        }
+        operationPanel.view?.isHidden = false
+        colorAndStrokePanel.view?.isHidden = style.contains(.hideColor)
+        deleteSelectionPanel.view?.isHidden = style.contains(.hideDelete)
     }
     
     var totalPanels: [FastRoomPanel] {

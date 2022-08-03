@@ -58,6 +58,6 @@ extension FastRoom {
 extension FastRoom: UIPencilInteractionDelegate {
     @available(iOS 12.1, *)
     public func pencilInteractionDidTap(_ interaction: UIPencilInteraction) {
-        view.overlay?.respondToPencilTap?(UIPencilInteraction.preferredTapAction)
+        view.overlay?.respondTo?(pencilTap: UIPencilInteraction.preferredTapAction)
     }
 }

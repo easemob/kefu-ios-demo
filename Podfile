@@ -11,7 +11,8 @@ pod 'Masonry', '~> 1.1.0'
 #音视频需要导入
 pod 'AgoraRtcEngine_iOS','3.6.1'
 #集成互动白板需要导入
-pod 'Fastboard', :git => 'https://github.com/netless-io/fastboard-iOS'
+#pod 'Fastboard', :git => 'https://github.com/netless-io/fastboard-iOS'
+pod 'Fastboard', '~> 1.0.8'
 pod 'TZImagePickerController'
 end
     

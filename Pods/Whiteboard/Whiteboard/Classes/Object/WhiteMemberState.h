@@ -87,6 +87,17 @@ extern WhiteApplianceShapeTypeKey const ApplianceShapeTypeSpeechBalloon;
 /** 字体大小。 */
 @property (nonatomic, strong, readwrite, nullable) NSNumber *textSize;
 /**
+ 开启后可以在文字教具下直接选择编辑文字。NSNumber取值为 bool 类型。
+ 默认为 false 。
+ */
+@property (nonatomic, assign, readwrite, nullable) NSNumber *textCanSelectText;
+/**
+ 开启后可以在画笔教具下画虚线。NSNumber取值为 bool 类型。
+ 该功能要求设置 `disableNewPencil` 为 false。
+ 默认为 false 。
+ */
+@property (nonatomic, assign, readwrite, nullable) NSNumber *dottedLine;
+/**
  当 currentApplianceName 为 Shape 时，所选定的 shape 图形；
  如果只设置 currentApplianceName 为 shape，iOS 端会默认设置为三角形
  @since 2.12.24

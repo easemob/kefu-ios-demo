@@ -80,6 +80,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)logger:(NSDictionary *)dict;
 
+/**
+ 发生了内存不足问题，SDK 即将开始恢复白板
+ 目前只有实时房间有可能触发该回调
+ 该回调最多会触发三次
+ 
+ 超过三次
+ */
+- (void)startRecoveringFromMemoryIssues;
+
+/**
+ 发生了内存不足问题，SDK 结束了一次恢复白板。
+ 如果恢复失败，sdk 不会主动继续重连。
+ 
+ @param success 本次恢复是否成功
+ */
+-(void)endRecoveringFromMemoryIssues:(BOOL)success;
+
 @end
 
 

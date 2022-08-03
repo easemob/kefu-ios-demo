@@ -50,6 +50,8 @@
     
     // 调用初始化接口
     [self getInitSetting];
+    
+    
 
 }
 - (void)getInitSetting{
@@ -59,6 +61,8 @@
             _model =  [HDAgoraCallManager shareInstance].layoutModel;
         }
     }];
+    
+
 }
 - (void)hd_createUIWithCallType:(HDVideoType)callType{
     
@@ -215,6 +219,10 @@
 #pragma mark - --------- NSTimer 创建 ---------
 // 开始计时
 - (void)startTimer {
+    if (_timer) {
+        [self stopTimer];
+    }
+    
     _time = 0;
     _timer = [NSTimer timerWithTimeInterval:3
                                      target:self
@@ -250,9 +258,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSString * visitorWaitingNumber = [entity valueForKey:@"visitorWaitingNumber"];
                         if ([waitingFlag isEqualToString:@"true"]) {
-                            
-                           
-                            
+                        
                             if (self.processType != HDVideoProcessEnd) {
                                 self.answerLabel.text = visitorWaitingNumber;
                             }

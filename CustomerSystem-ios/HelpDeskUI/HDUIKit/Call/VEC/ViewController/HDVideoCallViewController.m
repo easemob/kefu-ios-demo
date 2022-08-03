@@ -384,7 +384,7 @@ static HDVideoCallViewController *_manger = nil;
     self.hdTitleView = nil;
 
     self.smallWindowView=nil;
-   
+    self.whiteBoardView = nil;
     [self.parentView removeFromSuperview];
     self.parentView = nil;
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
@@ -402,6 +402,10 @@ static HDVideoCallViewController *_manger = nil;
     }
     //隐藏 popervc
     [self dismissHDPoperViewController];
+   
+    //清理白板数据
+    [self clearWhiteBoardData];
+   
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -609,20 +613,27 @@ static HDVideoCallViewController *_manger = nil;
     [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
     return item;
 }
+
+#pragma mark - 各种挂断场景
 // 坐席主动 挂断 结束回调
 - (void)onCallEndReason:(NSString *)desc {
     [self.hdTitleView stopTimer];
     isCalling = NO;
-    
-    [[HDWhiteRoomManager shareInstance] hd_OnLogout];
-    [HDLog logI:@"================vec1.2=====onCallEndReason  %@",[NSThread currentThread] ];
-  
     [[HDAgoraCallManager shareInstance] leaveChannel];
-    
     [self hangUpclearViewData];
-
-   
 }
+/// 接通后 挂断
+/// @param sender button
+- (void)callingHangUpBtn:(UIButton *)sender{
+  
+    isCalling = NO;
+    //挂断和拒接 都走这个
+    [[HDAgoraCallManager shareInstance] closeVecCall];
+    [self.hdTitleView stopTimer];
+    [self clearViewData];
+    [self.hdVideoAnswerView endCallLayout];
+}
+
 //mark vec 独立访客端 收到坐席拒绝接通的邀请
 - (void)onCallHangUpInvitation{
     
@@ -1188,8 +1199,7 @@ static HDVideoCallViewController *_manger = nil;
         [[HDVideoCallViewController sharedManager] removeSharedManager];
         return;
     }
-    
-    [[HDWhiteRoomManager shareInstance] hd_OnLogout];
+
     [[HDAgoraCallManager shareInstance] endVecCall];
     [self.hdTitleView stopTimer];
     
@@ -1202,27 +1212,6 @@ static HDVideoCallViewController *_manger = nil;
         self.hdVideoAnswerView.hidden = NO;
 
     }
-    
-}
-/// 接通后 挂断
-/// @param sender button
-- (void)callingHangUpBtn:(UIButton *)sender{
-  
-    isCalling = NO;
-    //挂断和拒接 都走这个
-    [[HDWhiteRoomManager shareInstance] hd_OnLogout];
-    [[HDAgoraCallManager shareInstance] closeVecCall];
-    [self.hdTitleView stopTimer];
-    
-    [self clearViewData];
-    
-    [self.hdVideoAnswerView endCallLayout];
-
-//    if (self.hdVideoAnswerView.hidden) {
-//
-//        self.hdVideoAnswerView.hidden = NO;
-//
-//    }
     
 }
 - (UIView *)parentView{
@@ -1659,6 +1648,16 @@ static HDVideoCallViewController *_manger = nil;
     [self.hdTitleView  modifyTextColor: [UIColor blackColor]];
     [self.hdTitleView  modifyIconBackColor: [UIColor blackColor]];
     
+}
+//  清理白板 数据
+- (void)clearWhiteBoardData{
+    
+    //1、退出白板房间
+    [[HDWhiteRoomManager shareInstance] hd_OnLogout];
+    
+    //2、关闭上传 等view上的操作
+    [[HDUploadFileViewController sharedManager] removeSharedManager];
+    
     
 }
 
@@ -1792,12 +1791,10 @@ static HDVideoCallViewController *_manger = nil;
         
     }
     
-    
     for (HDCallCollectionViewCellItem * tmpItem in self.smallWindowView.items) {
         
         NSLog(@"======%@",tmpItem.nickName);
     }
-    [[HDWhiteRoomManager shareInstance] hd_OnLogout];
     HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
     HDWhiteBoardView * whiteView = (HDWhiteBoardView *) midelleViewItem.camView;
     
@@ -1821,7 +1818,6 @@ static HDVideoCallViewController *_manger = nil;
 #pragma mark - 屏幕共享相关
 // 屏幕共享事件
 - (void)shareDesktopBtnClicked:(UIButton *)btn {
-    
     
     _shareBtn = btn;
     _shareBtn.selected = _shareState;
@@ -1988,7 +1984,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         NSLog(@"processSampleBuffer");
     }
 }
-
 #pragma mark - Picture in picture  相关
 
 - (void)__enablePictureInPicture{

@@ -191,6 +191,11 @@ FOUNDATION_EXPORT WhiteSDKLoggerReportModeKey const WhiteSDKLoggerReportBan;
 
 @property (nonatomic, assign) BOOL disableDeviceInputs;
 
+/**
+ * 是否禁止新铅笔工具展示笔锋，默认是 `NO`。
+ */
+@property (nonatomic, assign) BOOL disableNewPencilStroke;
+
 /** 独立的 SyncedStore 状态，与 globalState 类似，但是没有任何 SDK 内部的状态 */
 @property (nonatomic, assign) BOOL enableSyncedStore;
 
