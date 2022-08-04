@@ -949,7 +949,7 @@ static HDCallViewController *_manger = nil;
 }
 // 切换摄像头事件
 - (void)camBtnClicked:(UIButton *)btn {
-    btn.selected = !btn.selected;
+//    btn.selected = !btn.selected;
     [[HDAgoraCallManager shareInstance] switchCamera];
 //    _isDeviceFront = !_isDeviceFront;
     

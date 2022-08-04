@@ -17,7 +17,10 @@
 
 @property (strong, nonatomic) HomeViewController *homeController;
 
-@property (nonatomic,assign) BOOL allowRotation;
+@property (nonatomic, assign) BOOL allowRotation;//允许旋转
+
+@property (nonatomic, assign) BOOL rightRotation;//右侧旋转
+
 
 @end
 

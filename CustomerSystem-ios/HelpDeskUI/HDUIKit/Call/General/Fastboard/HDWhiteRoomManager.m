@@ -60,18 +60,27 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     
 }
 - (void)reloadFastboardOverlayWithView:(UIView *)view{
+   
+        Fastboard.globalFastboardRatio =0.8;
+        [_fastRoom.room setContainerSizeRatio:@1];
+    [_fastRoom.view mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.offset(28);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+        make.bottom.offset(0);
+    }];
+        [_fastRoom.view setNeedsLayout];
+        [_fastRoom.view layoutIfNeeded];
     
-    [_fastRoom.view removeFromSuperview];
-    
-    [self setupFastboardWithCustom:nil withFastView:view];
-    
+
 }
 // MARK: - Private
 - (void)setupFastboardWithCustom: (id<FastRoomOverlay>)custom withFastView:(UIView *)view{
     
 //    常见屏幕比例 其实只有三种 4:3 16:9 16:10 在加上一个特殊的 5:4
-    Fastboard.globalFastboardRatio =5.0/4.0 ;
+    Fastboard.globalFastboardRatio = 5.0/4.0 ;
     FastRoomConfiguration* config = [[FastRoomConfiguration alloc] initWithAppIdentifier:[self hd_getValueFrom:HDRoomInfoAPPID] roomUUID:[self hd_getValueFrom:HDRoomInfoRoomID] roomToken:[self hd_getValueFrom:HDRoomInfoRoomToken] region:FastRegionCN userUID:self.uid];
+//    config.whiteRoomConfig.windowParams.chessboard = YES;
     config.customOverlay = custom;
     _fastRoom = [Fastboard createFastRoomWithFastRoomConfig:config];
     FastRoomView *fastRoomView = _fastRoom.view;
@@ -86,7 +95,8 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
         make.trailing.offset(0);
         make.bottom.offset(0);
     }];
-    [fastRoomView layoutIfNeeded];
+    [_fastRoom.view setNeedsLayout];
+    [_fastRoom.view layoutIfNeeded];
     fastRoomView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _fastRoom.roomDelegate = self;
     

@@ -168,7 +168,7 @@
 }
 - (void)reloadFastboardOverlayWithScle:(BOOL)isScle{
    
- 
+
     [[HDWhiteRoomManager shareInstance] reloadFastboardOverlayWithView:self];
     
    

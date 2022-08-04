@@ -557,7 +557,7 @@ static HDAgoraCallManager *shareCall = nil;
         }
     };
     
-    [HDLog logI:@"================vec1.2=====didOfflineOfUid _thirdAgentUid= %lu",(unsigned long)uid];
+    [HDLog logI:@"================vec1.2=====didOfflineOfUid reason=%lu _thirdAgentUid= %lu",(unsigned long)reason,(unsigned long)uid];
     //如果房间里边人 都么有了 就发送通知 关闭。如果有人 就不关闭
 //  [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
    

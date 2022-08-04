@@ -35,6 +35,7 @@
 #import "HDSatisfactionView.h"
 #import "HDVideoMessageView.h"
 #import "HDVideoCallChatViewController.h"
+#import "AppDelegate.h"
 
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
@@ -1241,7 +1242,6 @@ static HDVideoCallViewController *_manger = nil;
 }
 // 切换摄像头事件
 - (void)camBtnClicked:(UIButton *)btn {
-    btn.selected = !btn.selected;
     [[HDAgoraCallManager shareInstance] switchCamera];
     _isCurrenDeviceFront = !_isCurrenDeviceFront;
 }
@@ -1730,6 +1730,7 @@ static HDVideoCallViewController *_manger = nil;
 
             [whiteView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.offset(kApplicationStatusBarHeight);
+//                make.top.mas_equalTo(self.hdTitleView.mas_bottom).offset(10);
                 make.leading.offset(0);
                 make.trailing.offset(0);
                 make.bottom.offset(0);
@@ -1763,9 +1764,9 @@ static HDVideoCallViewController *_manger = nil;
         }
     }
     
-//    [self.whiteBoardView reloadFastboardOverlayWithScle:YES];
+    [self.whiteBoardView reloadFastboardOverlayWithScle:YES];
     
-    
+ 
     
 }
 - (void)uploadFile{
@@ -1871,11 +1872,7 @@ static HDVideoCallViewController *_manger = nil;
             NSLog(@"== 屏幕分享开始=====%@",string);
             _shareState= YES;
             _shareBtn.selected = _shareState;
-            
-//            _shareScreenCellItem.isOn = YES;
-            
-//            [self.morePopVC reloadRows:_shareScreenCellItem];
-            
+        
         }
         if ([string[@"state"] isEqual:@"停止"]) {
             //关闭 RTC：外部视频输入通道，停止推送屏幕流
@@ -1884,8 +1881,6 @@ static HDVideoCallViewController *_manger = nil;
             _shareState= NO;
             //更改按钮的状态
             _shareBtn.selected = _shareState;
-//            _shareScreenCellItem.isOn = NO;
-//            [self.morePopVC reloadRows:_shareScreenCellItem];
         }
         return;
     }else if ([keyPath isEqualToString:@"text"]) {
@@ -1894,96 +1889,6 @@ static HDVideoCallViewController *_manger = nil;
             [self.hdSupendCustomView  updateTimeText:string];
         }
         
-    }
-}
-// MainApp
-- (void)stopBroadcaster {
-   
-}
-
-- (void)sendNotificationWithIdentifier:(nullable NSString *)identifier userInfo:(NSDictionary *)info {
-    CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();
-    CFDictionaryRef userInfo = (__bridge CFDictionaryRef)info;
-    BOOL const deliverImmediately = YES;
-    CFStringRef identifierRef = (__bridge CFStringRef)identifier;
-    CFNotificationCenterPostNotification(center, identifierRef, NULL, userInfo, deliverImmediately);
-}
-void NotificationVideoCallback(CFNotificationCenterRef center,
-                                   void * observer,
-                                   CFStringRef name,
-                                   void const * object,
-                                   CFDictionaryRef userInfo) {
-    NSString *identifier = (__bridge NSString *)name;
-    NSObject *sender = (__bridge NSObject *)observer;
-//    NSDictionary *info = (__bridge NSDictionary *)userInfo;
-//    NSDictionary *info = CFBridgingRelease(userInfo);
-    NSDictionary *notiUserInfo = @{@"identifier":identifier};
-    if (sender) {
-
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShareWindow
-                                                            object:sender
-                                                          userInfo:notiUserInfo];
-    }
-   
-}
-- (void)addNotifications {
-    
-    [self registerNotificationsWithIdentifier:@"broadcastStartedWithSetupInfo"];
-    [self registerNotificationsWithIdentifier:@"broadcastPaused"];
-    [self registerNotificationsWithIdentifier:@"broadcastResumed"];
-    [self registerNotificationsWithIdentifier:@"broadcastFinished"];
-    [self registerNotificationsWithIdentifier:@"processSampleBuffer"];
-    //这里同时注册了分发消息的通知，在宿主App中使用
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(NotificationVideoAction:) name:kNotificationShareWindow object:nil];
-}
-
-- (void)registerNotificationsWithIdentifier:(nullable NSString *)identifier{
-    CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();
-    CFStringRef str = (__bridge CFStringRef)identifier;
-   
-    CFNotificationCenterAddObserver(center,
-                                    (__bridge const void *)(self),
-                                    NotificationVideoCallback,
-                                    str,
-                                    NULL,
-                                    CFNotificationSuspensionBehaviorDeliverImmediately);
-}
-- (void)NotificationVideoAction:(NSNotification *)noti {
-    NSDictionary *userInfo = noti.userInfo;
-    NSString *identifier = userInfo[@"identifier"];
-
-    if ([identifier isEqualToString:@"broadcastStartedWithSetupInfo"]) {
-        
-        _shareState= YES;
-        _shareBtn.selected = !_shareBtn.selected;
-        NSLog(@"broadcastStartedWithSetupInfo");
-    }
-    if ([identifier isEqualToString:@"broadcastPaused"]) {
-        NSLog(@"broadcastPaused");
-    }
-    if ([identifier isEqualToString:@"broadcastResumed"]) {
-        NSLog(@"broadcastResumed");
-    }
-    if ([identifier isEqualToString:@"broadcastFinished"]) {
-        _shareState= NO;
-        //更改按钮的状态
-        _shareBtn.selected = !_shareBtn.selected;
-//        [[HDAgoraCallManager shareInstance] joinChannel];
-//        //设置远端试图
-//        for (HDCallCollectionViewCellItem * item in _members) {
-//            if (item.uid == kLocalUid) {
-//                //设置本地试图 取出本地item
-//                [[HDAgoraCallManager shareInstance] setupLocalVideoView:item.camView];
-//            }else{
-//                [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
-//            }
-//        }
-       
-        NSLog(@"broadcastFinished");
-        
-    }
-    if ([identifier isEqualToString:@"processSampleBuffer"]) {
-        NSLog(@"processSampleBuffer");
     }
 }
 #pragma mark - Picture in picture  相关
@@ -2031,7 +1936,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
         self.barView.hidden = YES;
 
-
     }
     
     if (_videoViews.count > 0) {
@@ -2042,7 +1946,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         }
       
     }
-    
     
     [self.itemView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.bottom.offset(0);
@@ -2070,21 +1973,15 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             self.barView.hidden = NO;
         }
         [self.whiteBoardView hd_ModifyStackViewLayout:self.hdTitleView withScle:NO];
-
-
     }else{
         self.smallWindowView.hidden = NO;
         self.barView.hidden = NO;
-
-
     }
-    
     if (_videoViews.count > 0) {
         HDCallCollectionViewCellItem * tmpItem = [_videoViews firstObject];
         if (tmpItem.isVideoMute) {
             tmpItem.closeCamView.frame = self.alertWindow.frame;
         }
-      
     }
     
     [self.itemView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -2156,14 +2053,9 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
 
 //悬浮视图消失
 - (void)cancelWindow{
-    
     [_customWindow resignFirstResponder];
-    
     [_customWindow removeFromSuperview];
     _customWindow=nil;
-
-    
-    
 }
 
 #pragma mark --SuspendCustomViewDelegate
@@ -2175,47 +2067,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
     [self.hdTitleView.timeLabel removeObserver:self forKeyPath:@"text"];
     
     [self cancelWindow];
-    
-    //以下是根据不同类型 做不同的操作
-//    NSLog(@"此处判断点击 还可以通过suspenType类型判断");
-//    HDSuspendCustomView *suspendCustomView=(HDSuspendCustomView *)sender;
-//    for (UIView *subView in suspendCustomView.subviews) {
-//        if ([subView isKindOfClass:[UIButton class]]) {
-//            NSLog(@"点击了按钮");
-//            suspendCustomView.customButton.selected=!suspendCustomView.customButton.selected;
-//            if (suspendCustomView.customButton.selected==YES) {
-//             [suspendCustomView.customButton setBackgroundImage:[UIImage imageNamed:@"button_on"] forState:UIControlStateNormal];
-//            }else{
-//            [suspendCustomView.customButton setBackgroundImage:[UIImage imageNamed:@"button_out"] forState:UIControlStateNormal];
-//            }
-//            self.view.hidden = NO;
-//            _customView.hidden = !self.view.hidden;
-//        }else if([subView isKindOfClass:[UIImageView class]]){
-//
-//            NSLog(@"点击了图片");
-//        }else if([subView isKindOfClass:[UIWebView class]]){
-//
-//            NSLog(@"点击了Gif");
-//        }else if([subView isKindOfClass:[UIScrollView class]]){
-//            suspendCustomView.customScrollView.scrollEnabled=!suspendCustomView.customScrollView.scrollEnabled;
-//            if (suspendCustomView.customScrollView.scrollEnabled) {
-//                suspendCustomView.customScrollView.backgroundColor=[UIColor greenColor];
-//            }else{
-//                suspendCustomView.customScrollView.backgroundColor=[UIColor grayColor];
-//            }
-//
-//            NSLog(@"点击了scrollView,通过点击,决定是否滚动");
-//        }else if([subView isKindOfClass:[UIView class]]){
-//            NSLog(@"点击了自定义view");
-//            self.view.hidden = NO;
-//            _customView.hidden = !self.view.hidden;
-//        }
-//
-//
-//    }
-    
-    
-    
+
 }
 - (void)dragToTheLeft{
     NSLog(@"左划到左边框了");
@@ -2378,12 +2230,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
                     UIView *v =item.camView;
                     [self.ocrView addSubview: v];
                     [v mas_remakeConstraints:^(MASConstraintMaker *make) {
-//                        make.top.offset(0);
-//                        make.bottom.offset(0);
-//                        make.leading.offset(0);
-//                        make.trailing.offset(0);
                         CGFloat width;
-                        
                         if (ScanType == HDVideoIDCardScaningViewTypeIDCard) {
                         if (_isSmallWindow) {
                          
@@ -2512,7 +2359,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
             _isOcrCloseSwitchCamera = NO;
         }
     }
-   
 }
 // 接到ocr 以后 判断需不需要切换摄像头
 - (void)hd_ocrSwitchCamera:(HDVideoIDCardScaningViewType )ScanType{
@@ -2650,11 +2496,7 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
         _hdSatisfactionView.backgroundColor = [UIColor whiteColor];
         kWeakSelf
         _hdSatisfactionView.updateSelfFrame = ^(CGFloat height) {
-
-            
             [weakSelf hd_upateFrame:height];
-          
-            
         };
 
     }
@@ -2729,8 +2571,6 @@ void NotificationVideoCallback(CFNotificationCenterRef center,
  */
 - (void)onSwitchCameraParameter:(NSDictionary *)dic{
     
-    
-    _cameraBtn.selected =YES;
     [self camBtnClicked:_cameraBtn];
     
     [self sendCmdMessageAction:@"cameraChangecallback" withOn:YES withContent:@""];
