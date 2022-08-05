@@ -192,7 +192,9 @@ static HDVideoCallViewController *_manger = nil;
     callVC.hangUpVideoCallback = callback;
     
     //初始化灰度管理
-    [[HDCallManager shareInstance] initGray];
+    [[HDCallManager shareInstance] initGrayCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    
+    }];
         
     //需要必要创建房间的参数
     [HDAgoraCallManager shareInstance].keyCenter =keyCenter;
@@ -327,8 +329,10 @@ static HDVideoCallViewController *_manger = nil;
 
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
     [self.view hideKeyBoard];
-    //初始化灰度管理
-    [[HDCallManager shareInstance] initGray];
+    // 获取灰度vec
+    [[HDCallManager shareInstance] initGrayCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    
+    }];
     self.isShow = YES;
     _cameraState = YES;
     
@@ -626,6 +630,7 @@ static HDVideoCallViewController *_manger = nil;
 /// @param sender button
 - (void)callingHangUpBtn:(UIButton *)sender{
   
+    [HDLog logI:@"================vec1.2=====callingHangUpBtn 接通后主动点击挂断"];
     isCalling = NO;
     //挂断和拒接 都走这个
     [[HDAgoraCallManager shareInstance] closeVecCall];

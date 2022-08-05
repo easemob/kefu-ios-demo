@@ -159,7 +159,10 @@ static HDCallViewController *_manger = nil;
     callVC.hangUpCallback = callback;
     
     //初始化灰度管理
-    [[HDCallManager shareInstance] initGray];
+    // 获取灰度vec
+    [[HDCallManager shareInstance] initGrayCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    
+    }];
         
     //需要必要创建房间的参数
     [HDAgoraCallManager shareInstance].keyCenter =keyCenter;
@@ -230,7 +233,10 @@ static HDCallViewController *_manger = nil;
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
     [self.view hideKeyBoard];
     //初始化灰度管理
-    [[HDCallManager shareInstance] initGray];
+    // 获取灰度vec
+    [[HDCallManager shareInstance] initGrayCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    
+    }];
     self.isShow = YES;
     _cameraState = YES;
     

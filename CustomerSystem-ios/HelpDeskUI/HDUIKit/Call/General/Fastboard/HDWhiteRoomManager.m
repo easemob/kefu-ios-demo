@@ -236,8 +236,11 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 //            NSData* data = [[NSData alloc] initWithContentsOfURL:location];
 //            UIImage* img = [UIImage imageWithData:data];
             // 远程图片的路径
-            
-            [self->_fastRoom insertImg:[NSURL URLWithString:item.fileUrl] imageSize:CGSizeMake(_fastRoom.view.bounds.size.width/2, _fastRoom.view.bounds.size.height/2)];
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                  //todo
+                [self->_fastRoom insertImg:[NSURL URLWithString:item.fileUrl] imageSize:CGSizeMake(_fastRoom.view.bounds.size.width/2, _fastRoom.view.bounds.size.height/2)];
+            });
+           
         }] resume];
     }
     

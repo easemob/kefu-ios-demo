@@ -77,6 +77,7 @@ typedef enum : NSUInteger {
         _timeCellHeight = 30;
         _messsagesSource = [NSMutableArray array];
         [_conversation markAllMessagesAsRead:nil];
+        
     }
     
     return self;
@@ -93,7 +94,7 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+   
     if (_conversation.officialAccount.name) {
         _title = _conversation.officialAccount.name;
     }
@@ -149,6 +150,9 @@ typedef enum : NSUInteger {
     {
             
     }];
+    
+   
+    
 }
 
 - (void)setupCell {
