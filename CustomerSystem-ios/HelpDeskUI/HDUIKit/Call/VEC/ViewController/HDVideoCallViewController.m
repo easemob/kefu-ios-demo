@@ -90,7 +90,7 @@
 __block NSString * _pushflowId; //信息推送的flowid
     NSString * _faceflowId; // 身份验证的flowid
     NSString * _ocrflowId;  // ocr的flowid
-    HDVideoIDCardScaningView *_idCardScaningView;
+   
     
     //点击屏幕共享的model
     HDPopoverViewControllerCellItem * _shareScreenCellItem;
@@ -124,6 +124,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (nonatomic, strong) HDSuspendCustomView *hdSupendCustomView;
 @property (nonatomic, strong) HDVideoLinkMessagePush *hdVideoLinkMessagePush;
 @property (nonatomic, strong) HDSignView *hdSignView;
+@property (nonatomic, strong) HDVideoIDCardScaningView *idCardScaningView;
 @property (nonatomic, strong) UIView *ocrView;
 @property (nonatomic, strong) HDSatisfactionView *hdSatisfactionView;
 @property (nonatomic, strong) UIView *hdCameraFocusView;
@@ -2269,13 +2270,21 @@ static HDVideoCallViewController *_manger = nil;
         }
     }
     // 添加自定义的扫描界面（中间有一个镂空窗口和来回移动的扫描线）
-    HDVideoIDCardScaningView *idCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:self.view.frame];
-    [idCardScaningView setVideoScanType:ScanType withISSmallWindow:_isSmallWindow];
-    _idCardScaningView =idCardScaningView;
-    [self.view addSubview:_idCardScaningView];
+//    HDVideoIDCardScaningView *idCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:self.view.frame];
+    [self.idCardScaningView setVideoScanType:ScanType withISSmallWindow:_isSmallWindow];
+//    self.idCardScaningView =idCardScaningView;
+    [self.view addSubview:self.idCardScaningView];
     
 }
 #pragma mark - 页面懒加载
+- (HDVideoIDCardScaningView *)idCardScaningView{
+    if (!_idCardScaningView) {
+        _idCardScaningView = [[HDVideoIDCardScaningView alloc] initWithFrame:self.view.frame];
+    }
+    
+    
+    return _idCardScaningView;
+}
 - (HDVideoLinkMessagePush *)hdVideoLinkMessagePush{
     if (!_hdVideoLinkMessagePush) {
         _hdVideoLinkMessagePush = [[HDVideoLinkMessagePush alloc] init];
@@ -2465,12 +2474,14 @@ static HDVideoCallViewController *_manger = nil;
 #pragma mark --vec 1.3 满意度
 - (void)onEnquiryInviteParameter:(NSDictionary *)enquiryInvite withMessage:(HDMessage *)message{
     
+    if (self.hdVideoAnswerView.processType != HDVideoProcessLineUp) {
+        
     [self.hdVideoAnswerView addSubview:self.hdSatisfactionView];
     
     [self.hdSatisfactionView setEnquiryInvite:enquiryInvite withModel:message];
     
     [self.hdVideoAnswerView bringSubviewToFront:self.hdSatisfactionView];
-
+    }
 }
 - (void)hd_upateFrame:(CGFloat)height{
     

@@ -64,8 +64,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated ];
     [_conversationsVC refreshData];
-    //测试理想打开
-    [self testButton];
     // 获取灰度vec
     [[HDCallManager shareInstance] initGrayCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
     

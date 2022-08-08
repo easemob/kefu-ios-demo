@@ -28,6 +28,9 @@
 @property (nonatomic, strong) UIButton *commitBtn;
 @property (nonatomic, strong) NSMutableDictionary *evaluationTagsDict;
 @property (nonatomic, strong) NSMutableArray *evaluationTagsArray;
+
+@property (nonatomic, strong) UIView *resolvedView;
+
 @end
 
 @implementation SatisfactionViewController
@@ -45,7 +48,21 @@
     
     [self.bgView addSubview:self.headImage];
     [self.bgView addSubview:self.nickLabel];
+    
+    [self.bgView addSubview:self.resolvedView];
+    
     [self.bgView addSubview:self.textLabel];
+    
+//    [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//
+//        make.top.mas_equalTo(self.resolvedView.mas_bottom).offset(10);
+//
+//
+//
+//
+//    }];
+    
+    
     [self.bgView addSubview:self.starRateView];
     [self.bgView addSubview:self.evaluateTitle];
     [self.bgView addSubview:self.evaluationTagView];
@@ -66,7 +83,24 @@
 
     self.nickLabel.text = self.messageModel.nickname;
     [self.headImage hdSD_setImageWithURL:[NSURL URLWithString:self.messageModel.avatarURLPath] placeholderImage:[UIImage imageNamed:@"customer"]];
+
+   __block CGRect frame = self.resolvedView.frame;
     
+    
+//    
+//    [[HDClient sharedClient].chatManager getOptionsProblemSolvingOnServiceSessionResolvedfoCompletion:^(id responseObject, HDError *error) {
+//
+//        NSLog(@"=====%@",responseObject);
+//
+//        frame.size.height = 128;
+//        
+//        self.resolvedView.frame = frame;
+//        
+//
+//    }];
+    
+   
+
 }
 
 - (void)topAction:(UITapGestureRecognizer *)gesture {
@@ -135,7 +169,7 @@
         _textLabel.text = NSLocalizedString(@"satisfaction.message", @"please evaluate my service");
         _textLabel.textAlignment = NSTextAlignmentCenter;
         _textLabel.textColor = [UIColor lightGrayColor];
-        _textLabel.frame = CGRectMake(0, CGRectGetMaxY(_nickLabel.frame) + kViewSpace, kHDScreenWidth, 15.f);
+        _textLabel.frame = CGRectMake(0, CGRectGetMaxY(_resolvedView.frame) + kViewSpace, kHDScreenWidth, 15.f);
         _textLabel.font = [UIFont systemFontOfSize:15];
     }
     return _textLabel;
@@ -401,7 +435,15 @@
     return image;
 }
 
-
+- (UIView *)resolvedView{
+    
+    if (!_resolvedView) {
+        _resolvedView = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_nickLabel.frame)+ kViewSpace, kHDScreenWidth - 20, 0)];
+//        _resolvedView.backgroundColor = [UIColor redColor];
+    }
+    
+    return _resolvedView;
+}
 
 /*
 #pragma mark - Navigation

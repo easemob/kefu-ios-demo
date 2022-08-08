@@ -135,7 +135,13 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
         
         kWeakSelf
         if (!error && [responseObject isKindOfClass:[NSDictionary class]]) {
+            
             [MBProgressHUD  dismissInfo:NSLocalizedString(@"success!", "success!") withWindow:[UIApplication sharedApplication].keyWindow];
+            if (completion) {
+                //上传成功 删除文件
+                completion(responseObject,error);
+            }
+            
             NSDictionary *dic = responseObject;
             if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
                 

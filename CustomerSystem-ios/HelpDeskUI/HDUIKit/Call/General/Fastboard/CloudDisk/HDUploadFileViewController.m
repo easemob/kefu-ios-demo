@@ -360,8 +360,10 @@ static HDUploadFileViewController *_manger = nil;
 - (void)hd_uploadFile:(NSData *)data withFileName:(NSString *)fileName withFilePath:(NSString *)filePath withFileType:(HDFastBoardFileType) type{
     
     [[HDWhiteRoomManager shareInstance] whiteBoardUploadFileWithFilePath:filePath fileData:nil fileName:fileName fileType: type mimeType:@"" completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+        
         if (!error && [responseObject isKindOfClass:[NSDictionary class]]) {
-           //上传成功 删除文件 filePath
+           //上传成功 删除文件夹
+            
             [HDSanBoxFileManager  removeItemAtPath:filePath];
         }
     }];
