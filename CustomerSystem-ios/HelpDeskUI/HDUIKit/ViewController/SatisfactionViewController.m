@@ -52,18 +52,23 @@
     [self.bgView addSubview:self.resolvedView];
     
     [self.bgView addSubview:self.textLabel];
-    
-//    [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//
-//        make.top.mas_equalTo(self.resolvedView.mas_bottom).offset(10);
-//
-//
-//
-//
-//    }];
-    
-    
+
+    [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.top.mas_equalTo(self.resolvedView.mas_bottom).offset(10);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+        make.height.offset(15);
+    }];
+    [self.textLabel layoutIfNeeded];
     [self.bgView addSubview:self.starRateView];
+    [self.starRateView mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.top.mas_equalTo(self.textLabel.mas_bottom).offset(10);
+        make.leading.offset(10);
+        make.trailing.offset(-10);
+        make.height.offset(40);
+    }];
     [self.bgView addSubview:self.evaluateTitle];
     [self.bgView addSubview:self.evaluationTagView];
     [self.bgView addSubview:self.textView];
@@ -87,17 +92,17 @@
    __block CGRect frame = self.resolvedView.frame;
     
     
-//    
-//    [[HDClient sharedClient].chatManager getOptionsProblemSolvingOnServiceSessionResolvedfoCompletion:^(id responseObject, HDError *error) {
-//
-//        NSLog(@"=====%@",responseObject);
-//
-//        frame.size.height = 128;
-//        
-//        self.resolvedView.frame = frame;
-//        
-//
-//    }];
+    
+    [[HDClient sharedClient].chatManager getOptionsProblemSolvingOnServiceSessionResolvedfoCompletion:^(id responseObject, HDError *error) {
+
+        NSLog(@"=====%@",responseObject);
+
+        frame.size.height = 128;
+        
+        self.resolvedView.frame = frame;
+        
+
+    }];
     
    
 
@@ -169,7 +174,7 @@
         _textLabel.text = NSLocalizedString(@"satisfaction.message", @"please evaluate my service");
         _textLabel.textAlignment = NSTextAlignmentCenter;
         _textLabel.textColor = [UIColor lightGrayColor];
-        _textLabel.frame = CGRectMake(0, CGRectGetMaxY(_resolvedView.frame) + kViewSpace, kHDScreenWidth, 15.f);
+//        _textLabel.frame = CGRectMake(0, CGRectGetMaxY(_resolvedView.frame) + kViewSpace, kHDScreenWidth, 15.f);
         _textLabel.font = [UIFont systemFontOfSize:15];
     }
     return _textLabel;

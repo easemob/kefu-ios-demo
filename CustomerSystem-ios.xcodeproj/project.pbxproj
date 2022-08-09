@@ -33,6 +33,8 @@
 		90EE4C5523548CD200DEE8CA /* HRobotUnsolveItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */; };
 		9306AD81286D4A1000E1F726 /* HyphenateChat.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */; };
 		9306AD82286D4A1000E1F726 /* HyphenateChat.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		930983A828A1FD4E0079C123 /* HDVideoChatMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930983A428A1FD4D0079C123 /* HDVideoChatMessageViewController.m */; };
+		930983A928A1FD4E0079C123 /* HDVideoRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930983A628A1FD4E0079C123 /* HDVideoRefreshTableViewController.m */; };
 		930CCE7627C39639004DA60D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; };
 		930E320E27E03AE500455C7E /* HDAccountmanager.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E320D27E03AE500455C7E /* HDAccountmanager.m */; };
 		930E321C27E03E9800455C7E /* HDCallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E321027E03E9600455C7E /* HDCallCollectionViewCell.m */; };
@@ -163,8 +165,6 @@
 		93D9D08227C37EC600BD037D /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93E79305277C67BB0019FD80 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E79304277C67BB0019FD80 /* Bugly.framework */; };
 		93E7E50427DA051900EC4009 /* test.doc in Resources */ = {isa = PBXBuildFile; fileRef = 93E7E50327DA051800EC4009 /* test.doc */; };
-		93EBEF49288FF7880021CD98 /* HDVideoRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBEF48288FF7880021CD98 /* HDVideoRefreshTableViewController.m */; };
-		93EBEF4C288FFB660021CD98 /* HDVideoChatMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBEF4B288FFB660021CD98 /* HDVideoChatMessageViewController.m */; };
 		93ECDD142897E14B007FC632 /* HDEnterpriseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ECDD132897E14B007FC632 /* HDEnterpriseInfo.m */; };
 		D20066381EF23274005B558D /* em_example_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066121EF23274005B558D /* em_example_image_1.png */; };
 		D20066391EF23274005B558D /* em_example_image_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D20066131EF23274005B558D /* em_example_image_2.png */; };
@@ -585,6 +585,10 @@
 		90EE4C5323548CD200DEE8CA /* HRobotUnsolveItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HRobotUnsolveItemView.h; sourceTree = "<group>"; };
 		90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HRobotUnsolveItemView.m; sourceTree = "<group>"; };
 		9306AD7B286D429F00E1F726 /* HyphenateChat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HyphenateChat.framework; path = "../kefu-sdk-ios/helpdesk_sdk/imsdk/HyphenateChat.framework"; sourceTree = "<group>"; };
+		930983A428A1FD4D0079C123 /* HDVideoChatMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVideoChatMessageViewController.m; sourceTree = "<group>"; };
+		930983A528A1FD4E0079C123 /* HDVideoRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVideoRefreshTableViewController.h; sourceTree = "<group>"; };
+		930983A628A1FD4E0079C123 /* HDVideoRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVideoRefreshTableViewController.m; sourceTree = "<group>"; };
+		930983A728A1FD4E0079C123 /* HDVideoChatMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVideoChatMessageViewController.h; sourceTree = "<group>"; };
 		930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = HyphenateChat.xcframework; path = "../kefu-sdk-ios/helpdesk_sdk/imsdk/HyphenateChat.xcframework"; sourceTree = "<group>"; };
 		930E320C27E03AE500455C7E /* HDAccountmanager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDAccountmanager.h; sourceTree = "<group>"; };
 		930E320D27E03AE500455C7E /* HDAccountmanager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDAccountmanager.m; sourceTree = "<group>"; };
@@ -821,10 +825,6 @@
 		93E79301277C0A430019FD80 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		93E79304277C67BB0019FD80 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		93E7E50327DA051800EC4009 /* test.doc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.doc; sourceTree = "<group>"; };
-		93EBEF47288FF7880021CD98 /* HDVideoRefreshTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HDVideoRefreshTableViewController.h; path = ../../../../../../../../../../../Documents/HDVideoRefreshTableViewController.h; sourceTree = "<group>"; };
-		93EBEF48288FF7880021CD98 /* HDVideoRefreshTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HDVideoRefreshTableViewController.m; path = ../../../../../../../../../../../Documents/HDVideoRefreshTableViewController.m; sourceTree = "<group>"; };
-		93EBEF4A288FFB660021CD98 /* HDVideoChatMessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HDVideoChatMessageViewController.h; path = ../../../../../../../../../../../Documents/HDVideoChatMessageViewController.h; sourceTree = "<group>"; };
-		93EBEF4B288FFB660021CD98 /* HDVideoChatMessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HDVideoChatMessageViewController.m; path = ../../../../../../../../../../../Documents/HDVideoChatMessageViewController.m; sourceTree = "<group>"; };
 		93ECDD122897E14B007FC632 /* HDEnterpriseInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDEnterpriseInfo.h; sourceTree = "<group>"; };
 		93ECDD132897E14B007FC632 /* HDEnterpriseInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDEnterpriseInfo.m; sourceTree = "<group>"; };
 		93EF6708282B6598003AF626 /* VECKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VECKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1947,10 +1947,10 @@
 		93EBEF46288FF6E80021CD98 /* VC */ = {
 			isa = PBXGroup;
 			children = (
-				93EBEF47288FF7880021CD98 /* HDVideoRefreshTableViewController.h */,
-				93EBEF48288FF7880021CD98 /* HDVideoRefreshTableViewController.m */,
-				93EBEF4A288FFB660021CD98 /* HDVideoChatMessageViewController.h */,
-				93EBEF4B288FFB660021CD98 /* HDVideoChatMessageViewController.m */,
+				930983A728A1FD4E0079C123 /* HDVideoChatMessageViewController.h */,
+				930983A428A1FD4D0079C123 /* HDVideoChatMessageViewController.m */,
+				930983A528A1FD4E0079C123 /* HDVideoRefreshTableViewController.h */,
+				930983A628A1FD4E0079C123 /* HDVideoRefreshTableViewController.m */,
 				9331A056289255BF0096B905 /* HDVideoCallChatViewController.h */,
 				9331A057289255BF0096B905 /* HDVideoCallChatViewController.m */,
 			);
@@ -3580,6 +3580,7 @@
 				93214908281130BE00E08528 /* HDWhiteConverterManager.m in Sources */,
 				933DD57728641CEC00A3523A /* HDTest.m in Sources */,
 				9320EECE2806D6E000485611 /* HDSanBoxFileManager.m in Sources */,
+				930983A828A1FD4E0079C123 /* HDVideoChatMessageViewController.m in Sources */,
 				93B4E96627CCD1D800ACAF5B /* HDMJRefreshBackGifFooter.m in Sources */,
 				D3CB64A61E4888F30022A6BA /* HDBubbleView+Image.m in Sources */,
 				D29E0A041F4FF90F0089506D /* HAppraiseTagsModel.m in Sources */,
@@ -3614,6 +3615,7 @@
 				D33947121E543949009370BF /* CWStarRateView.m in Sources */,
 				D3CB649F1E4888F30022A6BA /* HDBaseMessageCell.m in Sources */,
 				D3394AE61E54868D009370BF /* SatisfactionViewController.m in Sources */,
+				930983A928A1FD4E0079C123 /* HDVideoRefreshTableViewController.m in Sources */,
 				9094F20B21E83C8D00037601 /* SRSlimeView.m in Sources */,
 				D3CB64821E4888F30022A6BA /* PSTCollectionViewItemKey.m in Sources */,
 				D3CB647D1E4888F30022A6BA /* PSTCollectionView.m in Sources */,
@@ -3782,7 +3784,6 @@
 				D3CB649B1E4888F30022A6BA /* HDLocationViewController.m in Sources */,
 				937E92402851A25900A71B32 /* UIImage+ImageScale.m in Sources */,
 				930E322127E03E9800455C7E /* HDCallCollectionViewCellItem.m in Sources */,
-				93EBEF49288FF7880021CD98 /* HDVideoRefreshTableViewController.m in Sources */,
 				D3CB64931E4888F30022A6BA /* HDEmoji.m in Sources */,
 				D3CB64A21E4888F30022A6BA /* HDMessageTimeCell.m in Sources */,
 				D3CB64B31E4888F30022A6BA /* HDTextView.m in Sources */,
@@ -3790,7 +3791,6 @@
 				9367CDE527FD5E8D008479D8 /* CustomFastboardOverlay.m in Sources */,
 				EB4B07801AC6A1C100DCF67B /* EditViewController.m in Sources */,
 				930E321F27E03E9800455C7E /* HDControlBarView.m in Sources */,
-				93EBEF4C288FFB660021CD98 /* HDVideoChatMessageViewController.m in Sources */,
 				930E321D27E03E9800455C7E /* HDMiddleVideoView.m in Sources */,
 				9385C61427E9CA800049096F /* HDAppSkin.m in Sources */,
 				930E322A27E0492F00455C7E /* HDAnswerView.m in Sources */,
