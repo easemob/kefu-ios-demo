@@ -105,7 +105,9 @@
 "satisfaction.nickname" = "nickname";
 "satisfaction.commit" = "commit";
 "satisfaction.alert" = "please evaluate first";
-
+"satisfaction.evaluate.GuideLanguage" ="Did the customer service solve your problem?";
+"satisfaction.evaluate.solve" ="solve";
+"satisfaction.evaluate.NotSolved" ="Not Solved";
 //message
 "message.camera" = "Camera";
 "message.image" = "Image";

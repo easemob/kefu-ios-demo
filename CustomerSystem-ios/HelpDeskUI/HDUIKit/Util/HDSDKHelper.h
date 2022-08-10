@@ -76,4 +76,5 @@
 
 #pragma mark - call
 + (BOOL)isNSDictionary:(NSDictionary *)dic;
+
 @end

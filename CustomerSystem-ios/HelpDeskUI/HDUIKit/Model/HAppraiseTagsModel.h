@@ -15,6 +15,9 @@
 @property (nonatomic, assign) NSNumber *appraiseTagsId;
 
 @property (nonatomic, strong) NSString *name;
+//后添加解决未解决
+@property (nonatomic, strong) NSMutableArray *resolutionParamTags;
+@property (nonatomic, strong) NSString *score;
 
 + (instancetype)appraiseTagsWithDict:(NSDictionary *)dict;
 

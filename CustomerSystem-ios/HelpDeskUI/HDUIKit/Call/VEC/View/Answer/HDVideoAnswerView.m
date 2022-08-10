@@ -558,10 +558,7 @@
         if (self.clickOffBlock) {
             self.clickOffBlock(sender);
         }
-        
     }
-   
-   
 }
 
 -(HDVideoAnswerCallBackView *)answerCallBackView{
@@ -576,21 +573,15 @@
             if (weakSelf.clickOnBlock) {
                 weakSelf.clickOnBlock(btn);
             }
-          
-            
         };
         _answerCallBackView.clickCloseRefuseAnswerCallBlock = ^(UIButton * _Nonnull btn) {
             
             if (weakSelf.clickOffBlock) {
                 weakSelf.clickOffBlock(btn);
-            }
-            
-            
+            }   
         };
     }
     return _answerCallBackView;
-    
-    
 }
 
 @end

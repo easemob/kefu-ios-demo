@@ -131,6 +131,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (nonatomic, strong) HDVideoMessageView *hdMessageView;
 @property (nonatomic, strong) HDVideoCallChatViewController * chat;
 @property (nonatomic, weak) NSTimer *hideDelayTimer;
+@property (nonatomic, weak) NSTimer *timeOutTimer;
 
 @end
 static dispatch_once_t onceToken;
@@ -2968,6 +2969,36 @@ static HDVideoCallViewController *_manger = nil;
     [_hud hideAnimated:YES];
 }
 
+#pragma mark --vec 1.5 排队超时
 
+- (void)initAnswerTimeOut{
+    
+    // 调用接口 获取 超时时间
+    [[HDCallManager shareInstance] hd_getVideoLineUpTimeOutCompletion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+       
+        
+        
+        
+        
+    }];
+    
+}
+
+- (void)startLineUpTimer:(NSTimeInterval)delay{
+    
+    [self.timeOutTimer invalidate];
+
+    NSTimer *timer = [NSTimer timerWithTimeInterval:delay target:self selector:@selector(timeOutRemoveCall:) userInfo:nil repeats:NO];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    self.timeOutTimer = timer;
+    
+}
+- (void)timeOutRemoveCall:(NSTimer *)timer {
+
+    [MBProgressHUD  showSuccess:NSLocalizedString(@"排队超时，通话结束", @"排队超时，通话结束") toView:self.view.superview];
+    // 挂断
+    [self offBtnClicked:nil];
+
+}
 
 @end

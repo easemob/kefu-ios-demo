@@ -14,7 +14,9 @@
 #import "HAppraiseTagsModel.h"
 #import "HDAccountmanager.h"
 #define kViewSpace 20.f
+#define kResolvedButtonTag  111
 
+static UIButton *lastBtn;
 @interface SatisfactionViewController () <UITextViewDelegate,CWStarRateViewDelegate, HEvaluationTagSelectDelegate>
 
 @property (nonatomic, strong) UIImageView *headImage;
@@ -28,8 +30,14 @@
 @property (nonatomic, strong) UIButton *commitBtn;
 @property (nonatomic, strong) NSMutableDictionary *evaluationTagsDict;
 @property (nonatomic, strong) NSMutableArray *evaluationTagsArray;
+@property (nonatomic, strong) NSMutableArray *resolutionParamsArray;
 
 @property (nonatomic, strong) UIView *resolvedView;
+@property (nonatomic, strong) UILabel *resolvedTitle;
+@property (nonatomic, strong) UIButton *resolvedButton;
+@property (nonatomic, strong) UIButton *unResolvedButton;
+@property (nonatomic, strong) HAppraiseTagsModel *resolveModel;
+
 
 @end
 
@@ -50,7 +58,13 @@
     [self.bgView addSubview:self.nickLabel];
     
     [self.bgView addSubview:self.resolvedView];
-    
+    [self.resolvedView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.nickLabel.mas_bottom).offset(10);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+        make.height.offset(0);
+    }];
+    [self.resolvedView layoutIfNeeded];
     [self.bgView addSubview:self.textLabel];
 
     [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,10 +84,40 @@
         make.height.offset(40);
     }];
     [self.bgView addSubview:self.evaluateTitle];
-    [self.bgView addSubview:self.evaluationTagView];
-    [self.bgView addSubview:self.textView];
-    [self.bgView addSubview:self.commitBtn];
     
+    [self.evaluateTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.top.mas_equalTo(self.starRateView.mas_bottom).offset(10);
+        make.leading.offset(20);
+        make.trailing.offset(-20);
+        make.height.offset(30);
+    }];
+    
+    
+    [self.bgView addSubview:self.evaluationTagView];
+    [self.evaluationTagView mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.top.mas_equalTo(self.evaluateTitle.mas_bottom).offset(10);
+        make.leading.offset(10);
+        make.trailing.offset(-10);
+        make.height.offset(60);
+    }];
+    [self.bgView addSubview:self.textView];
+    [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.top.mas_equalTo(self.evaluationTagView.mas_bottom).offset(10);
+        make.leading.offset(10);
+        make.trailing.offset(-10);
+        make.height.offset(100);
+    }];
+    [self.bgView addSubview:self.commitBtn];
+    [self.commitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.top.mas_equalTo(self.textView.mas_bottom).offset(10);
+        make.leading.offset(10);
+        make.trailing.offset(-10);
+        make.height.offset(40);
+    }];
     self.evaluateTitle.text = @"非常满意";
     [self parseAppraiseTagExt:1.0];
     
@@ -89,23 +133,10 @@
     self.nickLabel.text = self.messageModel.nickname;
     [self.headImage hdSD_setImageWithURL:[NSURL URLWithString:self.messageModel.avatarURLPath] placeholderImage:[UIImage imageNamed:@"customer"]];
 
-   __block CGRect frame = self.resolvedView.frame;
+   // 创建ResolvedView
     
+    [self initResolvedView];
     
-    
-    [[HDClient sharedClient].chatManager getOptionsProblemSolvingOnServiceSessionResolvedfoCompletion:^(id responseObject, HDError *error) {
-
-        NSLog(@"=====%@",responseObject);
-
-        frame.size.height = 128;
-        
-        self.resolvedView.frame = frame;
-        
-
-    }];
-    
-   
-
 }
 
 - (void)topAction:(UITapGestureRecognizer *)gesture {
@@ -126,6 +157,13 @@
         _evaluationTagsArray = [NSMutableArray array];
     }
     return _evaluationTagsArray;
+}
+- (NSMutableArray *)resolutionParamsArray
+{
+    if (_resolutionParamsArray == nil) {
+        _resolutionParamsArray = [NSMutableArray array];
+    }
+    return _resolutionParamsArray;
 }
 
 - (void)setupBarButtonItem
@@ -302,7 +340,7 @@
         [alert show];
         return;
     }
-    if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithControlArguments:type:evaluationTagsArray:evaluationDegreeId:)]) {
+    if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithControlArguments:type:evaluationTagsArray:resolutionParamsArray: evaluationDegreeId:)]) {
         if ([self.messageModel.message.ext objectForKey:kMessageExtWeChat]) {
             HDMessage *msg = self.messageModel.message;
             NSDictionary *weichat = [msg.ext objectForKey:kMessageExtWeChat];
@@ -322,9 +360,14 @@
                 if (self.evaluationTagsArray.count == 0 && self.evaluationTagView.evaluationDegreeModel.appraiseTags.count>0) {
                     [self showHint:NSLocalizedString(@"select_at_least_one_tag", @"Select at least one tag!")];
                 } else {
+                    
+                   
+
                     [self.delegate commitSatisfactionWithControlArguments:arguments
                                                                      type:type
-                                                      evaluationTagsArray:self.evaluationTagsArray evaluationDegreeId:self.evaluationTagView.evaluationDegreeModel.evaluationDegreeId];
+                                                      evaluationTagsArray:self.evaluationTagsArray
+                                                    resolutionParamsArray: [self setAssemblyresolveData]
+                                                       evaluationDegreeId:self.evaluationTagView.evaluationDegreeModel.evaluationDegreeId];
                 }
                 
             }
@@ -439,25 +482,246 @@
 
     return image;
 }
+#pragma mark - 新增 解决未解决 界面
+
+// 获取解决未解决 接口 展示对应数据
+- (void)getOptionsResolved{
+//    问题解决评价开关
+     [[HDClient sharedClient].chatManager getOptionsProblemSolvingOnServiceSessionResolvedfoCompletion:^(id responseObject, HDError *error) {
+         NSLog(@"=====%@",responseObject);
+         
+         if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+             
+             NSDictionary * dic = responseObject;
+             
+             NSArray * entities = [dic valueForKey:@"entities"];
+             
+             if ([[entities firstObject] isKindOfClass:[NSDictionary class]]) {
+                 
+                 NSDictionary * optionDic = [entities firstObject];
+                 
+                 if ([[optionDic allKeys] containsObject:@"optionValue"]) {
+                     
+                     NSString * json = [optionDic valueForKey:@"optionValue"];
+                    NSString *str = [json stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\""];
+                     
+                     NSDictionary *info = [NSDictionary dictionaryWithString:str];
+                     
+                     if ([[info allKeys] containsObject:@"weixin"]) {
+                         
+                         NSString * weixin = [info valueForKey:@"weixin"];
+                         
+                         if ([weixin intValue] == 1) {
+
+//                             问题解决评价
+                             [[HDClient sharedClient].chatManager getOptionsResolutionParamServiceSessionId:self.messageModel.serviceSessionId Completion:^(id responseObject, HDError *error) {
+                                 if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+                                 // 需要展示
+                                [self updateResolvedViewLayout];
+                                 }
+                             }];
+                         }
+                     }
+                 }
+             }
+         }
+     }];
+    
+    // 获取问题解决评价引导语
+    [[HDClient sharedClient].chatManager getOptionsEvaluteSolveWordServiceSessionId:self.messageModel.serviceSessionId  Completion:^(id responseObject, HDError *error) {
+        
+        if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+
+            NSDictionary * dic = responseObject;
+
+            NSArray * entities = [dic valueForKey:@"entities"];
+
+            if ([[entities firstObject] isKindOfClass:[NSDictionary class]]) {
+
+                NSDictionary * optionDic = [entities firstObject];
+
+                if ([[optionDic allKeys] containsObject:@"optionValue"]) {
+
+                    NSString * json = [optionDic valueForKey:@"optionValue"];
+
+                    self.resolvedTitle.text = json;
+
+                }
+            }
+        }
+
+
+
+    }];
+    
+
+}
+- (void) updateResolvedViewLayout{
+         
+          self.resolvedView.hidden = NO;
+          [self.resolvedView mas_remakeConstraints:^(MASConstraintMaker *make) {
+              make.top.mas_equalTo(self.nickLabel.mas_bottom).offset(10);
+              make.leading.offset(0);
+              make.trailing.offset(0);
+              make.height.offset(98);
+          }];
+          [self.resolvedView layoutIfNeeded];
+          //设置默认选中
+          [self btnTouch:self.resolvedButton];
+
+}
+-(NSMutableArray *)setAssemblyresolveData{
+    
+    NSMutableArray *mArray = [[NSMutableArray alloc] init];
+    if (self.resolveModel && self.resolvedView.frame.size.height >0) {
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict hd_setValue: self.resolveModel.appraiseTagsId forKey:@"id"];
+        [dict hd_setValue:self.resolveModel.name forKey:@"name"];
+        [dict hd_setValue: self.resolveModel.score  forKey:@"score"];
+        [dict hd_setValue:self.resolveModel.resolutionParamTags forKey:@"resolutionParamTags"];
+        [mArray addObject:dict];
+        
+    }
+    
+    return mArray;
+    
+}
+
+// 在touch事件中，以一个static变量记录instance
+- (void)btnTouch:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    if (lastBtn != btn) {
+        [btn setBackgroundColor:RGBACOLOR(36, 149, 207, 1)];
+        lastBtn.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        lastBtn = btn;
+      
+        
+        NSInteger tag = btn.tag - kResolvedButtonTag;
+        if (tag < self.resolutionParamsArray.count) {
+            self.resolveModel = [self.resolutionParamsArray objectAtIndex:tag];
+        }
+    }
+}
+
+// 解析 消息里返回的 评价相关的字段
+- (void)initResolvedView{
+    if ([self.messageModel.message.ext objectForKey:kMessageExtWeChat]) {
+        NSDictionary *weichat = [self.messageModel.message.ext objectForKey:kMessageExtWeChat];
+        if ([weichat objectForKey:kMessageExtWeChat_ctrlArgs]) {
+            NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMessageExtWeChat_ctrlArgs]];
+            NSLog(@"ctrlArgs--%@", ctrlArgs);
+            NSMutableArray *resolutionParam = [ctrlArgs objectForKey:kMessageExtWeChat_ctrlArgs_resolutionParam];
+            
+            if (resolutionParam.count > 0) {
+                [self getOptionsResolved];
+                [self.resolutionParamsArray removeAllObjects];
+                
+                [ resolutionParam enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    HAppraiseTagsModel *model = [HAppraiseTagsModel appraiseTagsWithDict:obj];
+        
+                    if (idx == 0) {
+                        [self.resolvedButton setTitle:model.name forState:UIControlStateNormal];
+                    }else{
+                        [self.unResolvedButton setTitle:model.name forState:UIControlStateNormal];
+                    }
+                    [self.resolutionParamsArray addObject:model];
+                }];
+               
+
+            }
+        }
+    }
+    
+
+    
+}
 
 - (UIView *)resolvedView{
     
     if (!_resolvedView) {
-        _resolvedView = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_nickLabel.frame)+ kViewSpace, kHDScreenWidth - 20, 0)];
-//        _resolvedView.backgroundColor = [UIColor redColor];
+        _resolvedView = [[UIView alloc] init];
+        _resolvedView.hidden = YES;
+        [_resolvedView addSubview: self.resolvedTitle];
+        [self.resolvedTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.top.offset(0);
+            make.leading.offset(0);
+            make.trailing.offset(0);
+            make.height.offset(30);
+            
+        }];
+        
+        [_resolvedView addSubview: self.resolvedButton];
+        [self.resolvedButton mas_makeConstraints:^(MASConstraintMaker *make) {
+
+            make.top.mas_equalTo(self.resolvedTitle.mas_bottom).offset(10);
+            make.leading.offset(self.view.frame.size.width*0.5 -self.view.frame.size.width*0.5/1.5-20);
+            make.width.offset(self.view.frame.size.width*0.5/1.5);
+            make.height.offset(44);
+            
+        }];
+        [_resolvedView addSubview: self.unResolvedButton];
+        [self.unResolvedButton mas_makeConstraints:^(MASConstraintMaker *make) {
+
+            make.top.mas_equalTo(self.resolvedTitle.mas_bottom).offset(10);
+            make.leading.mas_equalTo(self.resolvedButton.mas_trailing).offset(30);
+            make.width.mas_equalTo(self.resolvedButton.mas_width);
+            make.height.mas_equalTo(self.resolvedButton.mas_height);
+
+        }];
+        
     }
     
     return _resolvedView;
 }
 
-/*
-#pragma mark - Navigation
+- ( UILabel *)resolvedTitle{
+    
+    if (_resolvedTitle == nil) {
+        _resolvedTitle = [[UILabel alloc] init];
+        _resolvedTitle.text = NSLocalizedString(@"satisfaction.evaluate.GuideLanguage", @"请问客服是否解决了您的问题？");
+        _resolvedTitle.textAlignment = NSTextAlignmentCenter;
+        _resolvedTitle.textColor = [UIColor lightGrayColor];
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+        _resolvedTitle.font = [UIFont systemFontOfSize:15];
+    }
+    return _resolvedTitle;
+    
 }
-*/
+
+- (UIButton *)resolvedButton{
+    
+    if (_resolvedButton == nil) {
+        _resolvedButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_resolvedButton setTitle:NSLocalizedString(@"satisfaction.evaluate.solve", @"satisfaction.evaluate.solve") forState:UIControlStateNormal];
+        [_resolvedButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        _resolvedButton.layer.cornerRadius = 5.f;
+        _resolvedButton.tag = kResolvedButtonTag + 0;
+        _resolvedButton.titleLabel.font =[UIFont systemFontOfSize:18];
+        [_resolvedButton setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+        [_resolvedButton addTarget:self action:@selector(btnTouch:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _resolvedButton;
+    
+    
+}
+- (UIButton *)unResolvedButton{
+    
+    if (_unResolvedButton == nil) {
+        _unResolvedButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_unResolvedButton setTitle:NSLocalizedString(@"satisfaction.evaluate.NotSolved", @"satisfaction.evaluate.NotSolved") forState:UIControlStateNormal];
+        [_unResolvedButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        _unResolvedButton.layer.cornerRadius = 5.f;
+        _unResolvedButton.tag =  kResolvedButtonTag +1;
+        _unResolvedButton.titleLabel.font =[UIFont systemFontOfSize:18];
+        [_unResolvedButton setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+        [_unResolvedButton addTarget:self action:@selector(btnTouch:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _unResolvedButton;
+    
+    
+}
+
 
 @end

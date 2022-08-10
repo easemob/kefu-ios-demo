@@ -102,7 +102,9 @@
 "satisfaction.nickname" = "客服昵称";
 "satisfaction.commit" = "提交";
 "satisfaction.alert" = "请先选择评星";
-
+"satisfaction.evaluate.GuideLanguage" ="请问客服是否解决了您的问题？";
+"satisfaction.evaluate.solve" ="解决";
+"satisfaction.evaluate.NotSolved" ="未解决";
 //message
 "message.camera" = "相机";
 "message.image" = "图片";

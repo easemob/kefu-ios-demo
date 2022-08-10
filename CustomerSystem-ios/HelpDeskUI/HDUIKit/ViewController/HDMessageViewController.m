@@ -1984,10 +1984,7 @@ typedef enum : NSUInteger {
 }
 
 
-- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments
-                                          type:(ControlType *)type
-                           evaluationTagsArray:(NSMutableArray *)tags
-                            evaluationDegreeId:(NSNumber *)evaluationDegreeId{
+- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments type:(ControlType *)type evaluationTagsArray:(NSMutableArray *)tags resolutionParamsArray:(NSMutableArray *)resolutionParams evaluationDegreeId:(NSNumber *)evaluationDegreeId{
     HDMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
     HDControlMessage *hCtrl = [HDControlMessage new];
     hCtrl.type = type;
@@ -1998,6 +1995,7 @@ typedef enum : NSUInteger {
     NSMutableDictionary *ctrlArgs = [[ext objectForKey:@"weichat"] objectForKey:@"ctrlArgs"];
     NSArray *tagsArray = [NSArray arrayWithArray:tags];
     [ctrlArgs setObject:tagsArray forKey:@"appraiseTags"];
+    [ctrlArgs setObject:resolutionParams forKey:@"resolutionParam"];
     [ctrlArgs setValue:evaluationDegreeId forKey:@"evaluationDegreeId"];
     [ctrlArgs setValue:@"0" forKey:@"inviteId"];
     message.ext = [ext copy];
