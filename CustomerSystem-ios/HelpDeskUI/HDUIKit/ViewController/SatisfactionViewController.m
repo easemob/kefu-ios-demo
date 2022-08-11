@@ -134,8 +134,7 @@ static UIButton *lastBtn;
     [self.headImage hdSD_setImageWithURL:[NSURL URLWithString:self.messageModel.avatarURLPath] placeholderImage:[UIImage imageNamed:@"customer"]];
 
    // 创建ResolvedView
-    
-    [self initResolvedView];
+    [self getOptionsResolved];
     
 }
 
@@ -487,7 +486,7 @@ static UIButton *lastBtn;
 // 获取解决未解决 接口 展示对应数据
 - (void)getOptionsResolved{
 //    问题解决评价开关
-     [[HDClient sharedClient].chatManager getOptionsProblemSolvingOnServiceSessionResolvedfoCompletion:^(id responseObject, HDError *error) {
+     [[HDClient sharedClient].chatManager getOptionsConfig:HDOption_Satisfaction_ProblemSolvingEvaluationOn Completion:^(id responseObject, HDError *error) {
          NSLog(@"=====%@",responseObject);
          
          if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
@@ -507,17 +506,21 @@ static UIButton *lastBtn;
                      
                      NSDictionary *info = [NSDictionary dictionaryWithString:str];
                      
-                     if ([[info allKeys] containsObject:@"weixin"]) {
+                     if ([[info allKeys] containsObject:@"app"]) {
                          
-                         NSString * weixin = [info valueForKey:@"weixin"];
+                         NSString * weixin = [info valueForKey:@"app"];
                          
                          if ([weixin intValue] == 1) {
-
 //                             问题解决评价
-                             [[HDClient sharedClient].chatManager getOptionsResolutionParamServiceSessionId:self.messageModel.serviceSessionId Completion:^(id responseObject, HDError *error) {
+                             [[HDClient sharedClient].chatManager getResolutionParamServiceSessionId:self.messageModel.serviceSessionId Completion:^(id responseObject, HDError *error) {
                                  if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
-                                 // 需要展示
-                                [self updateResolvedViewLayout];
+                                     NSDictionary * dic = responseObject;
+                                     if ([[dic allKeys] containsObject:@"status"] && [[dic objectForKey:@"status"] isEqualToString:@"OK"] && [[dic allKeys] containsObject:@"entities"] && [[dic objectForKey:@"entities"] isKindOfClass:[NSArray class]]) {
+                                         // 需要展示
+                                         NSArray * array = [dic objectForKey:@"entities"];
+                                         [self updateResolvedViewLayout:array];
+                                     }
+                                
                                  }
                              }];
                          }
@@ -528,60 +531,77 @@ static UIButton *lastBtn;
      }];
     
     // 获取问题解决评价引导语
-    [[HDClient sharedClient].chatManager getOptionsEvaluteSolveWordServiceSessionId:self.messageModel.serviceSessionId  Completion:^(id responseObject, HDError *error) {
+    [[HDClient sharedClient].chatManager getOptionsConfig:HDOption_Satisfaction_EvaluteSolveWord Completion:^(id responseObject, HDError *error) {
+        if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+            self.resolvedTitle.text =  [self getResponeDataAnalysis:responseObject];
+        }
+    }];
+    // 获取请您对我的服务做出评价
+    [[HDClient sharedClient].chatManager getOptionsConfig:HDOption_Satisfaction_GreetingMsgEnquiryInvite Completion:^(id responseObject, HDError *error) {
         
         if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
-
-            NSDictionary * dic = responseObject;
-
-            NSArray * entities = [dic valueForKey:@"entities"];
-
-            if ([[entities firstObject] isKindOfClass:[NSDictionary class]]) {
-
-                NSDictionary * optionDic = [entities firstObject];
-
-                if ([[optionDic allKeys] containsObject:@"optionValue"]) {
-
-                    NSString * json = [optionDic valueForKey:@"optionValue"];
-
-                    self.resolvedTitle.text = json;
-
-                }
-            }
+            
+            self.textLabel.text =  [self getResponeDataAnalysis:responseObject];
         }
-
-
-
     }];
     
-
 }
-- (void) updateResolvedViewLayout{
-         
-          self.resolvedView.hidden = NO;
-          [self.resolvedView mas_remakeConstraints:^(MASConstraintMaker *make) {
-              make.top.mas_equalTo(self.nickLabel.mas_bottom).offset(10);
-              make.leading.offset(0);
-              make.trailing.offset(0);
-              make.height.offset(98);
-          }];
-          [self.resolvedView layoutIfNeeded];
-          //设置默认选中
-          [self btnTouch:self.resolvedButton];
+-  (NSString *)getResponeDataAnalysis:(id)responseObject{
+        NSDictionary * dic = responseObject;
+        NSArray * entities = [dic valueForKey:@"entities"];
+        if ([[entities firstObject] isKindOfClass:[NSDictionary class]]) {
+            NSDictionary * optionDic = [entities firstObject];
+            if ([[optionDic allKeys] containsObject:@"optionValue"]) {
+                NSString * json = [optionDic valueForKey:@"optionValue"];
+                return json;
+            }
+        }
+    return @"";
+}
 
+
+// 解析 消息里返回的 评价相关的字段
+- (void) updateResolvedViewLayout:(NSArray *)resolutionParams{
+    // 解析数据 如果数据解析正常显示 界面
+    if (resolutionParams.count > 0) {
+        
+        NSArray * tmpArray = [[NSArray alloc] initWithArray:resolutionParams];
+        
+        [self.resolutionParamsArray removeAllObjects];
+        
+        [ tmpArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            HAppraiseTagsModel *model = [HAppraiseTagsModel appraiseTagsWithDict:obj];
+            
+            if (idx == 0) {
+                [self.resolvedButton setTitle:model.name forState:UIControlStateNormal];
+            }else{
+                [self.unResolvedButton setTitle:model.name forState:UIControlStateNormal];
+            }
+            [self.resolutionParamsArray addObject:model];
+        }];
+        
+        self.resolvedView.hidden = NO;
+        [self.resolvedView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.nickLabel.mas_bottom).offset(10);
+            make.leading.offset(0);
+            make.trailing.offset(0);
+            make.height.offset(98);
+        }];
+        [self.resolvedView layoutIfNeeded];
+        //设置默认选中
+        [self btnTouch:self.resolvedButton];
+    }
 }
 -(NSMutableArray *)setAssemblyresolveData{
     
     NSMutableArray *mArray = [[NSMutableArray alloc] init];
     if (self.resolveModel && self.resolvedView.frame.size.height >0) {
-        
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict hd_setValue: self.resolveModel.appraiseTagsId forKey:@"id"];
         [dict hd_setValue:self.resolveModel.name forKey:@"name"];
         [dict hd_setValue: self.resolveModel.score  forKey:@"score"];
         [dict hd_setValue:self.resolveModel.resolutionParamTags forKey:@"resolutionParamTags"];
         [mArray addObject:dict];
-        
     }
     
     return mArray;
@@ -593,50 +613,16 @@ static UIButton *lastBtn;
     UIButton *btn = (UIButton *)sender;
     if (lastBtn != btn) {
         [btn setBackgroundColor:RGBACOLOR(36, 149, 207, 1)];
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         lastBtn.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        [lastBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         lastBtn = btn;
-      
-        
         NSInteger tag = btn.tag - kResolvedButtonTag;
         if (tag < self.resolutionParamsArray.count) {
             self.resolveModel = [self.resolutionParamsArray objectAtIndex:tag];
         }
     }
 }
-
-// 解析 消息里返回的 评价相关的字段
-- (void)initResolvedView{
-    if ([self.messageModel.message.ext objectForKey:kMessageExtWeChat]) {
-        NSDictionary *weichat = [self.messageModel.message.ext objectForKey:kMessageExtWeChat];
-        if ([weichat objectForKey:kMessageExtWeChat_ctrlArgs]) {
-            NSMutableDictionary *ctrlArgs = [NSMutableDictionary dictionaryWithDictionary:[weichat objectForKey:kMessageExtWeChat_ctrlArgs]];
-            NSLog(@"ctrlArgs--%@", ctrlArgs);
-            NSMutableArray *resolutionParam = [ctrlArgs objectForKey:kMessageExtWeChat_ctrlArgs_resolutionParam];
-            
-            if (resolutionParam.count > 0) {
-                [self getOptionsResolved];
-                [self.resolutionParamsArray removeAllObjects];
-                
-                [ resolutionParam enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    HAppraiseTagsModel *model = [HAppraiseTagsModel appraiseTagsWithDict:obj];
-        
-                    if (idx == 0) {
-                        [self.resolvedButton setTitle:model.name forState:UIControlStateNormal];
-                    }else{
-                        [self.unResolvedButton setTitle:model.name forState:UIControlStateNormal];
-                    }
-                    [self.resolutionParamsArray addObject:model];
-                }];
-               
-
-            }
-        }
-    }
-    
-
-    
-}
-
 - (UIView *)resolvedView{
     
     if (!_resolvedView) {

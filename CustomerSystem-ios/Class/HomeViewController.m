@@ -64,6 +64,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated ];
     [_conversationsVC refreshData];
+    
+    [self testButton];
+    
     // 获取灰度vec
     [[HDCallManager shareInstance] initGrayCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
     
@@ -141,6 +144,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vecAction:) name:KNOTIFICATION_VEC object:nil];
     
    
+   
+    
+    
 }
 - (void)testButton{
     
@@ -289,43 +295,34 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 - (void)testBug{
     
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    //测试崩溃现象
-    if ([lgM loginKefuSDK]) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        for ( int i = 0; i< 5000; i++) {
-          
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-               
-//                NSLog(@"==11111===%@",[[HDClient sharedClient].chatManager loadAllConversations]);
-                
-//            [self   lxSendText];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+        
+        [[HDClient sharedClient] loginWithUsername:lgM.username password:lgM.password completion:^(HDError *error) {
             
             
-            [[HDClient sharedClient] logout:YES completion:^(HDError *error) {
-                
-                
-                
-                
-            }];
+            NSLog(@"=======登录成功=");
             
-//        }
-        });
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        for ( int i = 0; i< 50000; i++) {
-//          
-////            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//               
-////                NSLog(@"==11111===%@",[[HDClient sharedClient].chatManager loadAllConversations]);
+            
+        }];
+        
+        
+//        [[HDClient sharedClient] logout:YES completion:^(HDError *error) {
+//            
+//            NSLog(@"=======退出成功=");
+//            [[HDClient sharedClient] loginWithUsername:lgM.username password:lgM.password completion:^(HDError *error) {
 //                
-//            [self   lxSendText];
+//                
+//                NSLog(@"=======登录成功=");
+//                
+//                
+//            }];
 //            
 //            
-//            
-//        }
-//        });
-    }
-   
+//        }];
+       
+    });
    
 
     
@@ -764,7 +761,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
 //   
 
-    
+    [self testBug];
     
 }
 //理想汽车crash

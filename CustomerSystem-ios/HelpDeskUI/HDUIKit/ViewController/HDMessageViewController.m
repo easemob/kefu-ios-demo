@@ -1460,8 +1460,18 @@ typedef enum : NSUInteger {
 
 - (void)messagesDidReceive:(NSArray *)aMessages {
     for (HDMessage *message in aMessages) {
+        
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             [_conversation markAllMessagesAsRead:nil];
+    
+            [[HDClient sharedClient].chatManager markAllMessagesAsRead:message Completion:^(id responseObject, HDError *error) {
+                            
+                
+                NSLog(@"======%@",responseObject);
+                
+                
+            }];
+                        
             //收到消息以后 判断 最新消息都时间 如果 是之前 的消息 进行排序。否则 走一下方法
             HDMessageModel * lastMessageModel = [self.dataArray lastObject];
             if (lastMessageModel &&[lastMessageModel isKindOfClass:[HDMessageModel class]]) {

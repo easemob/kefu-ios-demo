@@ -51,7 +51,7 @@
     option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;
     option.configId = lgM.configId;
-//    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
+    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"https://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.enableDnsConfig =YES;  //
@@ -83,6 +83,14 @@
         NSLog(@"==========aErrorcode=%u==%@",aError.code,aError.description);
         NSLog(@"===========displayStyle=%u==%@",aOptions.displayStyle,aOptions.displayName);
     }];
+    
+    
+//    [[HDClient sharedClient].chatManager fetchCurrentSessionId:lgM.cname completion:^(NSString *sessionId, HDError *aError) {
+//        
+//        //
+//        NSLog(@"======%@",sessionId);
+//        
+//    }];
 }
 
 //修改关联app后需要重新初始化
