@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //huxin 通用
 - (UIColor *)contentColorBlueHX;
+- (UIColor *)contentColorF7F7F7;
 - (UIColor *)contentColorF2AC3C;
 - (UIColor *)contentColorF0F0F0;
 - (UIColor *)contentColorE2EDFD;

@@ -30,6 +30,10 @@
     
 }
 
+- (UIColor *)contentColorF7F7F7{
+    
+    return [UIColor colorWithHexString:@"0xF7F7F7" alpha:1];
+}
 - (UIColor *)contentColorBlueHX{
     
     return [UIColor colorWithHexString:@"0x2189ff" alpha:1];

@@ -2066,10 +2066,8 @@ typedef enum : NSUInteger {
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
    
     [message addContent:lgM.visitorInfo];
-    
-
-//    NSMutableDictionary * dic1 =[message.ext valueForKey:@"weichat"];
-//    [dic1 setValue:@"routingRuleFlag" forKey:@"routingRuleFlag"];
+    NSMutableDictionary * dic1 =[message.ext valueForKey:@"weichat"];
+    [dic1 setValue:@"English" forKey:@"routingRuleFlag"];
    
     [self _sendMessage:message];
 }

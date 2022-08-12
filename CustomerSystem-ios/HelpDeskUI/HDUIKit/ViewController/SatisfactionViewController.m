@@ -13,6 +13,8 @@
 #import "HEvaluationDegreeModel.h"
 #import "HAppraiseTagsModel.h"
 #import "HDAccountmanager.h"
+#import "HDAppSkin.h"
+
 #define kViewSpace 20.f
 #define kResolvedButtonTag  111
 
@@ -57,9 +59,17 @@ static UIButton *lastBtn;
     [self.bgView addSubview:self.headImage];
     [self.bgView addSubview:self.nickLabel];
     
+    [self.bgView addSubview:self.resolvedTitle];
+    [self.resolvedTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.nickLabel.mas_bottom).offset(10);
+        make.leading.offset(0);
+        make.trailing.offset(0);
+//        make.height.offset(0);
+    }];
+    [self.resolvedView layoutIfNeeded];
     [self.bgView addSubview:self.resolvedView];
     [self.resolvedView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.nickLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.resolvedTitle.mas_bottom).offset(10);
         make.leading.offset(0);
         make.trailing.offset(0);
         make.height.offset(0);
@@ -68,11 +78,10 @@ static UIButton *lastBtn;
     [self.bgView addSubview:self.textLabel];
 
     [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-
         make.top.mas_equalTo(self.resolvedView.mas_bottom).offset(10);
         make.leading.offset(0);
         make.trailing.offset(0);
-        make.height.offset(15);
+//        make.height.offset(15);
     }];
     [self.textLabel layoutIfNeeded];
     [self.bgView addSubview:self.starRateView];
@@ -211,6 +220,7 @@ static UIButton *lastBtn;
         _textLabel.text = NSLocalizedString(@"satisfaction.message", @"please evaluate my service");
         _textLabel.textAlignment = NSTextAlignmentCenter;
         _textLabel.textColor = [UIColor lightGrayColor];
+        _textLabel.numberOfLines = 0;
 //        _textLabel.frame = CGRectMake(0, CGRectGetMaxY(_resolvedView.frame) + kViewSpace, kHDScreenWidth, 15.f);
         _textLabel.font = [UIFont systemFontOfSize:15];
     }
@@ -253,6 +263,22 @@ static UIButton *lastBtn;
         _textView.returnKeyType = UIReturnKeyDone;
         _textView.font = [UIFont systemFontOfSize:15];
         _textView.delegate = self;
+        UILabel *placeHolderLabel = [[UILabel alloc] init];
+              
+        placeHolderLabel.text = NSLocalizedString(@"video.satisfaction.EnquiryComment", @"EnquiryComment");
+        
+        placeHolderLabel.numberOfLines = 0;
+        
+        placeHolderLabel.textColor = [[HDAppSkin mainSkin] contentColorBCBCBC];
+        
+        [placeHolderLabel sizeToFit];
+        
+        placeHolderLabel.font = [UIFont systemFontOfSize:12];
+        
+        [_textView addSubview:placeHolderLabel];
+        
+        [_textView setValue:placeHolderLabel forKey:@"_placeholderLabel"];
+    
     }
     return _textView;
 }
@@ -486,7 +512,7 @@ static UIButton *lastBtn;
 // 获取解决未解决 接口 展示对应数据
 - (void)getOptionsResolved{
 //    问题解决评价开关
-     [[HDClient sharedClient].chatManager getOptionsConfig:HDOption_Satisfaction_ProblemSolvingEvaluationOn Completion:^(id responseObject, HDError *error) {
+     [[HDClient sharedClient].chatManager getOptionsConfig:HDOption_Satisfaction_ProblemSolvingEvaluationOn  WithServiceSessionId:self.messageModel.serviceSessionId Completion:^(id responseObject, HDError *error) {
          NSLog(@"=====%@",responseObject);
          
          if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
@@ -508,9 +534,9 @@ static UIButton *lastBtn;
                      
                      if ([[info allKeys] containsObject:@"app"]) {
                          
-                         NSString * weixin = [info valueForKey:@"app"];
+                         NSString * app = [info valueForKey:@"app"];
                          
-                         if ([weixin intValue] == 1) {
+                         if ([app intValue] == 1) {
 //                             问题解决评价
                              [[HDClient sharedClient].chatManager getResolutionParamServiceSessionId:self.messageModel.serviceSessionId Completion:^(id responseObject, HDError *error) {
                                  if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
@@ -530,14 +556,9 @@ static UIButton *lastBtn;
          }
      }];
     
-    // 获取问题解决评价引导语
-    [[HDClient sharedClient].chatManager getOptionsConfig:HDOption_Satisfaction_EvaluteSolveWord Completion:^(id responseObject, HDError *error) {
-        if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
-            self.resolvedTitle.text =  [self getResponeDataAnalysis:responseObject];
-        }
-    }];
+  
     // 获取请您对我的服务做出评价
-    [[HDClient sharedClient].chatManager getOptionsConfig:HDOption_Satisfaction_GreetingMsgEnquiryInvite Completion:^(id responseObject, HDError *error) {
+    [[HDClient sharedClient].chatManager getOptionsConfig:HDOption_Satisfaction_GreetingMsgEnquiryInvite WithServiceSessionId:self.messageModel.serviceSessionId Completion:^(id responseObject, HDError *error) {
         
         if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
             
@@ -564,7 +585,12 @@ static UIButton *lastBtn;
 - (void) updateResolvedViewLayout:(NSArray *)resolutionParams{
     // 解析数据 如果数据解析正常显示 界面
     if (resolutionParams.count > 0) {
-        
+        // 获取问题解决评价引导语
+        [[HDClient sharedClient].chatManager getOptionsConfig:HDOption_Satisfaction_EvaluteSolveWord WithServiceSessionId:self.messageModel.serviceSessionId Completion:^(id responseObject, HDError *error) {
+            if (error == nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+                self.resolvedTitle.text =  [self getResponeDataAnalysis:responseObject];
+            }
+        }];
         NSArray * tmpArray = [[NSArray alloc] initWithArray:resolutionParams];
         
         [self.resolutionParamsArray removeAllObjects];
@@ -579,13 +605,13 @@ static UIButton *lastBtn;
             }
             [self.resolutionParamsArray addObject:model];
         }];
-        
+        self.resolvedTitle.hidden = NO;
         self.resolvedView.hidden = NO;
         [self.resolvedView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.nickLabel.mas_bottom).offset(10);
+            make.top.mas_equalTo(self.resolvedTitle.mas_bottom).offset(10);
             make.leading.offset(0);
             make.trailing.offset(0);
-            make.height.offset(98);
+            make.height.offset(56);
         }];
         [self.resolvedView layoutIfNeeded];
         //设置默认选中
@@ -611,11 +637,14 @@ static UIButton *lastBtn;
 // 在touch事件中，以一个static变量记录instance
 - (void)btnTouch:(id)sender {
     UIButton *btn = (UIButton *)sender;
+    
     if (lastBtn != btn) {
+        btn.selected = !btn.selected;
         [btn setBackgroundColor:RGBACOLOR(36, 149, 207, 1)];
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         lastBtn.backgroundColor = [UIColor groupTableViewBackgroundColor];
         [lastBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        lastBtn.selected = !lastBtn.selected;
         lastBtn = btn;
         NSInteger tag = btn.tag - kResolvedButtonTag;
         if (tag < self.resolutionParamsArray.count) {
@@ -628,29 +657,17 @@ static UIButton *lastBtn;
     if (!_resolvedView) {
         _resolvedView = [[UIView alloc] init];
         _resolvedView.hidden = YES;
-        [_resolvedView addSubview: self.resolvedTitle];
-        [self.resolvedTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.top.offset(0);
-            make.leading.offset(0);
-            make.trailing.offset(0);
-            make.height.offset(30);
-            
-        }];
-        
         [_resolvedView addSubview: self.resolvedButton];
         [self.resolvedButton mas_makeConstraints:^(MASConstraintMaker *make) {
-
-            make.top.mas_equalTo(self.resolvedTitle.mas_bottom).offset(10);
-            make.leading.offset(self.view.frame.size.width*0.5 -self.view.frame.size.width*0.5/1.5-20);
-            make.width.offset(self.view.frame.size.width*0.5/1.5);
+            make.top.offset(5);
+            make.leading.offset(self.view.frame.size.width*0.5 -self.view.frame.size.width*0.5/1.2-20);
+            make.width.offset(self.view.frame.size.width*0.5/1.2);
             make.height.offset(44);
             
         }];
         [_resolvedView addSubview: self.unResolvedButton];
         [self.unResolvedButton mas_makeConstraints:^(MASConstraintMaker *make) {
-
-            make.top.mas_equalTo(self.resolvedTitle.mas_bottom).offset(10);
+            make.top.offset(5);
             make.leading.mas_equalTo(self.resolvedButton.mas_trailing).offset(30);
             make.width.mas_equalTo(self.resolvedButton.mas_width);
             make.height.mas_equalTo(self.resolvedButton.mas_height);
@@ -666,8 +683,10 @@ static UIButton *lastBtn;
     
     if (_resolvedTitle == nil) {
         _resolvedTitle = [[UILabel alloc] init];
+        _resolvedTitle.hidden = YES;
         _resolvedTitle.text = NSLocalizedString(@"satisfaction.evaluate.GuideLanguage", @"请问客服是否解决了您的问题？");
         _resolvedTitle.textAlignment = NSTextAlignmentCenter;
+        _resolvedTitle.numberOfLines = 0;
         _resolvedTitle.textColor = [UIColor lightGrayColor];
 
         _resolvedTitle.font = [UIFont systemFontOfSize:15];
@@ -682,10 +701,14 @@ static UIButton *lastBtn;
         _resolvedButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_resolvedButton setTitle:NSLocalizedString(@"satisfaction.evaluate.solve", @"satisfaction.evaluate.solve") forState:UIControlStateNormal];
         [_resolvedButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        _resolvedButton.layer.cornerRadius = 5.f;
+        [_resolvedButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_dianzan"] forState:UIControlStateNormal];
+        [_resolvedButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_dianzan-sel"] forState:UIControlStateSelected];
+        [_resolvedButton  setImageEdgeInsets: UIEdgeInsetsMake(0, 0, 0, 20)];
+        _resolvedButton.layer.cornerRadius = 20.f;
         _resolvedButton.tag = kResolvedButtonTag + 0;
-        _resolvedButton.titleLabel.font =[UIFont systemFontOfSize:18];
-        [_resolvedButton setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+        _resolvedButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        _resolvedButton.titleLabel.font =[UIFont systemFontOfSize:15];
+        [_resolvedButton setBackgroundColor:[[HDAppSkin mainSkin] contentColorF7F7F7]];
         [_resolvedButton addTarget:self action:@selector(btnTouch:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _resolvedButton;
@@ -698,10 +721,14 @@ static UIButton *lastBtn;
         _unResolvedButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_unResolvedButton setTitle:NSLocalizedString(@"satisfaction.evaluate.NotSolved", @"satisfaction.evaluate.NotSolved") forState:UIControlStateNormal];
         [_unResolvedButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        _unResolvedButton.layer.cornerRadius = 5.f;
+        _unResolvedButton.layer.cornerRadius = 20.f;
+        _unResolvedButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        [_unResolvedButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_nodianzan"] forState:UIControlStateNormal];
+        [_unResolvedButton setImage:[UIImage imageNamed:@"HelpDeskUIResource.bundle/hd_nodianzan-sel"] forState:UIControlStateSelected];
+        [_unResolvedButton  setImageEdgeInsets: UIEdgeInsetsMake(0, 0, 0, 20)];
         _unResolvedButton.tag =  kResolvedButtonTag +1;
-        _unResolvedButton.titleLabel.font =[UIFont systemFontOfSize:18];
-        [_unResolvedButton setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+        _unResolvedButton.titleLabel.font =[UIFont systemFontOfSize:15];
+        [_unResolvedButton setBackgroundColor:[[HDAppSkin mainSkin] contentColorF7F7F7] ];
         [_unResolvedButton addTarget:self action:@selector(btnTouch:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _unResolvedButton;

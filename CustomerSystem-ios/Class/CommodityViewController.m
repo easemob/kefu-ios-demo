@@ -80,7 +80,7 @@
     [messageButton setTitle:NSLocalizedString(@"customerChatNew", @"Customer") forState:UIControlStateNormal];
     messageButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [messageButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [messageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+//    [messageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     messageButton.imageRect = CGRectMake(30, footerView.hd_height/3, footerView.hd_height/3, footerView.hd_height/3);
     messageButton.titleRect = CGRectMake(55, footerView.hd_height/4, 100, footerView.hd_height/2);
     [self.view addSubview:messageButton];
@@ -112,7 +112,7 @@
     [vecButton setTitle:NSLocalizedString(@"customerVEC", @"Customer") forState:UIControlStateNormal];
     vecButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [vecButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [vecButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+//    [vecButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     vecButton.imageRect = CGRectMake(30, footerView.hd_height/3, footerView.hd_height/3, footerView.hd_height/3);
     vecButton.titleRect = CGRectMake(55, footerView.hd_height/4, 100, footerView.hd_height/2);
     vecButton.layer.borderWidth =1;
