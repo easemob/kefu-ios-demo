@@ -78,6 +78,7 @@
     [self registerEaseMobNotification];
     
 //    sleep(1);
+   
     [client.pushManager getPushNotificationOptionsFromServerWithCompletion:^(HDPushOptions * _Nonnull aOptions, HDError * _Nonnull aError) {
 
         NSLog(@"==========aErrorcode=%u==%@",aError.code,aError.description);
@@ -210,6 +211,7 @@
 
 // 将得到的deviceToken传给SDK
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[HDClient sharedClient] bindDeviceToken:deviceToken];
     });

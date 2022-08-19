@@ -22,6 +22,7 @@
 #import "HDCloudDiskViewController.h"
 #import "HDAgoraCallManager.h"
 #import "MBProgressHUD+Add.h"
+#import "CustomerSystem_ios-Swift.h"
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
@@ -65,7 +66,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [super viewWillAppear:animated ];
     [_conversationsVC refreshData];
     
-    [self testButton];
+//    [self testButton];
     
     // 获取灰度vec
     [[HDCallManager shareInstance] initGrayCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
@@ -130,7 +131,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     UIButton *setLeftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [setLeftButton setTitle:NSLocalizedString(@"title.setting", @"Setting") forState:UIControlStateNormal];
     setLeftButton.titleLabel.font = [UIFont systemFontOfSize:18];
-    setLeftButton.userInteractionEnabled = NO;
+    setLeftButton.userInteractionEnabled = YES;
+    [setLeftButton addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
     _settingleftItem = [[UIBarButtonItem alloc] initWithCustomView:setLeftButton];
     
     UIButton *leaveButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
@@ -142,10 +144,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vecAction:) name:KNOTIFICATION_VEC object:nil];
-    
-   
-   
-    
     
 }
 - (void)testButton{
@@ -176,7 +174,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [self unregisterNotifications];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
+- (void)login:(UIButton*)sender{
+    
+    HDLoginViewController * loginVC = [[HDLoginViewController alloc] init];
+    
+    [self.navigationController pushViewController:loginVC animated:YES];
+}
 #pragma mark - private action
 
 - (void)chatItemAction
@@ -217,8 +220,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 [HDClient sharedClient].enableVisitorAccelerator = NO;
            
                 [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
-                    [weakHud hideAnimated:YES];
                     dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakHud hideAnimated:YES];
+                   
 
                         [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend withVisitornickName:lgM.nickname];
                         [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
@@ -244,10 +248,17 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 - (void)chatAction:(NSNotification *)notification
 {
+    
+//    [[HDClient sharedClient] loginWithUsername:@"d0e0d79747b5426c8149eae1ba21ec51" token:@"YWMtEZu_th3fEe2oKHvW5KJBvFGRurDslRHsu8hLn5NWgNUO5QSqDI8R7bI8saRjropMAwMAAAGCqegx1ABPGgAEvluhiV5k5jf0tooXnndBjPQ5eQUr6aHn5av5Rq3dXg"];
+//
+//
+
     __weak typeof(self) weakSelf = self;
     [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+        
+       
         if ([lgM loginKefuSDK]) {
             
             [[HDClient sharedClient].pushManager updatePushDisplayStyle:HDPushDisplayStyleMessageSummary completion:^(HDError * _Nonnull error) {
@@ -285,6 +296,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
            
         } else {
             hd_dispatch_main_async_safe(^(){
+                [weakSelf hideHud];
                 [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
             });
             NSLog(@"登录失败");
@@ -636,9 +648,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     
     if ([self isNotificationMessage:aMessages.firstObject]) {
-        
-        
-        
+    
         return;
     }
 #if !TARGET_IPHONE_SIMULATOR

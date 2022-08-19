@@ -84,6 +84,7 @@
 		93767A4027951D610079A60F /* libios_resampler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93767A3C27951D610079A60F /* libios_resampler.a */; };
 		93767A4227951D820079A60F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93767A4127951D820079A60F /* Accelerate.framework */; };
 		93767A4427951D8B0079A60F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93767A4327951D8B0079A60F /* CoreMedia.framework */; };
+		93768A9928ACD11E00781593 /* HDLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93768A9828ACD11E00781593 /* HDLoginViewController.swift */; };
 		937B26C728768AB300BF4A45 /* HDVideoAnswerCallBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 937B26C628768AB300BF4A45 /* HDVideoAnswerCallBackView.m */; };
 		937B26CA2878248C00BF4A45 /* HDSatisfactionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 937B26C92878248C00BF4A45 /* HDSatisfactionView.m */; };
 		937E9237285087A300A71B32 /* HDTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937E9235285087A300A71B32 /* HDTestViewController.m */; };
@@ -681,6 +682,8 @@
 		93767A3C27951D610079A60F /* libios_resampler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libios_resampler.a; sourceTree = "<group>"; };
 		93767A4127951D820079A60F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		93767A4327951D8B0079A60F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		93768A9528ACCFD600781593 /* CustomerSystem-ios-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomerSystem-ios-Bridging-Header.h"; sourceTree = "<group>"; };
+		93768A9828ACD11E00781593 /* HDLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDLoginViewController.swift; sourceTree = "<group>"; };
 		937B26C528768AB300BF4A45 /* HDVideoAnswerCallBackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoAnswerCallBackView.h; sourceTree = "<group>"; };
 		937B26C628768AB300BF4A45 /* HDVideoAnswerCallBackView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoAnswerCallBackView.m; sourceTree = "<group>"; };
 		937B26C82878248C00BF4A45 /* HDSatisfactionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDSatisfactionView.h; sourceTree = "<group>"; };
@@ -2065,6 +2068,8 @@
 				EB395E011A8F0C8D0083B659 /* SettingViewController.m */,
 				D339953A1E000D5E00F7B71D /* QRCodeViewController.h */,
 				D339953B1E000D5E00F7B71D /* QRCodeViewController.m */,
+				93768A9828ACD11E00781593 /* HDLoginViewController.swift */,
+				93768A9528ACCFD600781593 /* CustomerSystem-ios-Bridging-Header.h */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -3142,7 +3147,7 @@
 					};
 					EB62E1F81A8DD92D00705655 = {
 						CreatedOnToolsVersion = 6.1.1;
-						LastSwiftMigration = 1310;
+						LastSwiftMigration = 1320;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -3643,6 +3648,7 @@
 				9367CDE627FD5E8D008479D8 /* Utility.m in Sources */,
 				D3CB646B1E4888F30022A6BA /* DACircularProgressView.m in Sources */,
 				D34D6D7E1DEC1C510099EE23 /* LeaseMsgReplyController.m in Sources */,
+				93768A9928ACD11E00781593 /* HDLoginViewController.swift in Sources */,
 				D2769D231B9041DA003D9E3D /* MoreChoiceView.m in Sources */,
 				D3CB648A1E4888F30022A6BA /* HDSDKHelper.m in Sources */,
 				EB395DFF1A8F0AC40083B659 /* MallViewController.m in Sources */,
@@ -4221,7 +4227,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = kf_enterprise.demo.customer_dev;
-				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Call/Fastboard/CustomerSystem-ios-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/Class/CustomerSystem-ios-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_WORKSPACE = NO;
@@ -4280,7 +4286,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = com.easemob.enterprise.demo.customer;
-				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Call/Fastboard/CustomerSystem-ios-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/Class/CustomerSystem-ios-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_WORKSPACE = NO;
 			};
