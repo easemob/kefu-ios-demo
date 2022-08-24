@@ -65,7 +65,6 @@
     //如果HDOptions 满足使用 initializeSDKWithOptions
 //    HDError *initError = [client initializeSDKWithOptions:option] ;
     
-    
     //如果HDOptions 不满足im EMOptions 参数的请使用initializeSDKWithOptions：withToImoptions：
     EMOptions * imOptions =[EMOptions optionsWithAppkey:option.appkey];
 //    imOptions.enableFpa = YES;// 设置对应的im参数

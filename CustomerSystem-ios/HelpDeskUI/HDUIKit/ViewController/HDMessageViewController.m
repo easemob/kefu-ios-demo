@@ -2007,16 +2007,21 @@ typedef enum : NSUInteger {
     [ctrlArgs hd_setValue:tagsArray forKey:@"appraiseTags"];
     [ctrlArgs hd_setValue:resolutionParams forKey:@"resolutionParam"];
     [ctrlArgs hd_setValue:evaluationDegreeId forKey:@"evaluationDegreeId"];
-    [ctrlArgs hd_setValue:arguments.evaluateWay forKey:@"evaluateWay"];
+
+    // 只有访客主动评价的时候evaluateWay 这个字段需要传对应的值 其他时候不需要传 后端根据inviteId 返回对应的值了 这里是为了有个默认值所以加个system
+    [ctrlArgs hd_setValue:@"sysytem" forKey:@"evaluateWay"];
 //    [ctrlArgs setValue:@"0" forKey:@"inviteId"];
     
     NSInteger inviteId = [arguments.inviteId integerValue];
     
     if (inviteId > 0) {
+         
         [ctrlArgs setValue: arguments.inviteId forKey:@"inviteId"];
-        
     }else{
+        // 评价方式 只有访客主动评价的时候 inviteId 设置为0  评价方式为：主动评价
         [ctrlArgs setValue:@"0" forKey:@"inviteId"];
+//        评价方式为：主动评价 需要设置evaluateWay 字段 为 visitor
+        [ctrlArgs hd_setValue:@"visitor" forKey:@"evaluateWay"];
     }
    
     
