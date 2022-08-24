@@ -2004,10 +2004,22 @@ typedef enum : NSUInteger {
     NSMutableDictionary *ext = [message.ext mutableCopy];
     NSMutableDictionary *ctrlArgs = [[ext objectForKey:@"weichat"] objectForKey:@"ctrlArgs"];
     NSArray *tagsArray = [NSArray arrayWithArray:tags];
-    [ctrlArgs setObject:tagsArray forKey:@"appraiseTags"];
-    [ctrlArgs setObject:resolutionParams forKey:@"resolutionParam"];
-    [ctrlArgs setValue:evaluationDegreeId forKey:@"evaluationDegreeId"];
-    [ctrlArgs setValue:@"0" forKey:@"inviteId"];
+    [ctrlArgs hd_setValue:tagsArray forKey:@"appraiseTags"];
+    [ctrlArgs hd_setValue:resolutionParams forKey:@"resolutionParam"];
+    [ctrlArgs hd_setValue:evaluationDegreeId forKey:@"evaluationDegreeId"];
+    [ctrlArgs hd_setValue:arguments.evaluateWay forKey:@"evaluateWay"];
+//    [ctrlArgs setValue:@"0" forKey:@"inviteId"];
+    
+    NSInteger inviteId = [arguments.inviteId integerValue];
+    
+    if (inviteId > 0) {
+        [ctrlArgs setValue: arguments.inviteId forKey:@"inviteId"];
+        
+    }else{
+        [ctrlArgs setValue:@"0" forKey:@"inviteId"];
+    }
+   
+    
     message.ext = [ext copy];
     
     __weak typeof(self) weakself = self;

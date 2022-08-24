@@ -379,7 +379,20 @@ static UIButton *lastBtn;
                         arguments.sessionId = msg.ext[@"weichat"][@"service_session"][@"serviceSessionId"];
                     }
                 }
-                arguments.inviteId = [ctrlArgs objectForKey:kMessageExtWeChat_ctrlArgs_inviteId];
+                
+                if ([[msg.ext allKeys] containsObject:@"evaluateWay"] && [msg.ext[@"evaluateWay"] isEqualToString:@"visitor"]) {
+                    arguments.evaluateWay = msg.ext[@"evaluateWay"];
+                }else if (![[msg.ext allKeys] containsObject:@"evaluateWay"]) {
+                    // 说明是 坐席主动发起的评价
+                    arguments.evaluateWay = @"agent";
+                }else if ([[msg.ext allKeys] containsObject:@"evaluateWay"] && [msg.ext[@"evaluateWay"] isEqualToString:@"system"]) {
+                    arguments.evaluateWay = msg.ext[@"evaluateWay"];
+                }else{
+                    
+                    arguments.evaluateWay = @"";
+                }
+                
+               
                 arguments.detail = self.textView.text;
                 arguments.summary = [NSString stringWithFormat:@"%d",(int)(_starRateView.scorePercent * 5)];
                 if (self.evaluationTagsArray.count == 0 && self.evaluationTagView.evaluationDegreeModel.appraiseTags.count>0) {

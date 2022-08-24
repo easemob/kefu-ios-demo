@@ -61,8 +61,17 @@
     option.isAutoLogin = YES;
     
     HDClient *client = [HDClient sharedClient];
-    HDError *initError = [client initializeSDKWithOptions:option] ;
-
+    
+    //如果HDOptions 满足使用 initializeSDKWithOptions
+//    HDError *initError = [client initializeSDKWithOptions:option] ;
+    
+    
+    //如果HDOptions 不满足im EMOptions 参数的请使用initializeSDKWithOptions：withToImoptions：
+    EMOptions * imOptions =[EMOptions optionsWithAppkey:option.appkey];
+//    imOptions.enableFpa = YES;// 设置对应的im参数
+    imOptions.usingHttpsOnly = NO; //设置对应的im参数
+    HDError *initError = [[HDClient sharedClient] initializeSDKWithOptions:option withToImoptions:imOptions];
+ 
     //如果使用了im sdk 提供的demo 一定要初始化这个方法
 //    [EaseIMKitManager initWithEMOptions:nil];
 
@@ -308,7 +317,7 @@
 -(void)initKefuAndIm:(HDOptions *)option{
     
     EMOptions * imOptions =[EMOptions optionsWithAppkey:option.appkey];
-    imOptions.enableFpa = YES;
+    imOptions.enableFpa = YES;// 设置对应的im参数
     HDError *initError = [[HDClient sharedClient] initializeSDKWithOptions:option withToImoptions:imOptions];
 }
 @end
