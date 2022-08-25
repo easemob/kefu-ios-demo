@@ -590,7 +590,7 @@ static UIButton *lastBtn;
                 return json;
             }
         }
-    return @"";
+    return  NSLocalizedString(@"satisfaction.message", @"please evaluate my service");
 }
 
 
