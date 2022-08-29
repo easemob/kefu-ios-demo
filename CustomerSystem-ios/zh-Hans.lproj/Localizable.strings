@@ -24,6 +24,13 @@
 "retry" = "重试";
 "edit" = "编辑";
 
+"ui.pullDownToRefresh" = "Pull To Refresh";
+"ui.releaseToRefresh" =  "Release To Refresh";
+"ui.refreshing" =  "Refreshing data";
+"ui.lastUpdateNoRecords" =  "Last update: no records";
+"ui.lastUpdate" =  "Last update:";
+"ui.today" =  "today";
+
 "sendingApply" = "正在发送申请...";
 "acceptFail" = "接受失败";
 "rejectFail" = "拒绝失败";
