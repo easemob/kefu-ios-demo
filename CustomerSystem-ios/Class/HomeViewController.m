@@ -28,7 +28,7 @@
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate,HDCallManagerDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate,HDCallManagerDelegate,UNUserNotificationCenterDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -254,21 +254,17 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //
 
     __weak typeof(self) weakSelf = self;
-    [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
+//    [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:self.view.superview];
+    __weak MBProgressHUD *weakHud = hud;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
         
-       
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
         if ([lgM loginKefuSDK]) {
             
             [[HDClient sharedClient].pushManager updatePushDisplayStyle:HDPushDisplayStyleMessageSummary completion:^(HDError * _Nonnull error) {
-                
                 NSLog(@"=======error=%u",error.code);
-                
-                
             }];
-            
-            
             NSString *queue = nil;
             if ([notification.object objectForKey:kpreSell]) {
                 queue = [[notification.object objectForKey:kpreSell] boolValue]?kpreSale:kafterSale;
@@ -283,7 +279,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //                chat.title = [CSDemoAccountManager shareLoginManager].cname;
             }
             hd_dispatch_main_async_safe(^(){
-                [weakSelf hideHud];
+                [weakHud hideAnimated:YES];
                 HDChatViewController *chat = [[HDChatViewController alloc] initWithConversationChatter:lgM.cname];
                 if (queue) {
                     chat.queueInfo = queueIdentityInfo;
@@ -296,7 +292,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
            
         } else {
             hd_dispatch_main_async_safe(^(){
-                [weakSelf hideHud];
+                [weakHud hideAnimated:YES];
                 [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
             });
             NSLog(@"登录失败");
@@ -606,7 +602,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     //发送通知
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
     NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
-    
+
     [UIApplication sharedApplication].applicationIconBadgeNumber = ++badge;
 }
 /*
@@ -644,9 +640,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 // 收到消息回调
 - (void)messagesDidReceive:(NSArray *)aMessages {
     
-    NSLog(@"==========收到消息了");
-    
-    
     if ([self isNotificationMessage:aMessages.firstObject]) {
     
         return;
@@ -658,10 +651,22 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     }else {
         [self _playSoundAndVibration];
     }
+
+    
 #endif
     [_conversationsVC refreshData];
 }
 
+- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages{
+    
+    NSLog(@"收到消息=cmdMessagesDidReceive===%@",aCmdMessages);
+    for (HDMessage *msg in aCmdMessages) {
+        
+        NSLog(@"收到消息=cmdMessagesDidReceive==msg.ext=%@",msg.ext);
+        
+    }
+    
+}
 
 - (BOOL)isNotificationMessage:(HDMessage *)message {
     if (message.ext == nil) { //没有扩展

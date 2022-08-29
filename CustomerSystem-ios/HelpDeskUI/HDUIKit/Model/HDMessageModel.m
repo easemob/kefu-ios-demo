@@ -57,6 +57,13 @@
                         
                         self.serviceSessionId = serviceSessionId;
                     }
+                }else{
+                    if ([[message.ext allKeys] containsObject:@"serviceSessionId"]) {
+                        
+                        NSString *serviceSessionId = [message.ext valueForKey:@"serviceSessionId"];
+                        self.serviceSessionId = serviceSessionId;
+                    }
+                    
                 }
             }
             self.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];

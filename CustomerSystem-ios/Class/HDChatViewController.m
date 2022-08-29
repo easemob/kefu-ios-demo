@@ -193,7 +193,7 @@
 
 
 - (void)sendCommodityMessageWithInfo:(NSDictionary *)info
-{
+{    
     HDMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
     if ([self isOrder]) {
         HDOrderInfo *od  = (HDOrderInfo *)[self trackOrOrder];
