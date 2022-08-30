@@ -100,8 +100,13 @@
 //        NSLog(@"======%@",sessionId);
 //        
 //    }];
+//    [[HDClient sharedClient].chatManager fetchCurrentServiceSession:lgM.cname completion:^(id responseObject, HDError *aError) {
+//
+//        NSLog(@"=====%@",responseObject);
+//
+//    }];
+     
 }
-
 //修改关联app后需要重新初始化
 - (void)resetCustomerServiceSDK {
     //如果在登录状态,账号要退出

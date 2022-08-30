@@ -176,9 +176,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 - (void)login:(UIButton*)sender{
     
-    HDLoginViewController * loginVC = [[HDLoginViewController alloc] init];
-    
-    [self.navigationController pushViewController:loginVC animated:YES];
+//    HDLoginViewController * loginVC = [[HDLoginViewController alloc] init];
+//
+//    [self.navigationController pushViewController:loginVC animated:YES];
 }
 #pragma mark - private action
 
