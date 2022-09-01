@@ -78,9 +78,9 @@
     BOOL writable = _fastRoom.room.isWritable;
     [_fastRoom updateWritable:!writable completion:^(NSError * _Nullable error) {
         if (error) {
-            NSLog(@"update writable fail");
+            [HDLog logD:@"HD===%s update writable fail",__func__];
         } else {
-            NSLog(@"update writable successfully");
+            [HDLog logD:@"HD===%s update writable successfully",__func__];
         }
     }];
 }
@@ -176,8 +176,7 @@
 
 //上传文件
 - (void)onUploadFile {
-
-    NSLog(@"=====点击了上传文件");
+    [HDLog logD:@"HD===%s ==点击了上传文件",__func__];
     if (self.clickWhiteBoardViewBlock) {
         UIButton *btn = (UIButton *)[self viewWithTag:HDClickButtonTypeFile +1001];
         self.clickWhiteBoardViewBlock(HDClickButtonTypeFile, btn);
@@ -186,8 +185,7 @@
 }
 //缩放
 - (void)onScale {
-
-    NSLog(@"=====点击了缩放");
+    [HDLog logD:@"HD===%s ==点击了缩放",__func__];
     if (self.clickWhiteBoardViewBlock) {
         UIButton *btn = (UIButton *)[self viewWithTag:HDClickButtonTypeScale + 1001];
         self.clickWhiteBoardViewBlock(HDClickButtonTypeScale, btn);
@@ -196,8 +194,7 @@
 
 //推出房间
 - (void)onLogout {
-
-    NSLog(@"=====点击了退出房间");
+    [HDLog logD:@"HD===%s ==点击了退出房间",__func__];
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
     
     if (self.clickWhiteBoardViewBlock) {

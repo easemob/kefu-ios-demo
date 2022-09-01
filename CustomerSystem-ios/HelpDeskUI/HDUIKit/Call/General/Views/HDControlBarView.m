@@ -123,9 +123,8 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     //数据做一下重新排列
     NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:barModelArr];
     NSMutableArray * sortArray =  [self  hd_soreBarModelArray:tmpArray withStyle:HDControlBarButtonHangUpLocationMiddle];
-
+    [HDLog logD:@"HD===%s ==%@",__func__,sortArray];
     if (sortArray.count > 3) {
-        NSLog(@"===%@",sortArray);
         CGFloat viewWith =view.frame.size.width;
         CGFloat space = 2;
         CGFloat y = 0;
@@ -156,7 +155,6 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
         _barArrayBtn= lastArr;
         return lastArr;
     }else{
-        NSLog(@"===%@",sortArray);
         CGFloat w1= 0;
         CGFloat viewWith =view.frame.size.width - w1;
         CGFloat space = 20;
@@ -394,9 +392,9 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
 - (void)buttonClick:(UIButton *)sender
 {
     sender.selected = !sender.selected;
-    NSLog(@"buttonClickButtonTag = %ld",sender.tag);
+    [HDLog logD:@"HD===%s buttonClickButtonTag==%ld",__func__,sender.tag];
     NSInteger index = sender.tag - kButtonTag;
-    NSLog(@"buttonClickTagindex = %ld",index);
+    [HDLog logD:@"HD===%s buttonClickButtonTag==%ld",__func__,index];
     if (index >= _barArray.count || index < 0) {
         
         return;
@@ -415,11 +413,9 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     //数据做一下重新排列
     NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:barModelArr];
     NSMutableArray * sortArray =  [self  hd_soreBarModelArray:tmpArray withStyle:HDControlBarButtonHangUpLocationMiddle];
-
+    [HDLog logD:@"HD===%s ==%@",__func__,sortArray];
     // 挂断宽度 固定
     CGFloat hangUpWith =80;
-    
-        NSLog(@"===%@",sortArray);
         CGFloat viewWith =view.frame.size.width;
         CGFloat space = 2;
         CGFloat y = 0;

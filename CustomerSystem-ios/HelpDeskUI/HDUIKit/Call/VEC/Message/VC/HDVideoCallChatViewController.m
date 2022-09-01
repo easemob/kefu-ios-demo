@@ -78,7 +78,7 @@
 }
 
 - (void)dealloc{
-    NSLog(@"第二通道已经关闭");
+    [HDLog logD:@"HD===%s 第二通道已经关闭",__func__];
     [[HDClient sharedClient].chatManager unbind];
 }
 
@@ -171,7 +171,7 @@
     if ([self.imagePicker.mediaTypes count] > 0 && [[self.imagePicker.mediaTypes objectAtIndex:0] isEqualToString:(NSString *)kUTTypeMovie]) {
         [self.imagePicker stopVideoCapture];
     }
-    NSLog(@"返回会话列表");
+    [HDLog logD:@"HD===%s 返回会话列表",__func__];
 }
 
 
@@ -301,8 +301,7 @@
             } else {
                 //文件 上传或者其它操作
 //                [self uploadingWithFileData:fileData fileName:fileName fileURL:newURL];
-                NSLog(@"------------->文件 上传或者其它操作");
-                
+                [HDLog logD:@"HD===%s 文件 上传",__func__];
                 NSArray *array = [[newURL absoluteString] componentsSeparatedByString:@"/"];
                 NSString *fileName = [array lastObject];
                 fileName = [fileName stringByRemovingPercentEncoding];
@@ -344,8 +343,7 @@
         if (success) {
             //取出来
 //            NSData *   datastr = [NSData dataWithContentsOfFile:path];
-//            NSLog(@"------------->文件 上传或者其它操作==%@",datastr);
-            HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:path displayName:@"123" to:self.conversation.conversationId];
+            HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:path displayName:@"file" to:self.conversation.conversationId];
             [message addContent:[self visitorInfo]];
             [self _sendMessage:message];
         }
@@ -353,8 +351,7 @@
     }else{
         //取出来 发送
 //        NSData *   datastr = [NSData dataWithContentsOfFile:path];
-//        NSLog(@"------------->文件 上传或者其它操作==%@",datastr);
-        HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:path displayName:@"123" to:self.conversation.conversationId];
+        HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:path displayName:@"file" to:self.conversation.conversationId];
         [message addContent:[self visitorInfo]];
                         
         [self _sendMessage:message];

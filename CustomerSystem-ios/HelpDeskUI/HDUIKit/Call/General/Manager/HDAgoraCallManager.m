@@ -172,7 +172,7 @@ static HDAgoraCallManager *shareCall = nil;
         return;
     }
     _isSetupLocalVideo = YES;
-    NSLog(@"======setupLocalVideoView");
+    [HDLog logD:@"===%s setupLocalVideoView",__func__];
     AgoraRtcVideoCanvas * canvas = [[AgoraRtcVideoCanvas alloc] init];
     canvas.uid = [[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue];
     canvas.view = localView;
@@ -182,7 +182,7 @@ static HDAgoraCallManager *shareCall = nil;
     
 }
 - (void)setupRemoteVideoView:(UIView *)remoteView withRemoteUid:(NSInteger)uid{
-    NSLog(@"======setupRemoteVideoView");
+    [HDLog logD:@"===%s setupRemoteVideoView",__func__];
     AgoraRtcVideoCanvas * canvas = [[AgoraRtcVideoCanvas alloc] init];
     canvas.uid = uid;
     canvas.view = remoteView;
@@ -266,7 +266,7 @@ static HDAgoraCallManager *shareCall = nil;
     [self hd_joinChannelByToken:[HDAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDAgoraCallManager shareInstance].keyCenter.agoraChannel info:nil uid:[[HDAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
         _onCalling = YES;
         _isCurrentFrontFacingCamera = YES;
-        NSLog(@"joinSuccess joinChannelByToken channel=%@  uid=%lu",channel,(unsigned long)uid);
+        [HDLog logD:@"===%s joinSuccess joinChannelByToken channel=%@  uid=%lu",__func__,channel,(unsigned long)uid];
     }];
     
 }
@@ -290,8 +290,6 @@ static HDAgoraCallManager *shareCall = nil;
     
     [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
         
-        NSLog(@"===%@",aError);
-        
     }];
     
     [self leaveChannel];
@@ -301,13 +299,11 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)closeVecCall{
     
     [self leaveChannel];
-//    //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
-//    [self destroy];
     
-    [[HDClient sharedClient].callManager hd_hangUpVECSessionId:@"123" WithVisitorId:@"456" Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    [HDLog logD:@"===%s closeVecCall",__func__];
+    [[HDClient sharedClient].callManager hd_hangUpVECSessionId:@"" WithVisitorId:@"" Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         
-        NSLog(@"=====%@",responseObject);
-        
+        [HDLog logD:@"===%s responseObject=%@",__func__,responseObject];
     }];
     
 }
@@ -331,9 +327,6 @@ static HDAgoraCallManager *shareCall = nil;
     [message addAttributeDictionary:dic1];
     
     [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
-        
-        NSLog(@"===%@",aError);
-        
     }];
 
 }
@@ -356,8 +349,6 @@ static HDAgoraCallManager *shareCall = nil;
     NSDictionary *dic1 = @{@"targetSystem":@"kefurtc"};
     [message addAttributeDictionary:dic1];
     [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
-        
-        NSLog(@"===%@",aError);
         
     }];
     [self leaveChannel];
@@ -383,7 +374,6 @@ static HDAgoraCallManager *shareCall = nil;
     
     [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
         
-        NSLog(@"===%@",aError);
         
     }];
     [self leaveChannel];
@@ -492,7 +482,7 @@ static HDAgoraCallManager *shareCall = nil;
 #pragma mark - <AgoraRtcEngineDelegate>
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed {
     
-    NSLog(@"join Member  uid---- %lu ",(unsigned long)uid);
+    [HDLog logD:@"HD===%s join Member  uid----%lu",__func__,(unsigned long)uid];
     HDAgoraCallMember *mem = [self getHDAgoraCallMember:uid];
     @synchronized(self.members){
         BOOL isNeedAdd = YES;
@@ -503,25 +493,21 @@ static HDAgoraCallManager *shareCall = nil;
             }
         }
         if (isNeedAdd) {
-    
             [self.members addObject: mem];
-    
         }
     };
     if([self.roomDelegate respondsToSelector:@selector(onMemberJoin:)]){
         [self.roomDelegate onMemberJoin:mem];
     }
-
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStateChangedOfUid:(NSUInteger)uid state:(AgoraVideoRemoteState)state reason:(AgoraVideoRemoteStateReason)reason elapsed:(NSInteger)elapsed
 {
-    NSLog(@"remoteVideoStateChangedOfUid %@ %@ %@", @(uid), @(state), @(reason));
+    [HDLog logD:@"HD===%s remoteVideoStateChangedOfUid uid=%@ state=%@  reason=%@",__func__,@(uid), @(state), @(reason)];
 }
 - (void)rtcEngine:(AgoraRtcEngineKit *_Nonnull)engine firstLocalVideoFrameWithSize:(CGSize)size elapsed:(NSInteger)elapsed{
     
-    NSLog(@"remoteVideoStateChangedOfUid");
-    
+    [HDLog logD:@"HD==agoraRtcSDK=%s",__func__];
 }
 
 
@@ -533,7 +519,7 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOccurError:(AgoraErrorCode)errorCode {
     HDError *dhError = [[HDError alloc] initWithDescription:@"Occur error " code:(HDErrorCode)errorCode];
     !self.Completion?:self.Completion(nil,dhError);
-
+    [HDLog logD:@"HD==agoraRtcSDK=%s",__func__];
 }
 
 
@@ -557,7 +543,7 @@ static HDAgoraCallManager *shareCall = nil;
         }
     };
     
-    [HDLog logI:@"================vec1.2=====didOfflineOfUid reason=%lu _thirdAgentUid= %lu",(unsigned long)reason,(unsigned long)uid];
+    [HDLog logI:@"HD================vec1.2=====didOfflineOfUid reason=%lu _thirdAgentUid= %lu",(unsigned long)reason,(unsigned long)uid];
     //如果房间里边人 都么有了 就发送通知 关闭。如果有人 就不关闭
 //  [self agentHangUpCall:[HDAgoraCallManager shareInstance].keyCenter.callid];
    
@@ -570,7 +556,7 @@ static HDAgoraCallManager *shareCall = nil;
 }
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine virtualBackgroundSourceEnabled:(BOOL)enabled reason:(AgoraVirtualBackgroundSourceStateReason)reason{
     
-    NSLog(@"virtualBackgroundSourceEnabled = %d  &#xe650; = reason=%luu",enabled,(unsigned long)reason);
+    NSLog(@"HD===virtualBackgroundSourceEnabled = %d  &#xe650; = reason=%luu",enabled,(unsigned long)reason);
     
 }
 
@@ -691,22 +677,13 @@ static HDAgoraCallManager *shareCall = nil;
                 }
             }
         }else{
-            
-            
             if (aCompletion) {
                 aCompletion(nil,error);
             }
-            
         }
-        
-        NSLog(@"===1===%@",responseObject);
-        
-        
     }];
 }
 - (HDEnterpriseInfo *)hd_getEnterpriseInfo{
-    
-    NSLog(@"====2==%@",_enterprisemodel);
     if (_enterprisemodel) {
         
         return _enterprisemodel;
@@ -721,7 +698,6 @@ static HDAgoraCallManager *shareCall = nil;
         NSData *jsonData = [string dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
         if (error) {
-            NSLog(@"==%@",error);
             return nil;
         }
         return jsonDict;

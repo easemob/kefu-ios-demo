@@ -249,10 +249,37 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)chatAction:(NSNotification *)notification
 {
     
-//    [[HDClient sharedClient] loginWithUsername:@"d0e0d79747b5426c8149eae1ba21ec51" token:@"YWMtEZu_th3fEe2oKHvW5KJBvFGRurDslRHsu8hLn5NWgNUO5QSqDI8R7bI8saRjropMAwMAAAGCqegx1ABPGgAEvluhiV5k5jf0tooXnndBjPQ5eQUr6aHn5av5Rq3dXg"];
-//
-//
+    [HDLog logD:@"HD===%s chatAction",__FUNCTION__];
 
+    HDLogD(@"123");
+    
+//    
+////    @try {
+////
+////        NSArray * array = [[NSArray alloc] init];
+////
+////        [array objectAtIndex:1];
+////
+////
+////    } @catch (NSException *exception) {
+////
+////        [HDLog logI:@"=========releaseResource=exception.name=%@ ==exception.reason=%@",exception.name, exception.reason];
+////
+////    }
+//    
+//    NSArray * array = [[NSArray alloc] init];
+//    
+//   
+//
+//    [HDLog logI:@"=========releaseResource=exception.name=%@ ", [array objectAtIndex:1]];
+//    
+//    return;
+////    [[HDClient sharedClient] loginWithUsername:@"3e4e907d3b904d48bf003d0ae1cd05b92099"  password:@"123456"];
+//////
+////    NSLog(@"=====%d",[HDClient sharedClient].isLoggedInBefore);
+////    NSLog(@"=====%d",[EMClient sharedClient].isLoggedIn);
+////    return;
+    
     __weak typeof(self) weakSelf = self;
 //    [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
     MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:self.view.superview];

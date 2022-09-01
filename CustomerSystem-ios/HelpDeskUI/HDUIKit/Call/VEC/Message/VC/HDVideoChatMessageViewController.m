@@ -207,7 +207,7 @@ typedef enum : NSUInteger {
         [_imagePicker dismissViewControllerAnimated:NO completion:nil];
         _imagePicker = nil;
     }
-    NSLog(@"dealloc :%s",__func__);
+    [HDLog logD:@"HD===%s dealloc",__func__];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -334,23 +334,27 @@ typedef enum : NSUInteger {
         [exportSession exportAsynchronouslyWithCompletionHandler:^{
             switch ([exportSession status]) {
                 case AVAssetExportSessionStatusFailed: {
-                    NSLog(@"failed, error:%@.", exportSession.error);
+                    [HDLog logE:@"HD===%s failed, error:%@",__func__,exportSession.error];
                 } break;
                 case AVAssetExportSessionStatusCancelled: {
-                    NSLog(@"cancelled.");
+        
+                    [HDLog logD:@"HD===%s cancelled",__func__];
                 } break;
                 case AVAssetExportSessionStatusCompleted: {
-                    NSLog(@"completed.");
+                    
+                    [HDLog logD:@"HD===%s completed",__func__];
                 } break;
                 default: {
-                    NSLog(@"others.");
+                    
+                    [HDLog logD:@"HD===%s others",__func__];
                 } break;
             }
             dispatch_semaphore_signal(wait);
         }];
         long timeout = dispatch_semaphore_wait(wait, DISPATCH_TIME_FOREVER);
         if (timeout) {
-            NSLog(@"timeout.");
+        
+            [HDLog logD:@"HD===%s timeout",__func__];
         }
         if (wait) {
             //dispatch_release(wait);
@@ -388,8 +392,7 @@ typedef enum : NSUInteger {
          EMVideoMessageBody *videoBody = (EMVideoMessageBody *)messageBody;
 
         UIImage * img = [UIImage imageWithContentsOfFile:videoBody.thumbnailLocalPath];
-        NSLog(@"=获取图片的尺寸 with==%f height===%f",img.size.width,img.size.height);
-        
+        [HDLog logD:@"HD===%s 获取图片的尺寸 with==%f height===%f",__func__,img.size.width,img.size.height];
          if (videoBody.thumbnailDownloadStatus > EMDownloadStatusSuccessed) {
          //download the message thumbnail
          [[HDClient sharedClient].chatManager hd_downloadThumbnail:message progress:nil completion:completion];
@@ -494,7 +497,7 @@ typedef enum : NSUInteger {
                     }
                     else
                     {
-                        NSLog(@"Read %@ failed!", localPath);
+                        [HDLog logD:@"HD===%s Read %@ failed!",__func__,localPath];
                     }
                     return;
                 }
@@ -514,7 +517,8 @@ typedef enum : NSUInteger {
                         }
                         else
                         {
-                            NSLog(@"Read %@ failed!", localPath);
+                          
+                            [HDLog logD:@"HD===%s Read %@ failed!",__func__,localPath];
                         }
                         return ;
                     }
@@ -854,7 +858,7 @@ typedef enum : NSUInteger {
             NSError *error = nil;
             [fileman removeItemAtURL:videoURL error:&error];
             if (error) {
-                NSLog(@"failed to remove file, error:%@.", error);
+                [HDLog logE:@"HD===%s failed to remove file, error:%@.",__func__,error];
             }
         }
         
@@ -1625,7 +1629,7 @@ typedef enum : NSUInteger {
     HDMessage *message = [HDSDKHelper imageMessageWithImageData:imageData to:self.conversation.conversationId messageExt:nil];
     EMImageMessageBody *body = (EMImageMessageBody *)message.body;
 //    body.thumbnailLocalPath = @"11111111222";
-    NSLog(@"body.localPathbody.localPath:%@",body.localPath);
+    [HDLog logD:@"HD===%s body.localPathbody.localPath:%@",__func__,body.localPath];
     [self _sendMessage:message];
 }
 

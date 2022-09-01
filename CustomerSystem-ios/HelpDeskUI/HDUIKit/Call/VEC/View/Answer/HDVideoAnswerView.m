@@ -235,6 +235,7 @@
 - (void)updateTime {
     
     [[HDClient sharedClient].callManager hd_getVisitorCurrentWaitingSessionid:nil Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+        [HDLog logD:@"HD===%s responseObject==%@",__func__,responseObject];
             
 //        {
 //          "status": "OK",
@@ -279,7 +280,7 @@
                 
             }
             
-            NSLog(@"=====%@",responseObject);
+          
             
         }
         

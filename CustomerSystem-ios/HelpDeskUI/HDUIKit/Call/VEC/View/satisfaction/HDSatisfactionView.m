@@ -141,7 +141,7 @@
 }
 - (void)setEnquiryInvite:(NSDictionary *)enquiryInvite withModel:(nonnull HDMessage *)message{
     _model = message;
-    NSLog(@"=============%@",enquiryInvite);
+    [HDLog logD:@"HD===%s enquiryInvite==%@",__func__,enquiryInvite];
     if ([[enquiryInvite allKeys] containsObject:@"enquiryTags"] && [[enquiryInvite valueForKey:@"enquiryTags"] isKindOfClass:[NSDictionary class]]) {
         
         _enquiryTags = [enquiryInvite valueForKey:@"enquiryTags"];
@@ -149,8 +149,7 @@
     if ([[enquiryInvite allKeys] containsObject:@"enquiryOptions"] && [[enquiryInvite valueForKey:@"enquiryOptions"] isKindOfClass:[NSArray class]]) {
         
         NSArray *enquiryOptions = [NSArray yy_modelArrayWithClass:[HDEnquiryOptionModel class] json:[enquiryInvite valueForKey:@"enquiryOptions"]];
-        NSLog(@"-%@",enquiryOptions);
-        
+        [HDLog logD:@"HD===%s enquiryOptions==%@",__func__,enquiryOptions];
         if (enquiryOptions) {
             
             _enquiryOptions = enquiryOptions;
@@ -201,20 +200,14 @@
     [_enquiryOptions enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         HDEnquiryOptionModel * m = obj;
-        
-        NSLog(@"======%@",m.optionName);
+        [HDLog logD:@"HD===%s optionName==%@",__func__,m.optionName];
         if ([m.optionName isEqualToString:tagname]) {
-            
             model = m;
-            
             *stop =YES;
         }
-
-        
     }];
      
     return model;
-    
 }
 
 //循环添加 标签
@@ -313,8 +306,7 @@
         }];
         [self.evaluationTagView layoutIfNeeded];
     
-        NSLog(@"当前多少行%ld",(long)self.evaluationTagView.currentLineCount);
-        
+        [HDLog logD:@"HD===%s 当前多少行%ld",__func__,(long)self.evaluationTagView.currentLineCount];
         CGFloat h =  self.evaluationTagView.regularHeight  *self.evaluationTagView.currentLineCount + kViewSpace;
         
         if (self.updateSelfFrame) {
@@ -553,6 +545,7 @@
     NSString * rtcSessionId= [self getRtcSessionId];
     
     [[HDClient sharedClient].callManager hd_submitVisitorEnquirySessionid:rtcSessionId withScore:score withComment:comment withTagData:self.evaluationTagsArray Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+        [HDLog logD:@"HD===%s responseObject==%@",__func__,responseObject];
         [hud hideAnimated:YES];
         if (error == nil) {
             //提交成功
@@ -590,7 +583,7 @@
             [MBProgressHUD  showSuccess:[NSString stringWithFormat:@"%@\n%@",error.errorDescription,str] toView:self.superview];
             
         }
-        NSLog(@"======%@",responseObject);
+       
             
     }];
     

@@ -263,11 +263,22 @@
 {
     // 将self 添加到SDK回调中，以便本类可以收到SDK回调
     [[HDClient sharedClient] addDelegate:self delegateQueue:nil];
+    
+    [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 }
 
 - (void)unRegisterEaseMobNotification{
     [[HDClient sharedClient] removeDelegate:self];
 }
+
+- (void)messagesDidReceive:(NSArray *)aMessages{
+    
+    
+    HDLogD(@"收到消息");
+    
+    
+}
+
 
 
 #pragma mark - IChatManagerDelegate

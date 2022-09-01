@@ -181,7 +181,7 @@ static HDUploadFileViewController *_manger = nil;
         NSData *data=   UIImageJPEGRepresentation(photos.firstObject,1.0f);
         PHAsset * asset = [assets firstObject];
         NSString *filename = [asset valueForKey:@"filename"];
-         NSLog(@"filename:%@",filename);
+        [HDLog logD:@"HD===%s filename==%@",__func__,filename];
         [self writeToFileData:data withFileName:filename];
         [self dismissViewController];
     }];
@@ -195,8 +195,7 @@ static HDUploadFileViewController *_manger = nil;
 // 如果用户选择了一个视频且allowPickingMultipleVideo是NO，下面的代理方法会被执行
 //如果allowPickingMultipleVideo是YES，将会调用imagePickerController:didFinishPickingPhotos:sourceAssets:isSelectOriginalPhoto:
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingVideo:(UIImage *)coverImage sourceAssets:(PHAsset *)asset{
-    
-    
+
     PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
     options.version = PHVideoRequestOptionsVersionOriginal;
     [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
@@ -204,8 +203,7 @@ static HDUploadFileViewController *_manger = nil;
             AVURLAsset* urlAsset = (AVURLAsset*)asset;
             NSNumber *size;
             [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
-            NSLog(@"size is %f",[size floatValue]/(1024.0*1024.0));
-            
+            [HDLog logD:@"HD===%s size is %f",__func__,[size floatValue]/(1024.0*1024.0)];
             NSString *fileName = [self getVideoName:[NSString stringWithFormat:@"%@",urlAsset.URL]];
            
             NSData * data = [NSData dataWithContentsOfURL:urlAsset.URL];
@@ -219,17 +217,11 @@ static HDUploadFileViewController *_manger = nil;
             }
      }
     }];
-   
-    NSLog(@"======");
-    
 }
 
 // 当allowEditVideo是YES且allowPickingMultipleVideo是NO是，如果用户选择了一个视频，下面的代理方法会被执行
 //如果allowPickingMultipleVideo是YES，则不支持编辑视频，将会调用imagePickerController:didFinishPickingPhotos:sourceAssets:isSelectOriginalPhoto:
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingAndEditingVideo:(UIImage *)coverImage outputPath:(NSString *)outputPath error:(NSString *)errorMsg{
-    
-    
-    NSLog(@"======");
 }
 -(void)uploadFileBtnClicked:(UIButton *)sender{
 
@@ -289,7 +281,7 @@ static HDUploadFileViewController *_manger = nil;
                 //读取出错
             } else {
                 //文件 上传或者其它操作
-                NSLog(@"------------->文件 上传或者其它操作");
+                [HDLog logD:@"HD===%s 开始上传文件==",__func__];
                 NSArray *array = [[newURL absoluteString] componentsSeparatedByString:@"/"];
                 NSString *fileName = [array lastObject];
                 fileName = [fileName stringByRemovingPercentEncoding];
@@ -462,9 +454,6 @@ static HDUploadFileViewController *_manger = nil;
     NSData *uploadData = [self getData];
     //7、创建上传任务 上传的数据来自getData方法
     NSURLSessionUploadTask *task = [session uploadTaskWithRequest:request fromData:uploadData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        
-        NSLog(@"==%@",response);
         
        //上传成功以后改变UILabel文本为服务器返回的数据
 //       self.uploadInfo.text =[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];

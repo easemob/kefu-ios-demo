@@ -113,7 +113,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 - (void)hd_OnLogout {
 
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
-        NSLog(@"=====已经在房间==需要退出房间======");
+        [HDLog logD:@"HD===%s ==已经在房间==需要退出房间===",__func__];
         [[HDWhiteRoomManager shareInstance].fastRoom disconnectRoom];
         [HDWhiteRoomManager shareInstance].roomState = NO;
     }
@@ -173,6 +173,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                         [[HDWhiteboardManager shareInstance] hd_wordConverterPptPage:url type:convertType completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
                             if (!error && [responseObject isKindOfClass:[NSDictionary class]]) {
                             NSLog(@"=== %@",responseObject);
+                                [HDLog logD:@"HD===%s ==responseObject==%@",__func__,responseObject];
                             if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
                                 NSDictionary *itemDic = [responseObject valueForKey:@"entity"] ;
                                 //组装数据
@@ -299,7 +300,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 }
 // MARK: - Fastboard Delegate
 - (void)fastboard:(Fastboard * _Nonnull)fastboard error:(FastRoomError * _Nonnull)error {
-    NSLog(@"error %@", error);
+    [HDLog logE:@"HD===%s ==error %@",__func__,error];
     [HDWhiteRoomManager shareInstance].roomState = NO;
     //通知代理
     if([self.whiteDelegate respondsToSelector:@selector(onFastboardDidJoinRoomFail)]){
@@ -309,15 +310,17 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 
 - (void)fastboardPhaseDidUpdate:(Fastboard * _Nonnull)fastboard phase:(enum FastRoomPhase)phase {
     NSLog(@"phase, %d", (int)phase);
+    [HDLog logD:@"HD===%s phase, %d",__func__,(int)phase];
 }
 
 - (void)fastboardUserKickedOut:(Fastboard * _Nonnull)fastboard reason:(NSString * _Nonnull)reason {
-    NSLog(@"kicked out");
+
+    [HDLog logD:@"HD===%s kicked out",__func__];
 }
 
 - (void)fastboardDidJoinRoomSuccess:(FastRoom * _Nonnull)fastboard room:(WhiteRoom * _Nonnull)room {
   
-    NSLog(@"fastboardDidJoinRoomSuccess = %@ == %@",fastboard.room.uuid,fastboard.room.roomMembers);
+    [HDLog logD:@"HD===%s fastboardDidJoinRoomSuccess = %@ == %@",__func__,fastboard.room.uuid,fastboard.room.roomMembers];
     [HDWhiteRoomManager shareInstance].roomState = YES;
     
     //通知代理
@@ -327,7 +330,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     
 }
 - (void)fastboardDidOccurError:(FastRoom * _Nonnull)fastboard error:(FastRoomError * _Nonnull)error {
-    NSLog(@"fastboardDidOccurError");
+    [HDLog logD:@"HD===%s fastboardDidOccurError",__func__];
     [HDWhiteRoomManager shareInstance].roomState = NO;
     //通知代理
     if([self.whiteDelegate respondsToSelector:@selector(onFastboardDidJoinRoomFail)]){
@@ -337,7 +340,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 // MARK: - WhiteRoomCallbackDelegate
 -(void)fireRoomStateChanged:(WhiteRoomState *)modifyState{
 
-    NSLog(@"fireRoomStateChanged = %@",modifyState);
+    [HDLog logD:@"HD===%s fireRoomStateChanged = %@",__func__,modifyState];
 }
 
 

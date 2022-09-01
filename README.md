@@ -93,9 +93,11 @@ HDErrorUserIllegalArgument 参数不合法
 ```
 #### <A NAME="Guide_login"></A>登录
 由于HDClient有一个isLoggedInBefore(BOOL)，登录操作前可以先做个判断。
+EMClient 有一个isLoggedIn  和客服sdk 一定要一起判断
 ```
 HDClient *client = [HDClient sharedClient];
-    if (client.isLoggedInBefore != YES) {
+EMClient *client = [EMClient sharedClient];
+    if (client.isLoggedInBefore != YES && [EMClient sharedClient].isLoggedIn != YES) {
         HDError *error = [client loginWithUsername:@"username" password:@"password"];
         if (!error) { //登录成功
             HDMessageViewController *chatVC = [[HDMessageViewController alloc] initWithConversationChatter:@"IM 服务号"];

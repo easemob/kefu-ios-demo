@@ -179,11 +179,8 @@
     if (self.clickCellItemBlock) {
         self.clickCellItemBlock(_cellArray[indexPath.item], indexPath);
     }
-     
     self.currentCell = (HDCallCollectionViewCell *)  [self.collectionView cellForItemAtIndexPath:indexPath];
-    
-//    [self.collectionView reloadData];
-    NSLog(@"选择%ld",indexPath.item);
+    [HDLog logD:@"HD===%s 选择=%ld",__func__,indexPath.item];
 
 }
 //定义每个UICollectionView 的边距

@@ -153,8 +153,9 @@
     
     //查询文档进度
     [[HDWhiteboardManager shareInstance] hd_wordConverterPptPageProgress:@"" type:type callId:nil taskId:taskUUID completion:^(id _Nonnull responseObject, HDError * _Nonnull error) {
+        [HDLog logD:@"HD===%s responseObject = %@",__func__,responseObject];
         if (!error && [responseObject isKindOfClass:[NSDictionary class]]) {
-        NSLog(@"=== %@",responseObject);
+        
             NSDictionary * dic = responseObject;
             if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
                 NSDictionary *itemDic = [responseObject valueForKey:@"entity"] ;
@@ -162,7 +163,7 @@
                 !result ? : result(info, nil);
             }
         }
-        NSLog(@"=== %@",responseObject);
+       
     }];
     
 }

@@ -180,14 +180,14 @@
 #pragma mark - event
 - (void)clickHide:(UIButton *)sender{
     sender.selected = !sender.selected;
-    NSLog(@"===clickHide");
+    [HDLog logD:@"HD===%s clickHide",__func__];
     if (self.clickHideBlock) {
         self.clickHideBlock(sender);
     }
 }
 - (void)clickZoomBtn:(UIButton *)sender{
     sender.selected = !sender.selected;
-    NSLog(@"===clickZoomBtn");
+    [HDLog logD:@"HD===%s clickZoomBtn",__func__];
     if (self.clickZoomBtnBlock) {
         self.clickZoomBtnBlock(sender);
     }

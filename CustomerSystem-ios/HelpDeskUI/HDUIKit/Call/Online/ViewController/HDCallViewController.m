@@ -179,17 +179,17 @@ static HDCallViewController *_manger = nil;
     
 }
 - (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoCallType)type{
-//    NSLog(@"====%@",[VECClient sharedClient].sdkVersion);
     [HDCallManager shareInstance].isVecVideo = NO;
-    [HDLog logI:@"================vec=====收到坐席回呼cmd消息 拿到keyCenter: %@",keyCenter];
-    
+    [HDLog logD:@"HD===%s =vec=====收到坐席回呼cmd消息 拿到keyCenter: %@",__func__,keyCenter];
     if (!isCalling) {
         if (type == HDVideoCallDirectionSend) {
+            [HDLog logD:@"HD===%s =vec=====收到坐席回呼cmd消息 拿到keyCenter: type == HDVideoCallDirectionSend",__func__];
             // 发送 界面
             self.isVisitorSend = YES;
             self.hdAnswerView.callType = HDVideoCallDirectionSend;
         
         }else{
+            [HDLog logD:@"HD===%s =vec=====收到坐席回呼cmd消息 拿到keyCenter: type == HDVideoCallDirectionReceive",__func__];
             // 接受 界面
             //需要必要创建房间的参数
             [HDAgoraCallManager shareInstance].keyCenter = keyCenter;
@@ -197,14 +197,13 @@ static HDCallViewController *_manger = nil;
             self.agentName = keyCenter.agentNickName;
            
             if (self.isVisitorSend) {
+                [HDLog logD:@"HD===%s =vec=====收到坐席回呼cmd消息 拿到keyCenter: self.isVisitorSend = YES",__func__];
                 //访客发起后 坐席回拨过来了
                 [self anwersBtnClicked:nil];
 
             }else{
-               
-            
+                [HDLog logD:@"HD===%s =vec=====收到坐席回呼cmd消息 拿到keyCenter: self.isVisitorSend = NO",__func__];
                 self.hdAnswerView.callType = HDVideoCallDirectionReceive;
-            
                 // 其他情况下都是 坐席回拨过来的
                 self.isVisitorSend = NO;
             }
@@ -383,7 +382,8 @@ static HDCallViewController *_manger = nil;
 }
 // 根据HDCallMember 创建cellItem
 - (HDCallCollectionViewCellItem *)createCallerWithMember2:(HDAgoraCallMember *)aMember withView:(UIView *)view {
-    NSLog(@"join 成员加入回调- 根据HDCallMember 创建cellItem--- %@ ",aMember.memberName);
+    
+    [HDLog logD:@"HD===%s join 成员加入回调- 根据HDCallMember 创建cellItem--- %@",__func__,aMember.memberName];
     HDCallCollectionViewCellItem *item = [[HDCallCollectionViewCellItem alloc] init];
     item.nickName = aMember.agentNickName;
     item.uid = [aMember.memberName integerValue];
@@ -422,15 +422,13 @@ static HDCallViewController *_manger = nil;
    
     if (_thirdAgentNickName.length > 0) {
     [self.smallWindowView.items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-           NSLog(@"%@----%@",self.smallWindowView.items[idx],[NSThread currentThread]);
+        [HDLog logD:@"HD===%s self.smallWindowView.items[idx]-%@-- %@",__func__,self.smallWindowView.items[idx],[NSThread currentThread]];
         HDCallCollectionViewCellItem *item = obj;
         if (item.uid == [_thirdAgentUid integerValue]) {
             item.nickName = _thirdAgentNickName;
             [self.smallWindowView setAudioMuted:item];
         }
     }];
-
-//    [self.collectionView reloadData];
     }
 }
 
@@ -494,14 +492,16 @@ static HDCallViewController *_manger = nil;
         CGSize screen = [UIScreen mainScreen].bounds.size;
         //动画播放完成之后
         if(screen.width > screen.height){
-            NSLog(@"横屏");
+            
+            [HDLog logD:@"HD===%s 横屏",__func__];
             [self updateCustomViewFrame:screen withScreen:YES];
         }else{
-            NSLog(@"竖屏");
+            [HDLog logD:@"HD===%s 竖屏",__func__];
             [self updateCustomViewFrame:screen withScreen:NO];
         }
     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         NSLog(@"动画播放完之后处理");
+        [HDLog logD:@"HD===%s 动画播放完之后处理",__func__];
     }];
 }
 
@@ -876,20 +876,17 @@ static HDCallViewController *_manger = nil;
     [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
                                                         completion:^(id obj, HDError *error)
      {
-        NSLog(@"===anwersBtnClicked=Occur error%d",error.code);
+        [HDLog logD:@"HD===%s anwersBtnClickedCallBack",__func__];
         if (error == nil){
-            
-            NSLog(@"===anwersBtnClicked=isCalling%d",error.code);
+            [HDLog logD:@"HD===%s anwersBtnClickedCallBack-success=%@",__func__,obj];
         }else{
-            NSLog(@"===anwersBtnClicked=dispatch_async%d",error.code);
+            [HDLog logD:@"HD===%s anwersBtnClickedCallBack-fail=%@",__func__,error.errorDescription];
             // 加入失败 或者视频网络断开
             dispatch_async(dispatch_get_main_queue(), ^{
                // UI更新代码
                 if (self.hangUpCallback) {
                     self.hangUpCallback(self,self.hdTitleView.timeLabel.text);
                 }
-          
-            NSLog(@"VC=Occur error%d",error.code);
             });
         }
        
@@ -964,6 +961,7 @@ static HDCallViewController *_manger = nil;
 // 静音事件
 - (void)muteBtnClicked:(UIButton *)btn {
 //    btn.selected = !btn.selected;
+    [HDLog logD:@"HD===%s 点击了静音事件",__func__];
     if (btn.selected) {
         [[HDAgoraCallManager shareInstance] pauseVoice];
         [self updateAudioMuted:YES byUid:kLocalUid withVideoMuted:NO];
@@ -972,8 +970,6 @@ static HDCallViewController *_manger = nil;
         
         [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:NO];
     }
-    
-    NSLog(@"点击了静音事件");
 }
 
 // 停止发送视频流事件
@@ -1000,7 +996,7 @@ static HDCallViewController *_manger = nil;
     
 }
 - (void)popoverVCWithBtn:(UIButton *)btn{
-    NSLog(@"点击了视频事件");
+    [HDLog logD:@"HD===%s 点击了视频pop事件",__func__];
     self.buttonPopVC = [[HDPopoverViewController alloc] init];
     self.buttonPopVC.modalPresentationStyle = UIModalPresentationPopover;
     self.buttonPopVC.popoverPresentationController.sourceView = btn;  //rect参数是以view的左上角为坐标原点（0，0）
@@ -1016,12 +1012,13 @@ static HDCallViewController *_manger = nil;
     NSIndexPath *indexpath = (NSIndexPath *)notification.object;
     switch (indexpath.row) {
         case 0:
+           
             //关闭摄像头
             [self closeCamera];
             break;
         case 1:
             //切换摄像头
-            NSLog(@"====点击了切换摄像头");
+            [HDLog logD:@"HD===%s 点击了切换摄像头",__func__];
             [[HDAgoraCallManager shareInstance] switchCamera];
             break;
     
@@ -1035,7 +1032,7 @@ static HDCallViewController *_manger = nil;
     }
 }
 - (void)closeCamera{
-    NSLog(@"====点击了关闭摄像头");
+    [HDLog logD:@"HD===%s 点击了关闭摄像头",__func__];
     _cameraState = NO;
 //    _cameraBtn.selected =NO;
     //更新对应状态 设置button 照片
@@ -1045,9 +1042,6 @@ static HDCallViewController *_manger = nil;
     // 获取
    
     [self updateAudioMuted:NO byUid:kLocalUid withVideoMuted:YES];
-    
-    
-
 }
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
     return UIModalPresentationNone;
@@ -1060,7 +1054,7 @@ static HDCallViewController *_manger = nil;
 - (void)speakerBtnClicked:(UIButton *)btn {
     btn.selected = !btn.selected;
 //    [[HDAgoraCallManager shareInstance] setEnableSpeakerphone:btn.selected];
-    NSLog(@"点击了扬声器事件");
+    [HDLog logD:@"HD===%s 点击了扬声器事件",__func__];
 }
 
 
@@ -1069,37 +1063,37 @@ static HDCallViewController *_manger = nil;
 
 // 成员加入回调
 - (void)onMemberJoin:(HDAgoraCallMember *)member {
-    NSLog(@"join 成员加入回调---- %@ ",member.memberName);
+    [HDLog logD:@"HD===%s join 成员加入回调-start--- %@",__func__,member.memberName];
     // 有 member 加入，添加到datasource中。
     if (isCalling) { // 只有在已经通话中的情况下，才回去在ui加入，否则都在接听时加入。
-        NSLog(@"join 成员加入回调- isCalling--- %@ ",member.memberName);
+        [HDLog logD:@"HD===%s join 成员加入回调-isCalling--- %@",__func__,member.memberName];
         @synchronized(_midelleMembers){
             BOOL isNeedAdd = YES;
             for (HDCallCollectionViewCellItem *item in _midelleMembers) {
-                NSLog(@"join Member  member---- %@ ",member.memberName);
+                [HDLog logD:@"HD===%s join 成员加入回调-循环开始--- %@  item==%lud",__func__,member.memberName,item.uid];
                 if (item.uid  == [member.memberName integerValue] ) {
                     isNeedAdd = NO;
                     break;
                 }
             }
-            NSLog(@"join 成员加入回调- @synchronized for循环结束--- %@ ",member.memberName);
+            [HDLog logD:@"HD===%s join 成员加入回调-@synchronized for循环结束- isNeedAdd-- %d",__func__,isNeedAdd];
             if (isNeedAdd) {
-                NSLog(@"join Member  isNeedAdd---- %@ ",member.memberName);
+                [HDLog logD:@"HD===%s join 成员加入回调- isNeedAdd = yes-- %d",__func__,isNeedAdd];
                 if (_midelleMembers.count > 0) {
-                    NSLog(@"join Member  _midelleMembers---- %@ ",member.memberName);
+                    [HDLog logD:@"HD===%s join 成员加入回调- isNeedAdd = _midelleMembers.count =%ld",__func__,_midelleMembers.count];
                     UIView * localView = [[UIView alloc] init];
                     HDCallCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:localView];
                     [self.smallWindowView  setThirdUserdidJoined:thirdItem];
                    
                 }else{
-                    NSLog(@"join Member  isNeedAdd---- %@ ",member.memberName);
+                    [HDLog logD:@"HD===%s join 成员加入回调- isNeedAdd = _midelleMembers.count <= 0 需要添加",__func__];
                     HDCallCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:self.midelleVideoView];
                     [_midelleMembers addObject: thirdItem];
                 }
             }
         };
         
-        NSLog(@"join 成员加入回调- @synchronized 加入成员结束--- %@ ",member.memberName);
+        [HDLog logD:@"HD===%s join 成员加入回调- @synchronized 加入成员结束 开始调用 updateThirdAgent",__func__];
         [self updateThirdAgent];
      //刷新 collectionView
         [self.smallWindowView reloadData];
@@ -1121,7 +1115,7 @@ static HDCallViewController *_manger = nil;
 
 // 成员离开回调
 - (void)onMemberExit:(HDAgoraCallMember *)member {
-    NSLog(@"onMemberExit Member  member---- %@ ",member.memberName);
+    [HDLog logD:@"HD===%s onMemberExit Member  member= start  离开成员=",__func__,member.memberName];
     //先判断房间里边有没有人 如果么有人  删除界面
     if ([HDAgoraCallManager shareInstance].hasJoinedMembers.count ==0) {
         //退出 界面
@@ -1187,10 +1181,8 @@ static HDCallViewController *_manger = nil;
     BOOL  __block isSmallVindow = NO;
     [self.smallWindowView.items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         HDCallCollectionViewCellItem *item = obj;
-        NSLog(@"%ld----%@",(long)item.uid,[NSThread currentThread]);
         if (item.uid == uid) {
             isSmallVindow = YES;
-            NSLog(@"==uid===%lu",(unsigned long)uid);
             item.isMute = muted;
             item.isVideoMute = videoMuted;
             [self.smallWindowView setAudioMuted:item];
@@ -1204,7 +1196,6 @@ static HDCallViewController *_manger = nil;
         
         [_videoViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             HDCallCollectionViewCellItem *item = obj;
-            NSLog(@"%ld----%@",(long)item.uid,[NSThread currentThread]);
             if (item.uid == uid) {
                 item.isVideoMute = videoMuted;
                 item.isMute = muted;
@@ -1297,8 +1288,7 @@ static HDCallViewController *_manger = nil;
 - (void)onFastboardDidJoinRoomFail{
     
     [_hud hideAnimated:YES];
-    NSLog(@"===========加入失败");
-    
+    [HDLog logD:@"HD===%s 白板加入失败",__func__];
     [self.whiteBoardView removeFromSuperview];
 }
 - (void)onFastboardDidJoinRoomSuccess{
@@ -1380,9 +1370,8 @@ static HDCallViewController *_manger = nil;
     HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
     HDWhiteBoardView * whiteView = (HDWhiteBoardView *) midelleViewItem.camView;
     sender.selected = !sender.selected;
+    [HDLog logD:@"HD===%s 画中画==%d",__func__,sender.selected];
     if (sender.isSelected) {
-        
-        NSLog(@"sender.isSelected");
         if (self.isLandscape) {
             [whiteView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.offset(0);
@@ -1404,7 +1393,6 @@ static HDCallViewController *_manger = nil;
             [self.parentView bringSubviewToFront:whiteView];
         }
     }else{
-        NSLog(@"点击了互动白板事件");
         if (self.isLandscape) {
             [whiteView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.offset(0);
@@ -1435,18 +1423,6 @@ static HDCallViewController *_manger = nil;
     
 }
 - (void)uploadFile{
-//    HDUploadFileViewController * vc = [[HDUploadFileViewController alloc] init];
-//    vc.hdUploadFileDismissBlock = ^(UIViewController * _Nonnull vc) {
-//
-//
-//        [vc.view removeFromSuperview];
-//        [vc removeFromParentViewController];
-//
-//    };
-//    [self addChildViewController:vc];
-//    [self.parentView addSubview:vc.view];
-//    [self.parentView bringSubviewToFront:vc.view];
-    
     [HDUploadFileViewController sharedManager];
     
    
@@ -1470,10 +1446,9 @@ static HDCallViewController *_manger = nil;
         
     }
     
-    
     for (HDCallCollectionViewCellItem * tmpItem in self.smallWindowView.items) {
         
-        NSLog(@"======%@",tmpItem.nickName);
+        [HDLog logD:@"HD===%s ==%@",__func__,tmpItem.nickName];
     }
     [[HDWhiteRoomManager shareInstance] hd_OnLogout];
     HDCallCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
@@ -1506,6 +1481,7 @@ static HDCallViewController *_manger = nil;
    
 
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
+        [HDLog logD:@"HD===%s ===%@",__func__,NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")];
         //当前正在白板房间
         [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen") withWindow:self.alertWindow];
         return;
@@ -1524,7 +1500,7 @@ static HDCallViewController *_manger = nil;
             [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
         }
     }
-    NSLog(@"点击了屏幕共享事件");
+    [HDLog logD:@"HD===%s 点击了屏幕共享事件",__func__];
 }
 
 
@@ -1543,17 +1519,14 @@ static HDCallViewController *_manger = nil;
         NSDictionary *string = change[NSKeyValueChangeNewKey];
         if ([string[@"state"] isEqual:@"初始化"]) {
             //开启 RTC：外部视频输入通道，开始推送屏幕流（configLocalScreenPublish）
-//            [self screenShareStart];
-            
-            NSLog(@"== 屏幕分享开始=====%@",string);
+            [HDLog logD:@"HD===%s 屏幕分享开始=%@",__func__,string];
             _shareState= YES;
             _shareBtn.selected = _shareState;
             
         }
         if ([string[@"state"] isEqual:@"停止"]) {
             //关闭 RTC：外部视频输入通道，停止推送屏幕流
-//            [self screenShareStop];
-            NSLog(@"== 屏幕分享停止=====%@",string);
+            [HDLog logD:@"HD===%s 屏幕分享停止=%@",__func__,string];
             _shareState= NO;
             //更改按钮的状态
             _shareBtn.selected = _shareState;
@@ -1627,34 +1600,24 @@ void NotificationCallback(CFNotificationCenterRef center,
         
         _shareState= YES;
         _shareBtn.selected = !_shareBtn.selected;
-        NSLog(@"broadcastStartedWithSetupInfo");
+        [HDLog logD:@"HD===%s broadcastStartedWithSetupInfo",__func__];
     }
     if ([identifier isEqualToString:@"broadcastPaused"]) {
-        NSLog(@"broadcastPaused");
+        [HDLog logD:@"HD===%s broadcastPaused",__func__];
     }
     if ([identifier isEqualToString:@"broadcastResumed"]) {
-        NSLog(@"broadcastResumed");
+        [HDLog logD:@"HD===%s broadcastResumed",__func__];
     }
     if ([identifier isEqualToString:@"broadcastFinished"]) {
+        [HDLog logD:@"HD===%s broadcastFinished",__func__];
         _shareState= NO;
         //更改按钮的状态
         _shareBtn.selected = !_shareBtn.selected;
-//        [[HDAgoraCallManager shareInstance] joinChannel];
-//        //设置远端试图
-//        for (HDCallCollectionViewCellItem * item in _members) {
-//            if (item.uid == kLocalUid) {
-//                //设置本地试图 取出本地item
-//                [[HDAgoraCallManager shareInstance] setupLocalVideoView:item.camView];
-//            }else{
-//                [[HDAgoraCallManager shareInstance] setupRemoteVideoView:item.camView withRemoteUid:item.uid];
-//            }
-//        }
-       
-        NSLog(@"broadcastFinished");
+        [HDLog logD:@"HD===%s broadcastFinished",__func__];
         
     }
     if ([identifier isEqualToString:@"processSampleBuffer"]) {
-        NSLog(@"processSampleBuffer");
+        [HDLog logD:@"HD===%s processSampleBuffer",__func__];
     }
 }
 
@@ -1874,19 +1837,20 @@ void NotificationCallback(CFNotificationCenterRef center,
     
 }
 - (void)dragToTheLeft{
-    NSLog(@"左划到左边框了");
+
+    [HDLog logD:@"HD===%s 左划到左边框了",__func__];
 
 }
 - (void)dragToTheRight{
-    NSLog(@"右划到右边框了");
+    [HDLog logD:@"HD===%s 右划到右边框了",__func__];
 
 }
 - (void)dragToTheTop{
-    NSLog(@"上滑到顶部了");
+    [HDLog logD:@"HD===%s 上滑到顶部了",__func__];
 
 }
 - (void)dragToTheBottom{
-    NSLog(@"下滑到底部了");
+    [HDLog logD:@"HD===%s 下滑到底部了",__func__];
 }
 
 - (void)__enablePictureInPictureZoom{

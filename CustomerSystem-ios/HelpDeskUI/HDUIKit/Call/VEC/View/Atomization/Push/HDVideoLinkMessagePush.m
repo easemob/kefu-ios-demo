@@ -75,7 +75,6 @@
 - (void)hd_OnClose{
     
     
-    NSLog(@"===h5调用了 app方法");
     
 }
 - (void)setWebUrl:(NSString *)url{

@@ -156,25 +156,17 @@
     //正常状态下，点击cell进入跳转下一页
     //在编辑模式下点击cell 是选中数据
     if (self.btn.selected) {
-         NSLog(@"选中");
         self.btnContent.userInteractionEnabled = YES;
         [self.btnContent setTitle:@"删除" forState:UIControlStateNormal];
         [self.deleteArray addObject:[self.dataArray objectAtIndex:indexPath.row]];
 
     }else{
-        NSLog(@"跳转下一页");
+    
     }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath  {
     
-//    if (self.btn.selected) {
-//        NSLog(@"撤销");
-//        [self.deleteArray removeObject:[self.dataArray objectAtIndex:indexPath.row]];
-//
-//    }else{
-//        NSLog(@"取消跳转");
-//    }
 
     
 }
