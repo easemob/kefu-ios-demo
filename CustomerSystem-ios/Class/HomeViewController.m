@@ -176,9 +176,23 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 - (void)login:(UIButton*)sender{
     
-//    HDLoginViewController * loginVC = [[HDLoginViewController alloc] init];
-//
-//    [self.navigationController pushViewController:loginVC animated:YES];
+    [[EMClient sharedClient] getLoggedInDevicesFromServerWithUsername:@"te9795v9fgmcys5"
+ password:@"123456" completion:^(NSArray<EMDeviceConfig *> * _Nullable aList, EMError * _Nullable aError) {
+        
+        if (aError == nil) {
+            EMDeviceConfig * config = aList[0];
+           
+            [HDLog logD:@"======%@",config.yy_modelToJSONString];
+            
+        }
+       
+        
+    }];
+    
+    
+    HDLoginViewController * loginVC = [[HDLoginViewController alloc] init];
+
+    [self.navigationController pushViewController:loginVC animated:YES];
 }
 #pragma mark - private action
 
@@ -250,8 +264,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     
     [HDLog logD:@"HD===%s chatAction",__FUNCTION__];
-
-    HDLogD(@"123");
     
 //    
 ////    @try {

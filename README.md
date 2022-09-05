@@ -97,7 +97,7 @@ EMClient 有一个isLoggedIn  和客服sdk 一定要一起判断
 ```
 HDClient *client = [HDClient sharedClient];
 EMClient *client = [EMClient sharedClient];
-    if (client.isLoggedInBefore != YES && [EMClient sharedClient].isLoggedIn != YES) {
+if (client.isLoggedInBefore != YES && [EMClient sharedClient].isLoggedIn != YES) {
         HDError *error = [client loginWithUsername:@"username" password:@"password"];
         if (!error) { //登录成功
             HDMessageViewController *chatVC = [[HDMessageViewController alloc] initWithConversationChatter:@"IM 服务号"];

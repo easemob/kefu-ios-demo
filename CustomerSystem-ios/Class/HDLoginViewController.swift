@@ -17,19 +17,24 @@ class HDLoginViewController: UIViewController, UITextFieldDelegate {
     let pwd = UITextField()
     let btn = UIButton(type: .system)
     let logout = UIButton(type: .system)
+    let regist = UIButton(type: .system)
     var username : String? = String()
     var pwdWord : String? = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white;
-        lb.frame = CGRect(x: 20, y: 0, width: view.frame.width-20, height: 44)
+        lb.frame = CGRect(x: 20, y: 0, width: view.frame.width-20, height: 88)
         lb.backgroundColor = .white
         lb.textColor = .black
         lb.textAlignment = .center
+        lb.numberOfLines = 0;
         lb.text = HDClient.shared().currentUsername
         lb.font = .systemFont(ofSize: 15)
         view.addSubview(lb)
         username = HDClient.shared().currentUsername
+        
+      
+        
         
         tf.frame = CGRect(x: 10, y: 84, width: 400, height: 44)
         tf.backgroundColor = .white
@@ -69,6 +74,23 @@ class HDLoginViewController: UIViewController, UITextFieldDelegate {
         logout.setTitleColor(UIColor.white, for: .normal)
         logout.addTarget(self, action: #selector(logoutAction), for: .touchUpInside)
         view.addSubview(logout)
+        
+//        regist.frame = CGRect(x: view.center.x/1.2, y: logout.frame.origin.y + 64, width: 64, height: 44)
+//        regist.backgroundColor = .blue
+//        regist.titleLabel?.font = .systemFont(ofSize: 15)
+//        regist.setTitle("注册", for: .normal)
+//        regist.setTitleColor(UIColor.white, for: .normal)
+//        regist.addTarget(self, action: #selector(registAction), for: .touchUpInside)
+//        view.addSubview(regist)
+        
+        
+        let tt = "当前登录的用户名："
+        let tt1 = self.tf.text
+        var str = ""
+        str = tt + tt1!//字符串拼接
+        
+        self.lb.text = str;
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -83,7 +105,10 @@ class HDLoginViewController: UIViewController, UITextFieldDelegate {
                 NSLog("登录成功")
                 let tt = "当前登录的用户名：\n"
                 let tt1 = self.tf.text
-                self.lb.text = tt + tt1!;
+                var str = ""
+                str = tt + tt1!//字符串拼接
+                
+                self.lb.text = str;
                 
             }else{
                 
@@ -98,11 +123,17 @@ class HDLoginViewController: UIViewController, UITextFieldDelegate {
                
         
                 NSLog("退出成功")
-                self.lb.text = "退出成功";
+                let tt1 = "退出成功 上一次 登录的用户为：\n"
+                
+                self.lb.text = tt1 + self.tf.text!;
+                
             }else{
                 NSLog("退出失败")
                 self.lb.text = aError?.errorDescription;
             }
         }
     }
+//    func registAction(){
+//        HDClient.shared().register(withUsername: <#T##String!#>, password: <#T##String!#>)
+//    }
 }
