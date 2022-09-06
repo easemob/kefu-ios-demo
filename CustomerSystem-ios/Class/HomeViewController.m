@@ -176,18 +176,23 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 - (void)login:(UIButton*)sender{
     
-    [[EMClient sharedClient] getLoggedInDevicesFromServerWithUsername:@"te9795v9fgmcys5"
- password:@"123456" completion:^(NSArray<EMDeviceConfig *> * _Nullable aList, EMError * _Nullable aError) {
-        
-        if (aError == nil) {
-            EMDeviceConfig * config = aList[0];
-           
-            [HDLog logD:@"======%@",config.yy_modelToJSONString];
-            
-        }
-       
-        
-    }];
+//    [[EMClient sharedClient] getLoggedInDevicesFromServerWithUsername:@"te9795v9fgmcys5"
+// password:@"123456" completion:^(NSArray<EMDeviceConfig *> * _Nullable aList, EMError * _Nullable aError) {
+//
+//        if (aError == nil) {
+//            EMDeviceConfig * config = aList[0];
+//
+//            [HDLog logD:@"======%@",config.yy_modelToJSONString];
+//
+//        }
+//
+//
+//    }];
+    
+  HDError * error= [[HDClient sharedClient] loginWithUsername:@"3245808767000" password:@"hongdou123"];
+    
+    [HDLog logD:@"error==%u ==%@",error.code,error.errorDescription];
+    
     
     
     HDLoginViewController * loginVC = [[HDLoginViewController alloc] init];
