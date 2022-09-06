@@ -78,6 +78,13 @@ typedef enum : NSUInteger {
         _messsagesSource = [NSMutableArray array];
         [_conversation markAllMessagesAsRead:nil];
         
+        [[HDClient sharedClient].chatManager markAllMessagesAsRead:nil Completion:^(id responseObject, HDError *error) {
+                        
+            
+            NSLog(@"======%@",responseObject);
+            
+            
+        }];
     }
     
     return self;
@@ -1464,7 +1471,7 @@ typedef enum : NSUInteger {
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             [_conversation markAllMessagesAsRead:nil];
     
-            [[HDClient sharedClient].chatManager markAllMessagesAsRead:message Completion:^(id responseObject, HDError *error) {
+            [[HDClient sharedClient].chatManager markAllMessagesAsRead:nil Completion:^(id responseObject, HDError *error) {
                             
                 
                 NSLog(@"======%@",responseObject);
