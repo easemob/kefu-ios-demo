@@ -46,7 +46,12 @@
 
 #define kHDVideoMessageHeight [UIScreen mainScreen].bounds.size.height * 0.8
 
-
+typedef NS_ENUM(NSInteger, HDVideoCallTaskType) {
+    HDVideoCallTaskPush = 1, //  信息推送
+    HDVideoCallTaskSign , //  签名
+    HDVideoCallTaskIDCard , //  卡证识别
+    HDVideoCallTaskFace , // 人脸识别
+};
 @interface HDVideoCallViewController ()<HDAgoraCallManagerDelegate,HDCallManagerDelegate,HDWhiteboardManagerDelegate,UIPopoverPresentationControllerDelegate,SuspendCustomViewDelegate,HDVideoGeneralCustomViewDelegate,HDSignDelegate>{
     
 //    BOOL _isShow; //是否已经调用过show方法
@@ -132,7 +137,8 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (nonatomic, strong) HDVideoCallChatViewController * chat;
 @property (nonatomic, weak) NSTimer *hideDelayTimer;
 @property (nonatomic, weak) NSTimer *timeOutTimer;
-
+// 队列数组 保证有一个正在执行的任务
+@property (nonatomic, strong) NSMutableArray * queueArray;
 @end
 static dispatch_once_t onceToken;
  
@@ -2117,6 +2123,7 @@ static HDVideoCallViewController *_manger = nil;
     _signflowId = [self getFlowId:dic];
     [self hd_hiddenPictureInPictureScreen];
     [self.view addSubview:self.hdSignView];
+    [self saveTaskQueue:HDVideoCallTaskSign];
     [self.hdSignView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.offset(5);
         make.trailing.offset(-5);
@@ -2137,6 +2144,7 @@ static HDVideoCallViewController *_manger = nil;
        
     }else{
         //摄像头 相关操作
+        [self saveTaskQueue:HDVideoCallTaskFace];
         [self hiddenCallingOtherView];
         [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeFace];
     }
@@ -2151,8 +2159,11 @@ static HDVideoCallViewController *_manger = nil;
     if ( [self isFlowEndAction:dic]) {
         [self showCallingOtherView:YES];
     }else{
+        [self saveTaskQueue:HDVideoCallTaskIDCard];
+        
         [self hiddenCallingOtherView];
         [self createVECGeneralBaseUI:HDVideoIDCardScaningViewTypeIDCard];
+        
     }
 }
 
@@ -2180,7 +2191,7 @@ static HDVideoCallViewController *_manger = nil;
                 
                 if ([link isEqualToString:@"link"]) {
                     [self.view addSubview:self.hdVideoLinkMessagePush];
-                    
+                    [self saveTaskQueue:HDVideoCallTaskPush];
                     [self.hdVideoLinkMessagePush mas_makeConstraints:^(MASConstraintMaker *make) {
                         make.leading.offset(0);
                         make.trailing.offset(0);
@@ -2199,7 +2210,7 @@ static HDVideoCallViewController *_manger = nil;
     }else{
         
         [self.view addSubview:self.hdVideoLinkMessagePush];
-        
+        [self saveTaskQueue:HDVideoCallTaskPush];
         [self.hdVideoLinkMessagePush mas_makeConstraints:^(MASConstraintMaker *make) {
             make.leading.offset(0);
             make.trailing.offset(0);
@@ -2353,7 +2364,7 @@ static HDVideoCallViewController *_manger = nil;
     }
     
     [_idCardScaningView removeFromSuperview];
-    
+    _idCardScaningView = nil;
     if (self.ocrView == nil || _ocrItem == nil) {
         
     }else{
@@ -2973,11 +2984,6 @@ static HDVideoCallViewController *_manger = nil;
     
     // 调用接口 获取 超时时间
     [[HDCallManager shareInstance] hd_getVideoLineUpTimeOutCompletion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
-       
-        
-        
-        
-        
     }];
     
 }
@@ -2998,5 +3004,71 @@ static HDVideoCallViewController *_manger = nil;
     [self offBtnClicked:nil];
 
 }
+#pragma mark - 原子化 能力 优化
+-  (void)saveTaskQueue:(HDVideoCallTaskType )taskId{
+    
+    
+    if (self.queueArray.count ==0) {
+        
+        [self.queueArray addObject:[NSNumber numberWithInteger:taskId]];
+        
+    }else{
+        
+        // 先取出 任务名字
+        HDVideoCallTaskType  oldTaskId = [[self.queueArray lastObject] integerValue];
+        
+        [self.queueArray removeAllObjects];
+        
+        // 去执行 取消正在执行的任务
+        [self cancelPerformQueueTask:oldTaskId];
+        
+        [self.queueArray addObject:[NSNumber numberWithInteger:taskId]];
+        
+    }
+}
+- (BOOL)cancelPerformQueueTask:(HDVideoCallTaskType )taskId{
+    
+    BOOL cancel = NO;
+    switch (taskId) {
+        case HDVideoCallTaskIDCard:
+            [self showCallingOtherView:YES];
+            cancel = YES;
+            break;
+        case HDVideoCallTaskFace:
+            cancel = YES;
+            [self showCallingOtherView:YES];
+            break;
+        case HDVideoCallTaskPush:
+            cancel = YES;
+            [self.hdVideoLinkMessagePush removeFromSuperview];
+            self.hdVideoLinkMessagePush = nil;
+            break;
+        case HDVideoCallTaskSign:
+            
+            //移除 签名界面
+            [self.hdSignView removeFromSuperview];
+            self.hdSignView = nil;
+            
+            cancel = YES;
+            break;
+            
+        default:
+            break;
+    }
+    
+    
+    return cancel;
+    
+}
 
+
+-(NSMutableArray *)queueArray{
+    
+    
+    if (!_queueArray) {
+        _queueArray = [[NSMutableArray alloc] init];
+    }
+    
+    return _queueArray;
+}
 @end

@@ -189,9 +189,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //
 //    }];
     
-  HDError * error= [[HDClient sharedClient] loginWithUsername:@"3245808767000" password:@"hongdou123"];
-    
-    [HDLog logD:@"error==%u ==%@",error.code,error.errorDescription];
+//  HDError * error= [[HDClient sharedClient] loginWithUsername:@"3245808767000" password:@"hongdou123"];
+//    
+//    [HDLog logD:@"error==%u ==%@",error.code,error.errorDescription];
     
     
     
