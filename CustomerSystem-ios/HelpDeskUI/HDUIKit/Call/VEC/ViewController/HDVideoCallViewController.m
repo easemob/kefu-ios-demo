@@ -380,6 +380,7 @@ static HDVideoCallViewController *_manger = nil;
     [_members removeAllObjects];
     [_midelleMembers removeAllObjects];
     [allMembersDic removeAllObjects];
+    [self clearQueueTask];
     for (UIView *view in [self.view subviews]) {
 
         if (![view isKindOfClass:[HDVideoAnswerView class]]) {
@@ -2337,6 +2338,7 @@ static HDVideoCallViewController *_manger = nil;
 #pragma mark - 事件处理
 - (void)pushBusinessreport:(NSString *)content{
     
+    [self clearQueueTask];
     // 上报 信息推送
     [[HDClient sharedClient].callManager hd_pushBusinessReportWithFlowId:_pushflowId withAction:@"infopush_end" withType:@"infopush" withUrl:@"" withContent:content Completion:^(id responseObject, HDError * error) {
         
@@ -2432,7 +2434,7 @@ static HDVideoCallViewController *_manger = nil;
         NSString * action = [msgTypeDic objectForKey:@"action"];
         
         if ([action containsString:@"end"]) {
-            
+            [self clearQueueTask];
             return YES;
         }
         
@@ -2470,6 +2472,7 @@ static HDVideoCallViewController *_manger = nil;
             [self.hdSignView removeFromSuperview];
             self.hdSignView = nil;
             [self hd_showPictureInPictureScreen];
+            [self clearQueueTask];
             
         }else{
             NSLog(@"=====%@",error.errorDescription);
@@ -3008,6 +3011,12 @@ static HDVideoCallViewController *_manger = nil;
 -  (void)saveTaskQueue:(HDVideoCallTaskType )taskId{
     
     
+    if ([self.queueArray containsObject:[NSNumber numberWithInteger:taskId]]) {
+        
+        return;
+    }
+    
+    
     if (self.queueArray.count ==0) {
         
         [self.queueArray addObject:[NSNumber numberWithInteger:taskId]];
@@ -3018,6 +3027,7 @@ static HDVideoCallViewController *_manger = nil;
         HDVideoCallTaskType  oldTaskId = [[self.queueArray lastObject] integerValue];
         
         [self.queueArray removeAllObjects];
+        [self clearQueueTask];
         
         // 去执行 取消正在执行的任务
         [self cancelPerformQueueTask:oldTaskId];
@@ -3060,7 +3070,11 @@ static HDVideoCallViewController *_manger = nil;
     return cancel;
     
 }
-
+- (void)clearQueueTask{
+    
+    [self.queueArray removeAllObjects];
+    
+}
 
 -(NSMutableArray *)queueArray{
     
