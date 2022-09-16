@@ -25,7 +25,7 @@
     config.reportLogLevel = BuglyLogLevelWarn;
     config.delegate = self;
     [Bugly startWithAppId:@"d6498f1c9a" config:config];
-     
+
     // 初始化环信客服SDK，详细内容在AppDelegate+HelpDesk.m 文件中
     [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

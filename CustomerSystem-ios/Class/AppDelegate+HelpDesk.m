@@ -52,13 +52,14 @@
     option.tenantId = lgM.tenantId;
     option.configId = lgM.configId;
     option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
-//    option.kefuRestServer = @"https://helps.live";
+//    option.kefuRestServer = @"https://    helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.enableDnsConfig =YES;  //
     option.apnsCertName = apnsCertName; // im 透传参数
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
     option.showAgentInputState = YES; // 是否显示坐席输入状态
     option.isAutoLogin = YES;
+    option.usingHttpsOnly = NO;
     
     HDClient *client = [HDClient sharedClient];
     
