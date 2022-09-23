@@ -59,10 +59,10 @@ public class JustExecutionItem: FastRoomOperationItem {
         return button
     }()
     
-    @objc func onClick() {
+    @objc func onClick(sender: Any?) {
         guard let room = room else { return }
         interrupter?(self)
-        action(room, nil)
+        action(room, sender)
     }
     
     public func buildView(interrupter: ((FastRoomOperationItem)->Void)?) -> UIView {

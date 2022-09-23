@@ -4,7 +4,7 @@
 //
 //  Created by 谭真 on 15/12/24.
 //  Copyright © 2015年 谭真. All rights reserved.
-//  version 3.8.0 - 2022.04.05
+//  version 3.8.2 - 2022.07.20
 //  更多信息，请前往项目的github地址：https://github.com/banchichen/TZImagePickerController
 
 #import "TZImagePickerController.h"
@@ -303,7 +303,9 @@
     self.needFixComposition = NO;
     self.statusBarStyle = UIStatusBarStyleLightContent;
     self.cannotSelectLayerColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
+#ifdef TZ_HAVE_LOCATION_CODE
     self.allowCameraLocation = YES;
+#endif
     self.presetName = AVAssetExportPresetMediumQuality;
     self.maxCropVideoDuration = 30;
     

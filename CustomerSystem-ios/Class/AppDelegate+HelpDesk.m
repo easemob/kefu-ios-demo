@@ -51,7 +51,7 @@
     option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;
     option.configId = lgM.configId;
-    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
+//    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"https://    helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.enableDnsConfig =YES;  //
@@ -325,20 +325,20 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"userAccountDidForcedToLogout", @"your login account has been forced logout") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
     [alertView show];
 }
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
-    // 处理完成后调用 completionHandler ，用于指示在前台显示通知的形式
-    // completionHandler() 功能：可设置是否在应用内弹出通知
-    // 在 iOS 10 + 中 通知在前台的显示设置：
-    // 1、通知在前台不显示
-    // 如果调用下面代码： 通知不在前台弹出也不在通知栏显示
-    // completionHandler(UNNotificationPresentationOptionNone);
-    // 2、通知在前台显示
-    // 如果调用下面代码： 通知在前台弹出也在通知栏显示
-    // completionHandler(UNNotificationPresentationOptionAlert);
-    // 3、通知在前台显示 并带有声音
-    // 如果调用下面代码：通知弹出，且带有声音、内容和角标
-     completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
-}
+//- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+//    // 处理完成后调用 completionHandler ，用于指示在前台显示通知的形式
+//    // completionHandler() 功能：可设置是否在应用内弹出通知
+//    // 在 iOS 10 + 中 通知在前台的显示设置：
+//    // 1、通知在前台不显示
+//    // 如果调用下面代码： 通知不在前台弹出也不在通知栏显示
+//    // completionHandler(UNNotificationPresentationOptionNone);
+//    // 2、通知在前台显示
+//    // 如果调用下面代码： 通知在前台弹出也在通知栏显示
+//    // completionHandler(UNNotificationPresentationOptionAlert);
+//    // 3、通知在前台显示 并带有声音
+//    // 如果调用下面代码：通知弹出，且带有声音、内容和角标
+//     completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
+//}
 //退出当前
 - (void)userAccountLogout {
     [[HDClient sharedClient] logout:YES];
@@ -352,5 +352,9 @@
     EMOptions * imOptions =[EMOptions optionsWithAppkey:option.appkey];
     imOptions.enableFpa = YES;// 设置对应的im参数
     HDError *initError = [[HDClient sharedClient] initializeSDKWithOptions:option withToImoptions:imOptions];
+    
+    
+//    [[HDClient sharedClient] initializeSDKWithOptions:option withToImoptions:imOptions];
+    
 }
 @end

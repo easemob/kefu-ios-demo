@@ -3115,7 +3115,7 @@
 				EB62E1F71A8DD92D00705655 /* Resources */,
 				909614F32153BF2800B1F8E3 /* Embed Frameworks */,
 				93FFE63227901077009FFC6E /* Embed App Extensions */,
-				ED1FC3663D706517D0D4D8D7 /* [CP] Embed Pods Frameworks */,
+				2B03690C57EAC6160072D391 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3429,6 +3429,62 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2B03690C57EAC6160072D391 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CustomerSystem-ios/Pods-CustomerSystem-ios-frameworks.sh",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraAIDenoiseExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCIExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCore.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraDav1dExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraFDExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraJNDExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraRtcKit.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraSoundTouch.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraVideoProcessExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraVideoSegmentationExtension.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agorafdkaac.framework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agoraffmpeg.framework",
+				"${BUILT_PRODUCTS_DIR}/Fastboard/Fastboard.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/NTLBridge/NTLBridge.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/TZImagePickerController/TZImagePickerController.framework",
+				"${BUILT_PRODUCTS_DIR}/Whiteboard/Whiteboard.framework",
+				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraAIDenoiseExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCIExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraDav1dExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraFDExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraJNDExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoProcessExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoSegmentationExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fastboard.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NTLBridge.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TZImagePickerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Whiteboard.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CustomerSystem-ios/Pods-CustomerSystem-ios-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		373E2DE014F0F714643166A1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3493,62 +3549,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ED1FC3663D706517D0D4D8D7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CustomerSystem-ios/Pods-CustomerSystem-ios-frameworks.sh",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraAIDenoiseExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCIExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCore.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraDav1dExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraFDExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraJNDExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraRtcKit.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraSoundTouch.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraVideoProcessExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraVideoSegmentationExtension.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agorafdkaac.framework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agoraffmpeg.framework",
-				"${BUILT_PRODUCTS_DIR}/Fastboard/Fastboard.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
-				"${BUILT_PRODUCTS_DIR}/NTLBridge/NTLBridge.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/TZImagePickerController/TZImagePickerController.framework",
-				"${BUILT_PRODUCTS_DIR}/Whiteboard/Whiteboard.framework",
-				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraAIDenoiseExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCIExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraDav1dExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraFDExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraJNDExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoProcessExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraVideoSegmentationExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fastboard.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NTLBridge.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TZImagePickerController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Whiteboard.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CustomerSystem-ios/Pods-CustomerSystem-ios-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -3879,12 +3879,13 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				CODE_SIGN_IDENTITY = "Apple Development: LI HOU (UGP7ZG964L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: LI HOU (UGP7ZG964L)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 499WYUV8Q2;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CustomerSystem-ScreenShare-ExtensionSetupUI/Info.plist";
@@ -3902,6 +3903,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer.shareWindowSetupUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = ease_wildcard;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = ease_wildcard;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3982,6 +3984,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4008,6 +4011,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer.shareWindow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = shareWindow_extension_dev;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = shareWindow_extension_dev;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4041,6 +4045,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4066,6 +4071,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer.shareWindow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = shareWindow_extension;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = shareWindow_extension;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4183,12 +4189,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				CODE_SIGN_IDENTITY = "Apple Development: LI HOU (UGP7ZG964L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: LI HOU (UGP7ZG964L)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 499WYUV8Q2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4226,7 +4233,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = kf_enterprise.demo.customer_dev;
+				PROVISIONING_PROFILE_SPECIFIER = com.easemob.enterprise.demo.customer;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = kf_enterprise.demo.customer_dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/Class/CustomerSystem-ios-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
