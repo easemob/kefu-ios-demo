@@ -11,6 +11,8 @@
 #import "HomeViewController.h"
 #import "AppDelegate+HelpDesk.h"
 #import <Bugly/Bugly.h>
+// 第二步：在 AppDelegate.m 文件中用 extern 声明全局变量 MainStartTime
+extern CFAbsoluteTime MainStartTime;
 @interface AppDelegate ()<BuglyDelegate>
 @end
 
@@ -34,13 +36,23 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.homeController];
     [self configureNavigationController:navigationController];
     self.window.rootViewController = navigationController;
+    [self.window makeKeyAndVisible];
+    // 第三步：在 didFinishLaunchingWithOptions 方法结束前，再获取一下当前时间，与 MainStartTime 的差值就是 main() 函数阶段的耗时
+    double mainLaunchTime = (CFAbsoluteTimeGetCurrent() - MainStartTime);
+    NSLog(@"main() 阶段耗时：%.2fms", mainLaunchTime * 1000);
+
+   
     
     //添加自定义小表情
 #pragma mark smallpngface
     [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
     [[HDEmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[HDConvertToCommonEmoticonsHelper emotionsDictionary]];
+//
+    // 第三步：在 didFinishLaunchingWithOptions 方法结束前，再获取一下当前时间，与 MainStartTime 的差值就是 main() 函数阶段的耗时
     
-    [self.window makeKeyAndVisible];
+    double hxMainLaunchTime = (CFAbsoluteTimeGetCurrent() - MainStartTime);
+    NSLog(@"main() 阶段耗时：%.2fms", hxMainLaunchTime * 1000 - mainLaunchTime * 1000);
+    
     return YES;
 }
 

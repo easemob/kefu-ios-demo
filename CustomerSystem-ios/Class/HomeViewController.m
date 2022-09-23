@@ -28,7 +28,7 @@
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate,HDCallManagerDelegate,UNUserNotificationCenterDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate,HDCallManagerDelegate,EMChatManagerDelegate,UNUserNotificationCenterDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -465,7 +465,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     //监听消息接收，主要更新会话tabbaritem的badge
-//    [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
+    [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 }
 
 -(void)unregisterNotifications
@@ -680,7 +680,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 
 
-
+//- (void)messagesDidReceive:(NSArray<EMChatMessage *> *)aMessages{
+//
+//
+//    NSLog(@"==========收到消息了messagesDidIMReceive");
+//
+//}
 // 收到消息回调
 - (void)messagesDidReceive:(NSArray *)aMessages {
     
