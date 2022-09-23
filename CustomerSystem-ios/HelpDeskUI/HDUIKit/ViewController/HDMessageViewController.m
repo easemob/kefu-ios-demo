@@ -160,6 +160,8 @@ typedef enum : NSUInteger {
     
    
     
+    [self newRobotWelcome];
+    
 }
 
 - (void)setupCell {
@@ -2219,6 +2221,86 @@ typedef enum : NSUInteger {
         }
     }
 }
+//获取新版(企业版)机器人欢迎语
+- (void)newRobotWelcome{
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    
+    [[HDClient sharedClient].chatManager getRobotWelcomeWithImServerNumber:lgM.cname completion:^(NSDictionary *info, HDError *error) {
+            
+        if (error==nil&&info) {
+        
+            [self parData:info];
+        }
+    }];
+    
+}
+
+-(void)parData:(NSDictionary *)info{
+    
+    //同样的可以替换字符
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info options:0 error:nil];
+
+    NSString *result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    NSString *str = [result stringByReplacingOccurrencesOfString:@"&amp;quot;" withString:@"\""];
+    NSString *str1 = [str stringByReplacingOccurrencesOfString:@"\"{" withString:@"{"];
+    NSString *str2 = [str1 stringByReplacingOccurrencesOfString:@"}\"" withString:@"}"];
+
+    // JSON字符串转字典
+    NSDictionary *dic = [self dictionaryWithJsonString:str2];
+    
+    // 取消息的ext
+    NSString *robotText = nil;
+    NSDictionary *dicExt = [NSDictionary dictionary];
+    if ([[[dic objectForKey:@"entity"] objectForKey:@"greetingText"] isKindOfClass:[NSString class]]) {
+    robotText = [[dic objectForKey:@"entity"] objectForKey:@"greetingText"];
+    } else {
+    dicExt = [[[dic objectForKey:@"entity"] objectForKey:@"greetingText"] objectForKey:@"ext"];
+    }
+    //构建消息
+    NSLog(@"dicExt---%@",dicExt);
+    EMTextMessageBody *bdy = [[EMTextMessageBody alloc] initWithText:robotText];
+    NSString *from = [[HDClient sharedClient] currentUsername];
+
+    HDMessage *message = [[HDMessage alloc] initWithConversationID:lgM.cname from:from to:lgM.cname body:bdy];
+    message.ext = dicExt;
+    message.direction = 1;
+    message.status = HDMessageStatusSuccessed;
+    // 消息添加到UI
+    [self addMessageToDataSource:message progress:nil];
+    // 消息插入到会话
+    HDError *pError;
+    [self.conversation addMessage:message error:&pError];
+    
+}
+
+// JSON字符串转化为字典
+
+- (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString{
+
+    if (jsonString == nil) {
+
+        return nil;
+    }
+
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+
+    NSError *err;
+
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    
+
+    if(err){
+        NSLog(@"json解析失败：%@",err);
+        return nil;
+    }
+    return dic;
+}
+
 
 @end
 

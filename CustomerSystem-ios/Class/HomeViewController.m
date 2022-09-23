@@ -144,7 +144,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vecAction:) name:KNOTIFICATION_VEC object:nil];
-    
 }
 - (void)testButton{
     
@@ -296,6 +295,18 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 ////    NSLog(@"=====%d",[HDClient sharedClient].isLoggedInBefore);
 ////    NSLog(@"=====%d",[EMClient sharedClient].isLoggedIn);
 ////    return;
+    
+//    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+//    [[HDClient sharedClient].chatManager getRobotWelcomeWithImServerNumber:lgM.cname completion:^(NSDictionary *info, HDError *error) {
+//
+//        NSLog(@"=====%@",info);
+//
+//
+//    }];
+    
+    
+    
+    
     
     __weak typeof(self) weakSelf = self;
 //    [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
@@ -923,4 +934,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     return _callViewController;
     
 }
+
+
 @end

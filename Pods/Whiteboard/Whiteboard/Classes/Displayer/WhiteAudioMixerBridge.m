@@ -54,6 +54,23 @@
     return @"";
 }
 
+- (NSString *)resumeAudioMixing:(id)nothing
+{
+    if ([self.delegate respondsToSelector:@selector(resumeAudioMixing)]) {
+        [self.delegate resumeAudioMixing];
+    }
+    return @"";
+}
+
+- (NSString *)pauseAudioMixing:(id)nothing
+{
+    if ([self.delegate respondsToSelector:@selector(pauseAudioMixing)]) {
+        [self.delegate pauseAudioMixing];
+    }
+    return @"";
+}
+
+
 - (NSString *)setAudioMixingPosition:(NSNumber *)position
 {
     if ([self.delegate respondsToSelector:@selector(setAudioMixingPosition:)]) {

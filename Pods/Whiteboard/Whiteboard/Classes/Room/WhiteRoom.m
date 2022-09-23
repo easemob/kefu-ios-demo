@@ -587,7 +587,9 @@ static NSString * const RoomSyncNamespace = @"room.sync.%@";
      */
     if (self.reloadFromMemoryIssueTimes > 3) {
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"Whiteboard terminate from memory issue, try reload later", NSDebugDescriptionErrorKey: @""};
-        [self.bridge.commonCallbacks.delegate throwError:[NSError errorWithDomain:WhiteConstErrorDomain code:-500 userInfo:userInfo]];
+        if ([self.bridge.commonCallbacks.delegate respondsToSelector:@selector(throwError:)]) {
+            [self.bridge.commonCallbacks.delegate throwError:[NSError errorWithDomain:WhiteConstErrorDomain code:-500 userInfo:userInfo]];
+        }
         return;
     }
     NSString *terminateTime = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterFullStyle timeStyle:NSDateFormatterLongStyle];

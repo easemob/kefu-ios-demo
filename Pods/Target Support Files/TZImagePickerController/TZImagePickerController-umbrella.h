@@ -27,6 +27,7 @@
 #import "TZVideoEditedPreviewController.h"
 #import "TZVideoPlayerController.h"
 #import "UIView+TZLayout.h"
+#import "TZLocationManager.h"
 
 FOUNDATION_EXPORT double TZImagePickerControllerVersionNumber;
 FOUNDATION_EXPORT const unsigned char TZImagePickerControllerVersionString[];
