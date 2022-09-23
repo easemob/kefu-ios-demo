@@ -14,7 +14,6 @@ WhiteApplianceNameKey const ApplianceText = @"text";
 WhiteApplianceNameKey const ApplianceEllipse = @"ellipse";
 WhiteApplianceNameKey const ApplianceRectangle = @"rectangle";
 WhiteApplianceNameKey const ApplianceEraser = @"eraser";
-WhiteApplianceNameKey const AppliancePencilEraser = @"pencilEraser";
 WhiteApplianceNameKey const ApplianceStraight = @"straight";
 WhiteApplianceNameKey const ApplianceArrow = @"arrow";
 WhiteApplianceNameKey const ApplianceHand = @"hand";

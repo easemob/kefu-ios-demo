@@ -154,7 +154,7 @@ public class RegularFastRoomOverlay: NSObject, FastRoomOverlay, FastPanelDelegat
     }
     
     @objc
-    public static var customOperationPanel: (()->FastRoomPanel)?
+    public static var customOptionPanel: (()->FastRoomPanel)?
     
     @objc
     public static var shapeItems: [FastRoomOperationItem] = [
@@ -426,7 +426,12 @@ extension RegularFastRoomOverlay {
         return panel
     }
     
-    public static var defaultOperationPanelItems: [FastRoomOperationItem] {
+    func createOperationPanel() -> FastRoomPanel {
+        if let panel = RegularFastRoomOverlay.customOptionPanel?() {
+            panel.delegate = self
+            return panel
+        }
+        
         var shapeOps: [FastRoomOperationItem] = RegularFastRoomOverlay.shapeItems
         shapeOps.append(FastRoomDefaultOperationItem.strokeWidthItem())
         shapeOps.append(contentsOf: FastRoomDefaultOperationItem.defaultColorItems())
@@ -454,16 +459,7 @@ extension RegularFastRoomOverlay {
             shapes,
             FastRoomDefaultOperationItem.clean()
         ]
-        return ops
-    }
-    
-    func createOperationPanel() -> FastRoomPanel {
-        if let panel = RegularFastRoomOverlay.customOperationPanel?() {
-            panel.delegate = self
-            return panel
-        }
-        
-        let panel = FastRoomPanel(items: Self.defaultOperationPanelItems)
+        let panel = FastRoomPanel(items: ops)
         panel.delegate = self
         return panel
     }

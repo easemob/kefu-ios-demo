@@ -43,7 +43,6 @@
         _disableNewPencil = true;
         _enableWritableAssert = false;
         _drawOnlyApplePencil = false;
-        _floatBar = false;
         if (_userPayload) {
             NSDictionary *dict = @{@"key": _userPayload};
             if (![NSJSONSerialization isValidJSONObject:dict]) {

@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HDTest : HDContent
 
+@property (nonatomic, copy) NSString* title;
 @end
 
 NS_ASSUME_NONNULL_END

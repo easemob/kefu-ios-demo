@@ -66,7 +66,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [super viewWillAppear:animated ];
     [_conversationsVC refreshData];
     
-//    [self testButton];
+    [self testButton];
     
     // 获取灰度vec
     [[HDCallManager shareInstance] initGrayCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
@@ -346,7 +346,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
 }
 - (void)testBug{
-    
+   
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];

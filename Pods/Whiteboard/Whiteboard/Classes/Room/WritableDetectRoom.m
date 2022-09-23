@@ -38,13 +38,7 @@ static NSMutableArray* assertableMethodNames;
              @"setObserverId",
              @"setIsUpdatingWritable",
              @"setShouldCheckingRepeatSetWritable",
-             @"setDisconnectedBySelf",
-             @"disableCameraTransform",
-             @"setContainerSizeRatio",
-             @"setDrawOnlyApplePencil",
-             @"disableDeviceInputs",
-             @"disableEraseImage",
-             @"setPrefersColorScheme"];
+             @"setDisconnectedBySelf"];
 }
 
 + (NSArray<NSString *>*)additionalDetectFunctions {
@@ -64,9 +58,7 @@ static NSMutableArray* assertableMethodNames;
              @"redo",
              @"undo",
              @"safeSetAttributes",
-             @"safeUpdateAttributes",
-             @"removePage",
-             @"closeApp"];
+             @"safeUpdateAttributes"];
 }
 
 + (void)load {

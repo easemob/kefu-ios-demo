@@ -10,10 +10,10 @@
 
 @implementation HDTest
 
+
 -(NSString *)getParentName{
     
-    
-    return @"继承对应的类返回对应的字段名称";
+    return TAG_WEICHAT;
     
 }
 @end

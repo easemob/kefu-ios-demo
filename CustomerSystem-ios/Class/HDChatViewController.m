@@ -200,10 +200,14 @@
         [message addContent:od];
         
         [message addContent:self.visitorInfo];
+        
+       
         NSString *imageName = [info objectForKey:@"imageName"];
         NSMutableDictionary *ext = [message.ext mutableCopy];
         [ext setValue:imageName forKey:@"imageName"];
         message.ext = [ext copy];
+        NSDictionary *dic1 = @{@"createTicketEnable":@"true"};
+        [message addMsgTypeDictionary:dic1];
         [self _sendMessage:message];
         
     } else {
@@ -215,10 +219,13 @@
         NSMutableDictionary *ext = [message.ext mutableCopy];
         [ext setValue:imageName forKey:@"imageName"];
         message.ext = [ext copy];
+        
+        NSDictionary *dic1 = @{@"createTicketEnable":@"true"};
+        [message addMsgTypeDictionary:dic1];
+        
         [self _insertTrackMessage:message];
     }
 }
-
 
 - (void)_insertTrackMessage:(HDMessage *)message
 {
