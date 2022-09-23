@@ -48,6 +48,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stopAudioMixing;
 
+/**
+ 暂停混音
+ */
+- (void)pauseAudioMixing;
+
+/**
+ 恢复混音
+ */
+- (void)resumeAudioMixing;
 
 /**
  设置音乐文件的播放位置。

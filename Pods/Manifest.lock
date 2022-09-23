@@ -1,35 +1,39 @@
 PODS:
   - AgoraRtcEngine_iOS (3.6.1)
-  - Fastboard (1.0.8):
-    - Fastboard/core (= 1.0.8)
-  - Fastboard/core (1.0.8):
-    - Whiteboard (~> 2.16.24)
+  - Fastboard (1.0.9):
+    - Fastboard/core (= 1.0.9)
+  - Fastboard/core (1.0.9):
+    - Whiteboard (~> 2.16.36)
   - Masonry (1.1.0)
   - MBProgressHUD (1.2.0)
   - NTLBridge (3.1.4)
-  - SDWebImage (5.12.5):
-    - SDWebImage/Core (= 5.12.5)
-  - SDWebImage/Core (5.12.5)
-  - TZImagePickerController (3.8.0)
-  - Whiteboard (2.16.32):
-    - Whiteboard/Whiteboard-YYModel (= 2.16.32)
-  - Whiteboard/Base (2.16.32):
+  - SDWebImage (5.12.6):
+    - SDWebImage/Core (= 5.12.6)
+  - SDWebImage/Core (5.12.6)
+  - TZImagePickerController (3.8.3):
+    - TZImagePickerController/Basic (= 3.8.3)
+    - TZImagePickerController/Location (= 3.8.3)
+  - TZImagePickerController/Basic (3.8.3)
+  - TZImagePickerController/Location (3.8.3)
+  - Whiteboard (2.16.39):
+    - Whiteboard/Whiteboard-YYModel (= 2.16.39)
+  - Whiteboard/Base (2.16.39):
     - NTLBridge (~> 3.1.4)
     - Whiteboard/Object
-  - Whiteboard/Converter (2.16.32):
+  - Whiteboard/Converter (2.16.39):
     - Whiteboard/Object
-  - Whiteboard/Model (2.16.32):
+  - Whiteboard/Model (2.16.39):
     - YYModel
-  - Whiteboard/NativeReplayer (2.16.32):
+  - Whiteboard/NativeReplayer (2.16.39):
     - Whiteboard/Replayer
-  - Whiteboard/Object (2.16.32):
+  - Whiteboard/Object (2.16.39):
     - Whiteboard/Model
-  - Whiteboard/Replayer (2.16.32):
+  - Whiteboard/Replayer (2.16.39):
     - Whiteboard/Base
-  - Whiteboard/Resource (2.16.32)
-  - Whiteboard/Room (2.16.32):
+  - Whiteboard/Resource (2.16.39)
+  - Whiteboard/Room (2.16.39):
     - Whiteboard/Base
-  - Whiteboard/Whiteboard-YYModel (2.16.32):
+  - Whiteboard/Whiteboard-YYModel (2.16.39):
     - Whiteboard/Converter
     - Whiteboard/NativeReplayer
     - Whiteboard/Resource
@@ -58,15 +62,15 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AgoraRtcEngine_iOS: b376bdf1b7abbdc039ac181a99742f0aee3fdd08
-  Fastboard: 06013d1514b3974e51d9126253df420e1a8a7a3b
+  Fastboard: 1eb560392bdd9af1a4896e32caf7d90b44c293a3
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   NTLBridge: 49780dc966976d3221a0eb03c7368617c1987cb6
-  SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
-  TZImagePickerController: f236fbc54a7e5359ae620d45c2fcac5ab9486284
-  Whiteboard: fe863e23b9ec895503f05053a23abc4aa4c0116f
+  SDWebImage: a47aea9e3d8816015db4e523daff50cfd294499d
+  TZImagePickerController: e9909edbadf7381140efc5b5c9f5bdbfd630f7d4
+  Whiteboard: 4622f3866b7c35a9c757955619ba0a2b26d968f5
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 8b488e65e2ab89f1ac9816e64f998dae1899e373
+PODFILE CHECKSUM: 1562754f3e8e96ab0c404f15829fc3b9b6fe1882
 
 COCOAPODS: 1.11.3

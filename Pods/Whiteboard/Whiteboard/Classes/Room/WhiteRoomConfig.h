@@ -111,6 +111,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL disableTextOperations;
 
 /**
+ * 在用选择工具（``currentApplianceName="selector"``）选中物体后，出现的浮动条。
+ * 若为 ``false``（默认值），则永远不会出现浮动条。若为 ``true``，则会出现浮动条。
+ * 并且，若为 ``true`` ， 只有选用单个物体或者同类物体才会出现浮动条。
+ */
+@property (nonatomic, assign) BOOL floatBar;
+
+/**
  本地用户的视角边界。详见 [WhiteCameraBound](WhiteCameraBound)。
  */
 @property (nonatomic, strong, nullable) WhiteCameraBound *cameraBound;

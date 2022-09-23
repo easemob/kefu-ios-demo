@@ -46,4 +46,19 @@ static NSString * const kJavascriptModeKey = @"mode";
     return YES;
 }
 
+- (BOOL)modelCustomTransformToDictionary:(NSMutableDictionary *)dic {
+    switch (_viewMode) {
+        case WhiteViewModeFreedom:
+            dic[kJavascriptModeKey] = kViewModeFreedom;
+            break;
+        case WhiteViewModeFollower:
+            dic[kJavascriptModeKey] = kViewModeFollower;
+            break;
+        case WhiteViewModeBroadcaster:
+            dic[kJavascriptModeKey] = kViewModeBroadcaster;
+            break;
+    }
+    return YES;
+}
+
 @end
