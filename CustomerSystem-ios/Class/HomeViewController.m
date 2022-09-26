@@ -303,9 +303,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //
 //
 //    }];
-    
-    
-    
+//    
+//    
+//    return;
     
     
     __weak typeof(self) weakSelf = self;
