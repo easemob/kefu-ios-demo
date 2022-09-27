@@ -2089,9 +2089,9 @@ typedef enum : NSUInteger {
     if (ext) {
         [message addAttributeDictionary:ext];
     }
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-   
-    [message addContent:lgM.visitorInfo];
+//    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+//
+//    [message addContent:lgM.visitorInfo];
     NSMutableDictionary * dic1 =[message.ext valueForKey:@"weichat"];
     [dic1 setValue:@"English" forKey:@"routingRuleFlag"];
    
@@ -2223,9 +2223,8 @@ typedef enum : NSUInteger {
 }
 //获取新版(企业版)机器人欢迎语
 - (void)newRobotWelcome{
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    
-    [[HDClient sharedClient].chatManager getRobotWelcomeWithImServerNumber:lgM.cname completion:^(NSDictionary *info, HDError *error) {
+
+    [[HDClient sharedClient].chatManager getRobotWelcomeWithImServerNumber:self.conversation.conversationId completion:^(NSDictionary *info, HDError *error) {
             
         if (error==nil&&info) {
         
@@ -2238,8 +2237,6 @@ typedef enum : NSUInteger {
 -(void)parData:(NSDictionary *)info{
     
     //同样的可以替换字符
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info options:0 error:nil];
 
     NSString *result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -2264,7 +2261,7 @@ typedef enum : NSUInteger {
     EMTextMessageBody *bdy = [[EMTextMessageBody alloc] initWithText:robotText];
     NSString *from = [[HDClient sharedClient] currentUsername];
 
-    HDMessage *message = [[HDMessage alloc] initWithConversationID:lgM.cname from:from to:lgM.cname body:bdy];
+    HDMessage *message = [[HDMessage alloc] initWithConversationID:self.conversation.conversationId from:from to:self.conversation.conversationId body:bdy];
     message.ext = dicExt;
     message.direction = 1;
     message.status = HDMessageStatusSuccessed;

@@ -2284,7 +2284,6 @@
 		D3CB631D1E4888F20022A6BA /* HDUIKit */ = {
 			isa = PBXGroup;
 			children = (
-				930E320927E0323100455C7E /* Call */,
 				D3CE331C1F0610FA00A9649E /* Add */,
 				D33946EF1E54381B009370BF /* Category */,
 				D3CB631E1E4888F20022A6BA /* 3rdparty */,
@@ -3022,6 +3021,7 @@
 		EB62E1FB1A8DD92D00705655 /* CustomerSystem-ios */ = {
 			isa = PBXGroup;
 			children = (
+				930E320927E0323100455C7E /* Call */,
 				93E792F9277ADA290019FD80 /* CustomerSystem-iosRelease.entitlements */,
 				9094F1CA21E83C8C00037601 /* 3rdParty */,
 				D39AD9091DFAA6BE00895FCF /* CustomerSystem-ios.entitlements */,
