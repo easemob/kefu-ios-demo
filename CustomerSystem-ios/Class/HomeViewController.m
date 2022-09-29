@@ -192,8 +192,24 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //    
 //    [HDLog logD:@"error==%u ==%@",error.code,error.errorDescription];
     
-    
-    
+//    BOOL isConnected = [[EMClient sharedClient]  isConnected];
+//   
+//    [HDLog logD:@"isConnected==%d",isConnected];
+//    
+//    
+//     BOOL success = [[EMClient sharedClient] isLoggedIn];
+//    [HDLog logD:@"error==%d",success];
+//    
+//    EMError * error=  [[EMClient sharedClient] logout:NO];
+//    [HDLog logD:@"error==%@",error];
+//    
+//    BOOL success1 = [[EMClient sharedClient] isLoggedIn];
+//   [HDLog logD:@"success1==%d",success1];
+//   NSArray * arrya =  [[EMClient sharedClient].chatManager getAllConversations];
+//    [HDLog logD:@"arryaarrya==%@",arrya];
+//    
+//    
+//    return;
     HDLoginViewController * loginVC = [[HDLoginViewController alloc] init];
 
     [self.navigationController pushViewController:loginVC animated:YES];

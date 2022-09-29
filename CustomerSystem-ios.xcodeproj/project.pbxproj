@@ -35,7 +35,6 @@
 		9306AD82286D4A1000E1F726 /* HyphenateChat.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		930983A828A1FD4E0079C123 /* HDVideoChatMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930983A428A1FD4D0079C123 /* HDVideoChatMessageViewController.m */; };
 		930983A928A1FD4E0079C123 /* HDVideoRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930983A628A1FD4E0079C123 /* HDVideoRefreshTableViewController.m */; };
-		930CCE7627C39639004DA60D /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9D08027C37EC600BD037D /* HelpDesk.framework */; };
 		930E320E27E03AE500455C7E /* HDAccountmanager.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E320D27E03AE500455C7E /* HDAccountmanager.m */; };
 		930E321C27E03E9800455C7E /* HDCallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E321027E03E9600455C7E /* HDCallCollectionViewCell.m */; };
 		930E321D27E03E9800455C7E /* HDMiddleVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930E321427E03E9700455C7E /* HDMiddleVideoView.m */; };
@@ -1320,7 +1319,6 @@
 				93767A4227951D820079A60F /* Accelerate.framework in Frameworks */,
 				93767A1627951CA80079A60F /* ReplayKit.framework in Frameworks */,
 				93767A4027951D610079A60F /* libios_resampler.a in Frameworks */,
-				930CCE7627C39639004DA60D /* HelpDesk.framework in Frameworks */,
 				4D7DB3C9D8560B5AA1C735D3 /* Pods_CustomerSystem_ScreenShare_Extension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4223,7 +4221,7 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
-				MARKETING_VERSION = 1.4.9.2;
+				MARKETING_VERSION = 1.4.9.3;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -4235,6 +4233,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = com.easemob.enterprise.demo.customer;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = kf_enterprise.demo.customer_dev;
+				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/Class/CustomerSystem-ios-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -4283,7 +4282,7 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
-				MARKETING_VERSION = 1.4.9.2;
+				MARKETING_VERSION = 1.4.9.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -4294,6 +4293,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = com.easemob.enterprise.demo.customer;
+				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/Class/CustomerSystem-ios-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_WORKSPACE = NO;

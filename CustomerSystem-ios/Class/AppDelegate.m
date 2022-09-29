@@ -21,6 +21,11 @@ extern CFAbsoluteTime MainStartTime;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  //iOS
+  [[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection.bundle"] load];
+ //同时还支持tvOS和MacOS，配置时只需要在/Applications/InjectionIII.app/Contents/Resources/目录下找到对应的bundle文件,替换路径即可
+ 
+    
     //初始化bugly
     BuglyConfig * config = [[BuglyConfig alloc] init];
     // 设置自定义日志上报的级别，默认不上报自定义日志

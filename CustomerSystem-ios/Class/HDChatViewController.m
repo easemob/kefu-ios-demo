@@ -204,7 +204,8 @@
         
         
         //一定要在 addContent 方法前添加自定义字段 要不添加不上去
-        NSDictionary *dic2 = @{@"ddh":@"12334444444",@"shou":@"1360000000000"};
+//        NSDictionary *dic2 = @{@"ddh":@"12334444444",@"shou":@"1360000000000"};
+        NSDictionary *dic2 = @{@"ios":@"我是ios表单预填写的值"};
         [od.customDic addEntriesFromDictionary:dic2];
         //添加订单信息
         [message addContent:od];
@@ -223,7 +224,7 @@
     } else {
         HDVisitorTrack *vt = (HDVisitorTrack *)[self trackOrOrder];
     
-        NSDictionary *dic2 = @{@"ddh":@"12334444444",@"shou":@"1360000000000"};
+        NSDictionary *dic2 = @{@"ios":@"我是ios表单预填写的值"};
         [vt.customDic addEntriesFromDictionary:dic2];
         //添加访客轨迹信息
         [message addContent:vt];
