@@ -39,6 +39,7 @@
 
 //初始化客服sdk
 - (void)initializeCustomerServiceSdk {
+    [EMClient.sharedClient addDelegate:self delegateQueue:nil];
 #warning SDK注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
     NSString *apnsCertName = nil;
 #if DEBUG
@@ -89,13 +90,13 @@
     [self registerEaseMobNotification];
     
 //    sleep(1);
-   
+    
     [client.pushManager getPushNotificationOptionsFromServerWithCompletion:^(HDPushOptions * _Nonnull aOptions, HDError * _Nonnull aError) {
 
         NSLog(@"==========aErrorcode=%u==%@",aError.code,aError.description);
         NSLog(@"===========displayStyle=%u==%@",aOptions.displayStyle,aOptions.displayName);
     }];
-    
+   
     
 //    [[HDClient sharedClient].chatManager fetchCurrentSessionId:lgM.cname completion:^(NSString *sessionId, HDError *aError) {
 //        
@@ -113,6 +114,13 @@
    
     
      
+}
+
+- (void)autoLoginDidCompleteWithError:(EMError *)aError{
+    
+    NSLog(@"========%@",aError);
+    
+    
 }
 //修改关联app后需要重新初始化
 - (void)resetCustomerServiceSDK {

@@ -28,7 +28,7 @@
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate,HDCallManagerDelegate,EMChatManagerDelegate,UNUserNotificationCenterDelegate>
+@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate,HDCallManagerDelegate,EMChatManagerDelegate,UNUserNotificationCenterDelegate,EMClientDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -80,6 +80,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
+    
+    
+   
     
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
@@ -152,6 +155,14 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [testButton addTarget:self action:@selector(agorademo) forControlEvents:UIControlEventTouchUpInside];
     _testItem = [[UIBarButtonItem alloc] initWithCustomView:testButton];
     self.navigationItem.leftBarButtonItem = _testItem;
+    
+}
+
+- (void)autoLoginDidCompleteWithError:(EMError *)aError{
+    
+    
+    NSLog(@"=====%@",aError);
+    
     
 }
 - (void)setNavTitleView
@@ -282,50 +293,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 - (void)chatAction:(NSNotification *)notification
 {
-    
     [HDLog logD:@"HD===%s chatAction",__FUNCTION__];
-    
-//    
-////    @try {
-////
-////        NSArray * array = [[NSArray alloc] init];
-////
-////        [array objectAtIndex:1];
-////
-////
-////    } @catch (NSException *exception) {
-////
-////        [HDLog logI:@"=========releaseResource=exception.name=%@ ==exception.reason=%@",exception.name, exception.reason];
-////
-////    }
-//    
-//    NSArray * array = [[NSArray alloc] init];
-//    
-//   
-//
-//    [HDLog logI:@"=========releaseResource=exception.name=%@ ", [array objectAtIndex:1]];
-//    
-//    return;
-////    [[HDClient sharedClient] loginWithUsername:@"3e4e907d3b904d48bf003d0ae1cd05b92099"  password:@"123456"];
-//////
-////    NSLog(@"=====%d",[HDClient sharedClient].isLoggedInBefore);
-////    NSLog(@"=====%d",[EMClient sharedClient].isLoggedIn);
-////    return;
-    
-//    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-//    [[HDClient sharedClient].chatManager getRobotWelcomeWithImServerNumber:lgM.cname completion:^(NSDictionary *info, HDError *error) {
-//
-//        NSLog(@"=====%@",info);
-//
-//
-//    }];
-//    
-//    
-//    return;
-    
-    
     __weak typeof(self) weakSelf = self;
-//    [weakSelf showHudInView:self.view hint:NSLocalizedString(@"Contacting...", @"连接客服")];
     MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:self.view.superview];
     __weak MBProgressHUD *weakHud = hud;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
