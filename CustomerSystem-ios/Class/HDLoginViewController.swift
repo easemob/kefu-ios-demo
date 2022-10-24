@@ -18,6 +18,12 @@ class HDLoginViewController: UIViewController, UITextFieldDelegate {
     let btn = UIButton(type: .system)
     let logout = UIButton(type: .system)
     let regist = UIButton(type: .system)
+    
+    let clear = UIButton(type: .system)
+    let loginStatus = UIButton(type: .system)
+    
+    let logoutIM = UIButton(type: .system)
+    
     var username : String? = String()
     var pwdWord : String? = String()
     override func viewDidLoad() {
@@ -75,13 +81,30 @@ class HDLoginViewController: UIViewController, UITextFieldDelegate {
         logout.addTarget(self, action: #selector(logoutAction), for: .touchUpInside)
         view.addSubview(logout)
         
-//        regist.frame = CGRect(x: view.center.x/1.2, y: logout.frame.origin.y + 64, width: 64, height: 44)
-//        regist.backgroundColor = .blue
-//        regist.titleLabel?.font = .systemFont(ofSize: 15)
-//        regist.setTitle("注册", for: .normal)
-//        regist.setTitleColor(UIColor.white, for: .normal)
-//        regist.addTarget(self, action: #selector(registAction), for: .touchUpInside)
-//        view.addSubview(regist)
+        clear.frame = CGRect(x: view.center.x/1.2, y: logout.frame.origin.y + 64, width: 64, height: 44)
+        clear.backgroundColor = .blue
+        clear.titleLabel?.font = .systemFont(ofSize: 15)
+        clear.setTitle("清理本地", for: .normal)
+        clear.setTitleColor(UIColor.white, for: .normal)
+        clear.addTarget(self, action: #selector(clearAction), for: .touchUpInside)
+        view.addSubview(clear)
+        
+        loginStatus.frame = CGRect(x: view.center.x/1.2, y: clear.frame.origin.y + 64, width: 64, height: 44)
+        loginStatus.backgroundColor = .blue
+        loginStatus.titleLabel?.font = .systemFont(ofSize: 15)
+        loginStatus.setTitle("获取登录状态", for: .normal)
+        loginStatus.setTitleColor(UIColor.white, for: .normal)
+        loginStatus.addTarget(self, action: #selector(loginStatusAction), for: .touchUpInside)
+        view.addSubview(loginStatus)
+        
+        logoutIM.frame = CGRect(x: view.center.x/1.2, y: loginStatus.frame.origin.y + 64, width: 64, height: 44)
+        logoutIM.backgroundColor = .blue
+        logoutIM.titleLabel?.font = .systemFont(ofSize: 15)
+        logoutIM.setTitle("im推出", for: .normal)
+        logoutIM.setTitleColor(UIColor.white, for: .normal)
+        logoutIM.addTarget(self, action: #selector(logoutIMAction), for: .touchUpInside)
+        view.addSubview(logoutIM)
+        
         
         
         let tt = "当前登录的用户名："
@@ -118,6 +141,8 @@ class HDLoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     func logoutAction(){
+        
+        
         HDClient.shared().logout(true)  { aError in
             if(aError == nil){
                
@@ -133,7 +158,35 @@ class HDLoginViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-//    func registAction(){
-//        HDClient.shared().register(withUsername: <#T##String!#>, password: <#T##String!#>)
-//    }
+    func clearAction(){
+        
+        HDClient.shared().releaseResource();
+        
+//        NSLog("======%d", HDClient.shared().getIsLoggedInBefore());
+        
+    }
+    
+    func loginStatusAction(){
+        
+        
+        HDClient.shared().getIsLoggedIn { aError in
+            NSLog("获取了");
+            
+        }
+        
+//        NSLog("======%d", HDClient.shared().getIsLoggedInBefore());
+        
+        
+    }
+    func logoutIMAction(){
+        
+        
+        EMClient.shared().logout(false);
+        
+//        NSLog("======%d", HDClient.shared().getIsLoggedInBefore());
+        
+        
+    }
+    
+    
 }

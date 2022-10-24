@@ -64,6 +64,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated ];
+    
     [_conversationsVC refreshData];
     
     [self testButton];
@@ -78,8 +79,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     [super viewDidLoad];
     
+   
+    
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
+    
     
     
    
@@ -186,18 +190,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 - (void)login:(UIButton*)sender{
     
-//    [[EMClient sharedClient] getLoggedInDevicesFromServerWithUsername:@"te9795v9fgmcys5"
-// password:@"123456" completion:^(NSArray<EMDeviceConfig *> * _Nullable aList, EMError * _Nullable aError) {
-//
-//        if (aError == nil) {
-//            EMDeviceConfig * config = aList[0];
-//
-//            [HDLog logD:@"======%@",config.yy_modelToJSONString];
-//
-//        }
-//
-//
-//    }];
+    
     
 //  HDError * error= [[HDClient sharedClient] loginWithUsername:@"3245808767000" password:@"hongdou123"];
 //    
@@ -214,8 +207,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //    EMError * error=  [[EMClient sharedClient] logout:NO];
 //    [HDLog logD:@"error==%@",error];
 //    
-//    BOOL success1 = [[EMClient sharedClient] isLoggedIn];
-//   [HDLog logD:@"success1==%d",success1];
+    BOOL success1 = [[EMClient sharedClient] isLoggedIn];
+   [HDLog logD:@"success1==%d",success1];
 //   NSArray * arrya =  [[EMClient sharedClient].chatManager getAllConversations];
 //    [HDLog logD:@"arryaarrya==%@",arrya];
 //    
@@ -342,18 +335,19 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
 }
 - (void)testBug{
+    
    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
-        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-        
-        [[HDClient sharedClient] loginWithUsername:lgM.username password:lgM.password completion:^(HDError *error) {
-            
-            
-            NSLog(@"=======登录成功=");
-            
-            
-        }];
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//
+//        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+//
+//        [[HDClient sharedClient] loginWithUsername:lgM.username password:lgM.password completion:^(HDError *error) {
+//
+//
+//            NSLog(@"=======登录成功=");
+//
+//
+//        }];
         
         
 //        [[HDClient sharedClient] logout:YES completion:^(HDError *error) {
@@ -370,7 +364,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //            
 //        }];
        
-    });
+//    });
    
 
     
@@ -676,42 +670,48 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 
 
-//- (void)messagesDidReceive:(NSArray<EMChatMessage *> *)aMessages{
-//
-//
-//    NSLog(@"==========收到消息了messagesDidIMReceive");
-//
-//}
+-(void)cmdMessagesDidReceive:(NSArray<EMChatMessage *> *)aCmdMessages{
+    
+    NSLog(@"==========收到消息了cmdMessagesDidReceive");
+    
+    
+}
+- (void)messagesDidReceive:(NSArray<EMChatMessage *> *)aMessages{
+
+
+    NSLog(@"==========收到消息了messagesDidIMReceive");
+
+}
 // 收到消息回调
-- (void)messagesDidReceive:(NSArray *)aMessages {
-    
-    if ([self isNotificationMessage:aMessages.firstObject]) {
-    
-        return;
-    }
-#if !TARGET_IPHONE_SIMULATOR
-    BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
-    if (!isAppActivity) {
-        [self _showNotificationWithMessage:aMessages];
-    }else {
-        [self _playSoundAndVibration];
-    }
+//- (void)messagesDidReceive:(NSArray *)aMessages {
+//
+//    if ([self isNotificationMessage:aMessages.firstObject]) {
+//
+//        return;
+//    }
+//#if !TARGET_IPHONE_SIMULATOR
+//    BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
+//    if (!isAppActivity) {
+//        [self _showNotificationWithMessage:aMessages];
+//    }else {
+//        [self _playSoundAndVibration];
+//    }
+//
+//
+//#endif
+//    [_conversationsVC refreshData];
+//}
 
-    
-#endif
-    [_conversationsVC refreshData];
-}
-
-- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages{
-    
-    NSLog(@"收到消息=cmdMessagesDidReceive===%@",aCmdMessages);
-    for (HDMessage *msg in aCmdMessages) {
-        
-        NSLog(@"收到消息=cmdMessagesDidReceive==msg.ext=%@",msg.ext);
-        
-    }
-    
-}
+//- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages{
+//    
+//    NSLog(@"收到消息=cmdMessagesDidReceive===%@",aCmdMessages);
+//    for (HDMessage *msg in aCmdMessages) {
+//        
+//        NSLog(@"收到消息=cmdMessagesDidReceive==msg.ext=%@",msg.ext);
+//        
+//    }
+//    
+//}
 
 - (BOOL)isNotificationMessage:(HDMessage *)message {
     if (message.ext == nil) { //没有扩展

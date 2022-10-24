@@ -39,7 +39,7 @@
 
 //初始化客服sdk
 - (void)initializeCustomerServiceSdk {
-    [EMClient.sharedClient addDelegate:self delegateQueue:nil];
+   
 #warning SDK注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
     NSString *apnsCertName = nil;
 #if DEBUG
@@ -61,7 +61,7 @@
     option.apnsCertName = apnsCertName; // im 透传参数
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
     option.showAgentInputState = YES; // 是否显示坐席输入状态
-    option.isAutoLogin = YES;
+    option.isAutoLogin = NO;
     option.usingHttpsOnly = NO;
     
     HDClient *client = [HDClient sharedClient];
@@ -111,11 +111,22 @@
 //    }];
     
     
-   
+    [EMClient.sharedClient addDelegate:self delegateQueue:nil];
+    [EMClient.sharedClient.chatManager addDelegate:self delegateQueue:nil];
     
      
 }
 
+-(void)messagesDidReceive:(NSArray<EMChatMessage *> *)aMessages{
+    
+    NSLog(@"========%@",aMessages);
+    
+}
+-(void)cmdMessagesDidReceive:(NSArray<EMChatMessage *> *)aCmdMessages{
+    
+    NSLog(@"========%@",aCmdMessages);
+    
+}
 - (void)autoLoginDidCompleteWithError:(EMError *)aError{
     
     NSLog(@"========%@",aError);
@@ -286,13 +297,13 @@
     [[HDClient sharedClient] removeDelegate:self];
 }
 
-- (void)messagesDidReceive:(NSArray *)aMessages{
-    
-    
-    HDLogD(@"收到消息");
-    
-    
-}
+//- (void)messagesDidReceive:(NSArray *)aMessages{
+//    
+//    
+//    HDLogD(@"收到消息");
+//    
+//    
+//}
 
 
 

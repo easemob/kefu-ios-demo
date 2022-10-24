@@ -584,7 +584,6 @@
 		90BE1E3C2216C656007D17A1 /* UIViewController+AlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AlertController.m"; sourceTree = "<group>"; };
 		90EE4C5323548CD200DEE8CA /* HRobotUnsolveItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HRobotUnsolveItemView.h; sourceTree = "<group>"; };
 		90EE4C5423548CD200DEE8CA /* HRobotUnsolveItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HRobotUnsolveItemView.m; sourceTree = "<group>"; };
-		9306AD7B286D429F00E1F726 /* HyphenateChat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HyphenateChat.framework; path = "../kefu-sdk-ios/helpdesk_sdk/imsdk/HyphenateChat.framework"; sourceTree = "<group>"; };
 		930983A428A1FD4D0079C123 /* HDVideoChatMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVideoChatMessageViewController.m; sourceTree = "<group>"; };
 		930983A528A1FD4E0079C123 /* HDVideoRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVideoRefreshTableViewController.h; sourceTree = "<group>"; };
 		930983A628A1FD4E0079C123 /* HDVideoRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVideoRefreshTableViewController.m; sourceTree = "<group>"; };
@@ -829,7 +828,6 @@
 		93E7E50327DA051800EC4009 /* test.doc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.doc; sourceTree = "<group>"; };
 		93ECDD122897E14B007FC632 /* HDEnterpriseInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDEnterpriseInfo.h; sourceTree = "<group>"; };
 		93ECDD132897E14B007FC632 /* HDEnterpriseInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDEnterpriseInfo.m; sourceTree = "<group>"; };
-		93EF6708282B6598003AF626 /* VECKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VECKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93FFE62827901077009FFC6E /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
 		C9AAF3A61CC7495E00211B1B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		CDB4763D4031067AB7FF5215 /* Pods-CustomerSystem-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomerSystem-ios.release.xcconfig"; path = "Target Support Files/Pods-CustomerSystem-ios/Pods-CustomerSystem-ios.release.xcconfig"; sourceTree = "<group>"; };
@@ -2174,8 +2172,6 @@
 		D35726071DE315640033D4E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9306AD7B286D429F00E1F726 /* HyphenateChat.framework */,
-				93EF6708282B6598003AF626 /* VECKit.framework */,
 				93D9D08027C37EC600BD037D /* HelpDesk.framework */,
 				930CFC5D27BD156100FFEA53 /* HyphenateChat.xcframework */,
 				93767A4327951D8B0079A60F /* CoreMedia.framework */,

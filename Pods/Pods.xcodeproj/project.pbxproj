@@ -73,7 +73,7 @@
 		1DF6F7BFB885687C476593E1609945C5 /* FastRoomConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9C54DB1ADAA2BF19862742C2127411 /* FastRoomConfiguration.swift */; };
 		1EAEFF31C769250F342F930290CFDB63 /* WhiteCameraConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE51961F4F501EFFE9AEF0E5D297886 /* WhiteCameraConfig.m */; };
 		20004B99F5050F59E747AB8DFAD7E891 /* SDWebImageDownloaderOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = AA412727E055C7CF3B5B059F7BA57398 /* SDWebImageDownloaderOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		207B2C8BB1EF76B9C5317B2425E6F4EB /* Fastboard-Icons in Resources */ = {isa = PBXBuildFile; fileRef = 92842DC65A4EE2E5A0E11A62B49986FA /* Fastboard-Icons */; };
+		207B2C8BB1EF76B9C5317B2425E6F4EB /* Icons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 92842DC65A4EE2E5A0E11A62B49986FA /* Icons.bundle */; };
 		21D05279AA20EE7A1707A76C11BBCC00 /* NSBezierPath+SDRoundedCorners.m in Sources */ = {isa = PBXBuildFile; fileRef = F245FA42477F54A11D51223434DB18A6 /* NSBezierPath+SDRoundedCorners.m */; };
 		22F5DEE2EF4BC8A3A3FD1FFB4F3565C1 /* WhiteWebViewInjection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B3B99B266FBFE17B0512627CCC7131D /* WhiteWebViewInjection.m */; };
 		230BB986FF30AAB01BDA600E855C38EA /* WhiteRoomCallbacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 372F5276E546EA8A6C5A2FDC567DE651 /* WhiteRoomCallbacks.m */; };
@@ -296,7 +296,7 @@
 		99709E1C4991C49EE5601FF9461B2969 /* SDImageHEICCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = DF23F76B1377C4F1B80E7996CAEE91EC /* SDImageHEICCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99751A04ACBB1FB13DD5E17C4C55D3E9 /* NSObject+YY.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD317EE786F44A03C7369E7956179BF /* NSObject+YY.m */; };
 		9A16915BCAA8F0939D8824F4D928A142 /* WhitePlayerConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 79647B7ABD276B0DEC64D050A0EF1080 /* WhitePlayerConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A2FC2625F1DFC8B47F7B098E6703DF8 /* Fastboard-LocalizedStrings in Resources */ = {isa = PBXBuildFile; fileRef = 826795FBAEC2583C68D7750D6624F02C /* Fastboard-LocalizedStrings */; };
+		9A2FC2625F1DFC8B47F7B098E6703DF8 /* LocalizedStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 826795FBAEC2583C68D7750D6624F02C /* LocalizedStrings.bundle */; };
 		9A84C469D8197DD8743EF411FD65B923 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BD37176CB0D17ED966C935916969642 /* UIKit.framework */; };
 		9B6DB4491F3854B95124FDB3D9A0693E /* Pods-CustomerSystem-ios-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D3ABF636C5F6140248BBA2B624F7382A /* Pods-CustomerSystem-ios-dummy.m */; };
 		9BBED8F4397F248E24563A8693B6068B /* WhiteCombinePlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 591AC8604AFFF26A6B8D6EE6043E5C10 /* WhiteCombinePlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -874,7 +874,7 @@
 		81D08DAEE5A5D4D9A2949D6BC2CF701F /* WhiteBroadcastState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteBroadcastState.h; path = Whiteboard/Classes/Room/WhiteBroadcastState.h; sourceTree = "<group>"; };
 		820E9138A125623E5E1B943377DEFDAD /* NTLBridge-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NTLBridge-umbrella.h"; sourceTree = "<group>"; };
 		82288D5F65D511BFAFCE0325F1C71FBE /* UIImage+GIF.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+GIF.m"; path = "SDWebImage/Core/UIImage+GIF.m"; sourceTree = "<group>"; };
-		826795FBAEC2583C68D7750D6624F02C /* Fastboard-LocalizedStrings */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Fastboard-LocalizedStrings"; path = LocalizedStrings.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		826795FBAEC2583C68D7750D6624F02C /* LocalizedStrings.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocalizedStrings.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E27F88635CCF071FC0F7983B0674E9 /* SDAnimatedImageView+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SDAnimatedImageView+WebCache.m"; path = "SDWebImage/Core/SDAnimatedImageView+WebCache.m"; sourceTree = "<group>"; };
 		846EE1BE56B6DE87221C490B0B66D495 /* Fastboard-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Fastboard-Info.plist"; sourceTree = "<group>"; };
 		84DB0717E925125393765CAB437F038B /* WhiteWindowParams.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteWindowParams.h; path = Whiteboard/Classes/Object/WhiteWindowParams.h; sourceTree = "<group>"; };
@@ -912,7 +912,7 @@
 		9255CEA8D3AE2A42C1F044659385FB10 /* WhiteCameraBound.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteCameraBound.m; path = Whiteboard/Classes/Object/WhiteCameraBound.m; sourceTree = "<group>"; };
 		9256202A7204799C1A1B1BFA3D1F60A0 /* SDWebImageCacheKeyFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageCacheKeyFilter.h; path = SDWebImage/Core/SDWebImageCacheKeyFilter.h; sourceTree = "<group>"; };
 		927296CA120409FEA70677FD60D327A8 /* WhiteSDK.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteSDK.m; path = Whiteboard/Classes/SDK/WhiteSDK.m; sourceTree = "<group>"; };
-		92842DC65A4EE2E5A0E11A62B49986FA /* Fastboard-Icons */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Fastboard-Icons"; path = Icons.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		92842DC65A4EE2E5A0E11A62B49986FA /* Icons.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Icons.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		92D79168EA0CB27CD22B9D4A10F19952 /* Region.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Region.swift; path = Fastboard/Classes/Public/Region.swift; sourceTree = "<group>"; };
 		9300CA0F979C4BA9D5EDDBACE2F9EFDF /* WhiteEvent.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteEvent.m; path = Whiteboard/Classes/Object/WhiteEvent.m; sourceTree = "<group>"; };
 		93906FB7BCE194E606FDC62A6C543D19 /* WhiteSceneState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteSceneState.h; path = Whiteboard/Classes/Object/WhiteSceneState.h; sourceTree = "<group>"; };
@@ -1459,8 +1459,8 @@
 			isa = PBXGroup;
 			children = (
 				6AF279AB629184C658EFA156D552216E /* Fastboard.framework */,
-				92842DC65A4EE2E5A0E11A62B49986FA /* Fastboard-Icons */,
-				826795FBAEC2583C68D7750D6624F02C /* Fastboard-LocalizedStrings */,
+				92842DC65A4EE2E5A0E11A62B49986FA /* Icons.bundle */,
+				826795FBAEC2583C68D7750D6624F02C /* LocalizedStrings.bundle */,
 				1FFED36A657123030ABB700256D73F15 /* Masonry */,
 				8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD */,
 				314E0991988F210C3DFE25A64590D608 /* NTLBridge */,
@@ -2471,7 +2471,7 @@
 			);
 			name = "Fastboard-LocalizedStrings";
 			productName = LocalizedStrings;
-			productReference = 826795FBAEC2583C68D7750D6624F02C /* Fastboard-LocalizedStrings */;
+			productReference = 826795FBAEC2583C68D7750D6624F02C /* LocalizedStrings.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		3847153A6E5EEFB86565BA840768F429 /* SDWebImage */ = {
@@ -2542,7 +2542,7 @@
 			);
 			name = "Fastboard-Icons";
 			productName = Icons;
-			productReference = 92842DC65A4EE2E5A0E11A62B49986FA /* Fastboard-Icons */;
+			productReference = 92842DC65A4EE2E5A0E11A62B49986FA /* Icons.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		82B0A41D3031FF27D78E17B0A9A46FB0 /* MBProgressHUD */ = {
@@ -2857,8 +2857,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				207B2C8BB1EF76B9C5317B2425E6F4EB /* Fastboard-Icons in Resources */,
-				9A2FC2625F1DFC8B47F7B098E6703DF8 /* Fastboard-LocalizedStrings in Resources */,
+				207B2C8BB1EF76B9C5317B2425E6F4EB /* Icons.bundle in Resources */,
+				9A2FC2625F1DFC8B47F7B098E6703DF8 /* LocalizedStrings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3390,6 +3390,7 @@
 			baseConfigurationReference = E18B3EA77EF018E5BC225C11A9475B5D /* Fastboard.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Fastboard";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				IBSC_MODULE = Fastboard;
 				INFOPLIST_FILE = "Target Support Files/Fastboard/ResourceBundle-Icons-Fastboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -3443,6 +3444,7 @@
 			baseConfigurationReference = 2430D6582E702E401D83D93336817B09 /* Whiteboard.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Whiteboard";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				IBSC_MODULE = Whiteboard;
 				INFOPLIST_FILE = "Target Support Files/Whiteboard/ResourceBundle-Whiteboard-Whiteboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -3498,6 +3500,7 @@
 			baseConfigurationReference = E18B3EA77EF018E5BC225C11A9475B5D /* Fastboard.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Fastboard";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				IBSC_MODULE = Fastboard;
 				INFOPLIST_FILE = "Target Support Files/Fastboard/ResourceBundle-LocalizedStrings-Fastboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -3514,6 +3517,7 @@
 			baseConfigurationReference = E555511D9FE20B1546FC049A7CC7BA80 /* Fastboard.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Fastboard";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				IBSC_MODULE = Fastboard;
 				INFOPLIST_FILE = "Target Support Files/Fastboard/ResourceBundle-Icons-Fastboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -4245,6 +4249,7 @@
 			baseConfigurationReference = E555511D9FE20B1546FC049A7CC7BA80 /* Fastboard.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Fastboard";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				IBSC_MODULE = Fastboard;
 				INFOPLIST_FILE = "Target Support Files/Fastboard/ResourceBundle-LocalizedStrings-Fastboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -4261,6 +4266,7 @@
 			baseConfigurationReference = BE4E186EFF35421687594F0DBB51A80A /* Whiteboard.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Whiteboard";
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				IBSC_MODULE = Whiteboard;
 				INFOPLIST_FILE = "Target Support Files/Whiteboard/ResourceBundle-Whiteboard-Whiteboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
