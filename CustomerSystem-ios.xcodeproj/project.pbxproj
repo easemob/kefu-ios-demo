@@ -72,10 +72,6 @@
 		9374FEC027CCB4CD00DE1185 /* UIView+HDMASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9374FEBF27CCB4CD00DE1185 /* UIView+HDMASAdditions.m */; };
 		93767A1627951CA80079A60F /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FFE62827901077009FFC6E /* ReplayKit.framework */; };
 		93767A1A27951CA80079A60F /* SampleHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93767A1927951CA80079A60F /* SampleHandler.m */; };
-		93767A2127951CA80079A60F /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FFE62827901077009FFC6E /* ReplayKit.framework */; };
-		93767A2227951CA80079A60F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB62E4521A8E2DA400705655 /* UIKit.framework */; };
-		93767A2627951CA80079A60F /* BroadcastSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93767A2527951CA80079A60F /* BroadcastSetupViewController.m */; };
-		93767A2A27951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 93767A2027951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		93767A2D27951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 93767A1527951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		93767A3D27951D610079A60F /* HDAgoraUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 93767A3427951D5F0079A60F /* HDAgoraUploader.m */; };
 		93767A3E27951D610079A60F /* AgoraAudioProcessing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 93767A3527951D5F0079A60F /* AgoraAudioProcessing.mm */; };
@@ -342,7 +338,6 @@
 		D3D87C141F3847C300FB7C84 /* HArticleWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D87C131F3847C300FB7C84 /* HArticleWebViewController.m */; };
 		D3DEAA1F1DED78D00081B654 /* SCAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DEAA1E1DED78D00081B654 /* SCAudioPlay.m */; };
 		D3E4B4471E7AA41B004FEA49 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D33946EB1E54371C009370BF /* libiconv.tbd */; };
-		E3D6ADE76AED27AD42C64FCD /* Pods_CustomerSystem_ScreenShare_ExtensionSetupUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D850A7BED0893111DC6D6F18 /* Pods_CustomerSystem_ScreenShare_ExtensionSetupUI.framework */; };
 		EB395DFF1A8F0AC40083B659 /* MallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB395DFE1A8F0AC40083B659 /* MallViewController.m */; };
 		EB395E021A8F0C8D0083B659 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB395E011A8F0C8D0083B659 /* SettingViewController.m */; };
 		EB4B067D1AC685E900DCF67B /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = EB4B05F01AC685E900DCF67B /* 114.png */; };
@@ -496,13 +491,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		93767A2827951CA80079A60F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EB62E1F11A8DD92D00705655 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 93767A1F27951CA80079A60F;
-			remoteInfo = "CustomerSystem-ScreenShare-ExtensionSetupUI";
-		};
 		93767A2B27951CA80079A60F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EB62E1F11A8DD92D00705655 /* Project object */;
@@ -531,7 +519,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				93767A2A27951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex in Embed App Extensions */,
 				93767A2D27951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -665,7 +652,6 @@
 		93767A1827951CA80079A60F /* SampleHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleHandler.h; sourceTree = "<group>"; };
 		93767A1927951CA80079A60F /* SampleHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleHandler.m; sourceTree = "<group>"; };
 		93767A1B27951CA80079A60F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		93767A2027951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CustomerSystem-ScreenShare-ExtensionSetupUI.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93767A2427951CA80079A60F /* BroadcastSetupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BroadcastSetupViewController.h; sourceTree = "<group>"; };
 		93767A2527951CA80079A60F /* BroadcastSetupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BroadcastSetupViewController.m; sourceTree = "<group>"; };
 		93767A2727951CA80079A60F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1318,16 +1304,6 @@
 				93767A1627951CA80079A60F /* ReplayKit.framework in Frameworks */,
 				93767A4027951D610079A60F /* libios_resampler.a in Frameworks */,
 				4D7DB3C9D8560B5AA1C735D3 /* Pods_CustomerSystem_ScreenShare_Extension.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		93767A1D27951CA80079A60F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				93767A2127951CA80079A60F /* ReplayKit.framework in Frameworks */,
-				93767A2227951CA80079A60F /* UIKit.framework in Frameworks */,
-				E3D6ADE76AED27AD42C64FCD /* Pods_CustomerSystem_ScreenShare_ExtensionSetupUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3007,7 +2983,6 @@
 			children = (
 				EB62E1F91A8DD92D00705655 /* CustomerSystem-ios.app */,
 				93767A1527951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex */,
-				93767A2027951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3081,24 +3056,6 @@
 			productReference = 93767A1527951CA80079A60F /* CustomerSystem-ScreenShare-Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		93767A1F27951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 93767A2E27951CA80079A60F /* Build configuration list for PBXNativeTarget "CustomerSystem-ScreenShare-ExtensionSetupUI" */;
-			buildPhases = (
-				373E2DE014F0F714643166A1 /* [CP] Check Pods Manifest.lock */,
-				93767A1C27951CA80079A60F /* Sources */,
-				93767A1D27951CA80079A60F /* Frameworks */,
-				93767A1E27951CA80079A60F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "CustomerSystem-ScreenShare-ExtensionSetupUI";
-			productName = "CustomerSystem-ScreenShare-ExtensionSetupUI";
-			productReference = 93767A2027951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		EB62E1F81A8DD92D00705655 /* CustomerSystem-ios */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB62E21C1A8DD92D00705655 /* Build configuration list for PBXNativeTarget "CustomerSystem-ios" */;
@@ -3114,7 +3071,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				93767A2927951CA80079A60F /* PBXTargetDependency */,
 				93767A2C27951CA80079A60F /* PBXTargetDependency */,
 			);
 			name = "CustomerSystem-ios";
@@ -3134,9 +3090,6 @@
 				ORGANIZATIONNAME = easemob;
 				TargetAttributes = {
 					93767A1427951CA80079A60F = {
-						CreatedOnToolsVersion = 13.1;
-					};
-					93767A1F27951CA80079A60F = {
 						CreatedOnToolsVersion = 13.1;
 					};
 					EB62E1F81A8DD92D00705655 = {
@@ -3170,20 +3123,12 @@
 			targets = (
 				EB62E1F81A8DD92D00705655 /* CustomerSystem-ios */,
 				93767A1427951CA80079A60F /* CustomerSystem-ScreenShare-Extension */,
-				93767A1F27951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		93767A1327951CA80079A60F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		93767A1E27951CA80079A60F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3479,28 +3424,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CustomerSystem-ios/Pods-CustomerSystem-ios-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		373E2DE014F0F714643166A1 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CustomerSystem-ScreenShare-ExtensionSetupUI-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		BBD84EB61BD10844D4EB3362 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3556,14 +3479,6 @@
 				93767A3F27951D610079A60F /* AgoraAudioTube.mm in Sources */,
 				93767A3E27951D610079A60F /* AgoraAudioProcessing.mm in Sources */,
 				93767A1A27951CA80079A60F /* SampleHandler.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		93767A1C27951CA80079A60F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				93767A2627951CA80079A60F /* BroadcastSetupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3806,11 +3721,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		93767A2927951CA80079A60F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 93767A1F27951CA80079A60F /* CustomerSystem-ScreenShare-ExtensionSetupUI */;
-			targetProxy = 93767A2827951CA80079A60F /* PBXContainerItemProxy */;
-		};
 		93767A2C27951CA80079A60F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 93767A1427951CA80079A60F /* CustomerSystem-ScreenShare-Extension */;
@@ -3854,104 +3764,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		93767A2F27951CA80079A60F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 26A753819FC50FB912EA75E3 /* Pods-CustomerSystem-ScreenShare-ExtensionSetupUI.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Apple Development: LI HOU (UGP7ZG964L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: LI HOU (UGP7ZG964L)";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 499WYUV8Q2;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "CustomerSystem-ScreenShare-ExtensionSetupUI/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "CustomerSystem-ScreenShare-ExtensionSetupUI";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 easemob. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer.shareWindowSetupUI;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = ease_wildcard;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = ease_wildcard;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		93767A3027951CA80079A60F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D194B2C8D60E46A90681D33 /* Pods-CustomerSystem-ScreenShare-ExtensionSetupUI.release.xcconfig */;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: EaseMob Inc.";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "CustomerSystem-ScreenShare-ExtensionSetupUI/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "CustomerSystem-ScreenShare-ExtensionSetupUI";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 easemob. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer.shareWindowSetupUI;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = shareWindow_UI;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		93767A3227951CA80079A60F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 45C69FB4557899FA5E03F8C5 /* Pods-CustomerSystem-ScreenShare-Extension.debug.xcconfig */;
@@ -3972,13 +3784,13 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ScreenShare-Extension/CustomerSystem-ScreenShare-ExtensionDebug.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development: LI HOU (UGP7ZG964L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: LI HOU (UGP7ZG964L)";
+				CODE_SIGN_IDENTITY = "Apple Development: LI HOU (RM7W76HR34)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: LI HOU (RM7W76HR34)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = JC854K845H;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = JC854K845H;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3989,7 +3801,7 @@
 				INFOPLIST_FILE = "CustomerSystem-ScreenShare-Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "CustomerSystem-ScreenShare-Extension";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 easemob. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -4002,10 +3814,10 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer.shareWindow;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.kf.demo.customer.shareWindow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = shareWindow_extension_dev;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = shareWindow_extension_dev;
+				PROVISIONING_PROFILE_SPECIFIER = Kefu_FangKeDuan_shareWindow;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Kefu_FangKeDuan_shareWindow;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4032,14 +3844,14 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ScreenShare-Extension/CustomerSystem-ScreenShare-ExtensionRelease.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: EaseMob Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: EaseMob Inc.";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = JC854K845H;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = JC854K845H;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4050,7 +3862,7 @@
 				INFOPLIST_FILE = "CustomerSystem-ScreenShare-Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "CustomerSystem-ScreenShare-Extension";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 easemob. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -4062,10 +3874,10 @@
 				);
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer.shareWindow;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.kf.demo.customer.shareWindow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = shareWindow_extension;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = shareWindow_extension;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4121,7 +3933,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "2b8670d1-0f98-4bd5-b99d-21da8b00f126";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -4167,7 +3979,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "2b8670d1-0f98-4bd5-b99d-21da8b00f126";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -4183,13 +3995,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-ios.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development: LI HOU (UGP7ZG964L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: LI HOU (UGP7ZG964L)";
+				CODE_SIGN_IDENTITY = "Apple Development: LI HOU (RM7W76HR34)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: LI HOU (RM7W76HR34)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = JC854K845H;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = JC854K845H;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4217,18 +4029,18 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
-				MARKETING_VERSION = 1.4.9.3;
+				MARKETING_VERSION = 1.5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.kf.demo.customer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = com.easemob.enterprise.demo.customer;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = kf_enterprise.demo.customer_dev;
+				PROVISIONING_PROFILE_SPECIFIER = kefu_fangkeduan_demo_dev;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = kefu_fangkeduan_demo_dev;
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/Class/CustomerSystem-ios-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4247,11 +4059,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = "CustomerSystem-ios/CustomerSystem-iosRelease.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4278,17 +4091,17 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
-				MARKETING_VERSION = 1.4.9.3;
+				MARKETING_VERSION = 1.5.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.demo.customer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.kf.demo.customer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = com.easemob.enterprise.demo.customer;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "CustomerSystem-ios/Class/CustomerSystem-ios-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -4299,15 +4112,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		93767A2E27951CA80079A60F /* Build configuration list for PBXNativeTarget "CustomerSystem-ScreenShare-ExtensionSetupUI" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				93767A2F27951CA80079A60F /* Debug */,
-				93767A3027951CA80079A60F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		93767A3127951CA80079A60F /* Build configuration list for PBXNativeTarget "CustomerSystem-ScreenShare-Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

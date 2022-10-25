@@ -31,7 +31,11 @@ extern CFAbsoluteTime MainStartTime;
     // 设置自定义日志上报的级别，默认不上报自定义日志
     config.reportLogLevel = BuglyLogLevelWarn;
     config.delegate = self;
-    [Bugly startWithAppId:@"d6498f1c9a" config:config];
+    
+    //appstore
+    [Bugly startWithAppId:@"edaf8ccbcb" config:config];
+    //企业包
+//    [Bugly startWithAppId:@"d6498f1c9a" config:config];
 
     // 初始化环信客服SDK，详细内容在AppDelegate+HelpDesk.m 文件中
     [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];

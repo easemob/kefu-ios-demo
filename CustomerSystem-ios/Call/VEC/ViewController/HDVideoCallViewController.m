@@ -40,7 +40,7 @@
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
-#define kScreenShareExtensionBundleId @"com.easemob.enterprise.demo.customer.shareWindow"
+#define kScreenShareExtensionBundleId @"com.easemob.kf.demo.customer.shareWindow"
 #define kNotificationShareWindow kScreenShareExtensionBundleId
 #define kPointHeight [UIScreen mainScreen].bounds.size.width *0.9
 

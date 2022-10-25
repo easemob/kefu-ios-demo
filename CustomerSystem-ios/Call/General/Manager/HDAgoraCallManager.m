@@ -12,7 +12,7 @@
 #import "HDSSKeychain.h"
 #import "HDAgoraCallMember.h"
 
-#define kForService @"com.easemob.enterprise.demo.customer.ScreenShare"
+#define kForService @"com.easemob.kf.demo.customer.ScreenShare"
 #define kSaveAgoraToken @"call_agoraToken"
 #define kSaveAgoraChannel @"call_agoraChannel"
 #define kSaveAgoraAppID @"call_agoraAppid"
