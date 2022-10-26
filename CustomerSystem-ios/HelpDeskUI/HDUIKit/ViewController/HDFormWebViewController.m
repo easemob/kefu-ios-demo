@@ -40,22 +40,6 @@
 
 #pragma mark - delegate
 
-//-(void)webViewDidFinishLoad:(UIWebView *)webView
-//{
-//    if (!self.jsContext) {
-//        self.jsContext = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-//
-//        // 关联打印异常
-//        self.jsContext.exceptionHandler = ^(JSContext *context, JSValue *exception) {
-////            context.exception = exception;
-//            NSLog(@"exception:%@", exception);
-//        };
-//
-//    }
-//     self.jsContext[@"easemob"] = self;
-//
-//}
-
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 
     [self dismissViewControllerAnimated:YES completion:nil];

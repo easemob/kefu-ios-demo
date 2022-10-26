@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, HDVideoGeneralType){
 @property (nonatomic, weak) id<HDVideoGeneralCustomViewDelegate> videoGeneralDelegate;
 @property (nonatomic, strong) UIButton *customButton;
 @property (nonatomic, strong) UIImageView *customImgV;
-@property (nonatomic, strong) UIWebView *customGif;
+@property (nonatomic, strong) WKWebView *customGif;
 @property (nonatomic, strong) HDVideoGeneralScrollView *customScrollView;
 @property (nonatomic, strong) HDVideoGeneralView *customContentView;
 - (void)initWithSuspendType:(NSString *)suspendType;

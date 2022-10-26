@@ -133,13 +133,13 @@ typedef NS_ENUM(NSInteger,HDVideoGeneralButtonDirection){
 - (void)createCustomGif{
     if (!_customGif) {
         NSData *data=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"emojiGif" ofType:@"gif"]];
-        _customGif=[[UIWebView alloc]init];
+        _customGif=[[WKWebView alloc]init];
         _customGif.frame=CGRectMake(0, 0, self.viewWidth, self.viewHeight);
-        _customGif.scalesPageToFit=YES;
+//        _customGif.scalesPageToFit=YES;
         _customGif.scrollView.bounces=NO;
         [_customGif setOpaque:0];
         _customGif.userInteractionEnabled=NO;
-        [_customGif loadData:data MIMEType:@"image/gif" textEncodingName:@"" baseURL:[NSURL URLWithString:@""]];
+        [_customGif loadData:data MIMEType:@"image/gif" characterEncodingName:@"" baseURL:[NSURL URLWithString:@""]];
         [self addSubview:_customGif];
     }
 }

@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, SuspendType){
 @property (nonatomic, weak) id<SuspendCustomViewDelegate> suspendDelegate;
 @property (nonatomic, strong) UIButton *customButton;
 @property (nonatomic, strong) UIImageView *customImgV;
-@property (nonatomic, strong) UIWebView *customGif;
+@property (nonatomic, strong) WKWebView *customGif;
 @property (nonatomic, strong) SuspendScrollView *customScrollView;
 @property (nonatomic, strong) SuspendView *customContentView;
 - (void)initWithSuspendType:(NSString *)suspendType;

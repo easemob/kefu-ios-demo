@@ -1812,7 +1812,7 @@ void NotificationCallback(CFNotificationCenterRef center,
 //        }else if([subView isKindOfClass:[UIImageView class]]){
 //
 //            NSLog(@"点击了图片");
-//        }else if([subView isKindOfClass:[UIWebView class]]){
+//        }else if([subView isKindOfClass:[WKWebView class]]){
 //
 //            NSLog(@"点击了Gif");
 //        }else if([subView isKindOfClass:[UIScrollView class]]){

@@ -295,13 +295,6 @@
     return nil;
 }
 
-// 请求加载中发生错误时调用
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
-    
-    
-    
-}
-
 
 #pragma mark - url 编码
 - (NSString *)URLEncodeString:(NSString *)str {
