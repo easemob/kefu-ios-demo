@@ -34,7 +34,6 @@
 #import "UIViewController+AlertController.h"
 #import "HRobotUnsolveItemView.h"
 #import "HDCustomEmojiManager.h"
-#import "CSDemoAccountManager.h"
 typedef enum : NSUInteger {
     HDRequestRecord,
     HDCanRecord,
