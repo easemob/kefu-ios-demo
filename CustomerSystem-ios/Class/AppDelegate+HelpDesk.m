@@ -64,6 +64,7 @@
     option.isAutoLogin = NO;
     option.usingHttpsOnly = NO;
     
+    
     HDClient *client = [HDClient sharedClient];
     
     //如果HDOptions 满足使用 initializeSDKWithOptions
