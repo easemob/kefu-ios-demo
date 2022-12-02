@@ -1826,6 +1826,15 @@ typedef enum : NSUInteger {
         
             //发送透传消息
             HDMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId action:action];
+            
+//            //这个写法对应文档https://docs.easemob.com/cs/400systemintegration/10crmintegration?s[]=自定义查询参数 ifrme
+//            NSDictionary *dic = @{@"name":@"Jack",@"age":@"40",@"sex": @"man"};
+//            NSDictionary *dic1 = @{@"params":dic};
+//            NSDictionary *dic2 = @{@"updateVisitorInfoSrc":dic1};
+//            NSDictionary *dic3 = @{@"cmd":dic2};
+//            aHMessage.ext = dic3;
+//
+//
             [aHMessage addCompositeContent:hcont];
             __weak typeof(self) weakSelf = self;
             [[HDClient sharedClient].chatManager sendMessage:aHMessage
