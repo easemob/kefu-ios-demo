@@ -152,7 +152,8 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 8;
+//    return 8;
+    return 9;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -254,6 +255,11 @@
 //            cell.textLabel.text = NSLocalizedString(@"退出登录",@"退出登录" );
 //
 //        }
+                    case 8:
+                    {
+                        cell.textLabel.text = NSLocalizedString(@"测试欢迎语翻译接口", @"configId");
+            
+                    }
             break;
         default:
             break;
@@ -376,6 +382,12 @@
 //            
 //        }
 //            break;
+        case 8:
+        {
+            HDTestViewController *testViewController = [[HDTestViewController alloc] init];
+            [self.navigationController pushViewController:testViewController animated:YES];
+           
+        }
         default:
             break;
     }

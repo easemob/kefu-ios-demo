@@ -1687,6 +1687,7 @@ typedef enum : NSUInteger {
                      progress:(id)progress
 {
     @synchronized (self.messsagesSource) {
+       
         [self.messsagesSource addObject:message];
         NSArray *messageModels = [self formatMessages:@[message]];
         NSMutableArray  *mArr = [NSMutableArray arrayWithCapacity:0];
