@@ -206,6 +206,59 @@
     
     return ret;
 }
+- (IBAction)getAppRelevanceEnterpriseWelcome:(id)sender {
+    
+    kWeakSelf
+    
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"获取中", "Upload attachment") toView:self.view];
+    hud.layer.zPosition = 1.f;
+    __weak MBProgressHUD *weakHud = hud;
+    
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    
+    [[HDClient sharedClient].chatManager getAppRelevanceEnterpriseWelcomeWithVisitorUserName:_uuid withImServerNumber:lgM.cname Completion:^(NSString *welcome, HDError *error) {
+       
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [weakHud hideAnimated:YES];
+        if (!error) {
+                
+            weakSelf.welcomeTextView.text = welcome;
+            
+        }else{
+            
+            weakSelf.welcomeTextView.text = error.errorDescription;
+        }
+        
+        
+        });
+       
+        NSLog(@"=======%@",welcome);
+        
+    }];
+    
+    
+}
+- (IBAction)getAppRelevanceSkillGroupMenu:(id)sender {
+    
+    kWeakSelf
+    
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"获取中", "Upload attachment") toView:self.view];
+    hud.layer.zPosition = 1.f;
+    __weak MBProgressHUD *weakHud = hud;
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    [[HDClient sharedClient].chatManager getAppRelevanceSkillGroupMenuWithVisitorUserName:_uuid withImServerNumber:lgM.cname Completion:^(NSDictionary *info, HDError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [weakHud hideAnimated:YES];
+        if (!error) {
+            weakSelf.welcomeTextView.text = info.yy_modelToJSONString;
+        }else{
+            weakSelf.welcomeTextView.text = error.errorDescription;
+        }
+        });
+       
+        NSLog(@"=======%@",info.yy_modelToJSONString);
+    }];
+}
 
 
 /**  卸载应用重新安装后会不一致*/

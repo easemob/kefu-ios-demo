@@ -1466,6 +1466,11 @@ typedef enum : NSUInteger {
 #pragma mark - HDChatManagerDelegate
 
 - (void)messagesDidReceive:(NSArray *)aMessages {
+    
+    
+    NSLog(@"11111====%ld======%@",aMessages.count,aMessages);
+    
+    
     for (HDMessage *message in aMessages) {
         
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
@@ -1478,23 +1483,28 @@ typedef enum : NSUInteger {
                 
                 
             }];
-                        
+            
+           
+            
+            
             //收到消息以后 判断 最新消息都时间 如果 是之前 的消息 进行排序。否则 走一下方法
             HDMessageModel * lastMessageModel = [self.dataArray lastObject];
             if (lastMessageModel &&[lastMessageModel isKindOfClass:[HDMessageModel class]]) {
                 if( lastMessageModel.message.messageTime - message.messageTime > 0){
                     //lastMessageModel.message.messageTime 大
+                    NSLog(@"11111====33333================");
                     [self  _loadMessagesBefore:nil count:self.messageCountOfPage append:YES];
-                           
+
                 }else{
                     //message.messageTime 大
                     [self addMessageToDataSource:message progress:nil];
                 }
             }else{
-            
+
                 [self addMessageToDataSource:message progress:nil];
-                
+
             }
+
         }
     }
 }
@@ -1659,6 +1669,7 @@ typedef enum : NSUInteger {
         }
         
         if (model) {
+            
             [formattedArray addObject:model];
         }
         
@@ -1685,7 +1696,11 @@ typedef enum : NSUInteger {
 -(void)addMessageToDataSource:(HDMessage *)message
                      progress:(id)progress
 {
-    @synchronized (self.messsagesSource) {
+        @synchronized (self.messsagesSource) {
+        //先判断 消息是否重复  如果重复 不需要进行下次
+        if ([self.messsagesSource containsObject:message]) {
+            return;
+        }
         [self.messsagesSource addObject:message];
         NSArray *messageModels = [self formatMessages:@[message]];
         NSMutableArray  *mArr = [NSMutableArray arrayWithCapacity:0];
