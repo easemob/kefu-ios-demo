@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UITextView *skillTextView;
 @property (weak, nonatomic) IBOutlet UITextField *lanTextField;
 @property (weak, nonatomic) IBOutlet UILabel *currentVisitorUserName;
+@property (weak, nonatomic) IBOutlet UITextView *appTextView;
+@property (weak, nonatomic) IBOutlet UITextView *appSkillTextView;
 
 @end
 
@@ -205,6 +207,59 @@
     ret = [ret substringWithRange:NSMakeRange(0, [ret length] - 1)];
     
     return ret;
+}
+- (IBAction)getAppRelevanceEnterpriseWelcome:(id)sender {
+    
+    kWeakSelf
+    
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"获取中", "Upload attachment") toView:self.view];
+    hud.layer.zPosition = 1.f;
+    __weak MBProgressHUD *weakHud = hud;
+    
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    
+    [[HDClient sharedClient].chatManager getAppRelevanceEnterpriseWelcomeWithVisitorUserName:_uuid withImServerNumber:lgM.cname Completion:^(NSString *welcome, HDError *error) {
+       
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [weakHud hideAnimated:YES];
+        if (!error) {
+                
+            weakSelf.appTextView.text = welcome;
+            
+        }else{
+            
+            weakSelf.appTextView.text = error.errorDescription;
+        }
+        
+        
+        });
+       
+        NSLog(@"=======%@",welcome);
+        
+    }];
+    
+    
+}
+- (IBAction)getAppRelevanceSkillGroupMenu:(id)sender {
+    
+    kWeakSelf
+    
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"获取中", "Upload attachment") toView:self.view];
+    hud.layer.zPosition = 1.f;
+    __weak MBProgressHUD *weakHud = hud;
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    [[HDClient sharedClient].chatManager getAppRelevanceSkillGroupMenuWithVisitorUserName:_uuid withImServerNumber:lgM.cname Completion:^(NSDictionary *info, HDError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [weakHud hideAnimated:YES];
+        if (!error) {
+            weakSelf.appSkillTextView.text = info.yy_modelToJSONString;
+        }else{
+            weakSelf.appSkillTextView.text = error.errorDescription;
+        }
+        });
+       
+        NSLog(@"=======%@",info.yy_modelToJSONString);
+    }];
 }
 
 
