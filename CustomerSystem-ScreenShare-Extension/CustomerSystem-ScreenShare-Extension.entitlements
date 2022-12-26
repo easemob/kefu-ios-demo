@@ -5,7 +5,7 @@
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)keychainGroup</string>
-		<string>$(AppIdentifierPrefix)com.easemob.enterprise.demo.customer</string>
+		<string>$(AppIdentifierPrefix)com.easemob.kf.demo.customer</string>
 	</array>
 </dict>
 </plist>

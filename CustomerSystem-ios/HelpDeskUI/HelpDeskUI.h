@@ -61,6 +61,7 @@
 #define kMessageExtWeChat_ctrlType_transferToKf_HasTransfer @"hasTransfer"
 #define kMessageExtWeChat_ctrlArgs @"ctrlArgs"
 #define kMessageExtWeChat_ctrlArgs_evaluationDegree @"evaluationDegree"
+#define kMessageExtWeChat_ctrlArgs_resolutionParam @"resolutionParam"
 #define kMessageExtWeChat_ctrlType_transferToKfHint  @"TransferToKfHint"
 #define kMessageExtWeChat_ctrlArgs_inviteId @"inviteId"
 #define kMessageExtWeChat_ctrlArgs_serviceSessionId @"serviceSessionId"

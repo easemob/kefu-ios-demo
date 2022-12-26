@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WhiteSdkConfiguration ()
 
 @property (nonatomic, assign) BOOL enableRtcIntercept;
+@property (nonatomic, copy) NSArray<NSString *> *netlessUA;
 
 @end
 

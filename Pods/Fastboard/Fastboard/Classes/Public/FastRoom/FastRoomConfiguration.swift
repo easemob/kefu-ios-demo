@@ -36,6 +36,7 @@ public class FastRoomConfiguration: NSObject {
                 region: Region,
                 userUID: String) {
         let wsc = WhiteSdkConfiguration(app: appIdentifier)
+        wsc.setValue(["fastboard/\(versionNumber)"], forKey: "netlessUA")
         wsc.renderEngine = .canvas
         wsc.userCursor = false
         wsc.useMultiViews = true
@@ -54,6 +55,7 @@ public class FastRoomConfiguration: NSObject {
         windowParas.chessboard = false
         windowParas.containerSizeRatio = NSNumber(value: 1 / Fastboard.globalFastboardRatio)
         wrc.windowParams = windowParas
+        wrc.disableEraseImage = true
         whiteRoomConfig = wrc
         super.init()
     }

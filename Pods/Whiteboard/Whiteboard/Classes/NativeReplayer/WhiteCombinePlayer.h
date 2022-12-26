@@ -112,7 +112,7 @@ typedef NS_OPTIONS(NSUInteger, WhiteSyncManagerPauseReason) {
  */
 @interface WhiteCombinePlayer : NSObject
 
-@property (nonatomic, strong, readonly) AVPlayer *nativePlayer;
+@property (nonatomic, strong, readonly, nullable) AVPlayer *nativePlayer;
 
 /** 白板回放播放器。详见 [WhitePlayer](WhitePlayer)。
  */
@@ -163,7 +163,15 @@ typedef NS_OPTIONS(NSUInteger, WhiteSyncManagerPauseReason) {
 
  @return 初始化的 `WhiteCombinePlayer` 对象。
 */
-- (instancetype)initWithNativePlayer:(AVPlayer *)nativePlayer NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithNativePlayer:(AVPlayer *)nativePlayer;
+
+/**
+ 使用单独的WhitePlayer来初始化，不再设置AVPlayer
+ 
+ @param replayer 白板回放播放器。详见 [WhitePlayer](WhitePlayer)。
+ @return 初始化的 `WhiteCombinePlayer` 对象。
+ */
+- (instancetype)initWithWhitePlayer:(WhitePlayer *)replayer;
 
 /** 视频回放的持续时长。*/
 - (NSTimeInterval)videoDuration;
@@ -186,7 +194,8 @@ typedef NS_OPTIONS(NSUInteger, WhiteSyncManagerPauseReason) {
  
  - `YES`：调用已经完成。
  - `No`：调用未完成。
-
+ 
+ **NOTE:** 如果是单白板没有native player的情况下seek会直接返回YES
 */
 - (void)seekToTime:(CMTime)time completionHandler:(void (^)(BOOL finished))completionHandler;
 

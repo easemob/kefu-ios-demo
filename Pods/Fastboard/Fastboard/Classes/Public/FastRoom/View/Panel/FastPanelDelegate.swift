@@ -10,5 +10,5 @@ import Foundation
 /// Represents a FastPanel behavior
 @objc
 public protocol FastPanelDelegate: AnyObject {
-    func itemWillBeExecution(fastPanel: FastRoomPanel, item: FastRoomOperationItem)
+    func itemWillBeExecuted(fastPanel: FastRoomPanel, item: FastRoomOperationItem)
 }

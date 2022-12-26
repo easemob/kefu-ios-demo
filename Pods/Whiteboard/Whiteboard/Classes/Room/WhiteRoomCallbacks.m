@@ -114,12 +114,4 @@
     return @"";
 }
 
-- (NSString *)fireAttributesUpdate:(NSString *)string {
-    if ([self.delegate respondsToSelector:@selector(fireAttributesUpdate:)]) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[string dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-        [self.delegate fireAttributesUpdate:dict];
-    }
-    return @"";
-}
-
 @end

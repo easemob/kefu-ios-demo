@@ -32,9 +32,7 @@ public class IndicatorItem: FastRoomOperationItem {
         return self.associatedView!
     }
     
-    public func setEnable(_ enable: Bool) {
-        return
-    }
+    public func setEnable(_ enable: Bool) {}
 }
 
 public class JustExecutionItem: FastRoomOperationItem {
@@ -61,10 +59,10 @@ public class JustExecutionItem: FastRoomOperationItem {
         return button
     }()
     
-    @objc func onClick() {
+    @objc func onClick(sender: Any?) {
         guard let room = room else { return }
         interrupter?(self)
-        action(room, nil)
+        action(room, sender)
     }
     
     public func buildView(interrupter: ((FastRoomOperationItem)->Void)?) -> UIView {

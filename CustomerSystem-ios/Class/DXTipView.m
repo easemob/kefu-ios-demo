@@ -23,8 +23,8 @@
     if (self) {
         [self addSubview:self.tipLabel];
         _originWidth = frame.size.width;
-        _tipLabel.size = frame.size;
-        _tipLabel.width = 20.f;
+        _tipLabel.hd_size = frame.size;
+        _tipLabel.hd_width = 20.f;
     }
     return self;
 }
@@ -53,11 +53,11 @@
     if (tipNumber && tipNumber.length > 0) {
         _tipLabel.text = _tipNumber;
         if (tipNumber.length == 1) {
-            _tipLabel.width = 20.f;
+            _tipLabel.hd_width = 20.f;
         } else if (tipNumber.length == 2) {
-            _tipLabel.width = 25.f;
+            _tipLabel.hd_width = 25.f;
         } else if (tipNumber.length == 3) {
-            _tipLabel.width = 30.f;
+            _tipLabel.hd_width = 30.f;
         }
         self.hidden = NO;
     } else {

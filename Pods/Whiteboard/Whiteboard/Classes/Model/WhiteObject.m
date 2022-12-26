@@ -9,11 +9,6 @@
 
 @implementation WhiteObject
 
-+ (instancetype)modelWithJSON:(id)json
-{
-    return [self yy_modelWithJSON:json];
-}
-
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"%@ %@", [super description], [self jsonDict]];

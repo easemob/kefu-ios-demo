@@ -50,6 +50,15 @@ extension FastRoom {
         room?.addApp(appParam, completionHandler: completionHandler ?? { _ in })
     }
     
+    @objc
+    public func insertPptx(uuid: String,
+                           url: String,
+                           title: String,
+                           completionHandler: ((String)->Void)? = nil) {
+        let appParam = WhiteAppParam.createSlideApp("/" + UUID().uuidString, taskId: uuid, url: url, title: title)
+        room?.addApp(appParam, completionHandler: completionHandler ?? { _ in })
+    }
+    
     /// Insert pdf, ppt, or doc
     /// - Parameters:
     ///   - pages: files. source, preview, and itemSize

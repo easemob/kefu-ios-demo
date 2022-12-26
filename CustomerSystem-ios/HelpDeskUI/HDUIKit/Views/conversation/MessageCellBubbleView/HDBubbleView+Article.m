@@ -269,12 +269,12 @@
 }
 
 - (void)layoutSubviews {
-    CGSize size = CGSizeMake(self.width - 2 * kLeftMargin, MAXFLOAT);
-    _titleLabel.frame = CGRectMake(kLeftMargin, kTopMargin, self.width - 2 * kLeftMargin, kTitleFontSize);
+    CGSize size = CGSizeMake(self.hd_width - 2 * kLeftMargin, MAXFLOAT);
+    _titleLabel.frame = CGRectMake(kLeftMargin, kTopMargin, self.hd_width - 2 * kLeftMargin, kTitleFontSize);
     _timeLabel.frame = CGRectMake(kLeftMargin, CGRectGetMaxY(_titleLabel.frame)+kTopMargin, 200,kDigistFontSize);
-    _imageView.frame = CGRectMake(kLeftMargin, CGRectGetMaxY(_timeLabel.frame)+kTopMargin, self.width - 2 * kLeftMargin, kTitleImageHeight);
+    _imageView.frame = CGRectMake(kLeftMargin, CGRectGetMaxY(_timeLabel.frame)+kTopMargin, self.hd_width - 2 * kLeftMargin, kTitleImageHeight);
     CGRect imgRect = [_model.digest boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:kDigistFontSize]} context:nil];
-    _profile.frame = CGRectMake(kLeftMargin, CGRectGetMaxY(_imageView.frame) + kTopMargin, self.width - 2 * kLeftMargin, imgRect.size.height+kTopMargin);
+    _profile.frame = CGRectMake(kLeftMargin, CGRectGetMaxY(_imageView.frame) + kTopMargin, self.hd_width - 2 * kLeftMargin, imgRect.size.height+kTopMargin);
 }
 
 @end
@@ -330,17 +330,17 @@
 }
 
 - (void)layoutSubviews {
-    CGFloat wh = self.height - 20;
+    CGFloat wh = self.hd_height - 20;
     if (_model.type == HDCellTypeTitle) {
-        _titleLabel.frame = CGRectMake(10, self.height - kTopMargin - 20, self.width - 20, 15);
-        _imageView.frame = CGRectMake(10, 10, self.width - 2 * kLeftMargin, self.height - 2 * kTopMargin);
+        _titleLabel.frame = CGRectMake(10, self.hd_height - kTopMargin - 20, self.hd_width - 20, 15);
+        _imageView.frame = CGRectMake(10, 10, self.hd_width - 2 * kLeftMargin, self.hd_height - 2 * kTopMargin);
     }
     if (_model.type == HDCellTypeSub) {
-        CGSize size = CGSizeMake(self.width - 20 - wh - 10, MAXFLOAT);
+        CGSize size = CGSizeMake(self.hd_width - 20 - wh - 10, MAXFLOAT);
         CGRect rect = [_model.title boundingRectWithSize:size options: NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0]} context:nil];
         CGFloat height = rect.size.height > wh ? wh : rect.size.height;
-        _titleLabel.frame = CGRectMake(kLeftMargin, kTopMargin, self.width - 20 - wh - 10, height);
-        _imageView.frame = CGRectMake(self.width - wh - 10, 10, wh, wh);
+        _titleLabel.frame = CGRectMake(kLeftMargin, kTopMargin, self.hd_width - 20 - wh - 10, height);
+        _imageView.frame = CGRectMake(self.hd_width - wh - 10, 10, wh, wh);
     }
 }
 

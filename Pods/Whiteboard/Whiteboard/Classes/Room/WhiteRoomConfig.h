@@ -111,6 +111,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL disableTextOperations;
 
 /**
+ * 在用选择工具（``currentApplianceName="selector"``）选中物体后，出现的浮动条。
+ * 若为 ``false``（默认值），则永远不会出现浮动条。若为 ``true``，则会出现浮动条。
+ * 并且，若为 ``true`` ， 只有选用单个物体或者同类物体才会出现浮动条。
+ */
+@property (nonatomic, assign) BOOL floatBar;
+
+/**
  本地用户的视角边界。详见 [WhiteCameraBound](WhiteCameraBound)。
  */
 @property (nonatomic, strong, nullable) WhiteCameraBound *cameraBound;
@@ -123,6 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
  - 必须使用 [WhiteRoomConfig](WhiteRoomConfig) 子类，以保证字段结构正确。
  - 自定义的用户信息会被完整透传。
  如果要在白板房间中显示用户头像，请在 `userPayload` 中传入 `avatar` 字段并添加用户头像的地址，例如 `"avatar", "https://example.com/user.png")`。
+ 如果要在白板房间中显示用户明层，请在 `userPayload` 中传入 `cursorName` 字段并添加用户名称，例如 `"cursorName", "exampleName"`。
  - 从 [WhiteMemberInformation](WhiteMemberInformation) 迁移，只需要在 `userPayload` 中，传入相同字段即可。
  */
 @property (nonatomic, copy, nullable) id userPayload;
@@ -179,9 +187,22 @@ NS_ASSUME_NONNULL_BEGIN
 /** 是否启用可写状态监控。
  若开启，在非可写状态调用需要可写权限的房间操作会触发NSAssert，以此来强制正确的api调用。
  监控仅在开发环境生效，生产环境自动失效。
- 该参数默认为`YES`
+ 该参数默认为`NO`
  */
 @property (nonatomic, assign) BOOL enableWritableAssert;
+
+/**
+ 是否只允许用ApplePencil涂鸦
+ 
+ 开启后，禁止手指涂鸦，只有ApplePencil的笔迹会被识别。
+ 在涂鸦时如果有手指误触，将触发 [fireRoomStateChanged](fireRoomStateChanged:) 回调，返回发生 ApplianceClickerClicker 和 ApplianceClickerPencil 教具切换。
+ 
+ 该参数仅在 iPad 设备上生效
+ 建议跟随`UIPencilInteraction.prefersPencilOnlyDrawing`设置
+ 
+ 该参数默认为`NO`
+ */
+@property (nonatomic, assign) BOOL drawOnlyApplePencil;
 
 @end
 

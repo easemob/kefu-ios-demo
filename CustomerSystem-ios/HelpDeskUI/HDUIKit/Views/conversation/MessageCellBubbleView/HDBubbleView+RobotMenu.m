@@ -62,8 +62,8 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15]};
-    CGFloat height = [self.menuTitle boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.width, height)];
+    CGFloat height = [self.menuTitle boundingRectWithSize:CGSizeMake(self.tableView.hd_width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.hd_width, height)];
     label.font = [UIFont systemFontOfSize:15];
     label.textColor = [UIColor blackColor];
     label.numberOfLines = 0;
@@ -96,7 +96,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16]};
-    return [self.menuTitle boundingRectWithSize:CGSizeMake(self.tableView.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
+    return [self.menuTitle boundingRectWithSize:CGSizeMake(self.tableView.hd_width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.height + 5;
 }
 - (void)updateRobotMenuMargin:(UIEdgeInsets)margin {
     if (_margin.top == margin.top && _margin.bottom == margin.bottom && _margin.left == margin.left && _margin.right == margin.right) {
@@ -166,7 +166,7 @@
     _menuLabel.frame = frame;
 }
 - (void)setWidth:(CGFloat)width {
-    _menuLabel.width = width;
+    _menuLabel.hd_width = width;
     [_menuLabel sizeToFit];
 }
 

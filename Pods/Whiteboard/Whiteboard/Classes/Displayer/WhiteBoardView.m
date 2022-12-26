@@ -10,6 +10,8 @@
 #import "WhiteWebViewInjection.h"
 #import "WhiteObject.h"
 #import "WhiteCommonCallbacks.h"
+#import "WhiteCallBridgeCommand.h"
+#import "BridgeCallRecorder.h"
 
 #ifndef dispatch_main_async_safe
 #define dispatch_main_async_safe(block)\
@@ -20,10 +22,15 @@
     }
 #endif
 
+@interface WhiteBoardView ()
+
+@property (nonatomic, strong) BridgeCallRecorder* recorder;
+
+@end
+
 @implementation WhiteBoardView
 
-- (instancetype)init
-{
+- (instancetype)init {
     return [self initWithFrame:CGRectZero];
 }
 
@@ -55,12 +62,28 @@
     [WhiteWebViewInjection allowDisplayingKeyboardWithoutUserAction:TRUE];
     self.scrollView.scrollEnabled = NO;
     
-    NSURL *html = [NSURL fileURLWithPath:[[self whiteSDKBundle] pathForResource:@"index" ofType:@"html"]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:html];
-    [self loadRequest:request];
+    self.recorder = [[BridgeCallRecorder alloc] initWithRecordKeys:@{
+        @"sdk.newWhiteSdk": @(FALSE),
+        @"sdk.updateNativeFontFaceCSS": @(FALSE),
+        @"sdk.asyncInsertFontFaces": @(FALSE),
+        @"sdk.updateNativeTextareaFont": @(FALSE),
+        @"sdk.registerApp": @(TRUE),
+        @"sdk.joinRoom": @(TRUE)
+    }];
+    
+    [self loadRequest:[NSURLRequest requestWithURL:[self resourceURL]]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHandler:) name:UIKeyboardWillChangeFrameNotification object:nil];
     return self;
+}
+
+- (NSURL *)resourceURL {
+    return [NSURL fileURLWithPath:[[self whiteSDKBundle] pathForResource:@"index" ofType:@"html"]];
+}
+
+- (void)reloadFromCrash:(void (^)(void))completionHandler {
+    [self loadUrl:[self.resourceURL absoluteString]];
+    [self.recorder resumeCommandsFromBridgeView:self completionHandler:completionHandler];
 }
 
 #pragma mark - Keyboard Notification
@@ -115,11 +138,15 @@
 #pragma mark - Override
 -(void)callHandler:(NSString *)methodName arguments:(NSArray *)args completionHandler:(void (^)(id  _Nullable value))completionHandler
 {
+    WhiteCallBridgeCommand *command = [[WhiteCallBridgeCommand alloc] init];
+    command.method = methodName;
     if (!args) {
         dispatch_main_async_safe(^ {
             [super callHandler:methodName arguments:args completionHandler:completionHandler];
         });
-        return;
+        command.args = @[];
+        [self.recorder receiveCommand:command];
+        return ;
     }
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[args count]];
     for (NSObject *item in args) {
@@ -136,6 +163,10 @@
     dispatch_main_async_safe(^ {
         [super callHandler:methodName arguments:arr completionHandler:completionHandler];
     });
+    
+    command.args = arr;
+    [self.recorder receiveCommand:command];
+    return ;
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor

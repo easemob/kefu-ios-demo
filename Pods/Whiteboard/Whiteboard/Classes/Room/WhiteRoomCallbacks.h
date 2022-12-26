@@ -111,9 +111,6 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
  */
 - (void)fireHighFrequencyEvent:(NSArray<WhiteEvent *>*)events;
 
-/** SyncedStoreState 更新时间，state 为 SyncedState 的全部内容 */
-- (void)fireAttributesUpdate:(NSDictionary *)state;
-
 @end
 
 #pragma mark - WhiteRoomCallbacks

@@ -8,6 +8,12 @@
 #import "WhitePlayerConfig.h"
 #import "WhiteConsts.h"
 
+@interface WhitePlayerConfig ()
+
+@property (nonatomic, strong) NSString *audioUrl DEPRECATED_MSG_ATTRIBUTE("use mediaURL property");
+
+@end
+
 @implementation WhitePlayerConfig
 
 - (instancetype)initWithRoom:(NSString *)roomUuid roomToken:(NSString *)roomToken;

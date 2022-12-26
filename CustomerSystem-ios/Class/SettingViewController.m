@@ -14,7 +14,7 @@
 #import "HelpDeskUI.h"
 #import "CSDemoAccountManager.h"
 #import "HDTestViewController.h"
-
+#import "MBProgressHUD+Add.h"
 
 @interface SettingViewController ()<UIAlertViewDelegate>
 {
@@ -56,27 +56,43 @@
 //    [self addLogoutButton]; //异步调用退出
 }
 
-- (void)addLogoutButton {
+- (UIButton *)addLogoutButton {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, kScreenHeight-300, 100, 40);
-    button.centerX = kScreenWidth/2;
+    button.hd_centerX = kScreenWidth/2;
     button.layer.cornerRadius = 5;
     button.layer.masksToBounds = YES;
     [button setTitle:@"退出登录" forState:UIControlStateNormal];
     button.backgroundColor = [UIColor redColor];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(logoutHD) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button];
+//    [self.tableView.tableFooterView addSubview:button];
+    
+    return button;
 }
 
 - (void)logoutHD {
+
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"退出...", @"") toView:self.view.superview];
+
+    __weak MBProgressHUD *weakHud = hud;
+    
+   
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         HDError *error = [HDClient.sharedClient logout:YES];
-        if (error == nil) {
-            NSLog(@"登出成功");
-        } else {
-            NSLog(@"失败:%@",error.errorDescription);
-        }
+        
+        hd_dispatch_main_async_safe(^(){
+            [weakHud hideAnimated:YES];
+            if (error == nil) {
+                NSLog(@"登出成功");
+                [MBProgressHUD showSuccess:NSLocalizedString(@"退出成功", @"退出成功") toView:self.view.superview];
+                [self.tableView reloadData];
+            } else {
+                [MBProgressHUD showSuccess:NSLocalizedString(@"退出失败", @"退出失败") toView:self.view.superview];
+                NSLog(@"失败:%@",error.errorDescription);
+            }
+        });
+       
     });
 }
 
@@ -136,7 +152,8 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 8;
+//    return 8;
+    return 9;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -232,6 +249,18 @@
             tempLabel.text = [[HDClient sharedClient] currentUsername];
         }
             break;
+//        case 8:
+//        {
+//            tempLabel.text = @"";
+//            cell.textLabel.text = NSLocalizedString(@"退出登录",@"退出登录" );
+//
+//        }
+                    case 8:
+                    {
+                        cell.textLabel.text = NSLocalizedString(@"测试欢迎语翻译接口", @"configId");
+            
+                    }
+            break;
         default:
             break;
     }
@@ -260,6 +289,18 @@
     return 15;
 }
 
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//{
+//    return 45;
+//}
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+//
+//
+//
+//    return [self addLogoutButton];
+//
+//
+//}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -334,6 +375,19 @@
             [self.navigationController pushViewController:editController animated:YES];
         }
             break;
+//        case 8:
+//        {
+//
+//            [self logoutHD];
+//            
+//        }
+//            break;
+        case 8:
+        {
+            HDTestViewController *testViewController = [[HDTestViewController alloc] init];
+            [self.navigationController pushViewController:testViewController animated:YES];
+           
+        }
         default:
             break;
     }
@@ -367,6 +421,9 @@
         } else if ([type isEqualToString:@"projectId"]) {
             _projectId = content;
             _lgM.projectId = content;
+        }else if ([type isEqualToString:@"configId"]) {
+            _configId = content;
+            _lgM.configId = content;
         }
         [self.tableView reloadData];
     }

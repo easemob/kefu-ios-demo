@@ -65,48 +65,67 @@
     footerView.backgroundColor = [UIColor whiteColor];
     footerView.alpha = 1;
     [self.view addSubview:footerView];
-    
+    BOOL isVecIndependentVideo = NO;
+    HDGrayModel * grayVecIndependentVideoModel =  [[HDCallManager shareInstance] getGrayName:kGrayVecIndependentVideo];
+    if (grayVecIndependentVideoModel.enable) {
+       
+        isVecIndependentVideo = YES;
+    }else{
+        isVecIndependentVideo = NO;
+    }
+
     
     CustomButton * messageButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [messageButton setImage:[UIImage imageNamed:@"hd_chat_icon_red"] forState:UIControlStateNormal];
     [messageButton setTitle:NSLocalizedString(@"customerChatNew", @"Customer") forState:UIControlStateNormal];
     messageButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [messageButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [messageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    messageButton.imageRect = CGRectMake(30, footerView.height/3, footerView.height/3, footerView.height/3);
-    messageButton.titleRect = CGRectMake(55, footerView.height/4, 100, footerView.height/2);
+//    [messageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    messageButton.imageRect = CGRectMake(30, footerView.hd_height/3, footerView.hd_height/3, footerView.hd_height/3);
+    messageButton.titleRect = CGRectMake(55, footerView.hd_height/4, 100, footerView.hd_height/2);
     [self.view addSubview:messageButton];
-    messageButton.frame = CGRectMake(0, 0, footerView.width/2, footerView.height);
+   
+  
     messageButton.layer.borderWidth =1;
     messageButton.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
     [footerView addSubview:messageButton];
     
     [messageButton addTarget:self action:@selector(messageAction) forControlEvents:UIControlEventTouchUpInside];
     
-    
     CustomButton * vecButton = [CustomButton buttonWithType:UIButtonTypeCustom];
 //    [vecButton setImage:[UIImage imageNamed:@"hd_chat_icon_red"] forState:UIControlStateNormal];
+    
+    if (isVecIndependentVideo) {
+        messageButton.frame = CGRectMake(0, 0, footerView.hd_width/2, footerView.hd_height);
+       
+        vecButton.hidden = NO;
+    }else{
+        messageButton.frame = CGRectMake(0, 0, footerView.hd_width, footerView.hd_height);
+        vecButton.hidden = YES;
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.hd_width - (footerView.hd_height/3) * 2, footerView.hd_height/3, footerView.hd_height/3, footerView.hd_height/3)];
+        [button setImage:[UIImage imageNamed:@"hd_icon_like_gray"] forState:UIControlStateNormal];
+        [footerView addSubview:button];
+    }
     
     [vecButton setImage:[UIImage imageWithIcon:kshexiangtou1 inFont:kfontName size:32 color:[[HDAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
                
     [vecButton setTitle:NSLocalizedString(@"customerVEC", @"Customer") forState:UIControlStateNormal];
     vecButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [vecButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [vecButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    vecButton.imageRect = CGRectMake(30, footerView.height/3, footerView.height/3, footerView.height/3);
-    vecButton.titleRect = CGRectMake(55, footerView.height/4, 100, footerView.height/2);
+//    [vecButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    vecButton.imageRect = CGRectMake(30, footerView.hd_height/3, footerView.hd_height/3, footerView.hd_height/3);
+    vecButton.titleRect = CGRectMake(55, footerView.hd_height/4, 100, footerView.hd_height/2);
     vecButton.layer.borderWidth =1;
     vecButton.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
     [self.view addSubview:vecButton];
-    vecButton.frame = CGRectMake(messageButton.size.width, 0, footerView.width/2, footerView.height);
+    vecButton.frame = CGRectMake(messageButton.hd_size.width, 0, footerView.hd_width/2, footerView.hd_height);
+  
     [footerView addSubview:vecButton];
     [vecButton addTarget:self action:@selector(vecAction) forControlEvents:UIControlEventTouchUpInside];
     
     
 //
-//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.width - (footerView.height/3) * 2, footerView.height/3, footerView.height/3, footerView.height/3)];
-//    [button setImage:[UIImage imageNamed:@"hd_icon_like_gray"] forState:UIControlStateNormal];
-//    [footerView addSubview:button];
+   
     [self.view bringSubviewToFront:footerView];
 }
 

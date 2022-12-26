@@ -81,7 +81,7 @@
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         if ([cmp1 day] == [cmp2 day]) { // 今天
-            formatter.dateFormat = NSEaseLocalizedString(@"ui.today", @"Today");
+            formatter.dateFormat = @"yyyy-MM-dd HH:mm";
         } else if ([cmp1 year] == [cmp2 year]) { // 今年
             formatter.dateFormat = @"MM-dd HH:mm";
         } else {
@@ -127,7 +127,7 @@
         
         if (self.lastUpdatedTimeLabel.constraints.count == 0) {
             self.lastUpdatedTimeLabel.mj_x = 0;
-            self.lastUpdatedTimeLabel.mj_y = stateLabelH;
+            self.lastUpdatedTimeLabel.mj_y = self.mj_h * 0.7;
             self.lastUpdatedTimeLabel.mj_w = self.mj_w;
             self.lastUpdatedTimeLabel.mj_h = self.mj_h - self.lastUpdatedTimeLabel.mj_y;
         }

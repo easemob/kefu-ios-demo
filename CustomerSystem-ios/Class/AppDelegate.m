@@ -11,6 +11,8 @@
 #import "HomeViewController.h"
 #import "AppDelegate+HelpDesk.h"
 #import <Bugly/Bugly.h>
+// 第二步：在 AppDelegate.m 文件中用 extern 声明全局变量 MainStartTime
+extern CFAbsoluteTime MainStartTime;
 @interface AppDelegate ()<BuglyDelegate>
 @end
 
@@ -19,13 +21,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  //iOS
+  [[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection.bundle"] load];
+ //同时还支持tvOS和MacOS，配置时只需要在/Applications/InjectionIII.app/Contents/Resources/目录下找到对应的bundle文件,替换路径即可
+ 
+    
     //初始化bugly
     BuglyConfig * config = [[BuglyConfig alloc] init];
     // 设置自定义日志上报的级别，默认不上报自定义日志
     config.reportLogLevel = BuglyLogLevelWarn;
     config.delegate = self;
-    [Bugly startWithAppId:@"d6498f1c9a" config:config];
-     
+    
+    //appstore
+    [Bugly startWithAppId:@"edaf8ccbcb" config:config];
+    //企业包
+//    [Bugly startWithAppId:@"d6498f1c9a" config:config];
+
     // 初始化环信客服SDK，详细内容在AppDelegate+HelpDesk.m 文件中
     [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -34,19 +45,32 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.homeController];
     [self configureNavigationController:navigationController];
     self.window.rootViewController = navigationController;
+    [self.window makeKeyAndVisible];
+    // 第三步：在 didFinishLaunchingWithOptions 方法结束前，再获取一下当前时间，与 MainStartTime 的差值就是 main() 函数阶段的耗时
+    double mainLaunchTime = (CFAbsoluteTimeGetCurrent() - MainStartTime);
+    NSLog(@"main() 阶段耗时：%.2fms", mainLaunchTime * 1000);
+
+   
     
     //添加自定义小表情
 #pragma mark smallpngface
     [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
     [[HDEmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[HDConvertToCommonEmoticonsHelper emotionsDictionary]];
+//
+    // 第三步：在 didFinishLaunchingWithOptions 方法结束前，再获取一下当前时间，与 MainStartTime 的差值就是 main() 函数阶段的耗时
     
-    [self.window makeKeyAndVisible];
+    double hxMainLaunchTime = (CFAbsoluteTimeGetCurrent() - MainStartTime);
+    NSLog(@"main() 阶段耗时：%.2fms", hxMainLaunchTime * 1000 - mainLaunchTime * 1000);
+    
     return YES;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     //
+    
+    NSLog(@"===didReceiveRemoteNotification===%@",userInfo);
+    
 }
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {

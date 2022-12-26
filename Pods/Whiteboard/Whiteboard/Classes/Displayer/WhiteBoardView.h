@@ -5,8 +5,8 @@
 //  Created by leavesster on 2018/8/15.
 //
 
-#if __has_include(<dsbridge/dsbridge.h>)
-#import <dsbridge/dsbridge.h>
+#if __has_include(<NTLBridge/dsbridge.h>)
+#import <NTLBridge/dsbridge.h>
 #else
 #import "dsbridge.h"
 #endif

@@ -4,12 +4,12 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.easemob.enterprise.demo.customer</string>
+		<string>group.com.easemob.kf.demo.customer</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)keychainGroup</string>
-		<string>$(AppIdentifierPrefix)com.easemob.enterprise.demo.customer</string>
+		<string>$(AppIdentifierPrefix)com.easemob.kf.demo.customer</string>
 	</array>
 </dict>
 </plist>

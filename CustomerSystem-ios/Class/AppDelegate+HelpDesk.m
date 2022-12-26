@@ -32,11 +32,14 @@
      */
     // 注册环信监听
     [self setupNotifiers];
+    
+
 }
 
 
 //初始化客服sdk
 - (void)initializeCustomerServiceSdk {
+   
 #warning SDK注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
     NSString *apnsCertName = nil;
 #if DEBUG
@@ -48,28 +51,34 @@
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     HDOptions *option = [[HDOptions alloc] init];
 
-    option.appkey = lgM.appkey;   
+    option.appkey = lgM.appkey;
     option.tenantId = lgM.tenantId;
     option.configId = lgM.configId;
 //    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"https://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
-    option.enableDnsConfig =YES;
-    option.apnsCertName = apnsCertName;
+    option.enableDnsConfig =YES;  //
+    option.apnsCertName = apnsCertName; // im 透传参数
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
     option.showAgentInputState = YES; // 是否显示坐席输入状态
-    option.isAutoLogin = YES;
-//    option.useIm = YES;
-//    option.imServiceUser = @"c1";
+    option.isAutoLogin = NO;
+    option.usingHttpsOnly = NO;
     
-//    option.extension = @{@"dk_disable_upload_locationInfo":@YES};
+    
     HDClient *client = [HDClient sharedClient];
-    HDError *initError = [client initializeSDKWithOptions:option];
     
+    //如果HDOptions 满足使用 initializeSDKWithOptions
+//    HDError *initError = [client initializeSDKWithOptions:option] ;
+    
+    //如果HDOptions 不满足im EMOptions 参数的请使用initializeSDKWithOptions：withToImoptions：
+    EMOptions * imOptions =[EMOptions optionsWithAppkey:option.appkey];
+//    imOptions.enableFpa = YES;// 设置对应的im参数
+    imOptions.usingHttpsOnly = NO; //设置对应的im参数
+    HDError *initError = [[HDClient sharedClient] initializeSDKWithOptions:option withToImoptions:imOptions];
+ 
     //如果使用了im sdk 提供的demo 一定要初始化这个方法
 //    [EaseIMKitManager initWithEMOptions:nil];
-    
-    
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[HDCustomEmojiManager shareManager] cacheBigExpression];
     });
@@ -82,13 +91,49 @@
     [self registerEaseMobNotification];
     
 //    sleep(1);
+    
     [client.pushManager getPushNotificationOptionsFromServerWithCompletion:^(HDPushOptions * _Nonnull aOptions, HDError * _Nonnull aError) {
 
         NSLog(@"==========aErrorcode=%u==%@",aError.code,aError.description);
         NSLog(@"===========displayStyle=%u==%@",aOptions.displayStyle,aOptions.displayName);
     }];
+   
+    
+//    [[HDClient sharedClient].chatManager fetchCurrentSessionId:lgM.cname completion:^(NSString *sessionId, HDError *aError) {
+//        
+//        //
+//        NSLog(@"======%@",sessionId);
+//        
+//    }];
+//    [[HDClient sharedClient].chatManager fetchCurrentServiceSession:lgM.cname completion:^(id responseObject, HDError *aError) {
+//
+//        NSLog(@"=====%@",responseObject);
+//
+//    }];
+    
+    
+    [EMClient.sharedClient addDelegate:self delegateQueue:nil];
+    [EMClient.sharedClient.chatManager addDelegate:self delegateQueue:nil];
+    
+     
 }
 
+-(void)messagesDidReceive:(NSArray<EMChatMessage *> *)aMessages{
+    
+    NSLog(@"========%@",aMessages);
+    
+}
+-(void)cmdMessagesDidReceive:(NSArray<EMChatMessage *> *)aCmdMessages{
+    
+    NSLog(@"========%@",aCmdMessages);
+    
+}
+- (void)autoLoginDidCompleteWithError:(EMError *)aError{
+    
+    NSLog(@"========%@",aError);
+    
+    
+}
 //修改关联app后需要重新初始化
 - (void)resetCustomerServiceSDK {
     //如果在登录状态,账号要退出
@@ -206,6 +251,7 @@
 
 // 将得到的deviceToken传给SDK
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[HDClient sharedClient] bindDeviceToken:deviceToken];
     });
@@ -244,11 +290,22 @@
 {
     // 将self 添加到SDK回调中，以便本类可以收到SDK回调
     [[HDClient sharedClient] addDelegate:self delegateQueue:nil];
+    
+    [[HDClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 }
 
 - (void)unRegisterEaseMobNotification{
     [[HDClient sharedClient] removeDelegate:self];
 }
+
+//- (void)messagesDidReceive:(NSArray *)aMessages{
+//    
+//    
+//    HDLogD(@"收到消息");
+//    
+//    
+//}
+
 
 
 #pragma mark - IChatManagerDelegate
@@ -290,7 +347,20 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"userAccountDidForcedToLogout", @"your login account has been forced logout") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
     [alertView show];
 }
-
+//- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+//    // 处理完成后调用 completionHandler ，用于指示在前台显示通知的形式
+//    // completionHandler() 功能：可设置是否在应用内弹出通知
+//    // 在 iOS 10 + 中 通知在前台的显示设置：
+//    // 1、通知在前台不显示
+//    // 如果调用下面代码： 通知不在前台弹出也不在通知栏显示
+//    // completionHandler(UNNotificationPresentationOptionNone);
+//    // 2、通知在前台显示
+//    // 如果调用下面代码： 通知在前台弹出也在通知栏显示
+//    // completionHandler(UNNotificationPresentationOptionAlert);
+//    // 3、通知在前台显示 并带有声音
+//    // 如果调用下面代码：通知弹出，且带有声音、内容和角标
+//     completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
+//}
 //退出当前
 - (void)userAccountLogout {
     [[HDClient sharedClient] logout:YES];
@@ -298,5 +368,15 @@
     if (chat) {
         [chat backItemClicked];
     }
+}
+-(void)initKefuAndIm:(HDOptions *)option{
+    
+    EMOptions * imOptions =[EMOptions optionsWithAppkey:option.appkey];
+    imOptions.enableFpa = YES;// 设置对应的im参数
+    HDError *initError = [[HDClient sharedClient] initializeSDKWithOptions:option withToImoptions:imOptions];
+    
+    
+//    [[HDClient sharedClient] initializeSDKWithOptions:option withToImoptions:imOptions];
+    
 }
 @end

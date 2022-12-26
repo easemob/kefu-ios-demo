@@ -34,7 +34,6 @@
 #import "UIViewController+AlertController.h"
 #import "HRobotUnsolveItemView.h"
 #import "HDCustomEmojiManager.h"
-#import "CSDemoAccountManager.h"
 typedef enum : NSUInteger {
     HDRequestRecord,
     HDCanRecord,
@@ -77,6 +76,14 @@ typedef enum : NSUInteger {
         _timeCellHeight = 30;
         _messsagesSource = [NSMutableArray array];
         [_conversation markAllMessagesAsRead:nil];
+        
+        [[HDClient sharedClient].chatManager markAllMessagesAsRead:nil Completion:^(id responseObject, HDError *error) {
+                        
+            
+            NSLog(@"======%@",responseObject);
+            
+            
+        }];
     }
     
     return self;
@@ -93,7 +100,7 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+   
     if (_conversation.officialAccount.name) {
         _title = _conversation.officialAccount.name;
     }
@@ -106,7 +113,7 @@ typedef enum : NSUInteger {
     //Initialization
     CGFloat chatbarHeight = [HDChatToolbar defaultHeight];
     
-    self.chatToolbar = [[HDChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.height - chatbarHeight - iPhoneXBottomHeight, self.view.width, chatbarHeight)];
+    self.chatToolbar = [[HDChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.hd_height - chatbarHeight - iPhoneXBottomHeight, self.view.hd_width, chatbarHeight)];
     self.chatToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     //Initializa the gesture recognizer
@@ -149,6 +156,11 @@ typedef enum : NSUInteger {
     {
             
     }];
+    
+   
+    
+//    [self newRobotWelcome];
+    
 }
 
 - (void)setupCell {
@@ -201,7 +213,7 @@ typedef enum : NSUInteger {
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
-        if (touch.view.width == 200 || touch.view.tag == 1990) {
+        if (touch.view.hd_width == 200 || touch.view.tag == 1990) {
             return NO;
         }
     }
@@ -219,19 +231,11 @@ typedef enum : NSUInteger {
 - (void)setupEmotion
 {
     // 如果子类中实现了代理方法，就显示子类中的，如果没有显示就显示父类中的
-    if (![self.dataSource respondsToSelector:@selector(emotionFormessageViewController:)]) {
+    if ([self.dataSource respondsToSelector:@selector(emotionFormessageViewController:)]) {
         NSArray* emotionManagers = [self.dataSource emotionFormessageViewController:self];
         [self.faceView setEmotionManagers:emotionManagers];
     } else {
-        // 系统默认表情
-        //        NSMutableArray *emotions = [NSMutableArray array];
-        //        for (NSString *name in [HDEmoji allEmoji]) {
-        //            HDEmotion *emotion = [[HDEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:name emotionOriginal:name emotionOriginalURL:@"" emotionType:HDEmotionDefault];
-        //            [emotions addObject:emotion];
-        //        }
-        //        HDEmotion *emotion = [emotions objectAtIndex:0];
-        //        HDEmotionManager *manager= [[HDEmotionManager alloc] initWithType:HDEmotionDefault emotionRow:3 emotionCol:7 emotions:emotions tagImage:[UIImage imageNamed:emotion.emotionId]];
-        
+   
         // 添加自定义表情
 #pragma mark smallpngface
         NSMutableArray *customEmotions = [NSMutableArray array];
@@ -1463,25 +1467,45 @@ typedef enum : NSUInteger {
 #pragma mark - HDChatManagerDelegate
 
 - (void)messagesDidReceive:(NSArray *)aMessages {
+    
+    
+    NSLog(@"11111====%ld======%@",aMessages.count,aMessages);
+    
+    
     for (HDMessage *message in aMessages) {
+        
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             [_conversation markAllMessagesAsRead:nil];
+    
+            [[HDClient sharedClient].chatManager markAllMessagesAsRead:nil Completion:^(id responseObject, HDError *error) {
+                            
+                
+                NSLog(@"======%@",responseObject);
+                
+                
+            }];
+            
+           
+            
+            
             //收到消息以后 判断 最新消息都时间 如果 是之前 的消息 进行排序。否则 走一下方法
             HDMessageModel * lastMessageModel = [self.dataArray lastObject];
             if (lastMessageModel &&[lastMessageModel isKindOfClass:[HDMessageModel class]]) {
                 if( lastMessageModel.message.messageTime - message.messageTime > 0){
                     //lastMessageModel.message.messageTime 大
+                    NSLog(@"11111====33333================");
                     [self  _loadMessagesBefore:nil count:self.messageCountOfPage append:YES];
-                           
+
                 }else{
                     //message.messageTime 大
                     [self addMessageToDataSource:message progress:nil];
                 }
             }else{
-            
+
                 [self addMessageToDataSource:message progress:nil];
-                
+
             }
+
         }
     }
 }
@@ -1646,6 +1670,7 @@ typedef enum : NSUInteger {
         }
         
         if (model) {
+            
             [formattedArray addObject:model];
         }
         
@@ -1672,7 +1697,11 @@ typedef enum : NSUInteger {
 -(void)addMessageToDataSource:(HDMessage *)message
                      progress:(id)progress
 {
-    @synchronized (self.messsagesSource) {
+        @synchronized (self.messsagesSource) {
+        //先判断 消息是否重复  如果重复 不需要进行下次
+        if ([self.messsagesSource containsObject:message]) {
+            return;
+        }
         [self.messsagesSource addObject:message];
         NSArray *messageModels = [self formatMessages:@[message]];
         NSMutableArray  *mArr = [NSMutableArray arrayWithCapacity:0];
@@ -1813,6 +1842,15 @@ typedef enum : NSUInteger {
         
             //发送透传消息
             HDMessage *aHMessage = [HDSDKHelper cmdMessageFormatTo:self.conversation.conversationId action:action];
+            
+//            //这个写法对应文档https://docs.easemob.com/cs/400systemintegration/10crmintegration?s[]=自定义查询参数 ifrme
+//            NSDictionary *dic = @{@"name":@"Jack",@"age":@"40",@"sex": @"man"};
+//            NSDictionary *dic1 = @{@"params":dic};
+//            NSDictionary *dic2 = @{@"updateVisitorInfoSrc":dic1};
+//            NSDictionary *dic3 = @{@"cmd":dic2};
+//            aHMessage.ext = dic3;
+//
+//
             [aHMessage addCompositeContent:hcont];
             __weak typeof(self) weakSelf = self;
             [[HDClient sharedClient].chatManager sendMessage:aHMessage
@@ -1988,10 +2026,7 @@ typedef enum : NSUInteger {
 }
 
 
-- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments
-                                          type:(ControlType *)type
-                           evaluationTagsArray:(NSMutableArray *)tags
-                            evaluationDegreeId:(NSNumber *)evaluationDegreeId{
+- (void)commitSatisfactionWithControlArguments:(ControlArguments *)arguments type:(ControlType *)type evaluationTagsArray:(NSMutableArray *)tags resolutionParamsArray:(NSMutableArray *)resolutionParams evaluationDegreeId:(NSNumber *)evaluationDegreeId{
     HDMessage *message = [HDSDKHelper textHMessageFormatWithText:@"" to:self.conversation.conversationId];
     HDControlMessage *hCtrl = [HDControlMessage new];
     hCtrl.type = type;
@@ -2001,9 +2036,27 @@ typedef enum : NSUInteger {
     NSMutableDictionary *ext = [message.ext mutableCopy];
     NSMutableDictionary *ctrlArgs = [[ext objectForKey:@"weichat"] objectForKey:@"ctrlArgs"];
     NSArray *tagsArray = [NSArray arrayWithArray:tags];
-    [ctrlArgs setObject:tagsArray forKey:@"appraiseTags"];
-    [ctrlArgs setValue:evaluationDegreeId forKey:@"evaluationDegreeId"];
-    [ctrlArgs setValue:@"0" forKey:@"inviteId"];
+    [ctrlArgs hd_setValue:tagsArray forKey:@"appraiseTags"];
+    [ctrlArgs hd_setValue:resolutionParams forKey:@"resolutionParam"];
+    [ctrlArgs hd_setValue:evaluationDegreeId forKey:@"evaluationDegreeId"];
+
+    // 只有访客主动评价的时候evaluateWay 这个字段需要传对应的值 其他时候不需要传 后端根据inviteId 返回对应的值了 这里是为了有个默认值所以加个system
+    [ctrlArgs hd_setValue:@"sysytem" forKey:@"evaluateWay"];
+//    [ctrlArgs setValue:@"0" forKey:@"inviteId"];
+    
+    NSInteger inviteId = [arguments.inviteId integerValue];
+    
+    if (inviteId > 0) {
+         
+        [ctrlArgs setValue: arguments.inviteId forKey:@"inviteId"];
+    }else{
+        // 评价方式 只有访客主动评价的时候 inviteId 设置为0  评价方式为：主动评价
+        [ctrlArgs setValue:@"0" forKey:@"inviteId"];
+//        评价方式为：主动评价 需要设置evaluateWay 字段 为 visitor
+        [ctrlArgs hd_setValue:@"visitor" forKey:@"evaluateWay"];
+    }
+   
+    
     message.ext = [ext copy];
     
     __weak typeof(self) weakself = self;
@@ -2059,13 +2112,11 @@ typedef enum : NSUInteger {
     if (ext) {
         [message addAttributeDictionary:ext];
     }
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-   
-    [message addContent:lgM.visitorInfo];
-    
-
-//    NSMutableDictionary * dic1 =[message.ext valueForKey:@"weichat"];
-//    [dic1 setValue:@"routingRuleFlag" forKey:@"routingRuleFlag"];
+//    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+//
+//    [message addContent:lgM.visitorInfo];
+    NSMutableDictionary * dic1 =[message.ext valueForKey:@"weichat"];
+    [dic1 setValue:@"English" forKey:@"routingRuleFlag"];
    
     [self _sendMessage:message];
 }
@@ -2193,6 +2244,83 @@ typedef enum : NSUInteger {
         }
     }
 }
+//获取新版(企业版)机器人欢迎语
+- (void)newRobotWelcome{
+
+    [[HDClient sharedClient].chatManager getRobotWelcomeWithImServerNumber:self.conversation.conversationId completion:^(NSDictionary *info, HDError *error) {
+            
+        if (error==nil&&info) {
+        
+            [self parData:info];
+        }
+    }];
+    
+}
+
+-(void)parData:(NSDictionary *)info{
+    
+    //同样的可以替换字符
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info options:0 error:nil];
+
+    NSString *result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    NSString *str = [result stringByReplacingOccurrencesOfString:@"&amp;quot;" withString:@"\""];
+    NSString *str1 = [str stringByReplacingOccurrencesOfString:@"\"{" withString:@"{"];
+    NSString *str2 = [str1 stringByReplacingOccurrencesOfString:@"}\"" withString:@"}"];
+
+    // JSON字符串转字典
+    NSDictionary *dic = [self dictionaryWithJsonString:str2];
+    
+    // 取消息的ext
+    NSString *robotText = nil;
+    NSDictionary *dicExt = [NSDictionary dictionary];
+    if ([[[dic objectForKey:@"entity"] objectForKey:@"greetingText"] isKindOfClass:[NSString class]]) {
+    robotText = [[dic objectForKey:@"entity"] objectForKey:@"greetingText"];
+    } else {
+    dicExt = [[[dic objectForKey:@"entity"] objectForKey:@"greetingText"] objectForKey:@"ext"];
+    }
+    //构建消息
+    NSLog(@"dicExt---%@",dicExt);
+    EMTextMessageBody *bdy = [[EMTextMessageBody alloc] initWithText:robotText];
+    NSString *from = [[HDClient sharedClient] currentUsername];
+
+    HDMessage *message = [[HDMessage alloc] initWithConversationID:self.conversation.conversationId from:from to:self.conversation.conversationId body:bdy];
+    message.ext = dicExt;
+    message.direction = 1;
+    message.status = HDMessageStatusSuccessed;
+    // 消息添加到UI
+    [self addMessageToDataSource:message progress:nil];
+    // 消息插入到会话
+    HDError *pError;
+    [self.conversation addMessage:message error:&pError];
+    
+}
+
+// JSON字符串转化为字典
+
+- (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString{
+
+    if (jsonString == nil) {
+
+        return nil;
+    }
+
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+
+    NSError *err;
+
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    
+
+    if(err){
+        NSLog(@"json解析失败：%@",err);
+        return nil;
+    }
+    return dic;
+}
+
 
 @end
 

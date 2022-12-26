@@ -24,6 +24,13 @@
 "retry" = "重试";
 "edit" = "编辑";
 
+"ui.pullDownToRefresh" = "Pull To Refresh";
+"ui.releaseToRefresh" =  "Release To Refresh";
+"ui.refreshing" =  "Refreshing data";
+"ui.lastUpdateNoRecords" =  "Last update: no records";
+"ui.lastUpdate" =  "Last update:";
+"ui.today" =  "today";
+
 "sendingApply" = "正在发送申请...";
 "acceptFail" = "接受失败";
 "rejectFail" = "拒绝失败";
@@ -91,6 +98,7 @@
 "title.projectId" = "留言ID(ProjectId)";
 "title.tenantId" = "租户ID(Tenantld)";
 "title.configId" = "插件ID(configId)";
+"title.username" = "登录名称";
 //choice
 "choice.preSale" = "售前客服";
 "choice.afterSale" = "售后客服";
@@ -102,7 +110,9 @@
 "satisfaction.nickname" = "客服昵称";
 "satisfaction.commit" = "提交";
 "satisfaction.alert" = "请先选择评星";
-
+"satisfaction.evaluate.GuideLanguage" ="请问客服是否解决了您的问题？";
+"satisfaction.evaluate.solve" ="解决";
+"satisfaction.evaluate.NotSolved" ="未解决";
 //message
 "message.camera" = "相机";
 "message.image" = "图片";
@@ -358,6 +368,7 @@
 
 //远程协助
 "video.remoteassistance.device" = "当前设备不支持此功能";
+"video.remoteassistance.camera.close" = "当前摄像头为关闭状态";
 "video.remoteassistance.device.front" = "当前是前置摄像头需要切换后置摄像头才能使用此功能";
 
 "video.screenShareExtension" = "当前系统不支持屏幕共享功能";
@@ -380,5 +391,8 @@
 "video.call.calling" = "通话中";
 "video.call.sign" = "请在此处签字";
 
+"video.call.whiteBoard.title" = "互动白板";
+"video.call.shareScreen.title" = "屏幕共享";
+"video.call.message" = "聊天";
 
 

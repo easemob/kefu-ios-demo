@@ -1,10 +1,12 @@
-/* 
+/*
   Localizable.strings
   ChatDemo-UI2.0
 
   Created by dhcdht on 15-1-20.
   Copyright (c) 2015年 dhcdht. All rights reserved.
 */
+
+
 
 //other
 "search" = "Search";
@@ -91,6 +93,7 @@
 "title.projectId" = "ProjectID";
 "title.tenantId" = "TenantID";
 "title.configId" = "ConfigId";
+"title.username" = "LoginName";
 //choice
 "choice.preSale" = "Pre Sale";
 "choice.afterSale" = "After Sales";
@@ -102,7 +105,9 @@
 "satisfaction.nickname" = "nickname";
 "satisfaction.commit" = "commit";
 "satisfaction.alert" = "please evaluate first";
-
+"satisfaction.evaluate.GuideLanguage" ="Did the customer service solve your problem?";
+"satisfaction.evaluate.solve" ="solve";
+"satisfaction.evaluate.NotSolved" ="Not Solved";
 //message
 "message.camera" = "Camera";
 "message.image" = "Image";
@@ -354,7 +359,7 @@
 //远程协助
 "video.remoteassistance.device" = "The current device does not support this feature";
 "video.remoteassistance.device.front" = "Currently the front camera needs to switch the rear camera to use this function";
-
+"video.remoteassistance.camera.close" = "The current camera is disabled";
 
 "video.screenShareExtension" = "The current system does not support screen sharing";
 "video_call_shareScreen_not_swhiteBoard" = "Can't whiteboard while screen sharing is currently in progress";
@@ -376,3 +381,7 @@
 
 "video.call.calling" = "Calling";
 "video.call.sign" = "please sign here";
+
+"video.call.whiteBoard.title" = "whiteboard";
+"video.call.shareScreen.title" = "screen sharing";
+"video.call.message" = "Chat";

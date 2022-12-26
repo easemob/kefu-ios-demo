@@ -27,6 +27,8 @@ extern WhiteApplianceNameKey const ApplianceEllipse;
 extern WhiteApplianceNameKey const ApplianceRectangle;
 /** 橡皮工具。 */
 extern WhiteApplianceNameKey const ApplianceEraser;
+/** 橡皮工具（用来擦除铅笔笔迹的局部）该工具只对 NewPencil 有效*/
+extern WhiteApplianceNameKey const AppliancePencilEraser;
 /** 直线工具。 */
 extern WhiteApplianceNameKey const ApplianceStraight;
 /** 箭头工具。 */
@@ -86,6 +88,17 @@ extern WhiteApplianceShapeTypeKey const ApplianceShapeTypeSpeechBalloon;
 @property (nonatomic, strong, readwrite, nullable) NSNumber *strokeWidth;
 /** 字体大小。 */
 @property (nonatomic, strong, readwrite, nullable) NSNumber *textSize;
+/**
+ 开启后可以在文字教具下直接选择编辑文字。NSNumber取值为 bool 类型。
+ 默认为 false 。
+ */
+@property (nonatomic, assign, readwrite, nullable) NSNumber *textCanSelectText;
+/**
+ 开启后可以在画笔教具下画虚线。NSNumber取值为 bool 类型。
+ 该功能要求设置 `disableNewPencil` 为 false。
+ 默认为 false 。
+ */
+@property (nonatomic, assign, readwrite, nullable) NSNumber *dottedLine;
 /**
  当 currentApplianceName 为 Shape 时，所选定的 shape 图形；
  如果只设置 currentApplianceName 为 shape，iOS 端会默认设置为三角形

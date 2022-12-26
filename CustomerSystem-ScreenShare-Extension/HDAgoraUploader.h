@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreMedia/CoreMedia.h>
-static NSString * _Nonnull kAppGroup = @"group.com.easemob.enterprise.demo.customer";
+static NSString * _Nonnull kAppGroup = @"group.com.easemob.kf.demo.customer";
 static NSString * _Nonnull kUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
 @interface HDAgoraUploader : NSObject
 @property (nonatomic, strong) NSUserDefaults *userDefaults;

@@ -127,6 +127,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setCommonCallbackDelegate:(nullable id<WhiteCommonCallbackDelegate>)callbackDelegate;
 
+#pragma mark - CustomApp
+
 /**
  注册自定义App
  

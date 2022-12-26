@@ -73,6 +73,9 @@ Unix 时间戳（秒），表示回放的起始 UTC 时间。例如，`161537061
 /** 视角边界，详见 [WhiteCameraBound](WhiteCameraBound)。 */
 @property (nonatomic, strong, nullable) WhiteCameraBound *cameraBound;
 
+/** 多窗口用的本地参数，只影响本地客户 */
+@property (nonatomic, strong, nullable) WhiteWindowParams *windowParams;
+
 @end
 
 @interface WhitePlayerConfig (Deprecated)
@@ -82,8 +85,6 @@ Unix 时间戳（秒），表示回放的起始 UTC 时间。例如，`161537061
  */
 @property (nonatomic, strong, nullable) NSString *audioUrl DEPRECATED_MSG_ATTRIBUTE("use mediaURL property");
 
-/** 多窗口用的本地参数，只影响本地客户 */
-@property (nonatomic, strong, nullable) WhiteWindowParams *windowParams;
 
 @end
 

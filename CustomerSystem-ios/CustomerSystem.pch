@@ -41,5 +41,5 @@
 //#define kMessageExtWeChat_ctrlArgs_serviceSessionId @"serviceSessionId"
 //#define kMessageExtWeChat_ctrlArgs_detail @"detail"
 //#define kMessageExtWeChat_ctrlArgs_summary @"summary"
-
+#import "HDTest.h"
 #endif

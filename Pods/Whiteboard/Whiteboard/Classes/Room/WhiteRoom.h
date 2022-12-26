@@ -52,6 +52,15 @@ NS_ASSUME_NONNULL_BEGIN
 /** 连接状态 */
 @property (nonatomic, assign, readonly) WhiteRoomPhase phase;
 
+#pragma mark - Apple Pencil
+
+/**
+ 设置是否只允许ApplePencil涂鸦
+ 
+ 详见 [drawOnlyApplePencil](drawOnlyApplePencil)
+ */
+- (void)setDrawOnlyApplePencil:(BOOL)drawOnlyPencil;
+
 #pragma mark - Set API
 
 /**
@@ -254,6 +263,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WhiteRoom (Scene)
 
+/**
+ 多窗口下更新窗口颜色配置
+ 
+ @param colorScheme (WhitePrefersColorScheme)[WhitePrefersColorScheme]
+ */
+- (void)setPrefersColorScheme:(WhitePrefersColorScheme)colorScheme;
+
+/** 暗黑模式, 本地效果， 不会同步到远端， 默认Light, 设置auto只有在iOS13以上才会生效*/
+
+/**
+ 多窗口下更新房间尺寸比例
+ 
+ @param ratio 目标尺寸比例
+ */
+- (void)setContainerSizeRatio:(NSNumber *)ratio;
+
+/**
+ 为当前的 WindowManger 直接设置attributes
+ 
+ @param attributes 需要设置的attributes
+ */
+- (void)setWindowManagerWithAttributes:(NSDictionary *)attributes;
 
 /**
  获取房间当前场景组下的场景状态。 
@@ -351,9 +382,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param dirOrPath 场景组路径或者场景路径。如果传入的是场景组，则会删除该场景组下的所有场景。
  **Note:**
 
- - 互动白板实时房间内必须至少有一个场景。当删除所有的场景后，SDK 会自动生成一个路径为 `/init` 初始场景（房间初始化时的默认场景）。
- - 如果删除白板当前所在场景，白板会展示被删除场景所在场景组的最后一个场景
- - 如果删除的是场景组，则该场景组下的所有场景都会被删除。
+ - 互动白板实时房间内必须至少有一个场景。当删除所有的场景后，SDK 会自动生成一个路径为 `/init` 初始场景（房间初始化时的默认场景），并切换到 `/init` 位置。
+ - 如果传入的是场景组，则该场景组下的所有场景都会被删除。
+ - 如果删除白板当前所在场景，白板会展示被删除场景所在场景组的下一个场景，如果没有下一个，则会移动到上一个，如果都没有，则往上上一级查找
  - 如果删除的是当前场景所在的场景组，例如 `dirA`，SDK 会执行向上递归逻辑选择新的场景作为当前场景，规则如下：
     - 如果当前场景组路径下还有其他场景组，例如 `dirB`，排在被删除的场景组 `dirA` 后面，则将场景切换至
     `dirB` 中的第一个场景（index 为 0）。
@@ -388,6 +419,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  插入一个新页面
+ 该新页面会位于当前的页面的下一页
+ @param completionHandler 回调
+ */
+- (void)addPage:(void(^ _Nullable)(BOOL success))completionHandler;
+
+/**
+ 删除当前页面
+ @param completionHandler 回调
+ */
+- (void)removePage:(void(^ _Nullable)(BOOL success))completionHandler;
+
+/**
+ 删除指定页面
+ @param index 页面下标
+ @param completionHandler 回调
+ */
+- (void)removePage:(NSUInteger)index completionHandler:(void(^ _Nullable)(BOOL success))completionHandler;
+
+/**
+ 插入一个新页面
  
  **Note:**
  
@@ -395,6 +446,17 @@ NS_ASSUME_NONNULL_BEGIN
  @param afterCurrentScene 是否在当前页面之后。YES: 插入到当前页面之后。 NO: 在插入到最后一页的后面
  */
 - (void)addPageWithScene:(WhiteScene * _Nullable )scene afterCurrentScene:(BOOL)afterCurrentScene;
+
+/**
+ 插入一个新页面
+ 
+ **Note:**
+ 
+ @param scene 新插入的场景对象
+ @param afterCurrentScene 是否在当前页面之后。YES: 插入到当前页面之后。 NO: 在插入到最后一页的后面
+ @param completionHandler 回调
+ */
+- (void)addPageWithScene:(WhiteScene * _Nullable )scene afterCurrentScene:(BOOL)afterCurrentScene completionHandler:(void(^ _Nullable)(BOOL success))completionHandler;
 
 /**
  切换到下一页场景
@@ -577,19 +639,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @param appId 添加app时返回的id
  */
 - (void)closeApp:(NSString *)appId completionHandler:(void (^)(void))completionHandler;
-
-
-/** 获取 syncedState 所有状态值 */
-- (void)getSyncedState:(void (^)(NSDictionary *state))result;
-
-/** 更新 syncedState 中的值，逻辑与 GlobalState 相似，只会更新有值的 key value。room writable false 时，不会任何效果。 */
-- (void)safeSetAttributes:(NSDictionary *)result;
-
-/** 更新 syncedState 特定 key 的值，逻辑与 GlobalState 相似。
- * 只会更新有值的 key value。room writable false 时，不会任何效果。
- * keyPaths 参考 KVC 的效果
- */
-- (void)safeUpdateAttributes:(NSArray<NSString *>*)keyPaths attributes:(id)attributes;
 
 @end
 

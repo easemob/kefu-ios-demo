@@ -46,6 +46,25 @@
                 
                 self.avatarURLPath = agentAvatarUrl;
                 self.nickname = agentNickname;
+                // 获取会话id
+                if ([[weichat allKeys] containsObject:@"service_session"]) {
+                    
+                    if ([[weichat valueForKey:@"service_session"] isKindOfClass:[NSDictionary class]]) {
+                        
+                        NSDictionary *service_session = [weichat valueForKey:@"service_session"];
+                        
+                        NSString *serviceSessionId = [service_session valueForKey:@"serviceSessionId"];
+                        
+                        self.serviceSessionId = serviceSessionId;
+                    }
+                }else{
+                    if ([[message.ext allKeys] containsObject:@"serviceSessionId"]) {
+                        
+                        NSString *serviceSessionId = [message.ext valueForKey:@"serviceSessionId"];
+                        self.serviceSessionId = serviceSessionId;
+                    }
+                    
+                }
             }
             self.avatarImage = [UIImage imageNamed:@"HelpDeskUIResource.bundle/user"];
         } else {

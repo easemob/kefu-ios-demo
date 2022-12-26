@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   ChatDemo-UI2.0
 
@@ -23,6 +23,13 @@
 "reject" = "拒绝";
 "retry" = "重试";
 "edit" = "编辑";
+
+"ui.pullDownToRefresh" = "Pull To Refresh";
+"ui.releaseToRefresh" =  "Release To Refresh";
+"ui.refreshing" =  "Refreshing data";
+"ui.lastUpdateNoRecords" =  "Last update: no records";
+"ui.lastUpdate" =  "Last update";
+"ui.today" =  "Today";
 
 "sendingApply" = "正在发送申请...";
 "acceptFail" = "接受失败";
@@ -50,6 +57,8 @@
 
 "setNickname" = "设置昵称";
 "customerChat" = "联系客服";
+"customerChatNew" = "在线沟通";
+"customerVEC" = "视频沟通";
 "customerUser" = "IM服务号";
 "commonProblems" = "常见问题";
 "restart" = "重新启动";
@@ -89,7 +98,6 @@
 "title.projectId" = "留言ID(ProjectId)";
 "title.tenantId" = "租户ID(Tenantld)";
 "title.configId" = "插件ID(configId)";
-
 //choice
 "choice.preSale" = "售前客服";
 "choice.afterSale" = "售后客服";
@@ -101,7 +109,9 @@
 "satisfaction.nickname" = "客服昵称";
 "satisfaction.commit" = "提交";
 "satisfaction.alert" = "请先选择评星";
-
+"satisfaction.evaluate.GuideLanguage" ="请问客服是否解决了您的问题？";
+"satisfaction.evaluate.solve" ="解决";
+"satisfaction.evaluate.NotSolved" ="未解决";
 //message
 "message.camera" = "相机";
 "message.image" = "图片";
@@ -187,10 +197,11 @@
 "leaveMessage.leavemsg.attachmentname" = "附件名称";
 "leaveMessage.leavemsg.uploadattachment" = "上传附件";
 "leaveMessage.leavemsg.uploadattachment.failed" = "上传附件失败";
-
 "uploading..." = "上传中...";
 "success!" = "成功";
 "failed" = "失败";
+
+
 
 // new
 "Header.image" = "em_main_introduce_zh";
@@ -332,7 +343,51 @@
 "video_other_side_has_hungup" = "对方挂断了视频通话";
 
 "video_is_over" = "视频通话已经结束";
-"video_call_shareScreen" = "当前正在白板中不能进行屏幕共享";
-"video_call_whiteBoard_not_shareScreen" = "当前正在屏幕共享中不能进行白板";
+//call
+"video.answer.title" = "视频通话";
+"video.answer.send" = "邀请客服进行实时视频";
+"video.answer.receive" = "客服正在邀请您进行视频通话";
+"video.whiteboardConvertFail" = "文档转码失败";
+"video.answer.waiting" = "发起通话";
+"video.answer.hangup" = "挂断";
+"video.answer.again.waiting"= "重新发起";
 
-"video_call.satisfaction" = "满意";
+//vec 视频客服 满意度相关
+"video.satisfaction.EnquiryTagsFor1Score" = "非常不满意";
+"video.satisfaction.EnquiryTagsFor2Score" = "不满意";
+"video.satisfaction.EnquiryTagsFor3Score" = " 一般";
+"video.satisfaction.EnquiryTagsFor4Score" = "满意";
+"video.satisfaction.EnquiryTagsFor5Score" = "非常满意";
+"video.satisfaction.EnquiryComment" = "请留下您宝贵的建议…";
+"video.satisfaction.Commit" = "提交评价";
+
+"video.satisfaction.comment_nessary" = "建议必须填写";
+"video.satisfaction.ags_nessary" = "标签必须选择";
+"video.satisfaction.score" = "分数必须填写";
+
+//远程协助
+"video.remoteassistance.device" = "当前设备不支持此功能";
+"video.remoteassistance.device.front" = "当前是前置摄像头需要切换后置摄像头才能使用此功能";
+
+"video.screenShareExtension" = "当前系统不支持屏幕共享功能";
+"video_call_shareScreen_not_swhiteBoard" = "当前正在屏幕共享中不能进行白板";
+"video_call_whiteBoard_not_shareScreen" = "当前正在白板中不能进行屏幕共享";
+"video_call_whiteBoard_join" = "加入白板...";
+"video_call_whiteBoard_nickName" = "白板";
+"video.call.whiteBoard.upload.image" = "上传图片";
+"video.call.whiteBoard.upload.file" = "上传文件";
+"video.call.whiteBoard.upload.audio" = "上传音频";
+"video.call.whiteBoard.upload.video" = "上传视频";
+
+"video.vec.atomized.submit_fail" = "提交失败";
+"video.call.switch.camera" = "切换摄像头";
+"video.call.close.camera" = "关闭摄像头";
+"video.call.init.waitingPrompt" = "您好！有什么需要帮助，可以发起视频通话进行咨询呦,";
+"video.call.init.callingPrompt" = "您好！您正在发起视频通话进行咨询。";
+"video.call.init.queuingPrompt" = "您好！客服人员正在马不停蹄的赶过来，请您耐心等待！";
+"video.call.init.endingPrompt" = "感谢您的咨询，祝您生活愉快！";
+"video.call.calling" = "通话中";
+"video.call.sign" = "请在此处签字";
+
+
+

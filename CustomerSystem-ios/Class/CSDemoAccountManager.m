@@ -119,7 +119,7 @@ static CSDemoAccountManager *_manager = nil;
 - (NSString *)configId {
     NSString *tconfigId = [fUserDefaults objectForKey:kCustomerConfigId];
     if ([tconfigId length] == 0) {
-        tconfigId = kDefaultConfigId;
+//        tconfigId = kDefaultConfigId;
         [fUserDefaults setObject:tconfigId forKey:kCustomerConfigId];
         [fUserDefaults synchronize];
     }
@@ -162,7 +162,7 @@ static CSDemoAccountManager *_manager = nil;
     HDError *error = [[HDClient sharedClient] loginWithUsername:self.username password:hxPassWord];
     if (!error) { //IM登录成功
         
-        
+        [[ HDClient sharedClient].pushManager enableOfflinePush];
         return YES;
     } else { //登录失败
         NSLog(@"登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
@@ -247,9 +247,33 @@ static CSDemoAccountManager *_manager = nil;
     visitor.companyName = @"";
     visitor.nickName = self.nickname;
     visitor.email = @"";
-    visitor.desc = @"";
+    visitor.desc = @"1233333";
+     
+    NSDictionary * dic = @{@"phone":@"帅哥2222",@"email":@"LLLLLLLTTTTTTTT"};
+     
+    visitor.userDefineColumn = [self jsonStringWithDict:dic ];
     
     return visitor;
+}
+- (NSString *)jsonStringWithDict:(NSDictionary *)dict {
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
+    
+    NSString *jsonString;
+    if (!jsonData) {
+        NSLog(@"%@",error);
+    }else{
+        jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    
+    NSMutableString *mutStr = [NSMutableString stringWithString:jsonString];
+    NSRange range = {0,jsonString.length};
+    //去空格
+    [mutStr replaceOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:range];
+    NSRange range2 = {0,mutStr.length};
+    //去换行
+    [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
+    return mutStr;
 }
 
 @end

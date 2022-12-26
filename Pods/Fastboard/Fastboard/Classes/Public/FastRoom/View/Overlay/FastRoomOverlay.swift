@@ -23,23 +23,23 @@ public protocol FastRoomOverlay: FastPanelControl {
     
     func updateControlBarLayout(direction: OperationBarDirection)
     
-    func updateUIWithInitAppliance(_ appliance: WhiteApplianceNameKey?, shape: WhiteApplianceShapeTypeKey?)
+    func initUIWith(appliance: WhiteApplianceNameKey?, shape: WhiteApplianceShapeTypeKey?)
     
-    func updateStrokeColor(_ color: UIColor)
+    func update(strokeColor: UIColor)
     
-    func updateStrokeWidth(_ width: Float)
+    func update(strokeWidth: Float)
     
-    func updatePageState(_ state: WhitePageState)
+    func update(pageState: WhitePageState)
     
-    func updateUndoEnable(_ enable: Bool)
+    func update(undoEnable: Bool)
     
-    func updateRedoEnable(_ enable: Bool)
+    func update(redoEnable: Bool)
     
-    func updateBoxState(_ state: WhiteWindowBoxState?)
+    func update(boxState: WhiteWindowBoxState?)
     
-    func updateRoomPhaseUpdate(_ phase: FastRoomPhase)
+    func update(roomPhase: FastRoomPhase)
     
     @available(iOS 12.1, *)
     @objc
-    optional func respondToPencilTap(_ tap: UIPencilPreferredAction)
+    optional func respondTo(pencilTap: UIPencilPreferredAction)
 }

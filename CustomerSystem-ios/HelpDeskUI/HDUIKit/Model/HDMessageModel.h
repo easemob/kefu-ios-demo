@@ -21,6 +21,8 @@
 @property (strong, nonatomic, readonly) HDMessage *message;
 @property (strong, nonatomic, readonly) EMMessageBody *firstMessageBody;
 @property (strong, nonatomic, readonly) NSString *messageId;
+// 后端返回字段 只有收消息的时候会有值
+@property (strong, nonatomic) NSString *serviceSessionId;
 @property (nonatomic) EMMessageBodyType bodyType;
 @property (nonatomic, readonly) HDMessageStatus messageStatus;
 @property (nonatomic) BOOL isMessageRead;

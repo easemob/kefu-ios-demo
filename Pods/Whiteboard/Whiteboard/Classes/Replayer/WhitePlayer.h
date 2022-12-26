@@ -14,6 +14,26 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/** 白板播放器跳转结果 */
+typedef NSString * WhitePlayerSeekingResult NS_STRING_ENUM;
+
+/**
+ * 跳转进度条成功，并修改了进度
+*/
+extern WhitePlayerSeekingResult const WhitePlayerSeekingResultSuccess;
+ /**
+ * 跳转进度条成功，但并未更新进度
+ */
+extern WhitePlayerSeekingResult const WhitePlayerSeekingResultSuccessButUnnecessary;
+/**
+ * 跳转事件被另一个跳转操作覆盖，因此被取消
+ */
+extern WhitePlayerSeekingResult const WhitePlayerSeekingResultOverride;
+/**
+ * 播放器停止，因而终止本次跳转行为
+ */
+extern WhitePlayerSeekingResult const WhitePlayerSeekingResultStopped;
+
 @interface WhitePlayer : WhiteDisplayer
 
 #pragma mark - 同步 API
@@ -59,6 +79,17 @@ NS_ASSUME_NONNULL_BEGIN
  @param beginTime 开始播放位置（秒）
  */
 - (void)seekToScheduleTime:(NSTimeInterval)beginTime;
+
+/**
+ 设置白板回放的起始播放位置。
+ 白板回放的起始时间点为 0，成功调用该方法后，白板回放会在指定位置开始播放。
+
+ @param beginTime 开始播放位置（秒）
+ @param completionHandler 回调。 返回seek结果，详见 [WhitePlayerSeekingResult](WhitePlayerSeekingResult)
+ 
+ **Note:** 如果在WhitePlayerConfig中设置了`mediaURL`，该回调会立刻返回Success
+ */
+- (void)seekToScheduleTime:(NSTimeInterval)beginTime completionHandler:(void(^)(WhitePlayerSeekingResult result))completionHandler;
 
 /**
  设置白板回放的查看模式。

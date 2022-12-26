@@ -4,14 +4,14 @@ target 'CustomerSystem-ios' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-pod 'MBProgressHUD', '~> 1.2.0'
-pod 'SDWebImage', '~> 5.12.3'
-pod 'Masonry', '~> 1.1.0'
+pod 'MBProgressHUD', '1.2.0'
+pod 'SDWebImage', '5.12.3'
+pod 'Masonry', '1.1.0'
 
 #音视频需要导入
 pod 'AgoraRtcEngine_iOS','3.6.1'
 #集成互动白板需要导入
-pod 'Fastboard', :git => 'https://github.com/netless-io/fastboard-iOS'
+pod 'Fastboard', '1.0.8'
 pod 'TZImagePickerController'
 end
     
