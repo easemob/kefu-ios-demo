@@ -159,7 +159,7 @@ typedef enum : NSUInteger {
     
    
     
-    [self newRobotWelcome];
+//    [self newRobotWelcome];
     
 }
 
