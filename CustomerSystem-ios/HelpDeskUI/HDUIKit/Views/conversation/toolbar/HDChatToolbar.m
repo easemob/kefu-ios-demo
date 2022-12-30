@@ -31,6 +31,7 @@
 @property (strong, nonatomic) UIButton *recordButton;
 @property (strong, nonatomic) UIButton *moreButton;
 @property (strong, nonatomic) UIButton *faceButton;
+@property (strong, nonatomic) HDChatToolbarItem *moreItemTest;
 @property (nonatomic) CGFloat previousTextViewContentHeight;//上一次inputTextView的contentSize.height
 
 @end
@@ -140,6 +141,8 @@
     HDChatToolbarItem *moreItem = [[HDChatToolbarItem alloc] initWithButton:self.moreButton withView:self.moreView];
     
     [self setInputViewRightItems:@[faceItem, moreItem]];
+    
+//    [self addNoti];
 }
 
 - (void)dealloc
@@ -419,6 +422,27 @@
         [_delegate chatToolbarDidChangeFrameToHeight:toHeight];
     }
 }
+//- (void)addNoti {
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(keyboardWillShow:)
+//                                                 name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(keyboardWillHide:)
+//                                                 name:UIKeyboardWillHideNotification object:nil];
+//}
+//- (void)keyboardWillShow:(NSNotification *)notification {
+//
+//    NSLog(@"键盘弹起");
+//}
+//
+//- (void)keyboardWillHide:(NSNotification *)notification {
+//
+//    NSLog(@"键盘隐藏");
+//    [self _willShowBottomView:_moreItemTest.button2View];
+//
+//
+//
+//}
 
 - (void)_willShowBottomView:(UIView *)bottomView
 {
@@ -721,13 +745,18 @@
     }
     
     if (button.selected) {
+//        _moreItemTest = moreItem;
         [self.inputTextView resignFirstResponder];
-        
         [self _willShowBottomView:moreItem.button2View];
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+
             self.recordButton.hidden = button.selected;
             self.inputTextView.hidden = !button.selected;
-        } completion:nil];
+
+        } completion:^(BOOL finished) {
+
+
+        }];
     }
     else
     {
