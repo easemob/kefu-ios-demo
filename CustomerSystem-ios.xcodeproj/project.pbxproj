@@ -3998,7 +3998,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development: LI HOU (RM7W76HR34)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: LI HOU (RM7W76HR34)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1495;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JC854K845H;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = JC854K845H;
@@ -4029,7 +4029,7 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
-				MARKETING_VERSION = 1.4.9.5;
+				MARKETING_VERSION = 1.4.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -4062,7 +4062,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1495;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JC854K845H;
 				ENABLE_BITCODE = NO;
@@ -4091,7 +4091,7 @@
 					"$(PROJECT_DIR)/CustomerSystem-ios",
 					"$(PROJECT_DIR)/CustomerSystem-ios/HelpDeskUI/HDUIKit/**",
 				);
-				MARKETING_VERSION = 1.4.9.5;
+				MARKETING_VERSION = 1.4.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
