@@ -204,7 +204,6 @@
         
         
         //一定要在 addContent 方法前添加自定义字段 要不添加不上去
-//        NSDictionary *dic2 = @{@"ddh":@"12334444444",@"shou":@"1360000000000"};
         NSDictionary *dic2 = @{@"ios":@"我是ios表单预填写的值"};
         [od.customDic addEntriesFromDictionary:dic2];
         //添加订单信息
@@ -219,6 +218,7 @@
         message.ext = [ext copy];
         NSDictionary *dic1 = @{@"createTicketEnable":@"true"};
         [message addMsgTypeDictionary:dic1];
+
         [self _sendMessage:message];
         
     } else {
