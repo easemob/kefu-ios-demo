@@ -207,6 +207,7 @@
 		D29E0A041F4FF90F0089506D /* HAppraiseTagsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D29E0A011F4FF90F0089506D /* HAppraiseTagsModel.m */; };
 		D29E0A051F4FF90F0089506D /* HEvaluationDegreeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D29E0A031F4FF90F0089506D /* HEvaluationDegreeModel.m */; };
 		D2B99D9229667BFE00B7491D /* UIImage+ImageScale.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B99D9129667BFE00B7491D /* UIImage+ImageScale.m */; };
+		D2B99D9A296BBC7E00B7491D /* HDInItKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B99D99296BBC7E00B7491D /* HDInItKeyCenter.m */; };
 		D2D8C1651F4043F000D6F677 /* Triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2D8C1641F4043F000D6F677 /* Triangle@2x.png */; };
 		D32772321F33270D0059F1BB /* HDArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D32772311F33270D0059F1BB /* HDArticleView.m */; };
 		D33947111E543949009370BF /* bg_rl_satisfaction.png in Resources */ = {isa = PBXBuildFile; fileRef = D339470C1E543949009370BF /* bg_rl_satisfaction.png */; };
@@ -868,6 +869,8 @@
 		D29E0A031F4FF90F0089506D /* HEvaluationDegreeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEvaluationDegreeModel.m; sourceTree = "<group>"; };
 		D2B99D9029667BFE00B7491D /* UIImage+ImageScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageScale.h"; path = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Category/UIImage+ImageScale.h"; sourceTree = SOURCE_ROOT; };
 		D2B99D9129667BFE00B7491D /* UIImage+ImageScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageScale.m"; path = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Category/UIImage+ImageScale.m"; sourceTree = SOURCE_ROOT; };
+		D2B99D98296BBC7E00B7491D /* HDInItKeyCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDInItKeyCenter.h; sourceTree = "<group>"; };
+		D2B99D99296BBC7E00B7491D /* HDInItKeyCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDInItKeyCenter.m; sourceTree = "<group>"; };
 		D2D8C1641F4043F000D6F677 /* Triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Triangle@2x.png"; sourceTree = "<group>"; };
 		D32772301F33270D0059F1BB /* HDArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDArticleView.h; sourceTree = "<group>"; };
 		D32772311F33270D0059F1BB /* HDArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDArticleView.m; sourceTree = "<group>"; };
@@ -2550,6 +2553,8 @@
 				D3CB63D21E4888F30022A6BA /* HDSDKHelper.m */,
 				93AFA5D9282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.h */,
 				93AFA5DA282CF991003C1F6B /* HDVideoVerticalAlignmentLabel.m */,
+				D2B99D98296BBC7E00B7491D /* HDInItKeyCenter.h */,
+				D2B99D99296BBC7E00B7491D /* HDInItKeyCenter.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -3544,6 +3549,7 @@
 				93B4E97227CCD1D800ACAF5B /* HDMJRefreshFooter.m in Sources */,
 				9392B50D28001263005D4215 /* HDUploadListViewController.m in Sources */,
 				93B4E96A27CCD1D800ACAF5B /* HDMJRefreshAutoNormalFooter.m in Sources */,
+				D2B99D9A296BBC7E00B7491D /* HDInItKeyCenter.m in Sources */,
 				932258CC287D5C520033A0F2 /* SKTagView.m in Sources */,
 				D3CB64671E4888F30022A6BA /* MWPhotoBrowser.m in Sources */,
 				93ECDD142897E14B007FC632 /* HDEnterpriseInfo.m in Sources */,
@@ -4044,7 +4050,7 @@
 					"${PROJECT_DIR}/**",
 				);
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -4106,7 +4112,7 @@
 					"${PROJECT_DIR}/**",
 				);
 				INFOPLIST_FILE = "CustomerSystem-ios/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

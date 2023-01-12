@@ -48,10 +48,13 @@
     apnsCertName = @"customer";
 #endif
     //注册kefu_sdk
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     HDOptions *option = [[HDOptions alloc] init];
+    
 
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    
     option.appkey = lgM.appkey;
+
     option.tenantId = lgM.tenantId;
     option.configId = lgM.configId;
 //    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";

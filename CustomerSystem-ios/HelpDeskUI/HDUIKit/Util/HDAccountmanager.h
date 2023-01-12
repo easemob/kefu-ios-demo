@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HDAccountmanager : NSObject
@@ -32,8 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)shareLoginManager;
 
 - (BOOL)loginKefuSDK;
-
-- (void)refreshManagerData;
 
 - (HDVisitorInfo *)visitorInfo;
 
