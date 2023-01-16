@@ -28,7 +28,7 @@
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
-@interface HomeViewController () <UIAlertViewDelegate,HDChatManagerDelegate,HDCallManagerDelegate,EMChatManagerDelegate,UNUserNotificationCenterDelegate,EMClientDelegate>
+@interface HomeViewController () <HDChatManagerDelegate,HDCallManagerDelegate,EMChatManagerDelegate,UNUserNotificationCenterDelegate,EMClientDelegate>
 {
     MallViewController *_mallController;
     MessageViewController *_leaveMsgVC;
@@ -74,20 +74,16 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     }];
 }
-
+-(void)setupUntreatedApplyCount{
+    
+    
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-   
-    
     // 用于添加语音呼入的监听 onCallReceivedNickName:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
-    
-    
-    
-   
-    
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
         self.edgesForExtendedLayout = UIRectEdgeNone;

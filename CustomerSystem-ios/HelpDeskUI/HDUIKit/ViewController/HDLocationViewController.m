@@ -151,12 +151,12 @@ static HDLocationViewController *defaultLocation = nil;
 {
     [self hideHud];
     if (error.code == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
-                                                            message:[error.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey]
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSEaseLocalizedString(@"ok", @"OK")
-                                                  otherButtonTitles:nil, nil];
-        [alertView show];      
+     
+        UIAlertController *sure = [UIAlertController alertControllerWithTitle:nil message:[error.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSEaseLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+        [sure addAction:confirm];
+        [self presentViewController:sure animated:true completion:nil];
+        
     }
 }
 

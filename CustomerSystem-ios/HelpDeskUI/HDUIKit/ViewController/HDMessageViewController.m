@@ -1283,8 +1283,10 @@ typedef enum : NSUInteger {
                 break;
             case HDCanNotRecord:
             {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"message.failToPermission", @"No recording permission") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-                [alertView show];
+                UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"message.failToPermission", @"No recording permission") preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"Ok") style:UIAlertActionStyleDefault handler:nil];
+                [sure addAction:confirm];
+                [self presentViewController:sure animated:true completion:nil];   
             }
                 break;
             default:

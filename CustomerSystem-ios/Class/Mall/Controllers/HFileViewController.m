@@ -120,8 +120,11 @@
     self.documentInteractionController.URL = localUrl;
     self.documentInteractionController.name = body.displayName;
     if (![self.documentInteractionController presentPreviewAnimated:YES]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"not_support_preview_files", @"Such systems do not support preview files") delegate:nil cancelButtonTitle:NSLocalizedString(@"know_the", @"Know The") otherButtonTitles:nil];
-        [alert show];
+        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"not_support_preview_files", @"Such systems do not support preview files") preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"know_the", @"Know The") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        [sure addAction:confirm];
+        [self presentViewController:sure animated:true completion:nil];
     }
 }
 

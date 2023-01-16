@@ -57,14 +57,14 @@
 
     option.tenantId = lgM.tenantId;
     option.configId = lgM.configId;
-//    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
+    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"https://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.enableDnsConfig =YES;  //
     option.apnsCertName = apnsCertName; // im 透传参数
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
     option.showAgentInputState = YES; // 是否显示坐席输入状态
-    option.isAutoLogin = NO;
+    option.isAutoLogin = YES;
     option.usingHttpsOnly = NO;
     
     
@@ -87,8 +87,10 @@
     });
     
     if (initError) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"initialization_error", @"Initialization error!") message:initError.errorDescription delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-        [alert show];
+        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"initialization_error", @"Initialization error!") message:initError.errorDescription preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+        [sure addAction:confirm];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
         return;
     }
     [self registerEaseMobNotification];
@@ -100,25 +102,14 @@
         NSLog(@"==========aErrorcode=%u==%@",aError.code,aError.description);
         NSLog(@"===========displayStyle=%u==%@",aOptions.displayStyle,aOptions.displayName);
     }];
-   
-    
-//    [[HDClient sharedClient].chatManager fetchCurrentSessionId:lgM.cname completion:^(NSString *sessionId, HDError *aError) {
-//        
-//        //
-//        NSLog(@"======%@",sessionId);
-//        
-//    }];
-//    [[HDClient sharedClient].chatManager fetchCurrentServiceSession:lgM.cname completion:^(id responseObject, HDError *aError) {
-//
-//        NSLog(@"=====%@",responseObject);
-//
-//    }];
-    
     
     [EMClient.sharedClient addDelegate:self delegateQueue:nil];
     [EMClient.sharedClient.chatManager addDelegate:self delegateQueue:nil];
     
-     
+    //添加自定义小表情
+#pragma mark smallpngface
+    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
+    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[HDConvertToCommonEmoticonsHelper emotionsDictionary]];
 }
 
 -(void)messagesDidReceive:(NSArray<EMChatMessage *> *)aMessages{
@@ -262,12 +253,13 @@
 
 // 注册deviceToken失败，此处失败，与环信SDK无关，一般是您的环境配置或者证书配置有误
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"apns.failToRegisterApns", Fail to register apns)
-                                                    message:error.description
-                                                   delegate:nil
-                                          cancelButtonTitle:NSLocalizedString(@"ok", @"OK")
-                                          otherButtonTitles:nil];
-    [alert show];
+  
+    UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"apns.failToRegisterApns", "Fail to register apns") message:error.description preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+    [sure addAction:confirm];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
+    
+    
 }
 
 // 注册推送
@@ -328,27 +320,37 @@
 
 - (void)userAccountDidRemoveFromServer {
     [self userAccountLogout];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"loginUserRemoveFromServer", @"your login account has been remove from server") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    [alertView show];
+    UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"loginUserRemoveFromServer", @"your login account has been remove from server") preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+    [sure addAction:confirm];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
 }
 
 - (void)userAccountDidLoginFromOtherDevice {
     [self userAccountLogout];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"loginAtOtherDevice", @"your login account has been in other places") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    [alertView show];
+   
+    UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"loginAtOtherDevice", @"your login account has been in other places") preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+    [sure addAction:confirm];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
 }
 
 
 - (void)userDidForbidByServer {
     [self userAccountLogout];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"userDidForbidByServer", @"your login account has been forbid by server") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    [alertView show];
+    UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"userDidForbidByServer", @"your login account has been forbid by server") preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+    [sure addAction:confirm];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
 }
 
 - (void)userAccountDidForcedToLogout:(HDError *)aError {
     [self userAccountLogout];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"userAccountDidForcedToLogout", @"your login account has been forced logout") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-    [alertView show];
+    
+    UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"userAccountDidForcedToLogout", @"your login account has been forced logout") preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+    [sure addAction:confirm];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
 }
 //- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
 //    // 处理完成后调用 completionHandler ，用于指示在前台显示通知的形式
@@ -376,7 +378,7 @@
     
     EMOptions * imOptions =[EMOptions optionsWithAppkey:option.appkey];
     imOptions.enableFpa = YES;// 设置对应的im参数
-    HDError *initError = [[HDClient sharedClient] initializeSDKWithOptions:option withToImoptions:imOptions];
+//    HDError *initError = [[HDClient sharedClient] initializeSDKWithOptions:option withToImoptions:imOptions];
     
     
 //    [[HDClient sharedClient] initializeSDKWithOptions:option withToImoptions:imOptions];

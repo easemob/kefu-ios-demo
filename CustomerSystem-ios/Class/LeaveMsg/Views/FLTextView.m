@@ -81,8 +81,12 @@
 - (void)textChanged:(NSNotification *)notification {
     if (self.text.length >_maxNoOfWords && notification.object == self) {
         self.text = [self.text substringToIndex:_maxNoOfWords];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"message_content_beyond_limit", @"The message content beyond the limit") delegate:nil cancelButtonTitle:NSLocalizedString(@"know_the", @"Know The") otherButtonTitles:nil, nil];
-        [alert show];
+        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"message_content_beyond_limit", @"The message content beyond the limit") preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"know_the", @"Know The") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        [sure addAction:confirm];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
     }
     [self layoutUI];
 }

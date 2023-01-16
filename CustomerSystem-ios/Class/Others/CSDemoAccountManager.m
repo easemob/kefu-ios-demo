@@ -203,14 +203,22 @@ static CSDemoAccountManager *_manager = nil;
          */
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error.code == HDErrorUserAlreadyExist) {
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"account_already_exists", @"Registered account already exists, please try again!") delegate:nil cancelButtonTitle:NSLocalizedString(@"setting_confirm", @"confirm") otherButtonTitles:nil, nil];
-                [alertView show];
+                UIAlertController *sure = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"account_already_exists", @"Registered account already exists, please try again!") preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"setting_confirm", @"confirm") style:UIAlertActionStyleDefault handler:nil];
+                [sure addAction:confirm];
+                [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
+                
             }else if(error.code == 208){
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"without_permission", @"Without permission, please sign in to open mode!") delegate:nil cancelButtonTitle:NSLocalizedString(@"setting_confirm", @"confirm") otherButtonTitles:nil, nil];
-                [alertView show];
+                UIAlertController *sure = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"without_permission", @"Without permission, please sign in to open mode!") preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"setting_confirm", @"confirm") style:UIAlertActionStyleDefault handler:nil];
+                [sure addAction:confirm];
+                [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
             }else{
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"network_anomalies", @"Network anomalies, please try again!")  delegate:nil cancelButtonTitle:NSLocalizedString(@"setting_confirm", @"confirm") otherButtonTitles:nil, nil];
-                [alertView show];
+                
+                UIAlertController *sure = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"network_anomalies", @"Network anomalies, please try again!")  preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"setting_confirm", @"confirm") style:UIAlertActionStyleDefault handler:nil];
+                [sure addAction:confirm];
+                [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
             }
         });
         return NO;
@@ -219,7 +227,7 @@ static CSDemoAccountManager *_manager = nil;
 }
 - (void)registerIMuserCallBackCompletion:(void (^)(NSString *aUsername, HDError *aError))aCompletionBlock { //举个栗子。注册建议在服务端创建环信id与自己app的账号一一对应，\
     而不要放到APP中，可以在登录自己APP时从返回的结果中获取环信账号再登录环信服务器
-    HDError *error = nil;
+//    HDError *error = nil;
     NSString *newUser = [self getRandomUsername];
     self.username = newUser;
 //    error = [[HDClient sharedClient] registerWithUsername:newUser password:hxPassWord ];

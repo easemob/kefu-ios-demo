@@ -16,7 +16,7 @@
 #import "HDTestViewController.h"
 #import "MBProgressHUD+Add.h"
 
-@interface SettingViewController ()<UIAlertViewDelegate>
+@interface SettingViewController ()
 {
     NSString *_appkey;
     NSString *_cname;

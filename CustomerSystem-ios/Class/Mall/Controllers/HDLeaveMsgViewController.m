@@ -173,8 +173,11 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
     
     if (([name isEqualToString:@""] || [tel isEqualToString:@""] || /*[mail isEqualToString:@""] ||*/ [subject isEqualToString:@""] || [content isEqualToString:@""])) {
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"Please_fill_out_the_information", @"addinformation") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil];
-        [alert show];
+        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"Please_fill_out_the_information", @"addinformation") preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+        [sure addAction:confirm];
+        [self presentViewController:sure animated:true completion:nil];
+        
         
     } else {
         Creator *creator = [Creator new];
@@ -225,8 +228,12 @@ typedef NS_ENUM(NSUInteger, NSTextFieldTag) {
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if (textField.tag == NSTextFieldTagTel && ![string isEqualToString:@""]) {
         if (textField.text.length >=20) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"message_content_beyond_limit", @"The message content beyond the limit") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil];
-            [alert show];
+         
+            UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"message_content_beyond_limit", @"The message content beyond the limit") preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+            [sure addAction:confirm];
+            [self presentViewController:sure animated:true completion:nil];
+            
             return NO;
         }
     }

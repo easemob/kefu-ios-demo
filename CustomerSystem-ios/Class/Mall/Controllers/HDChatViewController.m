@@ -22,7 +22,7 @@
 #import "HDVideoCallViewController.h"
 
 #import "HDAgoraCallManager.h"
-@interface HDChatViewController ()<UIAlertViewDelegate,HDClientDelegate,UIDocumentPickerDelegate>
+@interface HDChatViewController ()<HDClientDelegate,UIDocumentPickerDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
@@ -278,19 +278,6 @@
     [self.navigationController pushViewController:leaveMsgVC animated:YES];
 }
 
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.cancelButtonIndex != buttonIndex) {
-        self.messageTimeIntervalTag = -1;
-        [self.conversation deleteAllMessages:nil];
-        [self.dataArray removeAllObjects];
-        [self.messsagesSource removeAllObjects];
-        [self.tableView reloadData];
-    }
-}
-
 #pragma mark - HDMessageViewControllerDelegate
 
 - (BOOL)messageViewController:(HDMessageViewController *)viewController
@@ -450,11 +437,32 @@
         }
     }
     else if ([sender isKindOfClass:[UIButton class]]){
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"sureToDelete", @"please make sure to delete") delegate:self cancelButtonTitle:NSLocalizedString(@"cancela", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"OK"), nil];
-        [alertView show];
+        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompta", @"Prompt") message:NSLocalizedString(@"sureToDelete", @"please make sure to delete") preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            [self deleteAllMessagesWithUI];
+    
+        }];
+        [sure addAction:confirm];
+        
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancela", @"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [sure addAction:cancel];
+        [self presentViewController:sure animated:true completion:nil];
     }
 }
 
+// 删除聊天记录里边的消息
+- (void)deleteAllMessagesWithUI{
+    
+    self.messageTimeIntervalTag = -1;
+    [self.conversation deleteAllMessages:nil];
+    [self.dataArray removeAllObjects];
+    [self.messsagesSource removeAllObjects];
+    [self.tableView reloadData];
+}
 - (void)copyMenuAction:(id)sender
 {
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
