@@ -1644,6 +1644,9 @@
 		9381BE4B288F84AF0007B6D2 /* Online */ = {
 			isa = PBXGroup;
 			children = (
+				9367CDDA27FD5CFE008479D8 /* Fastboard */,
+				9333263A27D0D17A004707E1 /* Manager */,
+				930E320A27E0325B00455C7E /* Views */,
 				9381BE4C288F84DF0007B6D2 /* ViewController */,
 			);
 			path = Online;
@@ -1691,9 +1694,6 @@
 			children = (
 				D2B99D942966A01800B7491D /* Category */,
 				9381D92528893913001EE246 /* font_3264411_0930bdexl8t8 */,
-				930E320A27E0325B00455C7E /* Views */,
-				9333263A27D0D17A004707E1 /* Manager */,
-				9367CDDA27FD5CFE008479D8 /* Fastboard */,
 			);
 			path = General;
 			sourceTree = "<group>";

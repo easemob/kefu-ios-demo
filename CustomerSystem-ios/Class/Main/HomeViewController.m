@@ -728,7 +728,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 
 #pragma mark - HDCallManagerDelegate
-- (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter{
+- (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter withMessage:(HDMessage *)message{
     
     [HDLog logI:@"================vec1.2=====onCallReceivedParameter= %@",[NSThread currentThread] ];
     if ([HDClient sharedClient].callManager.isVecVideo) {
@@ -749,13 +749,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
         };
         }
-//        [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
-//        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-//
-//            [[HDCallViewController sharedManager]  removeView];
-//            [[HDCallViewController sharedManager] removeSharedManager];
-//
-//           };
     }else{
         
         

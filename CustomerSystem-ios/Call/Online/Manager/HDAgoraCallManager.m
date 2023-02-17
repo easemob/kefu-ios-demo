@@ -117,7 +117,7 @@ static HDAgoraCallManager *shareCall = nil;
                             callId  = (NSString *) [videoPlaybackDic valueForKey:@"callId"];
                         }
                         //调用挂掉视频操作
-//                        [self agentHangUpCall:callId];
+                        [self agentHangUpCall:callId];
                         return;
                     }
                 }
@@ -228,30 +228,6 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)resumeVideo{
     
     [self.agoraKit  muteLocalVideoStream:NO];
-}
-/**
- * 发起视频邀请，发起后，客服会收到申请，客服同意后，会自动给访客拨过来。
- */
-- (HDMessage *)creteVideoInviteMessageWithImId:(NSString *)aImId
-                                       content:(NSString *)aContent {
-    
-    self.conversationId= aImId;
-    EMTextMessageBody *txtBody = [[EMTextMessageBody alloc] initWithText:aContent];
-    HDMessage *hdMessage = [[HDMessage alloc] initWithConversationID:aImId
-                                                                from:[HDClient sharedClient].currentUsername
-                                                                  to:aImId
-                                                                body:txtBody];
-    NSDictionary *dic = @{
-                          @"type":@"agorartcmedia/video",
-                          @"msgtype":@{
-                                  @"liveStreamInvitation":@{
-                                          @"resource": @"mobile",
-                                          @"isNewInvitation":@(YES)
-                                          }
-                                  }
-                          };
-    hdMessage.ext = dic;
-    return hdMessage;
 }
 - (void)leaveChannel{
     _isSetupLocalVideo = NO;
@@ -397,7 +373,7 @@ static HDAgoraCallManager *shareCall = nil;
     //移除消息监控
     [[HDClient sharedClient].chatManager removeDelegate:self];
     [self leaveChannel];
-//    [self destroy];
+
 }
 - (int)startPreview{
     return [self.agoraKit startPreview];

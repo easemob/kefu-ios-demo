@@ -260,7 +260,7 @@ static HDCallViewController *_manger = nil;
     _midelleMembers = [NSMutableArray new];
     allMembersDic = [NSMutableDictionary new];
     [self initScreenShare];
-    
+    [HDAgoraCallManager shareInstance].roomDelegate = self;
 }
 //
 -(void)clearViewData{
@@ -347,7 +347,7 @@ static HDCallViewController *_manger = nil;
 }
 /// 接收视频通话后 设置本地view
 - (void)setAcceptCallView{
-    [HDAgoraCallManager shareInstance].roomDelegate = self;
+   
     [self setAgoraVideo];
 //    _isDeviceFront = YES;
 }

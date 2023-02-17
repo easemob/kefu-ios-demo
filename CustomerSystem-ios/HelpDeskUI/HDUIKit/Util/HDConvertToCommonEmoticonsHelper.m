@@ -376,8 +376,17 @@
     if ([text length] == 0) {
         return @"";
     }
-    
-    return text;
+    return [HDConvertToCommonEmoticonsHelper htmlToString:text];
 }
-
++ (NSString *)htmlToString:(NSString *)html {
+    NSScanner *theScaner = [NSScanner scannerWithString:html];
+    NSDictionary *dict = @{@"&amp;":@"&", @"&lt;":@"<", @"&gt;":@">", @"&nbsp;":@"", @"&quot;":@"\"", @"width":@"wid"};
+    while ([theScaner isAtEnd] == NO) {
+        for (int i = 0; i <[dict allKeys].count; i ++) {
+            [theScaner scanUpToString:[dict allKeys][i] intoString:NULL];
+            html = [html stringByReplacingOccurrencesOfString:[dict allKeys][i] withString:[dict allValues][i]];
+        }
+    }
+    return html;
+}
 @end

@@ -33,16 +33,6 @@ static void *KVOContext = &KVOContext;
 
 + (instancetype _Nullable )shareInstance;
 
-/*!
- *  \~chinese
- *  发起视频邀请，发起后，客服会收到申请，客服同意后，会自动给访客拨过来。
- *
- *  @param aImId   会话id
- *  @param aContent   文本内容
- *
- */
-- (HDMessage *)creteVideoInviteMessageWithImId:(NSString *)aImId
-                                       content:(NSString *)aContent;
 #pragma mark - Options
 /*!
  *  \~chinese

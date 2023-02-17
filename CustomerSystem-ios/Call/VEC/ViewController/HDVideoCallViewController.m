@@ -359,10 +359,7 @@ static HDVideoCallViewController *_manger = nil;
         make.trailing.offset(0);
                
             }];
-   
-   
-    
-    
+
     self.isLandscape = NO;
     _videoViews = [NSMutableArray new];
     _videoItemViews = [NSMutableArray new];
@@ -370,7 +367,7 @@ static HDVideoCallViewController *_manger = nil;
     _midelleMembers = [NSMutableArray new];
     allMembersDic = [NSMutableDictionary new];
   
-    
+    [HDAgoraCallManager shareInstance].roomDelegate = self;
 }
 //
 -(void)clearViewData{
@@ -576,7 +573,7 @@ static HDVideoCallViewController *_manger = nil;
 }
 /// 接收视频通话后 设置本地view
 - (void)setAcceptCallView{
-    [HDAgoraCallManager shareInstance].roomDelegate = self;
+    
     [self setAgoraVideo];
 }
 
@@ -942,13 +939,9 @@ static HDVideoCallViewController *_manger = nil;
     self.isVisitorSend = YES;
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     [HDCallManager shareInstance].isVecVideo= YES;
-    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
+    HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [message addContent:lgM.visitorInfo];
-    
-    NSDictionary *dic = @{@"targetSystem":@"kefurtc",@"official_account":@"null"};
-//    NSDictionary *dic = @{@"targetSystem":@"kefurtc"};
-    [message addAttributeDictionary:dic];
-    
+
     [self _sendMessage:message];
 
 }
