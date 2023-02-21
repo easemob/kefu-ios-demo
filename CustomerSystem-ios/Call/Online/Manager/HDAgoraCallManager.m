@@ -362,7 +362,6 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)agentHangUpCall:(NSString *)callid{
     
     if (self.members.count != 0 ) {
-        
         return;
     }
     

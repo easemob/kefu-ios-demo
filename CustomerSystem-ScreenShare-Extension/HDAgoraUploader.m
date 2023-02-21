@@ -167,7 +167,6 @@ static NSInteger audioChannels = 2;
             frame.textureBuf = videoFrame;
             frame.rotation =rotation;
             [self.agoraKit pushExternalVideoFrame:frame];
-            
         }
 
 }

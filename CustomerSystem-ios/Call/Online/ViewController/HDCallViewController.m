@@ -692,10 +692,7 @@ static HDCallViewController *_manger = nil;
         }];
         
     }
-    
-  
-    
-    
+
 }
 
     
@@ -711,9 +708,6 @@ static HDCallViewController *_manger = nil;
 
 - (void)_sendMessage:(HDMessage *)aMessage
 {
-    
-//    __weak typeof(self) weakself = self;
-    
     [[HDClient sharedClient].chatManager sendMessage:aMessage
                                             progress:nil
                                           completion:^(HDMessage *message, HDError *error)
@@ -997,7 +991,23 @@ static HDCallViewController *_manger = nil;
 }
 - (void)popoverVCWithBtn:(UIButton *)btn{
     [HDLog logD:@"HD===%s 点击了视频pop事件",__func__];
+    [HDLog logD:@"HD===点击了视频事件"];
     self.buttonPopVC = [[HDPopoverViewController alloc] init];
+    self.buttonPopVC.popoverType = HDPopoverTypeCamera;
+    HDPopoverViewControllerCellItem * item = [[HDPopoverViewControllerCellItem alloc] init];
+    item.cellItemType = HDPopoverCellItemTypeCloseCamera;
+    item.name =NSLocalizedString(@"video.call.close.camera", @"关闭摄像头");
+    item.imgName = kshexiangtou1;
+    
+    HDPopoverViewControllerCellItem * item1 = [[HDPopoverViewControllerCellItem alloc] init];
+    item1.name =NSLocalizedString(@"video.call.switch.camera", @"切换摄像头");
+    item.cellItemType = HDPopoverCellItemTypeChangeCamera;
+    item1.imgName = kqiehuanshexiangtou;
+    
+    NSMutableArray * items = [[NSMutableArray alloc] initWithObjects:item,item1, nil];
+    
+    [self.buttonPopVC setDataArrayWithModel:items];
+    
     self.buttonPopVC.modalPresentationStyle = UIModalPresentationPopover;
     self.buttonPopVC.popoverPresentationController.sourceView = btn;  //rect参数是以view的左上角为坐标原点（0，0）
     self.buttonPopVC.popoverPresentationController.sourceRect = btn.bounds; //指定箭头所指区域的矩形框范围（位置和尺寸），以view的左上角为坐标原点
