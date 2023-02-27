@@ -18,8 +18,8 @@
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
 //Online
-//#import "HDCallViewController.h"
-//#import "HDAgoraCallManager.h"
+#import "HDCallViewController.h"
+#import "HDAgoraCallManager.h"
 #import "HDVECCallViewController.h"
 //#import "HDCloudDiskViewController.h"
 #import "HDVECAgoraCallManager.h"
@@ -48,7 +48,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;
 @property (strong, nonatomic) MoreChoiceView *choiceView;
 //online
-//@property (strong, nonatomic) HDCallViewController *callViewController;
+@property (strong, nonatomic) HDCallViewController *callViewController;
 
 @end
 
@@ -750,13 +750,13 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         
         [HDLog logI:@"================vec1.1=====收到坐席回呼cmd消息: "];
         //online
-//        [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
-//        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-//
-//            [[HDCallViewController sharedManager]  removeView];
-//            [[HDCallViewController sharedManager] removeSharedManager];
-//
-//           };
+        [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
+        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+
+            [[HDCallViewController sharedManager]  removeView];
+            [[HDCallViewController sharedManager] removeSharedManager];
+
+           };
     }
     
    
@@ -937,19 +937,19 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     }];
 }
 //online
-//-(HDCallViewController *)callViewController{
-//    
-//    if (!_callViewController) {
-//        _callViewController = [HDCallViewController alertCallWithView:nil];
-//        _callViewController.hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-//            [callVC removeView];
-//            _callViewController = nil;
-//        };
-//    }
-//    
-//    return _callViewController;
-//    
-//}
+-(HDCallViewController *)callViewController{
+    
+    if (!_callViewController) {
+        _callViewController = [HDCallViewController alertCallWithView:nil];
+        _callViewController.hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+            [callVC removeView];
+            _callViewController = nil;
+        };
+    }
+    
+    return _callViewController;
+    
+}
 
 
 @end

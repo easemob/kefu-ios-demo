@@ -19,8 +19,8 @@
 #import "HDMessageReadManager.h"
 #import "KFICloudManager.h"
 //online
-//#import "HDCallViewController.h"
-//#import "HDAgoraCallManager.h"
+#import "HDCallViewController.h"
+#import "HDAgoraCallManager.h"
 
 //vec
 #import "HDVECCallViewController.h"
@@ -35,7 +35,7 @@
 @property (nonatomic, strong) UIDocumentPickerViewController *documentPickerVC;
 
 //online
-//@property (strong, nonatomic) HDCallViewController *callViewController;
+@property (strong, nonatomic) HDCallViewController *callViewController;
 
 @end
 
@@ -89,34 +89,12 @@
     [self _sendMessage:message];
 
     //online
-//    [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
-//    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-//        [[HDCallViewController sharedManager]  removeView];
-//
-//        [[HDCallViewController sharedManager] removeSharedManager];
-//
-//    };
-    
-    
-    //发送im 消息
-//    // 调用:
-//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"要发送的消息"];
-//    // 获取当前登录的环信id
-//    NSString *from = [[EMClient sharedClient] currentUsername];
-//
-//    //生成Message
-//    EMMessage *message = [[EMMessage alloc] initWithConversationID:@"c2" from:from to:@"c2" body:body ext:nil];
-//    message.chatType = EMChatTypeChat;// 设置为单聊消息
-//
-//    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
-//
-//        } completion:^(EMMessage *message, EMError *error) {
-//
-//            NSLog(@"====%@ ===%u",message,error.code);
-//
-//        }];
-  
-    
+    [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
+    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+        [[HDCallViewController sharedManager]  removeView];
+
+        [[HDCallViewController sharedManager] removeSharedManager];
+    };
 }
 //发送文件消息
 - (void)moreViewFileAction:(HDChatBarMoreView *)moreView {

@@ -202,6 +202,35 @@
 		D2C9108829AC916000568D48 /* HDVECWhiteBoardUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9107729AC916000568D48 /* HDVECWhiteBoardUtility.m */; };
 		D2C9108929AC916000568D48 /* HDVECWhiteRoomManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9107A29AC916000568D48 /* HDVECWhiteRoomManager.m */; };
 		D2C9108A29AC916000568D48 /* HDVECStorageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9107E29AC916000568D48 /* HDVECStorageItem.m */; };
+		D2C9118229ACA55C00568D48 /* HDWhiteBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9114429ACA55C00568D48 /* HDWhiteBoardView.m */; };
+		D2C9118329ACA55C00568D48 /* HDWhiteConverterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9114629ACA55C00568D48 /* HDWhiteConverterManager.m */; };
+		D2C9118429ACA55C00568D48 /* HDUploadFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9114B29ACA55C00568D48 /* HDUploadFileViewController.m */; };
+		D2C9118529ACA55C00568D48 /* HDCloudDiskModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9114C29ACA55C00568D48 /* HDCloudDiskModel.m */; };
+		D2C9118629ACA55C00568D48 /* HDCloudDiskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9114D29ACA55C00568D48 /* HDCloudDiskViewController.m */; };
+		D2C9118729ACA55C00568D48 /* HDListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9114F29ACA55C00568D48 /* HDListViewCell.m */; };
+		D2C9118829ACA55C00568D48 /* HDListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D2C9115029ACA55C00568D48 /* HDListViewCell.xib */; };
+		D2C9118929ACA55C00568D48 /* HDUploadListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9115129ACA55C00568D48 /* HDUploadListViewController.m */; };
+		D2C9118A29ACA55C00568D48 /* HDCloudDiskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9115429ACA55C00568D48 /* HDCloudDiskTableViewCell.m */; };
+		D2C9118B29ACA55C00568D48 /* HDCloudDiskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D2C9115529ACA55C00568D48 /* HDCloudDiskTableViewCell.xib */; };
+		D2C9118C29ACA55C00568D48 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9115729ACA55C00568D48 /* Utility.m */; };
+		D2C9118D29ACA55C00568D48 /* HDStorageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9115929ACA55C00568D48 /* HDStorageItem.m */; };
+		D2C9118E29ACA55C00568D48 /* HDWhiteRoomManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9115B29ACA55C00568D48 /* HDWhiteRoomManager.m */; };
+		D2C9118F29ACA55C00568D48 /* CustomFastboardOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9115F29ACA55C00568D48 /* CustomFastboardOverlay.m */; };
+		D2C9119029ACA55C00568D48 /* HDAgoraCallMember.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9116129ACA55C00568D48 /* HDAgoraCallMember.m */; };
+		D2C9119129ACA55C00568D48 /* HDAgoraCallOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9116629ACA55C00568D48 /* HDAgoraCallOptions.m */; };
+		D2C9119229ACA55C00568D48 /* HDAgoraCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9116729ACA55C00568D48 /* HDAgoraCallManager.m */; };
+		D2C9119329ACA55C00568D48 /* HDCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9116A29ACA55C00568D48 /* HDCallViewController.m */; };
+		D2C9119429ACA55C00568D48 /* HDTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9116D29ACA55C00568D48 /* HDTitleView.m */; };
+		D2C9119529ACA55C00568D48 /* HDItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9116E29ACA55C00568D48 /* HDItemView.m */; };
+		D2C9119629ACA55C00568D48 /* HDAnswerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9117529ACA55C00568D48 /* HDAnswerView.m */; };
+		D2C9119729ACA55C00568D48 /* HDSuspendCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9117629ACA55C00568D48 /* HDSuspendCustomView.m */; };
+		D2C9119829ACA55C00568D48 /* HDPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9117829ACA55C00568D48 /* HDPopoverViewController.m */; };
+		D2C9119929ACA55C00568D48 /* HDCallCollectionViewCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9117929ACA55C00568D48 /* HDCallCollectionViewCellItem.m */; };
+		D2C9119A29ACA55C00568D48 /* HDHiddenView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9117B29ACA55C00568D48 /* HDHiddenView.m */; };
+		D2C9119B29ACA55C00568D48 /* HDControlBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9117C29ACA55C00568D48 /* HDControlBarView.m */; };
+		D2C9119C29ACA55C00568D48 /* HDSmallWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9117F29ACA55C00568D48 /* HDSmallWindowView.m */; };
+		D2C9119D29ACA55C00568D48 /* HDCallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9118029ACA55C00568D48 /* HDCallCollectionViewCell.m */; };
+		D2C9119E29ACA55C00568D48 /* HDMiddleVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C9118129ACA55C00568D48 /* HDMiddleVideoView.m */; };
 		D2D8C1651F4043F000D6F677 /* Triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2D8C1641F4043F000D6F677 /* Triangle@2x.png */; };
 		D32772321F33270D0059F1BB /* HDArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D32772311F33270D0059F1BB /* HDArticleView.m */; };
 		D33947111E543949009370BF /* bg_rl_satisfaction.png in Resources */ = {isa = PBXBuildFile; fileRef = D339470C1E543949009370BF /* bg_rl_satisfaction.png */; };
@@ -853,6 +882,64 @@
 		D2C9107D29AC916000568D48 /* HDVECWhiteBoardDelegete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVECWhiteBoardDelegete.h; sourceTree = "<group>"; };
 		D2C9107E29AC916000568D48 /* HDVECStorageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVECStorageItem.m; sourceTree = "<group>"; };
 		D2C9107F29AC916000568D48 /* HDVECWhiteBoardUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVECWhiteBoardUtility.h; sourceTree = "<group>"; };
+		D2C9114329ACA55C00568D48 /* HDWhiteRoomManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDWhiteRoomManager.h; sourceTree = "<group>"; };
+		D2C9114429ACA55C00568D48 /* HDWhiteBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDWhiteBoardView.m; sourceTree = "<group>"; };
+		D2C9114529ACA55C00568D48 /* HDStorageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDStorageItem.h; sourceTree = "<group>"; };
+		D2C9114629ACA55C00568D48 /* HDWhiteConverterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDWhiteConverterManager.m; sourceTree = "<group>"; };
+		D2C9114829ACA55C00568D48 /* HDCloudDiskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCloudDiskViewController.h; sourceTree = "<group>"; };
+		D2C9114929ACA55C00568D48 /* HDCloudDiskModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCloudDiskModel.h; sourceTree = "<group>"; };
+		D2C9114A29ACA55C00568D48 /* HDCloudDiskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCloudDiskTableViewCell.h; sourceTree = "<group>"; };
+		D2C9114B29ACA55C00568D48 /* HDUploadFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDUploadFileViewController.m; sourceTree = "<group>"; };
+		D2C9114C29ACA55C00568D48 /* HDCloudDiskModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCloudDiskModel.m; sourceTree = "<group>"; };
+		D2C9114D29ACA55C00568D48 /* HDCloudDiskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCloudDiskViewController.m; sourceTree = "<group>"; };
+		D2C9114F29ACA55C00568D48 /* HDListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDListViewCell.m; sourceTree = "<group>"; };
+		D2C9115029ACA55C00568D48 /* HDListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HDListViewCell.xib; sourceTree = "<group>"; };
+		D2C9115129ACA55C00568D48 /* HDUploadListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDUploadListViewController.m; sourceTree = "<group>"; };
+		D2C9115229ACA55C00568D48 /* HDListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDListViewCell.h; sourceTree = "<group>"; };
+		D2C9115329ACA55C00568D48 /* HDUploadListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDUploadListViewController.h; sourceTree = "<group>"; };
+		D2C9115429ACA55C00568D48 /* HDCloudDiskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCloudDiskTableViewCell.m; sourceTree = "<group>"; };
+		D2C9115529ACA55C00568D48 /* HDCloudDiskTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HDCloudDiskTableViewCell.xib; sourceTree = "<group>"; };
+		D2C9115629ACA55C00568D48 /* HDUploadFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDUploadFileViewController.h; sourceTree = "<group>"; };
+		D2C9115729ACA55C00568D48 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
+		D2C9115829ACA55C00568D48 /* CustomFastboardOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomFastboardOverlay.h; sourceTree = "<group>"; };
+		D2C9115929ACA55C00568D48 /* HDStorageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDStorageItem.m; sourceTree = "<group>"; };
+		D2C9115A29ACA55C00568D48 /* HDWhiteBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDWhiteBoardView.h; sourceTree = "<group>"; };
+		D2C9115B29ACA55C00568D48 /* HDWhiteRoomManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDWhiteRoomManager.m; sourceTree = "<group>"; };
+		D2C9115C29ACA55C00568D48 /* HDWhiteConverterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDWhiteConverterManager.h; sourceTree = "<group>"; };
+		D2C9115D29ACA55C00568D48 /* HDWhiteBoardDelegete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDWhiteBoardDelegete.h; sourceTree = "<group>"; };
+		D2C9115E29ACA55C00568D48 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		D2C9115F29ACA55C00568D48 /* CustomFastboardOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomFastboardOverlay.m; sourceTree = "<group>"; };
+		D2C9116129ACA55C00568D48 /* HDAgoraCallMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDAgoraCallMember.m; sourceTree = "<group>"; };
+		D2C9116229ACA55C00568D48 /* HDAgoraCallOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDAgoraCallOptions.h; sourceTree = "<group>"; };
+		D2C9116329ACA55C00568D48 /* HDAgoraCallManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDAgoraCallManagerDelegate.h; sourceTree = "<group>"; };
+		D2C9116429ACA55C00568D48 /* HDAgoraCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDAgoraCallManager.h; sourceTree = "<group>"; };
+		D2C9116529ACA55C00568D48 /* HDAgoraCallMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDAgoraCallMember.h; sourceTree = "<group>"; };
+		D2C9116629ACA55C00568D48 /* HDAgoraCallOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDAgoraCallOptions.m; sourceTree = "<group>"; };
+		D2C9116729ACA55C00568D48 /* HDAgoraCallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDAgoraCallManager.m; sourceTree = "<group>"; };
+		D2C9116929ACA55C00568D48 /* HDCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCallViewController.h; sourceTree = "<group>"; };
+		D2C9116A29ACA55C00568D48 /* HDCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallViewController.m; sourceTree = "<group>"; };
+		D2C9116C29ACA55C00568D48 /* HDPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDPopoverViewController.h; sourceTree = "<group>"; };
+		D2C9116D29ACA55C00568D48 /* HDTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTitleView.m; sourceTree = "<group>"; };
+		D2C9116E29ACA55C00568D48 /* HDItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemView.m; sourceTree = "<group>"; };
+		D2C9116F29ACA55C00568D48 /* HDCallCollectionViewCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCallCollectionViewCellItem.h; sourceTree = "<group>"; };
+		D2C9117029ACA55C00568D48 /* HDControlBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDControlBarView.h; sourceTree = "<group>"; };
+		D2C9117129ACA55C00568D48 /* HDHiddenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDHiddenView.h; sourceTree = "<group>"; };
+		D2C9117229ACA55C00568D48 /* HDMiddleVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDMiddleVideoView.h; sourceTree = "<group>"; };
+		D2C9117329ACA55C00568D48 /* HDCallCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCallCollectionViewCell.h; sourceTree = "<group>"; };
+		D2C9117429ACA55C00568D48 /* HDSmallWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSmallWindowView.h; sourceTree = "<group>"; };
+		D2C9117529ACA55C00568D48 /* HDAnswerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDAnswerView.m; sourceTree = "<group>"; };
+		D2C9117629ACA55C00568D48 /* HDSuspendCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSuspendCustomView.m; sourceTree = "<group>"; };
+		D2C9117729ACA55C00568D48 /* HDTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTitleView.h; sourceTree = "<group>"; };
+		D2C9117829ACA55C00568D48 /* HDPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDPopoverViewController.m; sourceTree = "<group>"; };
+		D2C9117929ACA55C00568D48 /* HDCallCollectionViewCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallCollectionViewCellItem.m; sourceTree = "<group>"; };
+		D2C9117A29ACA55C00568D48 /* HDItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemView.h; sourceTree = "<group>"; };
+		D2C9117B29ACA55C00568D48 /* HDHiddenView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDHiddenView.m; sourceTree = "<group>"; };
+		D2C9117C29ACA55C00568D48 /* HDControlBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDControlBarView.m; sourceTree = "<group>"; };
+		D2C9117D29ACA55C00568D48 /* HDSuspendCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSuspendCustomView.h; sourceTree = "<group>"; };
+		D2C9117E29ACA55C00568D48 /* HDAnswerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDAnswerView.h; sourceTree = "<group>"; };
+		D2C9117F29ACA55C00568D48 /* HDSmallWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSmallWindowView.m; sourceTree = "<group>"; };
+		D2C9118029ACA55C00568D48 /* HDCallCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallCollectionViewCell.m; sourceTree = "<group>"; };
+		D2C9118129ACA55C00568D48 /* HDMiddleVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDMiddleVideoView.m; sourceTree = "<group>"; };
 		D2D8C1641F4043F000D6F677 /* Triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Triangle@2x.png"; sourceTree = "<group>"; };
 		D32772301F33270D0059F1BB /* HDArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDArticleView.h; sourceTree = "<group>"; };
 		D32772311F33270D0059F1BB /* HDArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDArticleView.m; sourceTree = "<group>"; };
@@ -1385,13 +1472,14 @@
 			path = RobotUnsolveItemView;
 			sourceTree = "<group>";
 		};
-		930E320927E0323100455C7E /* Call */ = {
+		930E320927E0323100455C7E /* HDCallKit */ = {
 			isa = PBXGroup;
 			children = (
+				D2C9114129ACA55C00568D48 /* Online */,
 				D2C90F7029AC4FAF00568D48 /* General */,
 				D2C90F8129AC4FAF00568D48 /* VEC */,
 			);
-			path = Call;
+			path = HDCallKit;
 			sourceTree = "<group>";
 		};
 		9374FEB127CC71C200DE1185 /* HDSDWebImage */ = {
@@ -2162,6 +2250,119 @@
 				D2C9107129AC916000568D48 /* HDVECUploadFileViewController.m */,
 			);
 			path = CloudDisk;
+			sourceTree = "<group>";
+		};
+		D2C9114129ACA55C00568D48 /* Online */ = {
+			isa = PBXGroup;
+			children = (
+				D2C9114229ACA55C00568D48 /* Fastboard */,
+				D2C9116029ACA55C00568D48 /* Manager */,
+				D2C9116829ACA55C00568D48 /* ViewController */,
+				D2C9116B29ACA55C00568D48 /* Views */,
+			);
+			path = Online;
+			sourceTree = "<group>";
+		};
+		D2C9114229ACA55C00568D48 /* Fastboard */ = {
+			isa = PBXGroup;
+			children = (
+				D2C9114329ACA55C00568D48 /* HDWhiteRoomManager.h */,
+				D2C9114429ACA55C00568D48 /* HDWhiteBoardView.m */,
+				D2C9114529ACA55C00568D48 /* HDStorageItem.h */,
+				D2C9114629ACA55C00568D48 /* HDWhiteConverterManager.m */,
+				D2C9114729ACA55C00568D48 /* CloudDisk */,
+				D2C9115729ACA55C00568D48 /* Utility.m */,
+				D2C9115829ACA55C00568D48 /* CustomFastboardOverlay.h */,
+				D2C9115929ACA55C00568D48 /* HDStorageItem.m */,
+				D2C9115A29ACA55C00568D48 /* HDWhiteBoardView.h */,
+				D2C9115B29ACA55C00568D48 /* HDWhiteRoomManager.m */,
+				D2C9115C29ACA55C00568D48 /* HDWhiteConverterManager.h */,
+				D2C9115D29ACA55C00568D48 /* HDWhiteBoardDelegete.h */,
+				D2C9115E29ACA55C00568D48 /* Utility.h */,
+				D2C9115F29ACA55C00568D48 /* CustomFastboardOverlay.m */,
+			);
+			path = Fastboard;
+			sourceTree = "<group>";
+		};
+		D2C9114729ACA55C00568D48 /* CloudDisk */ = {
+			isa = PBXGroup;
+			children = (
+				D2C9114829ACA55C00568D48 /* HDCloudDiskViewController.h */,
+				D2C9114929ACA55C00568D48 /* HDCloudDiskModel.h */,
+				D2C9114A29ACA55C00568D48 /* HDCloudDiskTableViewCell.h */,
+				D2C9114B29ACA55C00568D48 /* HDUploadFileViewController.m */,
+				D2C9114C29ACA55C00568D48 /* HDCloudDiskModel.m */,
+				D2C9114D29ACA55C00568D48 /* HDCloudDiskViewController.m */,
+				D2C9114E29ACA55C00568D48 /* list */,
+				D2C9115429ACA55C00568D48 /* HDCloudDiskTableViewCell.m */,
+				D2C9115529ACA55C00568D48 /* HDCloudDiskTableViewCell.xib */,
+				D2C9115629ACA55C00568D48 /* HDUploadFileViewController.h */,
+			);
+			path = CloudDisk;
+			sourceTree = "<group>";
+		};
+		D2C9114E29ACA55C00568D48 /* list */ = {
+			isa = PBXGroup;
+			children = (
+				D2C9114F29ACA55C00568D48 /* HDListViewCell.m */,
+				D2C9115029ACA55C00568D48 /* HDListViewCell.xib */,
+				D2C9115129ACA55C00568D48 /* HDUploadListViewController.m */,
+				D2C9115229ACA55C00568D48 /* HDListViewCell.h */,
+				D2C9115329ACA55C00568D48 /* HDUploadListViewController.h */,
+			);
+			path = list;
+			sourceTree = "<group>";
+		};
+		D2C9116029ACA55C00568D48 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				D2C9116129ACA55C00568D48 /* HDAgoraCallMember.m */,
+				D2C9116229ACA55C00568D48 /* HDAgoraCallOptions.h */,
+				D2C9116329ACA55C00568D48 /* HDAgoraCallManagerDelegate.h */,
+				D2C9116429ACA55C00568D48 /* HDAgoraCallManager.h */,
+				D2C9116529ACA55C00568D48 /* HDAgoraCallMember.h */,
+				D2C9116629ACA55C00568D48 /* HDAgoraCallOptions.m */,
+				D2C9116729ACA55C00568D48 /* HDAgoraCallManager.m */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		D2C9116829ACA55C00568D48 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D2C9116929ACA55C00568D48 /* HDCallViewController.h */,
+				D2C9116A29ACA55C00568D48 /* HDCallViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		D2C9116B29ACA55C00568D48 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D2C9116C29ACA55C00568D48 /* HDPopoverViewController.h */,
+				D2C9116D29ACA55C00568D48 /* HDTitleView.m */,
+				D2C9116E29ACA55C00568D48 /* HDItemView.m */,
+				D2C9116F29ACA55C00568D48 /* HDCallCollectionViewCellItem.h */,
+				D2C9117029ACA55C00568D48 /* HDControlBarView.h */,
+				D2C9117129ACA55C00568D48 /* HDHiddenView.h */,
+				D2C9117229ACA55C00568D48 /* HDMiddleVideoView.h */,
+				D2C9117329ACA55C00568D48 /* HDCallCollectionViewCell.h */,
+				D2C9117429ACA55C00568D48 /* HDSmallWindowView.h */,
+				D2C9117529ACA55C00568D48 /* HDAnswerView.m */,
+				D2C9117629ACA55C00568D48 /* HDSuspendCustomView.m */,
+				D2C9117729ACA55C00568D48 /* HDTitleView.h */,
+				D2C9117829ACA55C00568D48 /* HDPopoverViewController.m */,
+				D2C9117929ACA55C00568D48 /* HDCallCollectionViewCellItem.m */,
+				D2C9117A29ACA55C00568D48 /* HDItemView.h */,
+				D2C9117B29ACA55C00568D48 /* HDHiddenView.m */,
+				D2C9117C29ACA55C00568D48 /* HDControlBarView.m */,
+				D2C9117D29ACA55C00568D48 /* HDSuspendCustomView.h */,
+				D2C9117E29ACA55C00568D48 /* HDAnswerView.h */,
+				D2C9117F29ACA55C00568D48 /* HDSmallWindowView.m */,
+				D2C9118029ACA55C00568D48 /* HDCallCollectionViewCell.m */,
+				D2C9118129ACA55C00568D48 /* HDMiddleVideoView.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		D33946EF1E54381B009370BF /* Category */ = {
@@ -2980,7 +3181,7 @@
 		EB62E1FB1A8DD92D00705655 /* CustomerSystem-ios */ = {
 			isa = PBXGroup;
 			children = (
-				930E320927E0323100455C7E /* Call */,
+				930E320927E0323100455C7E /* HDCallKit */,
 				93E792F9277ADA290019FD80 /* CustomerSystem-iosRelease.entitlements */,
 				D39AD9091DFAA6BE00895FCF /* CustomerSystem-ios.entitlements */,
 				D3CB631B1E4888F20022A6BA /* HelpDeskUI */,
@@ -3168,6 +3369,7 @@
 				EB4B06F61AC685E900DCF67B /* chat_sender_bg@2x.png in Resources */,
 				D36621BC1F4E7D9F008EE9C4 /* wating@2x.png in Resources */,
 				D34743AE1DE6E38600F32D87 /* chatBar_comment@2x.png in Resources */,
+				D2C9118829ACA55C00568D48 /* HDListViewCell.xib in Resources */,
 				EB4B06951AC685E900DCF67B /* VoiceSearchFeedback005.png in Resources */,
 				D200663A1EF23274005B558D /* em_example_image_3.png in Resources */,
 				EB4B06911AC685E900DCF67B /* VoiceSearchFeedback003.png in Resources */,
@@ -3280,6 +3482,7 @@
 				937E92482851AEA000A71B32 /* File.js in Resources */,
 				D20066381EF23274005B558D /* em_example_image_1.png in Resources */,
 				EB4B07751AC6922C00DCF67B /* chatBar_colorMore_location@2x.png in Resources */,
+				D2C9118B29ACA55C00568D48 /* HDCloudDiskTableViewCell.xib in Resources */,
 				EB4B06841AC685E900DCF67B /* people@2x.png in Resources */,
 				EB4B06FD1AC685E900DCF67B /* tabbar_settingHL@2x.png in Resources */,
 				EB4B06811AC685E900DCF67B /* 58.png in Resources */,
@@ -3480,6 +3683,7 @@
 				93B4E96627CCD1D800ACAF5B /* HDMJRefreshBackGifFooter.m in Sources */,
 				D3CB64A61E4888F30022A6BA /* HDBubbleView+Image.m in Sources */,
 				D29E0A041F4FF90F0089506D /* HAppraiseTagsModel.m in Sources */,
+				D2C9118929ACA55C00568D48 /* HDUploadListViewController.m in Sources */,
 				D2C9100529AC4FAF00568D48 /* HDVECRefreshTableViewController.m in Sources */,
 				D2C9101129AC4FAF00568D48 /* HDVECMessageView.m in Sources */,
 				D2C9101C29AC4FAF00568D48 /* HDVECCollectionViewCellItem.m in Sources */,
@@ -3495,6 +3699,7 @@
 				D2C9101029AC4FAF00568D48 /* HDVECAnswerCallBackView.m in Sources */,
 				D2C9108229AC916000568D48 /* HDVECWhiteConverterManager.m in Sources */,
 				D2C9101829AC4FAF00568D48 /* HDVECIDCardScaningView.m in Sources */,
+				D2C9118D29ACA55C00568D48 /* HDStorageItem.m in Sources */,
 				D2C9102529AC4FAF00568D48 /* HDVECControlBarView.m in Sources */,
 				D3CB64691E4888F30022A6BA /* MWTapDetectingView.m in Sources */,
 				9078071B2087584700ED9324 /* HDMicView.m in Sources */,
@@ -3503,6 +3708,7 @@
 				93B4E97227CCD1D800ACAF5B /* HDMJRefreshFooter.m in Sources */,
 				93B4E96A27CCD1D800ACAF5B /* HDMJRefreshAutoNormalFooter.m in Sources */,
 				D2B99D9A296BBC7E00B7491D /* HDInItKeyCenter.m in Sources */,
+				D2C9119A29ACA55C00568D48 /* HDHiddenView.m in Sources */,
 				D3CB64671E4888F30022A6BA /* MWPhotoBrowser.m in Sources */,
 				D2C9100A29AC4FAF00568D48 /* HDVECAgoraCallMember.m in Sources */,
 				D2C90FF929AC4FAF00568D48 /* UIColor+HLKit.m in Sources */,
@@ -3523,17 +3729,21 @@
 				D3CB64811E4888F30022A6BA /* PSTCollectionViewFlowLayout.m in Sources */,
 				D2C9108429AC916000568D48 /* HDVECCloudDiskModel.m in Sources */,
 				9094F20A21E83C8D00037601 /* SRRefreshView.m in Sources */,
+				D2C9118E29ACA55C00568D48 /* HDWhiteRoomManager.m in Sources */,
 				9385C61727E9CB2C0049096F /* UIColor+HLKit.m in Sources */,
 				D3CB647C1E4888F30022A6BA /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				93D95EA627D8988A00E47F14 /* HDCustomEmojiManager.m in Sources */,
 				D33995421E0028BD00F7B71D /* UIBarButtonItem+KFAdd.m in Sources */,
 				D2C9102329AC4FAF00568D48 /* HDVECHiddenView.m in Sources */,
+				D2C9119829ACA55C00568D48 /* HDPopoverViewController.m in Sources */,
 				937E92412851A25900A71B32 /* UIView+GestureRecognizer.m in Sources */,
 				D3CB64831E4888F30022A6BA /* PSTCollectionViewLayout.m in Sources */,
 				D3CB64AF1E4888F30022A6BA /* HDBubbleView.m in Sources */,
+				D2C9118F29ACA55C00568D48 /* CustomFastboardOverlay.m in Sources */,
 				D3CB648E1E4888F30022A6BA /* NSDateFormatter+Category.m in Sources */,
 				D29E09F91F4ECE5A0089506D /* HEvaluationTagView.m in Sources */,
 				9392B519280047CE005D4215 /* KFICloudManager.m in Sources */,
+				D2C9119429ACA55C00568D48 /* HDTitleView.m in Sources */,
 				93B4E96927CCD1D800ACAF5B /* HDMJRefreshAutoStateFooter.m in Sources */,
 				D3D87C141F3847C300FB7C84 /* HArticleWebViewController.m in Sources */,
 				D3CB64A41E4888F30022A6BA /* HDBubbleView+File.m in Sources */,
@@ -3542,6 +3752,7 @@
 				D34D6CED1DEC12850099EE23 /* LeaveMsgAttatchmentView.m in Sources */,
 				D3CB647E1E4888F30022A6BA /* PSTCollectionViewCell.m in Sources */,
 				D34D6D841DEC1F9E0099EE23 /* FLTextView.m in Sources */,
+				D2C9119C29ACA55C00568D48 /* HDSmallWindowView.m in Sources */,
 				D3CB646B1E4888F30022A6BA /* DACircularProgressView.m in Sources */,
 				D34D6D7E1DEC1C510099EE23 /* LeaseMsgReplyController.m in Sources */,
 				D2C9101F29AC4FAF00568D48 /* HDVECCollectionViewCell.m in Sources */,
@@ -3562,16 +3773,21 @@
 				D3CE33281F0610FA00A9649E /* CustomButton.m in Sources */,
 				9042C2622514A1A100DC5BE1 /* AFHTTPSessionManager.m in Sources */,
 				9042C2632514A1A100DC5BE1 /* AFURLSessionManager.m in Sources */,
+				D2C9119529ACA55C00568D48 /* HDItemView.m in Sources */,
+				D2C9118729ACA55C00568D48 /* HDListViewCell.m in Sources */,
 				D3394AF11E5562FE009370BF /* HDChatViewController.m in Sources */,
 				D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */,
 				93B4E97427CCD1D800ACAF5B /* HDMJRefreshAutoFooter.m in Sources */,
 				D3394AEE1E548898009370BF /* HDViewController.m in Sources */,
+				D2C9119E29ACA55C00568D48 /* HDMiddleVideoView.m in Sources */,
 				EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */,
 				938DD77F28151DB400966CB3 /* UIView+Kit.m in Sources */,
 				D3CB64481E4888F30022A6BA /* HDCDDeviceManagerBase.m in Sources */,
 				D3CB64441E4888F30022A6BA /* HDCDDeviceManager+Media.m in Sources */,
 				D3CB64A01E4888F30022A6BA /* HDCustomMessageCell.m in Sources */,
 				D3CB64461E4888F30022A6BA /* HDCDDeviceManager+ProximitySensor.m in Sources */,
+				D2C9119229ACA55C00568D48 /* HDAgoraCallManager.m in Sources */,
+				D2C9118229ACA55C00568D48 /* HDWhiteBoardView.m in Sources */,
 				D35579631EE94BF900F6B54E /* HConversationTableViewCell.m in Sources */,
 				9374FEBA27CCA5BE00DE1185 /* UIImage+HDGIF.m in Sources */,
 				D339953F1E000EDF00F7B71D /* ScanningView.m in Sources */,
@@ -3635,6 +3851,7 @@
 				D3CB64801E4888F30022A6BA /* PSTCollectionViewData.m in Sources */,
 				D3CB64AD1E4888F30022A6BA /* HDBubbleView+Video.m in Sources */,
 				D2C90FFB29AC4FAF00568D48 /* UIImage+HDIconFont.m in Sources */,
+				D2C9118429ACA55C00568D48 /* HDUploadFileViewController.m in Sources */,
 				D3AA4B221ED45B7300B5C509 /* hdamrFileCodec.mm in Sources */,
 				D3CB64B01E4888F30022A6BA /* HDChatToolbar.m in Sources */,
 				9042C2662514A1A100DC5BE1 /* AFSecurityPolicy.m in Sources */,
@@ -3642,17 +3859,25 @@
 				D2C9101529AC4FAF00568D48 /* HDVECSKTagButton.m in Sources */,
 				D3CB64B21E4888F30022A6BA /* HDImageView.m in Sources */,
 				D2C90FFA29AC4FAF00568D48 /* HDVECAppSkin.m in Sources */,
+				D2C9119029ACA55C00568D48 /* HDAgoraCallMember.m in Sources */,
 				D3CB648D1E4888F30022A6BA /* NSDate+Category.m in Sources */,
+				D2C9119D29ACA55C00568D48 /* HDCallCollectionViewCell.m in Sources */,
 				D2C9100B29AC4FAF00568D48 /* HDVECEnquiryOptionModel.m in Sources */,
+				D2C9118A29ACA55C00568D48 /* HDCloudDiskTableViewCell.m in Sources */,
+				D2C9119129ACA55C00568D48 /* HDAgoraCallOptions.m in Sources */,
+				D2C9118529ACA55C00568D48 /* HDCloudDiskModel.m in Sources */,
 				D2C9108129AC916000568D48 /* HDVECCustomFastboardOverlay.m in Sources */,
+				D2C9119B29ACA55C00568D48 /* HDControlBarView.m in Sources */,
 				D2C9100729AC4FAF00568D48 /* HDVECChatToolbar.m in Sources */,
 				EB62E32E1A8DDA4800705655 /* HomeViewController.m in Sources */,
 				EB62E1FF1A8DD92D00705655 /* main.m in Sources */,
 				D2C9101929AC4FAF00568D48 /* HDVECLinkMessagePush.m in Sources */,
 				D3CB64881E4888F30022A6BA /* PSTGridLayoutSection.m in Sources */,
 				D3CB64B11E4888F30022A6BA /* HDChatToolbarItem.m in Sources */,
+				D2C9119729ACA55C00568D48 /* HDSuspendCustomView.m in Sources */,
 				9392B51A280047CE005D4215 /* KFDocument.m in Sources */,
 				D3CB64471E4888F30022A6BA /* HDCDDeviceManager+Remind.m in Sources */,
+				D2C9119329ACA55C00568D48 /* HDCallViewController.m in Sources */,
 				D3CB64B51E4888F30022A6BA /* HDFacialView.m in Sources */,
 				D3CB649D1E4888F30022A6BA /* HDRefreshTableViewController.m in Sources */,
 				D2C9100F29AC4FAF00568D48 /* HDVECAnswerView.m in Sources */,
@@ -3670,6 +3895,7 @@
 				D3CB64A51E4888F30022A6BA /* HDBubbleView+Gif.m in Sources */,
 				D3CB64681E4888F30022A6BA /* MWTapDetectingImageView.m in Sources */,
 				D3CB64A31E4888F30022A6BA /* HDBubbleView+Evaluate.m in Sources */,
+				D2C9119629ACA55C00568D48 /* HDAnswerView.m in Sources */,
 				D3CB64B61E4888F30022A6BA /* HDChatBarMoreView.m in Sources */,
 				D3CE33291F0610FA00A9649E /* HLeaveMessageSucceedViewController.m in Sources */,
 				D3CB64AE1E4888F30022A6BA /* HDBubbleView+Voice.m in Sources */,
@@ -3683,7 +3909,11 @@
 				D2C9102129AC4FAF00568D48 /* HDVECSmallWindowView.m in Sources */,
 				D3CB64931E4888F30022A6BA /* HDEmoji.m in Sources */,
 				D3CB64A21E4888F30022A6BA /* HDMessageTimeCell.m in Sources */,
+				D2C9118C29ACA55C00568D48 /* Utility.m in Sources */,
+				D2C9118629ACA55C00568D48 /* HDCloudDiskViewController.m in Sources */,
+				D2C9119929ACA55C00568D48 /* HDCallCollectionViewCellItem.m in Sources */,
 				D3CB64B31E4888F30022A6BA /* HDTextView.m in Sources */,
+				D2C9118329ACA55C00568D48 /* HDWhiteConverterManager.m in Sources */,
 				D3CB64AC1E4888F30022A6BA /* HDBubbleView+Transform.m in Sources */,
 				EB4B07801AC6A1C100DCF67B /* EditViewController.m in Sources */,
 				9385C61427E9CA800049096F /* HDAppSkin.m in Sources */,
