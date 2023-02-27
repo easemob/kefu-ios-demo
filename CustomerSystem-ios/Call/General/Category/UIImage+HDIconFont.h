@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HDAppSkin.h"
+#import "HDVECAppSkin.h"
 #define kfontName           @"iconfont"
 #define kXiaolian           @"\U0000e650"  //&#xee650
 #define kguaduan1           @"\U0000e605"  //&#xe61b

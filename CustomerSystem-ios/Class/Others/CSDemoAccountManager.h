@@ -8,12 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "HDChatViewController.h"
-#import "HDVideoCallChatViewController.h"
 // 登录账号管理，此数据应该由您服务器返回
 @interface CSDemoAccountManager : NSObject
 
 @property (nonatomic,strong) HDChatViewController *curChat; //当前聊天界面
-@property (nonatomic,strong) HDVideoCallChatViewController *curVideoChat; //当前聊天界面
 
 @property (nonatomic, strong) NSString *appkey;  // 您客服系统中的appkey(管理员登录客服系统-管理员模式-渠道管理-手机APP-关联APP-Appkey)
 

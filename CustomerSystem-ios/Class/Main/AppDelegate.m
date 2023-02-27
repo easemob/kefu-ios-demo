@@ -35,6 +35,10 @@ extern CFAbsoluteTime MainStartTime;
     [Bugly startWithAppId:@"edaf8ccbcb" config:config];
     //企业包
 //    [Bugly startWithAppId:@"d6498f1c9a" config:config];
+    
+    // 初始化环信客服SDK，详细内容在AppDelegate+HelpDesk.m 文件中
+    [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     self.homeController = [[HomeViewController alloc] init];
@@ -43,9 +47,7 @@ extern CFAbsoluteTime MainStartTime;
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
     
-    // 初始化环信客服SDK，详细内容在AppDelegate+HelpDesk.m 文件中
-    [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
-    
+   
     
     // 第三步：在 didFinishLaunchingWithOptions 方法结束前，再获取一下当前时间，与 MainStartTime 的差值就是 main() 函数阶段的耗时
     double mainLaunchTime = (CFAbsoluteTimeGetCurrent() - MainStartTime);

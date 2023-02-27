@@ -17,10 +17,12 @@
 #import "HDMessageViewController.h"
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
-#import "HDCallViewController.h"
-#import "HDVideoCallViewController.h"
+//Online
+//#import "HDCallViewController.h"
+//#import "HDAgoraCallManager.h"
+#import "HDVECCallViewController.h"
 #import "HDCloudDiskViewController.h"
-#import "HDAgoraCallManager.h"
+#import "HDVECAgoraCallManager.h"
 #import "MBProgressHUD+Add.h"
 #import "CustomerSystem_ios-Swift.h"
 #define kafterSale @"shouhou"
@@ -45,7 +47,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;
 @property (strong, nonatomic) MoreChoiceView *choiceView;
-@property (strong, nonatomic) HDCallViewController *callViewController;
+//online
+//@property (strong, nonatomic) HDCallViewController *callViewController;
 
 @end
 
@@ -75,7 +78,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     }];
 }
 -(void)setupUntreatedApplyCount{
-    
     
     
 }
@@ -248,21 +250,18 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 return;
             }
                 //todo 创建视频等待界面  调用接口 vec 使用
-//                [CSDemoAccountManager shareLoginManager].isVEC = YES;
                 [HDClient sharedClient].callManager.isVecVideo = YES;
                 
-                [HDClient sharedClient].enableVisitorAccelerator = NO;
-           
-                [[HDAgoraCallManager shareInstance] initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
+                [[HDVECAgoraCallManager shareInstance] vec_initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                     [weakHud hideAnimated:YES];
                    
 
-                        [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoDirectionSend withVisitornickName:lgM.nickname];
-                        [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-                            [[HDVideoCallViewController sharedManager]  removeView];
+                        [[HDVECCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVECDirectionSend withVisitornickName:lgM.nickname];
+                        [HDVECCallViewController sharedManager].hangUpVideoCallback = ^(HDVECCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+                            [[HDVECCallViewController sharedManager]  removeView];
 
-                            [[HDVideoCallViewController sharedManager] removeSharedManager];
+                            [[HDVECCallViewController sharedManager] removeSharedManager];
 
                         };
                     });
@@ -361,11 +360,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //        }];
        
 //    });
-   
-
     
-    
-    
+//    [self lxSendIMText];
 }
 - (void)setPushOptions {
 
@@ -736,16 +732,16 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息: "];
         
         if (keyCenter && keyCenter.isAgentCancelCallbackReceive) {
-            [[HDVideoCallViewController sharedManager]  removeView];
+            [[HDVECCallViewController sharedManager]  removeView];
 
-            [[HDVideoCallViewController sharedManager] removeSharedManager];
+            [[HDVECCallViewController sharedManager] removeSharedManager];
         }else{
         
-        [[HDVideoCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoDirectionReceive withVisitornickName:keyCenter.visitorNickName];
-        [HDVideoCallViewController sharedManager].hangUpVideoCallback = ^(HDVideoCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-            [[HDVideoCallViewController sharedManager]  removeView];
+        [[HDVECCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVECDirectionReceive withVisitornickName:keyCenter.visitorNickName];
+        [HDVECCallViewController sharedManager].hangUpVideoCallback = ^(HDVECCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+            [[HDVECCallViewController sharedManager]  removeView];
 
-            [[HDVideoCallViewController sharedManager] removeSharedManager];
+            [[HDVECCallViewController sharedManager] removeSharedManager];
 
         };
         }
@@ -753,14 +749,14 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         
         
         [HDLog logI:@"================vec1.1=====收到坐席回呼cmd消息: "];
-        
-        [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
-        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-        
-            [[HDCallViewController sharedManager]  removeView];
-            [[HDCallViewController sharedManager] removeSharedManager];
-       
-           };
+        //online
+//        [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
+//        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//
+//            [[HDCallViewController sharedManager]  removeView];
+//            [[HDCallViewController sharedManager] removeSharedManager];
+//
+//           };
     }
     
    
@@ -858,6 +854,29 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     
 }
+//发文本消息【测试】im发消息
+-(void)lxSendIMText{
+    //发送im 消息
+    // 调用:
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"要发送的消息"];
+    // 获取当前登录的环信id
+    NSString *from = [[EMClient sharedClient] currentUsername];
+
+    //生成Message
+    EMChatMessage *message = [[EMChatMessage alloc] initWithConversationID:@"c2" from:@"7d3064d50a75439188bc85b3dd8e8abb82322" to:@"c2" body:body ext:nil];
+    message.chatType = EMChatTypeChat;// 设置为单聊消息
+
+    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
+
+        } completion:^(EMChatMessage *message, EMError *error) {
+
+            NSLog(@"====%@ ===%u",message,error.code);
+
+        }];
+    
+    
+    
+}
 //发文本消息【测试】
 -(void)lxSendText{
     HDMessage *message = [HDMessage createTxtSendMessageWithContent:@"sendtextfirst33333" to:@"kefuchannelimid_174280"];
@@ -875,6 +894,29 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             NSLog(@"lx ----发送消息失败 aError code :%d,aError description:%@",aError.code,aError.errorDescription);
         }
     }];
+    
+    
+    
+    //发送im 消息
+//    // 调用:
+//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"要发送的消息"];
+//    // 获取当前登录的环信id
+//    NSString *from = [[EMClient sharedClient] currentUsername];
+//
+//    //生成Message
+//    EMMessage *message = [[EMMessage alloc] initWithConversationID:@"c2" from:from to:@"c2" body:body ext:nil];
+//    message.chatType = EMChatTypeChat;// 设置为单聊消息
+//
+//    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
+//
+//        } completion:^(EMMessage *message, EMError *error) {
+//
+//            NSLog(@"====%@ ===%u",message,error.code);
+//
+//        }];
+    
+    
+    
 }
 //发文件消息【测试】
 -(void)sendFile{
@@ -894,20 +936,20 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
         }
     }];
 }
-
--(HDCallViewController *)callViewController{
-    
-    if (!_callViewController) {
-        _callViewController = [HDCallViewController alertCallWithView:nil];
-        _callViewController.hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-            [callVC removeView];
-            _callViewController = nil;
-        };
-    }
-    
-    return _callViewController;
-    
-}
+//online
+//-(HDCallViewController *)callViewController{
+//    
+//    if (!_callViewController) {
+//        _callViewController = [HDCallViewController alertCallWithView:nil];
+//        _callViewController.hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+//            [callVC removeView];
+//            _callViewController = nil;
+//        };
+//    }
+//    
+//    return _callViewController;
+//    
+//}
 
 
 @end
