@@ -1,5 +1,5 @@
 //
-//  HDUploadListViewController.h
+//  HDCloudDiskViewController.h
 //  CustomerSystem-ios
 //
 //  Created by houli on 2022/4/8.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HDUploadListViewController : UIViewController
+@interface HDVECCloudDiskViewController : UIViewController
 
 @end
 

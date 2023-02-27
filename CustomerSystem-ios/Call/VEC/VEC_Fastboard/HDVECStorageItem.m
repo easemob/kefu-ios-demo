@@ -6,9 +6,9 @@
 //  Copyright © 2022 easemob. All rights reserved.
 //
 
-#import "HDStorageItem.h"
+#import "HDVECStorageItem.h"
 
-@implementation HDStorageItem
+@implementation HDVECStorageItem
 
 - (instancetype)initWithTaskUUID:(NSString *)taskUUID
                            token:(NSString *)token

@@ -36,9 +36,9 @@
 
 //白板相关
 #ifdef WhiteBoard
-#import "HDWhiteBoardView.h"
-#import "HDUploadFileViewController.h"
-#import "HDWhiteRoomManager.h"
+#import "HDVECWhiteBoardView.h"
+#import "HDVECUploadFileViewController.h"
+#import "HDVECWhiteRoomManager.h"
 #else
 
 #endif
@@ -128,7 +128,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));
 
 #ifdef WhiteBoard
-@property (nonatomic, strong) HDWhiteBoardView *whiteBoardView;
+@property (nonatomic, strong) HDVECWhiteBoardView *whiteBoardView;
 #else
 
 #endif
@@ -443,44 +443,44 @@ static HDVECCallViewController *_manger = nil;
     [self initBroadPickerView];
 }
 -(void)initData{
-    HDControlBarModel * barModel = [HDControlBarModel new];
-    barModel.itemType = HDControlBarItemTypeMute;
+    HDVECControlBarModel * barModel = [HDVECControlBarModel new];
+    barModel.itemType = HDVECControlBarItemTypeMute;
     barModel.name=@"";
     barModel.imageStr= kmaikefeng1 ;
     barModel.selImageStr= kjinmai;
     
-    HDControlBarModel * barModel1 = [HDControlBarModel new];
-    barModel1.itemType = HDControlBarItemTypeVideo;
+    HDVECControlBarModel * barModel1 = [HDVECControlBarModel new];
+    barModel1.itemType = HDVECControlBarItemTypeVideo;
     barModel1.name=@"";
     barModel1.imageStr= kshexiangtou1 ;
     barModel1.selImageStr=kguanbishexiangtou1;
     
-    HDControlBarModel * barModel2 = [HDControlBarModel new];
-    barModel2.itemType = HDControlBarItemTypeHangUp;
+    HDVECControlBarModel * barModel2 = [HDVECControlBarModel new];
+    barModel2.itemType = HDVECControlBarItemTypeHangUp;
     barModel2.name=@"";
     barModel2.imageStr=kguaduan1;
     barModel2.selImageStr=kguaduan1;
     barModel2.isHangUp = YES;
     
-//    HDControlBarModel * barModel3 = [HDControlBarModel new];
+//    HDVECControlBarModel * barModel3 = [HDVECControlBarModel new];
 //    barModel3.itemType = HDControlBarItemTypeMessage;
 //    barModel3.name=@"";
 //    barModel3.imageStr=kxiaoxiguanli;
 //    barModel3.selImageStr=kxiaoxiguanli;
 //
-//    HDControlBarModel * barModel4 = [HDControlBarModel new];
+//    HDVECControlBarModel * barModel4 = [HDVECControlBarModel new];
 //    barModel4.itemType = HDControlBarItemTypeMore;
 //    barModel4.name=@"";
 //    barModel4.imageStr=kmore;
 //    barModel4.selImageStr=kmore;
-    HDControlBarModel * barModel3 = [HDControlBarModel new];
-       barModel3.itemType = HDControlBarItemTypeShare;
+    HDVECControlBarModel * barModel3 = [HDVECControlBarModel new];
+       barModel3.itemType = HDVECControlBarItemTypeShare;
        barModel3.name=@"";
        barModel3.imageStr=kpingmugongxiang2;
        barModel3.selImageStr=kpingmugongxiang2;
 
-       HDControlBarModel * barModel4 = [HDControlBarModel new];
-       barModel4.itemType = HDControlBarItemTypeFlat;
+    HDVECControlBarModel * barModel4 = [HDVECControlBarModel new];
+       barModel4.itemType = HDVECControlBarItemTypeFlat;
        barModel4.name=@"";
        barModel4.imageStr=kbaiban;
        barModel4.selImageStr=kbaiban;
@@ -497,7 +497,7 @@ static HDVECCallViewController *_manger = nil;
         [selImageArr addObject:barModel4];
     }
 
- NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
+ NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDVECControlBarButtonStyleVideo] ;
 //    NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideoNew] ;
 
    _cameraBtn =  [self.barView hd_bttonWithTag:0 withArray:barArray];
@@ -510,37 +510,37 @@ static HDVECCallViewController *_manger = nil;
     [self initSmallWindowData];
 }
 - (void)initDataNew{
-    HDControlBarModel * barModel = [HDControlBarModel new];
-    barModel.itemType = HDControlBarItemTypeMute;
+    HDVECControlBarModel * barModel = [HDVECControlBarModel new];
+    barModel.itemType = HDVECControlBarItemTypeMute;
     barModel.name=@"";
     barModel.imageStr= kmaikefeng1 ;
     barModel.selImageStr= kjinmai;
     
-    HDControlBarModel * barModel1 = [HDControlBarModel new];
-    barModel1.itemType = HDControlBarItemTypeVideo;
+    HDVECControlBarModel * barModel1 = [HDVECControlBarModel new];
+    barModel1.itemType = HDVECControlBarItemTypeVideo;
     barModel1.name=@"";
     barModel1.imageStr= kshexiangtou1 ;
     barModel1.selImageStr=kguanbishexiangtou1;
     
-    HDControlBarModel * barModel2 = [HDControlBarModel new];
-    barModel2.itemType = HDControlBarItemTypeHangUp;
+    HDVECControlBarModel * barModel2 = [HDVECControlBarModel new];
+    barModel2.itemType = HDVECControlBarItemTypeHangUp;
     barModel2.name=@"";
     barModel2.imageStr=kguaduan1;
     barModel2.selImageStr=kguaduan1;
     barModel2.isHangUp = YES;
     
-    HDControlBarModel * barModel3 = [HDControlBarModel new];
-    barModel3.itemType = HDControlBarItemTypeMessage;
+    HDVECControlBarModel * barModel3 = [HDVECControlBarModel new];
+    barModel3.itemType = HDVECControlBarItemTypeMessage;
     barModel3.name=@"";
     barModel3.imageStr=kxiaoxiguanli;
     barModel3.selImageStr=kxiaoxiguanli;
 
-    HDControlBarModel * barModel4 = [HDControlBarModel new];
-    barModel4.itemType = HDControlBarItemTypeMore;
+    HDVECControlBarModel * barModel4 = [HDVECControlBarModel new];
+    barModel4.itemType = HDVECControlBarItemTypeMore;
     barModel4.name=@"";
     barModel4.imageStr=kmore;
     barModel4.selImageStr=kmore;
-//    HDControlBarModel * barModel3 = [HDControlBarModel new];
+//    HDVECControlBarModel * barModel3 = [HDVECControlBarModel new];
 //       barModel3.itemType = HDControlBarItemTypeShare;
 //       barModel3.name=@"";
 //       barModel3.imageStr=kpingmugongxiang2;
@@ -565,7 +565,7 @@ static HDVECCallViewController *_manger = nil;
 //    }
 
 // NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
-    NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideoNew] ;
+    NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDVECControlBarButtonStyleVideoNew] ;
 
    _cameraBtn =  [self.barView hd_bttonWithTag:0 withArray:barArray];
     
@@ -1079,25 +1079,25 @@ static HDVECCallViewController *_manger = nil;
 //        _barView.layer.cornerRadius = 10;
 //        _barView.layer.masksToBounds = YES;
         __weak __typeof__(self) weakSelf = self;
-        _barView.clickControlBarItemBlock = ^(HDControlBarModel * _Nonnull barModel, UIButton * _Nonnull btn) {
+        _barView.clickControlBarItemBlock = ^(HDVECControlBarModel * _Nonnull barModel, UIButton * _Nonnull btn) {
             
             switch (barModel.itemType) {
-                case HDControlBarItemTypeMute:
+                case HDVECControlBarItemTypeMute:
                     [weakSelf muteBtnClicked:btn];
                     break;
-                case HDControlBarItemTypeVideo:
+                case HDVECControlBarItemTypeVideo:
                     [weakSelf videoBtnClicked:btn];
                     break;
-                case HDControlBarItemTypeHangUp:
+                case HDVECControlBarItemTypeHangUp:
                     [weakSelf callingHangUpBtn:btn];
                     break;
-                case HDControlBarItemTypeMessage:
+                case HDVECControlBarItemTypeMessage:
                     [weakSelf showMessage];
                     break;
-                case HDControlBarItemTypeShare:
+                case HDVECControlBarItemTypeShare:
                     [weakSelf shareDesktopBtnClicked:btn];
                     break;
-                case HDControlBarItemTypeFlat:
+                case HDVECControlBarItemTypeFlat:
 #ifdef WhiteBoard
                     [weakSelf onClickedFalt:btn];
 #else
@@ -1105,7 +1105,7 @@ static HDVECCallViewController *_manger = nil;
 #endif
                    
                     break;
-                case HDControlBarItemTypeMore:
+                case HDVECControlBarItemTypeMore:
                     [weakSelf onClickedMore:btn];
                     break;
                     
@@ -1614,7 +1614,7 @@ static HDVECCallViewController *_manger = nil;
         //当前正在共享
         return;
     }
-    [[HDWhiteRoomManager shareInstance] hd_setValueFrom:roomData];
+    [[HDVECWhiteRoomManager shareInstance] hd_setValueFrom:roomData];
     [self updateBgMilldelVideoView:self.whiteBoardView whiteBoard:YES];
 
 }
@@ -1630,7 +1630,7 @@ static HDVECCallViewController *_manger = nil;
         return;
     }
     _whiteBoardBtn = sender;
-    if ([HDWhiteRoomManager shareInstance].roomState) {
+    if ([HDVECWhiteRoomManager shareInstance].roomState) {
         
         return;
     }
@@ -1638,7 +1638,7 @@ static HDVECCallViewController *_manger = nil;
     _hud = [MBProgressHUD showTitle:NSLocalizedString(@"video_call_whiteBoard_join", @"video_call_whiteBoard_join") toView:self.alertWindow withTimeOut:kShowTimeOut];
     [self hideInvalidate:YES afterDelay:kShowTimeOut];
     // 创建白板产生
-    [[HDWhiteRoomManager shareInstance] hd_joinVECRoom];
+    [[HDVECWhiteRoomManager shareInstance] hd_joinVECRoom];
     
 }
 - (void)onFastboardDidJoinRoomFail{
@@ -1661,7 +1661,7 @@ static HDVECCallViewController *_manger = nil;
     HDVECCollectionViewCellItem *item = [[HDVECCollectionViewCellItem alloc] init];
     item.uid = kLocalWhiteBoardUid;
     item.realUid = kLocalUid;
-    [HDWhiteRoomManager shareInstance].uid = [NSString stringWithFormat:@"%ld",(long)item.realUid];
+    [HDVECWhiteRoomManager shareInstance].uid = [NSString stringWithFormat:@"%ld",(long)item.realUid];
     item.isWhiteboard = YES;
     item.nickName = NSLocalizedString(@"video_call_whiteBoard_nickName", "video_call_whiteBoard_nickName") ;
     item.camView = self.whiteBoardView;
@@ -1669,7 +1669,7 @@ static HDVECCallViewController *_manger = nil;
     //先取出中间试图的model 放到 小窗口  然后把白板的试图放到中间窗口
     [_videoViews replaceObjectAtIndex:0 withObject:item];
     [self changeNickNameItem:item];
-    _whiteBoardBtn.selected = [HDWhiteRoomManager shareInstance].roomState;
+    _whiteBoardBtn.selected = [HDVECWhiteRoomManager shareInstance].roomState;
     [self.parentView bringSubviewToFront:[_videoViews firstObject]];
     
     [self.hdTitleView  modifyTextColor: [UIColor blackColor]];
@@ -1680,22 +1680,22 @@ static HDVECCallViewController *_manger = nil;
 - (void)clearWhiteBoardData{
     
     //1、退出白板房间
-    [[HDWhiteRoomManager shareInstance] hd_OnLogout];
+    [[HDVECWhiteRoomManager shareInstance] hd_OnLogout];
     
     //2、关闭上传 等view上的操作
-    [[HDUploadFileViewController sharedManager] removeSharedManager];
+    [[HDVECUploadFileViewController sharedManager] removeSharedManager];
     
     
 }
 
--(HDWhiteBoardView *)whiteBoardView{
+-(HDVECWhiteBoardView *)whiteBoardView{
     
     if (!_whiteBoardView) {
         
-        _whiteBoardView = [[HDWhiteBoardView alloc] init];
+        _whiteBoardView = [[HDVECWhiteBoardView alloc] init];
         __weak __typeof(self) weakSelf = self;
         _whiteBoardView.hidden = YES;
-        _whiteBoardView.clickWhiteBoardViewBlock = ^(HDClickButtonType type, UIButton * _Nonnull btn) {
+        _whiteBoardView.clickWhiteBoardViewBlock = ^(HDVECClickButtonType type, UIButton * _Nonnull btn) {
             
             [weakSelf clickWhiteBoardView:type withBtn:btn];
             
@@ -1712,18 +1712,18 @@ static HDVECCallViewController *_manger = nil;
     
 }
 
-- (void)clickWhiteBoardView:(HDClickButtonType )type withBtn:(UIButton *)btn{
+- (void)clickWhiteBoardView:(HDVECClickButtonType )type withBtn:(UIButton *)btn{
     
     switch (type) {
-        case HDClickButtonTypeScale:
+        case HDVECClickButtonTypeScale:
             [self onScaleBtn:btn];
             break;
-        case HDClickButtonTypeFile:
+        case HDVECClickButtonTypeFile:
             
             [self uploadFile];
             
             break;
-        case HDClickButtonTypeLogout:
+        case HDVECClickButtonTypeLogout:
             //退出确认提示
             [self disconnectRoom];
            
@@ -1734,7 +1734,7 @@ static HDVECCallViewController *_manger = nil;
 }
 - (void)uploadFile{
    
-    [HDUploadFileViewController sharedManager];
+    [HDVECUploadFileViewController sharedManager];
     
    
 }
@@ -1762,7 +1762,7 @@ static HDVECCallViewController *_manger = nil;
         NSLog(@"======%@",tmpItem.nickName);
     }
     HDVECCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
-    HDWhiteBoardView * whiteView = (HDWhiteBoardView *) midelleViewItem.camView;
+    HDVECWhiteBoardView * whiteView = (HDVECWhiteBoardView *) midelleViewItem.camView;
     
     [whiteView removeFromSuperview];
     [self.whiteBoardView removeFromSuperview];
@@ -1778,7 +1778,7 @@ static HDVECCallViewController *_manger = nil;
     //修改顶部 标题字体颜色
     [self.hdTitleView modifyTextColor:[UIColor whiteColor]];
     [self.hdTitleView  modifyIconBackColor: [UIColor whiteColor]];
-    _whiteBoardBtn.selected = [HDWhiteRoomManager shareInstance].roomState;
+    _whiteBoardBtn.selected = [HDVECWhiteRoomManager shareInstance].roomState;
     
 }
 #else
@@ -1788,7 +1788,7 @@ static HDVECCallViewController *_manger = nil;
     //全屏显示
     HDVECCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
 #ifdef WhiteBoard
-    HDWhiteBoardView * whiteView = (HDWhiteBoardView *) midelleViewItem.camView;
+    HDVECWhiteBoardView * whiteView = (HDVECWhiteBoardView *) midelleViewItem.camView;
 #else
 
 #endif
@@ -1874,7 +1874,7 @@ static HDVECCallViewController *_manger = nil;
     _shareBtn = btn;
     _shareBtn.selected = _shareState;
 #ifdef WhiteBoard
-    if ([HDWhiteRoomManager shareInstance].roomState == YES) {
+    if ([HDVECWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
         [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")  withWindow:self.alertWindow];
         return;
@@ -1964,7 +1964,7 @@ static HDVECCallViewController *_manger = nil;
     self.alertWindow.layer.shadowRadius = 15;
     
 #ifdef WhiteBoard
-    if ([HDWhiteRoomManager shareInstance].roomState) {
+    if ([HDVECWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
         if (_videoViews.count > 0) {
             HDVECCollectionViewCellItem * tmpItem = [_videoViews firstObject];
@@ -2018,7 +2018,7 @@ static HDVECCallViewController *_manger = nil;
     self.isSmallWindow = NO;
     self.alertWindow.frame = [UIScreen mainScreen].bounds;
 #ifdef WhiteBoard
-    if ([HDWhiteRoomManager shareInstance].roomState) {
+    if ([HDVECWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
         if (_videoViews.count > 0) {
             HDVECCollectionViewCellItem * tmpItem = [_videoViews firstObject];
@@ -2855,7 +2855,7 @@ static HDVECCallViewController *_manger = nil;
     item1.name =NSLocalizedString(@"video.call.whiteBoard.title", @"互动白板");
     item1.imgName = kbaiban;
     item1.cellItemType = HDVECPopoverCellItemTypeWhiteBoard;
-    item1.isOn = [HDWhiteRoomManager shareInstance].roomState;
+    item1.isOn = [HDVECWhiteRoomManager shareInstance].roomState;
     NSMutableArray * items = [[NSMutableArray alloc] init];
     HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
     HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];

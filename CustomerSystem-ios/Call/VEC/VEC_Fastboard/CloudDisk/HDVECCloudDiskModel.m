@@ -6,8 +6,8 @@
 //  Copyright © 2022 easemob. All rights reserved.
 //
 
-#import "HDCloudDiskModel.h"
+#import "HDVECCloudDiskModel.h"
 
-@implementation HDCloudDiskModel
+@implementation HDVECCloudDiskModel
 
 @end

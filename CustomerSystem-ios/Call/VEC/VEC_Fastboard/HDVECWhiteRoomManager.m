@@ -6,25 +6,25 @@
 //  Copyright © 2022 easemob. All rights reserved.
 //
 
-#import "HDWhiteRoomManager.h"
+#import "HDVECWhiteRoomManager.h"
 #import "MBProgressHUD+Add.h"
-#import "HDWhiteConverterManager.h"
-HDRoomInfoKey const HDRoomInfoAPPID = @"appIdentifier";
-HDRoomInfoKey const HDRoomInfoRoomID = @"roomUUID";
-HDRoomInfoKey const HDRoomInfoRoomToken = @"roomToken";
-@interface HDWhiteRoomManager () <FastRoomDelegate,WhiteRoomCallbackDelegate>
+#import "HDVECWhiteConverterManager.h"
+HDVECRoomInfoKey const HDVECRoomInfoAPPID = @"appIdentifier";
+HDVECRoomInfoKey const HDVECRoomInfoRoomID = @"roomUUID";
+HDVECRoomInfoKey const HDVECRoomInfoRoomToken = @"roomToken";
+@interface HDVECWhiteRoomManager () <FastRoomDelegate,WhiteRoomCallbackDelegate>
 {
     FastRoom* _fastRoom;
     NSDictionary * _roomKeyDic;
     UIView *_subView;
 }
 @end
-static HDWhiteRoomManager *shareWhiteboard = nil;
-@implementation HDWhiteRoomManager
+static HDVECWhiteRoomManager *shareWhiteboard = nil;
+@implementation HDVECWhiteRoomManager
 + (instancetype)shareInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        shareWhiteboard = [[HDWhiteRoomManager alloc] init];
+        shareWhiteboard = [[HDVECWhiteRoomManager alloc] init];
        
     });
     return shareWhiteboard;
@@ -37,7 +37,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     
       
 }
-- (NSString *)hd_getValueFrom:(HDRoomInfoKey)key{
+- (NSString *)hd_getValueFrom:(HDVECRoomInfoKey)key{
     
     return  _roomKeyDic[key];
     
@@ -79,7 +79,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     
 //    常见屏幕比例 其实只有三种 4:3 16:9 16:10 在加上一个特殊的 5:4
     Fastboard.globalFastboardRatio = 5.0/4.0 ;
-    FastRoomConfiguration* config = [[FastRoomConfiguration alloc] initWithAppIdentifier:[self hd_getValueFrom:HDRoomInfoAPPID] roomUUID:[self hd_getValueFrom:HDRoomInfoRoomID] roomToken:[self hd_getValueFrom:HDRoomInfoRoomToken] region:FastRegionCN userUID:self.uid];
+    FastRoomConfiguration* config = [[FastRoomConfiguration alloc] initWithAppIdentifier:[self hd_getValueFrom:HDVECRoomInfoAPPID] roomUUID:[self hd_getValueFrom:HDVECRoomInfoRoomID] roomToken:[self hd_getValueFrom:HDVECRoomInfoRoomToken] region:FastRegionCN userUID:self.uid];
 //    config.whiteRoomConfig.windowParams.chessboard = YES;
     config.customOverlay = custom;
     _fastRoom = [Fastboard createFastRoomWithFastRoomConfig:config];
@@ -112,15 +112,15 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 //推出房间
 - (void)hd_OnLogout {
 
-    if ([HDWhiteRoomManager shareInstance].roomState == YES) {
+    if ([HDVECWhiteRoomManager shareInstance].roomState == YES) {
         [HDLog logD:@"HD===%s ==已经在房间==需要退出房间===",__func__];
-        [[HDWhiteRoomManager shareInstance].fastRoom disconnectRoom];
-        [HDWhiteRoomManager shareInstance].roomState = NO;
+        [[HDVECWhiteRoomManager shareInstance].fastRoom disconnectRoom];
+        [HDVECWhiteRoomManager shareInstance].roomState = NO;
     }
    
     
 }
-- (void)whiteBoardUploadFileWithFilePath:(NSString *)filePath fileData:(NSData *)fileData fileName:(NSString *)fileName fileType:(HDFastBoardFileType)type mimeType:(NSString *)mimeType completion:(void (^)(id _Nonnull, HDError * _Nonnull))completion{
+- (void)whiteBoardUploadFileWithFilePath:(NSString *)filePath fileData:(NSData *)fileData fileName:(NSString *)fileName fileType:(HDVECFastBoardFileType)type mimeType:(NSString *)mimeType completion:(void (^)(id _Nonnull, HDError * _Nonnull))completion{
     
     MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"uploading...", "Upload attachment") toView:_fastRoom.view];
     hud.layer.zPosition = 1.f;
@@ -148,9 +148,9 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                 NSString * url = [dic valueForKey:@"entity"];
                 if (url) {
                     
-                    if (type == HDFastBoardFileTypevideo || type == HDFastBoardFileTypeimg) {
+                    if (type == HDVECFastBoardFileTypevideo || type == HDVECFastBoardFileTypeimg) {
                         //不需要转换
-                        HDStorageItem * item = [[HDStorageItem alloc] init];
+                        HDVECStorageItem * item = [[HDVECStorageItem alloc] init];
                         item.fileType = type;
                         item.fileName = fileName;
                     
@@ -164,7 +164,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                         //需要转换
                         // 调用文档转换
                         NSString * convertType;
-                        if (type == HDFastBoardFileTypeppt) {
+                        if (type == HDVECFastBoardFileTypeppt) {
                             convertType =WhiteConvertTypeDynamic;
                         }else{
                             convertType =WhiteConvertTypeStatic;
@@ -177,7 +177,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                             if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
                                 NSDictionary *itemDic = [responseObject valueForKey:@"entity"] ;
                                 //组装数据
-                                HDStorageItem * item = [[HDStorageItem alloc] init];
+                                HDVECStorageItem * item = [[HDVECStorageItem alloc] init];
                                 item.taskUUID = [itemDic valueForKey:@"uuid"];
                                 item.taskToken =[itemDic valueForKey:@"token"];
                                 item.fileType = type;
@@ -190,7 +190,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                                 }
                                 
                                 //查询文档进度 开始调用轮询
-                                HDWhiteConverterManager  * conver = [[HDWhiteConverterManager alloc] init];
+                                HDVECWhiteConverterManager  * conver = [[HDVECWhiteConverterManager alloc] init];
                                 [conver insertPollingTaskWithTaskUUID:item.taskUUID token:item.taskToken region:item.region taskType:item.taskType progress:^(CGFloat progress, WhiteConversionInfoV5 * _Nullable info) {
                                                                     
                                                                 
@@ -235,9 +235,9 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 
 }
 
-- (void)insertItem:(HDStorageItem *)item {
+- (void)insertItem:(HDVECStorageItem *)item {
     
-    if (item.fileType == HDFastBoardFileTypeimg) {
+    if (item.fileType == HDVECFastBoardFileTypeimg) {
         [[NSURLSession.sharedSession downloadTaskWithURL:[NSURL URLWithString:item.fileUrl] completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             if (error) { return ; }
 //            NSData* data = [[NSData alloc] initWithContentsOfURL:location];
@@ -251,27 +251,27 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
         }] resume];
     }
     
-    if ((item.fileType == HDFastBoardFileTypevideo) || (item.fileType == HDFastBoardFileTypemusic)) {
+    if ((item.fileType == HDVECFastBoardFileTypevideo) || (item.fileType == HDVECFastBoardFileTypemusic)) {
         [self->_fastRoom insertMedia:[NSURL URLWithString:item.fileUrl] title:item.fileName completionHandler:nil];
         return;
     }
 }
-- (void)__urlsignatureWithInsertItem:(HDStorageItem*)item withPage:(WhiteConversionInfoV5 *)info{
+- (void)__urlsignatureWithInsertItem:(HDVECStorageItem*)item withPage:(WhiteConversionInfoV5 *)info{
     NSArray* pages = info.progress.convertedFileList;
            if (!pages) { return; }
 
             switch (item.fileType) {
-                case HDFastBoardFileTypeimg:
+                case HDVECFastBoardFileTypeimg:
                     break;
-                case HDFastBoardFileTypepdf:
+                case HDVECFastBoardFileTypepdf:
                     [self->_fastRoom insertStaticDocument:pages
                                                      title:item.fileName completionHandler:nil];
                     break;
-                case HDFastBoardFileTypevideo:
+                case HDVECFastBoardFileTypevideo:
                     break;
-                case HDFastBoardFileTypemusic:
+                case HDVECFastBoardFileTypemusic:
                     break;
-                case HDFastBoardFileTypeppt:
+                case HDVECFastBoardFileTypeppt:
                     if (item.taskType == WhiteConvertTypeDynamic) {
                         [self->_fastRoom insertPptx:pages
                                                title:item.fileName completionHandler:nil];
@@ -280,11 +280,11 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
                                                          title:item.fileName completionHandler:nil];
                     }
                     break;
-                case HDFastBoardFileTypeword:
+                case HDVECFastBoardFileTypeword:
                     [self->_fastRoom insertStaticDocument:pages
                                                      title:item.fileName completionHandler:nil];
                     break;
-                case HDFastBoardFileTypeunknown:
+                case HDVECFastBoardFileTypeunknown:
                     break;
             }
     
@@ -301,7 +301,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 // MARK: - Fastboard Delegate
 - (void)fastboard:(Fastboard * _Nonnull)fastboard error:(FastRoomError * _Nonnull)error {
     [HDLog logE:@"HD===%s ==error %@",__func__,error];
-    [HDWhiteRoomManager shareInstance].roomState = NO;
+    [HDVECWhiteRoomManager shareInstance].roomState = NO;
     //通知代理
     if([self.whiteDelegate respondsToSelector:@selector(onFastboardDidJoinRoomFail)]){
         [self.whiteDelegate onFastboardDidJoinRoomSuccess];
@@ -321,7 +321,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 - (void)fastboardDidJoinRoomSuccess:(FastRoom * _Nonnull)fastboard room:(WhiteRoom * _Nonnull)room {
   
     [HDLog logD:@"HD===%s fastboardDidJoinRoomSuccess = %@ == %@",__func__,fastboard.room.uuid,fastboard.room.roomMembers];
-    [HDWhiteRoomManager shareInstance].roomState = YES;
+    [HDVECWhiteRoomManager shareInstance].roomState = YES;
     
     //通知代理
     if([self.whiteDelegate respondsToSelector:@selector(onFastboardDidJoinRoomSuccess)]){
@@ -331,7 +331,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 }
 - (void)fastboardDidOccurError:(FastRoom * _Nonnull)fastboard error:(FastRoomError * _Nonnull)error {
     [HDLog logD:@"HD===%s fastboardDidOccurError",__func__];
-    [HDWhiteRoomManager shareInstance].roomState = NO;
+    [HDVECWhiteRoomManager shareInstance].roomState = NO;
     //通知代理
     if([self.whiteDelegate respondsToSelector:@selector(onFastboardDidJoinRoomFail)]){
         [self.whiteDelegate onFastboardDidJoinRoomFail];

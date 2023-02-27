@@ -6,10 +6,10 @@
 //  Copyright © 2022 easemob. All rights reserved.
 //
 
-#import "HDCloudDiskTableViewCell.h"
+#import "HDVECCloudDiskTableViewCell.h"
 #import "UIImage+HDIconFont.h"
 #import "HDAppSkin.h"
-@implementation HDCloudDiskTableViewCell
+@implementation HDVECCloudDiskTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -22,26 +22,26 @@
     // Configure the view for the selected state
 }
 
-- (void)setCloudDiskModel:(HDCloudDiskModel *)model{
+- (void)setCloudDiskModel:(HDVECCloudDiskModel *)model{
     
     
     switch (model.fileType) {
-        case HDFastBoardFileTypeimg:
+        case HDVECFastBoardFileTypeimg:
             self.iconImg.image = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:22 color:[[HDVECAppSkin mainSkin] contentColorGray1] ];
             break;
-        case HDFastBoardFileTypepdf:
+        case HDVECFastBoardFileTypepdf:
             self.iconImg.image = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:22 color:[[HDVECAppSkin mainSkin] contentColorGray1] ];
             break;
-        case HDFastBoardFileTypeppt:
+        case HDVECFastBoardFileTypeppt:
             self.iconImg.image = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:22 color:[[HDVECAppSkin mainSkin] contentColorGray1] ];
             break;
-        case HDFastBoardFileTypemusic:
+        case HDVECFastBoardFileTypemusic:
             self.iconImg.image = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:22 color:[[HDVECAppSkin mainSkin] contentColorGray1] ];
             break;
-        case HDFastBoardFileTypevideo:
+        case HDVECFastBoardFileTypevideo:
             self.iconImg.image = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:22 color:[[HDVECAppSkin mainSkin] contentColorGray1] ];
             break;
-        case HDFastBoardFileTypeword:
+        case HDVECFastBoardFileTypeword:
             self.iconImg.image = [UIImage imageWithIcon:kXiaolian inFont:kfontName size:22 color:[[HDVECAppSkin mainSkin] contentColorGray1] ];
             break;
         default:

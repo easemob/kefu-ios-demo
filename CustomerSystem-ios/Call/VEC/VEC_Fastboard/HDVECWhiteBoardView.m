@@ -6,24 +6,24 @@
 //  Copyright © 2022 easemob. All rights reserved.
 //
 
-#import "HDWhiteBoardView.h"
+#import "HDVECWhiteBoardView.h"
 
-#import "HDWhiteRoomManager.h"
-#import "Utility.h"
+#import "HDVECWhiteRoomManager.h"
+#import "HDVECWhiteBoardUtility.h"
 
 #import "HDAppSkin.h"
 #import "UIImage+HDIconFont.h"
-#import "HDWhiteBoardDelegete.h"
-@interface HDWhiteBoardView()<HDWhiteBoardDelegete>
+#import "HDVECWhiteBoardDelegete.h"
+@interface HDVECWhiteBoardView()<HDVECWhiteBoardDelegete>
 @property (nonatomic, strong) UIScrollView* scrollView;
 @property (nonatomic, strong) UIStackView* stackView;
-@property (nonatomic, copy) Theme theme;
+@property (nonatomic, copy) HDVECTheme theme;
 @property (nonatomic, assign) BOOL isHide;
 @end
-@implementation HDWhiteBoardView
+@implementation HDVECWhiteBoardView
 {
     FastRoom* _fastRoom;
-    Theme _theme;
+    HDVECTheme _theme;
 }
 - (instancetype)initWithFrame:(CGRect)frame{
     
@@ -38,9 +38,9 @@
 }
 - (void)initWhiteBoardView{
     //加入房间
-    [[HDWhiteRoomManager shareInstance] hd_OnJoinRoomWithFastView:self ];
-    _fastRoom = [HDWhiteRoomManager shareInstance].fastRoom;
-   [HDWhiteRoomManager shareInstance].whiteDelegate = self;
+    [[HDVECWhiteRoomManager shareInstance] hd_OnJoinRoomWithFastView:self ];
+    _fastRoom = [HDVECWhiteRoomManager shareInstance].fastRoom;
+   [HDVECWhiteRoomManager shareInstance].whiteDelegate = self;
    [self setupTools];
 }
 
@@ -169,7 +169,7 @@
 - (void)reloadFastboardOverlayWithScle:(BOOL)isScle{
    
 
-    [[HDWhiteRoomManager shareInstance] reloadFastboardOverlayWithView:self];
+    [[HDVECWhiteRoomManager shareInstance] reloadFastboardOverlayWithView:self];
     
    
 }
@@ -178,8 +178,8 @@
 - (void)onUploadFile {
     [HDLog logD:@"HD===%s ==点击了上传文件",__func__];
     if (self.clickWhiteBoardViewBlock) {
-        UIButton *btn = (UIButton *)[self viewWithTag:HDClickButtonTypeFile +1001];
-        self.clickWhiteBoardViewBlock(HDClickButtonTypeFile, btn);
+        UIButton *btn = (UIButton *)[self viewWithTag:HDVECClickButtonTypeFile +1001];
+        self.clickWhiteBoardViewBlock(HDVECClickButtonTypeFile, btn);
     }
 
 }
@@ -187,19 +187,19 @@
 - (void)onScale {
     [HDLog logD:@"HD===%s ==点击了缩放",__func__];
     if (self.clickWhiteBoardViewBlock) {
-        UIButton *btn = (UIButton *)[self viewWithTag:HDClickButtonTypeScale + 1001];
-        self.clickWhiteBoardViewBlock(HDClickButtonTypeScale, btn);
+        UIButton *btn = (UIButton *)[self viewWithTag:HDVECClickButtonTypeScale + 1001];
+        self.clickWhiteBoardViewBlock(HDVECClickButtonTypeScale, btn);
     }
 }
 
 //推出房间
 - (void)onLogout {
     [HDLog logD:@"HD===%s ==点击了退出房间",__func__];
-    [[HDWhiteRoomManager shareInstance] hd_OnLogout];
+    [[HDVECWhiteRoomManager shareInstance] hd_OnLogout];
     
     if (self.clickWhiteBoardViewBlock) {
-        UIButton *btn = (UIButton *)[self viewWithTag:HDClickButtonTypeScale + 1001];
-        self.clickWhiteBoardViewBlock(HDClickButtonTypeLogout, btn);
+        UIButton *btn = (UIButton *)[self viewWithTag:HDVECClickButtonTypeScale + 1001];
+        self.clickWhiteBoardViewBlock(HDVECClickButtonTypeLogout, btn);
     }
 }
 
@@ -255,7 +255,7 @@
     [titles enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString* title = obj;
         int index = (int)idx;
-        UIButton* btn = [Utility buttonWith:title index:index];
+        UIButton* btn = [HDVECWhiteBoardUtility buttonWith:title index:index];
         SEL sel = NSSelectorFromString([NSString stringWithFormat:@"on%@", title]);
         [btn addTarget:self action:sel forControlEvents:UIControlEventTouchUpInside];
         [btns addObject:btn];

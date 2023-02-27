@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CustomFastboardOverlay : NSObject
+@interface HDVECCustomFastboardOverlay : NSObject
 
 @end
 

@@ -6,15 +6,15 @@
 //  Copyright © 2022 CocoaPods. All rights reserved.
 //
 
-#import "Utility.h"
+#import "HDVECWhiteBoardUtility.h"
 #import <UIKit/UIKit.h>
 #import "HDVECAppSkin.h"
 #import "UIImage+HDIconFont.h"
-Theme const ThemeAuto = @"auto";
-Theme const ThemeDark = @"dark";
-Theme const ThemeLight = @"light";
+HDVECTheme const HDVECThemeAuto = @"auto";
+HDVECTheme const HDVECThemeDark = @"dark";
+HDVECTheme const HDVECThemeLight = @"light";
 
-@implementation Utility
+@implementation HDVECWhiteBoardUtility
 
 + (UIButton *)buttonWith: (NSString *)title index: (int)index {
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -28,7 +28,7 @@ Theme const ThemeLight = @"light";
 //    } else {
 //        btn.contentEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
 //    }
-    [Utility setButtonImage:btn withIndex:index];
+    [HDVECWhiteBoardUtility setButtonImage:btn withIndex:index];
     return btn;
 }
 + (void)setButtonImage:(UIButton *)btn withIndex:(NSInteger)index{

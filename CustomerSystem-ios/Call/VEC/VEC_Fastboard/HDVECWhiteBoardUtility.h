@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NSString* Theme NS_STRING_ENUM;
-extern Theme const ThemeAuto;
-extern Theme const ThemeDark;
-extern Theme const ThemeLight;
+typedef NSString* HDVECTheme NS_STRING_ENUM;
+extern HDVECTheme const HDVECThemeAuto;
+extern HDVECTheme const HDVECThemeDark;
+extern HDVECTheme const HDVECThemeLight;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Utility : NSObject
+@interface HDVECWhiteBoardUtility : NSObject
 
 + (UIButton *)buttonWith: (NSString *)title index: (int)index;
 + (UIColor *)randomColor;

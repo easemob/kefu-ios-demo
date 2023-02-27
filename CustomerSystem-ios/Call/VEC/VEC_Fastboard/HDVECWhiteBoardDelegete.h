@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol HDWhiteBoardDelegete <NSObject>
+@protocol HDVECWhiteBoardDelegete <NSObject>
 @optional
 /*!
  *  \~chinese

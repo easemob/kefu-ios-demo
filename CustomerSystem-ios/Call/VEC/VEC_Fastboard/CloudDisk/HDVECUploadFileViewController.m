@@ -6,23 +6,15 @@
 //  Copyright © 2022 easemob. All rights reserved.
 //
 
-#import "HDUploadFileViewController.h"
+#import "HDVECUploadFileViewController.h"
 #import "HDVECControlBarView.h"
 #import "KFICloudManager.h"
 #import "TZImagePickerController.h"
 #import "HDAppSkin.h"
 #import "HDSanBoxFileManager.h"
-#import "HDWhiteRoomManager.h"
-//#import <AliyunOSSiOS/OSSService.h>
-//分隔符
-#define YFBoundary @"AnHuiWuHuYungFan"
-//换行
-#define YFEnter [@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]
-//NSString转NSData
-#define YFEncode(string) [string dataUsingEncoding:NSUTF8StringEncoding]
+#import "HDVECWhiteRoomManager.h"
 
-
-@interface HDUploadFileViewController ()<UIDocumentPickerDelegate,TZImagePickerControllerDelegate,NSURLSessionTaskDelegate>{
+@interface HDVECUploadFileViewController ()<UIDocumentPickerDelegate,TZImagePickerControllerDelegate,NSURLSessionTaskDelegate>{
     NSString *__path;
 }
 @property (nonatomic, strong) HDVECControlBarView *barView;
@@ -34,8 +26,8 @@
 @property (strong, nonatomic) UIWindow *alertWindow;
 @end
 static dispatch_once_t onceToken;
-static HDUploadFileViewController *_manger = nil;
-@implementation HDUploadFileViewController
+static HDVECUploadFileViewController *_manger = nil;
+@implementation HDVECUploadFileViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -69,33 +61,33 @@ static HDUploadFileViewController *_manger = nil;
 //    [self upload];
 }
 -(void)initData{
-    HDControlBarModel * barModel = [HDControlBarModel new];
-    barModel.itemType = HDControlBarItemTypeImage;
+    HDVECControlBarModel * barModel = [HDVECControlBarModel new];
+    barModel.itemType = HDVECControlBarItemTypeImage;
     barModel.name= NSLocalizedString(@"video.call.whiteBoard.upload.image", @"上传图片");
     barModel.imageStr= @"tupian";
     barModel.selImageStr= @"tupian";
 
-    HDControlBarModel * barModel1 = [HDControlBarModel new];
-    barModel1.itemType = HDControlBarItemTypeVideo;
+    HDVECControlBarModel * barModel1 = [HDVECControlBarModel new];
+    barModel1.itemType = HDVECControlBarItemTypeVideo;
     barModel1.name= NSLocalizedString(@"video.call.whiteBoard.upload.video", @"上传视频");
     barModel1.imageStr= @"shipin";
     barModel1.selImageStr= @"shipin";
     
-    HDControlBarModel * barModel2 = [HDControlBarModel new];
-    barModel2.itemType = HDControlBarItemTypeMute;
+    HDVECControlBarModel * barModel2 = [HDVECControlBarModel new];
+    barModel2.itemType = HDVECControlBarItemTypeMute;
     barModel2.name= NSLocalizedString(@"video.call.whiteBoard.upload.audio", @"上传音频");
     barModel2.imageStr=@"yinpin";
     barModel2.selImageStr=@"yinpin";
     
-    HDControlBarModel * barModel3 = [HDControlBarModel new];
-    barModel3.itemType = HDControlBarItemTypeFile;
+    HDVECControlBarModel * barModel3 = [HDVECControlBarModel new];
+    barModel3.itemType = HDVECControlBarItemTypeFile;
     barModel3.name= NSLocalizedString(@"video.call.whiteBoard.upload.file", @"上传文件");
     barModel3.imageStr=@"wendangzhongxin";
     barModel3.selImageStr=@"wendangzhongxin";
     
     NSArray * selImageArr = @[barModel,barModel1,barModel2,barModel3];
     
-    [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleUploadFile];
+    [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDVECControlBarButtonStyleUploadFile];
     
 }
 
@@ -107,7 +99,7 @@ static HDUploadFileViewController *_manger = nil;
 + (instancetype)sharedManager
 {
     dispatch_once(&onceToken, ^{
-        _manger = [[HDUploadFileViewController alloc] init];
+        _manger = [[HDVECUploadFileViewController alloc] init];
         _manger.alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _manger.alertWindow.windowLevel = 1;
         _manger.alertWindow.backgroundColor = [UIColor clearColor];
@@ -307,40 +299,40 @@ static HDUploadFileViewController *_manger = nil;
     //获取创建library 下文件夹
    
     NSError * error;
-    HDFastBoardFileType type;
+    HDVECFastBoardFileType type;
     NSString * suffix = [HDSanBoxFileManager suffixAtPath:fileName];
     suffix = [suffix lowercaseString];
     if ([suffix isEqualToString:@"png"] || [suffix isEqualToString:@"jpg"] || [suffix isEqualToString:@"jpeg"]  ) {
         
-        type = HDFastBoardFileTypeimg;
+        type = HDVECFastBoardFileTypeimg;
         fileName = [NSString stringWithFormat:@"%@.jpeg",fileName];
         
     }else if([suffix isEqualToString:@"mp3"] || [suffix isEqualToString:@"mp4"] || [suffix isEqualToString:@"mov"] ){
-        type = HDFastBoardFileTypevideo;
+        type = HDVECFastBoardFileTypevideo;
 //        fileName = [NSString stringWithFormat:@"%@.mp4",fileName];
        
     }else if([suffix isEqualToString:@" amr"] || [suffix isEqualToString:@" wav"] ){
         
-        type = HDFastBoardFileTypemusic;
+        type = HDVECFastBoardFileTypemusic;
 
     }else if([suffix isEqualToString:@"pptx"] ){
         
-        type = HDFastBoardFileTypeppt;
+        type = HDVECFastBoardFileTypeppt;
 
     }else if([suffix isEqualToString:@"pdf"]  ){
         
-        type = HDFastBoardFileTypepdf;
+        type = HDVECFastBoardFileTypepdf;
     }
     else if([suffix isEqualToString:@"doc"] || [suffix isEqualToString:@"docx"]  || [suffix isEqualToString:@"ppt"]){
         
-        type = HDFastBoardFileTypeword;
+        type = HDVECFastBoardFileTypeword;
         
     }else{
         
-        type = HDFastBoardFileTypeunknown;
+        type = HDVECFastBoardFileTypeunknown;
         
     }
-    NSString * fileDir = [NSString stringWithFormat:@"%@/whiteBoard/%@",[HDSanBoxFileManager libraryDir],fileName];
+    NSString * fileDir = [NSString stringWithFormat:@"%@/hdvecwhiteBoard/%@",[HDSanBoxFileManager libraryDir],fileName];
     BOOL success = [HDSanBoxFileManager createFileAtPath:fileDir content:data overwrite:NO error:&error];
     if (success) {
      
@@ -349,9 +341,9 @@ static HDUploadFileViewController *_manger = nil;
     }
 }
 
-- (void)hd_uploadFile:(NSData *)data withFileName:(NSString *)fileName withFilePath:(NSString *)filePath withFileType:(HDFastBoardFileType) type{
+- (void)hd_uploadFile:(NSData *)data withFileName:(NSString *)fileName withFilePath:(NSString *)filePath withFileType:(HDVECFastBoardFileType) type{
     
-    [[HDWhiteRoomManager shareInstance] whiteBoardUploadFileWithFilePath:filePath fileData:nil fileName:fileName fileType: type mimeType:@"" completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    [[HDVECWhiteRoomManager shareInstance] whiteBoardUploadFileWithFilePath:filePath fileData:nil fileName:fileName fileType: type mimeType:@"" completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         
         if (!error && [responseObject isKindOfClass:[NSDictionary class]]) {
            //上传成功 删除文件夹
@@ -364,13 +356,7 @@ static HDUploadFileViewController *_manger = nil;
 
 #pragma mark - event
 - (void)dismissViewController{
-    [[HDUploadFileViewController sharedManager] removeSharedManager];
-    
-//    if (self.hdUploadFileDismissBlock) {
-//
-//        self.hdUploadFileDismissBlock(self);
-//    }
-//    [self dismissViewControllerAnimated:YES completion:nil];
+    [[HDVECUploadFileViewController sharedManager] removeSharedManager];
 }
 
 #pragma mark - lzye
@@ -408,21 +394,20 @@ static HDUploadFileViewController *_manger = nil;
 - (HDVECControlBarView *)barView {
     if (!_barView) {
         _barView = [[HDVECControlBarView alloc]init];
-//        _barView.backgroundColor = [UIColor redColor];
         __weak __typeof__(self) weakSelf = self;
-        _barView.clickControlBarItemBlock = ^(HDControlBarModel * _Nonnull barModel, UIButton * _Nonnull btn) {
+        _barView.clickControlBarItemBlock = ^(HDVECControlBarModel * _Nonnull barModel, UIButton * _Nonnull btn) {
             
             switch (barModel.itemType) {
-                case HDControlBarItemTypeMute:
+                case HDVECControlBarItemTypeMute:
                     [weakSelf muteBtnClicked:btn];
                     break;
-                case HDControlBarItemTypeVideo:
+                case HDVECControlBarItemTypeVideo:
                     [weakSelf videoBtnClicked:btn];
                     break;
-                case HDControlBarItemTypeImage:
+                case HDVECControlBarItemTypeImage:
                     [weakSelf imgBtnClicked:btn];
                     break;
-                case HDControlBarItemTypeFile:
+                case HDVECControlBarItemTypeFile:
                     [weakSelf uploadFileBtnClicked:btn];
                     break;
                
@@ -435,90 +420,6 @@ static HDUploadFileViewController *_manger = nil;
        
     }
     return _barView;
-}
-
-- (void)upload {
-
-    //1、确定URL
-    NSURL *url = [NSURL URLWithString:@"http://sandbox.kefu.easemob.com/v1/agorartc/tenant/77556/whiteboard/call/123/conversion/upload"];
-    //2、确定请求
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    //3、设置请求头
-    NSString *head = [NSString stringWithFormat:@"multipart/form-data;boundary=%@", YFBoundary];
-    [request setValue:head forHTTPHeaderField:@"Content-Type"];
-    //4、设置请求方式，上传时必须是Post请求
-    request.HTTPMethod = @"POST";
-    //5、创建NSURLSession
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
-    //6、获取上传的数据
-    NSData *uploadData = [self getData];
-    //7、创建上传任务 上传的数据来自getData方法
-    NSURLSessionUploadTask *task = [session uploadTaskWithRequest:request fromData:uploadData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-       //上传成功以后改变UILabel文本为服务器返回的数据
-//       self.uploadInfo.text =[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    
-    }];
-    //8、执行上传任务
-    [task resume];
-    
-}
-
-
-/**
- *  设置请求体
- *
- *  @return 请求体内容
- */
--(NSData *)getData
-{
-    NSMutableData *data = [NSMutableData data];
-    
-    //1、开始标记
-    //--
-    [data appendData:YFEncode(@"--")];
-    //boundary
-    [data appendData:YFEncode(YFBoundary)];
-    //换行符
-    [data appendData:YFEnter];
-    //文件参数名 Content-Disposition: form-data; name="myfile"; filename="wall.jpg"
-    [data appendData:YFEncode(@"Content-Disposition:form-data; name=\"file\"; filename=\"wall_123.jpg\"")];
-    //换行符
-    [data appendData:YFEnter];
-    //Content-Type 上传文件的类型 MIME
-    [data appendData:YFEncode(@"Content-Type:image/jpeg")];
-    //换行符
-    [data appendData:YFEnter];
-    //换行符
-    [data appendData:YFEnter];
-    //2、上传的文件数据
-    
-    //图片数据  并且转换为Data
-    
-
-    
-    NSData *dat = [NSData dataWithContentsOfFile:__path];
-    
-    UIImage *image11 =[UIImage imageWithData:dat];
-    
-//    UIImage *image = [UIImage imageNamed:@"videoMuteButtonSelected"];
-//    NSData *imagedata = UIImageJPEGRepresentation(image, 1.0);
-    [data appendData:dat];
-    //换行符
-    [data appendData:YFEnter];
- 
-    //3、结束标记
-    //--
-    [data appendData:YFEncode(@"--")];
-    //boundary
-    [data appendData:YFEncode(YFBoundary)];
-    //--
-    [data appendData:YFEncode(@"--")];
-    //换行符
-    [data appendData:YFEnter];
-    
-    return data;
-    
 }
 
 #pragma mark - 代理方法 只要给服务器上传数据就会调用 可以计算出上传进度

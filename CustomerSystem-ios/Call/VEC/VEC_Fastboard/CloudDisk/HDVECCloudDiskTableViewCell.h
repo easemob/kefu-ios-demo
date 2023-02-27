@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HDCloudDiskModel.h"
+#import "HDVECCloudDiskModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HDCloudDiskTableViewCell : UITableViewCell
+@interface HDVECCloudDiskTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *iconImg;
 @property (weak, nonatomic) IBOutlet UILabel *fileName;
 @property (weak, nonatomic) IBOutlet UILabel *uploadDateLabel;
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 设置界面显示model
 /// @param model  model
-- (void)setCloudDiskModel:(HDCloudDiskModel *)model;
+- (void)setCloudDiskModel:(HDVECCloudDiskModel *)model;
 
 @end
 

@@ -6,10 +6,10 @@
 //  Copyright © 2022 easemob. All rights reserved.
 //
 
-#import "HDCloudDiskViewController.h"
-#import "HDCloudDiskTableViewCell.h"
-#import "HDUploadFileViewController.h"
-@interface HDCloudDiskViewController ()<UITableViewDelegate,UITableViewDataSource>
+#import "HDVECCloudDiskViewController.h"
+#import "HDVECCloudDiskTableViewCell.h"
+#import "HDVECUploadFileViewController.h"
+@interface HDVECCloudDiskViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *headView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation HDCloudDiskViewController
+@implementation HDVECCloudDiskViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,7 +35,7 @@
     self.tableView.backgroundColor = [UIColor yellowColor];
 //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(HDCloudDiskTableViewCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(HDCloudDiskTableViewCell.class)];
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(HDVECCloudDiskTableViewCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(HDVECCloudDiskTableViewCell.class)];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 44;
     self.tableView.tableFooterView = [UIView new];
@@ -45,13 +45,13 @@
 }
 - (void)initData{
     NSMutableArray * mArray = [[NSMutableArray alloc] init];
-    HDCloudDiskModel * model = [[HDCloudDiskModel alloc] init];
-    model.fileType = HDFastBoardFileTypeimg;
+    HDVECCloudDiskModel * model = [[HDVECCloudDiskModel alloc] init];
+    model.fileType = HDVECFastBoardFileTypeimg;
     model.fileName = @"aaa.png";
     model.fileSize = @"12.4kb";
     model.uploadDate= @"2020年4月8日 09:05";
-    HDCloudDiskModel * model1 = [[HDCloudDiskModel alloc] init];
-    model1.fileType = HDFastBoardFileTypeimg;
+    HDVECCloudDiskModel * model1 = [[HDVECCloudDiskModel alloc] init];
+    model1.fileType = HDVECFastBoardFileTypeimg;
     model1.fileName = @"aaa.png";
     model1.fileSize = @"12.4kb";
     model1.uploadDate= @"2020年4月8日 09:05";
@@ -71,7 +71,7 @@
 // 上传文件
 - (void)addUploadDiskAction:(UIButton *)sender{
     
-    HDUploadFileViewController * vc = [[HDUploadFileViewController alloc] init];
+    HDVECUploadFileViewController * vc = [[HDVECUploadFileViewController alloc] init];
     vc.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:vc animated:YES completion:nil];
 
@@ -117,7 +117,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    HDCloudDiskTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(HDCloudDiskTableViewCell.class) forIndexPath:indexPath];
+    HDVECCloudDiskTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(HDVECCloudDiskTableViewCell.class) forIndexPath:indexPath];
     [cell setCloudDiskModel:[self.dataArray objectAtIndex:indexPath.row]];
     
     return cell;

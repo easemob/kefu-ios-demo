@@ -6,15 +6,15 @@
 //  Copyright © 2022 CocoaPods. All rights reserved.
 //
 
-#import "CustomFastboardOverlay.h"
+#import "HDVECCustomFastboardOverlay.h"
 #import <Fastboard/Fastboard-Swift.h>
 #import <Whiteboard/Whiteboard.h>
 
-@interface CustomFastboardOverlay() <FastRoomOverlay,FastRoomOperationItem>
+@interface HDVECCustomFastboardOverlay() <FastRoomOverlay,FastRoomOperationItem>
 @property (nonatomic, strong) FastRoomPanel* operationsPanel;
 @end
 
-@implementation CustomFastboardOverlay
+@implementation HDVECCustomFastboardOverlay
 - (void)setAllPanelWithHide:(BOOL)hide {
     for (FastRoomPanel* panel in [self allPanels]) {
         [panel.view setHidden:hide];

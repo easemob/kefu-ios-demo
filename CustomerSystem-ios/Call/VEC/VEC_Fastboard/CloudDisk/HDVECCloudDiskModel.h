@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HDStorageItem.h"
+#import "HDVECStorageItem.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HDCloudDiskModel : NSObject
-@property (nonatomic, assign) HDFastBoardFileType fileType;
+@interface HDVECCloudDiskModel : NSObject
+@property (nonatomic, assign) HDVECFastBoardFileType fileType;
 @property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSString *uploadDate;
 @property (nonatomic, strong) NSString *fileSize;

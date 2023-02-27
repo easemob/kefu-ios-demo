@@ -13,12 +13,12 @@
 /*
  *  设置button位置
  */
-typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
-    HDControlBarButtonHangUpLocationMiddle     = 1,    /** 中间   */
-    HDControlBarButtonHangUpLocationLeft,              /** 左边   */
-    HDControlBarButtonHangUpLocationRight,             /** 右边   */
+typedef NS_ENUM (NSInteger, HDVECControlBarButtonHangUpLocation) {
+    HDVECControlBarButtonHangUpLocationMiddle     = 1,    /** 中间   */
+    HDVECControlBarButtonHangUpLocationLeft,              /** 左边   */
+    HDVECControlBarButtonHangUpLocationRight,             /** 右边   */
 };
-@implementation HDControlBarModel
+@implementation HDVECControlBarModel
 
 @end
 
@@ -32,18 +32,18 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
 @end
 @implementation HDVECControlBarView
 
-- (NSMutableArray *)hd_buttonFromArrBarModels:(NSArray<HDControlBarModel *> *)barModelArr view:(UIView *)view withButtonType:(HDControlBarButtonStyle)style{
+- (NSMutableArray *)hd_buttonFromArrBarModels:(NSArray<HDVECControlBarModel *> *)barModelArr view:(UIView *)view withButtonType:(HDVECControlBarButtonStyle)style{
     NSMutableArray * array;
     switch (style) {
-        case HDControlBarButtonStyleVideo:
+        case HDVECControlBarButtonStyleVideo:
             
            array = [self hd_dynamicSwitcheBarLayoutArray:barModelArr view:view];
             
             break;
-        case HDControlBarButtonStyleUploadFile:
+        case HDVECControlBarButtonStyleUploadFile:
            array = [self hd_UploadSwitcheBarLayoutArray:barModelArr view:view];
             break;
-        case HDControlBarButtonStyleVideoNew:
+        case HDVECControlBarButtonStyleVideoNew:
            array = [self hd_dynamicSwitcheBarLayoutArrayNew:barModelArr view:view];
             break;
         default:
@@ -52,7 +52,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     return array;
 }
 #pragma mark - 底部导航逻辑 新版界面
-- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayNew:(NSArray<HDControlBarModel *> *)barModelArr view:(UIView *)view{
+- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayNew:(NSArray<HDVECControlBarModel *> *)barModelArr view:(UIView *)view{
     NSMutableArray * array;
     self.backgroundColor = [UIColor whiteColor];
     
@@ -61,7 +61,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     return array;
 }
 #pragma mark - 底部导航逻辑
-- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArray:(NSArray<HDControlBarModel *> *)barModelArr view:(UIView *)view{
+- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArray:(NSArray<HDVECControlBarModel *> *)barModelArr view:(UIView *)view{
     NSMutableArray * array;
     self.backgroundColor = [UIColor whiteColor];
     if (barModelArr.count >= 6) {
@@ -81,10 +81,10 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     return array;
 }
 //偶数情况 4个
-- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayEvenNumber:(NSArray<HDControlBarModel *> *)barModelArr view:(UIView *)view{
+- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayEvenNumber:(NSArray<HDVECControlBarModel *> *)barModelArr view:(UIView *)view{
     //数据做一下重新排列
     NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:barModelArr];
-    NSMutableArray * sortArray =  [self  hd_soreBarModelArray:tmpArray withStyle:HDControlBarButtonHangUpLocationRight];
+    NSMutableArray * sortArray =  [self  hd_soreBarModelArray:tmpArray withStyle:HDVECControlBarButtonHangUpLocationRight];
     CGFloat space = 10;
     CGFloat y = 0;
     CGFloat w = ( view.frame.size.width - space * ( barModelArr.count + 1 ) ) / barModelArr.count;
@@ -94,19 +94,19 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     
     for (int i =0; i < barModelArr.count; i++)
     {
-        HDControlBarModel * model =sortArray[i];
+        HDVECControlBarModel * model =sortArray[i];
         CGFloat x = i * (w + space) + space;
         CGRect fram = CGRectMake(x , y, w, h);
         UIButton *button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
             if (i < 2) {
 
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDVECControlBarButtonBackgroundBlue withSize:button.hd_height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
                 
             }else if (i==barModelArr.count-1) {
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.hd_height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDVECControlBarButtonBackgroundRed withSize:button.hd_height/1.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
             }else {
 
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/1.4 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDVECControlBarButtonBackgroundBlue withSize:button.hd_height/1.4 withImageName:model.imageStr withSelectImage:model.selImageStr];
             }
         
        
@@ -118,11 +118,11 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     return lastArr;
 }
 //基数情况 3 和5 个
-- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayBase:(NSArray<HDControlBarModel *> *)barModelArr view:(UIView *)view{
+- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayBase:(NSArray<HDVECControlBarModel *> *)barModelArr view:(UIView *)view{
     
-    //数据做一下重新排列
+    //数据做一下重新排列VEC
     NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:barModelArr];
-    NSMutableArray * sortArray =  [self  hd_soreBarModelArray:tmpArray withStyle:HDControlBarButtonHangUpLocationMiddle];
+    NSMutableArray * sortArray =  [self  hd_soreBarModelArray:tmpArray withStyle:HDVECControlBarButtonHangUpLocationMiddle];
     [HDLog logD:@"HD===%s ==%@",__func__,sortArray];
     if (sortArray.count > 3) {
         CGFloat viewWith =view.frame.size.width;
@@ -134,19 +134,19 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
         NSMutableArray *lastArr= [NSMutableArray array];
         for (int i =0; i < sortArray.count; i++)
         {
-            HDControlBarModel * model =sortArray[i];
+            HDVECControlBarModel * model =sortArray[i];
             CGFloat x = i * (w + space) + space;
             CGRect fram = CGRectMake(x , y, w, h);
             UIButton *button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
             
             if (i < 2) {
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDVECControlBarButtonBackgroundBlue withSize:button.hd_height/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
                     
                 }else if (i== barModelArr.count/2) {
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.hd_height withImageName:model.imageStr withSelectImage:model.selImageStr];
+                    [self hd_setButton:button withBackground:HDVECControlBarButtonBackgroundRed withSize:button.hd_height withImageName:model.imageStr withSelectImage:model.selImageStr];
                 }else {
 
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                    [self hd_setButton:button withBackground:HDVECControlBarButtonBackgroundBlue withSize:button.hd_height/2 withImageName:model.imageStr withSelectImage:model.selImageStr];
                 }
             
             [view addSubview:button];
@@ -165,22 +165,22 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
         NSMutableArray *lastArr= [NSMutableArray array];
         for (int i =0; i < sortArray.count; i++)
         {
-            HDControlBarModel * model =sortArray[i];
+            HDVECControlBarModel * model =sortArray[i];
             CGFloat x = i * (w + space) + space;
             CGRect fram = CGRectMake(x + w1 , y, w, h);
             UIButton *button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
                 
             if (i < barModelArr.count/2 || i == barModelArr.count -1) {
                     
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/1.6 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDVECControlBarButtonBackgroundBlue withSize:button.hd_height/1.6 withImageName:model.imageStr withSelectImage:model.selImageStr];
                     
                 }else if (i== barModelArr.count/2) {
 
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundRed withSize:button.hd_height withImageName:model.imageStr withSelectImage:model.selImageStr];
+                    [self hd_setButton:button withBackground:HDVECControlBarButtonBackgroundRed withSize:button.hd_height withImageName:model.imageStr withSelectImage:model.selImageStr];
 
                 }else {
                     
-                    [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_height/1.6 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                    [self hd_setButton:button withBackground:HDVECControlBarButtonBackgroundBlue withSize:button.hd_height/1.6 withImageName:model.imageStr withSelectImage:model.selImageStr];
 
                 }
       
@@ -195,7 +195,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     
 }
 // 多余5个 更多情况
-- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayMore:(NSArray<HDControlBarModel *> *)barModelArr view:(UIView *)view{
+- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayMore:(NSArray<HDVECControlBarModel *> *)barModelArr view:(UIView *)view{
     CGFloat space = 20;
     CGFloat y = 15;
     CGFloat w = ( view.frame.size.width - space * ( barModelArr.count + 1 ) ) / barModelArr.count;
@@ -240,7 +240,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     return lastArr;
 }
 // 文件上传
-- (NSMutableArray *)hd_UploadSwitcheBarLayoutArray:(NSArray<HDControlBarModel *> *)barModelArr view:(UIView *)view {
+- (NSMutableArray *)hd_UploadSwitcheBarLayoutArray:(NSArray<HDVECControlBarModel *> *)barModelArr view:(UIView *)view {
     CGFloat space = 20;
     CGFloat y = 15;
     CGFloat w = ( view.frame.size.width - space * ( barModelArr.count + 1 ) ) / barModelArr.count;
@@ -274,14 +274,14 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     return lastArr;
 }
 // 设置button 图片
-- (void)hd_setButton:(UIButton *)button withBackground:(HDControlBarButtonBackground)background withSize:(NSUInteger)size withImageName:(NSString *)imageStr withSelectImage:(NSString *)selImageStr{
+- (void)hd_setButton:(UIButton *)button withBackground:(HDVECControlBarButtonBackground)background withSize:(NSUInteger)size withImageName:(NSString *)imageStr withSelectImage:(NSString *)selImageStr{
     
     switch (background) {
-        case HDControlBarButtonBackgroundRed:
+        case HDVECControlBarButtonBackgroundRed:
             [button setImage:[UIImage imageWithIcon:imageStr inFont:kfontName size:size color: [[HDVECAppSkin mainSkin] contentColorRed]] forState:UIControlStateNormal];
             [button setImage:[UIImage imageWithIcon:selImageStr inFont:kfontName size:size color:[[HDVECAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateSelected];
             break;
-        case HDControlBarButtonBackgroundBlue:
+        case HDVECControlBarButtonBackgroundBlue:
             [button setImage:[UIImage imageWithIcon:imageStr inFont:kfontName size:size color:[[HDVECAppSkin mainSkin] contentColorBlue] ] forState:UIControlStateNormal];
             [button setImage:[UIImage imageWithIcon:selImageStr inFont:kfontName size:size color:[[HDVECAppSkin mainSkin] contentColorRed] ] forState:UIControlStateSelected];
             break;
@@ -291,18 +291,18 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
     
 }
 // 数组根据业务需求排列
--(NSMutableArray *)hd_soreBarModelArray:(NSMutableArray *)array withStyle:(HDControlBarButtonHangUpLocation)style{
-    for (HDControlBarModel * model in array) {
+-(NSMutableArray *)hd_soreBarModelArray:(NSMutableArray *)array withStyle:(HDVECControlBarButtonHangUpLocation)style{
+    for (HDVECControlBarModel * model in array) {
         if (model.isHangUp) {
             NSInteger index = [array indexOfObject:model];
             switch (style) {
-                case  HDControlBarButtonHangUpLocationLeft:
+                case  HDVECControlBarButtonHangUpLocationLeft:
                     [array exchangeObjectAtIndex:0 withObjectAtIndex:index];
                     break;
-                case  HDControlBarButtonHangUpLocationRight:
+                case  HDVECControlBarButtonHangUpLocationRight:
                     [array exchangeObjectAtIndex:array.count-1 withObjectAtIndex:index];
                     break;
-                case  HDControlBarButtonHangUpLocationMiddle:
+                case  HDVECControlBarButtonHangUpLocationMiddle:
                     [array exchangeObjectAtIndex:array.count/2 withObjectAtIndex:index];
                     break;
                 default:
@@ -399,7 +399,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
         
         return;
     }
-    HDControlBarModel * barModel = [_barArray objectAtIndex:index];
+    HDVECControlBarModel * barModel = [_barArray objectAtIndex:index];
     
     if (self.clickControlBarItemBlock) {
         self.clickControlBarItemBlock(barModel,sender);
@@ -408,11 +408,11 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
 }
 
 #pragma mark - 新版界面固定5个bar
-- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayBaseNew:(NSArray<HDControlBarModel *> *)barModelArr view:(UIView *)view{
+- (NSMutableArray *)hd_dynamicSwitcheBarLayoutArrayBaseNew:(NSArray<HDVECControlBarModel *> *)barModelArr view:(UIView *)view{
     
     //数据做一下重新排列
     NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:barModelArr];
-    NSMutableArray * sortArray =  [self  hd_soreBarModelArray:tmpArray withStyle:HDControlBarButtonHangUpLocationMiddle];
+    NSMutableArray * sortArray =  [self  hd_soreBarModelArray:tmpArray withStyle:HDVECControlBarButtonHangUpLocationMiddle];
     [HDLog logD:@"HD===%s ==%@",__func__,sortArray];
     // 挂断宽度 固定
     CGFloat hangUpWith =80;
@@ -425,7 +425,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
         NSMutableArray *lastArr= [NSMutableArray array];
         for (int i =0; i < sortArray.count; i++)
         {
-            HDControlBarModel * model =sortArray[i];
+            HDVECControlBarModel * model =sortArray[i];
             CGFloat x = i * (w + space) + space;
             CGRect fram = CGRectMake(x , y, w, h);
             UIButton *button;
@@ -434,7 +434,7 @@ typedef NS_ENUM (NSInteger, HDControlBarButtonHangUpLocation) {
                
                 button = [self hd_createButtonWithTag:i withFrame:fram withTitleName:model.name];
                 
-                [self hd_setButton:button withBackground:HDControlBarButtonBackgroundBlue withSize:button.hd_width/2.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
+                [self hd_setButton:button withBackground:HDVECControlBarButtonBackgroundBlue withSize:button.hd_width/2.5 withImageName:model.imageStr withSelectImage:model.selImageStr];
                     
               
             }else if (i== 2) {

@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  V5版本的转码查询工具
  不再提供转码提交功能，只提供转码进度轮询功能
  */
-@interface HDWhiteConverterManager : NSObject
+@interface HDVECWhiteConverterManager : NSObject
 
 /** 默认初始的轮询时间为15S */
 - (instancetype)init;

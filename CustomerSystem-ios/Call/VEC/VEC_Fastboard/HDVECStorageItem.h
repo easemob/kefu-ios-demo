@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <Whiteboard/Whiteboard.h>
 NS_ASSUME_NONNULL_BEGIN
-typedef void(^HDConvertCompletionHandlerV5)(BOOL success, WhiteConversionInfoV5 * _Nullable info, NSError * _Nullable error);
-typedef void(^HDConvertProgressHandlerV5)(CGFloat progress, WhiteConversionInfoV5 * _Nullable info);
+typedef void(^HDVECConvertCompletionHandlerV5)(BOOL success, WhiteConversionInfoV5 * _Nullable info, NSError * _Nullable error);
+typedef void(^HDVECConvertProgressHandlerV5)(CGFloat progress, WhiteConversionInfoV5 * _Nullable info);
 
-typedef NS_ENUM(NSInteger, HDConverterErrorCodeV5) {
+typedef NS_ENUM(NSInteger, HDVECConverterErrorCodeV5) {
     /** 查询时出错，一般是网络问题，请重启查询服务 */
-    HDConverterErrorCodeV5CheckFail   = 50004,
+    HDVECConverterErrorCodeV5CheckFail   = 50004,
 };
 
 /*!
@@ -23,18 +23,18 @@ typedef NS_ENUM(NSInteger, HDConverterErrorCodeV5) {
  */
 typedef enum{
 
-    HDFastBoardFileTypeimg = 0,  
-    HDFastBoardFileTypepdf,
-    HDFastBoardFileTypevideo,
-    HDFastBoardFileTypemusic,
-    HDFastBoardFileTypeppt,
-    HDFastBoardFileTypeword,
-    HDFastBoardFileTypeunknown,
-}HDFastBoardFileType;
-@interface HDStorageItem : NSObject
+    HDVECFastBoardFileTypeimg = 0,  
+    HDVECFastBoardFileTypepdf,
+    HDVECFastBoardFileTypevideo,
+    HDVECFastBoardFileTypemusic,
+    HDVECFastBoardFileTypeppt,
+    HDVECFastBoardFileTypeword,
+    HDVECFastBoardFileTypeunknown,
+}HDVECFastBoardFileType;
+@interface HDVECStorageItem : NSObject
 
 @property (nonatomic, strong) NSString *fileName;
-@property (nonatomic, assign) HDFastBoardFileType  fileType;
+@property (nonatomic, assign) HDVECFastBoardFileType  fileType;
 @property (nonatomic, strong) NSString *fileUrl;
 @property (nonatomic, strong) NSString *taskUUID;
 @property (nonatomic, strong) NSString *taskToken;
@@ -42,8 +42,8 @@ typedef enum{
 @property (nonatomic, strong) WhiteRegionKey region;
 
 @property (nonatomic, weak, nullable) NSURLSessionTask *urlTask;
-@property (nonatomic, copy) HDConvertProgressHandlerV5 progressHandler;
-@property (nonatomic, copy) HDConvertCompletionHandlerV5 completionHandler;
+@property (nonatomic, copy) HDVECConvertProgressHandlerV5 progressHandler;
+@property (nonatomic, copy) HDVECConvertCompletionHandlerV5 completionHandler;
 
 - (instancetype)initWithTaskUUID:(NSString *)taskUUID
                            token:(NSString *)token

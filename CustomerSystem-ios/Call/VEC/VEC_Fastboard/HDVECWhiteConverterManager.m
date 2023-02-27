@@ -6,11 +6,11 @@
 //  Copyright © 2022 easemob. All rights reserved.
 //
 
-#import "HDWhiteConverterManager.h"
+#import "HDVECWhiteConverterManager.h"
 
-#import "HDStorageItem.h"
+#import "HDVECStorageItem.h"
 
-@interface HDWhiteConverterManager ()
+@interface HDVECWhiteConverterManager ()
 
 @property (nonatomic, assign) NSTimeInterval pollingInterval;
 @property (nonatomic, copy) NSMutableDictionary *pollingTasks;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation HDWhiteConverterManager
+@implementation HDVECWhiteConverterManager
 - (instancetype)init
 {
     if (self = [super init]) {
@@ -41,10 +41,10 @@
 
 - (void)onTimer
 {
-    [self.pollingTasks enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, HDStorageItem * _Nonnull obj, BOOL * _Nonnull stop) {
+    [self.pollingTasks enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, HDVECStorageItem * _Nonnull obj, BOOL * _Nonnull stop) {
         __weak typeof(self) weakSelf;
         
-        [HDWhiteConverterManager checkProgressWithTaskUUID:obj.taskUUID token:obj.taskToken region:obj.region taskType:obj.taskType result:^(WhiteConversionInfoV5 * _Nullable info, NSError * _Nullable error) {
+        [HDVECWhiteConverterManager checkProgressWithTaskUUID:obj.taskUUID token:obj.taskToken region:obj.region taskType:obj.taskType result:^(WhiteConversionInfoV5 * _Nullable info, NSError * _Nullable error) {
             if (error) {
                 obj.completionHandler(NO, nil, error);
                 [weakSelf cancelPollingTaskWithTaskUUID:key];
@@ -101,7 +101,7 @@
 
 - (void)endPolling
 {
-    [self.pollingTasks enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, HDStorageItem * _Nonnull task, BOOL * _Nonnull stop) {
+    [self.pollingTasks enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, HDVECStorageItem * _Nonnull task, BOOL * _Nonnull stop) {
         [self cancelPollingTaskWithTaskUUID:key];
     }];
     [self endTimer];
@@ -109,7 +109,7 @@
 
 - (void)cancelPollingTaskWithTaskUUID:(NSString *)taskUUID
 {
-    HDStorageItem *task = self.pollingTasks[taskUUID];
+    HDVECStorageItem *task = self.pollingTasks[taskUUID];
     if (task) {
         if (task.urlTask) {
             [task.urlTask cancel];
@@ -124,12 +124,12 @@
                                       token:(NSString *)token
                                      region:(WhiteRegionKey)region
                                    taskType:(WhiteConvertTypeV5)type
-                                   progress:(HDConvertProgressHandlerV5)progress
-                                     result:(HDConvertCompletionHandlerV5)result
+                                   progress:(HDVECConvertProgressHandlerV5)progress
+                                     result:(HDVECConvertCompletionHandlerV5)result
 {
-    HDStorageItem *task = self.pollingTasks[taskUUID];
+    HDVECStorageItem *task = self.pollingTasks[taskUUID];
     if (!task) {
-        HDStorageItem *newTask = [[HDStorageItem alloc] initWithTaskUUID:taskUUID
+        HDVECStorageItem *newTask = [[HDVECStorageItem alloc] initWithTaskUUID:taskUUID
                                                                               token:token
                                                                              region:region
                                                                                type:type
