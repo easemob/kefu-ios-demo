@@ -5,9 +5,6 @@
 //  Created by houli on 2022/3/4.
 //
 
-// ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️如果不使用白板功能请一定要注释到以下的代码 ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
-#define WhiteBoard   1
-// ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️如果不使用白板功能请一定要注释到以上的代码 ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
 
 #import "HDVECCallViewController.h"
 #import "HDVECControlBarView.h"
@@ -35,7 +32,7 @@
 #import "HDVECCallChatViewController.h"
 
 //白板相关
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
 #import "HDVECWhiteBoardView.h"
 #import "HDVECUploadFileViewController.h"
 #import "HDVECWhiteRoomManager.h"
@@ -127,7 +124,7 @@ __block NSString * _pushflowId; //信息推送的flowid
 @property (strong, nonatomic) HDVECPopoverViewController *morePopVC;//更多
 @property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));
 
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
 @property (nonatomic, strong) HDVECWhiteBoardView *whiteBoardView;
 #else
 
@@ -401,7 +398,7 @@ static HDVECCallViewController *_manger = nil;
     self.hdTitleView = nil;
 
     self.smallWindowView=nil;
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
     self.whiteBoardView = nil;
 #else
 
@@ -424,7 +421,7 @@ static HDVECCallViewController *_manger = nil;
     }
     //隐藏 popervc
     [self dismissHDPoperViewController];
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
     //清理白板数据
     [self clearWhiteBoardData];
 #else
@@ -1098,7 +1095,7 @@ static HDVECCallViewController *_manger = nil;
                     [weakSelf shareDesktopBtnClicked:btn];
                     break;
                 case HDVECControlBarItemTypeFlat:
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
                     [weakSelf onClickedFalt:btn];
 #else
 
@@ -1599,7 +1596,7 @@ static HDVECCallViewController *_manger = nil;
     }
     
 }
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
 
 #pragma mark -  互动白板 相关
 
@@ -1787,7 +1784,7 @@ static HDVECCallViewController *_manger = nil;
 -(void)onScaleBtn:(UIButton *)sender{
     //全屏显示
     HDVECCollectionViewCellItem  * midelleViewItem =  [_videoViews firstObject];
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
     HDVECWhiteBoardView * whiteView = (HDVECWhiteBoardView *) midelleViewItem.camView;
 #else
 
@@ -1798,7 +1795,7 @@ static HDVECCallViewController *_manger = nil;
     if (sender.isSelected) {
         NSLog(@"sender.isSelected");
         if (self.isLandscape) {
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
             [whiteView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.offset(0);
                 make.leading.offset(0);
@@ -1812,7 +1809,7 @@ static HDVECCallViewController *_manger = nil;
 #endif
            
         }else{
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
             [whiteView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.offset(kApplicationStatusBarHeight);
                 make.leading.offset(0);
@@ -1830,7 +1827,7 @@ static HDVECCallViewController *_manger = nil;
         [HDLog logD:@"HD===点击了互动白板事件"];
         if (self.isLandscape) {
             
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
             [whiteView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.offset(0);
                 make.leading.offset(0);
@@ -1844,7 +1841,7 @@ static HDVECCallViewController *_manger = nil;
 #endif
            
         }else{
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
             [whiteView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(self.smallWindowView.mas_bottom).offset(44);
                 make.leading.offset(0);
@@ -1859,7 +1856,7 @@ static HDVECCallViewController *_manger = nil;
 
         }
     }
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
     [self.whiteBoardView reloadFastboardOverlayWithScle:YES];
 #else
 
@@ -1873,7 +1870,7 @@ static HDVECCallViewController *_manger = nil;
     
     _shareBtn = btn;
     _shareBtn.selected = _shareState;
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
     if ([HDVECWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
         [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")  withWindow:self.alertWindow];
@@ -1963,7 +1960,7 @@ static HDVECCallViewController *_manger = nil;
     self.alertWindow.layer.shadowOpacity = 0.5;
     self.alertWindow.layer.shadowRadius = 15;
     
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
     if ([HDVECWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
         if (_videoViews.count > 0) {
@@ -2017,7 +2014,7 @@ static HDVECCallViewController *_manger = nil;
     [self.view hideKeyBoard];
     self.isSmallWindow = NO;
     self.alertWindow.frame = [UIScreen mainScreen].bounds;
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
     if ([HDVECWhiteRoomManager shareInstance].roomState) {
         // 先去 小窗拿 如果没有在去中间拿
         if (_videoViews.count > 0) {
@@ -2850,7 +2847,7 @@ static HDVECCallViewController *_manger = nil;
     item.cellItemType = HDVECPopoverCellItemTypeShareScreen;
     item.isOn = _shareState;
     
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
     HDVECPopoverViewControllerCellItem * item1 = [[HDVECPopoverViewControllerCellItem alloc] init];
     item1.name =NSLocalizedString(@"video.call.whiteBoard.title", @"互动白板");
     item1.imgName = kbaiban;
@@ -2906,7 +2903,7 @@ static HDVECCallViewController *_manger = nil;
             //
             NSLog(@"=========点击了白板");
             _whiteboardCellItem = item;
-#ifdef WhiteBoard
+#ifdef HDVECWhiteBoard
             [self onClickedFalt:nil];
 #else
 

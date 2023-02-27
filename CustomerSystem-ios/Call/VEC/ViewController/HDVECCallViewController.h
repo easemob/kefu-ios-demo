@@ -8,6 +8,10 @@
 #import <UIKit/UIKit.h>
 #import "HDVECAnswerView.h"
 #import "HDVECSuspendCustomView.h"
+// ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️如果不使用白板功能请一定要注释到以下的代码 ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
+#define HDVECWhiteBoard   1
+// ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️如果不使用白板功能请一定要注释到以上的代码 ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
+
 NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, HDVECCallAlertType) {
     HDVECCallAlertTypeVideo, //  视频界面
