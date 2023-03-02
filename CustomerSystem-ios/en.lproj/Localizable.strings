@@ -245,6 +245,10 @@
 
 "em_example1_text_detail" = "product_details_";
 "em_chat_I_focus" = "I focus on";
+"em_chat_I_focus_order1" = "I focus on order1";
+"em_chat_I_focus_order2" = "I focus on order2";
+"em_chat_I_focus_track1" = "I focus on track1";
+"em_chat_I_focus_track2" = "I focus on track2";
 
 "order_number" = "Order number:";
 

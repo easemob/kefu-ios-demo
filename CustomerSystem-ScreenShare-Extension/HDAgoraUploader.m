@@ -10,7 +10,6 @@
 #import "AgoraAudioProcessing.h"
 #import "AgoraAudioTube.h"
 #import <ReplayKit/ReplayKit.h>
-#import "HDSSKeychain.h"
 static HDAgoraUploader *manager = nil;
 static NSInteger audioSampleRate = 48000;
 static NSInteger audioChannels = 2;
@@ -38,11 +37,10 @@ static NSInteger audioChannels = 2;
 -  (void)initAgoraRtcEngineKit{
     
     //创建 AgoraRtcEngineKit 实例
-//    NSString * appid = [HDSSKeychain passwordForService:kForService account:kSaveAgoraAppID];
     
     self.userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
     
-    NSString * appid = [self.userDefaults valueForKey:kSaveAgoraAppID];
+    NSString * appid = [self.userDefaults valueForKey:@"call_agoraAppid"];
     
     self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId: appid delegate:nil];
     
@@ -97,14 +95,11 @@ static NSInteger audioChannels = 2;
 
 /// 开始录屏
 - (void)startBroadcast{
-//    NSString * uid= [HDSSKeychain passwordForService:kForService account:kSaveAgoraShareUID];
-//    NSString * token= [HDSSKeychain passwordForService:kForService account:kSaveAgoraToken];
-//    NSString * channel= [HDSSKeychain passwordForService:kForService account:kSaveAgoraChannel];
     
     //使用app group
-    NSString * uid= [self.userDefaults valueForKey:kSaveAgoraShareUID];
-    NSString * token= [self.userDefaults valueForKey:kSaveAgoraToken];
-    NSString * channel= [self.userDefaults valueForKey:kSaveAgoraChannel];
+    NSString * uid= [self.userDefaults valueForKey:@"call_agoraShareUID"];
+    NSString * token= [self.userDefaults valueForKey:@"call_agoraToken"];
+    NSString * channel= [self.userDefaults valueForKey:@"call_agoraChannel"];
     
     [self.agoraKit joinChannelByToken:token channelId: channel info:nil uid:[uid integerValue] joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed) {
        
@@ -167,7 +162,6 @@ static NSInteger audioChannels = 2;
             frame.textureBuf = videoFrame;
             frame.rotation =rotation;
             [self.agoraKit pushExternalVideoFrame:frame];
-            
         }
 
 }

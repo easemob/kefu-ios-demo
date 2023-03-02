@@ -91,6 +91,31 @@ HDErrorUserAlreadyExist 用户已存在
 HDErrorUserAuthenticationFailed 无开放注册权限（后台管理界面设置[开放|授权]）
 HDErrorUserIllegalArgument 参数不合法
 ```
+#### <A NAME="Guide_login"></A>登陆状态1.4.9.5以后有这个方法
+HDClient有一个getIsLoggedInBeforeCompletion() 异步方法 登录操作前可以先做个判断。
+HDClient还有有一个getIsLoggedInBefore() 同步方法 登录操作前可以先做个判断。
+```
+    [[HDClient sharedClient] getIsLoggedInBeforeCompletion:^(BOOL isLoggedInBefore) {
+        if (isLoggedInBefore) {
+            //进入聊天
+            HDMessageViewController *chat = [[HDMessageViewController alloc] initWithConversationChatter:@"IM 服务号"];
+             [self.navigationController pushViewController:chat animated:YES];
+        }else{
+            //注册以后进入聊天
+            if ([self registerIMuser]) {
+                if ([self login]) {
+                    //进入聊天
+                    HDMessageViewController *chat = [[HDMessageViewController alloc] initWithConversationChatter:@"IM 服务号"];
+                     [self.navigationController pushViewController:chat animated:YES];
+                }
+            }else{
+                //
+                NSLog(@"=======注册失败");
+            }
+        }
+        }];
+
+```
 #### <A NAME="Guide_login"></A>登录
 由于HDClient有一个isLoggedInBefore(BOOL)，登录操作前可以先做个判断。
 EMClient 有一个isLoggedIn  和客服sdk 一定要一起判断

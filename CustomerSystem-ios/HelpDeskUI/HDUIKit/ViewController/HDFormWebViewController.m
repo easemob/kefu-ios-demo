@@ -52,8 +52,11 @@
 }
 
 -(void)showToast:(NSString *)toast{
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:toast delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil];
-    [alert show];
+    
+    UIAlertController *sure = [UIAlertController alertControllerWithTitle:nil message:toast preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSEaseLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+    [sure addAction:confirm];
+    [self presentViewController:sure animated:true completion:nil];
 }
 
 -(NSString *)imToken
