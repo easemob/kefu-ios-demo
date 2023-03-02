@@ -1472,14 +1472,14 @@
 			path = RobotUnsolveItemView;
 			sourceTree = "<group>";
 		};
-		930E320927E0323100455C7E /* HDCallKit */ = {
+		930E320927E0323100455C7E /* HDCallUIKit */ = {
 			isa = PBXGroup;
 			children = (
 				D2C9114129ACA55C00568D48 /* Online */,
 				D2C90F7029AC4FAF00568D48 /* General */,
 				D2C90F8129AC4FAF00568D48 /* VEC */,
 			);
-			path = HDCallKit;
+			path = HDCallUIKit;
 			sourceTree = "<group>";
 		};
 		9374FEB127CC71C200DE1185 /* HDSDWebImage */ = {
@@ -1950,7 +1950,6 @@
 		D2C90F7029AC4FAF00568D48 /* General */ = {
 			isa = PBXGroup;
 			children = (
-				D2C9106729AC873500568D48 /* Model */,
 				D2C90F7129AC4FAF00568D48 /* Category */,
 				D2C90F7829AC4FAF00568D48 /* font_3264411_0930bdexl8t8 */,
 			);
@@ -2208,13 +2207,6 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		D2C9106729AC873500568D48 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		D2C9106829AC916000568D48 /* VEC_Fastboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -2266,20 +2258,20 @@
 		D2C9114229ACA55C00568D48 /* Fastboard */ = {
 			isa = PBXGroup;
 			children = (
-				D2C9114329ACA55C00568D48 /* HDWhiteRoomManager.h */,
-				D2C9114429ACA55C00568D48 /* HDWhiteBoardView.m */,
-				D2C9114529ACA55C00568D48 /* HDStorageItem.h */,
-				D2C9114629ACA55C00568D48 /* HDWhiteConverterManager.m */,
 				D2C9114729ACA55C00568D48 /* CloudDisk */,
-				D2C9115729ACA55C00568D48 /* Utility.m */,
 				D2C9115829ACA55C00568D48 /* CustomFastboardOverlay.h */,
-				D2C9115929ACA55C00568D48 /* HDStorageItem.m */,
-				D2C9115A29ACA55C00568D48 /* HDWhiteBoardView.h */,
-				D2C9115B29ACA55C00568D48 /* HDWhiteRoomManager.m */,
-				D2C9115C29ACA55C00568D48 /* HDWhiteConverterManager.h */,
-				D2C9115D29ACA55C00568D48 /* HDWhiteBoardDelegete.h */,
-				D2C9115E29ACA55C00568D48 /* Utility.h */,
 				D2C9115F29ACA55C00568D48 /* CustomFastboardOverlay.m */,
+				D2C9114529ACA55C00568D48 /* HDStorageItem.h */,
+				D2C9115929ACA55C00568D48 /* HDStorageItem.m */,
+				D2C9115D29ACA55C00568D48 /* HDWhiteBoardDelegete.h */,
+				D2C9115A29ACA55C00568D48 /* HDWhiteBoardView.h */,
+				D2C9114429ACA55C00568D48 /* HDWhiteBoardView.m */,
+				D2C9115C29ACA55C00568D48 /* HDWhiteConverterManager.h */,
+				D2C9114629ACA55C00568D48 /* HDWhiteConverterManager.m */,
+				D2C9114329ACA55C00568D48 /* HDWhiteRoomManager.h */,
+				D2C9115B29ACA55C00568D48 /* HDWhiteRoomManager.m */,
+				D2C9115E29ACA55C00568D48 /* Utility.h */,
+				D2C9115729ACA55C00568D48 /* Utility.m */,
 			);
 			path = Fastboard;
 			sourceTree = "<group>";
@@ -3181,7 +3173,7 @@
 		EB62E1FB1A8DD92D00705655 /* CustomerSystem-ios */ = {
 			isa = PBXGroup;
 			children = (
-				930E320927E0323100455C7E /* HDCallKit */,
+				930E320927E0323100455C7E /* HDCallUIKit */,
 				93E792F9277ADA290019FD80 /* CustomerSystem-iosRelease.entitlements */,
 				D39AD9091DFAA6BE00895FCF /* CustomerSystem-ios.entitlements */,
 				D3CB631B1E4888F20022A6BA /* HelpDeskUI */,

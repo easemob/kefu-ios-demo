@@ -251,12 +251,9 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             }
                 //todo 创建视频等待界面  调用接口 vec 使用
                 [HDClient sharedClient].callManager.isVecVideo = YES;
-                
                 [[HDVECAgoraCallManager shareInstance] vec_initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                     [weakHud hideAnimated:YES];
-                   
-
                         [[HDVECCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVECDirectionSend withVisitornickName:lgM.nickname];
                         [HDVECCallViewController sharedManager].hangUpVideoCallback = ^(HDVECCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
                             [[HDVECCallViewController sharedManager]  removeView];
@@ -758,8 +755,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
            };
     }
-    
-   
     
 }
 //声网

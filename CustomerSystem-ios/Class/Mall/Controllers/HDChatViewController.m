@@ -81,11 +81,9 @@
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
     [self stopAudioPlayingWithChangeCategory:YES];
     
-//    [CSDemoAccountManager shareLoginManager].isVEC = NO;
     [HDClient sharedClient].callManager.isVecVideo = NO;
     HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [message addContent:[self visitorInfo]];
-        
     [self _sendMessage:message];
 
     //online
