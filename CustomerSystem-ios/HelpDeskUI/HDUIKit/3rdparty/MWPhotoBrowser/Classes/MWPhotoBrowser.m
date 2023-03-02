@@ -1659,10 +1659,12 @@
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
     if (result == MFMailComposeResultFailed) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSEaseLocalizedString(@"Email", nil)
-                                                         message:NSEaseLocalizedString(@"Email failed to send. Please try again.", nil)
-                                                        delegate:nil cancelButtonTitle:NSEaseLocalizedString(@"Dismiss", nil) otherButtonTitles:nil];
-		[alert show];
+        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSEaseLocalizedString(@"Email", nil) message:NSEaseLocalizedString(@"Email failed to send. Please try again.", nil) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSEaseLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        [sure addAction:confirm];
+        [self presentViewController:sure animated:true completion:nil];
+        
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }

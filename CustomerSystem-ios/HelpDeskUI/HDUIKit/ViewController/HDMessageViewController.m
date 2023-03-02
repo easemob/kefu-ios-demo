@@ -1069,17 +1069,21 @@ typedef enum : NSUInteger {
                 NSLog(@"failed to remove file, error:%@.", error);
             }
         }
-        
-        
+    
         
         [self sendVideoMessageWithURL:mp4];
         
     }else{
+        UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
+       
+//        NSData *dataObj = UIImageJPEGRepresentation(image, 1.0);
+//
+//        NSLog(@"==dataObj.lenght=%lu",(unsigned long)dataObj.length);
         
         NSURL *url = info[UIImagePickerControllerReferenceURL];
-        if (url == nil) {
-            UIImage *orgImage = info[UIImagePickerControllerOriginalImage];
-            [self sendImageMessage:orgImage];
+        if (image != nil) {
+//            UIImage *orgImage = info[UIImagePickerControllerOriginalImage];
+            [self sendImageMessage:image];
         } else {
             if ([[UIDevice currentDevice].systemVersion doubleValue] >= 9.0f) {
                 PHFetchResult *result = [PHAsset fetchAssetsWithALAssetURLs:@[url] options:nil];
@@ -1279,8 +1283,10 @@ typedef enum : NSUInteger {
                 break;
             case HDCanNotRecord:
             {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"message.failToPermission", @"No recording permission") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
-                [alertView show];
+                UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"message.failToPermission", @"No recording permission") preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"Ok") style:UIAlertActionStyleDefault handler:nil];
+                [sure addAction:confirm];
+                [self presentViewController:sure animated:true completion:nil];   
             }
                 break;
             default:
@@ -1365,13 +1371,11 @@ typedef enum : NSUInteger {
     [self.chatToolbar endEditing:YES];
     
     [self _stopAudioPlayingWithChangeCategory:YES];
-    
     // Pop image picker
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
     self.imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
-    
     [[HDSDKHelper shareHelper] setIsShowingimagePicker:YES];
 }
 
@@ -1484,10 +1488,6 @@ typedef enum : NSUInteger {
                 
                 
             }];
-            
-           
-            
-            
             //收到消息以后 判断 最新消息都时间 如果 是之前 的消息 进行排序。否则 走一下方法
             HDMessageModel * lastMessageModel = [self.dataArray lastObject];
             if (lastMessageModel &&[lastMessageModel isKindOfClass:[HDMessageModel class]]) {

@@ -24,9 +24,6 @@ static HDMessageReadManager *detailInstance = nil;
 
 @property (strong, nonatomic) NSMutableArray *photos;
 @property (strong, nonatomic) UINavigationController *photoNavigationController;
-
-@property (strong, nonatomic) UIAlertView *textAlertView;
-
 @end
 
 @implementation HDMessageReadManager

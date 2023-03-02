@@ -12,7 +12,7 @@ pod 'Masonry', '1.1.0'
 pod 'AgoraRtcEngine_iOS','3.6.1'
 #集成互动白板需要导入
 pod 'Fastboard', '1.0.8'
-pod 'TZImagePickerController'
+pod 'TZImagePickerController','3.6.1'
 end
     
 #以下是屏幕共享 相关
