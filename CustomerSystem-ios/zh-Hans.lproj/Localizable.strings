@@ -256,6 +256,10 @@
 "em_example1_text_detail" = "product_details_zh_";
 
 "em_chat_I_focus" = "我正在看";
+"em_chat_I_focus_order1" = "我正在看 订单消息1";
+"em_chat_I_focus_order2" = "我正在看 订单消息2";
+"em_chat_I_focus_track1" = "我正在看 轨迹消息1";
+"em_chat_I_focus_track2" = "我正在看 轨迹消息2";
 
 "order_number" = "订单号:";
 

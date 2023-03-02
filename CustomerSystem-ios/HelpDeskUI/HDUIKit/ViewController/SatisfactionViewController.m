@@ -361,8 +361,12 @@ static UIButton *lastBtn;
 - (void)commit
 {
     if (!_starRateView.isTap && _starRateView.scorePercent != 1) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"satisfaction.alert", @"please evaluate first") delegate:self cancelButtonTitle:NSLocalizedString(@"cancela", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"Ok"), nil];
-        [alert show];
+        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"satisfaction.alert", @"please evaluate first") message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"Ok") style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancela", @"Cancel") style:UIAlertActionStyleCancel handler:nil];
+            [sure addAction:confirm];
+        [sure addAction:cancel];
+        [self presentViewController:sure animated:true completion:nil];
         return;
     }
     if ([self.delegate respondsToSelector:@selector(commitSatisfactionWithControlArguments:type:evaluationTagsArray:resolutionParamsArray: evaluationDegreeId:)]) {

@@ -18,6 +18,8 @@
 
 + (NSString *)convertToSystemEmoticons:(NSString *)text;
 
+- (NSString *)htmlToString:(NSString *)html;
+
 #pragma mark smallpngface
 + (NSArray*)emotionsArray;
 
