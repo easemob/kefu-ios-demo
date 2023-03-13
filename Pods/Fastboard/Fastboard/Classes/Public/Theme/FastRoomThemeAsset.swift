@@ -32,7 +32,9 @@ open class FastRoomPanelItemAssets: NSObject {
                 highlightBgColor: UIColor,
                 disableColor: UIColor,
                 subOpsIndicatorColor: UIColor,
-                pageTextLabelColor: UIColor) {
+                pageTextLabelColor: UIColor,
+                selectedBackgroundCornerradius: CGFloat,
+                selectedBackgroundEdgeinset: UIEdgeInsets) {
         self.normalIconColor = normalIconColor
         self.selectedIconColor = selectedIconColor
         self.selectedIconBgColor = selectedIconBgColor
@@ -41,7 +43,15 @@ open class FastRoomPanelItemAssets: NSObject {
         self.disableColor = disableColor
         self.subOpsIndicatorColor = subOpsIndicatorColor
         self.pageTextLabelColor = pageTextLabelColor
+        self.selectedBackgroundCornerRadius = selectedBackgroundCornerradius
+        self.selectedBackgroundEdgeinset = selectedBackgroundEdgeinset
     }
+
+    @objc
+    open var selectedBackgroundCornerRadius: CGFloat
+
+    @objc
+    open var selectedBackgroundEdgeinset: UIEdgeInsets
     
     @objc
     open var normalIconColor: UIColor
@@ -78,13 +88,13 @@ open class FastRoomControlBarAssets: NSObject {
     }
     
     @objc
-    var backgroundColor: UIColor
+    open var backgroundColor: UIColor
     
     @objc
-    var borderColor: UIColor
+    open var borderColor: UIColor
     
     @objc
-    var effectStyle: UIBlurEffect?
+    open var effectStyle: UIBlurEffect?
 }
 
 /// Represents fastboard theme style

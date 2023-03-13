@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WhiteSlideDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -109,6 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
  通用回调。详见 [WhiteCommonCallbackDelegate](WhiteCommonCallbackDelegate)。
  */
 @property (nonatomic, weak) id<WhiteCommonCallbackDelegate> delegate;
+@property (nonatomic, weak) id<WhiteSlideDelegate> slideDelegate;
 
 @end
 

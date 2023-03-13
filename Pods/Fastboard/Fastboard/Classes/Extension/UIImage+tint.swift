@@ -24,7 +24,9 @@ extension UIImage {
                    backgroundColor: UIColor? = nil,
                    cornerRadius: CGFloat = 0,
                    backgroundEdgeInset: UIEdgeInsets = .zero) -> UIImage {
-        let rect = CGRect(origin: .zero, size: self.size)
+        let width = size.width - backgroundEdgeInset.left - backgroundEdgeInset.right
+        let height = size.height - backgroundEdgeInset.top - backgroundEdgeInset.bottom
+        let rect = CGRect(origin: .zero, size: .init(width: width, height: height))
         UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.main.scale)
         let context = UIGraphicsGetCurrentContext()
         var bg: UIImage?
@@ -34,19 +36,22 @@ extension UIImage {
         // Draw background
         if let bgColor = backgroundColor, alpha > 0 {
             context?.setFillColor(bgColor.cgColor)
-            let bgRect = rect.inset(by: backgroundEdgeInset)
+            let bgRect = rect
             let path = UIBezierPath(roundedRect: bgRect, cornerRadius: cornerRadius)
             path.fill()
             context?.fillPath()
             bg = UIGraphicsGetImageFromCurrentImageContext()
             context?.clear(rect)
         }
+        
         // Draw icon
-        draw(in: rect)
+        let iconRect = CGRect(x: (rect.width - size.width) / 2, y: (rect.height - size.height) / 2, width: size.width, height: size.height)
+        draw(in: iconRect)
         color.set()
-        UIRectFillUsingBlendMode(rect, .sourceAtop)
+        UIRectFillUsingBlendMode(iconRect, .sourceAtop)
         let icon = UIGraphicsGetImageFromCurrentImageContext()
-        context?.clear(rect)
+        context?.clear(iconRect)
+        
         // Compose
         bg?.draw(in: rect)
         icon?.draw(in: rect)

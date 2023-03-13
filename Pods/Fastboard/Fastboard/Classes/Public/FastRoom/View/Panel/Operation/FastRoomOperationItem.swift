@@ -7,6 +7,7 @@
 
 import Foundation
 import Whiteboard
+import UIKit
 
 @objc
 public protocol FastRoomOperationItem: AnyObject {
@@ -161,8 +162,9 @@ public class ColorItem: FastRoomOperationItem {
 }
 
 public class ApplianceItem: FastRoomOperationItem {
-    internal init(image: UIImage, action: @escaping ((WhiteRoom, Any?) -> Void), identifier: String?) {
+    internal init(image: UIImage, selectedImage: UIImage?, action: @escaping ((WhiteRoom, Any?) -> Void), identifier: String?) {
         self.image = image
+        self.selectedImage = selectedImage
         self.action = action
         self.identifier = identifier
     }
@@ -172,6 +174,7 @@ public class ApplianceItem: FastRoomOperationItem {
     }
     
     public var identifier: String?
+    var selectedImage: UIImage?
     var image: UIImage
     public var action: ((WhiteRoom, Any?)->Void)
     public weak var associatedView: UIView?  { button }
@@ -180,6 +183,7 @@ public class ApplianceItem: FastRoomOperationItem {
     lazy var button: FastRoomPanelItemButton = {
         let button = FastRoomPanelItemButton(type: .custom)
         button.rawImage = image
+        button.rawSelectedImage = selectedImage
         button.addTarget(self, action: #selector(onClick(_:)), for: .touchUpInside)
         return button
     }()
@@ -247,8 +251,10 @@ public class SubOpsItem: NSObject, FastRoomOperationItem {
     func updateSelectedApplianceAssets() {
         if let selectedApplianceItem = selectedApplianceItem {
             let image = selectedApplianceItem.image
+            let selectedImage = selectedApplianceItem.selectedImage
             let btn = associatedView as! FastRoomPanelItemButton
             btn.rawImage = image
+            btn.rawSelectedImage = selectedImage
         }
     }
     
@@ -348,6 +354,7 @@ public class SubOpsItem: NSObject, FastRoomOperationItem {
         if let op = subOps.first {
             if let item = op as? ApplianceItem {
                 button.rawImage = item.image
+                button.rawSelectedImage = item.selectedImage
                 return
             }
             if let item = op as? ColorItem {

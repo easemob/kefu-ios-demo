@@ -65,9 +65,7 @@
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
     option.showAgentInputState = YES; // 是否显示坐席输入状态
     option.isAutoLogin = YES;
-    option.usingHttpsOnly = NO;
-    
-    
+
     HDClient *client = [HDClient sharedClient];
     
     //如果HDOptions 满足使用 initializeSDKWithOptions

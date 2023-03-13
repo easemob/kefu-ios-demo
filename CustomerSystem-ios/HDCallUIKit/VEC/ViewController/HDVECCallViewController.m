@@ -30,6 +30,7 @@
 #import "HDVECSatisfactionView.h"
 #import "HDVECMessageView.h"
 #import "HDVECCallChatViewController.h"
+#import "HDVECScreeShareManager.h"
 
 //白板相关
 #ifdef HDVECWhiteBoard
@@ -189,6 +190,9 @@ static HDVECCallViewController *_manger = nil;
     [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCancelCallbackReceive = NO;
     [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
     
+    // 移除 通知
+    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDVEC_SCREENSHARE_STATRT object:nil];
+    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDVEC_SCREENSHARE_STOP object:nil];
     
 }
 - (void)removeAllSubviews {
@@ -373,6 +377,8 @@ static HDVECCallViewController *_manger = nil;
     allMembersDic = [NSMutableDictionary new];
   
     [HDVECAgoraCallManager shareInstance].roomDelegate = self;
+    // 注册屏幕共享通知
+    [self registScreenShare];
 }
 //
 -(void)clearViewData{
@@ -1596,6 +1602,59 @@ static HDVECCallViewController *_manger = nil;
     }
     
 }
+
+#pragma mark ---------------------屏幕共享 相关 start----------------------
+/// 注册屏幕共享通知
+- (void)registScreenShare{
+    // 注册屏幕分享的监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startScreenShare:) name:HDVEC_SCREENSHARE_STATRT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopScreenShare:) name:HDVEC_SCREENSHARE_STOP object:nil];
+}
+// 屏幕共享事件
+- (void)shareDesktopBtnClicked:(UIButton *)btn {
+    _shareBtn = btn;
+    _shareBtn.selected = _shareState;
+   
+#ifdef HDVECWhiteBoard
+    if ([HDVECWhiteRoomManager shareInstance].roomState == YES) {
+        //当前正在白板房间
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")  withWindow:self.alertWindow];
+        return;
+    }
+#else
+
+#endif
+    // 创建 屏幕分享
+    [[HDVECScreeShareManager shareInstance] vec_initBroadPickerView];
+    NSLog(@"点击了屏幕共享事件");
+}
+
+/// 开启屏幕分享 修改状态
+/// @param noti
+- (void)startScreenShare:(NSNotification *) noti{
+    _shareState= YES;
+    _shareBtn.selected = _shareState;
+    
+}
+/// 关闭屏幕分享 修改状态
+/// @param noti
+- (void)stopScreenShare:(NSNotification *) noti{
+    _shareState= NO;
+    //更改按钮的状态
+    _shareBtn.selected = _shareState;
+}
+#pragma mark ---------------------屏幕共享 相关 end----------------------
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+     if ([keyPath isEqualToString:@"text"]) {
+        NSString *string = change[NSKeyValueChangeNewKey];
+        if (self.hdSupendCustomView) {
+            [self.hdSupendCustomView  updateTimeText:string];
+        }
+    }
+}
+
+
 #ifdef HDVECWhiteBoard
 
 #pragma mark -  互动白板 相关
@@ -1864,83 +1923,6 @@ static HDVECCallViewController *_manger = nil;
    
 }
 
-#pragma mark - 屏幕共享相关
-// 屏幕共享事件
-- (void)shareDesktopBtnClicked:(UIButton *)btn {
-    
-    _shareBtn = btn;
-    _shareBtn.selected = _shareState;
-#ifdef HDVECWhiteBoard
-    if ([HDVECWhiteRoomManager shareInstance].roomState == YES) {
-        //当前正在白板房间
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")  withWindow:self.alertWindow];
-        return;
-    }
-#else
-
-#endif
-    /// 初始化屏幕分享
-    [self initScreenShare];
-    
-    //点击的时候先要 保存屏幕共享的数据
-    [[HDVECAgoraCallManager shareInstance] vec_saveShareDeskData:[HDVECAgoraCallManager shareInstance].keyCenter];
-    
-    sleep(0.5);
-    //通过UserDefaults建立数据通道
-    [self setupUserDefaults];
-    for (UIView *view in _broadPickerView.subviews)
-    {
-        if ([view isKindOfClass:[UIButton class]])
-        {
-            //调起录像方法，UIControlEventTouchUpInside的方法看其他文章用的是UIControlEventTouchDown，
-            //我使用时用UIControlEventTouchUpInside用好使，看个人情况决定
-            [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
-        }
-    }
-    NSLog(@"点击了屏幕共享事件");
-    [HDLog logD:@"HD===点击了屏幕共享事件"];
-}
-
-
-#pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。
-// 录屏直播 主App和宿主App数据共享，通信功能实现 如果我们要将开始、暂停、结束这些事件以消息的形式发送到宿主App中，需要使用CFNotificationCenterGetDarwinNotifyCenter。
-- (void)setupUserDefaults{
-    // 通过UserDefaults建立数据通道，接收Extension传递来的视频帧
-  
-    [[HDVECAgoraCallManager shareInstance].userDefaults setObject:@{@"state":@"x"} forKey:kVECUserDefaultState];//给状态一个默认值
-    [[HDVECAgoraCallManager shareInstance].userDefaults addObserver:self forKeyPath:kVECUserDefaultState options:NSKeyValueObservingOptionNew context:VECKVOContext];
-//    [self.userDefaults addObserver:self forKeyPath:kUserDefaultFrame options:NSKeyValueObservingOptionNew context:KVOContext];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    if ([keyPath isEqualToString:kVECUserDefaultState]) {
-        NSDictionary *string = change[NSKeyValueChangeNewKey];
-        if ([string[@"state"] isEqual:@"初始化"]) {
-            //开启 RTC：外部视频输入通道，开始推送屏幕流（configLocalScreenPublish）
-//            [self screenShareStart];
-            
-            NSLog(@"== 屏幕分享开始=====%@",string);
-            _shareState= YES;
-            _shareBtn.selected = _shareState;
-        
-        }
-        if ([string[@"state"] isEqual:@"停止"]) {
-            //关闭 RTC：外部视频输入通道，停止推送屏幕流
-//            [self screenShareStop];
-            NSLog(@"== 屏幕分享停止=====%@",string);
-            _shareState= NO;
-            //更改按钮的状态
-            _shareBtn.selected = _shareState;
-        }
-        return;
-    }else if ([keyPath isEqualToString:@"text"]) {
-        NSString *string = change[NSKeyValueChangeNewKey];
-        if (self.hdSupendCustomView) {
-            [self.hdSupendCustomView  updateTimeText:string];
-        }
-        
-    }
-}
 #pragma mark - Picture in picture  相关
 
 - (void)__enablePictureInPicture{
@@ -2895,7 +2877,6 @@ static HDVECCallViewController *_manger = nil;
         case  HDVECPopoverCellItemTypeShareScreen:
             //屏幕共享
             NSLog(@"=========点击了屏幕共享");
-            [self initScreenShare];
             _shareScreenCellItem = item;
             [self shareDesktopBtnClicked:nil];
             break;

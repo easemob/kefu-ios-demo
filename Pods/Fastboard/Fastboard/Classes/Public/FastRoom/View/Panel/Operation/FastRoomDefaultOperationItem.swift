@@ -7,6 +7,7 @@
 
 import Foundation
 import Whiteboard
+import UIKit
 
 /// Include built-in operationItems
 @objc
@@ -113,7 +114,7 @@ public class FastRoomDefaultOperationItem: NSObject {
             imageName += appliance.rawValue
         }
         let identifier = identifierFor(appliance: appliance, shape: shape)
-        return ApplianceItem(image: UIImage.currentBundle(named: imageName)!, action: { room, _ in
+        return ApplianceItem(image: UIImage.currentBundle(named: imageName)!, selectedImage: UIImage.currentBundle(named: imageName + "-selected"), action: { room, _ in
             let memberState = WhiteMemberState()
             memberState.currentApplianceName = appliance
             memberState.shapeType = shape

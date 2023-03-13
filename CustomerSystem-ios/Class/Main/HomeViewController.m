@@ -782,7 +782,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 //    return;
     
 //    [self lxLogout];
-//          [self lxLogin];
+          [self lxLogin];
 //    HDAgoraCallViewController * agoraVC = [[HDAgoraCallViewController alloc] init];
 //    [self.navigationController pushViewController:agoraVC animated:YES];
 //    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:nil avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
@@ -801,7 +801,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
 //   
 
-    [self testBug];
+//    [self testBug];
     
 }
 //理想汽车crash
@@ -830,16 +830,16 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 //登录IM【测试】
 -(void)lxLogin{
-    NSString *username = @"shouqian";
+    NSString *username = @"100035767";
     HDClient *client = [HDClient sharedClient];
-//    [client loginWithUsername:username password:hxPassWord completion:^(HDError *error) {
-//        if (!error) { //IM登录成功
-//            NSLog(@"lx ----登录成功");
-//            [self lxSendText];
-//        } else { //登录失败
-//            NSLog(@"lx ----登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
-//        }
-//    }];
+    [client loginWithUsername:username password:@"111111" completion:^(HDError *error) {
+        if (!error) { //IM登录成功
+            NSLog(@"lx ----登录成功");
+            [self lxSendText];
+        } else { //登录失败
+            NSLog(@"lx ----登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
+        }
+    }];
     
    
     

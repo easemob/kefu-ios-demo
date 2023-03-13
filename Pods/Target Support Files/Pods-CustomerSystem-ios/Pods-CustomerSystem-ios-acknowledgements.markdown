@@ -3,7 +3,7 @@ This application makes use of the following third party libraries:
 
 ## AgoraRtcEngine_iOS
 
-Copyright 2018 agora.io. All rights reserved.
+Copyright 2023 agora.io. All rights reserved.
 
 
 ## Fastboard

@@ -25,6 +25,7 @@
 #import "MBProgressHUD+Add.h"
 #import "UIViewController+AlertController.h"
 #import "CSDemoAccountManager.h"
+#import "HDCECScreeShareManager.h"
 
 //白板相关
 #ifdef OnlineWhiteBoard
@@ -38,8 +39,6 @@
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
 #define kCamViewTag 100001
-#define kScreenShareExtensionBundleId @"com.easemob.kf.demo.customer.shareWindow"
-#define kNotificationShareWindow kScreenShareExtensionBundleId
 #define kPointHeight [UIScreen mainScreen].bounds.size.width *0.9
 
 
@@ -271,8 +270,9 @@ static HDCallViewController *_manger = nil;
     _members = [NSMutableArray new];
     _midelleMembers = [NSMutableArray new];
     allMembersDic = [NSMutableDictionary new];
-    [self initScreenShare];
     [HDAgoraCallManager shareInstance].roomDelegate = self;
+    // 注册屏幕共享通知
+    [self registScreenShare];
 }
 //
 -(void)clearViewData{
@@ -302,10 +302,6 @@ static HDCallViewController *_manger = nil;
     
 }
 
-/// 初始化屏幕分享
-- (void)initScreenShare{
-    [self initBroadPickerView];
-}
 -(void)initData{
     HDControlBarModel * barModel = [HDControlBarModel new];
     barModel.itemType = HDControlBarItemTypeMute;
@@ -950,22 +946,6 @@ static HDCallViewController *_manger = nil;
     return _parentView;
 }
 
-
-/// 初始化屏幕分享view
-- (void)initBroadPickerView{
-    if (@available(iOS 12.0, *)) {
-        _broadPickerView = [[RPSystemBroadcastPickerView alloc] init];
-        _broadPickerView.preferredExtension = kScreenShareExtensionBundleId;
-        _broadPickerView.showsMicrophoneButton = NO;
-        _broadPickerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-        
-    } else {
-        // Fallback on earlier versions
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"屏幕共享不能使用", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
-        
-        
-    }
-}
 // 切换摄像头事件
 - (void)camBtnClicked:(UIButton *)btn {
 //    btn.selected = !btn.selected;
@@ -1503,14 +1483,28 @@ static HDCallViewController *_manger = nil;
 #else
 
 #endif
-#pragma mark - 屏幕共享相关
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+     if ([keyPath isEqualToString:@"text"]) {
+        NSString *string = change[NSKeyValueChangeNewKey];
+        if (self.hdSupendCustomView) {
+            [self.hdSupendCustomView  updateTimeText:string];
+        }
+        
+    }
+}
+#pragma mark ---------------------屏幕共享 相关 start-------------------------
+/// 注册屏幕共享通知
+- (void)registScreenShare{
+    // 注册屏幕分享的监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startScreenShare:) name:HDCEC_SCREENSHARE_STATRT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopScreenShare:) name:HDCEC_SCREENSHARE_STOP object:nil];
+}
 // 屏幕共享事件
 - (void)shareDesktopBtnClicked:(UIButton *)btn {
 
     _shareBtn = btn;
-
     _shareBtn.selected = _shareState;
-   
 #ifdef OnlineWhiteBoard
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         [HDLog logD:@"HD===%s ===%@",__func__,NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")];
@@ -1521,62 +1515,33 @@ static HDCallViewController *_manger = nil;
 #else
 
 #endif
-   
-    //点击的时候先要 保存屏幕共享的数据
-    [[HDAgoraCallManager shareInstance] hd_saveShareDeskData:[HDAgoraCallManager shareInstance].keyCenter];
-   
-    //通过UserDefaults建立数据通道
-    [self setupUserDefaults];
-    for (UIView *view in _broadPickerView.subviews)
-    {
-        if ([view isKindOfClass:[UIButton class]])
-        {
-            //调起录像方法，UIControlEventTouchUpInside的方法看其他文章用的是UIControlEventTouchDown，
-            //我使用时用UIControlEventTouchUpInside用好使，看个人情况决定
-            [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
-        }
-    }
-    [HDLog logD:@"HD===%s 点击了屏幕共享事件",__func__];
+
+    // 创建 屏幕分享
+    [[HDCECScreeShareManager shareInstance] initBroadPickerView];
+    NSLog(@"点击了屏幕共享事件");
 }
 
-
-#pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。
-// 录屏直播 主App和宿主App数据共享，通信功能实现 如果我们要将开始、暂停、结束这些事件以消息的形式发送到宿主App中，需要使用CFNotificationCenterGetDarwinNotifyCenter。
-- (void)setupUserDefaults{
-    // 通过UserDefaults建立数据通道，接收Extension传递来的视频帧
-  
-    [[HDAgoraCallManager shareInstance].userDefaults setObject:@{@"state":@"x"} forKey:kUserDefaultState];//给状态一个默认值
-    [[HDAgoraCallManager shareInstance].userDefaults addObserver:self forKeyPath:kUserDefaultState options:NSKeyValueObservingOptionNew context:KVOContext];
-//    [self.userDefaults addObserver:self forKeyPath:kUserDefaultFrame options:NSKeyValueObservingOptionNew context:KVOContext];
+/// 开启屏幕分享 修改状态
+/// @param noti
+- (void)startScreenShare:(NSNotification *) noti{
+    _shareState= YES;
+    _shareBtn.selected = _shareState;
+    
 }
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    if ([keyPath isEqualToString:kUserDefaultState]) {
-        NSDictionary *string = change[NSKeyValueChangeNewKey];
-        if ([string[@"state"] isEqual:@"初始化"]) {
-            //开启 RTC：外部视频输入通道，开始推送屏幕流（configLocalScreenPublish）
-            [HDLog logD:@"HD===%s 屏幕分享开始=%@",__func__,string];
-            _shareState= YES;
-            _shareBtn.selected = _shareState;
-            
-        }
-        if ([string[@"state"] isEqual:@"停止"]) {
-            //关闭 RTC：外部视频输入通道，停止推送屏幕流
-            [HDLog logD:@"HD===%s 屏幕分享停止=%@",__func__,string];
-            _shareState= NO;
-            //更改按钮的状态
-            _shareBtn.selected = _shareState;
-        }
-        return;
-    }else if ([keyPath isEqualToString:@"text"]) {
-        NSString *string = change[NSKeyValueChangeNewKey];
-        if (self.hdSupendCustomView) {
-            [self.hdSupendCustomView  updateTimeText:string];
-        }
-        
-    }
+/// 关闭屏幕分享 修改状态
+/// @param noti
+- (void)stopScreenShare:(NSNotification *) noti{
+    _shareState= NO;
+    //更改按钮的状态
+    _shareBtn.selected = _shareState;
 }
-
+#pragma mark ---------------------屏幕共享 相关 end-----------------------------
+- (void)dealloc{
+    // 移除 通知
+    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDCEC_SCREENSHARE_STATRT object:nil];
+    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDCEC_SCREENSHARE_STOP object:nil];
+    
+}
 #pragma mark - Picture in picture  相关
 
 - (void)__enablePictureInPicture{

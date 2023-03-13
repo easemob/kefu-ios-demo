@@ -130,16 +130,10 @@ static HDVECAgoraCallManager *shareCall = nil;
         //启用视频模块
         [_agoraKit enableVideo];
     
-        //开启虚拟背景
-//        AgoraVirtualBackgroundSource *backgroundSource = [[AgoraVirtualBackgroundSource alloc] init];
-//        backgroundSource.backgroundSourceType = AgoraVirtualBackgroundColor;
-//        [_agoraKit enableVirtualBackground:NO backData:backgroundSource];
-        //开启enableDeepLearningDenoiseSDK 默认开启传统降噪，以消除大部分平稳噪声。AI 降噪是指在传统降噪的基础上消除非平稳噪声。集成 AI 降噪插件后，你可以调用 enableDeepLearningDenoise 开启 AI 降噪
-        [_agoraKit enableDeepLearningDenoise:YES];
         // set video configuration
         float size = _options.dimension.width;
-        AgoraVideoEncoderConfiguration *configuration = [[AgoraVideoEncoderConfiguration alloc] initWithSize:  (size>0 ? _options.dimension : AgoraVideoDimension480x480) frameRate: AgoraVideoFrameRateFps24 bitrate:_options.bitrate ? _options.bitrate :AgoraVideoBitrateStandard  orientationMode:AgoraVideoOutputOrientationModeAdaptative];
-        
+        AgoraVideoEncoderConfiguration *configuration =[[AgoraVideoEncoderConfiguration alloc] initWithSize: (size>0 ? _options.dimension :AgoraVideoDimension480x480 ) frameRate:AgoraVideoFrameRateFps24 bitrate:_options.bitrate ? _options.bitrate :AgoraVideoBitrateStandard orientationMode:AgoraVideoOutputOrientationModeAdaptative mirrorMode:AgoraVideoMirrorModeDisabled];
+    
         [_agoraKit setVideoEncoderConfiguration:configuration];
         
         _isCurrentFrontFacingCamera = YES;
@@ -152,7 +146,10 @@ static HDVECAgoraCallManager *shareCall = nil;
     
     AgoraVirtualBackgroundSource *backgroundSource = [[AgoraVirtualBackgroundSource alloc] init];
     backgroundSource.backgroundSourceType = AgoraVirtualBackgroundColor;
-    [self.agoraKit enableVirtualBackground:enable backData:backgroundSource];
+    
+    AgoraSegmentationProperty  * seg = [[AgoraSegmentationProperty alloc] init];
+    seg.modelType = SegModelAgoraAi;
+    [self.agoraKit enableVirtualBackground:enable backData:backgroundSource segData:seg];
 }
 - (void)vec_setupLocalVideoView:(UIView *)localView{
     
@@ -413,10 +410,6 @@ static HDVECAgoraCallManager *shareCall = nil;
     }
 }
 
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStateChangedOfUid:(NSUInteger)uid state:(AgoraVideoRemoteState)state reason:(AgoraVideoRemoteStateReason)reason elapsed:(NSInteger)elapsed
-{
-    [HDLog logD:@"HD===%s remoteVideoStateChangedOfUid uid=%@ state=%@  reason=%@",__func__,@(uid), @(state), @(reason)];
-}
 - (void)rtcEngine:(AgoraRtcEngineKit *_Nonnull)engine firstLocalVideoFrameWithSize:(CGSize)size elapsed:(NSInteger)elapsed{
     
     [HDLog logD:@"HD==agoraRtcSDK=%s",__func__];
@@ -466,12 +459,6 @@ static HDVECAgoraCallManager *shareCall = nil;
   
     
 }
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine virtualBackgroundSourceEnabled:(BOOL)enabled reason:(AgoraVirtualBackgroundSourceStateReason)reason{
-    
-    NSLog(@"HD===virtualBackgroundSourceEnabled = %d  &#xe650; = reason=%luu",enabled,(unsigned long)reason);
-    
-}
-
 /// 远端用户音频静音回调
 /// @param engine AgoraRtcEngineKit
 /// @param muted muted
@@ -537,6 +524,39 @@ static HDVECAgoraCallManager *shareCall = nil;
     }
 //    return uid >= SCREEN_SHARE_UID_MIN && uid <= SCREEN_SHARE_UID_MAX;
     return YES;
+}
+- (AgoraScreenCaptureParameters2 *)screenCaptureParams{
+    
+    if (!_screenCaptureParams) {
+        _screenCaptureParams = [[AgoraScreenCaptureParameters2 alloc] init];
+        _screenCaptureParams.captureAudio = YES;
+        _screenCaptureParams.captureVideo = YES;
+        
+        AgoraScreenAudioParameters *audioParams = [[AgoraScreenAudioParameters alloc] init];
+        audioParams.captureSignalVolume = 50;
+            
+       AgoraScreenVideoParameters *videoParams = [[AgoraScreenVideoParameters alloc] init];
+       videoParams.dimensions = [self screenShareVideoDimension];
+        videoParams.frameRate = AgoraVideoFrameRateFps30;
+      _screenCaptureParams.videoParams = videoParams;
+        _screenCaptureParams.audioParams = audioParams;
+    
+    }
+    
+    return _screenCaptureParams;
+}
+-(CGSize)screenShareVideoDimension{
+    
+    CGRect screenSize = [UIScreen mainScreen].bounds  ;
+    CGSize boundingSize = CGSizeMake(540, 960);
+    CGFloat mW = boundingSize.width / screenSize.size.width;
+    CGFloat mH = boundingSize.height / screenSize.size.height;
+          if (mH < mW) {
+              boundingSize.width = boundingSize.height / screenSize.size.height * screenSize.size.width;
+          } else if (mW < mH) {
+              boundingSize.height = boundingSize.width / screenSize.size.width * screenSize.size.height;
+          }
+    return boundingSize;
 }
 
 - (void)vec_initSettingWithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion {

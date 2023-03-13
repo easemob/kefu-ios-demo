@@ -31,7 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  用户加入房间时携带的用户信息。
  */
-@property (nonatomic, strong, readonly, nullable) WhiteMemberInformation *information;
+@property (nonatomic, strong, readonly, nullable) WhiteMemberInformation *information
+DEPRECATED_MSG_ATTRIBUTE("use payload");
 
 /**
  用户加入房间时携带的自定义用户信息。

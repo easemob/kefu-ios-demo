@@ -8,6 +8,7 @@
 #import "WhiteCommonCallbacks.h"
 #import "WhiteConsts.h"
 #import "WhiteObject.h"
+#import "DWKWebView.h"
 
 @implementation WhiteCommonCallbacks
 
@@ -37,6 +38,15 @@
         [self.delegate throwError:error];
     }
     return @"";
+}
+
+- (void)slideUrlInterrupter:(NSString *)url completionHandler:(JSCallback)completionHandler
+{
+    if ([self.slideDelegate respondsToSelector:@selector(slideUrlInterrupter:completionHandler:)]) {
+        [self.slideDelegate slideUrlInterrupter:url completionHandler:^(NSString * _Nullable result) {
+            completionHandler(result, YES);
+        }];
+    }
 }
 
 - (NSString *)urlInterrupter:(NSString *)url
@@ -98,6 +108,12 @@
          其他字段由 iframe 自行决定
         */
         [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:dict];
+    }
+    if (dict && [dict[@"type"] isEqualToString:@"@slide/_report_log_"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Slide-Log" object:nil userInfo:dict];
+    }
+    if (dict && [dict[@"type"] isEqualToString:@"@slide/_report_volume_"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Slide-Volume" object:nil userInfo:dict];
     }
     if (dict && [self.delegate respondsToSelector:@selector(customMessage:)]) {
         [self.delegate customMessage:dict];

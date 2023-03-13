@@ -13,12 +13,10 @@
 
 #define kCamViewTag 100001
 NS_ASSUME_NONNULL_BEGIN
-static NSString * _Nonnull kUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
 
-static NSString * _Nonnull kAppGroup = @"group.com.easemob.kf.demo.customer";
-static void *KVOContext = &KVOContext;
 @interface HDAgoraCallManager : NSObject
 @property (strong, nonatomic) AgoraRtcEngineKit *agoraKit;
+@property (strong, nonatomic) AgoraScreenCaptureParameters2 * screenCaptureParams;
 @property (nonatomic, weak) id <HDAgoraCallManagerDelegate> roomDelegate;
 @property (nonatomic, strong) HDKeyCenter *keyCenter;
 @property (nonatomic, strong) NSString *conversationId;

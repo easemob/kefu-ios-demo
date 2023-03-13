@@ -59,6 +59,13 @@ public class FastRoomPanelItemButton: UIButton {
         }
     }
     
+    @objc
+    public var rawSelectedImage: UIImage? {
+        didSet {
+            tryUpdateStyle()
+        }
+    }
+    
     @objc dynamic var iconHighlightBgColor: UIColor? = nil {
         didSet {
             tryUpdateStyle()
@@ -101,6 +108,18 @@ public class FastRoomPanelItemButton: UIButton {
         }
     }
     
+    @objc dynamic var selectedBackgroundCornerradius: CGFloat = 0 {
+        didSet {
+            tryUpdateStyle()
+        }
+    }
+    
+    @objc dynamic var selectedBackgroundEdgeinset: UIEdgeInsets = .zero {
+        didSet {
+            tryUpdateStyle()
+        }
+    }
+    
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if #available(iOS 13.0, *) {
@@ -128,13 +147,14 @@ public class FastRoomPanelItemButton: UIButton {
              drawColor: UIColor,
              backgroundColor: UIColor? = nil,
              cornerRadius: CGFloat = 0,
-             state: State) {
+             state: State,
+             inset: UIEdgeInsets = .zero) {
         if #available(iOS 13.0, *) {
-            let image = rawImage.dynamicDraw(drawColor, backgroundColor: backgroundColor, cornerRadius: cornerRadius, traitCollection: traitCollection)
+            let image = rawImage.dynamicDraw(drawColor, backgroundColor: backgroundColor, cornerRadius: cornerRadius, backgroundEdgeInset: inset, traitCollection: traitCollection)
             setImage(image, for: state)
         } else {
-            let image = rawImage.redraw(drawColor, backgroundColor: backgroundColor, cornerRadius: cornerRadius)
-            setImage(image.redraw(drawColor), for: state)
+            let image = rawImage.redraw(drawColor, backgroundColor: backgroundColor, cornerRadius: cornerRadius, backgroundEdgeInset: inset)
+            setImage(image, for: state)
         }
     }
     
@@ -147,13 +167,21 @@ public class FastRoomPanelItemButton: UIButton {
             if let normalColor = iconNormalColor {
                 set(rawImage: image, drawColor: normalColor, state: .normal)
             }
+            
             if let iconSelectedColor = iconSelectedColor {
-                set(rawImage: image, drawColor: iconSelectedColor, backgroundColor: iconSelectedBgColor, state: .selected)
-                set(rawImage: image, drawColor: iconSelectedColor, backgroundColor: iconSelectedBgColor, state: [.selected, .highlighted])
+                if let rawSelectedImage = rawSelectedImage {
+                    set(rawImage: rawSelectedImage, drawColor: iconSelectedColor, backgroundColor: iconSelectedBgColor, cornerRadius: selectedBackgroundCornerradius, state: .selected, inset: selectedBackgroundEdgeinset)
+                    set(rawImage: rawSelectedImage, drawColor: iconSelectedColor, backgroundColor: iconSelectedBgColor, cornerRadius: selectedBackgroundCornerradius, state: [.selected, .highlighted], inset: selectedBackgroundEdgeinset)
+                } else {
+                    set(rawImage: image, drawColor: iconSelectedColor, backgroundColor: iconSelectedBgColor, cornerRadius: selectedBackgroundCornerradius, state: .selected, inset: selectedBackgroundEdgeinset)
+                    set(rawImage: image, drawColor: iconSelectedColor, backgroundColor: iconSelectedBgColor, cornerRadius: selectedBackgroundCornerradius, state: [.selected, .highlighted], inset: selectedBackgroundEdgeinset)
+                }
             }
+            
             if let highlightColor = highlightColor {
                 set(rawImage: image, drawColor: highlightColor, backgroundColor: iconHighlightBgColor, cornerRadius: 5, state: .highlighted)
             }
+            
             if let disableColor = disableColor {
                 set(rawImage: image, drawColor: disableColor, state: .disabled)
             }

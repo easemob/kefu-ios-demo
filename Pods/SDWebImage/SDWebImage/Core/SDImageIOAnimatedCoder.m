@@ -238,9 +238,9 @@ static NSString * kSDCGImageDestinationRequestedFileSize = @"kCGImageDestination
             CGFloat pixelRatio = pixelWidth / pixelHeight;
             CGFloat thumbnailRatio = thumbnailSize.width / thumbnailSize.height;
             if (pixelRatio > thumbnailRatio) {
-                maxPixelSize = MAX(thumbnailSize.width, thumbnailSize.width / pixelRatio);
+                maxPixelSize = thumbnailSize.width;
             } else {
-                maxPixelSize = MAX(thumbnailSize.height, thumbnailSize.height * pixelRatio);
+                maxPixelSize = thumbnailSize.height;
             }
         } else {
             maxPixelSize = MAX(thumbnailSize.width, thumbnailSize.height);
@@ -503,9 +503,9 @@ static NSString * kSDCGImageDestinationRequestedFileSize = @"kCGImageDestination
         CGFloat pixelRatio = pixelWidth / pixelHeight;
         CGFloat maxPixelSizeRatio = maxPixelSize.width / maxPixelSize.height;
         if (pixelRatio > maxPixelSizeRatio) {
-            finalPixelSize = MAX(maxPixelSize.width, maxPixelSize.width / pixelRatio);
+            finalPixelSize = maxPixelSize.width;
         } else {
-            finalPixelSize = MAX(maxPixelSize.height, maxPixelSize.height * pixelRatio);
+            finalPixelSize = maxPixelSize.height;
         }
         properties[(__bridge NSString *)kCGImageDestinationImageMaxPixelSize] = @(finalPixelSize);
     }
