@@ -191,8 +191,8 @@ static HDVECCallViewController *_manger = nil;
     [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
     
     // 移除 通知
-    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDVEC_SCREENSHARE_STATRT object:nil];
-    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDVEC_SCREENSHARE_STOP object:nil];
+//    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDVEC_SCREENSHARE_STATRT object:nil];
+//    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDVEC_SCREENSHARE_STOP object:nil];
     
 }
 - (void)removeAllSubviews {
@@ -1607,14 +1607,11 @@ static HDVECCallViewController *_manger = nil;
 /// 注册屏幕共享通知
 - (void)registScreenShare{
     // 注册屏幕分享的监听
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startScreenShare:) name:HDVEC_SCREENSHARE_STATRT object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopScreenShare:) name:HDVEC_SCREENSHARE_STOP object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vec_startScreenShare:) name:HDVEC_SCREENSHARE_STATRT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vec_stopScreenShare:) name:HDVEC_SCREENSHARE_STOP object:nil];
 }
 // 屏幕共享事件
 - (void)shareDesktopBtnClicked:(UIButton *)btn {
-    _shareBtn = btn;
-    _shareBtn.selected = _shareState;
-   
 #ifdef HDVECWhiteBoard
     if ([HDVECWhiteRoomManager shareInstance].roomState == YES) {
         //当前正在白板房间
@@ -1624,24 +1621,54 @@ static HDVECCallViewController *_manger = nil;
 #else
 
 #endif
-    // 创建 屏幕分享
-    [[HDVECScreeShareManager shareInstance] vec_initBroadPickerView];
-    NSLog(@"点击了屏幕共享事件");
+    
+    _shareBtn = btn;
+    _shareBtn.selected = _shareState;
+        if ([HDVECScreeShareManager shareInstance].isApp) {
+            
+            // 应用内
+            if ([HDVECScreeShareManager shareInstance].vecAvailable) {
+                
+                NSLog(@"=======");
+                
+            }else{
+                NSLog(@"未授权");
+                return;
+                
+            }
+           
+            [[HDVECScreeShareManager shareInstance] vec_app_startScreenCaptureCompletionHandler:^(NSError * _Nullable error) {
+                
+                
+                NSLog(@"=====%@",error);
+                
+            }];
+            
+        }else{
+            // 应用外
+            
+            // 创建 屏幕分享  这个说应用外分享
+            [[HDVECScreeShareManager shareInstance] vec_initBroadPickerView];
+        }
 }
 
 /// 开启屏幕分享 修改状态
 /// @param noti
-- (void)startScreenShare:(NSNotification *) noti{
+- (void)vec_startScreenShare:(NSNotification *) noti{
     _shareState= YES;
     _shareBtn.selected = _shareState;
+    
+    [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.startScreenShare", "开启屏幕共享")  withWindow:self.alertWindow];
     
 }
 /// 关闭屏幕分享 修改状态
 /// @param noti
-- (void)stopScreenShare:(NSNotification *) noti{
+- (void)vec_stopScreenShare:(NSNotification *) noti{
     _shareState= NO;
     //更改按钮的状态
     _shareBtn.selected = _shareState;
+    [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.stopScreenShare", "关闭屏幕共享")  withWindow:self.alertWindow];
+    
 }
 #pragma mark ---------------------屏幕共享 相关 end----------------------
 
@@ -2102,7 +2129,7 @@ static HDVECCallViewController *_manger = nil;
     self.alertWindow.hidden = NO;
     self.view.hidden = NO;
     _hdSupendCustomView.hidden = !self.view.hidden;
-    [self.hdTitleView.timeLabel removeObserver:self forKeyPath:@"text"];
+//    [self.hdTitleView.timeLabel removeObserver:self forKeyPath:@"text"];
     
     [self cancelWindow];
 

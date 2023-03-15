@@ -1502,9 +1502,6 @@ static HDCallViewController *_manger = nil;
 }
 // 屏幕共享事件
 - (void)shareDesktopBtnClicked:(UIButton *)btn {
-
-    _shareBtn = btn;
-    _shareBtn.selected = _shareState;
 #ifdef OnlineWhiteBoard
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         [HDLog logD:@"HD===%s ===%@",__func__,NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")];
@@ -1515,10 +1512,26 @@ static HDCallViewController *_manger = nil;
 #else
 
 #endif
-
-    // 创建 屏幕分享
-    [[HDCECScreeShareManager shareInstance] initBroadPickerView];
-    NSLog(@"点击了屏幕共享事件");
+    _shareBtn = btn;
+    _shareBtn.selected = _shareState;
+    if ([HDCECScreeShareManager shareInstance].isApp) {
+        // 应用内
+        if ([HDCECScreeShareManager shareInstance].cecAvailable) {
+            NSLog(@"=======");
+        }else{
+            NSLog(@"未授权");
+            return;
+        }
+        [[HDCECScreeShareManager shareInstance] cec_app_startScreenCaptureCompletionHandler:^(NSError * _Nullable error) {
+            NSLog(@"=====%@",error);
+        }];
+        
+    }else{
+        // 应用外
+        
+        // 创建 屏幕分享  这个说应用外分享
+        [[HDCECScreeShareManager shareInstance] cec_initBroadPickerView];
+    }
 }
 
 /// 开启屏幕分享 修改状态

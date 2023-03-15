@@ -19,6 +19,7 @@ static NSString * _Nonnull kUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接�
 
 - (void)broadcastStartedWithSetupInfo:(NSDictionary<NSString *,NSObject *> *)setupInfo {
     // User has requested to start the broadcast. Setup info from the UI extension can be supplied but optional.
+    
     self.userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
 
     [self.userDefaults setObject:@{@"state":@"broadcastStarted"} forKey:kUserDefaultState];//结束字段
@@ -50,6 +51,10 @@ static NSString * _Nonnull kUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接�
 }
 
 - (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer withType:(RPSampleBufferType)sampleBufferType {
+    
+    
+//    NSLog(@"========");
+    
     [[AgoraReplayKitExt shareInstance] pushSampleBuffer:sampleBuffer withType:sampleBufferType];
 }
 
@@ -81,4 +86,6 @@ static NSString * _Nonnull kUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接�
             break;
     }
 }
+
+
 @end
