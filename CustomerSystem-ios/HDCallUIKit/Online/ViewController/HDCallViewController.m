@@ -1514,7 +1514,7 @@ static HDCallViewController *_manger = nil;
 #endif
     _shareBtn = btn;
     _shareBtn.selected = _shareState;
-    if ([HDCECScreeShareManager shareInstance].isApp) {
+    if ([HDCECScreeShareManager shareInstance].isCecExtensionApp == NO) {
         // 应用内
         if ([HDCECScreeShareManager shareInstance].cecAvailable) {
             NSLog(@"=======");

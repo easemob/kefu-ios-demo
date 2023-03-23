@@ -1803,6 +1803,19 @@ typedef enum : NSUInteger {
                 [self moreViewLeaveMessageAction:nil];
                 return;
             }
+           
+            if ([HDMessage isCreateVECVideoMessage:item] ) {
+                
+                // 创建vec 视频
+                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
+                [dic setObject:@"kefuchannelimid_250083" forKey:@"easemob_vec_imservecnum"];
+                [dic setObject:@"aaf16fee-e08a-4435-a2c1-4ad1b4776a06" forKey:@"easemob_vec_configid"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_vec_call" object:nil userInfo:dic];
+                
+                return;
+                
+            }
+            
             HDMessage *msg = [HDMessage createSendMessageWithMenuItem:item to:self.conversation.conversationId];
             [self _sendMessage:msg];
             return;

@@ -10,6 +10,8 @@
 #import <ReplayKit/ReplayKit.h>
 #import <CoreMedia/CoreMedia.h>
 #import "HDVECAgoraCallMember.h"
+#import "HDVECCallViewController.h"
+
 
 #define kForService @"com.easemob.kf.demo.customer.ScreenShare"
 #define kSaveAgoraToken @"call_agoraToken"
@@ -559,10 +561,32 @@ static HDVECAgoraCallManager *shareCall = nil;
     return boundingSize;
 }
 
+- (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(nonnull HDVisitorInfo *)visitorinfo{
+    
+    [self vec_initSetting:configid withImServecionNumer:imServecionNumer WithCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+            
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // 主动发起的时候keyCenter 不需要传
+        [[HDVECCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVECDirectionSend withVisitornickName:visitorinfo.nickName];
+            [HDVECCallViewController sharedManager].hangUpVideoCallback = ^(HDVECCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+                [[HDVECCallViewController sharedManager]  removeView];
+
+                [[HDVECCallViewController sharedManager] removeSharedManager];
+
+            };
+        });
+        
+    }];
+    
+    
+}
+
 - (void)vec_initSettingWithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion {
     kWeakSelf
     [self vec_getConfigInfoCompletion:^(HDVECEnterpriseInfo * _Nonnull model, HDError * _Nonnull error) {
-            [[HDClient sharedClient].callManager hd_getInitVECSettingWithCompletion:^(id  responseObject, HDError *error) {
+
+        NSString * configid = [HDClient sharedClient].kefuConfigId;
+            [[HDClient sharedClient].callManager hd_getInitVECConfigId:configid Completion:^(id  responseObject, HDError *error) {
                 if (!error && [responseObject isKindOfClass:[NSDictionary class]] ) {
                     NSDictionary * dic= responseObject;
                     if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
@@ -581,6 +605,33 @@ static HDVECAgoraCallManager *shareCall = nil;
             }];
     }];
 }
+
+- (void)vec_initSetting:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer WithCompletion:(void (^)(id _Nonnull, HDError * _Nonnull))aCompletion {
+    kWeakSelf
+    [self vec_getConfigInfoCompletion:^(HDVECEnterpriseInfo * _Nonnull model, HDError * _Nonnull error) {
+        
+        NSString * configid= [HDClient sharedClient].kefuConfigId;
+        
+            [[HDClient sharedClient].callManager hd_getInitVECConfigId:configid Completion:^(id  responseObject, HDError *error) {
+                if (!error && [responseObject isKindOfClass:[NSDictionary class]] ) {
+                    NSDictionary * dic= responseObject;
+                    if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
+                        NSDictionary * tmp = [dic objectForKey:@"entity"];
+                        NSString *configJson = [tmp objectForKey:@"configJson"];
+                        NSDictionary *jsonDic = [weakSelf dictWithString:configJson];
+                    //接口请求成功
+                //        UI更新代码
+                        HDVECInitLayoutModel * model = [weakSelf setModel:jsonDic];
+                        [HDVECAgoraCallManager shareInstance].layoutModel = model;
+                    }
+                }
+                if (aCompletion) {
+                    aCompletion(responseObject,nil);
+                }
+            }];
+    }];
+}
+
 - (void)vec_getConfigInfoCompletion:(void (^)(HDVECEnterpriseInfo * model, HDError * error))aCompletion{
     // 获取插件信息
     [[HDClient sharedClient].callManager hd_getConfigInfoCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {

@@ -495,6 +495,19 @@ static HDVECCallViewController *_manger = nil;
     HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
     if (grayModelShare.enable) {
         [selImageArr addObject:barModel3];
+        [HDVECScreeShareManager shareInstance].isVecExtensionApp = NO;
+        // 调用 接口 设置屏幕共享是应用内 还是应用外
+        [[HDClient sharedClient].callManager hd_getShareSreenSettingCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+            
+            if (error==nil) {
+                
+                [HDVECScreeShareManager shareInstance].isVecExtensionApp = YES;
+                
+            }else{
+                
+                [HDVECScreeShareManager shareInstance].isVecExtensionApp = NO;
+            }
+        }];
     }
     if (grayModelWhiteBoard.enable) {
         [selImageArr addObject:barModel4];
@@ -512,76 +525,6 @@ static HDVECCallViewController *_manger = nil;
     
     [self initSmallWindowData];
 }
-- (void)initDataNew{
-    HDVECControlBarModel * barModel = [HDVECControlBarModel new];
-    barModel.itemType = HDVECControlBarItemTypeMute;
-    barModel.name=@"";
-    barModel.imageStr= kmaikefeng1 ;
-    barModel.selImageStr= kjinmai;
-    
-    HDVECControlBarModel * barModel1 = [HDVECControlBarModel new];
-    barModel1.itemType = HDVECControlBarItemTypeVideo;
-    barModel1.name=@"";
-    barModel1.imageStr= kshexiangtou1 ;
-    barModel1.selImageStr=kguanbishexiangtou1;
-    
-    HDVECControlBarModel * barModel2 = [HDVECControlBarModel new];
-    barModel2.itemType = HDVECControlBarItemTypeHangUp;
-    barModel2.name=@"";
-    barModel2.imageStr=kguaduan1;
-    barModel2.selImageStr=kguaduan1;
-    barModel2.isHangUp = YES;
-    
-    HDVECControlBarModel * barModel3 = [HDVECControlBarModel new];
-    barModel3.itemType = HDVECControlBarItemTypeMessage;
-    barModel3.name=@"";
-    barModel3.imageStr=kxiaoxiguanli;
-    barModel3.selImageStr=kxiaoxiguanli;
-
-    HDVECControlBarModel * barModel4 = [HDVECControlBarModel new];
-    barModel4.itemType = HDVECControlBarItemTypeMore;
-    barModel4.name=@"";
-    barModel4.imageStr=kmore;
-    barModel4.selImageStr=kmore;
-//    HDVECControlBarModel * barModel3 = [HDVECControlBarModel new];
-//       barModel3.itemType = HDControlBarItemTypeShare;
-//       barModel3.name=@"";
-//       barModel3.imageStr=kpingmugongxiang2;
-//       barModel3.selImageStr=kpingmugongxiang2;
-//
-//       HDControlBarModel * barModel4 = [HDControlBarModel new];
-//       barModel4.itemType = HDControlBarItemTypeFlat;
-//       barModel4.name=@"";
-//       barModel4.imageStr=kbaiban;
-//       barModel4.selImageStr=kbaiban;
-    
-    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2,barModel3,barModel4, nil];
-//    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2, nil];
-       
-//    HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
-//    HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
-//    if (grayModelShare.enable) {
-//        [selImageArr addObject:barModel3];
-//    }
-//    if (grayModelWhiteBoard.enable) {
-//        [selImageArr addObject:barModel4];
-//    }
-
-// NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
-    NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDVECControlBarButtonStyleVideoNew] ;
-
-   _cameraBtn =  [self.barView hd_bttonWithTag:0 withArray:barArray];
-    
-    _muteBtn =  [self.barView hd_bttonMuteWithTag];
-    
-    _moreBtn =  [barArray lastObject];
-
-    
-    [self initSmallWindowData];
-
-    
-}
-
 - (void)initSmallWindowData{
     
     //初始化本地view
@@ -1160,7 +1103,6 @@ static HDVECCallViewController *_manger = nil;
     //默认进来调用竖屏
     [self updatePorttaitLayout];
     [self initData];
-//    [self initDataNew];
     [self setAcceptCallView];
     [self.hdTitleView startTimer];
     isCalling = YES;
@@ -1624,7 +1566,7 @@ static HDVECCallViewController *_manger = nil;
     
     _shareBtn = btn;
     _shareBtn.selected = _shareState;
-        if ([HDVECScreeShareManager shareInstance].isApp) {
+        if (![HDVECScreeShareManager shareInstance].isVecExtensionApp) {
             
             // 应用内
             if ([HDVECScreeShareManager shareInstance].vecAvailable) {
@@ -3049,7 +2991,7 @@ static HDVECCallViewController *_manger = nil;
 - (void)initAnswerTimeOut{
     
     // 调用接口 获取 超时时间
-    [[HDCallManager shareInstance] hd_getVideoLineUpTimeOutCompletion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+    [[HDCallManager shareInstance] hd_getVideoLineUpTimeOutCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
     }];
     
 }

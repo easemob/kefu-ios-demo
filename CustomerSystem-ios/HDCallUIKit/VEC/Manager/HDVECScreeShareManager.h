@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define HDVEC_SCREENSHARE_STOP   @"VEC_ScreeShare_Stop"
 @interface HDVECScreeShareManager : NSObject
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
-@property (nonatomic, assign) BOOL  isApp;
+@property (nonatomic, assign) BOOL  isVecExtensionApp;// 屏幕分享是不是 应用外分享  默认 是应用内 
 @property (nonatomic, assign) BOOL  shareStatus;
 @property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));
 // 录屏功能是否可用

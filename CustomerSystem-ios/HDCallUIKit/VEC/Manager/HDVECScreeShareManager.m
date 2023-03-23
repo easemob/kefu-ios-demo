@@ -186,7 +186,7 @@ static HDVECScreeShareManager *shareManager = nil;
 - (void)vec_setupUserDefaults{
 
     // 如果需要app 内 设置监听 
-    if (self.isApp) {
+    if (!self.isVecExtensionApp) {
         [self setupNotifiers];
     }
 
@@ -269,7 +269,7 @@ static HDVECScreeShareManager *shareManager = nil;
 - (void)appDidEnterBackgroundNotif:(NSNotification*)notif{
     // 进入后台
     NSLog(@"=========appDidEnterBackgroundNotif==============");
-    if (self.shareStatus&& self.isApp) {
+    if (self.shareStatus&& self.isVecExtensionApp == NO) {
     if (@available(iOS 11.0, *)) {
         [[AgoraReplayKitExt shareInstance] stop];
     } else {
@@ -284,7 +284,7 @@ static HDVECScreeShareManager *shareManager = nil;
 {
     // 进入前台
     NSLog(@"=========appDidBecomeActiveNotif==============");
-    if (self.shareStatus && self.isApp) {
+    if (self.shareStatus && self.isVecExtensionApp == NO) {
 
         [self vec_startAgoraScreenCapture];
     }

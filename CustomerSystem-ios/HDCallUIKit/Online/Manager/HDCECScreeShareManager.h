@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define HDCEC_SCREENSHARE_STATRT @"CEC_ScreeShare_Start"
 #define HDCEC_SCREENSHARE_STOP   @"CEC_ScreeShare_Stop"
 @interface HDCECScreeShareManager : NSObject
-@property (nonatomic, assign) BOOL  isApp;
+@property (nonatomic, assign) BOOL  isCecExtensionApp;// 屏幕分享是不是 应用外分享  默认 是应用内;
 @property (nonatomic, assign) BOOL  shareStatus;
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
 @property (nonatomic, strong) RPSystemBroadcastPickerView *broadPickerView API_AVAILABLE(ios(12.0));

@@ -179,7 +179,7 @@ static HDCECScreeShareManager *shareManager = nil;
 - (void)setupUserDefaults{
     
     // 如果需要app 内 设置监听
-    if (self.isApp) {
+    if (self.isCecExtensionApp == NO) {
         [self setupNotifiers];
     }
     self.userDefaults =[[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
@@ -264,7 +264,7 @@ static HDCECScreeShareManager *shareManager = nil;
 - (void)appDidEnterBackgroundNotif:(NSNotification*)notif{
     // 进入后台
     NSLog(@"=========appDidEnterBackgroundNotif==============");
-    if (self.shareStatus&& self.isApp) {
+    if (self.shareStatus&& self.isCecExtensionApp == NO) {
     if (@available(iOS 11.0, *)) {
         [[AgoraReplayKitExt shareInstance] stop];
     } else {
@@ -279,7 +279,7 @@ static HDCECScreeShareManager *shareManager = nil;
 {
     // 进入前台
     NSLog(@"=========appDidBecomeActiveNotif==============");
-    if (self.shareStatus && self.isApp) {
+    if (self.shareStatus && self.isCecExtensionApp == NO) {
 
         [self cec_startAgoraScreenCapture];
     }

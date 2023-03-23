@@ -52,11 +52,10 @@
     
 
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    
     option.appkey = lgM.appkey;
-
     option.tenantId = lgM.tenantId;
     option.configId = lgM.configId;
+    
 //    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"https://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
