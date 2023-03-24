@@ -18,13 +18,6 @@
 #define kSaveAgoraShareUID @"call_agoraShareUID"
 #define kSaveAgoraCallId @"call_agoraCallId"
 
-// 存放屏幕分享的状态
-#define kSaveScreenShareState @"Easemob_ScreenShareState"
-//static NSInteger audioSampleRate = 48000;
-//static NSInteger audioChannels = 2;
-//static uint32_t SCREEN_SHARE_UID_MIN  = 501;
-//static uint32_t SCREEN_SHARE_UID_MAX  = 1000;
-
 @interface HDAgoraCallManager () <AgoraRtcEngineDelegate,HDChatManagerDelegate>
 {
     HDAgoraCallOptions *_options;

@@ -540,7 +540,7 @@
     
     NSString * rtcSessionId= [self getRtcSessionId];
     
-    [[HDClient sharedClient].callManager hd_submitVisitorEnquirySessionid:rtcSessionId withScore:score withComment:comment withTagData:self.evaluationTagsArray Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    [[HDClient sharedClient].callManager vec_submitVisitorEnquirySessionid:rtcSessionId withScore:score withComment:comment withTagData:self.evaluationTagsArray Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         [HDLog logD:@"HD===%s responseObject==%@",__func__,responseObject];
         [hud hideAnimated:YES];
         if (error == nil) {

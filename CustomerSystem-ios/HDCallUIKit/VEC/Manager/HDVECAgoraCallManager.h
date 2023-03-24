@@ -228,8 +228,7 @@ static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
 /// @param uid  远端的uid
 - (void)vec_setupRemoteVideoView:(UIView *)remoteView withRemoteUid:(NSInteger )uid;
 
-/// 保存屏幕共享需要的数据
-- (void)vec_saveShareDeskData:(HDKeyCenter*)keyCenter;
+
 
 //摄像头控制相关
 ///isCameraTorchSupported    检查设备是否支持打开闪光灯

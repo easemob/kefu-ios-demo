@@ -28,7 +28,6 @@ extern HDRoomInfoKey const HDRoomInfoRoomToken;
 // 创建房间 view 房间展示在哪个view上
 - (void)hd_OnJoinRoomWithFastView:(UIView *)view;
 - (void)hd_joinRoom;
-- (void)hd_joinVECRoom;
 - (void)reloadFastboardOverlayWithView:(UIView *)view;
 
 //推出房间

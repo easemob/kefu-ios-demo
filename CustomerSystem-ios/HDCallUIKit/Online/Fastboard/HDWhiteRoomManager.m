@@ -54,11 +54,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     [[HDWhiteboardManager shareInstance] hd_joinWiteBoardRoom];
     
 }
-- (void)hd_joinVECRoom{
-    
-    [[HDWhiteboardManager shareInstance] hd_joinVecWiteBoardRoom];
-    
-}
+
 - (void)reloadFastboardOverlayWithView:(UIView *)view{
    
         Fastboard.globalFastboardRatio =0.8;

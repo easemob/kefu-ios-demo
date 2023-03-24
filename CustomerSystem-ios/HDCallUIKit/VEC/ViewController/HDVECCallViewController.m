@@ -899,7 +899,7 @@ static HDVECCallViewController *_manger = nil;
     //这个地方是真正发消息邀请视频的代码
     self.isVisitorSend = YES;
     [HDCallManager shareInstance].isVecVideo= YES;
-    HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImId:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
+    HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [self _sendMessage:message];
 
 }
@@ -962,7 +962,7 @@ static HDVECCallViewController *_manger = nil;
 //           [weakSelf anwersBtnClicked:btn];
            // 如果是回呼需要点击接收的时候 发送cmd 通知
            if ([HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
-               HDMessage * message =  [[HDClient sharedClient].callManager hd_visitorAcceptInvitationMessageWithImId:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content:@"访客接受视频邀请"];
+               HDMessage * message =  [[HDClient sharedClient].callManager vec_visitorAcceptInvitationMessageWithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content:@"访客接受视频邀请"];
                [weakSelf _sendMessage:message];
                
            }
@@ -2326,7 +2326,7 @@ static HDVECCallViewController *_manger = nil;
     
     [self clearQueueTask];
     // 上报 信息推送
-    [[HDClient sharedClient].callManager hd_pushBusinessReportWithFlowId:_pushflowId withAction:@"infopush_end" withType:@"infopush" withUrl:@"" withContent:content Completion:^(id responseObject, HDError * error) {
+    [[HDClient sharedClient].callManager vec_pushBusinessReportImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum  WithFlowId:_pushflowId withAction:@"infopush_end" withType:@"infopush" withUrl:@"" withContent:content Completion:^(id responseObject, HDError * error) {
         
         NSLog(@"====%@",responseObject);
         
@@ -2446,7 +2446,7 @@ static HDVECCallViewController *_manger = nil;
 - (void)hdSignCompleteWithImage:(UIImage *)img base64Data:(nonnull NSData *)base64data{
     
     _hud = [MBProgressHUD showMessag:NSLocalizedString(@"", @"") toView:self.hdSignView];
-    [[HDClient sharedClient].callManager hd_commitSignData:base64data  WithVisitorId:@"" withFlowId:_signflowId  Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    [[HDClient sharedClient].callManager vec_commitSignData:base64data withImserviceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum withFlowId:_signflowId  Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         [_hud hideAnimated:YES];
         if (error ==nil) {
             
@@ -2523,7 +2523,7 @@ static HDVECCallViewController *_manger = nil;
  *  \~chinese
  *   麦克风 通知
  */
-- (void)onMuteLocalAudioStreamParameter:(NSDictionary *)dic{
+- (void)onMuteLocalAudioStreamParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
 
     if (dic && [[dic allKeys] containsObject:@"action"]) {
 
@@ -2544,7 +2544,7 @@ static HDVECCallViewController *_manger = nil;
  *  \~chinese
  *   摄像头
  */
-- (void)onMuteLocalVideoStreamParameter:(NSDictionary *)dic{
+- (void)onMuteLocalVideoStreamParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
     
     
     if (dic && [[dic allKeys] containsObject:@"action"]) {
@@ -2584,7 +2584,7 @@ static HDVECCallViewController *_manger = nil;
  *  \~chinese
  *   切换摄像头
  */
-- (void)onSwitchCameraParameter:(NSDictionary *)dic{
+- (void)onSwitchCameraParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
     
     [self camBtnClicked:_cameraBtn];
     
@@ -2595,7 +2595,7 @@ static HDVECCallViewController *_manger = nil;
  *  \~chinese
  *   对焦、
  */
-- (void)onFocusingOnParameter:(NSDictionary *)dic{
+- (void)onFocusingOnParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
     
     BOOL state = NO;
     NSString *content=@"";
@@ -2682,7 +2682,7 @@ static HDVECCallViewController *_manger = nil;
  *  \~chinese
  *  开关闪光灯  后置摄像头可用
  */
-- (void)onCameraTorchOnParameter:(NSDictionary *)dic{
+- (void)onCameraTorchOnParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
     
     [self onFlashlightWithCameraTorchWithAction:@"cameraTorchOncallback" withDic:dic];
 }
@@ -2694,7 +2694,7 @@ static HDVECCallViewController *_manger = nil;
  *    flashlight
  *    手电筒
  */
-- (void)onFlashlightParameter:(NSDictionary *)dic{
+- (void)onFlashlightParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
     
     [self onFlashlightWithCameraTorchWithAction:@"flashlightcallback" withDic:dic];
 }
