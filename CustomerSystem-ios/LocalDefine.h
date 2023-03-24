@@ -23,7 +23,6 @@
 #define KNOTIFICATION_LOGINCHANGE @"loginStateChange"
 #define KNOTIFICATION_CHAT @"chat"
 #define KNOTIFICATION_VEC @"hd_easemob_vec_call"
-#define KNOTIFICATION_VEC_CEC @"hd_easemob_vec_call_cec"
 #define KNOTIFICATION_SETTINGCHANGE @"settingChange"
 
 #define CHATVIEWBACKGROUNDCOLOR [UIColor colorWithRed:0.936 green:0.932 blue:0.907 alpha:1]

@@ -897,19 +897,14 @@ static HDVECCallViewController *_manger = nil;
     
 - (void)createVideoCall{
     //这个地方是真正发消息邀请视频的代码
-    
     self.isVisitorSend = YES;
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     [HDCallManager shareInstance].isVecVideo= YES;
-    HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
-    [message addContent:lgM.visitorInfo];
-
+    HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImId:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [self _sendMessage:message];
 
 }
 - (void)_sendMessage:(HDMessage *)aMessage
 {
-    
     [[HDClient sharedClient].chatManager sendMessage:aMessage
                                             progress:nil
                                           completion:^(HDMessage *message, HDError *error)
@@ -967,9 +962,7 @@ static HDVECCallViewController *_manger = nil;
 //           [weakSelf anwersBtnClicked:btn];
            // 如果是回呼需要点击接收的时候 发送cmd 通知
            if ([HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
-               //
-               CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-               HDMessage * message =  [[HDClient sharedClient].callManager hd_visitorAcceptInvitationMessageWithImId:lgM.cname content:@"访客接受视频邀请"];
+               HDMessage * message =  [[HDClient sharedClient].callManager hd_visitorAcceptInvitationMessageWithImId:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content:@"访客接受视频邀请"];
                [weakSelf _sendMessage:message];
                
            }
@@ -1159,9 +1152,7 @@ static HDVECCallViewController *_manger = nil;
     isCalling = NO;
     // 如果是回呼需要点击接收的时候 发送cmd 通知
     if ([HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
-        //
-        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-       HDMessage *message=  [[HDClient sharedClient].callManager hd_visitorRejectInvitationMessageWithImId:lgM.cname content:@"访客接受视频邀请"];
+       HDMessage *message=  [[HDClient sharedClient].callManager hd_visitorRejectInvitationMessageWithImId:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content:@"访客接受视频邀请"];
         [self _sendMessage:message];
         [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
         [[HDVECCallViewController sharedManager]  removeView];
@@ -2746,9 +2737,8 @@ static HDVECCallViewController *_manger = nil;
     
 }
 - (void)sendCmdMessageAction:(NSString *)action withOn:(BOOL)on withContent:(NSString *)content{
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
- 
-    HDMessage *message = [[HDClient sharedClient].callManager hd_visitorCallBackStateCmdMessageWithImId:lgM.cname withOn:on withAction:action content:content];
+    
+    HDMessage *message = [[HDClient sharedClient].callManager hd_visitorCallBackStateCmdMessageWithImId:[HDVECAgoraCallManager shareInstance].vec_imServiceNum withOn:on withAction:action content:content];
     
      [self _sendMessage:message];
 }
@@ -2953,9 +2943,8 @@ static HDVECCallViewController *_manger = nil;
 - (HDVECCallChatViewController *)chat{
     
     if (!_chat) {
-        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-        _chat = [[HDVECCallChatViewController alloc] initWithConversationChatter:lgM.cname];
-        _chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
+        _chat = [[HDVECCallChatViewController alloc] initWithConversationChatter:[HDVECAgoraCallManager shareInstance].vec_imServiceNum];
+        _chat.visitorInfo = [HDVECAgoraCallManager shareInstance].vec_visitorInfo;
     }
     
     return _chat;

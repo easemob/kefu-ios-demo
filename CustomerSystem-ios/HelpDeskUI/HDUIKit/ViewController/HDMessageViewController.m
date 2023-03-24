@@ -1806,11 +1806,11 @@ typedef enum : NSUInteger {
            
             if ([HDMessage isCreateVECVideoMessage:item] ) {
                 
-                // 创建vec 视频
-                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
-                [dic setObject:@"kefuchannelimid_250083" forKey:@"easemob_vec_imservecnum"];
-                [dic setObject:@"aaf16fee-e08a-4435-a2c1-4ad1b4776a06" forKey:@"easemob_vec_configid"];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_vec_call" object:nil userInfo:dic];
+                // 创建vec 视频 这个地方可以传值 也可以在监听通知的时候
+//                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
+//                [dic setObject:@"kefuchannelimid_250083" forKey:@"easemob_vec_imservecnum"];
+//                [dic setObject:@"aaf16fee-e08a-4435-a2c1-4ad1b4776a06" forKey:@"easemob_vec_configid"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_vec_call" object:nil userInfo:nil];
                 
                 return;
                 
@@ -2125,9 +2125,6 @@ typedef enum : NSUInteger {
     if (ext) {
         [message addAttributeDictionary:ext];
     }
-//    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-//
-//    [message addContent:lgM.visitorInfo];
     NSMutableDictionary * dic1 =[message.ext valueForKey:@"weichat"];
     [dic1 setValue:@"English" forKey:@"routingRuleFlag"];
    

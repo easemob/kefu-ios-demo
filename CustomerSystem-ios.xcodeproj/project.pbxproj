@@ -124,6 +124,9 @@
 		D29E0A051F4FF90F0089506D /* HEvaluationDegreeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D29E0A031F4FF90F0089506D /* HEvaluationDegreeModel.m */; };
 		D2B99D9229667BFE00B7491D /* UIImage+ImageScale.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B99D9129667BFE00B7491D /* UIImage+ImageScale.m */; };
 		D2B99D9A296BBC7E00B7491D /* HDInItKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B99D99296BBC7E00B7491D /* HDInItKeyCenter.m */; };
+		D2BFCEC329CC5F1900FC00A0 /* HDCallFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BFCEC129CC5F1900FC00A0 /* HDCallFileManager.m */; };
+		D2BFCEC429CC5F1900FC00A0 /* HDCallFileManager+Asynchronous.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BFCEC229CC5F1900FC00A0 /* HDCallFileManager+Asynchronous.m */; };
+		D2BFCEC729CD4A7E00FC00A0 /* HDCallAppManger.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BFCEC629CD4A7E00FC00A0 /* HDCallAppManger.m */; };
 		D2C90FF929AC4FAF00568D48 /* UIColor+HLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C90F7229AC4FAF00568D48 /* UIColor+HLKit.m */; };
 		D2C90FFA29AC4FAF00568D48 /* HDVECAppSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C90F7329AC4FAF00568D48 /* HDVECAppSkin.m */; };
 		D2C90FFB29AC4FAF00568D48 /* UIImage+HDIconFont.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C90F7429AC4FAF00568D48 /* UIImage+HDIconFont.m */; };
@@ -615,6 +618,12 @@
 		D2B99D9129667BFE00B7491D /* UIImage+ImageScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageScale.m"; path = "CustomerSystem-ios/HelpDeskUI/HDUIKit/Category/UIImage+ImageScale.m"; sourceTree = SOURCE_ROOT; };
 		D2B99D98296BBC7E00B7491D /* HDInItKeyCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDInItKeyCenter.h; sourceTree = "<group>"; };
 		D2B99D99296BBC7E00B7491D /* HDInItKeyCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDInItKeyCenter.m; sourceTree = "<group>"; };
+		D2BFCEBF29CC5F1900FC00A0 /* HDCallFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCallFileManager.h; sourceTree = "<group>"; };
+		D2BFCEC029CC5F1900FC00A0 /* HDCallFileManager+Asynchronous.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HDCallFileManager+Asynchronous.h"; sourceTree = "<group>"; };
+		D2BFCEC129CC5F1900FC00A0 /* HDCallFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCallFileManager.m; sourceTree = "<group>"; };
+		D2BFCEC229CC5F1900FC00A0 /* HDCallFileManager+Asynchronous.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HDCallFileManager+Asynchronous.m"; sourceTree = "<group>"; };
+		D2BFCEC529CD4A7E00FC00A0 /* HDCallAppManger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDCallAppManger.h; sourceTree = "<group>"; };
+		D2BFCEC629CD4A7E00FC00A0 /* HDCallAppManger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDCallAppManger.m; sourceTree = "<group>"; };
 		D2C90F7229AC4FAF00568D48 /* UIColor+HLKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HLKit.m"; sourceTree = "<group>"; };
 		D2C90F7329AC4FAF00568D48 /* HDVECAppSkin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVECAppSkin.m; sourceTree = "<group>"; };
 		D2C90F7429AC4FAF00568D48 /* UIImage+HDIconFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HDIconFont.m"; sourceTree = "<group>"; };
@@ -1613,11 +1622,25 @@
 			path = Others;
 			sourceTree = "<group>";
 		};
+		D2BFCEBE29CC5F1900FC00A0 /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				D2BFCEBF29CC5F1900FC00A0 /* HDCallFileManager.h */,
+				D2BFCEC129CC5F1900FC00A0 /* HDCallFileManager.m */,
+				D2BFCEC029CC5F1900FC00A0 /* HDCallFileManager+Asynchronous.h */,
+				D2BFCEC229CC5F1900FC00A0 /* HDCallFileManager+Asynchronous.m */,
+			);
+			path = FileManager;
+			sourceTree = "<group>";
+		};
 		D2C90F7029AC4FAF00568D48 /* General */ = {
 			isa = PBXGroup;
 			children = (
+				D2BFCEBE29CC5F1900FC00A0 /* FileManager */,
 				D2C90F7129AC4FAF00568D48 /* Category */,
 				D2C90F7829AC4FAF00568D48 /* font_3264411_0930bdexl8t8 */,
+				D2BFCEC529CD4A7E00FC00A0 /* HDCallAppManger.h */,
+				D2BFCEC629CD4A7E00FC00A0 /* HDCallAppManger.m */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -2001,28 +2024,28 @@
 		D2C9116B29ACA55C00568D48 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D2C9116C29ACA55C00568D48 /* HDPopoverViewController.h */,
-				D2C9116D29ACA55C00568D48 /* HDTitleView.m */,
-				D2C9116E29ACA55C00568D48 /* HDItemView.m */,
-				D2C9116F29ACA55C00568D48 /* HDCallCollectionViewCellItem.h */,
-				D2C9117029ACA55C00568D48 /* HDControlBarView.h */,
-				D2C9117129ACA55C00568D48 /* HDHiddenView.h */,
-				D2C9117229ACA55C00568D48 /* HDMiddleVideoView.h */,
-				D2C9117329ACA55C00568D48 /* HDCallCollectionViewCell.h */,
-				D2C9117429ACA55C00568D48 /* HDSmallWindowView.h */,
+				D2C9117E29ACA55C00568D48 /* HDAnswerView.h */,
 				D2C9117529ACA55C00568D48 /* HDAnswerView.m */,
+				D2C9117329ACA55C00568D48 /* HDCallCollectionViewCell.h */,
+				D2C9118029ACA55C00568D48 /* HDCallCollectionViewCell.m */,
+				D2C9116F29ACA55C00568D48 /* HDCallCollectionViewCellItem.h */,
+				D2C9117929ACA55C00568D48 /* HDCallCollectionViewCellItem.m */,
+				D2C9117029ACA55C00568D48 /* HDControlBarView.h */,
+				D2C9117C29ACA55C00568D48 /* HDControlBarView.m */,
+				D2C9117129ACA55C00568D48 /* HDHiddenView.h */,
+				D2C9117B29ACA55C00568D48 /* HDHiddenView.m */,
+				D2C9117A29ACA55C00568D48 /* HDItemView.h */,
+				D2C9116E29ACA55C00568D48 /* HDItemView.m */,
+				D2C9117229ACA55C00568D48 /* HDMiddleVideoView.h */,
+				D2C9118129ACA55C00568D48 /* HDMiddleVideoView.m */,
+				D2C9116C29ACA55C00568D48 /* HDPopoverViewController.h */,
+				D2C9117829ACA55C00568D48 /* HDPopoverViewController.m */,
+				D2C9117429ACA55C00568D48 /* HDSmallWindowView.h */,
+				D2C9117F29ACA55C00568D48 /* HDSmallWindowView.m */,
+				D2C9117D29ACA55C00568D48 /* HDSuspendCustomView.h */,
 				D2C9117629ACA55C00568D48 /* HDSuspendCustomView.m */,
 				D2C9117729ACA55C00568D48 /* HDTitleView.h */,
-				D2C9117829ACA55C00568D48 /* HDPopoverViewController.m */,
-				D2C9117929ACA55C00568D48 /* HDCallCollectionViewCellItem.m */,
-				D2C9117A29ACA55C00568D48 /* HDItemView.h */,
-				D2C9117B29ACA55C00568D48 /* HDHiddenView.m */,
-				D2C9117C29ACA55C00568D48 /* HDControlBarView.m */,
-				D2C9117D29ACA55C00568D48 /* HDSuspendCustomView.h */,
-				D2C9117E29ACA55C00568D48 /* HDAnswerView.h */,
-				D2C9117F29ACA55C00568D48 /* HDSmallWindowView.m */,
-				D2C9118029ACA55C00568D48 /* HDCallCollectionViewCell.m */,
-				D2C9118129ACA55C00568D48 /* HDMiddleVideoView.m */,
+				D2C9116D29ACA55C00568D48 /* HDTitleView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3169,6 +3192,7 @@
 				D3394AF11E5562FE009370BF /* HDChatViewController.m in Sources */,
 				D339953C1E000D5E00F7B71D /* QRCodeViewController.m in Sources */,
 				93B4E97427CCD1D800ACAF5B /* HDMJRefreshAutoFooter.m in Sources */,
+				D2BFCEC329CC5F1900FC00A0 /* HDCallFileManager.m in Sources */,
 				D3394AEE1E548898009370BF /* HDViewController.m in Sources */,
 				D2C9119E29ACA55C00568D48 /* HDMiddleVideoView.m in Sources */,
 				EB62E3131A8DDA4800705655 /* AppDelegate.m in Sources */,
@@ -3203,6 +3227,7 @@
 				D3CB64A91E4888F30022A6BA /* HDBubbleView+RobotMenu.m in Sources */,
 				D2C9108A29AC916000568D48 /* HDVECStorageItem.m in Sources */,
 				93B4E96327CCD1D800ACAF5B /* UIScrollView+HDMJExtension.m in Sources */,
+				D2BFCEC729CD4A7E00FC00A0 /* HDCallAppManger.m in Sources */,
 				D3CB64981E4888F30022A6BA /* HDChineseToPinyin.m in Sources */,
 				D2C9101429AC4FAF00568D48 /* HDVECSKTag.m in Sources */,
 				D3D1BB261DE83D6B004B3557 /* LeaveMsgDetailViewController.m in Sources */,
@@ -3269,6 +3294,7 @@
 				D2C9119729ACA55C00568D48 /* HDSuspendCustomView.m in Sources */,
 				9392B51A280047CE005D4215 /* KFDocument.m in Sources */,
 				D3CB64471E4888F30022A6BA /* HDCDDeviceManager+Remind.m in Sources */,
+				D2BFCEC429CC5F1900FC00A0 /* HDCallFileManager+Asynchronous.m in Sources */,
 				D2C9119329ACA55C00568D48 /* HDCallViewController.m in Sources */,
 				D3CB64B51E4888F30022A6BA /* HDFacialView.m in Sources */,
 				D3CB649D1E4888F30022A6BA /* HDRefreshTableViewController.m in Sources */,

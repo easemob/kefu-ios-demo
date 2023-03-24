@@ -149,7 +149,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vecAction:) name:KNOTIFICATION_VEC object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cecActionVec:) name:KNOTIFICATION_VEC_CEC object:nil];
+
     
     [[HDClient sharedClient].chatManager getEnterpriseWelcomeWithCompletion:^(NSString *welcome, HDError *error) {
 
@@ -251,72 +251,28 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     __weak MBProgressHUD *weakHud = hud;
         CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
         if ([lgM loginKefuSDK]) {
-           
-            // 先判断扫码是否 正确 如果不正确 弹窗提示
-            if (!lgM.configId && lgM.configId.length == 0) {
-                [MBProgressHUD showSuccess:NSLocalizedString(@"未绑定正确的关联信息", @"未绑定正确的关联信息") toView:self.view.superview];
-                [weakHud hideAnimated:YES];
-                return;
-            }
-                //todo 创建视频等待界面  调用接口 vec 使用
-                [HDClient sharedClient].callManager.isVecVideo = YES;
-                [[HDVECAgoraCallManager shareInstance] vec_initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
+            if (notification.object != nil) {
+                if (!lgM.configId && lgM.configId.length == 0) {
+                    [MBProgressHUD showSuccess:NSLocalizedString(@"未绑定正确的关联信息", @"未绑定正确的关联信息") toView:self.view.superview];
                     [weakHud hideAnimated:YES];
-                        [[HDVECCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVECDirectionSend withVisitornickName:lgM.nickname];
-                        [HDVECCallViewController sharedManager].hangUpVideoCallback = ^(HDVECCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-                            [[HDVECCallViewController sharedManager]  removeView];
-
-                            [[HDVECCallViewController sharedManager] removeSharedManager];
-
-                        };
-                    });
-                }];
-
-           
-        } else {
-            hd_dispatch_main_async_safe(^(){
-                [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
-            });
-            NSLog(@"登录失败");
-        }
-//    });
-    isLogin = NO;
-    
-    
-}
-
-- (void)cecActionVec:(NSNotification *)notification{
-
-    __weak typeof(self) weakSelf = self;
-    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:self.view.superview];
-
-    __weak MBProgressHUD *weakHud = hud;
-        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-        if ([lgM loginKefuSDK]) {
-           
-            // 先判断扫码是否 正确 如果不正确 弹窗提示
-            if (!lgM.configId && lgM.configId.length == 0) {
-                [MBProgressHUD showSuccess:NSLocalizedString(@"未绑定正确的关联信息", @"未绑定正确的关联信息") toView:self.view.superview];
-                [weakHud hideAnimated:YES];
-                return;
+                    return;
+                }
             }
-                //todo 创建视频等待界面  调用接口 vec 使用
-                [HDClient sharedClient].callManager.isVecVideo = YES;
-                [[HDVECAgoraCallManager shareInstance] vec_initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakHud hideAnimated:YES];
-                        [[HDVECCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVECDirectionSend withVisitornickName:lgM.nickname];
-                        [HDVECCallViewController sharedManager].hangUpVideoCallback = ^(HDVECCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-                            [[HDVECCallViewController sharedManager]  removeView];
-
-                            [[HDVECCallViewController sharedManager] removeSharedManager];
-
-                        };
-                    });
-                }];
-
-           
+            //todo 创建视频等待界面  调用接口 vec 使用
+            [HDClient sharedClient].callManager.isVecVideo = YES;
+            NSString * configid  = @"aaf16fee-e08a-4435-a2c1-4ad1b4776a06";
+            NSString * imservicenum  = @"kefuchannelimid_250083";
+            if (lgM.configId) {
+                
+                configid = lgM.configId;
+            }
+            if (lgM.cname) {
+                
+                imservicenum = lgM.cname;
+            }
+            
+            [[HDVECAgoraCallManager shareInstance] vec_showMainWindowConfigId:configid withImServecionNumer:imservicenum withVisiorInfo:lgM.visitorInfo];
+        
         } else {
             hd_dispatch_main_async_safe(^(){
                 [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];

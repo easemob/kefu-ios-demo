@@ -12,6 +12,7 @@
 #import "HDVECAgoraCallManagerDelegate.h"
 #import "HDVECInitLayoutModel.h"
 #import "HDVECEnterpriseInfo.h"
+#import "HDCallAppManger.h"
 
 #define kCamViewTag 100001
 NS_ASSUME_NONNULL_BEGIN
@@ -28,19 +29,21 @@ static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
 @property (nonatomic, strong) HDVECInitLayoutModel *layoutModel;
 @property (nonatomic, strong) UIViewController *currentVC;
 
+
+// 视频需要的必要参数
+@property (nonatomic, strong) NSString *vec_configid;
+@property (nonatomic, strong) NSString *vec_imServiceNum;
+@property (nonatomic, strong) HDVisitorInfo *vec_visitorInfo;
+
+
 + (instancetype _Nullable )shareInstance;
 
 /// vec 视频界面的主入口
 - (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(HDVisitorInfo*)visitorinfo;
 
-
-/// 初始化排队界面数据
+/// 初始化排队界面数据 
 /// @param aCompletion 回调接口数据
-- (void)vec_initSettingWithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion ;
-
-/// 初始化排队界面数据 动态获取config和im服务号的 场景使用
-/// @param aCompletion 回调接口数据
-- (void)vec_initSetting:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer  WithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion ;
+- (void)vec_initSetting:(NSString *)configid WithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion ;
 #pragma mark - Options
 /*!
  *  \~chinese
@@ -245,6 +248,14 @@ static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
 //cameraExposureDidChangedToRect    摄像头曝光区域已改变
 - (HDVECEnterpriseInfo *)vec_getEnterpriseInfo;
 - (void)vec_getConfigInfoCompletion:(void (^)(HDVECEnterpriseInfo * model, HDError * error))aCompletion;
+
+//文件相关
+//保存 数据
+-(void)vec_saveInitSettingData:(NSDictionary *)dic;
+//获取数据
+-(NSDictionary *)vec_getInitSettingData;
+- (HDVECInitLayoutModel *)setModel:(NSDictionary *)dic;
+
 @end
 
 NS_ASSUME_NONNULL_END
