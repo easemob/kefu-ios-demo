@@ -258,6 +258,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                     return;
                 }
             }
+            [weakHud hideAnimated:YES];
             //todo 创建视频等待界面  调用接口 vec 使用
             [HDClient sharedClient].callManager.isVecVideo = YES;
             NSString * configid  = @"aaf16fee-e08a-4435-a2c1-4ad1b4776a06";

@@ -41,11 +41,8 @@
 
 #endif
 
-#define kLocalUid 1111111 //设置真实的本地的uid
+#define kLocalUid 1111111 //设置本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
-#define kCamViewTag 100001
-#define kScreenShareExtensionBundleId @"com.easemob.kf.demo.customer.shareWindow"
-#define kNotificationShareWindow kScreenShareExtensionBundleId
 #define kPointHeight [UIScreen mainScreen].bounds.size.width *0.9
 
 #define kHDVideoMessageHeight [UIScreen mainScreen].bounds.size.height * 0.8
@@ -398,12 +395,10 @@ static HDVECCallViewController *_manger = nil;
     }
     
     self.barView = nil;
-    
     self.midelleVideoView= nil;
-    
     self.hdTitleView = nil;
-
     self.smallWindowView=nil;
+    self.itemView = nil;
 #ifdef HDVECWhiteBoard
     self.whiteBoardView = nil;
 #else
@@ -427,6 +422,13 @@ static HDVECCallViewController *_manger = nil;
     }
     //隐藏 popervc
     [self dismissHDPoperViewController];
+    
+    // 卡证识别相关
+    self.idCardScaningView = nil;
+    self.ocrView=nil;
+    self.hdVideoLinkMessagePush = nil;
+    self.hdSignView = nil;
+    
 #ifdef HDVECWhiteBoard
     //清理白板数据
     [self clearWhiteBoardData];
@@ -441,10 +443,6 @@ static HDVECCallViewController *_manger = nil;
     [self.view hideKeyBoard];
 }
 
-/// 初始化屏幕分享
-- (void)initScreenShare{
-    [self initBroadPickerView];
-}
 -(void)initData{
     HDVECControlBarModel * barModel = [HDVECControlBarModel new];
     barModel.itemType = HDVECControlBarItemTypeMute;
@@ -607,12 +605,12 @@ static HDVECCallViewController *_manger = nil;
 }
 
 //mark vec 独立访客端 收到坐席拒绝接通的邀请
-- (void)onCallHangUpInvitation{
+- (void)onCallHangUpInvitationWithMessage:(HDMessage *)message{
     
     [self offBtnClicked:nil];
     
 }
-- (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
+- (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid withMessage:(HDMessage *)message{
     [HDLog logD:@"HD===%s vec1.2=====onCallReceivedInvitation _thirdAgentUid=%@",__func__,uid];
     _thirdAgentNickName = thirdAgentNickName;
     
@@ -1160,6 +1158,7 @@ static HDVECCallViewController *_manger = nil;
         return;
     }
 
+     //振铃放弃 调用
     [[HDVECAgoraCallManager shareInstance] vec_ringGiveUp];
     [self.hdTitleView stopTimer];
     
@@ -1184,22 +1183,6 @@ static HDVECCallViewController *_manger = nil;
     
 }
 
-
-/// 初始化屏幕分享view
-- (void)initBroadPickerView{
-    if (@available(iOS 12.0, *)) {
-        _broadPickerView = [[RPSystemBroadcastPickerView alloc] init];
-        _broadPickerView.preferredExtension = kScreenShareExtensionBundleId;
-        _broadPickerView.showsMicrophoneButton = NO;
-        _broadPickerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-        
-    } else {
-        // Fallback on earlier versions
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.screenShareExtension", "video.screenShareExtension")  withWindow:self.alertWindow];
-        
-        
-    }
-}
 // 切换摄像头事件
 - (void)camBtnClicked:(UIButton *)btn {
     [[HDVECAgoraCallManager shareInstance] vec_switchCamera];
@@ -2102,7 +2085,7 @@ static HDVECCallViewController *_manger = nil;
 
 #pragma mark - 收到cmd 各种通知 原子化能力
 //mark vec 1.3 独立访客端 收到坐席 签名
-- (void)onCallSignIdentify:(NSDictionary *)dic{
+- (void)onCallSignIdentify:(NSDictionary *)dic withMessage:(HDMessage *)message{
     if (!isCalling) {
         return;
     }
@@ -2120,7 +2103,7 @@ static HDVECCallViewController *_manger = nil;
     }];
 }
 //mark vec 1.3 独立访客端 收到坐席 身份认证
-- (void)onCallFaceIdentify:(NSDictionary *)dic{
+- (void)onCallFaceIdentify:(NSDictionary *)dic withMessage:(HDMessage *)message{
     if (!isCalling) {
         return;
     }
@@ -2137,7 +2120,7 @@ static HDVECCallViewController *_manger = nil;
     }
 }
 //mark vec 1.3 独立访客端 收到坐席 ocr 识别
-- (void)onCallLOcrIdentify:(NSDictionary *)dic{
+- (void)onCallLOcrIdentify:(NSDictionary *)dic withMessage:(HDMessage *)message{
     if (!isCalling) {
         return;
     }
@@ -2154,7 +2137,7 @@ static HDVECCallViewController *_manger = nil;
     }
 }
 
-- (void)onCallLinkMessagePush:(NSDictionary *)dic{
+- (void)onCallLinkMessagePush:(NSDictionary *)dic withMessage:(HDMessage *)message{
     if (!isCalling) {
         return;
     }

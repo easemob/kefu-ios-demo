@@ -38,7 +38,6 @@
 
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
-#define kCamViewTag 100001
 #define kPointHeight [UIScreen mainScreen].bounds.size.width *0.9
 
 
@@ -428,7 +427,7 @@ static HDCallViewController *_manger = nil;
     });
    
 }
-- (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
+- (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid withMessage:(HDMessage *)message{
     
     _thirdAgentNickName = thirdAgentNickName;
     _thirdAgentUid = uid;

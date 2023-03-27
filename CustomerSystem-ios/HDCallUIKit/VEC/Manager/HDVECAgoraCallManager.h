@@ -14,7 +14,6 @@
 #import "HDVECEnterpriseInfo.h"
 #import "HDCallAppManger.h"
 
-#define kCamViewTag 100001
 NS_ASSUME_NONNULL_BEGIN
 static NSString * _Nonnull kVECUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
 static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";

@@ -11,7 +11,6 @@
 #import "HDAgoraCallOptions.h"
 #import "HDAgoraCallManagerDelegate.h"
 
-#define kCamViewTag 100001
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HDAgoraCallManager : NSObject
