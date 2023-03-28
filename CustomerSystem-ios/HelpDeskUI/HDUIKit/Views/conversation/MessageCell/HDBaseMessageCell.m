@@ -372,7 +372,8 @@
     height += - HDMessageCellPadding + [HDMessageCell cellHeightWithModel:model];
     height = height > minHeight ? height : minHeight;
     
-    return height;
+    
+    return height ;
 }
 
 @end

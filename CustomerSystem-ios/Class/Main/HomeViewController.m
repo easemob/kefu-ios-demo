@@ -266,12 +266,8 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             if (lgM.configId) {
                 
                 configid = lgM.configId;
-            }
-            if (lgM.cname) {
-                
                 imservicenum = lgM.cname;
             }
-            
             [[HDVECAgoraCallManager shareInstance] vec_showMainWindowConfigId:configid withImServecionNumer:imservicenum withVisiorInfo:lgM.visitorInfo];
         
         } else {

@@ -1772,10 +1772,10 @@
 		D2C90FA029AC4FAF00568D48 /* Answer */ = {
 			isa = PBXGroup;
 			children = (
-				D2C90FA129AC4FAF00568D48 /* HDVECAnswerView.m */,
+				D2C90FA429AC4FAF00568D48 /* HDVECAnswerCallBackView.h */,
 				D2C90FA229AC4FAF00568D48 /* HDVECAnswerCallBackView.m */,
 				D2C90FA329AC4FAF00568D48 /* HDVECAnswerView.h */,
-				D2C90FA429AC4FAF00568D48 /* HDVECAnswerCallBackView.h */,
+				D2C90FA129AC4FAF00568D48 /* HDVECAnswerView.m */,
 			);
 			path = Answer;
 			sourceTree = "<group>";

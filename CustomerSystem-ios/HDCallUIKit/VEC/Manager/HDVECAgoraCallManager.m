@@ -82,7 +82,14 @@ static HDVECAgoraCallManager *shareCall = nil;
     
     return _options;
 }
-
+- (void)setVec_imServiceNum:(NSString *)vec_imServiceNum{
+    
+    _vec_imServiceNum = vec_imServiceNum;
+    
+    [HDClient sharedClient].callManager.vec_imServiceNum = vec_imServiceNum;
+    
+    
+}
 #pragma mark - 收到消息代理
 - (void)messagesDidReceive:(NSArray *)aMessages{
      //收到普通消息,格式:<HDMessage *>

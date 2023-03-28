@@ -74,12 +74,26 @@
     {
         
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cecAction:) name:@"hd_easemob_cec_call" object:nil];
 
 }
 
+- (void)cecAction:(NSNotification *)notification{
+    
+    [self cec_sendMessageVieo];
+    
+    
+}
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
     [self stopAudioPlayingWithChangeCategory:YES];
+    
+    [self cec_sendMessageVieo];
+   
+}
+
+- (void)cec_sendMessageVieo{
     
     [HDClient sharedClient].callManager.isVecVideo = NO;
     HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
@@ -98,8 +112,7 @@
 - (void)moreViewFileAction:(HDChatBarMoreView *)moreView {
     
     [self presentDocumentPicker];
-    
-    
+
 //    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"doc"];
 //
 //    HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:filePath displayName:@"123" to:self.conversation.conversationId];

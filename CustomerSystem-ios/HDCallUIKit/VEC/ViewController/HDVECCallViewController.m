@@ -255,6 +255,8 @@ static HDVECCallViewController *_manger = nil;
             if (keyCenter.isAgentCallBackReceive && !keyCenter.agoraAppid) {
                 //回呼过来的通话
              self.hdVideoAnswerView.callType = HDVECDirectionReceive;
+               
+                [HDVECAgoraCallManager shareInstance].vec_imServiceNum = keyCenter.imServiceNum;
                 
             // 其他情况下都是 坐席回拨过来的
             self.isVisitorSend = NO;
@@ -960,6 +962,8 @@ static HDVECCallViewController *_manger = nil;
 //           [weakSelf anwersBtnClicked:btn];
            // 如果是回呼需要点击接收的时候 发送cmd 通知
            if ([HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
+               
+               [HDVECAgoraCallManager shareInstance].vec_imServiceNum = [HDVECAgoraCallManager shareInstance].keyCenter.imServiceNum;
                HDMessage * message =  [[HDClient sharedClient].callManager vec_visitorAcceptInvitationMessageWithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content:@"访客接受视频邀请"];
                [weakSelf _sendMessage:message];
                
@@ -1150,7 +1154,10 @@ static HDVECCallViewController *_manger = nil;
     isCalling = NO;
     // 如果是回呼需要点击接收的时候 发送cmd 通知
     if ([HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
-       HDMessage *message=  [[HDClient sharedClient].callManager hd_visitorRejectInvitationMessageWithImId:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content:@"访客接受视频邀请"];
+
+        [HDVECAgoraCallManager shareInstance].vec_imServiceNum =[HDVECAgoraCallManager shareInstance].keyCenter.imServiceNum;
+        HDMessage *message=  [[HDClient sharedClient].callManager vec_agentCallBackVisitorRejectInvitationMessageWithRtcSessionId:[HDClient sharedClient].callManager.rtcSessionId withImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content:@"访客接受视频邀请"];
+        
         [self _sendMessage:message];
         [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
         [[HDVECCallViewController sharedManager]  removeView];
@@ -2721,8 +2728,7 @@ static HDVECCallViewController *_manger = nil;
 }
 - (void)sendCmdMessageAction:(NSString *)action withOn:(BOOL)on withContent:(NSString *)content{
     
-    HDMessage *message = [[HDClient sharedClient].callManager hd_visitorCallBackStateCmdMessageWithImId:[HDVECAgoraCallManager shareInstance].vec_imServiceNum withOn:on withAction:action content:content];
-    
+    HDMessage *message = [[HDClient sharedClient].callManager vec_visitorCallBackStateCmdMessageWithImserviceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum withOn:on withAction:action content:content];
      [self _sendMessage:message];
 }
 

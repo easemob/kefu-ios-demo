@@ -34,6 +34,7 @@
 #import "UIViewController+AlertController.h"
 #import "HRobotUnsolveItemView.h"
 #import "HDCustomEmojiManager.h"
+
 typedef enum : NSUInteger {
     HDRequestRecord,
     HDCanRecord,
@@ -1778,6 +1779,8 @@ typedef enum : NSUInteger {
      {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
+            
+           
         }
         else {
             [weakself.tableView reloadData];
@@ -1804,17 +1807,47 @@ typedef enum : NSUInteger {
                 return;
             }
            
+            if ([HDMessage isCreateCECVideoMessage:item] ) {
+
+                HDMessage *msg = [HDMessage createSendMessageWithMenuItem:item to:self.conversation.conversationId];
+//                [self _sendMessage:msg];
+                //发消息之后 在弹窗 为保证会话ui库 不跟视频相关ui库关联 这个里边使用通知方式 用到了在注册监听
+                //online
+                [self addMessageToDataSource:msg
+                                    progress:nil];
+                __weak typeof(self) weakSelf = self;
+                [[HDClient sharedClient].chatManager sendMessage:msg
+                                                        progress:nil
+                                                      completion:^(HDMessage *message, HDError *error)
+                 {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_cec_call" object:nil userInfo:nil];
+                    if (!error) {
+                        [weakSelf _refreshAfterSentMessage:message];
+                        
+                       
+                    }
+                    else {
+                        [weakSelf.tableView reloadData];
+                    }
+                    
+                }];
+              
+
+                return;
+            }
+
             if ([HDMessage isCreateVECVideoMessage:item] ) {
-                
+
                 // 创建vec 视频 这个地方可以传值 也可以在监听通知的时候
 //                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
 //                [dic setObject:@"kefuchannelimid_250083" forKey:@"easemob_vec_imservecnum"];
 //                [dic setObject:@"aaf16fee-e08a-4435-a2c1-4ad1b4776a06" forKey:@"easemob_vec_configid"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_vec_call" object:nil userInfo:nil];
-                
+
                 return;
-                
+
             }
+//
             
             HDMessage *msg = [HDMessage createSendMessageWithMenuItem:item to:self.conversation.conversationId];
             [self _sendMessage:msg];
