@@ -709,17 +709,6 @@ static HDCallViewController *_manger = nil;
 
 }
 
-    
-- (void)createVideoCall{
-    //这个地方是真正发消息邀请视频的代码
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
-    [message addContent:lgM.visitorInfo];
-    
-    [self _sendMessage:message];
-    
-}
-
 - (void)_sendMessage:(HDMessage *)aMessage
 {
     [[HDClient sharedClient].chatManager sendMessage:aMessage

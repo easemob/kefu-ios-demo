@@ -10,8 +10,8 @@
 #import <ReplayKit/ReplayKit.h>
 #import <CoreMedia/CoreMedia.h>
 #import "HDVECAgoraCallMember.h"
-#import "HDVECCallViewController.h"
 #import "HDCallFileManager.h"
+#import "HDVECCallViewController.h"
 
 
 #define kForService @"com.easemob.kf.demo.customer.ScreenShare"
@@ -20,7 +20,6 @@
 #define kSaveAgoraAppID @"call_agoraAppid"
 #define kSaveAgoraShareUID @"call_agoraShareUID"
 #define kSaveAgoraCallId @"call_agoraCallId"
-
 
 @interface HDVECAgoraCallManager () <AgoraRtcEngineDelegate,HDChatManagerDelegate>
 {
@@ -316,7 +315,13 @@ static HDVECAgoraCallManager *shareCall = nil;
     
     return _members;
 }
-
+- (void)vec_reportEvent:(NSString *)eventId withUserStatus:(HDUserStatus)status attributes:(NSDictionary *)attributes Completion:(void (^)(id _Nonnull, HDError * _Nonnull))completion{
+    
+    if (self.vec_isAutoReport) {
+        [[HDClient sharedClient] vec_reportEvent:eventId withUserStatus:status attributes:attributes Completion:completion];
+    }
+    
+}
 /**
  接受视频会话
 
@@ -542,12 +547,9 @@ static HDVECAgoraCallManager *shareCall = nil;
                 [[HDVECCallViewController sharedManager]  removeView];
 
                 [[HDVECCallViewController sharedManager] removeSharedManager];
-
             };
         });
-        
     }];
-    
 }
 
 - (void)vec_initSetting:(NSString *)configid WithCompletion:(void (^)(id responseObject, HDError * error))aCompletion {

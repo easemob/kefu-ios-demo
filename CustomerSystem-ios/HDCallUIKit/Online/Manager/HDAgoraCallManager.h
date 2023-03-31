@@ -23,13 +23,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIWindow *currentWindow;
 @property (nonatomic, strong) UIViewController *currentVC;
 // 视频需要的必要参数
-@property (nonatomic, strong) NSString *cec_configid;
 @property (nonatomic, strong) NSString *cec_imServiceNum;
 @property (nonatomic, strong) HDVisitorInfo *cec_visitorInfo;
 
 
 + (instancetype _Nullable )shareInstance;
-
+/// vec 视频界面的主入口
+- (void)cec_showMainWindowWithImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(HDVisitorInfo*)visitorinfo;
 #pragma mark - Options
 /*!
  *  \~chinese

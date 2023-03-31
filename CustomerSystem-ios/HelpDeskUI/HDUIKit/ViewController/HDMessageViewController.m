@@ -58,6 +58,7 @@ typedef enum : NSUInteger {
 @implementation HDMessageViewController
 {
     NSString *_title;
+    NSTimer *_reportTimer;
 }
 
 @synthesize conversation = _conversation;
@@ -162,7 +163,113 @@ typedef enum : NSUInteger {
     
 //    [self newRobotWelcome];
     
+    [self cec_startReport];
+   
 }
+
+-(void)cec_startReport{
+    // 调用 上报用户状态接口
+    [[HDClient sharedClient] cec_reportEvent:@"" withUserStatus:HDUserStatusOnLine attributes:nil Completion:^(id responseObject, HDError *error) {
+                
+        
+    }];
+    [self setupNotifiers];
+    [self startReportCountDown];
+       
+    
+}
+-(void)cec_stopReport{
+
+        [[HDClient sharedClient] cec_reportEvent:@"" withUserStatus:HDUserStatusOffLine attributes:nil Completion:^(id responseObject, HDError *error) {
+                
+        }];
+        
+        [self stopReportCountDown];
+        [self setupRemoveNotifiers];
+
+    
+}
+
+
+- (void)startReportCountDown {
+   
+    [self stopReportCountDown];
+   
+    _reportTimer = [NSTimer scheduledTimerWithTimeInterval:1
+                                                  target:self
+                                                selector:@selector(sendReport)
+                                                userInfo:nil
+                                                 repeats:YES];
+
+}
+
+- (void)stopReportCountDown {
+    if (_reportTimer) {
+        [_reportTimer invalidate];
+        _reportTimer = nil;
+    }
+}
+- (void)sendReport{
+    
+    NSLog(@"============sendReport------=================");
+
+    [[HDClient sharedClient] cec_reportEvent:@"" withUserStatus:HDUserStatusOnLine attributes:nil Completion:^(id responseObject, HDError *error) {
+            
+    }];
+}
+
+- (void)setupRemoveNotifiers{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+}
+// 监听系统生命周期回调，以便将需要的事件传给SDK
+- (void)setupNotifiers{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackgroundNotif:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
+
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidBecomeActiveNotif:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    
+   
+    
+
+}
+
+#pragma mark - notifiers
+- (void)appDidEnterBackgroundNotif:(NSNotification*)notif{
+    // 进入后台
+    NSLog(@"=========appDidEnterBackgroundNotif==============");
+    [self stopReportCountDown];
+
+    [[HDClient sharedClient] cec_reportEvent:@"" withUserStatus:HDUserStatusOffLine attributes:nil Completion:^(id responseObject, HDError *error) {
+            
+    }];
+   
+}
+
+- (void)appDidBecomeActiveNotif:(NSNotification*)notif
+{
+    // 上报用户 状态
+    [self startReportCountDown];
+    // 上报用户 状态
+    
+    [[HDClient sharedClient] cec_reportEvent:@"" withUserStatus:HDUserStatusOnLine attributes:nil Completion:^(id responseObject, HDError *error) {
+            
+    }];
+    // 进入前台
+    NSLog(@"=========appDidBecomeActiveNotif==============");
+    
+    
+}
+
 
 - (void)setupCell {
     
@@ -175,6 +282,7 @@ typedef enum : NSUInteger {
     [[HDBaseMessageCell appearance] setAvatarCornerRadius:20.f];
     [[HDChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
 }
+
 
 - (void)chatToolbarState
 {
@@ -206,6 +314,8 @@ typedef enum : NSUInteger {
     [[HDClient sharedClient].chatManager removeDelegate:self];
     [self.navigationController popViewControllerAnimated:YES];
     [self backItemDidClicked];
+    // 调用 上报用户状态接口 离线
+    [self cec_stopReport];
 }
 
 - (void)backItemDidClicked {
@@ -1806,7 +1916,6 @@ typedef enum : NSUInteger {
                 [self moreViewLeaveMessageAction:nil];
                 return;
             }
-           
             if ([HDMessage isCreateCECVideoMessage:item] ) {
 
                 HDMessage *msg = [HDMessage createSendMessageWithMenuItem:item to:self.conversation.conversationId];
@@ -1838,6 +1947,19 @@ typedef enum : NSUInteger {
 
             if ([HDMessage isCreateVECVideoMessage:item] ) {
 
+                HDMessage * tmpMessage = [self.conversation latestMessage];
+                
+                NSString * sessionId=  [[HDClient sharedClient].chatManager getMessageServiceSessionId:tmpMessage];
+                
+                NSLog(@"======%@",sessionId);
+                
+                [[HDClient sharedClient].chatManager cec_closeServiceSessionId:sessionId withImServiceNum:self.conversation.conversationId Completion:^(id responseObject, HDError *error) {
+                    
+                    
+            
+                }];
+                
+                
                 // 创建vec 视频 这个地方可以传值 也可以在监听通知的时候
 //                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
 //                [dic setObject:@"kefuchannelimid_250083" forKey:@"easemob_vec_imservecnum"];

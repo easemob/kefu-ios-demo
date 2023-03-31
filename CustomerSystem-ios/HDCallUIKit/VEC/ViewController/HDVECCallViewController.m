@@ -188,8 +188,7 @@ static HDVECCallViewController *_manger = nil;
     [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
     
     // 移除 通知
-//    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDVEC_SCREENSHARE_STATRT object:nil];
-//    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDVEC_SCREENSHARE_STOP object:nil];
+    [self setupRemoveNotifiers];
     
 }
 - (void)removeAllSubviews {
@@ -378,6 +377,10 @@ static HDVECCallViewController *_manger = nil;
     [HDVECAgoraCallManager shareInstance].roomDelegate = self;
     // 注册屏幕共享通知
     [self registScreenShare];
+    
+    // 注册系统生命周期通知
+    [self setupNotifiers];
+    
 }
 //
 -(void)clearViewData{
@@ -901,6 +904,14 @@ static HDVECCallViewController *_manger = nil;
     [HDCallManager shareInstance].isVecVideo= YES;
     HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [self _sendMessage:message];
+    
+    // 上报接口用户活跃
+    [[HDVECAgoraCallManager shareInstance] vec_reportEvent:@"" withUserStatus:HDUserStatusOnLine attributes:nil Completion:^(id responseObject, HDError *error) {
+        
+        NSLog(@"=================%@",responseObject);
+        
+    }];
+    
 
 }
 - (void)_sendMessage:(HDMessage *)aMessage
@@ -1178,6 +1189,12 @@ static HDVECCallViewController *_manger = nil;
         self.hdVideoAnswerView.hidden = NO;
 
     }
+    
+    [[HDVECAgoraCallManager shareInstance] vec_reportEvent:@"" withUserStatus:HDUserStatusOffLine  attributes:nil Completion:^(id responseObject, HDError *error) {
+            
+        
+    }];
+    
     
 }
 - (UIView *)parentView{
@@ -1604,6 +1621,64 @@ static HDVECCallViewController *_manger = nil;
     }
 }
 
+// 监听系统生命周期回调，以便将需要的事件传给SDK
+- (void)setupNotifiers{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackgroundNotif:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidBecomeActiveNotif:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appWillTerminateNotif:)
+                                                 name:UIApplicationWillTerminateNotification
+                                               object:nil];
+    
+ 
+}
+
+#pragma mark - notifiers
+- (void)appDidEnterBackgroundNotif:(NSNotification*)notif{
+    // 进入后台
+    NSLog(@"=========appDidEnterBackgroundNotif==============");
+    
+    [[HDVECAgoraCallManager shareInstance] vec_reportEvent:@""  withUserStatus:HDUserStatusOffLine attributes:nil Completion:^(id responseObject, HDError *error) {
+            
+        
+    }];
+   
+}
+
+- (void)appDidBecomeActiveNotif:(NSNotification*)notif
+{
+    // 进入前台
+    NSLog(@"=========appDidBecomeActiveNotif==============");
+    [[HDVECAgoraCallManager shareInstance] vec_reportEvent:@"" withUserStatus:HDUserStatusOnLine attributes:nil Completion:^(id responseObject, HDError *error) {
+            
+        
+    }];
+}
+- (void)appWillTerminateNotif:(NSNotification*)notif
+{
+    // 程序终止
+    NSLog(@"=========appWillTerminateNotif==============");
+    [[HDVECAgoraCallManager shareInstance] vec_reportEvent:@"" withUserStatus:HDUserStatusOffLine attributes:nil Completion:^(id responseObject, HDError *error) {
+            
+        
+    }];
+}
+-(void)setupRemoveNotifiers{
+
+    [[NSNotificationCenter defaultCenter]  removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter]  removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter]  removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+    
+}
 
 #ifdef HDVECWhiteBoard
 

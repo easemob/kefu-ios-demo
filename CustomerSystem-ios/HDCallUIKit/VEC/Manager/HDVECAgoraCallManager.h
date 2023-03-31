@@ -33,6 +33,8 @@ static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
 @property (nonatomic, strong) NSString *vec_configid;
 @property (nonatomic, strong) NSString *vec_imServiceNum;
 @property (nonatomic, strong) HDVisitorInfo *vec_visitorInfo;
+ 
+@property (nonatomic, assign) BOOL vec_isAutoReport ; // 默认不自动上报
 
 
 + (instancetype _Nullable )shareInstance;
@@ -253,7 +255,11 @@ static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
 //获取数据
 -(NSDictionary *)vec_getInitSettingData;
 - (HDVECInitLayoutModel *)setModel:(NSDictionary *)dic;
-
+/*!
+ *  \~chinese
+ *     上报 用户行为接口
+ */
+- (void)vec_reportEvent:(NSString *)eventId withUserStatus:(HDUserStatus)status attributes:(NSDictionary *)attributes Completion:(void (^)(id responseObject, HDError *error))completion;
 @end
 
 NS_ASSUME_NONNULL_END

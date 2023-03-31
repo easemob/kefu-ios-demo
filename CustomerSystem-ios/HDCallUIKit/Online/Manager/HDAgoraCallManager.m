@@ -10,13 +10,7 @@
 #import <ReplayKit/ReplayKit.h>
 #import <CoreMedia/CoreMedia.h>
 #import "HDAgoraCallMember.h"
-
-#define kForService @"com.easemob.kf.demo.customer.ScreenShare"
-#define kSaveAgoraToken @"call_agoraToken"
-#define kSaveAgoraChannel @"call_agoraChannel"
-#define kSaveAgoraAppID @"call_agoraAppid"
-#define kSaveAgoraShareUID @"call_agoraShareUID"
-#define kSaveAgoraCallId @"call_agoraCallId"
+#import "HDCallViewController.h"
 
 @interface HDAgoraCallManager () <AgoraRtcEngineDelegate,HDChatManagerDelegate>
 {
@@ -63,7 +57,21 @@ static HDAgoraCallManager *shareCall = nil;
     }
     return self;
 }
+- (void)cec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(nonnull HDVisitorInfo *)visitorinfo{
+    
+    self.cec_imServiceNum= imServecionNumer;
+    self.cec_visitorInfo = visitorinfo;
+    
+    // 
+    
+    [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
+    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+        [[HDCallViewController sharedManager]  removeView];
 
+        [[HDCallViewController sharedManager] removeSharedManager];
+    };
+    
+}
 - (void)setCallOptions:(HDAgoraCallOptions *)aOptions{
     _options = aOptions;
 }
