@@ -94,8 +94,6 @@
 }
 
 - (void)cec_sendMessageVieo{
-    
-    [HDClient sharedClient].callManager.isVecVideo = NO;
     HDMessage *message = [HDClient.sharedClient.callManager cec_creteVideoInviteMessageWithImServiceNum:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [message addContent:[self visitorInfo]];
     [self _sendMessage:message];

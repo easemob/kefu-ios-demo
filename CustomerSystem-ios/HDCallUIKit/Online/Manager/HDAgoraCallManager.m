@@ -210,7 +210,6 @@ static HDAgoraCallManager *shareCall = nil;
 - (void)leaveChannel{
     _isSetupLocalVideo = NO;
     [self.agoraKit leaveChannel:nil];
-    [HDCallManager shareInstance].isVecVideo =NO;
     [_members removeAllObjects];
     
     //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。

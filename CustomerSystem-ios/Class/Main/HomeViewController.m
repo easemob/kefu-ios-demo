@@ -260,7 +260,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             }
             [weakHud hideAnimated:YES];
             //todo 创建视频等待界面  调用接口 vec 使用
-            [HDClient sharedClient].callManager.isVecVideo = YES;
             NSString * configid  = @"aaf16fee-e08a-4435-a2c1-4ad1b4776a06";
             NSString * imservicenum  = @"kefuchannelimid_250083";
             if (lgM.configId) {
@@ -730,7 +729,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter withMessage:(HDMessage *)message{
     
     [HDLog logI:@"================vec1.2=====onCallReceivedParameter= %@",[NSThread currentThread] ];
-    if ([HDClient sharedClient].callManager.isVecVideo) {
+    if ([[HDClient sharedClient].chatManager isVECMessage:message]) {
        
         [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息: "];
         

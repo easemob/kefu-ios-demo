@@ -189,7 +189,6 @@ static HDCallViewController *_manger = nil;
     
 }
 - (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoCallType)type{
-    [HDCallManager shareInstance].isVecVideo = NO;
     [HDLog logD:@"HD===%s =vec=====收到坐席回呼cmd消息 拿到keyCenter: %@",__func__,keyCenter];
     if (!isCalling) {
         if (type == HDVideoCallDirectionSend) {

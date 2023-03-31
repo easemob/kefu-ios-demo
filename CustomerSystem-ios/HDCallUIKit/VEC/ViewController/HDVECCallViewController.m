@@ -226,7 +226,6 @@ static HDVECCallViewController *_manger = nil;
 }
 - (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVECCallType)type withVisitornickName:(nonnull NSString *)aNickname{
     [HDVECAgoraCallManager shareInstance].currentVC = self;
-    [HDCallManager shareInstance].isVecVideo = YES;
     [HDLog logD:@"HD===%s vec1.2=====收到坐席回呼cmd消息 拿到keyCenter:%@",__func__,keyCenter];
     // 获取企业信息
     [self getConfigInfoVisitorNickName:aNickname];
@@ -901,7 +900,6 @@ static HDVECCallViewController *_manger = nil;
 - (void)createVideoCall{
     //这个地方是真正发消息邀请视频的代码
     self.isVisitorSend = YES;
-    [HDCallManager shareInstance].isVecVideo= YES;
     HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [self _sendMessage:message];
     
@@ -1150,7 +1148,7 @@ static HDVECCallViewController *_manger = nil;
     }else{
         
 //        [CSDemoAccountManager shareLoginManager].isVEC = NO;
-        [HDClient sharedClient].callManager.isVecVideo = NO;
+    
     }
     
     [self.hdVideoAnswerView endCallLayout];
