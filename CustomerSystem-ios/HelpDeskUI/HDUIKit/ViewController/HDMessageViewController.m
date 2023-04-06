@@ -102,7 +102,7 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-   
+    self.showRefreshHeader = YES;
     if (_conversation.officialAccount.name) {
         _title = _conversation.officialAccount.name;
     }

@@ -54,7 +54,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.showRefreshHeader = YES;
     self.delegate = self;
     self.dataSource = self;
     

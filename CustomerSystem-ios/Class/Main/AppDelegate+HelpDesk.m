@@ -91,9 +91,7 @@
         return;
     }
     [self registerEaseMobNotification];
-    
-//    sleep(1);
-    
+        
     [client.pushManager getPushNotificationOptionsFromServerWithCompletion:^(HDPushOptions * _Nonnull aOptions, HDError * _Nonnull aError) {
 
         NSLog(@"==========aErrorcode=%u==%@",aError.code,aError.description);
