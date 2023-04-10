@@ -102,6 +102,11 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //添加自定义小表情
+#pragma mark smallpngface
+    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
+    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[HDConvertToCommonEmoticonsHelper emotionsDictionary]];
+    
     self.showRefreshHeader = YES;
     if (_conversation.officialAccount.name) {
         _title = _conversation.officialAccount.name;

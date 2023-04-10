@@ -56,7 +56,7 @@
     option.tenantId = lgM.tenantId;
     option.configId = lgM.configId;
     
-//    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
+    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"https://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
     option.enableDnsConfig =YES;  //
@@ -101,10 +101,10 @@
     [EMClient.sharedClient addDelegate:self delegateQueue:nil];
     [EMClient.sharedClient.chatManager addDelegate:self delegateQueue:nil];
     
-    //添加自定义小表情
-#pragma mark smallpngface
-    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
-    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[HDConvertToCommonEmoticonsHelper emotionsDictionary]];
+//    //添加自定义小表情
+//#pragma mark smallpngface
+//    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
+//    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[HDConvertToCommonEmoticonsHelper emotionsDictionary]];
 }
 
 -(void)messagesDidReceive:(NSArray<EMChatMessage *> *)aMessages{

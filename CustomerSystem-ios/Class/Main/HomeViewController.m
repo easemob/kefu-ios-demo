@@ -267,7 +267,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 configid = lgM.configId;
                 imservicenum = lgM.cname;
             }
-            [[HDVECAgoraCallManager shareInstance] vec_showMainWindowConfigId:configid withImServecionNumer:imservicenum withVisiorInfo:lgM.visitorInfo];
+            [[HDVECAgoraCallManager shareInstance] vec_showMainWindowConfigId:configid withImServecionNumer:imservicenum withVisiorInfo:lgM.visitorInfo withCECSessionid:@"123"];
         
         } else {
             hd_dispatch_main_async_safe(^(){

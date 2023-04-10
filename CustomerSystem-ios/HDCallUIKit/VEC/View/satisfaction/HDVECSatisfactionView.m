@@ -687,8 +687,10 @@
     for (int i = 0; i < tmpArray.count; i ++) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         HDVECEnquiryTagModel *model = tmpArray[i];
-        [dict hd_setValue:model.tagId forKey:@"id"];
-        [dict hd_setValue:model.tagName forKey:@"tagName"];
+        if ([model isKindOfClass:[HDVECEnquiryTagModel class]]) {
+            [dict hd_setValue:model.tagId forKey:@"id"];
+            [dict hd_setValue:model.tagName forKey:@"tagName"];
+        }
         [self.evaluationTagsArray addObject:dict];
     }
 

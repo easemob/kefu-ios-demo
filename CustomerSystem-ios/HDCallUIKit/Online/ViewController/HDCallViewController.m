@@ -338,6 +338,29 @@ static HDCallViewController *_manger = nil;
     HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
     if (grayModelShare.enable) {
         [selImageArr addObject:barModel3];
+        // 调用 接口 设置屏幕共享是应用内 还是应用外
+        [[HDClient sharedClient].callManager hd_getShareSreenSettingCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+            [HDCECScreeShareManager shareInstance].isCecExtensionApp = NO;
+            if (error==nil&& [responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                NSDictionary *dic = responseObject;
+                if ([[dic allKeys] containsObject:@"entities"] && [[dic valueForKey:@"entities"] isKindOfClass:[NSArray class]]) {
+
+                    NSArray * entities =[dic valueForKey:@"entities"];
+                    if (entities.count > 0) {
+                        NSDictionary * entitieDic = [entities firstObject];
+                        
+                        if ([[entitieDic allKeys] containsObject:@"optionValue"]) {
+                            
+                            NSString * optionValue = [entitieDic valueForKey:@"optionValue"];
+                            if ([optionValue isEqualToString:@"true"]) {
+                                [HDCECScreeShareManager shareInstance].isCecExtensionApp = YES;
+                            }
+                        }
+                    }
+                }
+            }
+        }];
     }
     if (grayModelWhiteBoard.enable) {
         [selImageArr addObject:barModel4];

@@ -497,17 +497,27 @@ static HDVECCallViewController *_manger = nil;
     HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
     if (grayModelShare.enable) {
         [selImageArr addObject:barModel3];
-        [HDVECScreeShareManager shareInstance].isVecExtensionApp = NO;
         // 调用 接口 设置屏幕共享是应用内 还是应用外
         [[HDClient sharedClient].callManager hd_getShareSreenSettingCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
-            
-            if (error==nil) {
+            [HDVECScreeShareManager shareInstance].isVecExtensionApp = NO;
+            if (error==nil&& [responseObject isKindOfClass:[NSDictionary class]]) {
                 
-                [HDVECScreeShareManager shareInstance].isVecExtensionApp = YES;
-                
-            }else{
-                
-                [HDVECScreeShareManager shareInstance].isVecExtensionApp = NO;
+                NSDictionary *dic = responseObject;
+                if ([[dic allKeys] containsObject:@"entities"] && [[dic valueForKey:@"entities"] isKindOfClass:[NSArray class]]) {
+
+                    NSArray * entities =[dic valueForKey:@"entities"];
+                    if (entities.count > 0) {
+                        NSDictionary * entitieDic = [entities firstObject];
+                        
+                        if ([[entitieDic allKeys] containsObject:@"optionValue"]) {
+                            
+                            NSString * optionValue = [entitieDic valueForKey:@"optionValue"];
+                            if ([optionValue isEqualToString:@"true"]) {
+                                [HDVECScreeShareManager shareInstance].isVecExtensionApp = YES;
+                            }
+                        }
+                    }
+                }
             }
         }];
     }
@@ -901,6 +911,16 @@ static HDVECCallViewController *_manger = nil;
     //这个地方是真正发消息邀请视频的代码
     self.isVisitorSend = YES;
     HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
+
+    if ([HDVECAgoraCallManager shareInstance].vec_cecSessionId) {
+        
+        NSDictionary *relatedDic = @{@"relatedSessionId":[HDVECAgoraCallManager shareInstance].vec_cecSessionId};
+        NSDictionary *sessionExt = @{@"sessionExt":relatedDic};
+        
+        [message addAttributeDictionary:sessionExt];
+    }
+    
+    
     [self _sendMessage:message];
     
     // 上报接口用户活跃
@@ -1144,17 +1164,10 @@ static HDVECCallViewController *_manger = nil;
     // 把vec 置为初始值
     if ([HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive && [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCancelCallbackReceive ) {
     
-        
     }else{
         
-//        [CSDemoAccountManager shareLoginManager].isVEC = NO;
-    
     }
-    
     [self.hdVideoAnswerView endCallLayout];
-
-  
-    
 }
 
 /// 拒接事件
@@ -1308,11 +1321,8 @@ static HDVECCallViewController *_manger = nil;
           
         }
     }else if(popover.popoverType == HDVECPopoverTypeMore){
-        
         //点击了更多
         [self clickPopoverMore:indexpath withItemModel:item];
-      
-        
     }
 }
 - (void)closeCamera{

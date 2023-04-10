@@ -532,11 +532,11 @@ static HDVECAgoraCallManager *shareCall = nil;
     return boundingSize;
 }
 
-- (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(nonnull HDVisitorInfo *)visitorinfo{
+- (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(nonnull HDVisitorInfo *)visitorinfo withCECSessionid:(NSString *)sessionid{
     
     self.vec_imServiceNum= imServecionNumer;
     self.vec_configid = configid;
-    
+    self.vec_cecSessionId = sessionid;
     [self vec_initSetting:configid WithCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
             
         dispatch_async(dispatch_get_main_queue(), ^{
