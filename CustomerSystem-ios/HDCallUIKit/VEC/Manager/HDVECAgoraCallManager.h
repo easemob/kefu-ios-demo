@@ -13,6 +13,7 @@
 #import "HDVECInitLayoutModel.h"
 #import "HDVECEnterpriseInfo.h"
 #import "HDCallAppManger.h"
+#import "HDVECGuidanceModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 static NSString * _Nonnull kVECUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
@@ -34,18 +35,23 @@ static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
 @property (nonatomic, strong) NSString *vec_imServiceNum;
 @property (nonatomic, strong) HDVisitorInfo *vec_visitorInfo;
 @property (nonatomic, strong) NSString *vec_cecSessionId; // cec的会话id
+@property (nonatomic, strong) NSString *vec_cecVisitorId; // cec的访客id
  
 @property (nonatomic, assign) BOOL vec_isAutoReport ; // 默认不自动上报
 
 
 + (instancetype _Nullable )shareInstance;
 
+- (HDVECGuidanceModel *)setGuidancePostNotificationParWithConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer  withCECSessionid:(NSString *)sessionId withCECVisitorId:(NSString *)visitorId;
+
+
 /// vec 视频界面的主入口
 /// @param configid  vec 的插件id
 /// @param imServecionNumer  im服务号
 /// @param visitorinfo  访客信息
+///  @param visitorId   访客id 只有在询前引导场景下需要传值 其他情况下 可以直接传nil
 /// @param sessionid   会话id 只有在询前引导场景下需要传值 其他情况下 可以直接传nil
-- (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(nonnull HDVisitorInfo *)visitorinfo withCECSessionid:(NSString *)sessionid;
+- (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(HDVisitorInfo *)visitorinfo withCECSessionid:(NSString *)sessionid withCECVisitorId:(NSString *)visitorId;
 
 /// 初始化排队界面数据 
 /// @param aCompletion 回调接口数据
@@ -264,7 +270,9 @@ static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
  *  \~chinese
  *     上报 用户行为接口
  */
-- (void)vec_reportEvent:(NSString *)eventId withUserStatus:(HDUserStatus)status attributes:(NSDictionary *)attributes Completion:(void (^)(id responseObject, HDError *error))completion;
+- (void)vec_sendReportEvent;
+
+- (void)vec_offlinReportEvent;
 @end
 
 NS_ASSUME_NONNULL_END

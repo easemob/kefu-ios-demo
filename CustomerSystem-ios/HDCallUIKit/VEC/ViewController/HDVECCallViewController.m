@@ -187,8 +187,7 @@ static HDVECCallViewController *_manger = nil;
     [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCancelCallbackReceive = NO;
     [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
     
-    // 移除 通知
-    [self setupRemoveNotifiers];
+    
     
 }
 - (void)removeAllSubviews {
@@ -377,8 +376,6 @@ static HDVECCallViewController *_manger = nil;
     // 注册屏幕共享通知
     [self registScreenShare];
     
-    // 注册系统生命周期通知
-    [self setupNotifiers];
     
 }
 //
@@ -914,8 +911,13 @@ static HDVECCallViewController *_manger = nil;
 
     if ([HDVECAgoraCallManager shareInstance].vec_cecSessionId) {
         
-        NSDictionary *relatedDic = @{@"relatedSessionId":[HDVECAgoraCallManager shareInstance].vec_cecSessionId};
-        NSDictionary *sessionExt = @{@"sessionExt":relatedDic};
+        NSMutableDictionary * mDic = [NSMutableDictionary dictionary];
+        
+        [mDic hd_setValue:[HDVECAgoraCallManager shareInstance].vec_cecSessionId forKey:@"relatedSessionId"];
+        [mDic hd_setValue:[HDVECAgoraCallManager shareInstance].vec_cecVisitorId forKey:@"relatedVisitorUserId"];
+        //source 必须传一个类型 要不 后端不能存relatedSessionId 值
+        [mDic hd_setValue:@"relatedSession" forKey:@"source"];
+        NSDictionary *sessionExt = @{@"sessionExt":mDic};
         
         [message addAttributeDictionary:sessionExt];
     }
@@ -924,11 +926,7 @@ static HDVECCallViewController *_manger = nil;
     [self _sendMessage:message];
     
     // 上报接口用户活跃
-    [[HDVECAgoraCallManager shareInstance] vec_reportEvent:@"" withUserStatus:HDUserStatusOnLine attributes:nil Completion:^(id responseObject, HDError *error) {
-        
-        NSLog(@"=================%@",responseObject);
-        
-    }];
+    [[HDVECAgoraCallManager shareInstance] vec_sendReportEvent];
     
 
 }
@@ -1201,10 +1199,8 @@ static HDVECCallViewController *_manger = nil;
 
     }
     
-    [[HDVECAgoraCallManager shareInstance] vec_reportEvent:@"" withUserStatus:HDUserStatusOffLine  attributes:nil Completion:^(id responseObject, HDError *error) {
-            
-        
-    }];
+    // 上报 离线行为
+    [[HDVECAgoraCallManager shareInstance] vec_offlinReportEvent];
     
     
 }
@@ -1629,64 +1625,6 @@ static HDVECCallViewController *_manger = nil;
     }
 }
 
-// 监听系统生命周期回调，以便将需要的事件传给SDK
-- (void)setupNotifiers{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appDidEnterBackgroundNotif:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appDidBecomeActiveNotif:)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
-    
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appWillTerminateNotif:)
-                                                 name:UIApplicationWillTerminateNotification
-                                               object:nil];
-    
- 
-}
-
-#pragma mark - notifiers
-- (void)appDidEnterBackgroundNotif:(NSNotification*)notif{
-    // 进入后台
-    NSLog(@"=========appDidEnterBackgroundNotif==============");
-    
-    [[HDVECAgoraCallManager shareInstance] vec_reportEvent:@""  withUserStatus:HDUserStatusOffLine attributes:nil Completion:^(id responseObject, HDError *error) {
-            
-        
-    }];
-   
-}
-
-- (void)appDidBecomeActiveNotif:(NSNotification*)notif
-{
-    // 进入前台
-    NSLog(@"=========appDidBecomeActiveNotif==============");
-    [[HDVECAgoraCallManager shareInstance] vec_reportEvent:@"" withUserStatus:HDUserStatusOnLine attributes:nil Completion:^(id responseObject, HDError *error) {
-            
-        
-    }];
-}
-- (void)appWillTerminateNotif:(NSNotification*)notif
-{
-    // 程序终止
-    NSLog(@"=========appWillTerminateNotif==============");
-    [[HDVECAgoraCallManager shareInstance] vec_reportEvent:@"" withUserStatus:HDUserStatusOffLine attributes:nil Completion:^(id responseObject, HDError *error) {
-            
-        
-    }];
-}
--(void)setupRemoveNotifiers{
-
-    [[NSNotificationCenter defaultCenter]  removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter]  removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter]  removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
-    
-}
 
 #ifdef HDVECWhiteBoard
 

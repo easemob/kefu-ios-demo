@@ -245,6 +245,14 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 - (void)vecAction:(NSNotification *)notification{
 
+    if (notification.object) {
+         // 询前引导 过来的视频邀请
+        [self vecGuidance:notification];
+        
+        return;
+    }
+    
+    
     __weak typeof(self) weakSelf = self;
     MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:self.view.superview];
 
@@ -260,14 +268,16 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             }
             [weakHud hideAnimated:YES];
             //todo 创建视频等待界面  调用接口 vec 使用
-            NSString * configid  = @"aaf16fee-e08a-4435-a2c1-4ad1b4776a06";
-            NSString * imservicenum  = @"kefuchannelimid_250083";
+//            NSString * configid  = @"aaf16fee-e08a-4435-a2c1-4ad1b4776a06";
+//            NSString * imservicenum  = @"kefuchannelimid_250083";
+            NSString * configid  = @"c9570743-2e93-4287-b52e-1d070d2b997e";
+            NSString * imservicenum  = @"kefuchannelimid_033808";
             if (lgM.configId) {
                 
                 configid = lgM.configId;
                 imservicenum = lgM.cname;
             }
-            [[HDVECAgoraCallManager shareInstance] vec_showMainWindowConfigId:configid withImServecionNumer:imservicenum withVisiorInfo:lgM.visitorInfo withCECSessionid:@"123"];
+            [[HDVECAgoraCallManager shareInstance] vec_showMainWindowConfigId:configid withImServecionNumer:imservicenum withVisiorInfo:lgM.visitorInfo withCECSessionid:@"" withCECVisitorId:@""];
         
         } else {
             hd_dispatch_main_async_safe(^(){
@@ -280,6 +290,25 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     
 }
+
+
+/// 询前引导 调用方法
+/// @param userInfo  加入视频 需要的参数
+- (void)vecGuidance:(NSNotification *)notification{
+    
+    
+    HDVECGuidanceModel * model = (HDVECGuidanceModel *) notification.object;
+    if (model) {
+       
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+        
+        [[HDVECAgoraCallManager shareInstance] vec_showMainWindowConfigId:model.vec_configid withImServecionNumer:model.vec_imServiceNum withVisiorInfo:lgM.visitorInfo withCECSessionid:model.vec_cecSessionId withCECVisitorId:model.vec_cecVisitorId];
+        
+    }
+   
+}
+
+
 
 - (void)chatAction:(NSNotification *)notification
 {

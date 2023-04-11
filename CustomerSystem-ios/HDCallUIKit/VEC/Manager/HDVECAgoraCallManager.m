@@ -73,6 +73,22 @@ static HDVECAgoraCallManager *shareCall = nil;
     }
     return self;
 }
+- (HDVECGuidanceModel *)setGuidancePostNotificationParWithConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withCECSessionid:(NSString *)sessionId withCECVisitorId:(NSString *)visitorId{
+    
+    
+    HDVECGuidanceModel * model = [[HDVECGuidanceModel alloc] init];
+    model.vec_cecSessionId = sessionId;
+    model.vec_cecVisitorId = visitorId;
+    model.vec_imServiceNum = imServecionNumer;
+    model.vec_configid = configid;
+    NSMutableDictionary * dic = [NSMutableDictionary dictionary];
+    [dic hd_setValue:imServecionNumer forKey:@"easemob_vec_imservecnum"];
+    [dic hd_setValue:configid forKey:@"easemob_vec_configid"];
+    [dic hd_setValue:sessionId forKey:@"easemob_cec_relatedSessionId"];
+    [dic hd_setValue:visitorId forKey:@"easemob_cec_relatedVisitorUserId"];
+    return model;
+}
+
 
 - (void)vec_setCallOptions:(HDVECAgoraCallOptions *)aOptions{
     _options = aOptions;
@@ -314,11 +330,23 @@ static HDVECAgoraCallManager *shareCall = nil;
     
     return _members;
 }
-- (void)vec_reportEvent:(NSString *)eventId withUserStatus:(HDUserStatus)status attributes:(NSDictionary *)attributes Completion:(void (^)(id _Nonnull, HDError * _Nonnull))completion{
+- (void)vec_sendReportEvent{
     
     if (self.vec_isAutoReport) {
-        [[HDClient sharedClient] vec_reportEvent:eventId withUserStatus:status attributes:attributes Completion:completion];
+        [[HDClient sharedClient] vec_sendReportEventImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum];
     }
+    
+}
+- (void)vec_offlinReportEvent{
+    
+    [[HDClient sharedClient].chatManager fetchCurrentVisitorId:[HDVECAgoraCallManager shareInstance].vec_imServiceNum completion:^(HDError *aError, NSString *visitorId) {
+    
+        if (visitorId) {
+           
+            [[HDClient sharedClient] vec_offLineReportEventVisitorId:visitorId];
+        }
+       
+    }];
     
 }
 /**
@@ -532,11 +560,13 @@ static HDVECAgoraCallManager *shareCall = nil;
     return boundingSize;
 }
 
-- (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(nonnull HDVisitorInfo *)visitorinfo withCECSessionid:(NSString *)sessionid{
+- (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:( HDVisitorInfo *)visitorinfo withCECSessionid:(NSString *)sessionid withCECVisitorId:( NSString *)visitorId{
     
     self.vec_imServiceNum= imServecionNumer;
     self.vec_configid = configid;
     self.vec_cecSessionId = sessionid;
+    self.vec_cecVisitorId = visitorId;
+    
     [self vec_initSetting:configid WithCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
             
         dispatch_async(dispatch_get_main_queue(), ^{
