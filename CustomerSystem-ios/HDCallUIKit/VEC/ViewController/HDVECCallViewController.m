@@ -1602,6 +1602,7 @@ static HDVECCallViewController *_manger = nil;
     _shareState= YES;
     _shareBtn.selected = _shareState;
     
+    [self __enablePictureInPictureZoom];
     [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.startScreenShare", "开启屏幕共享")  withWindow:self.alertWindow];
     
 }

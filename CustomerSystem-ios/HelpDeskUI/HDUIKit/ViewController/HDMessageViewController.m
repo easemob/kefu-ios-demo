@@ -240,17 +240,7 @@ typedef enum : NSUInteger {
 }
 - (void)cec_stopReport{
     
-    [[HDClient sharedClient].chatManager fetchCurrentVisitorId:self.conversation.conversationId completion:^(HDError *aError, NSString *visitorId) {
-    
-        if (visitorId) {
-           
-            [[HDClient sharedClient] cec_offLineReportEventVisitorId:visitorId];
-        }
-       
-    }];
-    
-   
-    
+    [[HDClient sharedClient] cec_offLineReportEventVisitorUserName:[HDClient sharedClient].currentUsername withImServiecNum:self.conversation.conversationId];
     
 }
 - (void)backItemDidClicked {

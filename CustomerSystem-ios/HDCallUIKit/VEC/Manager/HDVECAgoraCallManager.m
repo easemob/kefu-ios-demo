@@ -339,9 +339,9 @@ static HDVECAgoraCallManager *shareCall = nil;
 }
 - (void)vec_offlinReportEvent{
     
-   
+    if (self.vec_isAutoReport) {
     [[HDClient sharedClient] vec_offLineReportEventVisitorUserName:[HDClient sharedClient].currentUsername withImServiecNum:self.vec_imServiceNum];
-    
+    }
 }
 /**
  接受视频会话
