@@ -339,14 +339,8 @@ static HDVECAgoraCallManager *shareCall = nil;
 }
 - (void)vec_offlinReportEvent{
     
-    [[HDClient sharedClient].chatManager fetchCurrentVisitorId:[HDVECAgoraCallManager shareInstance].vec_imServiceNum completion:^(HDError *aError, NSString *visitorId) {
-    
-        if (visitorId) {
-           
-            [[HDClient sharedClient] vec_offLineReportEventVisitorId:visitorId];
-        }
-       
-    }];
+   
+    [[HDClient sharedClient] vec_offLineReportEventVisitorUserName:[HDClient sharedClient].currentUsername withImServiecNum:self.vec_imServiceNum];
     
 }
 /**

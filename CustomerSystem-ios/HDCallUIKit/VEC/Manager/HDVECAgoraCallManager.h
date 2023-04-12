@@ -37,7 +37,7 @@ static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
 @property (nonatomic, strong) NSString *vec_cecSessionId; // cec的会话id
 @property (nonatomic, strong) NSString *vec_cecVisitorId; // cec的访客id
  
-@property (nonatomic, assign) BOOL vec_isAutoReport ; // 默认不自动上报
+@property (nonatomic, assign) BOOL vec_isAutoReport ; // 自动上报开关
 
 
 + (instancetype _Nullable )shareInstance;
@@ -49,8 +49,8 @@ static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
 /// @param configid  vec 的插件id
 /// @param imServecionNumer  im服务号
 /// @param visitorinfo  访客信息
-///  @param visitorId   访客id 只有在询前引导场景下需要传值 其他情况下 可以直接传nil
-/// @param sessionid   会话id 只有在询前引导场景下需要传值 其他情况下 可以直接传nil
+///  @param visitorId   访客id 只有在询前引导场景下需要传值 其他情况下 可以直接传@“”
+/// @param sessionid   会话id 只有在询前引导场景下需要传值 其他情况下 可以直接传@“”
 - (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(HDVisitorInfo *)visitorinfo withCECSessionid:(NSString *)sessionid withCECVisitorId:(NSString *)visitorId;
 
 /// 初始化排队界面数据 

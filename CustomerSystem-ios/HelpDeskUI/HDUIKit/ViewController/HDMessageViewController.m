@@ -169,7 +169,7 @@ typedef enum : NSUInteger {
     
 //    [self newRobotWelcome];
     
-    [self cec_startReport];
+//    [self cec_startReport];
    
 }
 
@@ -1879,43 +1879,86 @@ typedef enum : NSUInteger {
 
                 return;
             }
+            NSDictionary * dic =  [HDMessage isCreateVECVideoMessage:item];
+            if (dic) {
 
-            if (![HDMessage isCreateVECVideoMessage:item] ) {
-
-                HDMessage * tmpMessage = [self.conversation latestMessage];
-                
-                NSString * sessionId=  [[HDClient sharedClient].chatManager getMessageServiceSessionId:tmpMessage];
-                
-                NSLog(@"======%@",sessionId);
-                
-                [[HDClient sharedClient].chatManager fetchCurrentVisitorId:self.conversation.conversationId completion:^(HDError *aError, NSString *visitorId) {
+                //解析数据
+                if ([[dic allKeys] containsObject:@"appConfig"] ) {
                     
-                    [[HDClient sharedClient].chatManager cec_closeServiceSessionId:sessionId withImServiceNum:self.conversation.conversationId Completion:^(id responseObject, HDError *error) {
+                    NSDictionary * appConfig = [dic valueForKey:@"appConfig"];
+                    
+                    NSString * configId = [appConfig valueForKey:@"configId"];
+                    
+                    NSDictionary * configJsonDic = [appConfig valueForKey:@"configJson"];
+                    
+                    NSString * imServiceNum = configJsonDic[@"channel"][@"to"];
+                    
+                    HDMessage * tmpMessage = [self.conversation latestMessage];
+                    
+                    NSString * sessionId=  [[HDClient sharedClient].chatManager getMessageServiceSessionId:tmpMessage];
+                    
+                    NSLog(@"======%@",sessionId);
+                    
+                    [[HDClient sharedClient].chatManager fetchCurrentVisitorId:self.conversation.conversationId completion:^(HDError *aError, NSString *visitorId) {
                         
+                        [[HDClient sharedClient].chatManager cec_closeServiceSessionId:sessionId withImServiceNum:self.conversation.conversationId Completion:^(id responseObject, HDError *error) {
+                            
+                        }];
+                        
+                        if (visitorId) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                // 创建vec 视频 这个地方可以传值 也可以在监听通知的时候
+                        
+                                if (configId == nil || imServiceNum == nil) {
+                                    
+                                    return;
+                                }
+                               HDVECGuidanceModel * model =  [[HDVECAgoraCallManager shareInstance] setGuidancePostNotificationParWithConfigId:configId withImServecionNumer:imServiceNum withCECSessionid:sessionId withCECVisitorId:visitorId];
+                                
+                                [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_vec_call" object:model userInfo:dic];
+                                
+                            });
+                        }
+                       
                     }];
+                }else{
                     
-                    if (visitorId) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            // 创建vec 视频 这个地方可以传值 也可以在监听通知的时候
-                            NSMutableDictionary * dic = [NSMutableDictionary dictionary];
-                            [dic setObject:@"kefuchannelimid_033808" forKey:@"easemob_vec_imservecnum"];
-                            [dic setObject:@"c9570743-2e93-4287-b52e-1d070d2b997e" forKey:@"easemob_vec_configid"];
-                            [dic setObject:sessionId forKey:@"easemob_cec_relatedSessionId"];
-                            [dic setObject:visitorId forKey:@"easemob_cec_relatedVisitorUserId"];
+                    
+                    HDMessage * tmpMessage = [self.conversation latestMessage];
+                    
+                    NSString * sessionId=  [[HDClient sharedClient].chatManager getMessageServiceSessionId:tmpMessage];
+                    
+                    NSLog(@"======%@",sessionId);
+                    
+                    [[HDClient sharedClient].chatManager fetchCurrentVisitorId:self.conversation.conversationId completion:^(HDError *aError, NSString *visitorId) {
+                        
+                        [[HDClient sharedClient].chatManager cec_closeServiceSessionId:sessionId withImServiceNum:self.conversation.conversationId Completion:^(id responseObject, HDError *error) {
                             
-                           HDVECGuidanceModel * model =  [[HDVECAgoraCallManager shareInstance] setGuidancePostNotificationParWithConfigId:@"c9570743-2e93-4287-b52e-1d070d2b997e" withImServecionNumer:@"kefuchannelimid_033808" withCECSessionid:sessionId withCECVisitorId:visitorId];
-                            
-                            [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_vec_call" object:model userInfo:dic];
-                            
-                        });
-                    }
-                   
-                }];
-            
+                        }];
+                        
+                        if (visitorId) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                // 创建vec 视频 这个地方可以传值 也可以在监听通知的时候
+                        
+                                NSString * configId= @"f1391f62-b6d5-434c-8ccc-6c2f0e144bf5";
+                                NSString * imServiceNum= @"kefuchannelimid_174280";
+                                if (configId == nil || imServiceNum == nil) {
+                                    
+                                    return;
+                                }
+                               HDVECGuidanceModel * model =  [[HDVECAgoraCallManager shareInstance] setGuidancePostNotificationParWithConfigId:configId withImServecionNumer:imServiceNum withCECSessionid:sessionId withCECVisitorId:visitorId];
+                                
+                                [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_vec_call" object:model userInfo:dic];
+                                
+                            });
+                        }
+                       
+                    }];
+                }
+                
                 return;
 
             }
-//
             
             HDMessage *msg = [HDMessage createSendMessageWithMenuItem:item to:self.conversation.conversationId];
             [self _sendMessage:msg];

@@ -245,14 +245,15 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 - (void)vecAction:(NSNotification *)notification{
 
-    if (notification.object) {
-         // 询前引导 过来的视频邀请
-        [self vecGuidance:notification];
-        
-        return;
+    
+    if ([notification.object isKindOfClass:[HDVECGuidanceModel class]]) {
+        // 询前引导 过来的视频邀请
+       [self vecGuidance:notification];
+       
+       return;
     }
     
-    
+
     __weak typeof(self) weakSelf = self;
     MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:self.view.superview];
 
@@ -277,7 +278,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
                 configid = lgM.configId;
                 imservicenum = lgM.cname;
             }
-            [[HDVECAgoraCallManager shareInstance] vec_showMainWindowConfigId:configid withImServecionNumer:imservicenum withVisiorInfo:lgM.visitorInfo withCECSessionid:@"" withCECVisitorId:@""];
+            [[HDVECAgoraCallManager shareInstance] vec_showMainWindowConfigId:configid withImServecionNumer:imservicenum withVisiorInfo:lgM.visitorInfo withCECSessionid:nil withCECVisitorId:nil];
         
         } else {
             hd_dispatch_main_async_safe(^(){
@@ -363,6 +364,11 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)testBug{
     
    
+//    [[HDClient sharedClient] uploadSdkVersionVisitorUserName:[HDClient sharedClient].currentUsername];
+    
+    
+ 
+    
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //
 //        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
@@ -835,7 +841,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
 //   
 
-//    [self testBug];
+    [self testBug];
     
 }
 //理想汽车crash

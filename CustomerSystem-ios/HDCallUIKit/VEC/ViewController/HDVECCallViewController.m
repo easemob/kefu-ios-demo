@@ -437,6 +437,8 @@ static HDVECCallViewController *_manger = nil;
 
 #endif
    
+    // 上报 离线行为
+    [[HDVECAgoraCallManager shareInstance] vec_offlinReportEvent];
    
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -909,16 +911,14 @@ static HDVECCallViewController *_manger = nil;
     self.isVisitorSend = YES;
     HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
 
+    // 如果是cec 跳转到vec 场景 一定要 传下边的场景
     if ([HDVECAgoraCallManager shareInstance].vec_cecSessionId) {
-        
         NSMutableDictionary * mDic = [NSMutableDictionary dictionary];
-        
         [mDic hd_setValue:[HDVECAgoraCallManager shareInstance].vec_cecSessionId forKey:@"relatedSessionId"];
         [mDic hd_setValue:[HDVECAgoraCallManager shareInstance].vec_cecVisitorId forKey:@"relatedVisitorUserId"];
         //source 必须传一个类型 要不 后端不能存relatedSessionId 值
         [mDic hd_setValue:@"relatedSession" forKey:@"source"];
         NSDictionary *sessionExt = @{@"sessionExt":mDic};
-        
         [message addAttributeDictionary:sessionExt];
     }
     
@@ -926,6 +926,7 @@ static HDVECCallViewController *_manger = nil;
     [self _sendMessage:message];
     
     // 上报接口用户活跃
+    [HDVECAgoraCallManager shareInstance].vec_isAutoReport = YES;
     [[HDVECAgoraCallManager shareInstance] vec_sendReportEvent];
     
 
@@ -1199,8 +1200,7 @@ static HDVECCallViewController *_manger = nil;
 
     }
     
-    // 上报 离线行为
-    [[HDVECAgoraCallManager shareInstance] vec_offlinReportEvent];
+  
     
     
 }
@@ -2076,6 +2076,10 @@ static HDVECCallViewController *_manger = nil;
 //    [self.hdTitleView.timeLabel removeObserver:self forKeyPath:@"text"];
     
     [self cancelWindow];
+    
+    //发送在线上报
+    [[HDVECAgoraCallManager shareInstance] vec_sendReportEvent];
+    
 
 }
 - (void)dragToTheLeft{
@@ -2105,6 +2109,10 @@ static HDVECCallViewController *_manger = nil;
     _hdSupendCustomView.hidden = !self.view.hidden;
 
     [self.hdTitleView.timeLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+    
+    
+    [[HDVECAgoraCallManager shareInstance] vec_offlinReportEvent];
+    
   
 }
 
