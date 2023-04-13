@@ -136,8 +136,16 @@
     HDError *er = [client changeAppKey:lgM.appkey];
     if (er == nil) {
         NSLog(@"appkey 已更新");
+//        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"扫码成功 初始化数据已更新", @"扫码成功 初始化数据已更新") message:nil preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+//        [sure addAction:confirm];
+//        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
     } else {
         NSLog(@"appkey 更新失败,请手动重启");
+        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"appkey 更新失败,请手动重启", @"appkey 更新失败,请手动重启!") message:er.errorDescription preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+        [sure addAction:confirm];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
     }
 }
 

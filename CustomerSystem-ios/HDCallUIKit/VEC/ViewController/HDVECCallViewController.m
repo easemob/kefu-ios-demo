@@ -2077,11 +2077,6 @@ static HDVECCallViewController *_manger = nil;
 //    [self.hdTitleView.timeLabel removeObserver:self forKeyPath:@"text"];
     
     [self cancelWindow];
-    
-    //发送在线上报
-    [[HDVECAgoraCallManager shareInstance] vec_sendReportEvent];
-    
-
 }
 - (void)dragToTheLeft{
     NSLog(@"左划到左边框了");
@@ -2110,11 +2105,6 @@ static HDVECCallViewController *_manger = nil;
     _hdSupendCustomView.hidden = !self.view.hidden;
 
     [self.hdTitleView.timeLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
-    
-    
-    [[HDVECAgoraCallManager shareInstance] vec_offlinReportEvent];
-    
-  
 }
 
 #pragma mark --vec 1.3 相关
