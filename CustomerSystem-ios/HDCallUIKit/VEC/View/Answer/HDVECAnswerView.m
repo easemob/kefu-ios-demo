@@ -376,8 +376,8 @@
     }];
     
     [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.offset(32);
-        make.width.height.offset(44);
+        make.top.offset(iPhoneXBottomHeight1 + 32);
+        make.width.height.offset(66);
         make.trailing.offset(-15);
         
     }];
@@ -501,6 +501,7 @@
         [_closeBtn addTarget:self action:@selector(onCloseClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
         UIImage *img  = [UIImage imageWithIcon:kguanbi inFont:kfontName size:32 color:[[HDVECAppSkin mainSkin] contentColorWhitealpha:1]] ;
+//        _closeBtn.backgroundColor = [UIColor redColor];
         [_closeBtn setImage:img forState:UIControlStateNormal];
     }
     return _closeBtn;

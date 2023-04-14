@@ -70,6 +70,7 @@
 
 #define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 #define iPhoneXBottomHeight  ([UIScreen mainScreen].bounds.size.height==812?34:0)
+#define iPhoneXBottomHeight1  ([UIScreen mainScreen].bounds.size.height==812?20:0)
 #define kWeakSelf __weak __typeof__(self) weakSelf = self;
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 

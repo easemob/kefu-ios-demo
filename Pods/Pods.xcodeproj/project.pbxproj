@@ -16,6 +16,7 @@
 			dependencies = (
 			);
 			name = AgoraRtcEngine_iOS;
+			productName = AgoraRtcEngine_iOS;
 		};
 /* End PBXAggregateTarget section */
 
@@ -76,7 +77,7 @@
 		1C0C87107E34228F79F4FBA21C19ECAB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE657CE77A197B814775CB27B9896575 /* Foundation.framework */; };
 		1DF6F7BFB885687C476593E1609945C5 /* FastRoomConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CC9CC6B68A46E5D94787A9A539A3EA /* FastRoomConfiguration.swift */; };
 		20004B99F5050F59E747AB8DFAD7E891 /* SDWebImageDownloaderOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = B674D5AEE8889B739414A5EF6CD5B305 /* SDWebImageDownloaderOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		207B2C8BB1EF76B9C5317B2425E6F4EB /* Fastboard-Icons in Resources */ = {isa = PBXBuildFile; fileRef = 92842DC65A4EE2E5A0E11A62B49986FA /* Fastboard-Icons */; };
+		207B2C8BB1EF76B9C5317B2425E6F4EB /* Icons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 92842DC65A4EE2E5A0E11A62B49986FA /* Icons.bundle */; };
 		20AF76ADFACBA6128B9D4F117FD9F5CB /* WhiteRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E7791F6EAE33706767DF91404533F /* WhiteRoom.m */; };
 		21D05279AA20EE7A1707A76C11BBCC00 /* NSBezierPath+SDRoundedCorners.m in Sources */ = {isa = PBXBuildFile; fileRef = FA21411DBB741A55BB6E174955724616 /* NSBezierPath+SDRoundedCorners.m */; };
 		222D925A04E6F5890E3436517426FF74 /* WhiteSocket+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7200428530AD2143338B24FF63CA04EF /* WhiteSocket+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -278,7 +279,7 @@
 		8C607501B0568B06DFB2C4A38ABFA9C6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE657CE77A197B814775CB27B9896575 /* Foundation.framework */; };
 		8C9D609988FE2993BB116B4B00FAC57B /* SDWebImagePrefetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 57B8252CA85F694B641089ADFB2061A7 /* SDWebImagePrefetcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8D5C90DE1E872FE6D4C9E8B56DCFCAA3 /* WhiteProjectorQueryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAC1EB2CB450E81407AEF6F28FA006B /* WhiteProjectorQueryResult.m */; };
-		8E60E8A84E808F47759482144CB966DA /* Whiteboard-Whiteboard in Resources */ = {isa = PBXBuildFile; fileRef = B43929320E40A048DEF21A95905050F2 /* Whiteboard-Whiteboard */; };
+		8E60E8A84E808F47759482144CB966DA /* Whiteboard.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B43929320E40A048DEF21A95905050F2 /* Whiteboard.bundle */; };
 		8E8606E3662FF49D7A506E6476ED5C0F /* TZImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CB01F61ED15D4C54EA01FB85B50EBD /* TZImageRequestOperation.m */; };
 		8EC211E1E7BEFDDDF2CF5C52293B1F51 /* FastRoomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383E2C1A651EAD6B4400956F50E42F6D /* FastRoomError.swift */; };
 		8F88549F032EFFEA9C281860520CC879 /* SDWebImageIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = 48F42A6C949098CC780560B1DD612BBF /* SDWebImageIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -297,7 +298,7 @@
 		9917CEAD8CE1CEB7FEC031255AED8FA8 /* SDWebImageError.h in Headers */ = {isa = PBXBuildFile; fileRef = 569C41D20DBA59EE63A262B640EAFC84 /* SDWebImageError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		994327308CC7ECE7850C804FA0EA5F21 /* NSImage+Compatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = C14C2FFED78E4BAA833EAE2672D9F1DF /* NSImage+Compatibility.m */; };
 		99709E1C4991C49EE5601FF9461B2969 /* SDImageHEICCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B00591F2EAF977C57FAE42B0DAED3445 /* SDImageHEICCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A2FC2625F1DFC8B47F7B098E6703DF8 /* Fastboard-LocalizedStrings in Resources */ = {isa = PBXBuildFile; fileRef = 826795FBAEC2583C68D7750D6624F02C /* Fastboard-LocalizedStrings */; };
+		9A2FC2625F1DFC8B47F7B098E6703DF8 /* LocalizedStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 826795FBAEC2583C68D7750D6624F02C /* LocalizedStrings.bundle */; };
 		9A84C469D8197DD8743EF411FD65B923 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BD37176CB0D17ED966C935916969642 /* UIKit.framework */; };
 		9B07012EC875E244DA0138E8781FBD34 /* WhiteWebViewInjection.h in Headers */ = {isa = PBXBuildFile; fileRef = 79E0AAAC79AF6A8D41CA504E052CD069 /* WhiteWebViewInjection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9B6DB4491F3854B95124FDB3D9A0693E /* Pods-CustomerSystem-ios-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6652E82E5A7DEBF0EBC910CC252B410A /* Pods-CustomerSystem-ios-dummy.m */; };
@@ -606,7 +607,7 @@
 		0399A9270AE3892BE1EA270B82052BBD /* SDImageCacheDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCacheDefine.h; path = SDWebImage/Core/SDImageCacheDefine.h; sourceTree = "<group>"; };
 		03C09810D2DA578C46AEA5E9C7869E25 /* Pods-CustomerSystem-ScreenShare-Extension.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-CustomerSystem-ScreenShare-Extension.modulemap"; sourceTree = "<group>"; };
 		03DFB0CCCD51B3519CFEFD03786C205C /* WhitePageState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhitePageState.m; path = Whiteboard/Classes/Object/WhitePageState.m; sourceTree = "<group>"; };
-		03F40A9AC1E44BC4C57EB0D76A4128E1 /* web-sdk.87c4d384.js */ = {isa = PBXFileReference; includeInIndex = 1; name = "web-sdk.87c4d384.js"; path = "Whiteboard/Resource/web-sdk.87c4d384.js"; sourceTree = "<group>"; };
+		03F40A9AC1E44BC4C57EB0D76A4128E1 /* web-sdk.87c4d384.js */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.javascript; name = "web-sdk.87c4d384.js"; path = "Whiteboard/Resource/web-sdk.87c4d384.js"; sourceTree = "<group>"; };
 		04FBC87ECA79C55CCEFB15B83AE66FBE /* WhiteBoardView+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WhiteBoardView+Private.h"; path = "Whiteboard/Classes/Displayer/WhiteBoardView+Private.h"; sourceTree = "<group>"; };
 		0504F270EE95A334B1E03EED66198743 /* UIImage+Bundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+Bundle.swift"; path = "Fastboard/Classes/Extension/UIImage+Bundle.swift"; sourceTree = "<group>"; };
 		05D0B593BD6E342749B8BE0EBCDAC030 /* WritableDetectRoom.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WritableDetectRoom.m; path = Whiteboard/Classes/Room/WritableDetectRoom.m; sourceTree = "<group>"; };
@@ -647,13 +648,13 @@
 		14C4A258E71F4915B27E48548DB2C7E7 /* SDWebImageOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageOperation.h; path = SDWebImage/Core/SDWebImageOperation.h; sourceTree = "<group>"; };
 		14C7DE7E3EF4A2AA33C1B1725FF94020 /* WhiteGlobalState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteGlobalState.m; path = Whiteboard/Classes/Displayer/WhiteGlobalState.m; sourceTree = "<group>"; };
 		14F421427B0A71E63DB28DB95E37D6C7 /* TZAuthLimitedFooterTipView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TZAuthLimitedFooterTipView.m; path = TZImagePickerController/TZImagePickerController/TZAuthLimitedFooterTipView.m; sourceTree = "<group>"; };
-		151F5E0B64085A26F879CF3EE397DDD5 /* vendor.c3fc6399.js */ = {isa = PBXFileReference; includeInIndex = 1; name = vendor.c3fc6399.js; path = Whiteboard/Resource/vendor.c3fc6399.js; sourceTree = "<group>"; };
+		151F5E0B64085A26F879CF3EE397DDD5 /* vendor.c3fc6399.js */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.javascript; name = vendor.c3fc6399.js; path = Whiteboard/Resource/vendor.c3fc6399.js; sourceTree = "<group>"; };
 		1543BA0D2304F88675D87E9E63CDCF0C /* WhitePlayerTimeInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhitePlayerTimeInfo.h; path = Whiteboard/Classes/Replayer/WhitePlayerTimeInfo.h; sourceTree = "<group>"; };
 		16463E426BF04D36498B3D9107792CB1 /* Fastboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fastboard.debug.xcconfig; sourceTree = "<group>"; };
 		170CEC610E95DADE2A44E8573FA6150D /* YYClassInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YYClassInfo.h; path = YYModel/YYClassInfo.h; sourceTree = "<group>"; };
-		171A823AC79BE448E1ADE7B22CEBC298 /* netless.1b968eb4.js */ = {isa = PBXFileReference; includeInIndex = 1; name = netless.1b968eb4.js; path = Whiteboard/Resource/netless.1b968eb4.js; sourceTree = "<group>"; };
+		171A823AC79BE448E1ADE7B22CEBC298 /* netless.1b968eb4.js */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.javascript; name = netless.1b968eb4.js; path = Whiteboard/Resource/netless.1b968eb4.js; sourceTree = "<group>"; };
 		179FB0AA6D285AFDF174BCA1373561D7 /* FastRoomThemeAsset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FastRoomThemeAsset.swift; path = Fastboard/Classes/Public/Theme/FastRoomThemeAsset.swift; sourceTree = "<group>"; };
-		182937BE890775489FEC823FFCA48389 /* AgoraClearVisionExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraClearVisionExtension.xcframework; sourceTree = "<group>"; };
+		182937BE890775489FEC823FFCA48389 /* AgoraClearVisionExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraClearVisionExtension.xcframework; sourceTree = "<group>"; };
 		196612FA58A24603DA79302C0FB41E4B /* WhiteSceneState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteSceneState.m; path = Whiteboard/Classes/Object/WhiteSceneState.m; sourceTree = "<group>"; };
 		19B15926CF3667F957D73F8B57FBDD5E /* UIImage+ExtendedCacheData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+ExtendedCacheData.h"; path = "SDWebImage/Core/UIImage+ExtendedCacheData.h"; sourceTree = "<group>"; };
 		19E4A17886670B56D5FB4DF7EC525006 /* WhiteVideoView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteVideoView.h; path = Whiteboard/Classes/NativeReplayer/WhiteVideoView.h; sourceTree = "<group>"; };
@@ -672,7 +673,7 @@
 		2141308384EDFA1BCB34F88CA24EEB83 /* AgoraRtcEngine_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AgoraRtcEngine_iOS.debug.xcconfig; sourceTree = "<group>"; };
 		21C75341126DBE632277916A3ABC437D /* Fastboard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Fastboard.swift; path = Fastboard/Classes/Public/Fastboard.swift; sourceTree = "<group>"; };
 		23D27E5518C02D56893F18F95FACBD47 /* TZPhotoPreviewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TZPhotoPreviewController.h; path = TZImagePickerController/TZImagePickerController/TZPhotoPreviewController.h; sourceTree = "<group>"; };
-		2472ECC2AB7D20954D302A17DB05B7CE /* vendor.css */ = {isa = PBXFileReference; includeInIndex = 1; name = vendor.css; path = Whiteboard/Resource/vendor.css; sourceTree = "<group>"; };
+		2472ECC2AB7D20954D302A17DB05B7CE /* vendor.css */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.css; name = vendor.css; path = Whiteboard/Resource/vendor.css; sourceTree = "<group>"; };
 		2729B5E8A0D1E9AD4EBA8F780B2B9525 /* TZPhotoPreviewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TZPhotoPreviewCell.m; path = TZImagePickerController/TZImagePickerController/TZPhotoPreviewCell.m; sourceTree = "<group>"; };
 		273EF08017345325B4D477D59598D801 /* UIImage+Transform.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+Transform.h"; path = "SDWebImage/Core/UIImage+Transform.h"; sourceTree = "<group>"; };
 		278C82FD963770AA25C7CF5AA8E9671F /* Pods-CustomerSystem-ios-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-CustomerSystem-ios-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -682,7 +683,7 @@
 		2959317B436E5A80014F5A3F8B950136 /* WhiteCommonCallbacks.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteCommonCallbacks.m; path = Whiteboard/Classes/Displayer/WhiteCommonCallbacks.m; sourceTree = "<group>"; };
 		297C70F4B8440032F358B53D85237A9E /* Fastboard-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Fastboard-dummy.m"; sourceTree = "<group>"; };
 		2A8BFB99424E91EF0B8DC0FD6BF777C1 /* SDWebImage.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SDWebImage.modulemap; sourceTree = "<group>"; };
-		2A8C47B2EC21169938C2847E1E7F62EF /* AgoraAiNoiseSuppressionExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraAiNoiseSuppressionExtension.xcframework; sourceTree = "<group>"; };
+		2A8C47B2EC21169938C2847E1E7F62EF /* AgoraAiNoiseSuppressionExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraAiNoiseSuppressionExtension.xcframework; sourceTree = "<group>"; };
 		2B0D512667F28810D77AC9208BBA58BF /* WhiteImageInformation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteImageInformation.m; path = Whiteboard/Classes/Room/WhiteImageInformation.m; sourceTree = "<group>"; };
 		2B30CEB7840095322FA556BB5CD69E34 /* SDImageFrame.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageFrame.m; path = SDWebImage/Core/SDImageFrame.m; sourceTree = "<group>"; };
 		2BDD7DB0D1BD55FDBC2915516DC78FE6 /* WhitePlayerEvent.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhitePlayerEvent.m; path = Whiteboard/Classes/Replayer/WhitePlayerEvent.m; sourceTree = "<group>"; };
@@ -693,7 +694,7 @@
 		2CAD09E1FC79C44518110C87398F46EF /* SDAsyncBlockOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDAsyncBlockOperation.h; path = SDWebImage/Private/SDAsyncBlockOperation.h; sourceTree = "<group>"; };
 		2DEA9E337A5BB588CC534014A998C140 /* WhiteSlideDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteSlideDelegate.h; path = Whiteboard/Classes/SDK/WhiteSlideDelegate.h; sourceTree = "<group>"; };
 		2E567D0464A9E0EBDE844D1BC475A9C3 /* FastRoomPanel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FastRoomPanel.swift; path = Fastboard/Classes/Public/FastRoom/View/Panel/FastRoomPanel.swift; sourceTree = "<group>"; };
-		2E88A7CAEBB6E0722D76694BB31E640C /* video.16e43ef6.js */ = {isa = PBXFileReference; includeInIndex = 1; name = video.16e43ef6.js; path = Whiteboard/Resource/video.16e43ef6.js; sourceTree = "<group>"; };
+		2E88A7CAEBB6E0722D76694BB31E640C /* video.16e43ef6.js */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.javascript; name = video.16e43ef6.js; path = Whiteboard/Resource/video.16e43ef6.js; sourceTree = "<group>"; };
 		2F434B96E3B8C743D9313EC504F85C8D /* Pods-CustomerSystem-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CustomerSystem-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		2F7D6D8EFC750176C8CE306ECFAFF400 /* Whiteboard-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Whiteboard-Info.plist"; sourceTree = "<group>"; };
 		30071B851E70C84441713D2CCA5D4FEA /* WhiteCameraBound.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteCameraBound.h; path = Whiteboard/Classes/Object/WhiteCameraBound.h; sourceTree = "<group>"; };
@@ -730,7 +731,7 @@
 		40301788065C39AD6374C6CD78AB1FAF /* TZImagePickerController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TZImagePickerController.debug.xcconfig; sourceTree = "<group>"; };
 		420E842BF7CAD6AC7D970468C2784D4D /* ReconnectingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReconnectingView.swift; path = Fastboard/Classes/Public/FastRoom/View/Overlay/Trait/ReconnectingView.swift; sourceTree = "<group>"; };
 		42160272E799EA28F7FD83BD719DA87F /* JSBUtil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JSBUtil.m; path = dsbridge/JSBUtil.m; sourceTree = "<group>"; };
-		42F60E95CB46E0FC59A2CEA46F487396 /* Agoraffmpeg.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = Agoraffmpeg.xcframework; sourceTree = "<group>"; };
+		42F60E95CB46E0FC59A2CEA46F487396 /* Agoraffmpeg.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = Agoraffmpeg.xcframework; sourceTree = "<group>"; };
 		4467416732E75C575FD522AFB5823F89 /* dsbridge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dsbridge.h; path = dsbridge/dsbridge.h; sourceTree = "<group>"; };
 		447BFD80E31C282E9BB1197D512E4CC2 /* FastRoom.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FastRoom.swift; path = Fastboard/Classes/Public/FastRoom/FastRoom.swift; sourceTree = "<group>"; };
 		448BF32998AE60F65BF8A0A69B2C7319 /* MBProgressHUD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MBProgressHUD.release.xcconfig; sourceTree = "<group>"; };
@@ -761,12 +762,12 @@
 		4F91D2B2F112ACDFEDCFEA02BE1E1CEB /* SDAssociatedObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDAssociatedObject.h; path = SDWebImage/Private/SDAssociatedObject.h; sourceTree = "<group>"; };
 		5030FC9134D9349450FC707E1FA7ABD8 /* SDWebImageCacheSerializer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageCacheSerializer.m; path = SDWebImage/Core/SDWebImageCacheSerializer.m; sourceTree = "<group>"; };
 		5073A26571A1E1FFE076B6C80A43D518 /* SDImageIOCoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageIOCoder.h; path = SDWebImage/Core/SDImageIOCoder.h; sourceTree = "<group>"; };
-		51AF847177B5300261AB771E83A24E99 /* index.html */ = {isa = PBXFileReference; includeInIndex = 1; name = index.html; path = Whiteboard/Resource/index.html; sourceTree = "<group>"; };
+		51AF847177B5300261AB771E83A24E99 /* index.html */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.html; name = index.html; path = Whiteboard/Resource/index.html; sourceTree = "<group>"; };
 		51CDD385FF90AC289A055231C3D64C49 /* WhiteRoomConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteRoomConfig.h; path = Whiteboard/Classes/Room/WhiteRoomConfig.h; sourceTree = "<group>"; };
 		52222F14C04D125A9968654A6924FD21 /* SDImageLoadersManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageLoadersManager.h; path = SDWebImage/Core/SDImageLoadersManager.h; sourceTree = "<group>"; };
 		52BEDAA66DCDD140E7D9D5E8AF74BDA1 /* SDImageAWebPCoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageAWebPCoder.h; path = SDWebImage/Core/SDImageAWebPCoder.h; sourceTree = "<group>"; };
 		53A7CD33DCCC932FA5294ED89E91FC8D /* WhiteEvent.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteEvent.h; path = Whiteboard/Classes/Object/WhiteEvent.h; sourceTree = "<group>"; };
-		544F2675C4BBF2310638E0AB2E57243C /* AgoraAudioBeautyExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraAudioBeautyExtension.xcframework; sourceTree = "<group>"; };
+		544F2675C4BBF2310638E0AB2E57243C /* AgoraAudioBeautyExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraAudioBeautyExtension.xcframework; sourceTree = "<group>"; };
 		544FEED375683C32ADDD8E9F4620B5A9 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+WebCacheOperation.h"; path = "SDWebImage/Core/UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		54F638A4D1F5DAFF3BC4DD04314A9130 /* Masonry.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Masonry.h; path = Masonry/Masonry.h; sourceTree = "<group>"; };
 		5554DFB36756EBE50A208A18DDBB88DD /* WhiteCameraConfig.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteCameraConfig.m; path = Whiteboard/Classes/Object/WhiteCameraConfig.m; sourceTree = "<group>"; };
@@ -799,7 +800,7 @@
 		6413EA4F76F9695ECAD65BD7AFDE2838 /* Masonry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Masonry.release.xcconfig; sourceTree = "<group>"; };
 		64A0955486FACD6DA8FCF8A9D389059F /* SyncedStore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SyncedStore.m; path = Whiteboard/Classes/Displayer/SyncedStore.m; sourceTree = "<group>"; };
 		64A3DEF8A512D08EAD2EB07EB26626FC /* FastRoomView+Pencil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "FastRoomView+Pencil.swift"; path = "Fastboard/Classes/Public/FastRoom/View/FastRoomView+Pencil.swift"; sourceTree = "<group>"; };
-		64E7D8A11FAC3E60B800AA4D124A6180 /* 0d9a53c */ = {isa = PBXFileReference; includeInIndex = 1; name = 0d9a53c; path = Whiteboard/Resource/0d9a53c; sourceTree = "<group>"; };
+		64E7D8A11FAC3E60B800AA4D124A6180 /* 0d9a53c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = 0d9a53c; path = Whiteboard/Resource/0d9a53c; sourceTree = "<group>"; };
 		65113DDF6B6A403B35F635D92BA5B6C2 /* WhiteSDK+Room.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "WhiteSDK+Room.m"; path = "Whiteboard/Classes/Room/WhiteSDK+Room.m"; sourceTree = "<group>"; };
 		651BF6C21D33CF6A6E454087AD16FCEF /* UIColor+SDHexString.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIColor+SDHexString.h"; path = "SDWebImage/Private/UIColor+SDHexString.h"; sourceTree = "<group>"; };
 		65EEDC369E043A135BB30993BF7A4748 /* UIImage+MultiFormat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+MultiFormat.h"; path = "SDWebImage/Core/UIImage+MultiFormat.h"; sourceTree = "<group>"; };
@@ -843,7 +844,7 @@
 		75E7106BC1B89222A3D416A0CF228A5F /* WhiteSliderView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteSliderView.m; path = Whiteboard/Classes/NativeReplayer/WhiteSliderView.m; sourceTree = "<group>"; };
 		7613320CBF814EB5430DC72A9D499C6B /* WhiteSDK+Replayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "WhiteSDK+Replayer.m"; path = "Whiteboard/Classes/Replayer/WhiteSDK+Replayer.m"; sourceTree = "<group>"; };
 		7757CB11ADDC9F6D7AC07FEB830F6489 /* TZVideoPlayerController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TZVideoPlayerController.h; path = TZImagePickerController/TZImagePickerController/TZVideoPlayerController.h; sourceTree = "<group>"; };
-		77923ED55E07BADD78CFC758ADB8B480 /* AgoraVideoQualityAnalyzerExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraVideoQualityAnalyzerExtension.xcframework; sourceTree = "<group>"; };
+		77923ED55E07BADD78CFC758ADB8B480 /* AgoraVideoQualityAnalyzerExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraVideoQualityAnalyzerExtension.xcframework; sourceTree = "<group>"; };
 		77ADB043E20A33CB1BD94D564402CE63 /* TZImagePickerController-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "TZImagePickerController-Info.plist"; sourceTree = "<group>"; };
 		77CB8D84F9D838F143E93C84702C3930 /* Fastboard.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Fastboard.modulemap; sourceTree = "<group>"; };
 		78949519479D6CBF2E480052ACD5173F /* UIImage+Metadata.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+Metadata.h"; path = "SDWebImage/Core/UIImage+Metadata.h"; sourceTree = "<group>"; };
@@ -862,15 +863,15 @@
 		7DBABB2A7CD1CA31485313C2E8DFE8AF /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
 		7E573130639CE7FCC6CA1B6C9FE025B7 /* TZImageManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TZImageManager.h; path = TZImagePickerController/TZImagePickerController/TZImageManager.h; sourceTree = "<group>"; };
 		7E7F18A75540F690C9DE9D839B0D8FB7 /* NSObject+YYModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+YYModel.m"; path = "YYModel/NSObject+YYModel.m"; sourceTree = "<group>"; };
-		7EBE0B1012BCC30C617C4336DE6D2CBE /* main.ee271e5a.js */ = {isa = PBXFileReference; includeInIndex = 1; name = main.ee271e5a.js; path = Whiteboard/Resource/main.ee271e5a.js; sourceTree = "<group>"; };
+		7EBE0B1012BCC30C617C4336DE6D2CBE /* main.ee271e5a.js */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.javascript; name = main.ee271e5a.js; path = Whiteboard/Resource/main.ee271e5a.js; sourceTree = "<group>"; };
 		7FA54FA7060115656AA36CF785E37854 /* FastPanelDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FastPanelDelegate.swift; path = Fastboard/Classes/Public/FastRoom/View/Panel/FastPanelDelegate.swift; sourceTree = "<group>"; };
-		8005EC72336DC0FEB88D999549566555 /* netless.css */ = {isa = PBXFileReference; includeInIndex = 1; name = netless.css; path = Whiteboard/Resource/netless.css; sourceTree = "<group>"; };
+		8005EC72336DC0FEB88D999549566555 /* netless.css */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.css; name = netless.css; path = Whiteboard/Resource/netless.css; sourceTree = "<group>"; };
 		80BA872D36FA79885A48F15BA31BE1AD /* SDImageCoderHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCoderHelper.h; path = SDWebImage/Core/SDImageCoderHelper.h; sourceTree = "<group>"; };
 		80D05703F6814AA6A352AD621A2BE037 /* SDImageCoderHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCoderHelper.m; path = SDWebImage/Core/SDImageCoderHelper.m; sourceTree = "<group>"; };
 		80DDC1EDA425A0C7A1AC97DA9DED64CD /* YYModel-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YYModel-umbrella.h"; sourceTree = "<group>"; };
 		80F8FADCFFA0F3DE9C5D737A8645B9E7 /* FastRoomDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FastRoomDelegate.swift; path = Fastboard/Classes/Public/FastRoom/FastRoomDelegate.swift; sourceTree = "<group>"; };
 		82264AFB34D795060FB4F63F22355561 /* MASViewAttribute.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASViewAttribute.h; path = Masonry/MASViewAttribute.h; sourceTree = "<group>"; };
-		826795FBAEC2583C68D7750D6624F02C /* Fastboard-LocalizedStrings */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Fastboard-LocalizedStrings"; path = LocalizedStrings.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		826795FBAEC2583C68D7750D6624F02C /* LocalizedStrings.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocalizedStrings.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		83D955DFD9324764AB8A4712AE557FBB /* WhiteRoomMember.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteRoomMember.m; path = Whiteboard/Classes/Object/WhiteRoomMember.m; sourceTree = "<group>"; };
 		83E8E409B260C51943068DB9BAF26187 /* SDWebImageDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDefine.h; path = SDWebImage/Core/SDWebImageDefine.h; sourceTree = "<group>"; };
 		841C969BF86739FEC3FA2A24DDD4EE19 /* WhiteScene.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteScene.h; path = Whiteboard/Classes/Object/WhiteScene.h; sourceTree = "<group>"; };
@@ -881,7 +882,7 @@
 		8701A74031CADE970BA88E5A300845DF /* JSBUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JSBUtil.h; path = dsbridge/JSBUtil.h; sourceTree = "<group>"; };
 		87548FDC37AA70151602B9BCB3542E41 /* WhiteVideoView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteVideoView.m; path = Whiteboard/Classes/NativeReplayer/WhiteVideoView.m; sourceTree = "<group>"; };
 		87B09CB4F35DCE4CEF336F5C7A2D7EFD /* MASCompositeConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASCompositeConstraint.h; path = Masonry/MASCompositeConstraint.h; sourceTree = "<group>"; };
-		87B33FD340152CF7BEDFA48F327A66DB /* AgoraRtcKit.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraRtcKit.xcframework; sourceTree = "<group>"; };
+		87B33FD340152CF7BEDFA48F327A66DB /* AgoraRtcKit.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraRtcKit.xcframework; sourceTree = "<group>"; };
 		87B8EBBA984BBD1E1D70402C69A8C795 /* WhiteWindowParams.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteWindowParams.h; path = Whiteboard/Classes/Object/WhiteWindowParams.h; sourceTree = "<group>"; };
 		8A2E0CFB28121929A06D569AA0999F3A /* SDWebImageCacheSerializer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageCacheSerializer.h; path = SDWebImage/Core/SDWebImageCacheSerializer.h; sourceTree = "<group>"; };
 		8A857B4BBC9C1A83B645BEBD0B8C7B45 /* SDImageCachesManagerOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCachesManagerOperation.h; path = SDWebImage/Private/SDImageCachesManagerOperation.h; sourceTree = "<group>"; };
@@ -900,7 +901,7 @@
 		919DFA19BECAF98D9A767632BFBD4B0C /* Pods-CustomerSystem-ios-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-CustomerSystem-ios-Info.plist"; sourceTree = "<group>"; };
 		91A44B740004710ADAA643D9D7BD71F9 /* WhiteSlideAppParams.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteSlideAppParams.m; path = Whiteboard/Classes/SDK/WhiteSlideAppParams.m; sourceTree = "<group>"; };
 		91D31FFF720E75CCC2ECF4F37EF2A760 /* Fastboard-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fastboard-prefix.pch"; sourceTree = "<group>"; };
-		92842DC65A4EE2E5A0E11A62B49986FA /* Fastboard-Icons */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Fastboard-Icons"; path = Icons.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		92842DC65A4EE2E5A0E11A62B49986FA /* Icons.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Icons.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		92D473FDDD904A405091632FCAA6AC49 /* SDAnimatedImageView+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SDAnimatedImageView+WebCache.h"; path = "SDWebImage/Core/SDAnimatedImageView+WebCache.h"; sourceTree = "<group>"; };
 		931FA75F682AF51F1DCD6A9BABF8DF1F /* WhiteMemberInformation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteMemberInformation.m; path = Whiteboard/Classes/Object/WhiteMemberInformation.m; sourceTree = "<group>"; };
 		93AB3454D3D62870ECCA5D2472F731F2 /* Masonry-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Masonry-dummy.m"; sourceTree = "<group>"; };
@@ -917,10 +918,10 @@
 		9AEC98F37E6EFB30BBF96EDEBA664CAE /* WhitePlayerEvent+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WhitePlayerEvent+Private.h"; path = "Whiteboard/Classes/Replayer/WhitePlayerEvent+Private.h"; sourceTree = "<group>"; };
 		9AEE0BED76614885345DD220D580DD39 /* SDWeakProxy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWeakProxy.h; path = SDWebImage/Private/SDWeakProxy.h; sourceTree = "<group>"; };
 		9BD37176CB0D17ED966C935916969642 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		9C6E7982938B147C6CF8478828B0785A /* runtime.94c1d79a.js */ = {isa = PBXFileReference; includeInIndex = 1; name = runtime.94c1d79a.js; path = Whiteboard/Resource/runtime.94c1d79a.js; sourceTree = "<group>"; };
+		9C6E7982938B147C6CF8478828B0785A /* runtime.94c1d79a.js */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.javascript; name = runtime.94c1d79a.js; path = Whiteboard/Resource/runtime.94c1d79a.js; sourceTree = "<group>"; };
 		9D5E9C61177B1CF589587D85273D46A6 /* TZVideoPlayerController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TZVideoPlayerController.m; path = TZImagePickerController/TZImagePickerController/TZVideoPlayerController.m; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9D9C62C93EAD925342E0B24B2395FDD0 /* AgoraSoundTouch.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraSoundTouch.xcframework; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D9C62C93EAD925342E0B24B2395FDD0 /* AgoraSoundTouch.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraSoundTouch.xcframework; sourceTree = "<group>"; };
 		9DA6B70BB0B74C5905E0C0A4C8C525F2 /* SDImageCacheConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCacheConfig.h; path = SDWebImage/Core/SDImageCacheConfig.h; sourceTree = "<group>"; };
 		9DB221692FE866D9681E30A858AE1A78 /* WhitePlayerState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhitePlayerState.h; path = Whiteboard/Classes/Replayer/WhitePlayerState.h; sourceTree = "<group>"; };
 		9DD7E26C3DC521665752CA2DF9A7E3F8 /* WhiteConverter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteConverter.h; path = Whiteboard/Classes/Converter/V4/WhiteConverter.h; sourceTree = "<group>"; };
@@ -967,7 +968,7 @@
 		ABE6B389A07A600574C45F35D503B7B9 /* SDImageIOAnimatedCoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageIOAnimatedCoder.h; path = SDWebImage/Core/SDImageIOAnimatedCoder.h; sourceTree = "<group>"; };
 		ABF6656C490B2FD18A7AD0E95ACEB1E2 /* SDImageCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCache.h; path = SDWebImage/Core/SDImageCache.h; sourceTree = "<group>"; };
 		AC1EC0A9AF9867FC1914D85FF41C5A2C /* UIImageView+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImageView+WebCache.h"; path = "SDWebImage/Core/UIImageView+WebCache.h"; sourceTree = "<group>"; };
-		ACCB5D768E6C327FFCD32BD2F176DF0D /* AgoraFaceDetectionExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraFaceDetectionExtension.xcframework; sourceTree = "<group>"; };
+		ACCB5D768E6C327FFCD32BD2F176DF0D /* AgoraFaceDetectionExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraFaceDetectionExtension.xcframework; sourceTree = "<group>"; };
 		ACE7BFC1B0600BA5BBC426DF8BC9BE64 /* WhiteGlobalState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteGlobalState.h; path = Whiteboard/Classes/Displayer/WhiteGlobalState.h; sourceTree = "<group>"; };
 		ACEA07EA3696240D71FB48790665EF7A /* SDWebImage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImage.h; path = WebImage/SDWebImage.h; sourceTree = "<group>"; };
 		AD3755356FC68C6E0FE5949B06FB04A4 /* WhitePptPage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhitePptPage.h; path = Whiteboard/Classes/Object/WhitePptPage.h; sourceTree = "<group>"; };
@@ -983,11 +984,11 @@
 		B22B942CD8F3D19C6C626BB04B80AF15 /* UIColor+NSNumber.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIColor+NSNumber.swift"; path = "Fastboard/Classes/Extension/UIColor+NSNumber.swift"; sourceTree = "<group>"; };
 		B28454A9EAD19E89564BB0A0BB34ACF5 /* WhiteDisplayerState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteDisplayerState.h; path = Whiteboard/Classes/Displayer/WhiteDisplayerState.h; sourceTree = "<group>"; };
 		B2A9F43BFB2C4F53EC91D31AB7B29350 /* NSObject+YY.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+YY.m"; path = "Whiteboard/Classes/Model/NSObject+YY.m"; sourceTree = "<group>"; };
-		B43929320E40A048DEF21A95905050F2 /* Whiteboard-Whiteboard */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Whiteboard-Whiteboard"; path = Whiteboard.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		B43929320E40A048DEF21A95905050F2 /* Whiteboard.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Whiteboard.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5024D625C9C27EE34D73AB40FA7D0FF /* SDAnimatedImagePlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDAnimatedImagePlayer.m; path = SDWebImage/Core/SDAnimatedImagePlayer.m; sourceTree = "<group>"; };
 		B52A9C5CA4157B8CFD85476C94D618A1 /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+MASAdditions.m"; path = "Masonry/NSArray+MASAdditions.m"; sourceTree = "<group>"; };
-		B5315AAD3CA4D36F73AD52C46FD7AFA2 /* AgoraSpatialAudioExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraSpatialAudioExtension.xcframework; sourceTree = "<group>"; };
-		B57C9E164B6AC7ABC258B8806377F128 /* AgoraReplayKitExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraReplayKitExtension.xcframework; sourceTree = "<group>"; };
+		B5315AAD3CA4D36F73AD52C46FD7AFA2 /* AgoraSpatialAudioExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraSpatialAudioExtension.xcframework; sourceTree = "<group>"; };
+		B57C9E164B6AC7ABC258B8806377F128 /* AgoraReplayKitExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraReplayKitExtension.xcframework; sourceTree = "<group>"; };
 		B674D5AEE8889B739414A5EF6CD5B305 /* SDWebImageDownloaderOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloaderOperation.h; path = SDWebImage/Core/SDWebImageDownloaderOperation.h; sourceTree = "<group>"; };
 		B8A3233DDCCB84616014CE5EEA3D4E04 /* SDImageGraphics.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageGraphics.h; path = SDWebImage/Core/SDImageGraphics.h; sourceTree = "<group>"; };
 		B8D1A37503F52E0D68BC2B5402325745 /* UIView+TZLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+TZLayout.m"; path = "TZImagePickerController/TZImagePickerController/UIView+TZLayout.m"; sourceTree = "<group>"; };
@@ -1002,11 +1003,11 @@
 		BD078523C8A389ED25EFA15F74A0A300 /* TraitCollection+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "TraitCollection+Extension.swift"; path = "Fastboard/Classes/Extension/TraitCollection+Extension.swift"; sourceTree = "<group>"; };
 		BE0137C28F4CA9E5AB9A6CF310D130DB /* SDWebImageTransitionInternal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageTransitionInternal.h; path = SDWebImage/Private/SDWebImageTransitionInternal.h; sourceTree = "<group>"; };
 		BE4DAACFAA34E81DBAE528E955C37BC9 /* WhiteDisplayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteDisplayer.h; path = Whiteboard/Classes/Displayer/WhiteDisplayer.h; sourceTree = "<group>"; };
-		BE7517283F718FBF6C76C630B3561C9B /* AgoraDav1d.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraDav1d.xcframework; sourceTree = "<group>"; };
+		BE7517283F718FBF6C76C630B3561C9B /* AgoraDav1d.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraDav1d.xcframework; sourceTree = "<group>"; };
 		BEB6E2AD0921536C0A967CA5D15FD6EF /* TZImageRequestOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TZImageRequestOperation.h; path = TZImagePickerController/TZImagePickerController/TZImageRequestOperation.h; sourceTree = "<group>"; };
 		BF07350E583AF349A194294437B0C06E /* Whiteboard */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Whiteboard; path = Whiteboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF4DB526C87094623B61822D9A0B10E1 /* WhiteConverterV5.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteConverterV5.h; path = Whiteboard/Classes/Converter/V5/WhiteConverterV5.h; sourceTree = "<group>"; };
-		BF592EB0C982F1CE3ADA1222E48FD374 /* Agorafdkaac.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = Agorafdkaac.xcframework; sourceTree = "<group>"; };
+		BF592EB0C982F1CE3ADA1222E48FD374 /* Agorafdkaac.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = Agorafdkaac.xcframework; sourceTree = "<group>"; };
 		C02C544D34B285C0CAA379F8FC65444F /* Bundle+localizedString.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Bundle+localizedString.swift"; path = "Fastboard/Classes/Extension/Bundle+localizedString.swift"; sourceTree = "<group>"; };
 		C0695A125AE8301354B715D13B492B5E /* SDDisplayLink.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDDisplayLink.m; path = SDWebImage/Private/SDDisplayLink.m; sourceTree = "<group>"; };
 		C120EA38D9D6CBCD1A86297699DEAC19 /* SDWebImageManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageManager.h; path = SDWebImage/Core/SDWebImageManager.h; sourceTree = "<group>"; };
@@ -1033,7 +1034,7 @@
 		CE657CE77A197B814775CB27B9896575 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		CE99D7EF32C177EEE97B7298BC4160F0 /* WhiteFontFace.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteFontFace.m; path = Whiteboard/Classes/Object/WhiteFontFace.m; sourceTree = "<group>"; };
 		CEC293DAA12EE93CF480B19860DDA197 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
-		CED505A894E9D72266D8CA1F562F008C /* AgoraContentInspectExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraContentInspectExtension.xcframework; sourceTree = "<group>"; };
+		CED505A894E9D72266D8CA1F562F008C /* AgoraContentInspectExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraContentInspectExtension.xcframework; sourceTree = "<group>"; };
 		CEFBEB44A5C428CC8A18A642E52B12ED /* WhiteImageInformation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteImageInformation.h; path = Whiteboard/Classes/Room/WhiteImageInformation.h; sourceTree = "<group>"; };
 		CF29C00CE2578DE8D9ED23A9BF1E9C99 /* SDAsyncBlockOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDAsyncBlockOperation.m; path = SDWebImage/Private/SDAsyncBlockOperation.m; sourceTree = "<group>"; };
 		CFB38EDD32FBAE32385D96BD5D7EBB26 /* Load.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Load.m; path = Fastboard/Classes/Load.m; sourceTree = "<group>"; };
@@ -1044,7 +1045,7 @@
 		D301A4938D8FAF7BC42D40E04126A17A /* WhitePlayer+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WhitePlayer+Private.h"; path = "Whiteboard/Classes/Replayer/WhitePlayer+Private.h"; sourceTree = "<group>"; };
 		D38A64FA6B3CEEF1D72E728DAF59405E /* UIImage+Metadata.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Metadata.m"; path = "SDWebImage/Core/UIImage+Metadata.m"; sourceTree = "<group>"; };
 		D3A40F7DCD0F943590AB8719CF3C54D2 /* MBProgressHUD.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = MBProgressHUD.modulemap; sourceTree = "<group>"; };
-		D3E1443147EEB3773CAF9831C58885CB /* main.css */ = {isa = PBXFileReference; includeInIndex = 1; name = main.css; path = Whiteboard/Resource/main.css; sourceTree = "<group>"; };
+		D3E1443147EEB3773CAF9831C58885CB /* main.css */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.css; name = main.css; path = Whiteboard/Resource/main.css; sourceTree = "<group>"; };
 		D3ED14175B66B8C449B5A2A221C2252A /* TZAssetCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TZAssetCell.m; path = TZImagePickerController/TZImagePickerController/TZAssetCell.m; sourceTree = "<group>"; };
 		D49CCB37657A73391A0D2B7CD625EB0B /* FastRoomOverlay.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FastRoomOverlay.swift; path = Fastboard/Classes/Public/FastRoom/View/Overlay/FastRoomOverlay.swift; sourceTree = "<group>"; };
 		D534478130BE4BA1A2AF03BFB5DCB3B6 /* WhitePageState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhitePageState.h; path = Whiteboard/Classes/Object/WhitePageState.h; sourceTree = "<group>"; };
@@ -1071,7 +1072,7 @@
 		E0561C93607B5E16DAC690A9D5FCCEF9 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		E0B1D6805CCC10A80A0471CD0BA2E0AF /* WhiteBoardView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WhiteBoardView.m; path = Whiteboard/Classes/Displayer/WhiteBoardView.m; sourceTree = "<group>"; };
 		E0BD9960619EC2CDD93F6CFB8130C452 /* YYModel-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "YYModel-Info.plist"; sourceTree = "<group>"; };
-		E11D65D26E486278FCC3B4E5A9450073 /* AgoraAiEchoCancellationExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraAiEchoCancellationExtension.xcframework; sourceTree = "<group>"; };
+		E11D65D26E486278FCC3B4E5A9450073 /* AgoraAiEchoCancellationExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraAiEchoCancellationExtension.xcframework; sourceTree = "<group>"; };
 		E1311D53FA2CE2B33C9836CC967BA1A9 /* SDWebImageCacheKeyFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageCacheKeyFilter.m; path = SDWebImage/Core/SDWebImageCacheKeyFilter.m; sourceTree = "<group>"; };
 		E162208550B77EA185F15326293D0E07 /* NSObject+YYModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+YYModel.h"; path = "YYModel/NSObject+YYModel.h"; sourceTree = "<group>"; };
 		E1C265BA594B4B45E6A4F17F1C6C2C3C /* YYModel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YYModel-dummy.m"; sourceTree = "<group>"; };
@@ -1116,7 +1117,7 @@
 		F3CB6FE1445C0A09E83C7C2A59A669FA /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		F40F491784D782FB511FC44E44834855 /* WhiteSliderView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteSliderView.h; path = Whiteboard/Classes/NativeReplayer/WhiteSliderView.h; sourceTree = "<group>"; };
 		F50DF9A5923B9C73360703CB7290EFAE /* SDImageCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCoder.m; path = SDWebImage/Core/SDImageCoder.m; sourceTree = "<group>"; };
-		F5728BF7D16D662E0430DD5AFCEB2649 /* AgoraDrmLoaderExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraDrmLoaderExtension.xcframework; sourceTree = "<group>"; };
+		F5728BF7D16D662E0430DD5AFCEB2649 /* AgoraDrmLoaderExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraDrmLoaderExtension.xcframework; sourceTree = "<group>"; };
 		F5B1E8AA4F80C486A17E08241EF9C928 /* SDAnimatedImageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDAnimatedImageView.m; path = SDWebImage/Core/SDAnimatedImageView.m; sourceTree = "<group>"; };
 		F693FC0ED81DD5D5FABC7092C72A6381 /* UIColor+SDHexString.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SDHexString.m"; path = "SDWebImage/Private/UIColor+SDHexString.m"; sourceTree = "<group>"; };
 		F73AE8C85F6424FA9FA02FAD178D2D67 /* WhiteMemberInformation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteMemberInformation.h; path = Whiteboard/Classes/Object/WhiteMemberInformation.h; sourceTree = "<group>"; };
@@ -1126,7 +1127,7 @@
 		FA1602907A7588B748E57BC01E7D911C /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		FA21411DBB741A55BB6E174955724616 /* NSBezierPath+SDRoundedCorners.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath+SDRoundedCorners.m"; path = "SDWebImage/Private/NSBezierPath+SDRoundedCorners.m"; sourceTree = "<group>"; };
 		FAD7B0CFE695C2320ED740EC332A2028 /* FastRoomDefaultTheme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FastRoomDefaultTheme.swift; path = Fastboard/Classes/Public/Theme/FastRoomDefaultTheme.swift; sourceTree = "<group>"; };
-		FB5A872F6A4F6108525373A8C369D343 /* AgoraVideoSegmentationExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = AgoraVideoSegmentationExtension.xcframework; sourceTree = "<group>"; };
+		FB5A872F6A4F6108525373A8C369D343 /* AgoraVideoSegmentationExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = AgoraVideoSegmentationExtension.xcframework; sourceTree = "<group>"; };
 		FC4648D95BCC598CED535B4B415500A0 /* WhiteRoomCallbacks+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WhiteRoomCallbacks+Private.h"; path = "Whiteboard/Classes/Room/WhiteRoomCallbacks+Private.h"; sourceTree = "<group>"; };
 		FE0586CB55F7E33F01F31DBB6DBBAECF /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSLayoutConstraint+MASDebugAdditions.h"; path = "Masonry/NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
 		FF13BA34C29E6517E127A9390FDCDA55 /* WhiteCombinePlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WhiteCombinePlayer.h; path = Whiteboard/Classes/NativeReplayer/WhiteCombinePlayer.h; sourceTree = "<group>"; };
@@ -1309,7 +1310,6 @@
 				AED255C538E685A436498E4DB27CA2CB /* ViewController+MASAdditions.m */,
 				3C3CDB31D25D79432AC36CADAC284866 /* Support Files */,
 			);
-			name = Masonry;
 			path = Masonry;
 			sourceTree = "<group>";
 		};
@@ -1366,8 +1366,8 @@
 			isa = PBXGroup;
 			children = (
 				6AF279AB629184C658EFA156D552216E /* Fastboard */,
-				92842DC65A4EE2E5A0E11A62B49986FA /* Fastboard-Icons */,
-				826795FBAEC2583C68D7750D6624F02C /* Fastboard-LocalizedStrings */,
+				92842DC65A4EE2E5A0E11A62B49986FA /* Icons.bundle */,
+				826795FBAEC2583C68D7750D6624F02C /* LocalizedStrings.bundle */,
 				1FFED36A657123030ABB700256D73F15 /* Masonry */,
 				8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD */,
 				314E0991988F210C3DFE25A64590D608 /* NTLBridge */,
@@ -1376,7 +1376,7 @@
 				B0B214D775196BA7CA8E17E53048A493 /* SDWebImage */,
 				8E1D5C0FCA0D872C3F21E87F25420681 /* TZImagePickerController */,
 				BF07350E583AF349A194294437B0C06E /* Whiteboard */,
-				B43929320E40A048DEF21A95905050F2 /* Whiteboard-Whiteboard */,
+				B43929320E40A048DEF21A95905050F2 /* Whiteboard.bundle */,
 				E460D5B0416D36F66EE8EC89E5D2FA0A /* YYModel */,
 			);
 			name = Products;
@@ -1478,7 +1478,6 @@
 				68CCB6C3F9B156EA61F734A5A96BB4E6 /* core */,
 				2549AA51ABBF761E805857F61EA9826E /* Support Files */,
 			);
-			name = Fastboard;
 			path = Fastboard;
 			sourceTree = "<group>";
 		};
@@ -1559,7 +1558,6 @@
 				4B245A264FFBE5E1F80A7A63EB6F4E93 /* Location */,
 				45AFD5FB1DBCA35D02876182D174D306 /* Support Files */,
 			);
-			name = TZImagePickerController;
 			path = TZImagePickerController;
 			sourceTree = "<group>";
 		};
@@ -1734,7 +1732,6 @@
 				42160272E799EA28F7FD83BD719DA87F /* JSBUtil.m */,
 				56E4C802CE4DA382F8469378F99D512B /* Support Files */,
 			);
-			name = NTLBridge;
 			path = NTLBridge;
 			sourceTree = "<group>";
 		};
@@ -1755,7 +1752,6 @@
 				DFFE337D2AD4AF504E63757EE65B923C /* VirtualBackground */,
 				BD217AB5A5EE38CE5CBF53A7323100B0 /* VQA */,
 			);
-			name = AgoraRtcEngine_iOS;
 			path = AgoraRtcEngine_iOS;
 			sourceTree = "<group>";
 		};
@@ -1769,7 +1765,6 @@
 				33C8D07594DEC53AD54F7167DBEDD916 /* YYModel.h */,
 				4AF3047DD1564A0024E6C3EF11627398 /* Support Files */,
 			);
-			name = YYModel;
 			path = YYModel;
 			sourceTree = "<group>";
 		};
@@ -1943,7 +1938,6 @@
 				1195643D3F28899ED5750D148AFDD512 /* MBProgressHUD.m */,
 				B374F1C2369B8CFEF0996B2C1B4186BF /* Support Files */,
 			);
-			name = MBProgressHUD;
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
@@ -2033,7 +2027,6 @@
 				94D439E54E0FFB86A7D47271E88ACCEE /* Support Files */,
 				569A52D752466B97427194AE3F353D28 /* Whiteboard-YYModel */,
 			);
-			name = Whiteboard;
 			path = Whiteboard;
 			sourceTree = "<group>";
 		};
@@ -2043,7 +2036,6 @@
 				D6CC7DCC5CE286911712394498E5D17C /* Core */,
 				3D7CE0706AB928ED9337FB6D76A3AB89 /* Support Files */,
 			);
-			name = SDWebImage;
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
@@ -2625,7 +2617,7 @@
 			);
 			name = "Whiteboard-Whiteboard";
 			productName = Whiteboard;
-			productReference = B43929320E40A048DEF21A95905050F2 /* Whiteboard-Whiteboard */;
+			productReference = B43929320E40A048DEF21A95905050F2 /* Whiteboard.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		11F70680EBA4B0F48FA8C2C275B8D81E /* Fastboard-LocalizedStrings */ = {
@@ -2642,7 +2634,7 @@
 			);
 			name = "Fastboard-LocalizedStrings";
 			productName = LocalizedStrings;
-			productReference = 826795FBAEC2583C68D7750D6624F02C /* Fastboard-LocalizedStrings */;
+			productReference = 826795FBAEC2583C68D7750D6624F02C /* LocalizedStrings.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		3847153A6E5EEFB86565BA840768F429 /* SDWebImage */ = {
@@ -2695,7 +2687,7 @@
 			);
 			name = "Fastboard-Icons";
 			productName = Icons;
-			productReference = 92842DC65A4EE2E5A0E11A62B49986FA /* Fastboard-Icons */;
+			productReference = 92842DC65A4EE2E5A0E11A62B49986FA /* Icons.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		82B0A41D3031FF27D78E17B0A9A46FB0 /* MBProgressHUD */ = {
@@ -2937,7 +2929,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E60E8A84E808F47759482144CB966DA /* Whiteboard-Whiteboard in Resources */,
+				8E60E8A84E808F47759482144CB966DA /* Whiteboard.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3003,8 +2995,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				207B2C8BB1EF76B9C5317B2425E6F4EB /* Fastboard-Icons in Resources */,
-				9A2FC2625F1DFC8B47F7B098E6703DF8 /* Fastboard-LocalizedStrings in Resources */,
+				207B2C8BB1EF76B9C5317B2425E6F4EB /* Icons.bundle in Resources */,
+				9A2FC2625F1DFC8B47F7B098E6703DF8 /* LocalizedStrings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3534,6 +3526,7 @@
 			baseConfigurationReference = 9F27D11DD27E7105B06D60791E7D53C5 /* Whiteboard.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Whiteboard";
+				DEVELOPMENT_TEAM = JC854K845H;
 				IBSC_MODULE = Whiteboard;
 				INFOPLIST_FILE = "Target Support Files/Whiteboard/ResourceBundle-Whiteboard-Whiteboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -3584,6 +3577,7 @@
 			baseConfigurationReference = 0C4AF39BC0229F0349206DC329B5BE06 /* Whiteboard.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Whiteboard";
+				DEVELOPMENT_TEAM = JC854K845H;
 				IBSC_MODULE = Whiteboard;
 				INFOPLIST_FILE = "Target Support Files/Whiteboard/ResourceBundle-Whiteboard-Whiteboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -3600,6 +3594,7 @@
 			baseConfigurationReference = 16463E426BF04D36498B3D9107792CB1 /* Fastboard.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Fastboard";
+				DEVELOPMENT_TEAM = JC854K845H;
 				IBSC_MODULE = Fastboard;
 				INFOPLIST_FILE = "Target Support Files/Fastboard/ResourceBundle-Icons-Fastboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -3616,6 +3611,7 @@
 			baseConfigurationReference = 10D52A4A76E54242D4A0B27069C415D2 /* Fastboard.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Fastboard";
+				DEVELOPMENT_TEAM = JC854K845H;
 				IBSC_MODULE = Fastboard;
 				INFOPLIST_FILE = "Target Support Files/Fastboard/ResourceBundle-LocalizedStrings-Fastboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -3921,6 +3917,7 @@
 			baseConfigurationReference = 10D52A4A76E54242D4A0B27069C415D2 /* Fastboard.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Fastboard";
+				DEVELOPMENT_TEAM = JC854K845H;
 				IBSC_MODULE = Fastboard;
 				INFOPLIST_FILE = "Target Support Files/Fastboard/ResourceBundle-Icons-Fastboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -4395,6 +4392,7 @@
 			baseConfigurationReference = 16463E426BF04D36498B3D9107792CB1 /* Fastboard.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Fastboard";
+				DEVELOPMENT_TEAM = JC854K845H;
 				IBSC_MODULE = Fastboard;
 				INFOPLIST_FILE = "Target Support Files/Fastboard/ResourceBundle-LocalizedStrings-Fastboard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
