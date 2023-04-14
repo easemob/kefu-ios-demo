@@ -376,8 +376,8 @@
     }];
     
     [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.offset(25);
-        make.width.height.offset(26);
+        make.top.offset(32);
+        make.width.height.offset(44);
         make.trailing.offset(-15);
         
     }];

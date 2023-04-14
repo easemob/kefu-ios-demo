@@ -73,22 +73,6 @@ static HDVECAgoraCallManager *shareCall = nil;
     }
     return self;
 }
-- (HDVECGuidanceModel *)setGuidancePostNotificationParWithConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withCECSessionid:(NSString *)sessionId withCECVisitorId:(NSString *)visitorId{
-    
-    
-    HDVECGuidanceModel * model = [[HDVECGuidanceModel alloc] init];
-    model.vec_cecSessionId = sessionId;
-    model.vec_cecVisitorId = visitorId;
-    model.vec_imServiceNum = imServecionNumer;
-    model.vec_configid = configid;
-    NSMutableDictionary * dic = [NSMutableDictionary dictionary];
-    [dic hd_setValue:imServecionNumer forKey:@"easemob_vec_imservecnum"];
-    [dic hd_setValue:configid forKey:@"easemob_vec_configid"];
-    [dic hd_setValue:sessionId forKey:@"easemob_cec_relatedSessionId"];
-    [dic hd_setValue:visitorId forKey:@"easemob_cec_relatedVisitorUserId"];
-    return model;
-}
-
 
 - (void)vec_setCallOptions:(HDVECAgoraCallOptions *)aOptions{
     _options = aOptions;
@@ -97,11 +81,11 @@ static HDVECAgoraCallManager *shareCall = nil;
     
     return _options;
 }
-- (void)setVec_imServiceNum:(NSString *)vec_imServiceNum{
+- (void)setVec_inputModel:(HDVECCallInputModel *)vec_inputModel{
     
-    _vec_imServiceNum = vec_imServiceNum;
+    _vec_inputModel = vec_inputModel;
     
-    [HDClient sharedClient].callManager.vec_imServiceNum = vec_imServiceNum;
+    [HDClient sharedClient].callManager.vec_imServiceNum = vec_inputModel.vec_imServiceNum;
     
     
 }
@@ -256,7 +240,7 @@ static HDVECAgoraCallManager *shareCall = nil;
     [self vec_leaveChannel];
     
     [HDLog logD:@"===%s closeVecCall",__func__];
-    [[HDClient sharedClient].callManager vec_hangUpSessionId:[HDClient sharedClient].callManager.rtcSessionId WithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    [[HDClient sharedClient].callManager vec_hangUpSessionId:[HDClient sharedClient].callManager.rtcSessionId WithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         
     }];
     
@@ -264,7 +248,7 @@ static HDVECAgoraCallManager *shareCall = nil;
 - (void)vec_ringGiveUp{
     [self vec_leaveChannel];
     
-    HDMessage * message = [[HDClient sharedClient].callManager  vec_ringGiveUpMessageWithRtcSessionId:[HDClient sharedClient].callManager.rtcSessionId withImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum withCallId:[HDVECAgoraCallManager shareInstance].keyCenter.callid>0 ?[HDVECAgoraCallManager shareInstance].keyCenter.callid : [NSString stringWithFormat:@"null"]];
+    HDMessage * message = [[HDClient sharedClient].callManager  vec_ringGiveUpMessageWithRtcSessionId:[HDClient sharedClient].callManager.rtcSessionId withImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum withCallId:[HDVECAgoraCallManager shareInstance].keyCenter.callid>0 ?[HDVECAgoraCallManager shareInstance].keyCenter.callid : [NSString stringWithFormat:@"null"]];
     
     [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
     }];
@@ -272,7 +256,7 @@ static HDVECAgoraCallManager *shareCall = nil;
 }
 - (void)vec_rejectCall{
    
-    HDMessage * message = [[HDClient sharedClient].callManager  vec_rejectMessageWithRtcSessionId:[HDClient sharedClient].callManager.rtcSessionId withImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum withCallId:[HDVECAgoraCallManager shareInstance].keyCenter.callid>0 ?[HDVECAgoraCallManager shareInstance].keyCenter.callid : [NSString stringWithFormat:@"null"]];
+    HDMessage * message = [[HDClient sharedClient].callManager  vec_rejectMessageWithRtcSessionId:[HDClient sharedClient].callManager.rtcSessionId withImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum withCallId:[HDVECAgoraCallManager shareInstance].keyCenter.callid>0 ?[HDVECAgoraCallManager shareInstance].keyCenter.callid : [NSString stringWithFormat:@"null"]];
     
     [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
         
@@ -333,14 +317,14 @@ static HDVECAgoraCallManager *shareCall = nil;
 - (void)vec_sendReportEvent{
     
     if (self.vec_isAutoReport) {
-        [[HDClient sharedClient] vec_sendReportEventImServiceNum:[HDVECAgoraCallManager shareInstance].vec_imServiceNum];
+        [[HDClient sharedClient] vec_sendReportEventImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum];
     }
     
 }
 - (void)vec_offlinReportEvent{
     
     if (self.vec_isAutoReport) {
-    [[HDClient sharedClient] vec_offLineReportEventVisitorUserName:[HDClient sharedClient].currentUsername withImServiecNum:self.vec_imServiceNum];
+    [[HDClient sharedClient] vec_offLineReportEventVisitorUserName:[HDClient sharedClient].currentUsername withImServiecNum:self.vec_inputModel.vec_imServiceNum];
     }
 }
 /**
@@ -554,18 +538,15 @@ static HDVECAgoraCallManager *shareCall = nil;
     return boundingSize;
 }
 
-- (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:( HDVisitorInfo *)visitorinfo withCECSessionid:(NSString *)sessionid withCECVisitorId:( NSString *)visitorId{
+- (void)vec_showMainWindowWithVideoInputModel:(HDVECCallInputModel *)model{
     
-    self.vec_imServiceNum= imServecionNumer;
-    self.vec_configid = configid;
-    self.vec_cecSessionId = sessionid;
-    self.vec_cecVisitorId = visitorId;
+    self.vec_inputModel = model;
     
-    [self vec_initSetting:configid WithCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    [self vec_initSetting:self.vec_inputModel.vec_configid WithCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
             
         dispatch_async(dispatch_get_main_queue(), ^{
             // 主动发起的时候keyCenter 不需要传
-        [[HDVECCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVECDirectionSend withVisitornickName:visitorinfo.nickName];
+        [[HDVECCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVECDirectionSend withVisitornickName:self.vec_inputModel.visitorInfo.nickName];
             [HDVECCallViewController sharedManager].hangUpVideoCallback = ^(HDVECCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
                 [[HDVECCallViewController sharedManager]  removeView];
 
@@ -693,13 +674,13 @@ static HDVECAgoraCallManager *shareCall = nil;
 
 - (void)vec_saveInitSettingData:(NSDictionary *)dic{
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@", NSStringFromClass([self class]), [HDVECAgoraCallManager shareInstance].vec_configid];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", NSStringFromClass([self class]), [HDVECAgoraCallManager shareInstance].vec_inputModel.vec_configid];
     
     [[HDCallFileManager shareCacheFileInstance] writeDictionary:dic atPath:path];
 }
 - (NSDictionary *)vec_getInitSettingData{
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@", NSStringFromClass([self class]), [HDVECAgoraCallManager shareInstance].vec_configid];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", NSStringFromClass([self class]), [HDVECAgoraCallManager shareInstance].vec_inputModel.vec_configid];
     return [[HDCallFileManager shareCacheFileInstance] readDictionaryAtPath:path];
     
 }

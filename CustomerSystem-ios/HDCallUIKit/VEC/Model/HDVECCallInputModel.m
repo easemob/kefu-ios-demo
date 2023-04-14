@@ -6,8 +6,8 @@
 //  Copyright © 2023 easemob. All rights reserved.
 //
 
-#import "HDVECGuidanceModel.h"
+#import "HDVECCallInputModel.h"
 
-@implementation HDVECGuidanceModel
+@implementation HDVECCallInputModel
 
 @end

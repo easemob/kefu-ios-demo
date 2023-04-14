@@ -57,7 +57,7 @@ static HDVECWhiteRoomManager *shareWhiteboard = nil;
 }
 - (void)hd_joinVECRoom{
     
-    [[HDWhiteboardManager shareInstance] vec_joinWiteBoardRoom:[HDVECAgoraCallManager shareInstance].vec_imServiceNum];
+    [[HDWhiteboardManager shareInstance] vec_joinWiteBoardRoom:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum];
     
 }
 - (void)reloadFastboardOverlayWithView:(UIView *)view{

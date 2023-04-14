@@ -11,6 +11,9 @@
 #import "LocalDefine.h"
 #import "CustomButton.h"
 #import "UIImage+HDIconFont.h"
+#import "HDVECCallInputModel.h"
+#import "CSDemoAccountManager.h"
+#import "MBProgressHUD+Add.h"
 @interface CommodityViewController ()
 {
     UIScrollView *_scrollView;
@@ -147,6 +150,18 @@
 }
 - (void)vecAction
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_VEC object:self.commodityInfo];
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    HDVECCallInputModel * model = [[HDVECCallInputModel alloc] init];
+    model.videoInputType = HDCallVideoInputDefault;
+    model.visitorInfo = lgM.visitorInfo;
+    model.vec_imServiceNum = lgM.cname;
+    model.vec_configid = lgM.configId;
+    
+    if (!model.vec_configid && model.vec_configid.length == 0) {
+        [MBProgressHUD dismissInfo:NSLocalizedString(@"未绑定正确的关联信息", @"未绑定正确的关联信息")];
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_VEC object:model];
 }
 @end

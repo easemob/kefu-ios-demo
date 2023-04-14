@@ -178,13 +178,7 @@ typedef enum : NSUInteger {
     
     [[HDClient sharedClient] cec_sendReportEventImServiceNum:self.conversation.conversationId];
     
-    
-    
 }
-
-
-
-
 
 - (void)setupRemoveNotifiers{
     
@@ -1871,56 +1865,15 @@ typedef enum : NSUInteger {
             }
     
             if ([HDMessage isCreateVECVideoMessage:item]) {
-
-                NSDictionary *dic = [HDMessage getIndependentVideoPluginConfig:item];
-                
-                @try {
-                    //解析数据
-                    if (dic&&[dic isKindOfClass:[NSDictionary class]]&&[[dic allKeys] containsObject:@"appConfig"] ) {
-                        
-                        NSDictionary * appConfig = [dic valueForKey:@"appConfig"];
-                        
-                        NSString * configId = [appConfig valueForKey:@"configId"];
-                        
-                        NSDictionary * configJsonDic = [appConfig valueForKey:@"configJson"];
-                        
-                        NSString * imServiceNum = configJsonDic[@"channel"][@"to"];
-                        
-                        HDMessage * tmpMessage = [self.conversation latestMessage];
-                        
-                        NSString * sessionId=  [[HDClient sharedClient].chatManager getMessageServiceSessionId:tmpMessage];
-                        
-                        NSLog(@"======%@",sessionId);
-                        
-                        [[HDClient sharedClient].chatManager fetchCurrentVisitorId:self.conversation.conversationId completion:^(HDError *aError, NSString *visitorId) {
-                            
-                            [[HDClient sharedClient].chatManager cec_closeServiceSessionId:sessionId withImServiceNum:self.conversation.conversationId Completion:^(id responseObject, HDError *error) {
-                                
-                            }];
-                            
-                            if (visitorId) {
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    // 创建vec 视频 这个地方可以传值 也可以在监听通知的时候
-                            
-                                    if (configId == nil || imServiceNum == nil) {
-                                        
-                                        return;
-                                    }
-                                   HDVECGuidanceModel * model =  [[HDVECAgoraCallManager shareInstance] setGuidancePostNotificationParWithConfigId:configId withImServecionNumer:imServiceNum withCECSessionid:sessionId withCECVisitorId:visitorId];
-                                    
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_vec_call" object:model userInfo:dic];
-                                    
-                                });
-                            }
-                           
-                        }];
-                    }
-                } @catch (NSException *exception) {
-                    
-                } @finally {
-                    
-                }
-                
+                // 把item 传过去。还有 当前会话传过去
+                HDVECCallInputModel * model = [[HDVECCallInputModel alloc] init];
+                model.videoInputType = HDCallVideoInputGuidance;
+                model.visitorInfo = self.visitorInfo;
+                model.cec_imServiceNum = self.conversation.conversationId;
+                NSMutableDictionary * dic = [[NSMutableDictionary alloc] init];
+                [dic hd_setValue:self.conversation forKey:@"easemob_currentConversation"];
+                [dic hd_setValue:item forKey:@"easemob_currentHDMenuItem"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_vec_call" object:model userInfo:dic];
                 return;
 
             }

@@ -13,7 +13,7 @@
 #import "HDVECInitLayoutModel.h"
 #import "HDVECEnterpriseInfo.h"
 #import "HDCallAppManger.h"
-#import "HDVECGuidanceModel.h"
+#import "HDVECCallInputModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 static NSString * _Nonnull kVECUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
@@ -31,27 +31,23 @@ static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
 
 
 // 视频需要的必要参数
-@property (nonatomic, strong) NSString *vec_configid;
-@property (nonatomic, strong) NSString *vec_imServiceNum;
-@property (nonatomic, strong) HDVisitorInfo *vec_visitorInfo;
-@property (nonatomic, strong) NSString *vec_cecSessionId; // cec的会话id
-@property (nonatomic, strong) NSString *vec_cecVisitorId; // cec的访客id
- 
+//@property (nonatomic, strong) NSString *vec_configid;
+//@property (nonatomic, strong) NSString *vec_imServiceNum;
+//@property (nonatomic, strong) HDVisitorInfo *vec_visitorInfo;
+//@property (nonatomic, strong) NSString *vec_cecSessionId; // cec的会话id
+//@property (nonatomic, strong) NSString *vec_cecVisitorId; // cec的访客id
+@property (nonatomic, strong) HDVECCallInputModel *vec_inputModel; // vec 弹窗必要参数model
 @property (nonatomic, assign) BOOL vec_isAutoReport ; // 自动上报开关
 
 
 + (instancetype _Nullable )shareInstance;
 
-- (HDVECGuidanceModel *)setGuidancePostNotificationParWithConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer  withCECSessionid:(NSString *)sessionId withCECVisitorId:(NSString *)visitorId;
-
-
 /// vec 视频界面的主入口
-/// @param configid  vec 的插件id
-/// @param imServecionNumer  im服务号
-/// @param visitorinfo  访客信息
-///  @param visitorId   访客id 只有在询前引导场景下需要传值 其他情况下 可以直接传@“”
-/// @param sessionid   会话id 只有在询前引导场景下需要传值 其他情况下 可以直接传@“”
-- (void)vec_showMainWindowConfigId:(NSString *)configid withImServecionNumer:(NSString *)imServecionNumer withVisiorInfo:(HDVisitorInfo *)visitorinfo withCECSessionid:(NSString *)sessionid withCECVisitorId:(NSString *)visitorId;
+/// @param model  vec  视频界面必要的参数
+
+- (void)vec_showMainWindowWithVideoInputModel:(HDVECCallInputModel *)model;
+
+
 
 /// 初始化排队界面数据 
 /// @param aCompletion 回调接口数据

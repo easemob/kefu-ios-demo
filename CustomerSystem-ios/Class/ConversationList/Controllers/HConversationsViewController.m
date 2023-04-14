@@ -75,6 +75,13 @@
 
 - (void)tableViewDidTriggerHeaderRefresh {
     NSArray *hConversations = [[HDClient sharedClient].chatManager loadAllConversations];
+    
+//    for (HDConversation *mo in hConversations) {
+//
+//
+//        NSLog(@"======%@",mo.latestMessage.ext);
+//
+//    }
     long badgeValue = 0;
     for (HDConversation *conv in hConversations) {
         badgeValue += conv.unreadMessagesCount;
