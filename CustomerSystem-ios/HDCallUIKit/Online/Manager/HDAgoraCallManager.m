@@ -494,19 +494,4 @@ static HDAgoraCallManager *shareCall = nil;
           }
     return boundingSize;
 }
-
-- (NSDictionary *)dictWithString:(NSString *)string {
-    if (string && 0 != string.length) {
-        NSError *error;
-        NSData *jsonData = [string dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-        if (error) {
-            return nil;
-        }
-        return jsonDict;
-    }
-    
-    return nil;
-}
-
 @end

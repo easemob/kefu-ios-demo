@@ -191,11 +191,6 @@ static HDCallAppManger *shareCall = nil;
     return _callViewController;
     
 }
-
-
-
-
-
 - (NSDictionary *)dictWithString:(NSString *)string {
     if (string && 0 != string.length) {
         NSError *error;

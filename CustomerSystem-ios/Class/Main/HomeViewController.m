@@ -592,55 +592,25 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
 }
 */
-// 收到im消息回调
-- (void)messagesDidIMReceive:(NSArray *)aMessages{
-    
-    NSLog(@"==========收到消息了messagesDidIMReceive");
-}
 
-
--(void)cmdMessagesDidReceive:(NSArray<EMChatMessage *> *)aCmdMessages{
-    
-    NSLog(@"==========收到消息了cmdMessagesDidReceive");
-    
-    
-}
-- (void)messagesDidReceive:(NSArray<EMChatMessage *> *)aMessages{
-
-
-    NSLog(@"==========收到消息了messagesDidIMReceive");
-
-}
 // 收到消息回调
-//- (void)messagesDidReceive:(NSArray *)aMessages {
-//
-//    if ([self isNotificationMessage:aMessages.firstObject]) {
-//
-//        return;
-//    }
-//#if !TARGET_IPHONE_SIMULATOR
-//    BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
-//    if (!isAppActivity) {
-//        [self _showNotificationWithMessage:aMessages];
-//    }else {
-//        [self _playSoundAndVibration];
-//    }
-//
-//
-//#endif
-//    [_conversationsVC refreshData];
-//}
+- (void)messagesDidReceive:(NSArray *)aMessages {
 
-//- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages{
-//    
-//    NSLog(@"收到消息=cmdMessagesDidReceive===%@",aCmdMessages);
-//    for (HDMessage *msg in aCmdMessages) {
-//        
-//        NSLog(@"收到消息=cmdMessagesDidReceive==msg.ext=%@",msg.ext);
-//        
-//    }
-//    
-//}
+    if ([self isNotificationMessage:aMessages.firstObject]) {
+
+        return;
+    }
+#if !TARGET_IPHONE_SIMULATOR
+    BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
+    if (!isAppActivity) {
+        [self _showNotificationWithMessage:aMessages];
+    }else {
+        [self _playSoundAndVibration];
+    }
+
+#endif
+    [_conversationsVC refreshData];
+}
 
 - (BOOL)isNotificationMessage:(HDMessage *)message {
     if (message.ext == nil) { //没有扩展
@@ -658,8 +628,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     }
     return NO;
 }
-
-
 
 //声网
 - (void)agorademo{
@@ -718,9 +686,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             NSLog(@"====%@ ===%u",message,error.code);
 
         }];
-    
-    
-    
 }
 //发文本消息【测试】
 -(void)lxSendText{
