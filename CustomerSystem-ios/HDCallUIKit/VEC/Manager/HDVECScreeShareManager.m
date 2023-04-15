@@ -12,7 +12,7 @@
 #define kScreenShareExtensionBundleId @"com.easemob.kf.demo.customer.shareWindow"
 static NSString * _Nonnull kUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
 static NSString * _Nonnull kAppGroup = @"group.com.easemob.kf.demo.customer";
-
+static NSString * _Nonnull kUserDefaultState_endCall = @"KEY_BXL_DEFAULT_STATE_ENDCALL"; // 接收屏幕共享(开始/结束 状态)监听的Key
 static void *KVOContext = &KVOContext;
 
 @interface HDVECScreeShareManager()<AgoraReplayKitExtDelegate,RPScreenRecorderDelegate>
@@ -186,9 +186,9 @@ static HDVECScreeShareManager *shareManager = nil;
 - (void)vec_setupUserDefaults{
 
     // 如果需要app 内 设置监听 
-    if (!self.isVecExtensionApp) {
-        [self setupNotifiers];
-    }
+//    if (!self.isVecExtensionApp) {
+//        [self setupNotifiers];
+//    }
 
     self.userDefaults =[[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
     // 通过UserDefaults建立数据通道，接收Extension传递来的视频帧
@@ -210,6 +210,7 @@ static HDVECScreeShareManager *shareManager = nil;
             //关闭 RTC：外部视频输入通道，停止推送屏幕流
             NSLog(@"== 屏幕分享停止=====%@",string);
             [self vec_stopAgoraScreenCapture];
+            [self.userDefaults setObject:@{@"encCall":@"encCall"} forKey:kUserDefaultState_endCall];//给状态一个默认值
         }
         return;
     }
@@ -222,16 +223,10 @@ static HDVECScreeShareManager *shareManager = nil;
                                                object:nil];
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appWillEnterForeground:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
+   
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appDidFinishLaunching:)
-                                                 name:UIApplicationDidFinishLaunchingNotification
-                                               object:nil];
+   
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -239,30 +234,7 @@ static HDVECScreeShareManager *shareManager = nil;
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appWillResignActiveNotif:)
-                                                 name:UIApplicationWillResignActiveNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appDidReceiveMemoryWarning:)
-                                                 name:UIApplicationDidReceiveMemoryWarningNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appWillTerminateNotif:)
-                                                 name:UIApplicationWillTerminateNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appProtectedDataWillBecomeUnavailableNotif:)
-                                                 name:UIApplicationProtectedDataWillBecomeUnavailable
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appProtectedDataDidBecomeAvailableNotif:)
-                                                 name:UIApplicationProtectedDataDidBecomeAvailable
-                                               object:nil];
+   
 }
 
 #pragma mark - notifiers

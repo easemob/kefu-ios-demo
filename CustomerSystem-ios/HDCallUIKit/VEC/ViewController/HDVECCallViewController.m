@@ -439,6 +439,12 @@ static HDVECCallViewController *_manger = nil;
    
     // 上报 离线行为
     [[HDVECAgoraCallManager shareInstance] vec_offlinReportEvent];
+    
+    //结束的时候判断 是否在分享 如果在分享结束分享
+    
+    // 创建 屏幕分享  这个说应用外分享
+//    [[HDVECScreeShareManager shareInstance] vec_initBroadPickerView];
+    
    
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -1354,7 +1360,6 @@ static HDVECCallViewController *_manger = nil;
 
 // 成员加入回调
 - (void)onMemberJoin:(HDVECAgoraCallMember *)member {
-    [HDLog logD:@"HD===join 成员加入回调----start =%@",member.memberName];
     // 有 member 加入，添加到datasource中。
     if (isCalling) { // 只有在已经通话中的情况下，才回去在ui加入，否则都在接听时加入。
         [HDLog logD:@"HD===join 成员加入回调----isCalling =%@",member.memberName];
@@ -1362,25 +1367,24 @@ static HDVECCallViewController *_manger = nil;
             BOOL isNeedAdd = YES;
             for (HDVECCollectionViewCellItem *item in _midelleMembers) {
         
-                [HDLog logD:@"HD===join 成员加入回调----isCalling @synchronized for循环开始=%@",item.uid];
                 if (item.uid  == [member.memberName integerValue] ) {
                     isNeedAdd = NO;
                     break;
                 }
             }
-            [HDLog logD:@"HD===join 成员加入回调----isCalling @synchronized for循环结束=%@",member.memberName];
+           
             if (isNeedAdd) {
-                [HDLog logD:@"HD===join 成员加入回调----isCalling isNeedAdd start=%@",member.memberName];
+                
                 if (_midelleMembers.count > 0) {
 
-                    [HDLog logD:@"HD===join 成员加入回调----isCalling _midelleMembers=%@",member.memberName];
+                    
                     UIView * localView = [[UIView alloc] init];
                     HDVECCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:localView];
                     [self.smallWindowView  setThirdUserdidJoined:thirdItem];
                    
                 }else{
     
-                    [HDLog logD:@"HD===join 成员加入回调----isCalling isNeedAdd=%d",isNeedAdd];
+                
                     HDVECCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:self.midelleVideoView];
                     [_midelleMembers addObject: thirdItem];
                 }
@@ -1389,7 +1393,7 @@ static HDVECCallViewController *_manger = nil;
         };
         
 
-        [HDLog logD:@"HD===join 成员加入回调----@synchronized 加入成员结束- 开始执行updateThirdAgent= %@",member.memberName];
+        
         [self updateThirdAgent];
      //刷新 collectionView
         [self.smallWindowView reloadData];
