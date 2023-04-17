@@ -336,11 +336,14 @@ static HDVECAgoraCallManager *shareCall = nil;
 - (void)vec_acceptCallWithNickname:(NSString *)nickname completion:(void (^)(id, HDError *))completion{
     self.Completion = completion;
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 acceptCallWithNickname=%@",[HDVECAgoraCallManager shareInstance].keyCenter.agoraChannel];
-    [self hd_joinChannelByToken:[HDVECAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDVECAgoraCallManager shareInstance].keyCenter.agoraChannel info:@"test123" uid:[[HDVECAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
+    [self hd_joinChannelByToken:[HDVECAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDVECAgoraCallManager shareInstance].keyCenter.agoraChannel info:nil uid:[[HDVECAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
         _onCalling = YES;
         
         [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 joinSuccess channel "];
-        self.Completion(nil, nil);
+      
+        if (completion) {
+            completion(nil, nil);
+        }
         
     }];
 

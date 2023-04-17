@@ -162,6 +162,27 @@
         return;
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_VEC object:model];
+    [HDLog logD:@"HD===%s chatAction",__FUNCTION__];
+    __weak typeof(self) weakSelf = self;
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:self.view.superview];
+    __weak MBProgressHUD *weakHud = hud;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+        if ([lgM loginKefuSDK]) {
+            hd_dispatch_main_async_safe(^(){
+                [weakHud hideAnimated:YES];
+                [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_VEC object:model];
+            });
+        } else {
+            hd_dispatch_main_async_safe(^(){
+                [weakHud hideAnimated:YES];
+                [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
+            });
+            NSLog(@"登录失败");
+        }
+    });
+   
 }
+
 @end
