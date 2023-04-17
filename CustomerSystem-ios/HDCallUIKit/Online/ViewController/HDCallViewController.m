@@ -274,25 +274,30 @@ static HDCallViewController *_manger = nil;
 }
 //
 -(void)clearViewData{
-    [_videoViews removeAllObjects];
-    [_videoItemViews removeAllObjects];
-    [_members removeAllObjects];
-    [_midelleMembers removeAllObjects];
-    [allMembersDic removeAllObjects];
-    [self.parentView removeFromSuperview];
-    self.parentView = nil;
-    self.barView = nil;
-    self.midelleVideoView= nil;
-    self.hdTitleView = nil;
-    self.smallWindowView=nil;
     
-#ifdef OnlineWhiteBoard
-    self.whiteBoardView =nil;
-#else
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_videoViews removeAllObjects];
+        [_videoItemViews removeAllObjects];
+        [_members removeAllObjects];
+        [_midelleMembers removeAllObjects];
+        [allMembersDic removeAllObjects];
+        [self.parentView removeFromSuperview];
+        self.parentView = nil;
+        self.barView = nil;
+        self.midelleVideoView= nil;
+        self.hdTitleView = nil;
+        self.smallWindowView=nil;
+        
+    #ifdef OnlineWhiteBoard
+        self.whiteBoardView =nil;
+    #else
 
-#endif
-    self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
-    self.isVisitorSend = NO;
+    #endif
+        self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
+        self.isVisitorSend = NO;
+       
+    });
+    
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -885,6 +890,40 @@ static HDCallViewController *_manger = nil;
 /// 应答事件
 /// @param sender  button
 - (void)anwersBtnClicked:(UIButton *)sender{
+   
+    [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
+                                                        completion:^(id obj, HDError *error)
+     {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [HDLog logD:@"HD===%s anwersBtnClickedCallBack",__func__];
+            if (error == nil){
+                [HDLog logD:@"HD===%s anwersBtnClickedCallBack-success=%@",__func__,obj];
+                
+                [self cec_acceptCall];
+            }else{
+                [HDLog logD:@"HD===%s anwersBtnClickedCallBack-fail=%u",__func__,error.code];
+                // 加入失败 或者视频网络断开
+                if (isCalling) {
+                    
+//                    [self hangUpCallBtn:nil];
+                    
+                }else{
+                   
+                    if (self.hangUpCallback) {
+                        self.hangUpCallback(self,self.hdTitleView.timeLabel.text);
+                    }
+                }
+               
+            }
+        });
+        
+       
+       
+     }];
+}
+
+-(void)cec_acceptCall{
+    
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorWhitealpha:1];
     self.hdAnswerView.hidden = YES;
     //应答的时候 在创建view
@@ -896,25 +935,9 @@ static HDCallViewController *_manger = nil;
     [self setAcceptCallView];
     [self.hdTitleView startTimer];
     isCalling = YES;
-    [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
-                                                        completion:^(id obj, HDError *error)
-     {
-        [HDLog logD:@"HD===%s anwersBtnClickedCallBack",__func__];
-        if (error == nil){
-            [HDLog logD:@"HD===%s anwersBtnClickedCallBack-success=%@",__func__,obj];
-        }else{
-            [HDLog logD:@"HD===%s anwersBtnClickedCallBack-fail=%@",__func__,error.errorDescription];
-            // 加入失败 或者视频网络断开
-            dispatch_async(dispatch_get_main_queue(), ^{
-               // UI更新代码
-                if (self.hangUpCallback) {
-                    self.hangUpCallback(self,self.hdTitleView.timeLabel.text);
-                }
-            });
-        }
-       
-     }];
+    
 }
+
 ///  访客收到坐席回呼请求   拒绝请求视频
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{

@@ -370,67 +370,71 @@ static HDVECCallViewController *_manger = nil;
 //
 -(void)clearViewData{
     
-    [_videoViews removeAllObjects];
-    [_videoItemViews removeAllObjects];
-    [_members removeAllObjects];
-    [_midelleMembers removeAllObjects];
-    [allMembersDic removeAllObjects];
-    [self clearQueueTask];
-    for (UIView *view in [self.view subviews]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_videoViews removeAllObjects];
+        [_videoItemViews removeAllObjects];
+        [_members removeAllObjects];
+        [_midelleMembers removeAllObjects];
+        [allMembersDic removeAllObjects];
+        [self clearQueueTask];
+        for (UIView *view in [self.view subviews]) {
 
-        if (![view isKindOfClass:[HDVECAnswerView class]]) {
-        
-            [view removeFromSuperview];
+            if (![view isKindOfClass:[HDVECAnswerView class]]) {
+            
+                [view removeFromSuperview];
+            }
         }
-    }
-    
-    self.barView = nil;
-    self.midelleVideoView= nil;
-    self.hdTitleView = nil;
-    self.smallWindowView=nil;
-    self.itemView = nil;
-#ifdef HDVECWhiteBoard
-    self.whiteBoardView = nil;
-#else
+        
+        self.barView = nil;
+        self.midelleVideoView= nil;
+        self.hdTitleView = nil;
+        self.smallWindowView=nil;
+        self.itemView = nil;
+    #ifdef HDVECWhiteBoard
+        self.whiteBoardView = nil;
+    #else
 
-#endif
-    
-    [self.parentView removeFromSuperview];
-    self.parentView = nil;
-    self.view.backgroundColor = [[HDVECAppSkin mainSkin] contentColorBlockalpha:0.6];
-    self.isVisitorSend = NO;
-    _isCurrenDeviceFront = YES;
-    if (_isOcrCloseSwitchCamera) {
-        // 如果不是前置摄像头 需要自动切换摄像头
-        [[HDVECAgoraCallManager shareInstance] vec_switchCamera];
-        _isOcrCloseSwitchCamera = NO;
-    }
-    
-    if (self.hdVideoAnswerView.hidden) {
-    
-        self.hdVideoAnswerView.hidden = NO;
-    }
-    //隐藏 popervc
-    [self dismissHDPoperViewController];
-    
-    // 卡证识别相关
-    self.idCardScaningView = nil;
-    self.ocrView=nil;
-    self.hdVideoLinkMessagePush = nil;
-    self.hdSignView = nil;
-    
-#ifdef HDVECWhiteBoard
-    //清理白板数据
-    [self clearWhiteBoardData];
-#else
+    #endif
+        
+        [self.parentView removeFromSuperview];
+        self.parentView = nil;
+        self.view.backgroundColor = [[HDVECAppSkin mainSkin] contentColorBlockalpha:0.6];
+        self.isVisitorSend = NO;
+        _isCurrenDeviceFront = YES;
+        if (_isOcrCloseSwitchCamera) {
+            // 如果不是前置摄像头 需要自动切换摄像头
+            [[HDVECAgoraCallManager shareInstance] vec_switchCamera];
+            _isOcrCloseSwitchCamera = NO;
+        }
+        
+        if (self.hdVideoAnswerView.hidden) {
+        
+            self.hdVideoAnswerView.hidden = NO;
+        }
+        //隐藏 popervc
+        [self dismissHDPoperViewController];
+        
+        // 卡证识别相关
+        self.idCardScaningView = nil;
+        self.ocrView=nil;
+        self.hdVideoLinkMessagePush = nil;
+        self.hdSignView = nil;
+        
+    #ifdef HDVECWhiteBoard
+        //清理白板数据
+        [self clearWhiteBoardData];
+    #else
 
-#endif
+    #endif
+       
+        // 上报 离线行为
+        [[HDVECAgoraCallManager shareInstance] vec_offlinReportEvent];
+        
+        //结束的时候判断 是否在分享 如果在分享结束分享
+        
+    });
+    
    
-    // 上报 离线行为
-    [[HDVECAgoraCallManager shareInstance] vec_offlinReportEvent];
-    
-    //结束的时候判断 是否在分享 如果在分享结束分享
-    
 
    
 }
@@ -1111,7 +1115,7 @@ static HDVECCallViewController *_manger = nil;
         
                 [HDLog logD:@"HD===anwersBtnClicked=dispatch_async=%d",error.code];
                 if (isCalling) {
-                    [self callingHangUpBtn:nil];
+//                    [self callingHangUpBtn:nil];
                 }else{
                     [self hangUpclearViewData];
                 }

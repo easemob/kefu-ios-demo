@@ -44,10 +44,12 @@
 }
 - (void)setSelectCallItemChangeVideoView:(HDVECCollectionViewCellItem *)item withIndex:(NSInteger)index{
    
-    
-    [_cellArray replaceObjectAtIndex:index withObject:item];
-    
-    [self.collectionView reloadData];
+    if (item) {
+        [_cellArray replaceObjectAtIndex:index withObject:item];
+        
+        [self.collectionView reloadData];
+    }
+   
 }
 
 - (void)refreshView:(UIView *)view withScreen:(BOOL)landscape{
