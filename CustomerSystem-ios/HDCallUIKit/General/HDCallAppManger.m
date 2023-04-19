@@ -169,14 +169,6 @@ static HDCallAppManger *shareCall = nil;
         }
 }
 
-
-
-
-
-
-
-
-
 //online
 -(HDCallViewController *)callViewController{
     

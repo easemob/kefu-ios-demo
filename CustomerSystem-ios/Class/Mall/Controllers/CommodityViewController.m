@@ -153,6 +153,9 @@
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
     HDVECCallInputModel * model = [[HDVECCallInputModel alloc] init];
     model.videoInputType = HDCallVideoInputDefault;
+    
+    HDVisitorInfo *v=[[HDVisitorInfo alloc] init];
+    v.nickName = @"我是访客";
     model.visitorInfo = lgM.visitorInfo;
     model.vec_imServiceNum = lgM.cname;
     model.vec_configid = lgM.configId;

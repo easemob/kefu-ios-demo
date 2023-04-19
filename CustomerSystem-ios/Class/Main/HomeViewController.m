@@ -17,8 +17,6 @@
 #import "HDMessageViewController.h"
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
-//Online
-
 #import "MBProgressHUD+Add.h"
 #import "CustomerSystem_ios-Swift.h"
 #import "HDCallAppManger.h"
@@ -155,7 +153,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
     }];
     
-    // 使用 声网视频相关功能请一定注册这个通知
+    // 使用HDCallUIKit中声网视频相关功能请一定注册这个通知
     [[HDCallAppManger shareInstance] initAddCallObserver];
     
     
@@ -245,9 +243,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     _window.hidden = YES;
 }
-
-
-
 
 - (void)chatAction:(NSNotification *)notification
 {
