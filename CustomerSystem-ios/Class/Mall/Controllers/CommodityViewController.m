@@ -77,7 +77,6 @@
         isVecIndependentVideo = NO;
     }
 
-    
     CustomButton * messageButton = [CustomButton buttonWithType:UIButtonTypeCustom];
     [messageButton setImage:[UIImage imageNamed:@"hd_chat_icon_red"] forState:UIControlStateNormal];
     [messageButton setTitle:NSLocalizedString(@"customerChatNew", @"Customer") forState:UIControlStateNormal];

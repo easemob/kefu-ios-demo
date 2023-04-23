@@ -272,12 +272,12 @@
                             }
                             
                         }else{
-                            
+                           
+                        if ([rtcSessionId isEqualToString:[[HDCallManager shareInstance] getRtcSession]]) {
                             if (self.processType != HDVECProcessEnd) {
-                                self.answerLabel.text = visitorWaitingNumber;
+                                self.answerLabel.text = _model.callingPrompt;
                             }
-                            if ([rtcSessionId isEqualToString:[[HDCallManager shareInstance] getRtcSession]]) {
-                                
+                           
                                 [self stopTimer];
                             }
                           
