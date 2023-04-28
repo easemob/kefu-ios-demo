@@ -9,6 +9,7 @@
 #import "HDVECWhiteRoomManager.h"
 #import "MBProgressHUD+Add.h"
 #import "HDVECWhiteConverterManager.h"
+#import "HDVECAgoraCallManager.h"
 HDVECRoomInfoKey const HDVECRoomInfoAPPID = @"appIdentifier";
 HDVECRoomInfoKey const HDVECRoomInfoRoomID = @"roomUUID";
 HDVECRoomInfoKey const HDVECRoomInfoRoomToken = @"roomToken";
@@ -56,7 +57,7 @@ static HDVECWhiteRoomManager *shareWhiteboard = nil;
 }
 - (void)hd_joinVECRoom{
     
-    [[HDWhiteboardManager shareInstance] hd_joinVecWiteBoardRoom];
+    [[HDWhiteboardManager shareInstance] vec_joinWiteBoardRoom:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum];
     
 }
 - (void)reloadFastboardOverlayWithView:(UIView *)view{

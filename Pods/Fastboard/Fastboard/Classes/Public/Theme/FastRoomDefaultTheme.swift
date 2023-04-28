@@ -22,7 +22,9 @@ public class FastRoomDefaultTheme: NSObject {
                                           highlightBgColor: .clear,
                                           disableColor: .init(hexString: "#7B7E84"),
                                           subOpsIndicatorColor: .init(hexString: "#5D6066"),
-                                          pageTextLabelColor: .init(hexString: "#5D6066")))
+                                          pageTextLabelColor: .init(hexString: "#5D6066"),
+                                          selectedBackgroundCornerradius: 0,
+                                          selectedBackgroundEdgeinset: .zero))
     }
     
     @objc
@@ -38,7 +40,9 @@ public class FastRoomDefaultTheme: NSObject {
                                           highlightBgColor: .clear,
                                           disableColor: .init(hexString: "#4B4D54"),
                                           subOpsIndicatorColor: .init(hexString: "#999CA3"),
-                                          pageTextLabelColor: .init(hexString: "#999CA3")))
+                                          pageTextLabelColor: .init(hexString: "#999CA3"),
+                                          selectedBackgroundCornerradius: 0,
+                                          selectedBackgroundEdgeinset: .zero))
     }
     
     @available(iOS 13, *)
@@ -94,7 +98,7 @@ public class FastRoomDefaultTheme: NSObject {
             } else {
                 return defaultLightTheme.panelItemAssets.pageTextLabelColor
             }
-        }))
+        }), selectedBackgroundCornerradius: 0, selectedBackgroundEdgeinset: .zero)
         
         return FastRoomThemeAsset(whiteboardAssets: fastAsset,
                    controlBarAssets: controlBarAssets,

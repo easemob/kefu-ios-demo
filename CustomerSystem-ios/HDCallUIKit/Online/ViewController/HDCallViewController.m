@@ -25,6 +25,7 @@
 #import "MBProgressHUD+Add.h"
 #import "UIViewController+AlertController.h"
 #import "CSDemoAccountManager.h"
+#import "HDCECScreeShareManager.h"
 
 //白板相关
 #ifdef OnlineWhiteBoard
@@ -37,9 +38,6 @@
 
 #define kLocalUid 1111111 //设置真实的本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
-#define kCamViewTag 100001
-#define kScreenShareExtensionBundleId @"com.easemob.kf.demo.customer.shareWindow"
-#define kNotificationShareWindow kScreenShareExtensionBundleId
 #define kPointHeight [UIScreen mainScreen].bounds.size.width *0.9
 
 
@@ -191,7 +189,6 @@ static HDCallViewController *_manger = nil;
     
 }
 - (void)showViewWithKeyCenter:(nonnull HDKeyCenter *)keyCenter withType:(HDVideoCallType)type{
-    [HDCallManager shareInstance].isVecVideo = NO;
     [HDLog logD:@"HD===%s =vec=====收到坐席回呼cmd消息 拿到keyCenter: %@",__func__,keyCenter];
     if (!isCalling) {
         if (type == HDVideoCallDirectionSend) {
@@ -271,30 +268,36 @@ static HDCallViewController *_manger = nil;
     _members = [NSMutableArray new];
     _midelleMembers = [NSMutableArray new];
     allMembersDic = [NSMutableDictionary new];
-    [self initScreenShare];
     [HDAgoraCallManager shareInstance].roomDelegate = self;
+    // 注册屏幕共享通知
+    [self registScreenShare];
 }
 //
 -(void)clearViewData{
-    [_videoViews removeAllObjects];
-    [_videoItemViews removeAllObjects];
-    [_members removeAllObjects];
-    [_midelleMembers removeAllObjects];
-    [allMembersDic removeAllObjects];
-    [self.parentView removeFromSuperview];
-    self.parentView = nil;
-    self.barView = nil;
-    self.midelleVideoView= nil;
-    self.hdTitleView = nil;
-    self.smallWindowView=nil;
     
-#ifdef OnlineWhiteBoard
-    self.whiteBoardView =nil;
-#else
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_videoViews removeAllObjects];
+        [_videoItemViews removeAllObjects];
+        [_members removeAllObjects];
+        [_midelleMembers removeAllObjects];
+        [allMembersDic removeAllObjects];
+        [self.parentView removeFromSuperview];
+        self.parentView = nil;
+        self.barView = nil;
+        self.midelleVideoView= nil;
+        self.hdTitleView = nil;
+        self.smallWindowView=nil;
+        
+    #ifdef OnlineWhiteBoard
+        self.whiteBoardView =nil;
+    #else
 
-#endif
-    self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
-    self.isVisitorSend = NO;
+    #endif
+        self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorBlockalpha:0.6];
+        self.isVisitorSend = NO;
+       
+    });
+    
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -302,10 +305,6 @@ static HDCallViewController *_manger = nil;
     
 }
 
-/// 初始化屏幕分享
-- (void)initScreenShare{
-    [self initBroadPickerView];
-}
 -(void)initData{
     HDControlBarModel * barModel = [HDControlBarModel new];
     barModel.itemType = HDControlBarItemTypeMute;
@@ -344,6 +343,29 @@ static HDCallViewController *_manger = nil;
     HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
     if (grayModelShare.enable) {
         [selImageArr addObject:barModel3];
+        // 调用 接口 设置屏幕共享是应用内 还是应用外
+        [[HDClient sharedClient].callManager hd_getShareSreenSettingCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+            [HDCECScreeShareManager shareInstance].isCecExtensionApp = NO;
+            if (error==nil&& [responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                NSDictionary *dic = responseObject;
+                if ([[dic allKeys] containsObject:@"entities"] && [[dic valueForKey:@"entities"] isKindOfClass:[NSArray class]]) {
+
+                    NSArray * entities =[dic valueForKey:@"entities"];
+                    if (entities.count > 0) {
+                        NSDictionary * entitieDic = [entities firstObject];
+                        
+                        if ([[entitieDic allKeys] containsObject:@"optionValue"]) {
+                            
+                            NSString * optionValue = [entitieDic valueForKey:@"optionValue"];
+                            if ([optionValue isEqualToString:@"true"]) {
+                                [HDCECScreeShareManager shareInstance].isCecExtensionApp = YES;
+                            }
+                        }
+                    }
+                }
+            }
+        }];
     }
     if (grayModelWhiteBoard.enable) {
         [selImageArr addObject:barModel4];
@@ -432,7 +454,7 @@ static HDCallViewController *_manger = nil;
     });
    
 }
-- (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
+- (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid withMessage:(HDMessage *)message{
     
     _thirdAgentNickName = thirdAgentNickName;
     _thirdAgentUid = uid;
@@ -714,17 +736,6 @@ static HDCallViewController *_manger = nil;
 
 }
 
-    
-- (void)createVideoCall{
-    //这个地方是真正发消息邀请视频的代码
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
-    [message addContent:lgM.visitorInfo];
-    
-    [self _sendMessage:message];
-    
-}
-
 - (void)_sendMessage:(HDMessage *)aMessage
 {
     [[HDClient sharedClient].chatManager sendMessage:aMessage
@@ -879,6 +890,40 @@ static HDCallViewController *_manger = nil;
 /// 应答事件
 /// @param sender  button
 - (void)anwersBtnClicked:(UIButton *)sender{
+   
+    [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
+                                                        completion:^(id obj, HDError *error)
+     {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [HDLog logD:@"HD===%s anwersBtnClickedCallBack",__func__];
+            if (error == nil){
+                [HDLog logD:@"HD===%s anwersBtnClickedCallBack-success=%@",__func__,obj];
+                
+                [self cec_acceptCall];
+            }else{
+                [HDLog logD:@"HD===%s anwersBtnClickedCallBack-fail=%u",__func__,error.code];
+                // 加入失败 或者视频网络断开
+                if (isCalling) {
+                    
+//                    [self hangUpCallBtn:nil];
+                    
+                }else{
+                   
+                    if (self.hangUpCallback) {
+                        self.hangUpCallback(self,self.hdTitleView.timeLabel.text);
+                    }
+                }
+               
+            }
+        });
+        
+       
+       
+     }];
+}
+
+-(void)cec_acceptCall{
+    
     self.view.backgroundColor = [[HDAppSkin mainSkin] contentColorWhitealpha:1];
     self.hdAnswerView.hidden = YES;
     //应答的时候 在创建view
@@ -890,25 +935,9 @@ static HDCallViewController *_manger = nil;
     [self setAcceptCallView];
     [self.hdTitleView startTimer];
     isCalling = YES;
-    [[HDAgoraCallManager shareInstance] acceptCallWithNickname:self.agentName
-                                                        completion:^(id obj, HDError *error)
-     {
-        [HDLog logD:@"HD===%s anwersBtnClickedCallBack",__func__];
-        if (error == nil){
-            [HDLog logD:@"HD===%s anwersBtnClickedCallBack-success=%@",__func__,obj];
-        }else{
-            [HDLog logD:@"HD===%s anwersBtnClickedCallBack-fail=%@",__func__,error.errorDescription];
-            // 加入失败 或者视频网络断开
-            dispatch_async(dispatch_get_main_queue(), ^{
-               // UI更新代码
-                if (self.hangUpCallback) {
-                    self.hangUpCallback(self,self.hdTitleView.timeLabel.text);
-                }
-            });
-        }
-       
-     }];
+    
 }
+
 ///  访客收到坐席回呼请求   拒绝请求视频
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{
@@ -950,22 +979,6 @@ static HDCallViewController *_manger = nil;
     return _parentView;
 }
 
-
-/// 初始化屏幕分享view
-- (void)initBroadPickerView{
-    if (@available(iOS 12.0, *)) {
-        _broadPickerView = [[RPSystemBroadcastPickerView alloc] init];
-        _broadPickerView.preferredExtension = kScreenShareExtensionBundleId;
-        _broadPickerView.showsMicrophoneButton = NO;
-        _broadPickerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-        
-    } else {
-        // Fallback on earlier versions
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"屏幕共享不能使用", "leaveMessage.leavemsg.uploadattachment.failed")  withWindow:[UIApplication sharedApplication].keyWindow];
-        
-        
-    }
-}
 // 切换摄像头事件
 - (void)camBtnClicked:(UIButton *)btn {
 //    btn.selected = !btn.selected;
@@ -1503,14 +1516,25 @@ static HDCallViewController *_manger = nil;
 #else
 
 #endif
-#pragma mark - 屏幕共享相关
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+     if ([keyPath isEqualToString:@"text"]) {
+        NSString *string = change[NSKeyValueChangeNewKey];
+        if (self.hdSupendCustomView) {
+            [self.hdSupendCustomView  updateTimeText:string];
+        }
+        
+    }
+}
+#pragma mark ---------------------屏幕共享 相关 start-------------------------
+/// 注册屏幕共享通知
+- (void)registScreenShare{
+    // 注册屏幕分享的监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startScreenShare:) name:HDCEC_SCREENSHARE_STATRT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopScreenShare:) name:HDCEC_SCREENSHARE_STOP object:nil];
+}
 // 屏幕共享事件
 - (void)shareDesktopBtnClicked:(UIButton *)btn {
-
-    _shareBtn = btn;
-
-    _shareBtn.selected = _shareState;
-   
 #ifdef OnlineWhiteBoard
     if ([HDWhiteRoomManager shareInstance].roomState == YES) {
         [HDLog logD:@"HD===%s ===%@",__func__,NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")];
@@ -1521,62 +1545,49 @@ static HDCallViewController *_manger = nil;
 #else
 
 #endif
-   
-    //点击的时候先要 保存屏幕共享的数据
-    [[HDAgoraCallManager shareInstance] hd_saveShareDeskData:[HDAgoraCallManager shareInstance].keyCenter];
-   
-    //通过UserDefaults建立数据通道
-    [self setupUserDefaults];
-    for (UIView *view in _broadPickerView.subviews)
-    {
-        if ([view isKindOfClass:[UIButton class]])
-        {
-            //调起录像方法，UIControlEventTouchUpInside的方法看其他文章用的是UIControlEventTouchDown，
-            //我使用时用UIControlEventTouchUpInside用好使，看个人情况决定
-            [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
+    _shareBtn = btn;
+    _shareBtn.selected = _shareState;
+    if ([HDCECScreeShareManager shareInstance].isCecExtensionApp == NO) {
+        // 应用内
+        if ([HDCECScreeShareManager shareInstance].cecAvailable) {
+            NSLog(@"=======");
+        }else{
+            NSLog(@"未授权");
+            return;
         }
-    }
-    [HDLog logD:@"HD===%s 点击了屏幕共享事件",__func__];
-}
-
-
-#pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。
-// 录屏直播 主App和宿主App数据共享，通信功能实现 如果我们要将开始、暂停、结束这些事件以消息的形式发送到宿主App中，需要使用CFNotificationCenterGetDarwinNotifyCenter。
-- (void)setupUserDefaults{
-    // 通过UserDefaults建立数据通道，接收Extension传递来的视频帧
-  
-    [[HDAgoraCallManager shareInstance].userDefaults setObject:@{@"state":@"x"} forKey:kUserDefaultState];//给状态一个默认值
-    [[HDAgoraCallManager shareInstance].userDefaults addObserver:self forKeyPath:kUserDefaultState options:NSKeyValueObservingOptionNew context:KVOContext];
-//    [self.userDefaults addObserver:self forKeyPath:kUserDefaultFrame options:NSKeyValueObservingOptionNew context:KVOContext];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    if ([keyPath isEqualToString:kUserDefaultState]) {
-        NSDictionary *string = change[NSKeyValueChangeNewKey];
-        if ([string[@"state"] isEqual:@"初始化"]) {
-            //开启 RTC：外部视频输入通道，开始推送屏幕流（configLocalScreenPublish）
-            [HDLog logD:@"HD===%s 屏幕分享开始=%@",__func__,string];
-            _shareState= YES;
-            _shareBtn.selected = _shareState;
-            
-        }
-        if ([string[@"state"] isEqual:@"停止"]) {
-            //关闭 RTC：外部视频输入通道，停止推送屏幕流
-            [HDLog logD:@"HD===%s 屏幕分享停止=%@",__func__,string];
-            _shareState= NO;
-            //更改按钮的状态
-            _shareBtn.selected = _shareState;
-        }
-        return;
-    }else if ([keyPath isEqualToString:@"text"]) {
-        NSString *string = change[NSKeyValueChangeNewKey];
-        if (self.hdSupendCustomView) {
-            [self.hdSupendCustomView  updateTimeText:string];
-        }
+        [[HDCECScreeShareManager shareInstance] cec_app_startScreenCaptureCompletionHandler:^(NSError * _Nullable error) {
+            NSLog(@"=====%@",error);
+        }];
         
+    }else{
+        // 应用外
+        
+        // 创建 屏幕分享  这个说应用外分享
+        [[HDCECScreeShareManager shareInstance] cec_initBroadPickerView];
     }
 }
 
+/// 开启屏幕分享 修改状态
+/// @param noti
+- (void)startScreenShare:(NSNotification *) noti{
+    _shareState= YES;
+    _shareBtn.selected = _shareState;
+    
+}
+/// 关闭屏幕分享 修改状态
+/// @param noti
+- (void)stopScreenShare:(NSNotification *) noti{
+    _shareState= NO;
+    //更改按钮的状态
+    _shareBtn.selected = _shareState;
+}
+#pragma mark ---------------------屏幕共享 相关 end-----------------------------
+- (void)dealloc{
+    // 移除 通知
+    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDCEC_SCREENSHARE_STATRT object:nil];
+    [[NSNotificationCenter defaultCenter]  removeObserver:self name:HDCEC_SCREENSHARE_STOP object:nil];
+    
+}
 #pragma mark - Picture in picture  相关
 
 - (void)__enablePictureInPicture{

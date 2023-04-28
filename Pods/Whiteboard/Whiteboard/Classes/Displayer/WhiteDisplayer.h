@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SyncedStore
 /**
  * 获取 SyncedStore 对象
- * 注意 SyncedStore 只有在 `WhiteSdkConfiguration` 的 `enableSyncedStore` 为 true 的情况下才能正常使用
+ * 注意 SyncedStore 只有在 `WhiteSdkConfiguration` 的 `enableSyncedStore` 为  YES  的情况下才能正常使用
  */
 - (SyncedStore *)obtainSyncedStore;
 
@@ -213,6 +213,13 @@ NS_ASSUME_NONNULL_BEGIN
  @param completionHandler 你可以通过该接口获取 `getSceneSnapshotImage` 方法的调用结果：
  */
 - (void)getSceneSnapshotImage:(NSString *)scenePath completion:(void (^)(UIImage * _Nullable image))completionHandler;
+
+/**
+   获取当前的白板截图
+ 
+   **NOTE:** 该方法得到的截图尺寸为当前的白板视图大小。
+ */
+- (void)getLocalSnapShotWithCompletion:(void(^)(UIImage * _Nullable image, NSError * _Nullable error))completionHandler;
 
 /**
  获取当前的 WindowManager

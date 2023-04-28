@@ -12,15 +12,16 @@
 #import "HDVECAgoraCallManagerDelegate.h"
 #import "HDVECInitLayoutModel.h"
 #import "HDVECEnterpriseInfo.h"
+#import "HDCallAppManger.h"
+#import "HDVECCallInputModel.h"
 
-#define kCamViewTag 100001
 NS_ASSUME_NONNULL_BEGIN
-static NSString * _Nonnull kVECUserDefaultState = @"VEC_KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
-
+static NSString * _Nonnull kVECUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
 static NSString * _Nonnull kVECAppGroup = @"group.com.easemob.kf.demo.customer";
-static void *VECKVOContext = &VECKVOContext;
+
 @interface HDVECAgoraCallManager : NSObject
 @property (strong, nonatomic) AgoraRtcEngineKit *agoraKit;
+@property (strong, nonatomic) AgoraScreenCaptureParameters2 * screenCaptureParams;
 @property (nonatomic, weak) id <HDVECAgoraCallManagerDelegate> roomDelegate;
 @property (nonatomic, strong) HDKeyCenter *keyCenter;
 @property (nonatomic, strong) NSString *conversationId;
@@ -29,8 +30,28 @@ static void *VECKVOContext = &VECKVOContext;
 @property (nonatomic, strong) UIViewController *currentVC;
 
 
+// 视频需要的必要参数
+//@property (nonatomic, strong) NSString *vec_configid;
+//@property (nonatomic, strong) NSString *vec_imServiceNum;
+//@property (nonatomic, strong) HDVisitorInfo *vec_visitorInfo;
+//@property (nonatomic, strong) NSString *vec_cecSessionId; // cec的会话id
+//@property (nonatomic, strong) NSString *vec_cecVisitorId; // cec的访客id
+@property (nonatomic, strong) HDVECCallInputModel *vec_inputModel; // vec 弹窗必要参数model
+@property (nonatomic, assign) BOOL vec_isAutoReport ; // 自动上报开关
+
+
 + (instancetype _Nullable )shareInstance;
 
+/// vec 视频界面的主入口
+/// @param model  vec  视频界面必要的参数
+
+- (void)vec_showMainWindowWithVideoInputModel:(HDVECCallInputModel *)model;
+
+
+
+/// 初始化排队界面数据 
+/// @param aCompletion 回调接口数据
+- (void)vec_initSetting:(NSString *)configid WithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion ;
 #pragma mark - Options
 /*!
  *  \~chinese
@@ -215,12 +236,7 @@ static void *VECKVOContext = &VECKVOContext;
 /// @param uid  远端的uid
 - (void)vec_setupRemoteVideoView:(UIView *)remoteView withRemoteUid:(NSInteger )uid;
 
-/// 初始化排队界面数据
-/// @param aCompletion 回调接口数据
-- (void)vec_initSettingWithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion ;
 
-/// 保存屏幕共享需要的数据
-- (void)vec_saveShareDeskData:(HDKeyCenter*)keyCenter;
 
 //摄像头控制相关
 ///isCameraTorchSupported    检查设备是否支持打开闪光灯
@@ -239,6 +255,20 @@ static void *VECKVOContext = &VECKVOContext;
 //cameraExposureDidChangedToRect    摄像头曝光区域已改变
 - (HDVECEnterpriseInfo *)vec_getEnterpriseInfo;
 - (void)vec_getConfigInfoCompletion:(void (^)(HDVECEnterpriseInfo * model, HDError * error))aCompletion;
+
+//文件相关
+//保存 数据
+-(void)vec_saveInitSettingData:(NSDictionary *)dic;
+//获取数据
+-(NSDictionary *)vec_getInitSettingData;
+- (HDVECInitLayoutModel *)setModel:(NSDictionary *)dic;
+/*!
+ *  \~chinese
+ *     上报 用户行为接口
+ */
+- (void)vec_sendReportEvent;
+
+- (void)vec_offlinReportEvent;
 @end
 
 NS_ASSUME_NONNULL_END

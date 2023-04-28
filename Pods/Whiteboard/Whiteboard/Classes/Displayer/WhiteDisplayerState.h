@@ -33,7 +33,7 @@ FOUNDATION_EXPORT WhiteWindowBoxState const WhiteWindowBoxStateMax;
 
  **Note:** 如果你使用 Swift，在配置 [WhiteGlobalState](WhiteGlobalState) 子类属性时，需要对属性添加 `@objc` 修饰符。
 
- @return 
+ @return 配置是否成功
  
   - `YES`：配置成功。
   - `No`：配置失败，恢复为 [WhiteGlobalState](WhiteGlobalState) 类。

@@ -284,8 +284,6 @@
 - (void)onAnswerClick:(UIButton *)sender{
     [self stopTimer];
     
-
-//    MBProgressHUD *hud = [MBProgressHUD showMessag:@"" toView:self];
     [MBProgressHUD showHUDAddedTo:self animated:YES];
     if (self.clickVideoAnswerCallBlock) {
         self.clickVideoAnswerCallBlock(sender);

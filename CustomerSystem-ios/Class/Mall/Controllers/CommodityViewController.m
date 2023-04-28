@@ -11,6 +11,9 @@
 #import "LocalDefine.h"
 #import "CustomButton.h"
 #import "UIImage+HDIconFont.h"
+#import "HDVECCallInputModel.h"
+#import "CSDemoAccountManager.h"
+#import "MBProgressHUD+Add.h"
 @interface CommodityViewController ()
 {
     UIScrollView *_scrollView;
@@ -147,6 +150,42 @@
 }
 - (void)vecAction
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_VEC object:self.commodityInfo];
+    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+    HDVECCallInputModel * model = [[HDVECCallInputModel alloc] init];
+    model.videoInputType = HDCallVideoInputDefault;
+    
+    HDVisitorInfo *v=[[HDVisitorInfo alloc] init];
+    v.nickName = @"我是访客";
+    model.visitorInfo = lgM.visitorInfo;
+    model.vec_imServiceNum = lgM.cname;
+    model.vec_configid = lgM.configId;
+    
+    if (!model.vec_configid && model.vec_configid.length == 0) {
+        [MBProgressHUD dismissInfo:NSLocalizedString(@"未绑定正确的关联信息", @"未绑定正确的关联信息")];
+        return;
+    }
+    
+    [HDLog logD:@"HD===%s chatAction",__FUNCTION__];
+    __weak typeof(self) weakSelf = self;
+    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:self.view.superview];
+    __weak MBProgressHUD *weakHud = hud;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
+        if ([lgM loginKefuSDK]) {
+            hd_dispatch_main_async_safe(^(){
+                [weakHud hideAnimated:YES];
+                [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_VEC object:model];
+            });
+        } else {
+            hd_dispatch_main_async_safe(^(){
+                [weakHud hideAnimated:YES];
+                [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
+            });
+            NSLog(@"登录失败");
+        }
+    });
+   
 }
+
 @end

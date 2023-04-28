@@ -44,7 +44,8 @@ static NSMutableArray* assertableMethodNames;
              @"setDrawOnlyApplePencil",
              @"disableDeviceInputs",
              @"disableEraseImage",
-             @"setPrefersColorScheme"];
+             @"setPrefersColorScheme",
+             @"setReloadFromMemoryIssueTimes"];
 }
 
 + (NSArray<NSString *>*)additionalDetectFunctions {

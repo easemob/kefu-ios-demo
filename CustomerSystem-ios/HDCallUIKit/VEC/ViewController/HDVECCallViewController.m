@@ -30,6 +30,7 @@
 #import "HDVECSatisfactionView.h"
 #import "HDVECMessageView.h"
 #import "HDVECCallChatViewController.h"
+#import "HDVECScreeShareManager.h"
 
 //白板相关
 #ifdef HDVECWhiteBoard
@@ -40,11 +41,8 @@
 
 #endif
 
-#define kLocalUid 1111111 //设置真实的本地的uid
+#define kLocalUid 1111111 //设置本地的uid
 #define kLocalWhiteBoardUid 222222 //设置虚拟白板uid
-#define kCamViewTag 100001
-#define kScreenShareExtensionBundleId @"com.easemob.kf.demo.customer.shareWindow"
-#define kNotificationShareWindow kScreenShareExtensionBundleId
 #define kPointHeight [UIScreen mainScreen].bounds.size.width *0.9
 
 #define kHDVideoMessageHeight [UIScreen mainScreen].bounds.size.height * 0.8
@@ -190,6 +188,7 @@ static HDVECCallViewController *_manger = nil;
     [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
     
     
+    
 }
 - (void)removeAllSubviews {
     while (_manger.alertWindow.subviews.count) {
@@ -225,8 +224,6 @@ static HDVECCallViewController *_manger = nil;
     
 }
 - (void)showViewWithKeyCenter:(HDKeyCenter *)keyCenter withType:(HDVECCallType)type withVisitornickName:(nonnull NSString *)aNickname{
-    [HDVECAgoraCallManager shareInstance].currentVC = self;
-    [HDCallManager shareInstance].isVecVideo = YES;
     [HDLog logD:@"HD===%s vec1.2=====收到坐席回呼cmd消息 拿到keyCenter:%@",__func__,keyCenter];
     // 获取企业信息
     [self getConfigInfoVisitorNickName:aNickname];
@@ -254,6 +251,8 @@ static HDVECCallViewController *_manger = nil;
             if (keyCenter.isAgentCallBackReceive && !keyCenter.agoraAppid) {
                 //回呼过来的通话
              self.hdVideoAnswerView.callType = HDVECDirectionReceive;
+               
+                [HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum = keyCenter.imServiceNum;
                 
             // 其他情况下都是 坐席回拨过来的
             self.isVisitorSend = NO;
@@ -353,18 +352,6 @@ static HDVECCallViewController *_manger = nil;
     [HDClient.sharedClient.whiteboardManager addDelegate:self delegateQueue:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableDidSelected:) name:@"click" object:nil];
     [self.view addSubview:self.hdVideoAnswerView];
-    [self.hdVideoAnswerView mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.width.offset([UIScreen mainScreen].bounds.size.width * 0.8);
-//                make.height.offset([UIScreen mainScreen].bounds.size.width * 0.8 * 1.3);
-//        make.centerX.mas_equalTo(self.view);
-//        make.centerY.mas_equalTo(self.view);
-        make.top.offset(0);
-        make.bottom.offset(0);
-        make.leading.offset(0);
-        make.trailing.offset(0);
-               
-            }];
-
     self.isLandscape = NO;
     _videoViews = [NSMutableArray new];
     _videoItemViews = [NSMutableArray new];
@@ -373,61 +360,82 @@ static HDVECCallViewController *_manger = nil;
     allMembersDic = [NSMutableDictionary new];
   
     [HDVECAgoraCallManager shareInstance].roomDelegate = self;
+    // 注册屏幕共享通知
+    [self registScreenShare];
+    
+    [self setupNotifiers];
+    
+    
 }
 //
 -(void)clearViewData{
     
-    [_videoViews removeAllObjects];
-    [_videoItemViews removeAllObjects];
-    [_members removeAllObjects];
-    [_midelleMembers removeAllObjects];
-    [allMembersDic removeAllObjects];
-    [self clearQueueTask];
-    for (UIView *view in [self.view subviews]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_videoViews removeAllObjects];
+        [_videoItemViews removeAllObjects];
+        [_members removeAllObjects];
+        [_midelleMembers removeAllObjects];
+        [allMembersDic removeAllObjects];
+        [self clearQueueTask];
+        for (UIView *view in [self.view subviews]) {
 
-        if (![view isKindOfClass:[HDVECAnswerView class]]) {
-        
-            [view removeFromSuperview];
+            if (![view isKindOfClass:[HDVECAnswerView class]]) {
+            
+                [view removeFromSuperview];
+            }
         }
-    }
-    
-    self.barView = nil;
-    
-    self.midelleVideoView= nil;
-    
-    self.hdTitleView = nil;
+        
+        self.barView = nil;
+        self.midelleVideoView= nil;
+        self.hdTitleView = nil;
+        self.smallWindowView=nil;
+        self.itemView = nil;
+    #ifdef HDVECWhiteBoard
+        self.whiteBoardView = nil;
+    #else
 
-    self.smallWindowView=nil;
-#ifdef HDVECWhiteBoard
-    self.whiteBoardView = nil;
-#else
+    #endif
+        
+        [self.parentView removeFromSuperview];
+        self.parentView = nil;
+        self.view.backgroundColor = [[HDVECAppSkin mainSkin] contentColorBlockalpha:0.6];
+        self.isVisitorSend = NO;
+        _isCurrenDeviceFront = YES;
+        if (_isOcrCloseSwitchCamera) {
+            // 如果不是前置摄像头 需要自动切换摄像头
+            [[HDVECAgoraCallManager shareInstance] vec_switchCamera];
+            _isOcrCloseSwitchCamera = NO;
+        }
+        
+        if (self.hdVideoAnswerView.hidden) {
+        
+            self.hdVideoAnswerView.hidden = NO;
+        }
+        //隐藏 popervc
+        [self dismissHDPoperViewController];
+        
+        // 卡证识别相关
+        self.idCardScaningView = nil;
+        self.ocrView=nil;
+        self.hdVideoLinkMessagePush = nil;
+        self.hdSignView = nil;
+        
+    #ifdef HDVECWhiteBoard
+        //清理白板数据
+        [self clearWhiteBoardData];
+    #else
 
-#endif
+    #endif
+       
+        // 上报 离线行为
+        [[HDVECAgoraCallManager shareInstance] vec_offlinReportEvent];
+        
+        //结束的时候判断 是否在分享 如果在分享结束分享
+        
+    });
     
-    [self.parentView removeFromSuperview];
-    self.parentView = nil;
-    self.view.backgroundColor = [[HDVECAppSkin mainSkin] contentColorBlockalpha:0.6];
-    self.isVisitorSend = NO;
-    _isCurrenDeviceFront = YES;
-    if (_isOcrCloseSwitchCamera) {
-        // 如果不是前置摄像头 需要自动切换摄像头
-        [[HDVECAgoraCallManager shareInstance] vec_switchCamera];
-        _isOcrCloseSwitchCamera = NO;
-    }
-    
-    if (self.hdVideoAnswerView.hidden) {
-    
-        self.hdVideoAnswerView.hidden = NO;
-    }
-    //隐藏 popervc
-    [self dismissHDPoperViewController];
-#ifdef HDVECWhiteBoard
-    //清理白板数据
-    [self clearWhiteBoardData];
-#else
-
-#endif
    
+
    
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -435,10 +443,6 @@ static HDVECCallViewController *_manger = nil;
     [self.view hideKeyBoard];
 }
 
-/// 初始化屏幕分享
-- (void)initScreenShare{
-    [self initBroadPickerView];
-}
 -(void)initData{
     HDVECControlBarModel * barModel = [HDVECControlBarModel new];
     barModel.itemType = HDVECControlBarItemTypeMute;
@@ -489,6 +493,29 @@ static HDVECCallViewController *_manger = nil;
     HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
     if (grayModelShare.enable) {
         [selImageArr addObject:barModel3];
+        // 调用 接口 设置屏幕共享是应用内 还是应用外
+        [[HDClient sharedClient].callManager hd_getShareSreenSettingCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+            [HDVECScreeShareManager shareInstance].isVecExtensionApp = NO;
+            if (error==nil&& [responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                NSDictionary *dic = responseObject;
+                if ([[dic allKeys] containsObject:@"entities"] && [[dic valueForKey:@"entities"] isKindOfClass:[NSArray class]]) {
+
+                    NSArray * entities =[dic valueForKey:@"entities"];
+                    if (entities.count > 0) {
+                        NSDictionary * entitieDic = [entities firstObject];
+                        
+                        if ([[entitieDic allKeys] containsObject:@"optionValue"]) {
+                            
+                            NSString * optionValue = [entitieDic valueForKey:@"optionValue"];
+                            if ([optionValue isEqualToString:@"true"]) {
+                                [HDVECScreeShareManager shareInstance].isVecExtensionApp = YES;
+                            }
+                        }
+                    }
+                }
+            }
+        }];
     }
     if (grayModelWhiteBoard.enable) {
         [selImageArr addObject:barModel4];
@@ -506,76 +533,6 @@ static HDVECCallViewController *_manger = nil;
     
     [self initSmallWindowData];
 }
-- (void)initDataNew{
-    HDVECControlBarModel * barModel = [HDVECControlBarModel new];
-    barModel.itemType = HDVECControlBarItemTypeMute;
-    barModel.name=@"";
-    barModel.imageStr= kmaikefeng1 ;
-    barModel.selImageStr= kjinmai;
-    
-    HDVECControlBarModel * barModel1 = [HDVECControlBarModel new];
-    barModel1.itemType = HDVECControlBarItemTypeVideo;
-    barModel1.name=@"";
-    barModel1.imageStr= kshexiangtou1 ;
-    barModel1.selImageStr=kguanbishexiangtou1;
-    
-    HDVECControlBarModel * barModel2 = [HDVECControlBarModel new];
-    barModel2.itemType = HDVECControlBarItemTypeHangUp;
-    barModel2.name=@"";
-    barModel2.imageStr=kguaduan1;
-    barModel2.selImageStr=kguaduan1;
-    barModel2.isHangUp = YES;
-    
-    HDVECControlBarModel * barModel3 = [HDVECControlBarModel new];
-    barModel3.itemType = HDVECControlBarItemTypeMessage;
-    barModel3.name=@"";
-    barModel3.imageStr=kxiaoxiguanli;
-    barModel3.selImageStr=kxiaoxiguanli;
-
-    HDVECControlBarModel * barModel4 = [HDVECControlBarModel new];
-    barModel4.itemType = HDVECControlBarItemTypeMore;
-    barModel4.name=@"";
-    barModel4.imageStr=kmore;
-    barModel4.selImageStr=kmore;
-//    HDVECControlBarModel * barModel3 = [HDVECControlBarModel new];
-//       barModel3.itemType = HDControlBarItemTypeShare;
-//       barModel3.name=@"";
-//       barModel3.imageStr=kpingmugongxiang2;
-//       barModel3.selImageStr=kpingmugongxiang2;
-//
-//       HDControlBarModel * barModel4 = [HDControlBarModel new];
-//       barModel4.itemType = HDControlBarItemTypeFlat;
-//       barModel4.name=@"";
-//       barModel4.imageStr=kbaiban;
-//       barModel4.selImageStr=kbaiban;
-    
-    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2,barModel3,barModel4, nil];
-//    NSMutableArray * selImageArr = [NSMutableArray arrayWithObjects:barModel,barModel1,barModel2, nil];
-       
-//    HDGrayModel * grayModelWhiteBoard =  [[HDCallManager shareInstance] getGrayName:@"whiteBoard"];
-//    HDGrayModel * grayModelShare =  [[HDCallManager shareInstance] getGrayName:@"shareDesktop"];
-//    if (grayModelShare.enable) {
-//        [selImageArr addObject:barModel3];
-//    }
-//    if (grayModelWhiteBoard.enable) {
-//        [selImageArr addObject:barModel4];
-//    }
-
-// NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDControlBarButtonStyleVideo] ;
-    NSMutableArray * barArray = [self.barView hd_buttonFromArrBarModels:selImageArr view:self.barView withButtonType:HDVECControlBarButtonStyleVideoNew] ;
-
-   _cameraBtn =  [self.barView hd_bttonWithTag:0 withArray:barArray];
-    
-    _muteBtn =  [self.barView hd_bttonMuteWithTag];
-    
-    _moreBtn =  [barArray lastObject];
-
-    
-    [self initSmallWindowData];
-
-    
-}
-
 - (void)initSmallWindowData{
     
     //初始化本地view
@@ -640,30 +597,25 @@ static HDVECCallViewController *_manger = nil;
 #pragma mark - 各种挂断场景
 // 坐席主动 挂断 结束回调
 - (void)onCallEndReason:(NSString *)desc {
-    [self.hdTitleView stopTimer];
-    isCalling = NO;
+   
     [[HDVECAgoraCallManager shareInstance] vec_leaveChannel];
     [self hangUpclearViewData];
 }
 /// 接通后 挂断
 /// @param sender button
 - (void)callingHangUpBtn:(UIButton *)sender{
-    [HDLog logD:@"HD===%s vec1.2=====callingHangUpBtn 接通后主动点击挂断",__func__];
-    isCalling = NO;
     //挂断和拒接 都走这个
     [[HDVECAgoraCallManager shareInstance] vec_normalEndCall];
-    [self.hdTitleView stopTimer];
-    [self clearViewData];
-    [self.hdVideoAnswerView endCallLayout];
+    [self hangUpclearViewData];
 }
 
 //mark vec 独立访客端 收到坐席拒绝接通的邀请
-- (void)onCallHangUpInvitation{
+- (void)onCallHangUpInvitationWithMessage:(HDMessage *)message{
     
     [self offBtnClicked:nil];
     
 }
-- (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid{
+- (void)onCallReceivedInvitation:(NSString *)thirdAgentNickName withUid:(NSString *)uid withMessage:(HDMessage *)message{
     [HDLog logD:@"HD===%s vec1.2=====onCallReceivedInvitation _thirdAgentUid=%@",__func__,uid];
     _thirdAgentNickName = thirdAgentNickName;
     
@@ -948,19 +900,36 @@ static HDVECCallViewController *_manger = nil;
     
 - (void)createVideoCall{
     //这个地方是真正发消息邀请视频的代码
-    
     self.isVisitorSend = YES;
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    [HDCallManager shareInstance].isVecVideo= YES;
-    HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImId:lgM.cname content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
-    [message addContent:lgM.visitorInfo];
+    HDMessage *message = [HDClient.sharedClient.callManager vec_creteVideoInviteMessageWithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
 
-    [self _sendMessage:message];
-
+    // 如果是cec 跳转到vec 场景 一定要 传下边的场景
+    if ([HDVECAgoraCallManager shareInstance].vec_inputModel.videoInputType == HDCallVideoInputGuidance) {
+        NSMutableDictionary * mDic = [NSMutableDictionary dictionary];
+        [mDic hd_setValue:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_cecSessionId forKey:@"relatedSessionId"];
+        [mDic hd_setValue:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_cecVisitorId forKey:@"relatedVisitorUserId"];
+        [mDic hd_setValue:[HDVECAgoraCallManager shareInstance].vec_inputModel.cec_imServiceNum forKey:@"relatedImServiceNum"];
+        //source 必须传一个类型 要不 后端不能存relatedSessionId 值
+        [mDic hd_setValue:@"relatedSession" forKey:@"source"];
+        NSDictionary *sessionExt = @{@"sessionExt":mDic};
+        [message addAttributeDictionary:sessionExt];
+    }
+    
+    [[HDClient sharedClient].chatManager sendMessage:message
+                                            progress:nil
+                                          completion:^(HDMessage *message, HDError *error)
+     {
+        [HDLog logD:@"HD===error=%@",error];
+        // 上报接口用户活跃
+        [HDVECAgoraCallManager shareInstance].vec_isAutoReport = YES;
+        [[HDVECAgoraCallManager shareInstance] vec_sendReportEvent];
+    }];
+    
+   
+    
 }
 - (void)_sendMessage:(HDMessage *)aMessage
 {
-    
     [[HDClient sharedClient].chatManager sendMessage:aMessage
                                             progress:nil
                                           completion:^(HDMessage *message, HDError *error)
@@ -1005,22 +974,15 @@ static HDVECCallViewController *_manger = nil;
 
 - (HDVECAnswerView *)hdVideoAnswerView{
    if (!_hdVideoAnswerView) {
-       _hdVideoAnswerView = [[HDVECAnswerView alloc]init];
-//       _hdVideoAnswerView.backgroundColor = [UIColor blackColor];
-//       _hdVideoAnswerView.layer.borderWidth = 1;
-//       _hdVideoAnswerView.layer.borderColor = [[HDAppSkin mainSkin] contentColorGrayWhithWite].CGColor;
-//       _hdVideoAnswerView.layer.cornerRadius = 10.0f;
-//       _hdVideoAnswerView.layer.masksToBounds = YES;
-//       _hdVideoAnswerView.layer.shadowOpacity = 0.5;
-//       _hdVideoAnswerView.layer.shadowRadius = 15;
+       _hdVideoAnswerView = [[HDVECAnswerView alloc]initWithFrame:self.view.bounds];
        __weak __typeof__(self) weakSelf = self;
        _hdVideoAnswerView.clickOnBlock = ^(UIButton * _Nonnull btn) {
 //           [weakSelf anwersBtnClicked:btn];
            // 如果是回呼需要点击接收的时候 发送cmd 通知
            if ([HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
-               //
-               CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-               HDMessage * message =  [[HDClient sharedClient].callManager hd_visitorAcceptInvitationMessageWithImId:lgM.cname content:@"访客接受视频邀请"];
+               
+               [HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum = [HDVECAgoraCallManager shareInstance].keyCenter.imServiceNum;
+               HDMessage * message =  [[HDClient sharedClient].callManager vec_visitorAcceptInvitationMessageWithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum content:@"访客接受视频邀请"];
                [weakSelf _sendMessage:message];
                
            }
@@ -1141,79 +1103,79 @@ static HDVECCallViewController *_manger = nil;
 /// @param sender  button
 - (void)anwersBtnClicked:(UIButton *)sender{
     
-    [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked "];
-    self.view.backgroundColor = [[HDVECAppSkin mainSkin] contentColorWhitealpha:1];
-    if (self.hdVideoAnswerView.answerCallBackView) {
-        [self.hdVideoAnswerView.answerCallBackView removeFromSuperview];
-        self.hdVideoAnswerView.answerCallBackView = nil;
-    }
-    self.hdVideoAnswerView.hidden = YES;
-    //应答的时候 在创建view
-    //添加 页面布局
-    [self addSubView];
-    //默认进来调用竖屏
-    [self updatePorttaitLayout];
-    [self initData];
-//    [self initDataNew];
-    [self setAcceptCallView];
-    [self.hdTitleView startTimer];
-    isCalling = YES;
-    _isCurrenDeviceFront = YES;
-    [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked 设置接口判断 "];
-    if ([HDVECAgoraCallManager shareInstance].layoutModel.isVisitorCameraOff) {
-        
-        [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked 设置接口进入"];
-        
-        [self closeCamera];
-        _muteBtn.selected =YES;
-        [self muteBtnClicked:_muteBtn];
-    }
-    
     [[HDVECAgoraCallManager shareInstance] vec_acceptCallWithNickname:self.agentName
                                                         completion:^(id obj, HDError *error)
      {
-      
-        if (error == nil){
-            
-        }else{
-            [HDLog logD:@"HD===anwersBtnClicked=dispatch_async%d",error.code];
-            // 加入失败 或者视频网络断开
-            dispatch_async(dispatch_get_main_queue(), ^{
-               // UI更新代码
-                [self hangUpclearViewData];
-            });
-        }
-       
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error == nil){
+               
+                [self vec_acceptCall];
+                
+            }else{
+        
+                [HDLog logD:@"HD===anwersBtnClicked=dispatch_async=%d",error.code];
+                if (isCalling) {
+//                    [self callingHangUpBtn:nil];
+                }else{
+                    [self hangUpclearViewData];
+                }
+               
+            }
+           
+        });
+        
      }];
+}
+// 加入声网房间成功 开始初始化
+-(void)vec_acceptCall{
+    
+    [HDLog logD:@"HD=== 加入 声网房间成功============"];
+        self.view.backgroundColor = [[HDVECAppSkin mainSkin] contentColorWhitealpha:1];
+        if (self.hdVideoAnswerView.answerCallBackView) {
+            [self.hdVideoAnswerView.answerCallBackView removeFromSuperview];
+            self.hdVideoAnswerView.answerCallBackView = nil;
+        }
+        self.hdVideoAnswerView.hidden = YES;
+        //应答的时候 在创建view
+        //添加 页面布局
+        [self addSubView];
+        //默认进来调用竖屏
+        [self updatePorttaitLayout];
+        [self initData];
+        [self setAcceptCallView];
+        [self.hdTitleView startTimer];
+        isCalling = YES;
+        _isCurrenDeviceFront = YES;
+        [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked 设置接口判断 "];
+        if ([HDVECAgoraCallManager shareInstance].layoutModel.isVisitorCameraOff) {
+            
+            [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 anwersBtnClicked 设置接口进入"];
+            [self closeCamera];
+            _muteBtn.selected =YES;
+            [self muteBtnClicked:_muteBtn];
+        }
 }
 
 - (void)hangUpclearViewData{
+    [self.hdTitleView stopTimer];
+    isCalling = NO;
     [self clearViewData];
-    // 把vec 置为初始值
-    if ([HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive && [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCancelCallbackReceive ) {
-    
-        
-    }else{
-        
-//        [CSDemoAccountManager shareLoginManager].isVEC = NO;
-        [HDClient sharedClient].callManager.isVecVideo = NO;
-    }
-    
     [self.hdVideoAnswerView endCallLayout];
-
-  
     
 }
 
 /// 拒接事件
 /// @param sender button
 - (void)offBtnClicked:(UIButton *)sender{
-    isCalling = NO;
+    
+    [self hangUpclearViewData];
+    
     // 如果是回呼需要点击接收的时候 发送cmd 通知
     if ([HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive) {
-        //
-        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-       HDMessage *message=  [[HDClient sharedClient].callManager hd_visitorRejectInvitationMessageWithImId:lgM.cname content:@"访客接受视频邀请"];
+
+        [HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum =[HDVECAgoraCallManager shareInstance].keyCenter.imServiceNum;
+        HDMessage *message=  [[HDClient sharedClient].callManager vec_agentCallBackVisitorRejectInvitationMessageWithRtcSessionId:[HDClient sharedClient].callManager.rtcSessionId withImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum content:@"访客接受视频邀请"];
+        
         [self _sendMessage:message];
         [HDVECAgoraCallManager shareInstance].keyCenter.isAgentCallBackReceive = NO;
         [[HDVECCallViewController sharedManager]  removeView];
@@ -1221,19 +1183,15 @@ static HDVECCallViewController *_manger = nil;
         return;
     }
 
+     //振铃放弃 调用
     [[HDVECAgoraCallManager shareInstance] vec_ringGiveUp];
-    [self.hdTitleView stopTimer];
-    
-    [self clearViewData];
-    
-    [self.hdVideoAnswerView endCallLayout];
-
+  
     if (self.hdVideoAnswerView.hidden) {
         
         self.hdVideoAnswerView.hidden = NO;
 
     }
-    
+  
 }
 - (UIView *)parentView{
     
@@ -1245,22 +1203,6 @@ static HDVECCallViewController *_manger = nil;
     
 }
 
-
-/// 初始化屏幕分享view
-- (void)initBroadPickerView{
-    if (@available(iOS 12.0, *)) {
-        _broadPickerView = [[RPSystemBroadcastPickerView alloc] init];
-        _broadPickerView.preferredExtension = kScreenShareExtensionBundleId;
-        _broadPickerView.showsMicrophoneButton = NO;
-        _broadPickerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-        
-    } else {
-        // Fallback on earlier versions
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.screenShareExtension", "video.screenShareExtension")  withWindow:self.alertWindow];
-        
-        
-    }
-}
 // 切换摄像头事件
 - (void)camBtnClicked:(UIButton *)btn {
     [[HDVECAgoraCallManager shareInstance] vec_switchCamera];
@@ -1364,11 +1306,8 @@ static HDVECCallViewController *_manger = nil;
           
         }
     }else if(popover.popoverType == HDVECPopoverTypeMore){
-        
         //点击了更多
         [self clickPopoverMore:indexpath withItemModel:item];
-      
-        
     }
 }
 - (void)closeCamera{
@@ -1403,7 +1342,6 @@ static HDVECCallViewController *_manger = nil;
 
 // 成员加入回调
 - (void)onMemberJoin:(HDVECAgoraCallMember *)member {
-    [HDLog logD:@"HD===join 成员加入回调----start =%@",member.memberName];
     // 有 member 加入，添加到datasource中。
     if (isCalling) { // 只有在已经通话中的情况下，才回去在ui加入，否则都在接听时加入。
         [HDLog logD:@"HD===join 成员加入回调----isCalling =%@",member.memberName];
@@ -1411,25 +1349,24 @@ static HDVECCallViewController *_manger = nil;
             BOOL isNeedAdd = YES;
             for (HDVECCollectionViewCellItem *item in _midelleMembers) {
         
-                [HDLog logD:@"HD===join 成员加入回调----isCalling @synchronized for循环开始=%@",item.uid];
                 if (item.uid  == [member.memberName integerValue] ) {
                     isNeedAdd = NO;
                     break;
                 }
             }
-            [HDLog logD:@"HD===join 成员加入回调----isCalling @synchronized for循环结束=%@",member.memberName];
+           
             if (isNeedAdd) {
-                [HDLog logD:@"HD===join 成员加入回调----isCalling isNeedAdd start=%@",member.memberName];
+                
                 if (_midelleMembers.count > 0) {
 
-                    [HDLog logD:@"HD===join 成员加入回调----isCalling _midelleMembers=%@",member.memberName];
+                    
                     UIView * localView = [[UIView alloc] init];
                     HDVECCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:localView];
                     [self.smallWindowView  setThirdUserdidJoined:thirdItem];
                    
                 }else{
     
-                    [HDLog logD:@"HD===join 成员加入回调----isCalling isNeedAdd=%d",isNeedAdd];
+                
                     HDVECCollectionViewCellItem * thirdItem = [self createCallerWithMember2:member withView:self.midelleVideoView];
                     [_midelleMembers addObject: thirdItem];
                 }
@@ -1438,7 +1375,7 @@ static HDVECCallViewController *_manger = nil;
         };
         
 
-        [HDLog logD:@"HD===join 成员加入回调----@synchronized 加入成员结束- 开始执行updateThirdAgent= %@",member.memberName];
+        
         [self updateThirdAgent];
      //刷新 collectionView
         [self.smallWindowView reloadData];
@@ -1596,6 +1533,87 @@ static HDVECCallViewController *_manger = nil;
     }
     
 }
+
+#pragma mark ---------------------屏幕共享 相关 start----------------------
+/// 注册屏幕共享通知
+- (void)registScreenShare{
+    // 注册屏幕分享的监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vec_startScreenShare:) name:HDVEC_SCREENSHARE_STATRT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vec_stopScreenShare:) name:HDVEC_SCREENSHARE_STOP object:nil];
+}
+// 屏幕共享事件
+- (void)shareDesktopBtnClicked:(UIButton *)btn {
+#ifdef HDVECWhiteBoard
+    if ([HDVECWhiteRoomManager shareInstance].roomState == YES) {
+        //当前正在白板房间
+        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")  withWindow:self.alertWindow];
+        return;
+    }
+#else
+
+#endif
+    
+    _shareBtn = btn;
+    _shareBtn.selected = _shareState;
+        if (![HDVECScreeShareManager shareInstance].isVecExtensionApp) {
+            
+            // 应用内
+            if ([HDVECScreeShareManager shareInstance].vecAvailable) {
+                
+                NSLog(@"=======");
+                
+            }else{
+                NSLog(@"未授权");
+                return;
+                
+            }
+           
+            [[HDVECScreeShareManager shareInstance] vec_app_startScreenCaptureCompletionHandler:^(NSError * _Nullable error) {
+                
+                
+                NSLog(@"=====%@",error);
+                
+            }];
+            
+        }else{
+            // 应用外
+            
+            // 创建 屏幕分享  这个说应用外分享
+            [[HDVECScreeShareManager shareInstance] vec_initBroadPickerView];
+        }
+}
+
+/// 开启屏幕分享 修改状态
+/// @param noti
+- (void)vec_startScreenShare:(NSNotification *) noti{
+    _shareState= YES;
+    _shareBtn.selected = _shareState;
+    
+    [self __enablePictureInPictureZoom];
+    [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.startScreenShare", "开启屏幕共享")  withWindow:self.alertWindow];
+    
+}
+/// 关闭屏幕分享 修改状态
+/// @param noti
+- (void)vec_stopScreenShare:(NSNotification *) noti{
+    _shareState= NO;
+    //更改按钮的状态
+    _shareBtn.selected = _shareState;
+    [MBProgressHUD  dismissInfo:NSLocalizedString(@"video.stopScreenShare", "关闭屏幕共享")  withWindow:self.alertWindow];
+    
+}
+#pragma mark ---------------------屏幕共享 相关 end----------------------
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+     if ([keyPath isEqualToString:@"text"]) {
+        NSString *string = change[NSKeyValueChangeNewKey];
+        if (self.hdSupendCustomView) {
+            [self.hdSupendCustomView  updateTimeText:string];
+        }
+    }
+}
+
+
 #ifdef HDVECWhiteBoard
 
 #pragma mark -  互动白板 相关
@@ -1864,83 +1882,6 @@ static HDVECCallViewController *_manger = nil;
    
 }
 
-#pragma mark - 屏幕共享相关
-// 屏幕共享事件
-- (void)shareDesktopBtnClicked:(UIButton *)btn {
-    
-    _shareBtn = btn;
-    _shareBtn.selected = _shareState;
-#ifdef HDVECWhiteBoard
-    if ([HDVECWhiteRoomManager shareInstance].roomState == YES) {
-        //当前正在白板房间
-        [MBProgressHUD  dismissInfo:NSLocalizedString(@"video_call_whiteBoard_not_shareScreen", "video_call_whiteBoard_not_shareScreen")  withWindow:self.alertWindow];
-        return;
-    }
-#else
-
-#endif
-    /// 初始化屏幕分享
-    [self initScreenShare];
-    
-    //点击的时候先要 保存屏幕共享的数据
-    [[HDVECAgoraCallManager shareInstance] vec_saveShareDeskData:[HDVECAgoraCallManager shareInstance].keyCenter];
-    
-    sleep(0.5);
-    //通过UserDefaults建立数据通道
-    [self setupUserDefaults];
-    for (UIView *view in _broadPickerView.subviews)
-    {
-        if ([view isKindOfClass:[UIButton class]])
-        {
-            //调起录像方法，UIControlEventTouchUpInside的方法看其他文章用的是UIControlEventTouchDown，
-            //我使用时用UIControlEventTouchUpInside用好使，看个人情况决定
-            [(UIButton*)view sendActionsForControlEvents:UIControlEventTouchUpInside];
-        }
-    }
-    NSLog(@"点击了屏幕共享事件");
-    [HDLog logD:@"HD===点击了屏幕共享事件"];
-}
-
-
-#pragma mark - 进程间通信-CFNotificationCenterGetDarwinNotifyCenter 使用之前，需要为container app与extension app设置 App Group，这样才能接收到彼此发送的进程间通知。
-// 录屏直播 主App和宿主App数据共享，通信功能实现 如果我们要将开始、暂停、结束这些事件以消息的形式发送到宿主App中，需要使用CFNotificationCenterGetDarwinNotifyCenter。
-- (void)setupUserDefaults{
-    // 通过UserDefaults建立数据通道，接收Extension传递来的视频帧
-  
-    [[HDVECAgoraCallManager shareInstance].userDefaults setObject:@{@"state":@"x"} forKey:kVECUserDefaultState];//给状态一个默认值
-    [[HDVECAgoraCallManager shareInstance].userDefaults addObserver:self forKeyPath:kVECUserDefaultState options:NSKeyValueObservingOptionNew context:VECKVOContext];
-//    [self.userDefaults addObserver:self forKeyPath:kUserDefaultFrame options:NSKeyValueObservingOptionNew context:KVOContext];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    if ([keyPath isEqualToString:kVECUserDefaultState]) {
-        NSDictionary *string = change[NSKeyValueChangeNewKey];
-        if ([string[@"state"] isEqual:@"初始化"]) {
-            //开启 RTC：外部视频输入通道，开始推送屏幕流（configLocalScreenPublish）
-//            [self screenShareStart];
-            
-            NSLog(@"== 屏幕分享开始=====%@",string);
-            _shareState= YES;
-            _shareBtn.selected = _shareState;
-        
-        }
-        if ([string[@"state"] isEqual:@"停止"]) {
-            //关闭 RTC：外部视频输入通道，停止推送屏幕流
-//            [self screenShareStop];
-            NSLog(@"== 屏幕分享停止=====%@",string);
-            _shareState= NO;
-            //更改按钮的状态
-            _shareBtn.selected = _shareState;
-        }
-        return;
-    }else if ([keyPath isEqualToString:@"text"]) {
-        NSString *string = change[NSKeyValueChangeNewKey];
-        if (self.hdSupendCustomView) {
-            [self.hdSupendCustomView  updateTimeText:string];
-        }
-        
-    }
-}
 #pragma mark - Picture in picture  相关
 
 - (void)__enablePictureInPicture{
@@ -2120,10 +2061,9 @@ static HDVECCallViewController *_manger = nil;
     self.alertWindow.hidden = NO;
     self.view.hidden = NO;
     _hdSupendCustomView.hidden = !self.view.hidden;
-    [self.hdTitleView.timeLabel removeObserver:self forKeyPath:@"text"];
+//    [self.hdTitleView.timeLabel removeObserver:self forKeyPath:@"text"];
     
     [self cancelWindow];
-
 }
 - (void)dragToTheLeft{
     NSLog(@"左划到左边框了");
@@ -2152,7 +2092,6 @@ static HDVECCallViewController *_manger = nil;
     _hdSupendCustomView.hidden = !self.view.hidden;
 
     [self.hdTitleView.timeLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
-  
 }
 
 #pragma mark --vec 1.3 相关
@@ -2160,7 +2099,7 @@ static HDVECCallViewController *_manger = nil;
 
 #pragma mark - 收到cmd 各种通知 原子化能力
 //mark vec 1.3 独立访客端 收到坐席 签名
-- (void)onCallSignIdentify:(NSDictionary *)dic{
+- (void)onCallSignIdentify:(NSDictionary *)dic withMessage:(HDMessage *)message{
     if (!isCalling) {
         return;
     }
@@ -2178,7 +2117,7 @@ static HDVECCallViewController *_manger = nil;
     }];
 }
 //mark vec 1.3 独立访客端 收到坐席 身份认证
-- (void)onCallFaceIdentify:(NSDictionary *)dic{
+- (void)onCallFaceIdentify:(NSDictionary *)dic withMessage:(HDMessage *)message{
     if (!isCalling) {
         return;
     }
@@ -2195,7 +2134,7 @@ static HDVECCallViewController *_manger = nil;
     }
 }
 //mark vec 1.3 独立访客端 收到坐席 ocr 识别
-- (void)onCallLOcrIdentify:(NSDictionary *)dic{
+- (void)onCallLOcrIdentify:(NSDictionary *)dic withMessage:(HDMessage *)message{
     if (!isCalling) {
         return;
     }
@@ -2212,7 +2151,7 @@ static HDVECCallViewController *_manger = nil;
     }
 }
 
-- (void)onCallLinkMessagePush:(NSDictionary *)dic{
+- (void)onCallLinkMessagePush:(NSDictionary *)dic withMessage:(HDMessage *)message{
     if (!isCalling) {
         return;
     }
@@ -2384,7 +2323,7 @@ static HDVECCallViewController *_manger = nil;
     
     [self clearQueueTask];
     // 上报 信息推送
-    [[HDClient sharedClient].callManager hd_pushBusinessReportWithFlowId:_pushflowId withAction:@"infopush_end" withType:@"infopush" withUrl:@"" withContent:content Completion:^(id responseObject, HDError * error) {
+    [[HDClient sharedClient].callManager vec_pushBusinessReportImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum  WithFlowId:_pushflowId withAction:@"infopush_end" withType:@"infopush" withUrl:@"" withContent:content Completion:^(id responseObject, HDError * error) {
         
         NSLog(@"====%@",responseObject);
         
@@ -2504,7 +2443,7 @@ static HDVECCallViewController *_manger = nil;
 - (void)hdSignCompleteWithImage:(UIImage *)img base64Data:(nonnull NSData *)base64data{
     
     _hud = [MBProgressHUD showMessag:NSLocalizedString(@"", @"") toView:self.hdSignView];
-    [[HDClient sharedClient].callManager hd_commitSignData:base64data  WithVisitorId:@"" withFlowId:_signflowId  Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    [[HDClient sharedClient].callManager vec_commitSignData:base64data withImserviceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum withFlowId:_signflowId  Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         [_hud hideAnimated:YES];
         if (error ==nil) {
             
@@ -2581,7 +2520,7 @@ static HDVECCallViewController *_manger = nil;
  *  \~chinese
  *   麦克风 通知
  */
-- (void)onMuteLocalAudioStreamParameter:(NSDictionary *)dic{
+- (void)onMuteLocalAudioStreamParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
 
     if (dic && [[dic allKeys] containsObject:@"action"]) {
 
@@ -2602,7 +2541,7 @@ static HDVECCallViewController *_manger = nil;
  *  \~chinese
  *   摄像头
  */
-- (void)onMuteLocalVideoStreamParameter:(NSDictionary *)dic{
+- (void)onMuteLocalVideoStreamParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
     
     
     if (dic && [[dic allKeys] containsObject:@"action"]) {
@@ -2642,7 +2581,7 @@ static HDVECCallViewController *_manger = nil;
  *  \~chinese
  *   切换摄像头
  */
-- (void)onSwitchCameraParameter:(NSDictionary *)dic{
+- (void)onSwitchCameraParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
     
     [self camBtnClicked:_cameraBtn];
     
@@ -2653,7 +2592,7 @@ static HDVECCallViewController *_manger = nil;
  *  \~chinese
  *   对焦、
  */
-- (void)onFocusingOnParameter:(NSDictionary *)dic{
+- (void)onFocusingOnParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
     
     BOOL state = NO;
     NSString *content=@"";
@@ -2740,7 +2679,7 @@ static HDVECCallViewController *_manger = nil;
  *  \~chinese
  *  开关闪光灯  后置摄像头可用
  */
-- (void)onCameraTorchOnParameter:(NSDictionary *)dic{
+- (void)onCameraTorchOnParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
     
     [self onFlashlightWithCameraTorchWithAction:@"cameraTorchOncallback" withDic:dic];
 }
@@ -2752,7 +2691,7 @@ static HDVECCallViewController *_manger = nil;
  *    flashlight
  *    手电筒
  */
-- (void)onFlashlightParameter:(NSDictionary *)dic{
+- (void)onFlashlightParameter:(NSDictionary *)dic withMessage:(HDMessage *)message{
     
     [self onFlashlightWithCameraTorchWithAction:@"flashlightcallback" withDic:dic];
 }
@@ -2795,10 +2734,8 @@ static HDVECCallViewController *_manger = nil;
     
 }
 - (void)sendCmdMessageAction:(NSString *)action withOn:(BOOL)on withContent:(NSString *)content{
-    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
- 
-    HDMessage *message = [[HDClient sharedClient].callManager hd_visitorCallBackStateCmdMessageWithImId:lgM.cname withOn:on withAction:action content:content];
     
+    HDMessage *message = [[HDClient sharedClient].callManager vec_visitorCallBackStateCmdMessageWithImserviceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum withOn:on withAction:action content:content];
      [self _sendMessage:message];
 }
 
@@ -2895,7 +2832,6 @@ static HDVECCallViewController *_manger = nil;
         case  HDVECPopoverCellItemTypeShareScreen:
             //屏幕共享
             NSLog(@"=========点击了屏幕共享");
-            [self initScreenShare];
             _shareScreenCellItem = item;
             [self shareDesktopBtnClicked:nil];
             break;
@@ -3003,9 +2939,8 @@ static HDVECCallViewController *_manger = nil;
 - (HDVECCallChatViewController *)chat{
     
     if (!_chat) {
-        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-        _chat = [[HDVECCallChatViewController alloc] initWithConversationChatter:lgM.cname];
-        _chat.visitorInfo = CSDemoAccountManager.shareLoginManager.visitorInfo;
+        _chat = [[HDVECCallChatViewController alloc] initWithConversationChatter:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum];
+        _chat.visitorInfo = [HDVECAgoraCallManager shareInstance].vec_inputModel.visitorInfo;
     }
     
     return _chat;
@@ -3041,7 +2976,7 @@ static HDVECCallViewController *_manger = nil;
 - (void)initAnswerTimeOut{
     
     // 调用接口 获取 超时时间
-    [[HDCallManager shareInstance] hd_getVideoLineUpTimeOutCompletion:^(id  _Nonnull responseObject, NSError * _Nonnull error) {
+    [[HDCallManager shareInstance] hd_getVideoLineUpTimeOutCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
     }];
     
 }
@@ -3140,4 +3075,37 @@ static HDVECCallViewController *_manger = nil;
     
     return _queueArray;
 }
+
+
+// 监听系统生命周期回调，以便将需要的事件传给SDK
+- (void)setupNotifiers{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackgroundNotif:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
+
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidBecomeActiveNotif:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    
+   
+    
+
+}
+#pragma mark - notifiers
+- (void)appDidEnterBackgroundNotif:(NSNotification*)notif{
+    // 进入后台
+//    self.hdVideoAnswerView.hidden = YES;
+    
+}
+
+- (void)appDidBecomeActiveNotif:(NSNotification*)notif
+{
+  
+//    self.hdVideoAnswerView.hidden = YES;
+}
+
 @end

@@ -17,14 +17,10 @@
 #import "HDMessageViewController.h"
 #import "QRCodeViewController.h"
 #import "HConversationsViewController.h"
-//Online
-#import "HDCallViewController.h"
-#import "HDAgoraCallManager.h"
-#import "HDVECCallViewController.h"
-//#import "HDCloudDiskViewController.h"
-#import "HDVECAgoraCallManager.h"
 #import "MBProgressHUD+Add.h"
 #import "CustomerSystem_ios-Swift.h"
+#import "HDCallAppManger.h"
+
 #define kafterSale @"shouhou"
 #define kpreSale @"shouqian"
 //两次提示的默认间隔
@@ -47,8 +43,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;
 @property (strong, nonatomic) MoreChoiceView *choiceView;
-//online
-@property (strong, nonatomic) HDCallViewController *callViewController;
+
 
 @end
 
@@ -84,7 +79,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // 用于添加语音呼入的监听 onCallReceivedNickName:
+    // 用于添加语音呼入的监听 onCallReceivedParameter:
     [HDClient.sharedClient.callManager addDelegate:self delegateQueue:nil];
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
@@ -148,7 +143,21 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAction:) name:KNOTIFICATION_CHAT object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vecAction:) name:KNOTIFICATION_VEC object:nil];
+   
+
+    
+    [[HDClient sharedClient].chatManager getEnterpriseWelcomeWithCompletion:^(NSString *welcome, HDError *error) {
+
+        NSLog(@"==============%@",welcome);
+
+
+    }];
+    
+    // 使用HDCallUIKit中声网视频相关功能请一定注册这个通知
+    [[HDCallAppManger shareInstance] initAddCallObserver];
+    
+    
+    
 }
 - (void)testButton{
     
@@ -234,48 +243,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 {
     _window.hidden = YES;
 }
-- (void)vecAction:(NSNotification *)notification{
 
-    __weak typeof(self) weakSelf = self;
-    MBProgressHUD *hud = [MBProgressHUD showMessag:NSLocalizedString(@"Contacting...", @"连接客服") toView:self.view.superview];
-
-    __weak MBProgressHUD *weakHud = hud;
-        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-        if ([lgM loginKefuSDK]) {
-           
-            // 先判断扫码是否 正确 如果不正确 弹窗提示
-            if (!lgM.configId && lgM.configId.length == 0) {
-                [MBProgressHUD showSuccess:NSLocalizedString(@"未绑定正确的关联信息", @"未绑定正确的关联信息") toView:self.view.superview];
-                [weakHud hideAnimated:YES];
-                return;
-            }
-                //todo 创建视频等待界面  调用接口 vec 使用
-                [HDClient sharedClient].callManager.isVecVideo = YES;
-                [[HDVECAgoraCallManager shareInstance] vec_initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakHud hideAnimated:YES];
-                        [[HDVECCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVECDirectionSend withVisitornickName:lgM.nickname];
-                        [HDVECCallViewController sharedManager].hangUpVideoCallback = ^(HDVECCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-                            [[HDVECCallViewController sharedManager]  removeView];
-
-                            [[HDVECCallViewController sharedManager] removeSharedManager];
-
-                        };
-                    });
-                }];
-
-           
-        } else {
-            hd_dispatch_main_async_safe(^(){
-                [weakSelf showHint:NSLocalizedString(@"loginFail", @"login fail") duration:1];
-            });
-            NSLog(@"登录失败");
-        }
-//    });
-    isLogin = NO;
-    
-    
-}
 - (void)chatAction:(NSNotification *)notification
 {
     [HDLog logD:@"HD===%s chatAction",__FUNCTION__];
@@ -326,40 +294,7 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     isLogin = NO;
     
 }
-- (void)testBug{
-    
-   
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//
-//        CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-//
-//        [[HDClient sharedClient] loginWithUsername:lgM.username password:lgM.password completion:^(HDError *error) {
-//
-//
-//            NSLog(@"=======登录成功=");
-//
-//
-//        }];
-        
-        
-//        [[HDClient sharedClient] logout:YES completion:^(HDError *error) {
-//            
-//            NSLog(@"=======退出成功=");
-//            [[HDClient sharedClient] loginWithUsername:lgM.username password:lgM.password completion:^(HDError *error) {
-//                
-//                
-//                NSLog(@"=======登录成功=");
-//                
-//                
-//            }];
-//            
-//            
-//        }];
-       
-//    });
-    
-//    [self lxSendIMText];
-}
+
 - (void)setPushOptions {
 
     if ([[CSDemoAccountManager shareLoginManager] loginKefuSDK]) {
@@ -652,55 +587,25 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     
 }
 */
-// 收到im消息回调
-- (void)messagesDidIMReceive:(NSArray *)aMessages{
-    
-    NSLog(@"==========收到消息了messagesDidIMReceive");
-}
 
-
--(void)cmdMessagesDidReceive:(NSArray<EMChatMessage *> *)aCmdMessages{
-    
-    NSLog(@"==========收到消息了cmdMessagesDidReceive");
-    
-    
-}
-- (void)messagesDidReceive:(NSArray<EMChatMessage *> *)aMessages{
-
-
-    NSLog(@"==========收到消息了messagesDidIMReceive");
-
-}
 // 收到消息回调
-//- (void)messagesDidReceive:(NSArray *)aMessages {
-//
-//    if ([self isNotificationMessage:aMessages.firstObject]) {
-//
-//        return;
-//    }
-//#if !TARGET_IPHONE_SIMULATOR
-//    BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
-//    if (!isAppActivity) {
-//        [self _showNotificationWithMessage:aMessages];
-//    }else {
-//        [self _playSoundAndVibration];
-//    }
-//
-//
-//#endif
-//    [_conversationsVC refreshData];
-//}
+- (void)messagesDidReceive:(NSArray *)aMessages {
 
-//- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages{
-//    
-//    NSLog(@"收到消息=cmdMessagesDidReceive===%@",aCmdMessages);
-//    for (HDMessage *msg in aCmdMessages) {
-//        
-//        NSLog(@"收到消息=cmdMessagesDidReceive==msg.ext=%@",msg.ext);
-//        
-//    }
-//    
-//}
+    if ([self isNotificationMessage:aMessages.firstObject]) {
+
+        return;
+    }
+#if !TARGET_IPHONE_SIMULATOR
+    BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
+    if (!isAppActivity) {
+        [self _showNotificationWithMessage:aMessages];
+    }else {
+        [self _playSoundAndVibration];
+    }
+
+#endif
+    [_conversationsVC refreshData];
+}
 
 - (BOOL)isNotificationMessage:(HDMessage *)message {
     if (message.ext == nil) { //没有扩展
@@ -719,102 +624,12 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
     return NO;
 }
 
-
-#pragma mark - HDCallManagerDelegate
-- (void)onCallReceivedParameter:(HDKeyCenter *)keyCenter withMessage:(HDMessage *)message{
-    
-    [HDLog logI:@"================vec1.2=====onCallReceivedParameter= %@",[NSThread currentThread] ];
-    if ([HDClient sharedClient].callManager.isVecVideo) {
-       
-        [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息: "];
-        
-        if (keyCenter && keyCenter.isAgentCancelCallbackReceive) {
-            [[HDVECCallViewController sharedManager]  removeView];
-
-            [[HDVECCallViewController sharedManager] removeSharedManager];
-        }else{
-        
-        [[HDVECCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVECDirectionReceive withVisitornickName:keyCenter.visitorNickName];
-        [HDVECCallViewController sharedManager].hangUpVideoCallback = ^(HDVECCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-            [[HDVECCallViewController sharedManager]  removeView];
-
-            [[HDVECCallViewController sharedManager] removeSharedManager];
-
-        };
-        }
-    }else{
-        
-        
-        [HDLog logI:@"================vec1.1=====收到坐席回呼cmd消息: "];
-        //online
-        [[HDCallViewController sharedManager] showViewWithKeyCenter:keyCenter withType:HDVideoCallDirectionReceive];
-        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-
-            [[HDCallViewController sharedManager]  removeView];
-            [[HDCallViewController sharedManager] removeSharedManager];
-
-           };
-    }
-    
-}
 //声网
 - (void)agorademo{
-//    
-//    HDCloudDiskViewController * cloudDiskVC = [[HDCloudDiskViewController alloc] init];
-//    cloudDiskVC.modalPresentationStyle = UIModalPresentationFullScreen;
-//    [self presentViewController:cloudDiskVC animated:YES completion:nil];
-//
-//    return;
-//    HDFastboardViewController * agoraVC = [[HDFastboardViewController alloc] init];
-//    [self.navigationController pushViewController:agoraVC animated:YES];
-//
-//    return;
-//    HDKeyCenter * key = [[HDKeyCenter alloc] init];
-////
-//    
-//    HDCallViewController *hdCallVC = [HDCallViewController hasReceivedCallWithKeyCenter:key avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-////        [callVC dismissViewControllerAnimated:YES completion:nil];
-//    }];
-//        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
-//        [self presentViewController:hdCallVC animated:YES completion:nil];
-//
-//    
-//    return;
-    
-//    [self lxLogout];
-//          [self lxLogin];
-//    HDAgoraCallViewController * agoraVC = [[HDAgoraCallViewController alloc] init];
-//    [self.navigationController pushViewController:agoraVC animated:YES];
-//    HDAgoraCallViewController *hdCallVC = [HDAgoraCallViewController hasReceivedCallWithKeyCenter:nil avatarStr:@"HelpDeskUIResource.bundle/user" nickName:[CSDemoAccountManager shareLoginManager].nickname hangUpCallBack:^(HDAgoraCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-//
-//
-//        [callVC dismissViewControllerAnimated:YES completion:nil];
-//    }];
-    
-//    [hdCallVC dismissViewControllerAnimated:YES completion:nil];
-//        hdCallVC.modalPresentationStyle = UIModalPresentationFullScreen;
-//        [self presentViewController:hdCallVC animated:YES completion:nil];
-//    HDFastbordViewController * agoraVC = [[HDFastbordViewController alloc] init];
-//        [self.navigationController pushViewController:agoraVC animated:YES];
-    
-    
-    
-//   
 
-    [self testBug];
+    
     
 }
-//理想汽车crash
-//- (void)lxdemo{
-//
-//
-//    /
-//
-//
-////        [self lxLogout];
-////        [self lxLogin];
-//
-//}
 
 //退出IM【测试】
 -(void)lxLogout{
@@ -830,18 +645,16 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
 }
 //登录IM【测试】
 -(void)lxLogin{
-    NSString *username = @"shouqian";
+    NSString *username = @"100035767";
     HDClient *client = [HDClient sharedClient];
-//    [client loginWithUsername:username password:hxPassWord completion:^(HDError *error) {
-//        if (!error) { //IM登录成功
-//            NSLog(@"lx ----登录成功");
-//            [self lxSendText];
-//        } else { //登录失败
-//            NSLog(@"lx ----登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
-//        }
-//    }];
-    
-   
+    [client loginWithUsername:username password:@"111111" completion:^(HDError *error) {
+        if (!error) { //IM登录成功
+            NSLog(@"lx ----登录成功");
+            [self lxSendText];
+        } else { //登录失败
+            NSLog(@"lx ----登录失败 error code :%d,error description:%@",error.code,error.errorDescription);
+        }
+    }];
     
 }
 //登录绑定【测试】
@@ -868,9 +681,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             NSLog(@"====%@ ===%u",message,error.code);
 
         }];
-    
-    
-    
 }
 //发文本消息【测试】
 -(void)lxSendText{
@@ -930,20 +740,6 @@ static const CGFloat kDefaultPlaySoundInterval = 3.0;
             NSLog(@"lx ----发送消息失败 aError code :%d,aError description:%@",aError.code,aError.errorDescription);
         }
     }];
-}
-//online
--(HDCallViewController *)callViewController{
-    
-    if (!_callViewController) {
-        _callViewController = [HDCallViewController alertCallWithView:nil];
-        _callViewController.hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-            [callVC removeView];
-            _callViewController = nil;
-        };
-    }
-    
-    return _callViewController;
-    
 }
 
 

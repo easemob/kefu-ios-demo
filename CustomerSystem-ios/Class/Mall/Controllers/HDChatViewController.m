@@ -54,7 +54,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.showRefreshHeader = YES;
     self.delegate = self;
     self.dataSource = self;
     
@@ -74,32 +73,61 @@
     {
         
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cecAction:) name:@"hd_easemob_cec_call" object:nil];
 
 }
 
+- (void)cecAction:(NSNotification *)notification{
+    
+    [self cec_sendMessageVieo];
+    
+    
+}
 //请求视频通话
 - (void)moreViewVideoCallAction:(HDChatBarMoreView *)moreView {
     [self stopAudioPlayingWithChangeCategory:YES];
     
-    [HDClient sharedClient].callManager.isVecVideo = NO;
-    HDMessage *message = [HDClient.sharedClient.callManager creteVideoInviteMessageWithImId:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
+    HDMessage *message = [HDClient.sharedClient.callManager cec_creteVideoInviteMessageWithImServiceNum:self.conversation.conversationId content: NSLocalizedString(@"em_chat_invite_video_call", @"em_chat_invite_video_call")];
     [message addContent:[self visitorInfo]];
-    [self _sendMessage:message];
+    // 这个为了 界面上屏 消息 如果不需要上屏消息 可以不调用这个方法
+    [self addMessageToDataSource:message
+                        progress:nil];
+    
+    __weak typeof(self) weakself = self;
+    
+    [[HDClient sharedClient].chatManager sendMessage:message
+                                            progress:nil
+                                          completion:^(HDMessage *message, HDError *error)
+     {
+        if (!error) {
+            [weakself _refreshAfterSentMessage:message];
+            
+            [self cec_sendMessageVieo];
+        }
+        else {
+            [weakself.tableView reloadData];
+        }
+    }];
+}
 
-    //online
-    [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
-    [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
-        [[HDCallViewController sharedManager]  removeView];
+- (void)cec_sendMessageVieo{
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        //online
+        [[HDCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVideoCallDirectionSend];
+        [HDCallViewController sharedManager].hangUpCallback = ^(HDCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+            [[HDCallViewController sharedManager]  removeView];
 
-        [[HDCallViewController sharedManager] removeSharedManager];
-    };
+            [[HDCallViewController sharedManager] removeSharedManager];
+        };
+    });
+   
 }
 //发送文件消息
 - (void)moreViewFileAction:(HDChatBarMoreView *)moreView {
     
     [self presentDocumentPicker];
-    
-    
+
 //    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"doc"];
 //
 //    HDMessage *message = [HDMessage createFileSendMessageWithLocalPath:filePath displayName:@"123" to:self.conversation.conversationId];

@@ -12,6 +12,7 @@
 #import "SyncedStore+Private.h"
 
 @interface WhiteDisplayer ()
+
 @end
 
 @implementation WhiteDisplayer
@@ -219,6 +220,29 @@ static NSString * const kAsyncDisplayerNamespace = @"displayerAsync.%@";
         if (completionHandler) {
             completionHandler(image);
         }
+    }];
+}
+
+- (void)getLocalSnapShotWithCompletion:(void (^)(UIImage * _Nullable, NSError * _Nullable))completionHandler
+{
+    __weak typeof(self) weakSelf = self;
+    [self.bridge evaluateJavaScript:@"window.postMessage({type: '@slide/_request_frozen_'}, '*')" completionHandler:^(id _Nullable, NSError * _Nullable error) {
+        if (error) {
+            completionHandler(nil, error);
+            return;
+        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            WhiteBoardView *bridge = weakSelf.bridge;
+            CGSize whiteboardSize = bridge.bounds.size;
+            UIGraphicsBeginImageContextWithOptions(whiteboardSize, FALSE, UIScreen.mainScreen.scale);
+            [bridge drawViewHierarchyInRect:CGRectMake(0, 0, whiteboardSize.width, whiteboardSize.height) afterScreenUpdates:YES];
+            UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            completionHandler(snapshot, nil);
+            [bridge evaluateJavaScript:@"window.postMessage({type: '@slide/_request_release_'}, '*')" completionHandler:^(id _Nullable, NSError * _Nullable error) {
+                return;
+            }];
+        });
     }];
 }
 

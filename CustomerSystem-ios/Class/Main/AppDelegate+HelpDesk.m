@@ -52,11 +52,10 @@
     
 
     CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-    
     option.appkey = lgM.appkey;
-
     option.tenantId = lgM.tenantId;
     option.configId = lgM.configId;
+    
 //    option.kefuRestServer = @"https://sandbox.kefu.easemob.com";
 //    option.kefuRestServer = @"https://helps.live";
     option.enableConsoleLog = YES; // 是否打开日志信息
@@ -65,9 +64,7 @@
     option.visitorWaitCount = YES; // 打开待接入访客排队人数功能
     option.showAgentInputState = YES; // 是否显示坐席输入状态
     option.isAutoLogin = YES;
-    option.usingHttpsOnly = NO;
-    
-    
+
     HDClient *client = [HDClient sharedClient];
     
     //如果HDOptions 满足使用 initializeSDKWithOptions
@@ -94,9 +91,7 @@
         return;
     }
     [self registerEaseMobNotification];
-    
-//    sleep(1);
-    
+        
     [client.pushManager getPushNotificationOptionsFromServerWithCompletion:^(HDPushOptions * _Nonnull aOptions, HDError * _Nonnull aError) {
 
         NSLog(@"==========aErrorcode=%u==%@",aError.code,aError.description);
@@ -106,10 +101,10 @@
     [EMClient.sharedClient addDelegate:self delegateQueue:nil];
     [EMClient.sharedClient.chatManager addDelegate:self delegateQueue:nil];
     
-    //添加自定义小表情
-#pragma mark smallpngface
-    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
-    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[HDConvertToCommonEmoticonsHelper emotionsDictionary]];
+//    //添加自定义小表情
+//#pragma mark smallpngface
+//    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
+//    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[HDConvertToCommonEmoticonsHelper emotionsDictionary]];
 }
 
 -(void)messagesDidReceive:(NSArray<EMChatMessage *> *)aMessages{
@@ -141,8 +136,16 @@
     HDError *er = [client changeAppKey:lgM.appkey];
     if (er == nil) {
         NSLog(@"appkey 已更新");
+//        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"扫码成功 初始化数据已更新", @"扫码成功 初始化数据已更新") message:nil preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+//        [sure addAction:confirm];
+//        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
     } else {
         NSLog(@"appkey 更新失败,请手动重启");
+        UIAlertController *sure = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"appkey 更新失败,请手动重启", @"appkey 更新失败,请手动重启!") message:er.errorDescription preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", @"OK") style:UIAlertActionStyleDefault handler:nil];
+        [sure addAction:confirm];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:sure animated:true completion:nil];
     }
 }
 

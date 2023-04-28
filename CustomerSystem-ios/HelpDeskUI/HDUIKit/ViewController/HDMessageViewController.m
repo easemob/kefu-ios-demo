@@ -34,6 +34,8 @@
 #import "UIViewController+AlertController.h"
 #import "HRobotUnsolveItemView.h"
 #import "HDCustomEmojiManager.h"
+#import "HDVECAgoraCallManager.h"
+
 typedef enum : NSUInteger {
     HDRequestRecord,
     HDCanRecord,
@@ -57,6 +59,7 @@ typedef enum : NSUInteger {
 @implementation HDMessageViewController
 {
     NSString *_title;
+    NSTimer *_reportTimer;
 }
 
 @synthesize conversation = _conversation;
@@ -100,7 +103,12 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-   
+    //添加自定义小表情
+#pragma mark smallpngface
+    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapePattern:@"\\[[^\\[\\]]{1,3}\\]"];
+    [[HDEmotionEscape sharedInstance] setEaseEmotionEscapeDictionary:[HDConvertToCommonEmoticonsHelper emotionsDictionary]];
+    
+    self.showRefreshHeader = YES;
     if (_conversation.officialAccount.name) {
         _title = _conversation.officialAccount.name;
     }
@@ -161,8 +169,23 @@ typedef enum : NSUInteger {
     
 //    [self newRobotWelcome];
     
+    [self cec_startReport];
+   
 }
 
+-(void)cec_startReport{
+    
+    
+    [[HDClient sharedClient] cec_sendReportEventImServiceNum:self.conversation.conversationId];
+    
+}
+
+- (void)setupRemoveNotifiers{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+}
 - (void)setupCell {
     
     [[HDBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"HelpDeskUIResource.bundle/chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
@@ -174,6 +197,7 @@ typedef enum : NSUInteger {
     [[HDBaseMessageCell appearance] setAvatarCornerRadius:20.f];
     [[HDChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
 }
+
 
 - (void)chatToolbarState
 {
@@ -205,8 +229,14 @@ typedef enum : NSUInteger {
     [[HDClient sharedClient].chatManager removeDelegate:self];
     [self.navigationController popViewControllerAnimated:YES];
     [self backItemDidClicked];
+    // 调用 上报用户状态接口 离线
+    [self cec_stopReport];
 }
-
+- (void)cec_stopReport{
+    
+    [[HDClient sharedClient] cec_offLineReportEventVisitorUserName:[HDClient sharedClient].currentUsername withImServiecNum:self.conversation.conversationId];
+    
+}
 - (void)backItemDidClicked {
     
 }
@@ -1778,6 +1808,8 @@ typedef enum : NSUInteger {
      {
         if (!error) {
             [weakself _refreshAfterSentMessage:message];
+            
+           
         }
         else {
             [weakself.tableView reloadData];
@@ -1803,6 +1835,49 @@ typedef enum : NSUInteger {
                 [self moreViewLeaveMessageAction:nil];
                 return;
             }
+            if ([HDMessage isCreateCECVideoMessage:item] ) {
+
+                HDMessage *msg = [HDMessage createSendMessageWithMenuItem:item to:self.conversation.conversationId];
+//                [self _sendMessage:msg];
+                //发消息之后 在弹窗 为保证会话ui库 不跟视频相关ui库关联 这个里边使用通知方式 用到了在注册监听
+                //online
+                [self addMessageToDataSource:msg
+                                    progress:nil];
+                __weak typeof(self) weakSelf = self;
+                [[HDClient sharedClient].chatManager sendMessage:msg
+                                                        progress:nil
+                                                      completion:^(HDMessage *message, HDError *error)
+                 {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_cec_call" object:nil userInfo:nil];
+                    if (!error) {
+                        [weakSelf _refreshAfterSentMessage:message];
+                        
+                       
+                    }
+                    else {
+                        [weakSelf.tableView reloadData];
+                    }
+                    
+                }];
+              
+
+                return;
+            }
+    
+            if ([HDMessage isCreateVECVideoMessage:item]) {
+                // 把item 传过去。还有 当前会话传过去
+                HDVECCallInputModel * model = [[HDVECCallInputModel alloc] init];
+                model.videoInputType = HDCallVideoInputGuidance;
+                model.visitorInfo = self.visitorInfo;
+                model.cec_imServiceNum = self.conversation.conversationId;
+                NSMutableDictionary * dic = [[NSMutableDictionary alloc] init];
+                [dic hd_setValue:self.conversation forKey:@"easemob_currentConversation"];
+                [dic hd_setValue:item forKey:@"easemob_currentHDMenuItem"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"hd_easemob_vec_call" object:model userInfo:dic];
+                return;
+
+            }
+            
             HDMessage *msg = [HDMessage createSendMessageWithMenuItem:item to:self.conversation.conversationId];
             [self _sendMessage:msg];
             return;
@@ -2112,9 +2187,6 @@ typedef enum : NSUInteger {
     if (ext) {
         [message addAttributeDictionary:ext];
     }
-//    CSDemoAccountManager *lgM = [CSDemoAccountManager shareLoginManager];
-//
-//    [message addContent:lgM.visitorInfo];
     NSMutableDictionary * dic1 =[message.ext valueForKey:@"weichat"];
     [dic1 setValue:@"English" forKey:@"routingRuleFlag"];
    

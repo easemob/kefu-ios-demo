@@ -184,7 +184,7 @@ typedef NS_ENUM(NSInteger, HDemoSaleType){
                   messageType:(EMMessageBodyType)messageType;
 
 - (void)backItemClicked;
-
+- (void)_refreshAfterSentMessage:(HDMessage*)aMessage;
 #warning 在继承这个方法的时候确保不要执行可能引起父类方法不能dealloc的代码
 - (void)backItemDidClicked;
 

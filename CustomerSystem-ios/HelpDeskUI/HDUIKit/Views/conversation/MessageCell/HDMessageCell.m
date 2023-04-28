@@ -1188,11 +1188,15 @@ NSString *const HDMessageCellIdentifierSendFile = @"HDMessageCellSendFile";
                     int allPadding = leftPadding + rightPadding;
                     int rowPaddingTopAndBottom = 5;
                     // 修改订单，轨迹类消息宽度
-                    height += [info.title boundingRectWithSize:CGSizeMake(tableWidth - allPadding , MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
+                    height += [info.title boundingRectWithSize:CGSizeMake(tableWidth - allPadding , MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16]} context:nil].size.height;
+                    
                     for (NSString *itemTitle in itemTitleAry) {
-                        height += [itemTitle boundingRectWithSize:CGSizeMake(tableWidth - allPadding, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.height + rowPaddingTopAndBottom;
+                        
+                        height += [itemTitle boundingRectWithSize:CGSizeMake(tableWidth - allPadding, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16]} context:nil].size.height + rowPaddingTopAndBottom;
+                        NSLog(@"======%lf",height);
                     }
-                    height += (topMargin + bottomMargin);
+                    height += (topMargin + bottomMargin + itemTitleAry.count* rowPaddingTopAndBottom);
+                    
                     return height;
                 }
                 case HDExtArticleMsg:{

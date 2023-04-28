@@ -609,7 +609,7 @@ static inline CGImageRef _Nullable SDCreateCGImageFromCIImage(CIImage * _Nonnull
         .bitmapInfo = kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host, //requests a BGRA buffer.
         .version = 0,
         .decode = NULL,
-        .renderingIntent = CGImageGetRenderingIntent(imageRef)
+        .renderingIntent = kCGRenderingIntentDefault
     };
     
     vImage_Error err;

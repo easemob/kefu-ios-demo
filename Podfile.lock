@@ -1,39 +1,63 @@
 PODS:
-  - AgoraRtcEngine_iOS (3.6.1)
-  - Fastboard (1.0.9):
-    - Fastboard/core (= 1.0.9)
-  - Fastboard/core (1.0.9):
+  - AgoraRtcEngine_iOS (4.1.1):
+    - AgoraRtcEngine_iOS/AIAEC (= 4.1.1)
+    - AgoraRtcEngine_iOS/AINS (= 4.1.1)
+    - AgoraRtcEngine_iOS/AudioBeauty (= 4.1.1)
+    - AgoraRtcEngine_iOS/ClearVision (= 4.1.1)
+    - AgoraRtcEngine_iOS/ContentInspect (= 4.1.1)
+    - AgoraRtcEngine_iOS/DRM (= 4.1.1)
+    - AgoraRtcEngine_iOS/FaceDetection (= 4.1.1)
+    - AgoraRtcEngine_iOS/ReplayKit (= 4.1.1)
+    - AgoraRtcEngine_iOS/RtcBasic (= 4.1.1)
+    - AgoraRtcEngine_iOS/SpatialAudio (= 4.1.1)
+    - AgoraRtcEngine_iOS/VirtualBackground (= 4.1.1)
+    - AgoraRtcEngine_iOS/VQA (= 4.1.1)
+  - AgoraRtcEngine_iOS/AIAEC (4.1.1)
+  - AgoraRtcEngine_iOS/AINS (4.1.1)
+  - AgoraRtcEngine_iOS/AudioBeauty (4.1.1)
+  - AgoraRtcEngine_iOS/ClearVision (4.1.1)
+  - AgoraRtcEngine_iOS/ContentInspect (4.1.1)
+  - AgoraRtcEngine_iOS/DRM (4.1.1)
+  - AgoraRtcEngine_iOS/FaceDetection (4.1.1)
+  - AgoraRtcEngine_iOS/ReplayKit (4.1.1)
+  - AgoraRtcEngine_iOS/RtcBasic (4.1.1)
+  - AgoraRtcEngine_iOS/SpatialAudio (4.1.1)
+  - AgoraRtcEngine_iOS/VirtualBackground (4.1.1)
+  - AgoraRtcEngine_iOS/VQA (4.1.1)
+  - Fastboard (1.1.2):
+    - Fastboard/core (= 1.1.2)
+  - Fastboard/core (1.1.2):
     - Whiteboard (~> 2.16.36)
   - Masonry (1.1.0)
   - MBProgressHUD (1.2.0)
-  - NTLBridge (3.1.4)
-  - SDWebImage (5.12.6):
-    - SDWebImage/Core (= 5.12.6)
-  - SDWebImage/Core (5.12.6)
+  - NTLBridge (3.1.5)
+  - SDWebImage (5.12.3):
+    - SDWebImage/Core (= 5.12.3)
+  - SDWebImage/Core (5.12.3)
   - TZImagePickerController (3.8.3):
     - TZImagePickerController/Basic (= 3.8.3)
     - TZImagePickerController/Location (= 3.8.3)
   - TZImagePickerController/Basic (3.8.3)
   - TZImagePickerController/Location (3.8.3)
-  - Whiteboard (2.16.39):
-    - Whiteboard/Whiteboard-YYModel (= 2.16.39)
-  - Whiteboard/Base (2.16.39):
+  - Whiteboard (2.16.57):
+    - Whiteboard/Whiteboard-YYModel (= 2.16.57)
+  - Whiteboard/Base (2.16.57):
     - NTLBridge (~> 3.1.4)
     - Whiteboard/Object
-  - Whiteboard/Converter (2.16.39):
+  - Whiteboard/Converter (2.16.57):
     - Whiteboard/Object
-  - Whiteboard/Model (2.16.39):
+  - Whiteboard/Model (2.16.57):
     - YYModel
-  - Whiteboard/NativeReplayer (2.16.39):
+  - Whiteboard/NativeReplayer (2.16.57):
     - Whiteboard/Replayer
-  - Whiteboard/Object (2.16.39):
+  - Whiteboard/Object (2.16.57):
     - Whiteboard/Model
-  - Whiteboard/Replayer (2.16.39):
+  - Whiteboard/Replayer (2.16.57):
     - Whiteboard/Base
-  - Whiteboard/Resource (2.16.39)
-  - Whiteboard/Room (2.16.39):
+  - Whiteboard/Resource (2.16.57)
+  - Whiteboard/Room (2.16.57):
     - Whiteboard/Base
-  - Whiteboard/Whiteboard-YYModel (2.16.39):
+  - Whiteboard/Whiteboard-YYModel (2.16.57):
     - Whiteboard/Converter
     - Whiteboard/NativeReplayer
     - Whiteboard/Resource
@@ -41,11 +65,11 @@ PODS:
   - YYModel (1.0.4)
 
 DEPENDENCIES:
-  - AgoraRtcEngine_iOS (= 3.6.1)
-  - Fastboard (~> 1.0.8)
-  - Masonry (~> 1.1.0)
-  - MBProgressHUD (~> 1.2.0)
-  - SDWebImage (~> 5.12.3)
+  - AgoraRtcEngine_iOS (= 4.1.1)
+  - Fastboard (= 1.1.2)
+  - Masonry (= 1.1.0)
+  - MBProgressHUD (= 1.2.0)
+  - SDWebImage (= 5.12.3)
   - TZImagePickerController
 
 SPEC REPOS:
@@ -61,16 +85,16 @@ SPEC REPOS:
     - YYModel
 
 SPEC CHECKSUMS:
-  AgoraRtcEngine_iOS: b376bdf1b7abbdc039ac181a99742f0aee3fdd08
-  Fastboard: 1eb560392bdd9af1a4896e32caf7d90b44c293a3
+  AgoraRtcEngine_iOS: df216a18a01c30fba926565d889c9542319252ac
+  Fastboard: 2fb2863f6f6c23d1087f597660ddc74f1f198dec
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  NTLBridge: 49780dc966976d3221a0eb03c7368617c1987cb6
-  SDWebImage: a47aea9e3d8816015db4e523daff50cfd294499d
+  NTLBridge: e94dc18242476b0238c10213a5438d9b9a59fcce
+  SDWebImage: 53179a2dba77246efa8a9b85f5c5b21f8f43e38f
   TZImagePickerController: e9909edbadf7381140efc5b5c9f5bdbfd630f7d4
-  Whiteboard: 4622f3866b7c35a9c757955619ba0a2b26d968f5
+  Whiteboard: 0e6e4d1ccff8df5fff36b58de3add4d2a243c2bd
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 1562754f3e8e96ab0c404f15829fc3b9b6fe1882
+PODFILE CHECKSUM: b2fd4e14ab1bda52c86da30d9f72c6b0bfc0d552
 
 COCOAPODS: 1.11.3

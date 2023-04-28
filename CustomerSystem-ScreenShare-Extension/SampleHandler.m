@@ -1,129 +1,120 @@
 //
 //  SampleHandler.m
-//  Demo
+//  AgentSDKDemoShareExtension
 //
-//  Created by houli on 2022/1/13.
+//  Created by houli on 2022/7/4.
+//  Copyright © 2022 环信. All rights reserved.
 //
-
-
 #import "SampleHandler.h"
-#import "HDAgoraUploader.h"
-#import <CoreMedia/CoreMedia.h>
+#import <AgoraReplayKitExtension/AgoraReplayKitExt.h>
+ #import <sys/time.h>
+static NSString * _Nonnull kAppGroup = @"group.com.easemob.kf.demo.customer";
+static NSString * _Nonnull kUserDefaultState = @"KEY_BXL_DEFAULT_STATE"; // 接收屏幕共享(开始/结束 状态)监听的Key
+static NSString * _Nonnull kUserDefaultState_endCall = @"KEY_BXL_DEFAULT_STATE_ENDCALL"; // 接收屏幕共享(开始/结束 状态)监听的Key
 
-@interface SampleHandler()
+static void *VECKVOContext = &VECKVOContext;
 
-@property (nonatomic) CMSampleBufferRef bufferCopy;
-@property (nonatomic, assign)  NSUInteger lastSendTs;
-@property (nonatomic, strong)  NSTimer *timer;
+ @interface SampleHandler ()<AgoraReplayKitExtDelegate>
+@property (nonatomic, strong) NSUserDefaults *userDefaults;
+ @end
 
-
-@end
 
 @implementation SampleHandler
 
-
-// 监听开始 实行 数据同步 Socket实现数据同步：
 - (void)broadcastStartedWithSetupInfo:(NSDictionary<NSString *,NSObject *> *)setupInfo {
     // User has requested to start the broadcast. Setup info from the UI extension can be supplied but optional.
-
-//     [HDAgoraUploader sharedAgoraEngine].userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
-       [[HDAgoraUploader sharedAgoraEngine].userDefaults setObject:@{@"state":@"初始化"} forKey:kUserDefaultState];//开始字段
     
-    [self sendNotificationWithIdentifier:@"broadcastStartedWithSetupInfo" userInfo:setupInfo];
+    self.userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroup];
+
+    [self.userDefaults setObject:@{@"state":@"broadcastStarted"} forKey:kUserDefaultState];//结束字段
+    [self.userDefaults setObject:@{@"encCall":@"x"} forKey:kUserDefaultState_endCall];//给状态一个默认值
+    [self.userDefaults addObserver:self forKeyPath:kUserDefaultState_endCall options:NSKeyValueObservingOptionNew context:VECKVOContext];
+    [[AgoraReplayKitExt shareInstance] start:self];
     
-    self.lastSendTs = [self getNowTime];
-
-    [[HDAgoraUploader sharedAgoraEngine] startBroadcast];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-    __weak typeof(self) weakSelf = self;
-    self.timer = [NSTimer timerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-
-        NSUInteger  elapse =  [weakSelf getNowTime] - weakSelf.lastSendTs;
-
-//        NSLog(@"elapse===%lu",(unsigned long)elapse);
-
-        if(elapse > 200) {
-            if (weakSelf.bufferCopy){
-                [weakSelf processSampleBuffer:weakSelf.bufferCopy withType:RPSampleBufferTypeVideo];
-            }
-        }
-    }];
-        [[NSRunLoop currentRunLoop] addTimer:weakSelf.timer forMode:NSDefaultRunLoopMode];
-    });
 }
-#pragma mark --- 获取当前时间戳--13位
-- (NSUInteger )getNowTime{
-    
-    //获取当前时间戳
-    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];//获取当前时间0秒后的时间
-    NSTimeInterval time=[date timeIntervalSince1970]*1000;// *1000 是精确到毫秒，不乘就是精确到秒
-    NSString *timeSp = [NSString stringWithFormat:@"%.0f", time];
-    
-    return [timeSp integerValue];
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    if ([keyPath isEqualToString:kUserDefaultState_endCall]) {
+        NSDictionary *string = change[NSKeyValueChangeNewKey];
+        if ([string[@"encCall"] isEqual:@"encCall"]) {
+            
+            //开启 RTC：外部视频输入通道，开始推送屏幕流（configLocalScreenPublish）
+            NSLog(@"== 屏幕分享开始=====%@",string);
+            // 开启屏幕共享
+            
+            
+        }
+        if ([string[@"encCall"] isEqual:@"encCall1"]) {
+            
+            //关闭 RTC：外部视频输入通道，停止推送屏幕流
+            NSLog(@"== 屏幕分享停止=====%@",string);
+            
+        }
+        return;
+    }
 }
 
 - (void)broadcastPaused {
     // User has requested to pause the broadcast. Samples will stop being delivered.
-    [self sendNotificationWithIdentifier:@"broadcastPaused" userInfo:nil];
+    NSLog(@"broadcastPaused");
+    [self.userDefaults setObject:@{@"state":@"broadcastPaused"} forKey:kUserDefaultState];
+    [[AgoraReplayKitExt shareInstance] pause];
 }
 
 - (void)broadcastResumed {
     // User has requested to resume the broadcast. Samples delivery will resume.
-    [self sendNotificationWithIdentifier:@"broadcastResumed" userInfo:nil];
+    NSLog(@"broadcastResumed");
+    [self.userDefaults setObject:@{@"state":@"broadcastResumed"} forKey:kUserDefaultState];
+    [[AgoraReplayKitExt shareInstance] resume];
+
 }
 
 - (void)broadcastFinished {
     // User has requested to finish the broadcast.
-    [self sendNotificationWithIdentifier:@"broadcastFinished" userInfo:nil];
-    
-    if (self.timer) {
-        [self.timer invalidate];
-        self.timer = nil;
-    }
-    [[HDAgoraUploader sharedAgoraEngine] stopBroadcast];
-    [[HDAgoraUploader sharedAgoraEngine].userDefaults setObject:@{@"state":@"停止"} forKey:kUserDefaultState];//结束字段
+    NSLog(@"broadcastFinished");
+    [[AgoraReplayKitExt shareInstance] stop];
+    [self.userDefaults setObject:@{@"state":@"broadcastFinished"} forKey:kUserDefaultState];//结束字段
 }
-//监听数据流
+
 - (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer withType:(RPSampleBufferType)sampleBufferType {
-    __weak typeof(self) weakSelf = self;
+    
+    
+//    NSLog(@"========");
+    
+    [[AgoraReplayKitExt shareInstance] pushSampleBuffer:sampleBuffer withType:sampleBufferType];
+}
 
-            switch (sampleBufferType) {
-            case RPSampleBufferTypeVideo:
-                weakSelf.bufferCopy = sampleBuffer;
-                weakSelf.lastSendTs = [weakSelf getNowTime];
-                [[HDAgoraUploader sharedAgoraEngine] sendVideoBuffer:sampleBuffer];
-//                NSLog(@"RPSampleBufferTypeVideo App~~~~");
-                    
-                break;
-            case RPSampleBufferTypeAudioApp:
-                [[HDAgoraUploader sharedAgoraEngine] sendAudioAppBuffer:sampleBuffer];
-//                NSLog(@"RPSampleBufferTypeAudio App+++");
-                break;
-            case RPSampleBufferTypeAudioMic:
-                [[HDAgoraUploader sharedAgoraEngine] sendAudioMicBuffer:sampleBuffer];
-                break;
+#pragma mark - AgoraReplayKitExtDelegate
+
+- (void)broadcastFinished:(AgoraReplayKitExt *_Nonnull)broadcast reason:(AgoraReplayKitExtReason)reason {
+    switch (reason) {
+        case AgoraReplayKitExtReasonInitiativeStop:
+            {
+//                NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Host app stop srceen capture"};
+//                NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:userInfo];
+//                [self finishBroadcastWithError:error];
+                NSLog(@"AgoraReplayKitExtReasonInitiativeStop");
+                
+                [self broadcastFinished];
             }
+            break;
+        case AgoraReplayKitExtReasonConnectFail:
+            {
+                NSLog(@"AgoraReplayKitExReasonConnectFail");
+                [self broadcastFinished];
+            }
+            break;
 
-}
-//数据流推送
-- (void)sendData:(CMSampleBufferRef)sampleBuffer{
-    
-    
-}
-//文字推送
--(void)sendStringData:(NSString*)string{
-    
-   
+        case AgoraReplayKitExtReasonDisconnect:
+            {
+
+                NSLog(@"AgoraReplayKitExReasonDisconnect");
+                [self broadcastFinished];
+            }
+            break;
+        default:
+            break;
+    }
 }
 
-// 录屏直播 主App和宿主App数据共享，通信功能实现 如果我们要将开始、暂停、结束这些事件以消息的形式发送到宿主App中，需要使用CFNotificationCenterGetDarwinNotifyCenter。
-- (void)sendNotificationWithIdentifier:(nullable NSString *)identifier userInfo:(NSDictionary *)info {
-    CFNotificationCenterRef const center = CFNotificationCenterGetDarwinNotifyCenter();
-    CFDictionaryRef userInfo = (__bridge CFDictionaryRef)info;
-    BOOL const deliverImmediately = YES;
-    CFStringRef identifierRef = (__bridge CFStringRef)identifier;
-    CFNotificationCenterPostNotification(center, identifierRef, NULL, userInfo, deliverImmediately);
-}
 
 @end

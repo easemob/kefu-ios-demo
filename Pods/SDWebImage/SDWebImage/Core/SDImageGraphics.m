@@ -8,7 +8,6 @@
 
 #import "SDImageGraphics.h"
 #import "NSImage+Compatibility.h"
-#import "SDImageCoderHelper.h"
 #import "objc/runtime.h"
 
 #if SD_MAC
@@ -17,32 +16,17 @@ static void *kNSGraphicsContextScaleFactorKey;
 static CGContextRef SDCGContextCreateBitmapContext(CGSize size, BOOL opaque, CGFloat scale) {
     if (scale == 0) {
         // Match `UIGraphicsBeginImageContextWithOptions`, reset to the scale factor of the device’s main screen if scale is 0.
-        NSScreen *mainScreen = nil;
-        if (@available(macOS 10.12, *)) {
-            mainScreen = [NSScreen mainScreen];
-        } else {
-            mainScreen = [NSScreen screens].firstObject;
-        }
-        scale = mainScreen.backingScaleFactor ?: 1.0f;
+        scale = [NSScreen mainScreen].backingScaleFactor;
     }
     size_t width = ceil(size.width * scale);
     size_t height = ceil(size.height * scale);
     if (width < 1 || height < 1) return NULL;
     
-    CGColorSpaceRef space = [SDImageCoderHelper colorSpaceGetDeviceRGB];
-    // kCGImageAlphaNone is not supported in CGBitmapContextCreate.
-    // Check #3330 for more detail about why this bitmap is choosen.
-    CGBitmapInfo bitmapInfo;
-    if (!opaque) {
-        // iPhone GPU prefer to use BGRA8888, see: https://forums.raywenderlich.com/t/why-mtlpixelformat-bgra8unorm/53489
-        // BGRA8888
-        bitmapInfo = kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedFirst;
-    } else {
-        // BGR888 previously works on iOS 8~iOS 14, however, iOS 15+ will result a black image. FB9958017
-        // RGB888
-        bitmapInfo = kCGBitmapByteOrderDefault | kCGImageAlphaNoneSkipLast;
-    }
-    CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 0, space, bitmapInfo);
+    //pre-multiplied BGRA for non-opaque, BGRX for opaque, 8-bits per component, as Apple's doc
+    CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
+    CGImageAlphaInfo alphaInfo = kCGBitmapByteOrder32Host | (opaque ? kCGImageAlphaNoneSkipFirst : kCGImageAlphaPremultipliedFirst);
+    CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 0, space, kCGBitmapByteOrderDefault | alphaInfo);
+    CGColorSpaceRelease(space);
     if (!context) {
         return NULL;
     }
@@ -112,13 +96,7 @@ UIImage * SDGraphicsGetImageFromCurrentImageContext(void) {
     }
     if (!scale) {
         // reset to the scale factor of the device’s main screen if scale is 0.
-        NSScreen *mainScreen = nil;
-        if (@available(macOS 10.12, *)) {
-            mainScreen = [NSScreen mainScreen];
-        } else {
-            mainScreen = [NSScreen screens].firstObject;
-        }
-        scale = mainScreen.backingScaleFactor ?: 1.0f;
+        scale = [NSScreen mainScreen].backingScaleFactor;
     }
     NSImage *image = [[NSImage alloc] initWithCGImage:imageRef scale:scale orientation:kCGImagePropertyOrientationUp];
     CGImageRelease(imageRef);

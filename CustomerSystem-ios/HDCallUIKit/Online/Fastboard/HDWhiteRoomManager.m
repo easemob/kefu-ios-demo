@@ -54,11 +54,7 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     [[HDWhiteboardManager shareInstance] hd_joinWiteBoardRoom];
     
 }
-- (void)hd_joinVECRoom{
-    
-    [[HDWhiteboardManager shareInstance] hd_joinVecWiteBoardRoom];
-    
-}
+
 - (void)reloadFastboardOverlayWithView:(UIView *)view{
    
         Fastboard.globalFastboardRatio =0.8;
@@ -126,7 +122,6 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
     hud.layer.zPosition = 1.f;
     __weak MBProgressHUD *weakHud = hud;
 
-   
     [[HDClient sharedClient].whiteboardManager whiteBoardUploadFileWithFilePath:filePath fileData:fileData fileName:fileName mimeType:mimeType progress:^(int64_t total, int64_t now) {
         
     
@@ -238,17 +233,15 @@ static HDWhiteRoomManager *shareWhiteboard = nil;
 - (void)insertItem:(HDStorageItem *)item {
     
     if (item.fileType == HDFastBoardFileTypeimg) {
-        [[NSURLSession.sharedSession downloadTaskWithURL:[NSURL URLWithString:item.fileUrl] completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if (error) { return ; }
-//            NSData* data = [[NSData alloc] initWithContentsOfURL:location];
-//            UIImage* img = [UIImage imageWithData:data];
-            // 远程图片的路径
-            dispatch_async(dispatch_get_main_queue(), ^(void) {
-                  //todo
-                [self->_fastRoom insertImg:[NSURL URLWithString:item.fileUrl] imageSize:CGSizeMake(_fastRoom.view.bounds.size.width/2, _fastRoom.view.bounds.size.height/2)];
-            });
-           
-        }] resume];
+//        [[NSURLSession.sharedSession downloadTaskWithURL:[NSURL URLWithString:item.fileUrl] completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//            if (error) { return ; }
+////            NSData* data = [[NSData alloc] initWithContentsOfURL:location];
+////            UIImage* img = [UIImage imageWithData:data];
+//
+//
+//        }] resume];
+        // 远程图片的路径
+        [self->_fastRoom insertImg:[NSURL URLWithString:item.fileUrl] imageSize:CGSizeMake(_fastRoom.view.bounds.size.width/2, _fastRoom.view.bounds.size.height/2)];
     }
     
     if ((item.fileType == HDFastBoardFileTypevideo) || (item.fileType == HDFastBoardFileTypemusic)) {

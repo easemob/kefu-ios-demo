@@ -79,26 +79,13 @@
 - (void)setWebUrl:(NSString *)url{
     
 //    url = @"http://baidu.com";
-//    NSURL *trueUrl = nil;
-//    if (url) {
-//        trueUrl = [NSURL URLWithString:url];
-//    }
-//    
-//    
-//    _request =[NSURLRequest requestWithURL:trueUrl];
-//    
-//    [self.webView loadRequest:_request];
-    NSString *path = [[NSBundle mainBundle] bundlePath];
-    NSURL *baseURL = [NSURL fileURLWithPath:path];
-    NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"File" ofType:@"html"];
-
-
-    NSString *htmlCont = [NSString stringWithContentsOfFile:htmlPath
-                                                    encoding:NSUTF8StringEncoding
-                                                       error:nil];
-
-
-    [self.webView loadHTMLString:htmlCont baseURL:baseURL];
+    NSURL *trueUrl = nil;
+    if (url) {
+        trueUrl = [NSURL URLWithString:url];
+    }
+    _request =[NSURLRequest requestWithURL:trueUrl];
+    
+    [self.webView loadRequest:_request];
     
 }
 - (NSString *)stringWithDictionary:(NSDictionary *)dic {
@@ -162,6 +149,8 @@
     [MBProgressHUD hideHUDForView:self animated:YES];
     
     self.loadLabel.hidden = NO;
+    
+    [self  removeFromSuperview];
 
 }
 
@@ -297,7 +286,7 @@
 
 #pragma mark - url 编码
 - (NSString *)URLEncodeString:(NSString *)str {
-    NSString *encodedString = [str stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"!@$^&%*+,;='\"`<>()[]{}\\| "] invertedSet]];
+    NSString *encodedString = [str stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"!@$^&%*+,;'\"`<>()[]{}\\| "] invertedSet]];
     return encodedString;
 }
 - (WKWebView *)webView{

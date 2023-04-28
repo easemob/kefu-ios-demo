@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "UIImage+HDIconFont.h"
 #import "HDVECAgoraCallManager.h"
+#import "HDCallAppManger.h"
 
 @interface HDVECAnswerView()
 {
@@ -55,13 +56,18 @@
 
 }
 - (void)getInitSetting{
-    [[HDVECAgoraCallManager shareInstance] vec_initSettingWithCompletion:^(id  responseObject, HDError * _Nonnull error) {
-       
-        if (error ==nil) {
-            _model =  [HDVECAgoraCallManager shareInstance].layoutModel;
-        }
-    }];
     
+    NSDictionary * dic = [[HDVECAgoraCallManager shareInstance] vec_getInitSettingData];
+    HDVECInitLayoutModel * localModel = [[HDVECAgoraCallManager shareInstance] setModel:dic];
+    
+    if (localModel) {
+        
+        _model = localModel;
+    }else{
+        
+        _model = [self vec_defaultData];
+        
+    }
 
 }
 - (void)hd_createUIWithCallType:(HDVECCallType)callType{
@@ -88,7 +94,6 @@
 - (void)visitorVideoUI{
     
     // 第一步
-    _model =  [HDVECAgoraCallManager shareInstance].layoutModel;
     if (_model.isSkipWaitingPage) {
         
         [self updateServiceLayoutConfig:_model withProcessType:HDVECProcessInitiate];
@@ -234,7 +239,7 @@
 
 - (void)updateTime {
     
-    [[HDClient sharedClient].callManager hd_getVisitorCurrentWaitingSessionid:nil Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    [[HDClient sharedClient].callManager vec_getVisitorCurrentWaitingSessionid:nil Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         [HDLog logD:@"HD===%s responseObject==%@",__func__,responseObject];
             
 //        {
@@ -371,8 +376,8 @@
     }];
     
     [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.offset(25);
-        make.width.height.offset(26);
+        make.top.offset(iPhoneXBottomHeight1 + 32);
+        make.width.height.offset(66);
         make.trailing.offset(-15);
         
     }];
@@ -496,6 +501,7 @@
         [_closeBtn addTarget:self action:@selector(onCloseClick:) forControlEvents:UIControlEventTouchUpInside];
         //为button赋值
         UIImage *img  = [UIImage imageWithIcon:kguanbi inFont:kfontName size:32 color:[[HDVECAppSkin mainSkin] contentColorWhitealpha:1]] ;
+//        _closeBtn.backgroundColor = [UIColor redColor];
         [_closeBtn setImage:img forState:UIControlStateNormal];
     }
     return _closeBtn;
@@ -585,4 +591,18 @@
     return _answerCallBackView;
 }
 
+// 没有网络的时候使用
+-(HDVECInitLayoutModel *)vec_defaultData{
+    
+    NSString * configJosn = @"{\"channel\":{\"to\":\"kefuchannelimid_250083\",\"appKey\":\"1417220317092523#kefuchannelapp101554\"},\"functionSettings\":{\"visitorCameraOff\":false,\"skipWaitingPage\":false},\"styleSettings\":{\"waitingPrompt\":\"您好！有什么需要帮助，可以发起视频通话进行咨询呦！\",\"waitingBackgroundPic\":\"\",\"callingPrompt\":\"您好！您正在发起视频通话进行咨询。\",\"callingBackgroundPic\":\"\",\"queuingPrompt\":\"您好！客服人员正在马不停蹄的赶过来，请您耐心等待！\",\"queuingBackgroundPic\":\"\",\"endingPrompt\":\"感谢您的咨询，祝您生活愉快！\",\"endingBackgroundPic\":\"\"}}";
+    
+    
+    NSDictionary * dic = [[HDCallAppManger shareInstance] dictWithString:configJosn];
+    
+    HDVECInitLayoutModel * defaultModel = [[HDVECAgoraCallManager shareInstance] setModel:dic];
+    
+   
+    return defaultModel;
+    
+}
 @end

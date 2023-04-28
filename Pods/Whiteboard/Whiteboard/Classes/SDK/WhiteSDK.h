@@ -12,6 +12,7 @@
 #import "WhiteAudioMixerBridge.h"
 #import "WhiteFontFace.h"
 #import "WhiteRegisterAppParams.h"
+#import "WhiteSlideDelegate.h"
 NS_ASSUME_NONNULL_BEGIN
 
 /** 白板 SDK 相关方法。 */
@@ -116,6 +117,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)updateTextFont:(NSArray <NSString *>*)fonts;
 
+#pragma mark - PPT Volume
+
+/**
+ 获取当前 slide 音量
+ @param completionHandler 调用结果
+ - 如果调用成功： volume 返回值为 0-1 之间的值，error 为 nil
+ - 如果调用失败： volume 返回值为0，error 会返回详细信息
+ */
+- (void)getSlideVolumeWithCompletionHandler:(void(^)(CGFloat volume, NSError *error))completionHandler;
+
+/**
+ 更新当前 slide 音量
+ @param volume 音量值，0-1
+ */
+- (void)updateSlideVolume:(CGFloat)volume;
+
 #pragma mark - CommonCallback
 
 /**
@@ -127,6 +144,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setCommonCallbackDelegate:(nullable id<WhiteCommonCallbackDelegate>)callbackDelegate;
 
+#pragma mark - SlideCallback
+
+/**
+ 设置 多窗口 Slide 回调事件。
+
+ SDK 通过 [WhiteSlideDelegate](WhiteSlideDelegate) 类处理 Slide 的回调。
+ 
+ @param slideDelegate Slide 回调事件，详见 [WhiteSlideDelegate](WhiteSlideDelegate)。
+ */
+- (void)setSlideDelegate:(nullable id<WhiteSlideDelegate>)slideDelegate;
+
 #pragma mark - CustomApp
 
 /**
@@ -135,6 +163,15 @@ NS_ASSUME_NONNULL_BEGIN
  @param params 注册参数，详见 [WhiteRegisterAppParams](WhiteRegisterAppParams)
  */
 - (void)registerAppWithParams:(WhiteRegisterAppParams *)params completionHandler:(void (^)(NSError * _Nullable error))completionHandler;
+
+#pragma mark - Slide 日志
+/**
+ 将 Slide 日志写入到指定的文件路径。
+ 
+ @param path 将要写入文件的 path ，如果文件不存在，会直接创建。如果已存在，会在文件末尾下继续写入日志。
+ @param result 日志写入结果
+ */
+- (void)requestSlideLogToFilePath:(NSString *)path result:(void(^)(BOOL success, NSError *error))result;
 
 @end
 NS_ASSUME_NONNULL_END

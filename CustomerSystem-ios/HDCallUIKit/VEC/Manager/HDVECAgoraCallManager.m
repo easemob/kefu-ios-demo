@@ -10,6 +10,9 @@
 #import <ReplayKit/ReplayKit.h>
 #import <CoreMedia/CoreMedia.h>
 #import "HDVECAgoraCallMember.h"
+#import "HDCallFileManager.h"
+#import "HDVECCallViewController.h"
+
 
 #define kForService @"com.easemob.kf.demo.customer.ScreenShare"
 #define kSaveAgoraToken @"call_agoraToken"
@@ -17,13 +20,6 @@
 #define kSaveAgoraAppID @"call_agoraAppid"
 #define kSaveAgoraShareUID @"call_agoraShareUID"
 #define kSaveAgoraCallId @"call_agoraCallId"
-
-// 存放屏幕分享的状态
-#define kSaveScreenShareState @"Easemob_ScreenShareState"
-//static NSInteger audioSampleRate = 48000;
-//static NSInteger audioChannels = 2;
-//static uint32_t SCREEN_SHARE_UID_MIN  = 501;
-//static uint32_t SCREEN_SHARE_UID_MAX  = 1000;
 
 @interface HDVECAgoraCallManager () <AgoraRtcEngineDelegate,HDChatManagerDelegate>
 {
@@ -85,7 +81,14 @@ static HDVECAgoraCallManager *shareCall = nil;
     
     return _options;
 }
-
+- (void)setVec_inputModel:(HDVECCallInputModel *)vec_inputModel{
+    
+    _vec_inputModel = vec_inputModel;
+    
+    [HDClient sharedClient].callManager.vec_imServiceNum = vec_inputModel.vec_imServiceNum;
+    
+    
+}
 #pragma mark - 收到消息代理
 - (void)messagesDidReceive:(NSArray *)aMessages{
      //收到普通消息,格式:<HDMessage *>
@@ -130,16 +133,10 @@ static HDVECAgoraCallManager *shareCall = nil;
         //启用视频模块
         [_agoraKit enableVideo];
     
-        //开启虚拟背景
-//        AgoraVirtualBackgroundSource *backgroundSource = [[AgoraVirtualBackgroundSource alloc] init];
-//        backgroundSource.backgroundSourceType = AgoraVirtualBackgroundColor;
-//        [_agoraKit enableVirtualBackground:NO backData:backgroundSource];
-        //开启enableDeepLearningDenoiseSDK 默认开启传统降噪，以消除大部分平稳噪声。AI 降噪是指在传统降噪的基础上消除非平稳噪声。集成 AI 降噪插件后，你可以调用 enableDeepLearningDenoise 开启 AI 降噪
-        [_agoraKit enableDeepLearningDenoise:YES];
         // set video configuration
         float size = _options.dimension.width;
-        AgoraVideoEncoderConfiguration *configuration = [[AgoraVideoEncoderConfiguration alloc] initWithSize:  (size>0 ? _options.dimension : AgoraVideoDimension480x480) frameRate: AgoraVideoFrameRateFps24 bitrate:_options.bitrate ? _options.bitrate :AgoraVideoBitrateStandard  orientationMode:AgoraVideoOutputOrientationModeAdaptative];
-        
+        AgoraVideoEncoderConfiguration *configuration =[[AgoraVideoEncoderConfiguration alloc] initWithSize: (size>0 ? _options.dimension :AgoraVideoDimension480x480 ) frameRate:AgoraVideoFrameRateFps24 bitrate:_options.bitrate ? _options.bitrate :AgoraVideoBitrateStandard orientationMode:AgoraVideoOutputOrientationModeAdaptative mirrorMode:AgoraVideoMirrorModeDisabled];
+    
         [_agoraKit setVideoEncoderConfiguration:configuration];
         
         _isCurrentFrontFacingCamera = YES;
@@ -152,7 +149,10 @@ static HDVECAgoraCallManager *shareCall = nil;
     
     AgoraVirtualBackgroundSource *backgroundSource = [[AgoraVirtualBackgroundSource alloc] init];
     backgroundSource.backgroundSourceType = AgoraVirtualBackgroundColor;
-    [self.agoraKit enableVirtualBackground:enable backData:backgroundSource];
+    
+    AgoraSegmentationProperty  * seg = [[AgoraSegmentationProperty alloc] init];
+    seg.modelType = SegModelAgoraAi;
+    [self.agoraKit enableVirtualBackground:enable backData:backgroundSource segData:seg];
 }
 - (void)vec_setupLocalVideoView:(UIView *)localView{
     
@@ -221,7 +221,6 @@ static HDVECAgoraCallManager *shareCall = nil;
 - (void)vec_leaveChannel{
     _isSetupLocalVideo = NO;
     [self.agoraKit leaveChannel:nil];
-    [HDCallManager shareInstance].isVecVideo =NO;
     [_members removeAllObjects];
     
     //该方法为同步调用，需要等待 AgoraRtcEngineKit 实例资源释放后才能执行其他操作，所以我们建议在子线程中调用该方法，避免主线程阻塞。此外，我们不建议 在 SDK 的回调中调用 destroy，否则由于 SDK 要等待回调返回才能回收相关的对象资源，会造成死锁。
@@ -241,51 +240,24 @@ static HDVECAgoraCallManager *shareCall = nil;
     [self vec_leaveChannel];
     
     [HDLog logD:@"===%s closeVecCall",__func__];
-    [[HDClient sharedClient].callManager hd_hangUpVECSessionId:@"" WithVisitorId:@"" Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    [[HDClient sharedClient].callManager vec_hangUpSessionId:[HDClient sharedClient].callManager.rtcSessionId WithImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         
-        [HDLog logD:@"===%s responseObject=%@",__func__,responseObject];
     }];
     
 }
 - (void)vec_ringGiveUp{
     [self vec_leaveChannel];
-    //发送透传消息cmd
-    EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"Agorartcmedia"];
-    NSString *from = [[HDClient sharedClient] currentUsername];
-    HDMessage *message = [[HDMessage alloc] initWithConversationID:[[HDCallManager shareInstance] conversationId] from:from to:[[HDCallManager shareInstance] conversationId] body:body];
-    NSDictionary *dic = @{
-                          @"type":@"agorartcmedia/video",
-                          @"msgtype":@{
-                                  @"visitorCancelInvitation":@{
-                                      @"callId":[HDVECAgoraCallManager shareInstance].keyCenter.callid>0 ?[HDVECAgoraCallManager shareInstance].keyCenter.callid : [NSString stringWithFormat:@"null"]
-                                          }
-                                  }
-                          };
-    message.ext = dic;
     
-    NSDictionary *dic1 = @{@"targetSystem":@"kefurtc"};
-    [message addAttributeDictionary:dic1];
+    HDMessage * message = [[HDClient sharedClient].callManager  vec_ringGiveUpMessageWithRtcSessionId:[HDClient sharedClient].callManager.rtcSessionId withImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum withCallId:[HDVECAgoraCallManager shareInstance].keyCenter.callid>0 ?[HDVECAgoraCallManager shareInstance].keyCenter.callid : [NSString stringWithFormat:@"null"]];
     
     [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
     }];
 
 }
 - (void)vec_rejectCall{
-    //发送透传消息cmd
-    EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"Agorartcmedia"];
-    NSString *from = [[HDClient sharedClient] currentUsername];
-    HDMessage *message = [[HDMessage alloc] initWithConversationID:[[HDCallManager shareInstance] conversationId] from:from to:[[HDCallManager shareInstance] conversationId] body:body];
-    NSDictionary *dic = @{
-                          @"type":@"agorartcmedia/video",
-                          @"msgtype":@{
-                                  @"visitorRejectInvitation":@{
-                                          @"callId":[HDVECAgoraCallManager shareInstance].keyCenter.callid>0 ?[HDVECAgoraCallManager shareInstance].keyCenter.callid : [NSString stringWithFormat:@"null"]
-                                          }
-                                  }
-                          };
-    message.ext = dic;
-    NSDictionary *dic1 = @{@"targetSystem":@"kefurtc"};
-    [message addAttributeDictionary:dic1];
+   
+    HDMessage * message = [[HDClient sharedClient].callManager  vec_rejectMessageWithRtcSessionId:[HDClient sharedClient].callManager.rtcSessionId withImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum withCallId:[HDVECAgoraCallManager shareInstance].keyCenter.callid>0 ?[HDVECAgoraCallManager shareInstance].keyCenter.callid : [NSString stringWithFormat:@"null"]];
+    
     [[HDClient sharedClient].chatManager sendMessage:message progress:nil completion:^(HDMessage *aMessage, HDError *aError) {
         
     }];
@@ -342,7 +314,19 @@ static HDVECAgoraCallManager *shareCall = nil;
     
     return _members;
 }
-
+- (void)vec_sendReportEvent{
+    
+    if (self.vec_isAutoReport) {
+        [[HDClient sharedClient] vec_sendReportEventImServiceNum:[HDVECAgoraCallManager shareInstance].vec_inputModel.vec_imServiceNum];
+    }
+    
+}
+- (void)vec_offlinReportEvent{
+    
+    if (self.vec_isAutoReport) {
+    [[HDClient sharedClient] vec_offLineReportEventVisitorUserName:[HDClient sharedClient].currentUsername withImServiecNum:self.vec_inputModel.vec_imServiceNum];
+    }
+}
 /**
  接受视频会话
 
@@ -352,22 +336,17 @@ static HDVECAgoraCallManager *shareCall = nil;
 - (void)vec_acceptCallWithNickname:(NSString *)nickname completion:(void (^)(id, HDError *))completion{
     self.Completion = completion;
     [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 acceptCallWithNickname=%@",[HDVECAgoraCallManager shareInstance].keyCenter.agoraChannel];
-    [self hd_joinChannelByToken:[HDVECAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDVECAgoraCallManager shareInstance].keyCenter.agoraChannel info:@"test123" uid:[[HDVECAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
+    [self hd_joinChannelByToken:[HDVECAgoraCallManager shareInstance].keyCenter.agoraToken channelId:[HDVECAgoraCallManager shareInstance].keyCenter.agoraChannel info:nil uid:[[HDVECAgoraCallManager shareInstance].keyCenter.agoraUid integerValue] joinSuccess:^(NSString * _Nullable channel, NSUInteger uid, NSInteger elapsed) {
         _onCalling = YES;
         
         [HDLog logI:@"================vec1.2=====收到坐席回呼cmd消息 joinSuccess channel "];
-        self.Completion(nil, nil);
+      
+        if (completion) {
+            completion(nil, nil);
+        }
         
     }];
 
-}
-- (void)vec_saveShareDeskData:(HDKeyCenter *)keyCenter{
-    
-    if (keyCenter) {
-        
-        [self saveAppKeyCenter:[HDVECAgoraCallManager shareInstance].keyCenter];
-    }
-    
 }
 
 - (BOOL)vec_getCallState{
@@ -413,10 +392,6 @@ static HDVECAgoraCallManager *shareCall = nil;
     }
 }
 
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStateChangedOfUid:(NSUInteger)uid state:(AgoraVideoRemoteState)state reason:(AgoraVideoRemoteStateReason)reason elapsed:(NSInteger)elapsed
-{
-    [HDLog logD:@"HD===%s remoteVideoStateChangedOfUid uid=%@ state=%@  reason=%@",__func__,@(uid), @(state), @(reason)];
-}
 - (void)rtcEngine:(AgoraRtcEngineKit *_Nonnull)engine firstLocalVideoFrameWithSize:(CGSize)size elapsed:(NSInteger)elapsed{
     
     [HDLog logD:@"HD==agoraRtcSDK=%s",__func__];
@@ -466,12 +441,6 @@ static HDVECAgoraCallManager *shareCall = nil;
   
     
 }
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine virtualBackgroundSourceEnabled:(BOOL)enabled reason:(AgoraVirtualBackgroundSourceStateReason)reason{
-    
-    NSLog(@"HD===virtualBackgroundSourceEnabled = %d  &#xe650; = reason=%luu",enabled,(unsigned long)reason);
-    
-}
-
 /// 远端用户音频静音回调
 /// @param engine AgoraRtcEngineKit
 /// @param muted muted
@@ -538,21 +507,76 @@ static HDVECAgoraCallManager *shareCall = nil;
 //    return uid >= SCREEN_SHARE_UID_MIN && uid <= SCREEN_SHARE_UID_MAX;
     return YES;
 }
+- (AgoraScreenCaptureParameters2 *)screenCaptureParams{
+    
+    if (!_screenCaptureParams) {
+        _screenCaptureParams = [[AgoraScreenCaptureParameters2 alloc] init];
+        _screenCaptureParams.captureAudio = YES;
+        _screenCaptureParams.captureVideo = YES;
+        
+        AgoraScreenAudioParameters *audioParams = [[AgoraScreenAudioParameters alloc] init];
+        audioParams.captureSignalVolume = 50;
+            
+       AgoraScreenVideoParameters *videoParams = [[AgoraScreenVideoParameters alloc] init];
+       videoParams.dimensions = [self screenShareVideoDimension];
+        videoParams.frameRate = AgoraVideoFrameRateFps30;
+      _screenCaptureParams.videoParams = videoParams;
+        _screenCaptureParams.audioParams = audioParams;
+    
+    }
+    
+    return _screenCaptureParams;
+}
+-(CGSize)screenShareVideoDimension{
+    
+    CGRect screenSize = [UIScreen mainScreen].bounds  ;
+    CGSize boundingSize = CGSizeMake(540, 960);
+    CGFloat mW = boundingSize.width / screenSize.size.width;
+    CGFloat mH = boundingSize.height / screenSize.size.height;
+          if (mH < mW) {
+              boundingSize.width = boundingSize.height / screenSize.size.height * screenSize.size.width;
+          } else if (mW < mH) {
+              boundingSize.height = boundingSize.width / screenSize.size.width * screenSize.size.height;
+          }
+    return boundingSize;
+}
 
-- (void)vec_initSettingWithCompletion:(void(^)(id  responseObject, HDError *error))aCompletion {
+- (void)vec_showMainWindowWithVideoInputModel:(HDVECCallInputModel *)model{
+    
+    self.vec_inputModel = model;
+    
+    [self vec_initSetting:self.vec_inputModel.vec_configid WithCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+            
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // 主动发起的时候keyCenter 不需要传
+        [[HDVECCallViewController sharedManager] showViewWithKeyCenter:nil withType:HDVECDirectionSend withVisitornickName:self.vec_inputModel.visitorInfo.nickName];
+            [HDVECCallViewController sharedManager].hangUpVideoCallback = ^(HDVECCallViewController * _Nonnull callVC, NSString * _Nonnull timeStr) {
+                [[HDVECCallViewController sharedManager]  removeView];
+
+                [[HDVECCallViewController sharedManager] removeSharedManager];
+            };
+        });
+    }];
+}
+
+- (void)vec_initSetting:(NSString *)configid WithCompletion:(void (^)(id responseObject, HDError * error))aCompletion {
     kWeakSelf
-    [self vec_getConfigInfoCompletion:^(HDVECEnterpriseInfo * _Nonnull model, HDError * _Nonnull error) {
-            [[HDClient sharedClient].callManager hd_getInitVECSettingWithCompletion:^(id  responseObject, HDError *error) {
+    [self vec_getConfigInfoCompletion:^(HDVECEnterpriseInfo * _Nonnull model, HDError *  error) {
+        
+            [[HDClient sharedClient].callManager vec_getInitConfigId:configid Completion:^(id  responseObject, HDError *error) {
                 if (!error && [responseObject isKindOfClass:[NSDictionary class]] ) {
                     NSDictionary * dic= responseObject;
                     if ([[dic allKeys] containsObject:@"status"] && [[dic valueForKey:@"status"] isEqualToString:@"OK"]) {
                         NSDictionary * tmp = [dic objectForKey:@"entity"];
                         NSString *configJson = [tmp objectForKey:@"configJson"];
-                        NSDictionary *jsonDic = [weakSelf dictWithString:configJson];
+                        NSDictionary *jsonDic = [[HDCallAppManger shareInstance] dictWithString:configJson];
                     //接口请求成功
                 //        UI更新代码
                         HDVECInitLayoutModel * model = [weakSelf setModel:jsonDic];
                         [HDVECAgoraCallManager shareInstance].layoutModel = model;
+                        
+                        // 保存 model 到本地
+                        [self vec_saveInitSettingData:jsonDic];
                     }
                 }
                 if (aCompletion) {
@@ -561,9 +585,10 @@ static HDVECAgoraCallManager *shareCall = nil;
             }];
     }];
 }
+
 - (void)vec_getConfigInfoCompletion:(void (^)(HDVECEnterpriseInfo * model, HDError * error))aCompletion{
     // 获取插件信息
-    [[HDClient sharedClient].callManager hd_getConfigInfoCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
+    [[HDClient sharedClient].callManager vec_getConfigInfoCompletion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         
         if (error ==nil&& [responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *dic = responseObject;
@@ -595,19 +620,7 @@ static HDVECAgoraCallManager *shareCall = nil;
     return nil;
     
 }
-- (NSDictionary *)dictWithString:(NSString *)string {
-    if (string && 0 != string.length) {
-        NSError *error;
-        NSData *jsonData = [string dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-        if (error) {
-            return nil;
-        }
-        return jsonDict;
-    }
-    
-    return nil;
-}
+
 - (HDVECInitLayoutModel *)setModel:(NSDictionary *)dic{
     
     HDVECInitLayoutModel * model = [[HDVECInitLayoutModel alloc] init];
@@ -662,5 +675,16 @@ static HDVECAgoraCallManager *shareCall = nil;
     return [self.agoraKit setCameraTorchOn:isOn];
 }
 
-
+- (void)vec_saveInitSettingData:(NSDictionary *)dic{
+    
+    NSString *path = [NSString stringWithFormat:@"%@/%@", NSStringFromClass([self class]), [HDVECAgoraCallManager shareInstance].vec_inputModel.vec_configid];
+    
+    [[HDCallFileManager shareCacheFileInstance] writeDictionary:dic atPath:path];
+}
+- (NSDictionary *)vec_getInitSettingData{
+    
+    NSString *path = [NSString stringWithFormat:@"%@/%@", NSStringFromClass([self class]), [HDVECAgoraCallManager shareInstance].vec_inputModel.vec_configid];
+    return [[HDCallFileManager shareCacheFileInstance] readDictionaryAtPath:path];
+    
+}
 @end

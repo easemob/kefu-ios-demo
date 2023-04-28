@@ -8,6 +8,7 @@
 #import "WhiteObject.h"
 #import <UIKit/UIKit.h>
 #import "WhiteConsts.h"
+#import "WhiteSlideAppParams.h"
 
 
 typedef NS_ENUM(NSInteger, WhiteDeviceType) {
@@ -185,9 +186,20 @@ FOUNDATION_EXPORT WhiteSDKLoggerReportModeKey const WhiteSDKLoggerReportBan;
 
 @property (nonatomic, assign) BOOL routeBackup __deprecated_msg("this api has no effect");
 
-/** 动态 ppt 参数。详见 [WhitePptParams](WhitePptParams)。 */
-@property (nonatomic, strong) WhitePptParams *pptParams;
+/** @deprecated 该属性已废弃。请使用 WhiteSlideAppParams */
+@property (nonatomic, strong) WhitePptParams *pptParams __deprecated_msg("use WhiteSlideAppParams instead");
 
+/** SlideApp 参数。详见 [WhiteSlideAppParams](WhiteSlideAppParams)  */
+@property (nonatomic, strong) WhiteSlideAppParams *whiteSlideAppParams;
+
+/**
+ 是否开启 Slide 资源 url 拦截替换功能。
+ 开启之后，需要同时设置 `WhiteSDK.setSlideDelegate` 在 `slideUrlInterrupter` 回调中对 url 进行处理。
+ 
+ - `YES`：开启。
+ - `NO`：（默认）关闭。
+ */
+@property (nonatomic, assign) BOOL enableSlideInterrupterAPI;
 
 @property (nonatomic, assign) BOOL disableDeviceInputs;
 
@@ -199,7 +211,7 @@ FOUNDATION_EXPORT WhiteSDKLoggerReportModeKey const WhiteSDKLoggerReportBan;
 /** 独立的 SyncedStore 状态，与 globalState 类似，但是没有任何 SDK 内部的状态 */
 @property (nonatomic, assign) BOOL enableSyncedStore;
 
-/** 是否开启多窗口，默认为 false，开启后，各种 API 会进行更改。*/
+/** 是否开启多窗口，默认为 NO，开启后，各种 API 会进行更改。*/
 @property (nonatomic, assign) BOOL useMultiViews;
 
 @end

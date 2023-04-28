@@ -519,7 +519,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  开启/禁止本地序列化。 
 
- 设置 `disableSerialization(true)` 后，以下方法将不生效：
+ 设置 `disableSerialization(YES)` 后，以下方法将不生效：
 
  - `redo`
  - `undo`
@@ -528,7 +528,7 @@ NS_ASSUME_NONNULL_BEGIN
  - `paste` 
 
  @warning
- 如果要设置 `disableSerialization(false)`，必须确保同一房间内所有用户使用的 SDK 满足以下版本要求，否则会导致 app 客户端崩溃。
+ 如果要设置 `disableSerialization(NO)`，必须确保同一房间内所有用户使用的 SDK 满足以下版本要求，否则会导致 app 客户端崩溃。
 
  - Web SDK 2.9.2 或之后版本
  - Android SDK 2.9.3 或之后版本
@@ -649,7 +649,7 @@ NS_ASSUME_NONNULL_BEGIN
  @deprecated 该方法已废弃，请使用 [disableDeviceInputs](disableDeviceInputs:) 和 [disableCameraTransform](disableCameraTransform:)。
 
  禁止操作。
- @param disable 是否禁止操作，true 为禁止。
+ @param disable 是否禁止操作，YES 为禁止。
  */
 - (void)disableOperations:(BOOL)disable DEPRECATED_MSG_ATTRIBUTE("use disableDeviceInputs and disableCameraTransform");
 

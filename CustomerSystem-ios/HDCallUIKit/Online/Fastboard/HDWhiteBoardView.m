@@ -85,29 +85,29 @@
     }];
 }
 
-- (void)onUserTheme {
-    FastRoomWhiteboardAssets* white = [[FastRoomWhiteboardAssets alloc]
-                               initWithWhiteboardBackgroundColor:UIColor.whiteColor
-                               containerColor:UIColor.grayColor];
-    
-    FastRoomControlBarAssets* control = [[FastRoomControlBarAssets alloc]
-                                 initWithBackgroundColor:[UIColor redColor]
-                                 borderColor:UIColor.clearColor
-                                 effectStyle:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular]];
-    
-    FastRoomPanelItemAssets* panel = [[FastRoomPanelItemAssets alloc] initWithNormalIconColor:UIColor.whiteColor
-                                   selectedIconColor:[UIColor redColor]
-                                 selectedIconBgColor:[UIColor redColor]
-                                      highlightColor:[UIColor redColor]
-                                    highlightBgColor:UIColor.clearColor
-                                        disableColor:[UIColor.grayColor colorWithAlphaComponent:0.7]
-                                subOpsIndicatorColor:UIColor.whiteColor
-                                  pageTextLabelColor:UIColor.whiteColor];
-    FastRoomThemeAsset* asset = [[FastRoomThemeAsset alloc] initWithWhiteboardAssets:white
-                                                    controlBarAssets:control
-                                                     panelItemAssets:panel];
-    [FastRoomThemeManager.shared apply:asset];
-}
+//- (void)onUserTheme {
+//    FastRoomWhiteboardAssets* white = [[FastRoomWhiteboardAssets alloc]
+//                               initWithWhiteboardBackgroundColor:UIColor.whiteColor
+//                               containerColor:UIColor.grayColor];
+//    
+//    FastRoomControlBarAssets* control = [[FastRoomControlBarAssets alloc]
+//                                 initWithBackgroundColor:[UIColor redColor]
+//                                 borderColor:UIColor.clearColor
+//                                 effectStyle:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular]];
+//    
+//    FastRoomPanelItemAssets* panel = [[FastRoomPanelItemAssets alloc] initWithNormalIconColor:UIColor.whiteColor
+//                                   selectedIconColor:[UIColor redColor]
+//                                 selectedIconBgColor:[UIColor redColor]
+//                                      highlightColor:[UIColor redColor]
+//                                    highlightBgColor:UIColor.clearColor
+//                                        disableColor:[UIColor.grayColor colorWithAlphaComponent:0.7]
+//                                subOpsIndicatorColor:UIColor.whiteColor
+//                                  pageTextLabelColor:UIColor.whiteColor];
+//    FastRoomThemeAsset* asset = [[FastRoomThemeAsset alloc] initWithWhiteboardAssets:white
+//                                                    controlBarAssets:control
+//                                                     panelItemAssets:panel];
+//    [FastRoomThemeManager.shared apply:asset];
+//}
 
 - (void)onLayout {
     [_fastRoom.view.overlay invalidAllLayout];

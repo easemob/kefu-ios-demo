@@ -376,6 +376,8 @@
 "video.remoteassistance.device.front" = "当前是前置摄像头需要切换后置摄像头才能使用此功能";
 
 "video.screenShareExtension" = "当前系统不支持屏幕共享功能";
+"video.startScreenShare" = "开启屏幕分享";
+"video.stopScreenShare" = "关闭屏幕分享";
 "video_call_shareScreen_not_swhiteBoard" = "当前正在屏幕共享中不能进行白板";
 "video_call_whiteBoard_not_shareScreen" = "当前正在白板中不能进行屏幕共享";
 "video_call_whiteBoard_join" = "加入白板...";
