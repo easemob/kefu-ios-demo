@@ -234,10 +234,12 @@
                                    selector:@selector(updateTime)
                                    userInfo:nil
                                     repeats:YES];
+    
     [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)updateTime {
+
     
     [[HDClient sharedClient].callManager vec_getVisitorCurrentWaitingSessionid:nil Completion:^(id  _Nonnull responseObject, HDError * _Nonnull error) {
         [HDLog logD:@"HD===%s responseObject==%@",__func__,responseObject];
@@ -250,9 +252,7 @@
 //            "visitorWaitingTimestamp": "1655716146750"
 //          }
 //        }
-        
         if (error == nil) {
-        
             if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
                 
                 NSDictionary * dic = responseObject;
@@ -260,6 +260,8 @@
                 if ([[entity allKeys] containsObject:@"waitingFlag"]) {
                     
                     NSString * waitingFlag = [entity valueForKey:@"waitingFlag"];
+                    
+                    NSString * rtcSessionId = [entity valueForKey:@"rtcSessionId"];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSString * visitorWaitingNumber = [entity valueForKey:@"visitorWaitingNumber"];
@@ -270,37 +272,26 @@
                             }
                             
                         }else{
-                            
+                           
+                        if ([rtcSessionId isEqualToString:[[HDCallManager shareInstance] getRtcSession]]) {
                             if (self.processType != HDVECProcessEnd) {
-                                self.answerLabel.text = visitorWaitingNumber;
+                                self.answerLabel.text = _model.callingPrompt;
                             }
-                            [self stopTimer];
+                           
+                                [self stopTimer];
+                            }
+                          
                         }
-                        
                     });
-                    
-                    
                 }
-                
-                
             }
-            
-          
-            
         }
-        
-        
-        
-        
     }];
     
     
     
 }
-//- (void)updateTime {
-//    _time++;
-//    self.timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",_time / 3600, (_time % 3600) / 60, _time % 60];
-//}
+
 // 停止计时
 - (void)stopTimer {
     if (_timer) {
@@ -562,6 +553,7 @@
         }
     }else if(self.processType == HDVECProcessInitiate){
         
+        [self stopTimer];
         if (self.clickOffBlock) {
             self.clickOffBlock(sender);
         }
